@@ -1,0 +1,8 @@
+# Mac file
+.DS_Store
+
+# Auto-generated directories.
+**/node_modules/*
+
+# Lock files.
+package-lock.json

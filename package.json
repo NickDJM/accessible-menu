@@ -1,0 +1,29 @@
+{
+  "name": "accessible-menu",
+  "version": "1.0.0",
+  "description": "A JavaScript library to help you generate WAI-ARIA accessible menus in the DOM.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NickDJM/accessible-menu.git"
+  },
+  "keywords": [
+    "menu",
+    "accessible",
+    "accessibility",
+    "wai-aria",
+    "aria",
+    "a11y",
+    "nav",
+    "navigation"
+  ],
+  "author": "Nick Milton",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NickDJM/accessible-menu/issues"
+  },
+  "homepage": "https://github.com/NickDJM/accessible-menu#readme"
+}
