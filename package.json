@@ -25,5 +25,8 @@
   "bugs": {
     "url": "https://github.com/NickDJM/accessible-menu/issues"
   },
-  "homepage": "https://github.com/NickDJM/accessible-menu#readme"
+  "homepage": "https://github.com/NickDJM/accessible-menu#readme",
+  "devDependencies": {
+    "husky": "^3.0.9"
+  }
 }
