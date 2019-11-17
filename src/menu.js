@@ -1,5 +1,5 @@
-import MenuItem from "menuItem.js";
-import MenuToggle from "menuToggle.js";
+import MenuItem from "./menuItem";
+import MenuToggle from "./menuToggle";
 
 class Menu {
   /**
