@@ -2,7 +2,7 @@
   "name": "accessible-menu",
   "version": "1.0.0-alpha.0",
   "description": "A JavaScript library to help you generate WAI-ARIA accessible menus in the DOM.",
-  "main": "index.js",
+  "main": "src/menu.js",
   "scripts": {
     "commit": "npx git cz",
     "lint": "npx eslint --ext .js --ignore-path .gitignore .",
