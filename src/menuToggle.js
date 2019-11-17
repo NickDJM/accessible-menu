@@ -1,7 +1,7 @@
 import Menu from "menu.js";
 import MenuItem from "submenuItem.js";
 
-export class MenuToggle {
+class MenuToggle {
   /**
    * Construct the menu toggle.
    *
@@ -214,3 +214,5 @@ export class MenuToggle {
     });
   }
 }
+
+export default MenuToggle;

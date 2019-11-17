@@ -1,6 +1,6 @@
 import Menu from "menu.js";
 
-export class MenuItem {
+class MenuItem {
   /**
    * Construct the menu item.
    *
@@ -60,3 +60,5 @@ export class MenuItem {
     this.element.querySelector("a").focus();
   }
 }
+
+export default MenuItem;
