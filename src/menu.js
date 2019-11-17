@@ -237,8 +237,8 @@ export class Menu {
         if (key === "Escape") {
           // The Escape key should exit the menu.
           preventDefault(event);
-          this.currentFocus = "none";
           this.focus();
+          this.currentFocus = "none";
         } else if (key === "ArrowDown" || (key === "Tab" && !shiftKey)) {
           // The Down Arrow and Tab keys should focus the next menu item.
           preventDefault(event);
