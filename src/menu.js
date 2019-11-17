@@ -1,7 +1,7 @@
-import MenuItem from "menuItem.js";
-import MenuToggle from "menuToggle.js";
+import MenuItem from "./menuItem";
+import MenuToggle from "./menuToggle";
 
-export class Menu {
+class Menu {
   /**
    * Constructs the menu.
    *
@@ -349,3 +349,5 @@ export class Menu {
     this.menuToggles.forEach(toggle => toggle.close());
   }
 }
+
+export default Menu;
