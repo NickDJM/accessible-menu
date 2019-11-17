@@ -5,7 +5,7 @@
   "main": "src/menu.js",
   "scripts": {
     "commit": "npx git cz",
-    "lint": "npx eslint --ext .js --ignore-path .gitignore .",
+    "lint": "npx eslint --ext .js --ignore-path .eslintignore .",
     "fix": "npm run lint -- --fix",
     "release": "npx standard-version"
   },
