@@ -19,3 +19,19 @@ This project also provides a command to assist you in formatting  commit message
 ```
 npm run commit
 ```
+
+## Coding standards
+
+This project follows a set of coding standards combining [StandardJS](https://standardjs.com/), [Prettier](https://prettier.io/), and [JSDoc](https://jsdoc.app/).
+
+To check your code, you can use [ESLint](https://eslint.org/) with the provided script:
+
+```
+npm run lint
+```
+
+You can also fix some violations automatically using:
+
+```
+npm run fix
+```
