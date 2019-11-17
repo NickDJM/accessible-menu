@@ -9,7 +9,7 @@ export class MenuToggle {
    * @param {Menu}     menu              - The menu controlled by the this toggle.
    * @param {string}   openClass         - The class to use when a submenu is open.
    * @param {Menu}     parentMenu        - The menu containing the toggle.
-   * @param {MenuItem} parentMenuItem     - The menu item containing the toggle.
+   * @param {MenuItem} parentMenuItem    - The menu item containing the toggle.
    */
   constructor(
     menuToggleElement,
