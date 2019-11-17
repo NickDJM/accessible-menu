@@ -1,5 +1,8 @@
 # accessible-menu
 
+[![Latest release](https://img.shields.io/github/v/release/NickDJM/accessible-menu?include_prereleases&style=for-the-badge)](https://github.com/NickDJM/accessible-menu/releases)
+[![License](https://img.shields.io/github/license/NickDJM/accessible-menu?style=for-the-badge)](/LICENSE)
+
 A JavaScript library to help you generate WAI-ARIA accessible menus in the DOM.
 
 ## Committing
