@@ -1,5 +1,5 @@
 import MenuItem from "menuItem.js";
-import SubmenuItem from "submenuItem.js";
+import MenuToggle from "menuToggle.js";
 
 export class Menu {
   /**
@@ -37,7 +37,7 @@ export class Menu {
     };
     this.elements = {
       menuItems: [],
-      submenuItems: []
+      menuToggles: []
     };
     this.focussedChild = -1;
     this.focusState = "none";
@@ -97,12 +97,12 @@ export class Menu {
   }
 
   /**
-   * The submenu items contained in the menu.
+   * The menu toggles contained in the menu.
    *
-   * @returns {SubmenuItem[]} - The submenu items.
+   * @returns {MenuToggle[]} - The menu toggles.
    */
-  get submenuItems() {
-    return this.element.submenuItems;
+  get menuToggles() {
+    return this.elements.menuToggles;
   }
 
   /**
@@ -165,7 +165,14 @@ export class Menu {
    */
   createMenuItems() {
     this.menuItemElements.forEach(element => {
-      let menuItem;
+      // Create a new MenuItem.
+      const menuItem = new MenuItem(element, this);
+
+      // Add the item to the list of menu items.
+      this.elements.menuItems.push(menuItem);
+
+      // Initialize the menu item.
+      menuItem.initialize();
 
       // If the menu item is a dropdown, create a SubmenuItem,
       // otherwise create a normal MenuItem.
@@ -186,27 +193,19 @@ export class Menu {
         );
         menu.initialize();
 
-        // Create a new SubmenuItem.
-        menuItem = new SubmenuItem(
-          element,
-          this,
+        // Create the new MenuToggle.
+        const toggle = new MenuToggle(
           toggler,
           menu,
-          this.openClass
+          this.openClass,
+          this,
+          menuItem
         );
+        toggle.initialize();
 
         // Add it to the list of submenu items.
-        this.elements.submenuItems.push(menuItem);
-      } else {
-        // Create a new MenuItem.
-        menuItem = new MenuItem(element, this);
+        this.elements.menuToggles.push(toggle);
       }
-
-      // Add the item to the list of menu items.
-      this.elements.menuItems.push(menuItem);
-
-      // Initialize the menu item.
-      menuItem.initialize();
     });
   }
 
@@ -266,7 +265,10 @@ export class Menu {
    */
   handleClick() {
     document.addEventListener("click", event => {
-      if (!this.element.contains(event.target)) {
+      if (
+        !this.element.contains(event.target) &&
+        this.element !== event.target
+      ) {
         this.blur();
         this.closeChildren();
       }
@@ -344,6 +346,6 @@ export class Menu {
    * Close all submenu children.
    */
   closeChildren() {
-    this.elements.submenuItems.forEach(submenu => submenu.close());
+    this.menuToggles.forEach(toggle => toggle.close());
   }
 }
