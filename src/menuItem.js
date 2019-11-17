@@ -49,7 +49,7 @@ export class MenuItem {
    *
    * @returns {Menu} - The parent menu.
    */
-  get parent() {
+  get parentMenu() {
     return this.elements.parent;
   }
 
