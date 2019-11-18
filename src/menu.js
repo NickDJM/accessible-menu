@@ -243,6 +243,10 @@ class Menu {
           // The Down Arrow key should focus the next menu item.
           preventDefault(event);
           this.focusNextChild();
+        } else if (key === "ArrowUp") {
+          // The Up Arrow key should focus the previous menu item.
+          preventDefault(event);
+          this.focusPreviousChild();
         } else if (key === "Home") {
           // The Home key should focus the first menu item.
           preventDefault(event);
