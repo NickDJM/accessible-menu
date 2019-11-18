@@ -10,21 +10,24 @@ class MenuToggle {
    * @param {string}   openClass         - The class to use when a submenu is open.
    * @param {Menu}     parentMenu        - The menu containing the toggle.
    * @param {MenuItem} parentMenuItem    - The menu item containing the toggle.
+   * @param {Menu}     rootMenu          - The root menu containing the toggle.
    */
   constructor(
     menuToggleElement,
     menu,
     openClass = "show",
     parentMenu = null,
-    parentMenuItem = null
+    parentMenuItem = null,
+    rootMenu = null
   ) {
     this.domElements = {
       toggle: menuToggleElement
     };
     this.elements = {
       menuItem: parentMenuItem,
-      menu,
-      parentMenu
+      menu: menu,
+      parentMenu: parentMenu,
+      rootMenu: rootMenu || parentMenu
     };
     this.openClass = openClass;
   }
@@ -85,6 +88,15 @@ class MenuToggle {
    */
   get parentMenu() {
     return this.elements.parentMenu;
+  }
+
+  /**
+   * The root menu containing the toggle.
+   *
+   * @returns {Menu} - The root menu element.
+   */
+  get rootMenu() {
+    return this.elements.rootMenu;
   }
 
   /**
@@ -210,6 +222,32 @@ class MenuToggle {
         // The Escape key should close the current menu.
         preventDefault(event);
         this.close();
+      } else if (this.parentMenu.isTopLevel && key === "ArrowRight") {
+        // The Right Arrow key should focus the next menu item in the parent menu.
+        preventDefault(event);
+        this.close();
+        this.parentMenu.focusNextChild();
+      } else if (this.parentMenu.isTopLevel && key === "ArrowLeft") {
+        // The Left Arrow key should focus the next menu item in the parent menu.
+        preventDefault(event);
+        this.close();
+        this.parentMenu.focusPreviousChild();
+      }
+    });
+    this.menuItem.element.addEventListener("keydown", event => {
+      const { key } = event;
+
+      if (this.menu.currentFocus === "none" && this.parentMenu.isTopLevel) {
+        if (key === "ArrowUp") {
+          // The Up Arrow key should open the submenu and select the last child.
+          preventDefault(event);
+          this.open();
+          this.menu.focusLastChild();
+        } else if (key === "ArrowDown") {
+          // The Down Arrow key should open the submenu and select the first child.
+          preventDefault(event);
+          this.open();
+        }
       }
     });
   }
