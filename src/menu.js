@@ -5,12 +5,13 @@ class Menu {
   /**
    * Constructs the menu.
    *
-   * @param {object} menuElement           - The menu element in the DOM.
-   * @param {string} menuItemSelector      - The selector string for menu items.
-   * @param {string} submenuItemSelector   - The selector string for submenu items.
-   * @param {string} submenuToggleSelector - The selector string for submenu toggle triggers.
-   * @param {string} submenuSelector       - The selector string for the submenu itself.
-   * @param {string} submenuOpenClass      - The class to use when a submenu is open.
+   * @param {object}  menuElement           - The menu element in the DOM.
+   * @param {string}  menuItemSelector      - The selector string for menu items.
+   * @param {string}  submenuItemSelector   - The selector string for submenu items.
+   * @param {string}  submenuToggleSelector - The selector string for submenu toggle triggers.
+   * @param {string}  submenuSelector       - The selector string for the submenu itself.
+   * @param {string}  submenuOpenClass      - The class to use when a submenu is open.
+   * @param {boolean} isTopLevel            - Flags the menu as a top-level menu.
    */
   constructor(
     menuElement,
@@ -18,7 +19,8 @@ class Menu {
     submenuItemSelector,
     submenuToggleSelector,
     submenuSelector,
-    submenuOpenClass = "show"
+    submenuOpenClass = "show",
+    isTopLevel = true
   ) {
     this.domElements = {
       menu: menuElement,
@@ -42,6 +44,7 @@ class Menu {
     this.focussedChild = -1;
     this.focusState = "none";
     this.openClass = submenuOpenClass;
+    this.root = isTopLevel;
   }
 
   /**
@@ -133,6 +136,15 @@ class Menu {
   }
 
   /**
+   * The flag to mark as a top-level menu.
+   *
+   * @returns {boolean} - The top-level flag.
+   */
+  get isTopLevel() {
+    return this.root;
+  }
+
+  /**
    * Set the focus state of the menu.
    *
    * @param {boolean} state - The focus state (self, child, none).
@@ -158,6 +170,14 @@ class Menu {
     }
 
     this.submenuOpenClass = value;
+  }
+
+  set isTopLevel(value) {
+    if (typeof value !== "boolean") {
+      throw new TypeError("Top-level flag must be true or false.");
+    }
+
+    this.root = value;
   }
 
   /**
@@ -239,14 +259,14 @@ class Menu {
           preventDefault(event);
           this.focus();
           this.currentFocus = "none";
-        } else if (key === "ArrowDown") {
-          // The Down Arrow key should focus the next menu item.
-          preventDefault(event);
-          this.focusNextChild();
-        } else if (key === "ArrowUp") {
-          // The Up Arrow key should focus the previous menu item.
+        } else if (this.isTopLevel && key === "ArrowLeft") {
+          // The Left Arrow key should focus the previous menu item.
           preventDefault(event);
           this.focusPreviousChild();
+        } else if (this.isTopLevel && key === "ArrowRight") {
+          // The Right Arrow key should focus the next menu item.
+          preventDefault(event);
+          this.focusNextChild();
         } else if (key === "Home") {
           // The Home key should focus the first menu item.
           preventDefault(event);
