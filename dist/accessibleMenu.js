@@ -499,7 +499,7 @@ var AccessibleMenu = (function () {
       }
 
       this.element.addEventListener("keydown", event => {
-        const { key, code, shiftKey } = event;
+        const { key, code } = event;
 
         if (this.currentFocus === "none") {
           if (key === "Enter" || (key === " " && code === "Space")) {
@@ -514,12 +514,12 @@ var AccessibleMenu = (function () {
             preventDefault(event);
             this.focus();
             this.currentFocus = "none";
-          } else if (key === "ArrowDown" || (key === "Tab" && !shiftKey)) {
-            // The Down Arrow and Tab keys should focus the next menu item.
+          } else if (key === "ArrowDown") {
+            // The Down Arrow key should focus the next menu item.
             preventDefault(event);
             this.focusNextChild();
-          } else if (key === "ArrowUp" || (key === "Tab" && shiftKey)) {
-            // The Up Arrow and Shift + Tab keys should focus the previous menu item.
+          } else if (key === "ArrowUp") {
+            // The Up Arrow key should focus the previous menu item.
             preventDefault(event);
             this.focusPreviousChild();
           } else if (key === "Home") {
@@ -530,6 +530,14 @@ var AccessibleMenu = (function () {
             // The End key should focus the last menu item.
             preventDefault(event);
             this.focusLastChild();
+          }
+        }
+
+        if (this.currentFocus !== "none") {
+          if (key === "Tab") {
+            // The Tab key should select the next element outside of the menu.
+            this.blur();
+            this.closeChildren();
           }
         }
       });
