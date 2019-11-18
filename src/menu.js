@@ -209,7 +209,8 @@ class Menu {
           this.selector["submenu-items"],
           this.selector["submenu-toggle"],
           this.selector.submenu,
-          this.openClass
+          this.openClass,
+          false
         );
         menu.initialize();
 
@@ -259,14 +260,22 @@ class Menu {
           preventDefault(event);
           this.focus();
           this.currentFocus = "none";
-        } else if (this.isTopLevel && key === "ArrowLeft") {
-          // The Left Arrow key should focus the previous menu item.
+        } else if (!this.isTopLevel && key === "ArrowUp") {
+          // The Up Arrow key should focus the previous menu item in submenus.
           preventDefault(event);
           this.focusPreviousChild();
         } else if (this.isTopLevel && key === "ArrowRight") {
           // The Right Arrow key should focus the next menu item.
           preventDefault(event);
           this.focusNextChild();
+        } else if (!this.isTopLevel && key === "ArrowDown") {
+          // The Down Arrow key should focus the next item in submenus.
+          preventDefault(event);
+          this.focusNextChild();
+        } else if (this.isTopLevel && key === "ArrowLeft") {
+          // The Left Arrow key should focus the previous menu item.
+          preventDefault(event);
+          this.focusPreviousChild();
         } else if (key === "Home") {
           // The Home key should focus the first menu item.
           preventDefault(event);

@@ -283,7 +283,17 @@ var AccessibleMenu = (function () {
           // The Escape key should close the current menu.
           preventDefault(event);
           this.close();
-        } else if (this.parentMenu.isTopLevel && key === "ArrowRight") ;
+        } else if (this.parentMenu.isTopLevel && key === "ArrowRight") {
+          // The Right Arrow key should focus the next menu item in the parent menu.
+          preventDefault(event);
+          this.close();
+          this.parentMenu.focusNextChild();
+        } else if (this.parentMenu.isTopLevel && key === "ArrowLeft") {
+          // The Left Arrow key should focus the next menu item in the parent menu.
+          preventDefault(event);
+          this.close();
+          this.parentMenu.focusPreviousChild();
+        }
       });
       this.menuItem.element.addEventListener("keydown", event => {
         const { key } = event;
@@ -299,7 +309,6 @@ var AccessibleMenu = (function () {
             preventDefault(event);
             this.open();
           }
-          console.log(this.menu.currentFocus);
         }
       });
     }
@@ -513,7 +522,8 @@ var AccessibleMenu = (function () {
             this.selector["submenu-items"],
             this.selector["submenu-toggle"],
             this.selector.submenu,
-            this.openClass
+            this.openClass,
+            false
           );
           menu.initialize();
 
@@ -563,14 +573,22 @@ var AccessibleMenu = (function () {
             preventDefault(event);
             this.focus();
             this.currentFocus = "none";
-          } else if (this.isTopLevel && key === "ArrowLeft") {
-            // The Left Arrow key should focus the previous menu item.
+          } else if (!this.isTopLevel && key === "ArrowUp") {
+            // The Up Arrow key should focus the previous menu item in submenus.
             preventDefault(event);
             this.focusPreviousChild();
           } else if (this.isTopLevel && key === "ArrowRight") {
             // The Right Arrow key should focus the next menu item.
             preventDefault(event);
             this.focusNextChild();
+          } else if (!this.isTopLevel && key === "ArrowDown") {
+            // The Down Arrow key should focus the next item in submenus.
+            preventDefault(event);
+            this.focusNextChild();
+          } else if (this.isTopLevel && key === "ArrowLeft") {
+            // The Left Arrow key should focus the previous menu item.
+            preventDefault(event);
+            this.focusPreviousChild();
           } else if (key === "Home") {
             // The Home key should focus the first menu item.
             preventDefault(event);

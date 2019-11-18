@@ -223,6 +223,15 @@ class MenuToggle {
         preventDefault(event);
         this.close();
       } else if (this.parentMenu.isTopLevel && key === "ArrowRight") {
+        // The Right Arrow key should focus the next menu item in the parent menu.
+        preventDefault(event);
+        this.close();
+        this.parentMenu.focusNextChild();
+      } else if (this.parentMenu.isTopLevel && key === "ArrowLeft") {
+        // The Left Arrow key should focus the next menu item in the parent menu.
+        preventDefault(event);
+        this.close();
+        this.parentMenu.focusPreviousChild();
       }
     });
     this.menuItem.element.addEventListener("keydown", event => {
@@ -239,7 +248,6 @@ class MenuToggle {
           preventDefault(event);
           this.open();
         }
-        console.log(this.menu.currentFocus);
       }
     });
   }
