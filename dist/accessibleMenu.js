@@ -518,10 +518,6 @@ var AccessibleMenu = (function () {
             // The Down Arrow key should focus the next menu item.
             preventDefault(event);
             this.focusNextChild();
-          } else if (key === "ArrowUp") {
-            // The Up Arrow key should focus the previous menu item.
-            preventDefault(event);
-            this.focusPreviousChild();
           } else if (key === "Home") {
             // The Home key should focus the first menu item.
             preventDefault(event);
@@ -530,6 +526,14 @@ var AccessibleMenu = (function () {
             // The End key should focus the last menu item.
             preventDefault(event);
             this.focusLastChild();
+          }
+        }
+
+        if (this.currentFocus !== "none") {
+          if (key === "Tab") {
+            // The Tab key should select the next element outside of the menu.
+            this.blur();
+            this.closeChildren();
           }
         }
       });
