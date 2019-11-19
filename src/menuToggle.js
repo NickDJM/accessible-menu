@@ -42,13 +42,24 @@ class MenuToggle {
     this.element.setAttribute("aria-expanded", "false");
     this.element.setAttribute("role", "button");
 
-    if (this.element.id === "") {
-      this.menu.element.setAttribute("aria-label", this.element.innerText);
-      this.menu.element.removeAttribute("aria-labelledby");
-    } else {
-      this.menu.element.setAttribute("aria-labelledby", this.element.id);
-      this.menu.element.removeAttribute("aria-label");
+    // Ensure both toggle and menu have IDs.
+    if (this.element.id === "" || this.menu.element.id === "") {
+      const randomString = Math.random()
+        .toString(36)
+        .replace(/[^a-z]+/g, "")
+        .substr(0, 5);
+
+      const id = `${this.element.innerText
+        .toLowerCase()
+        .replace(/\s/g, "-")}-${randomString}`;
+
+      this.element.id = this.element.id || `${id}-menu-button`;
+      this.menu.element.id = this.menu.element.id || `${id}-menu`;
     }
+
+    // Set up proper aria label and control.
+    this.menu.element.setAttribute("aria-labelledby", this.element.id);
+    this.element.setAttribute("aria-controls", this.menu.element.id);
 
     // Handle toggling the menu on click.
     this.element.addEventListener("click", event => {
