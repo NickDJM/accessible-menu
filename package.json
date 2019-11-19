@@ -8,7 +8,8 @@
     "lint": "npx eslint --ext .js --ignore-path .eslintignore .",
     "fix": "npm run lint -- --fix",
     "release": "npx standard-version",
-    "bundle": "npx rollup --config .rollup.config.js"
+    "bundle": "npx rollup --config .rollup.config.js",
+    "build": "npm run bundle && npx babel dist -d dist"
   },
   "repository": {
     "type": "git",
@@ -31,6 +32,9 @@
   },
   "homepage": "https://github.com/NickDJM/accessible-menu#readme",
   "devDependencies": {
+    "@babel/cli": "^7.7.0",
+    "@babel/core": "^7.7.2",
+    "@babel/preset-env": "^7.7.1",
     "@commitlint/cli": "^8.2.0",
     "@commitlint/config-conventional": "^8.2.0",
     "commitizen": "^4.0.3",
