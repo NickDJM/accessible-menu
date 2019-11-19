@@ -42,6 +42,14 @@ class MenuToggle {
     this.element.setAttribute("aria-expanded", "false");
     this.element.setAttribute("role", "button");
 
+    if (this.element.id === "") {
+      this.menu.element.setAttribute("aria-label", this.element.innerText);
+      this.menu.element.removeAttribute("aria-labelledby");
+    } else {
+      this.menu.element.setAttribute("aria-labelledby", this.element.id);
+      this.menu.element.removeAttribute("aria-label");
+    }
+
     // Handle toggling the menu on click.
     this.element.addEventListener("click", event => {
       event.preventDefault();
