@@ -112,6 +112,7 @@ var AccessibleMenu = (function () {
 
         const id = `${this.element.innerText
         .toLowerCase()
+        .replace(/[^a-zA-Z0-9\s]/g, "")
         .replace(/\s/g, "-")}-${randomString}`;
 
         this.element.id = this.element.id || `${id}-menu-button`;
