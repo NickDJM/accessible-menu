@@ -1,68 +1,95 @@
-var AccessibleMenu = (function () {
+"use strict";
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var AccessibleMenu = function () {
   'use strict';
 
-  class MenuItem {
+  var MenuItem =
+  /*#__PURE__*/
+  function () {
     /**
      * Construct the menu item.
      *
      * @param {object} menuItemElement - The menu item in the DOM.
      * @param {Menu}   parentMenu      - The parent menu.
      */
-    constructor(menuItemElement, parentMenu) {
+    function MenuItem(menuItemElement, parentMenu) {
+      _classCallCheck(this, MenuItem);
+
       this.domElements = {
         menuItem: menuItemElement,
         link: menuItemElement.querySelector("a")
       };
-
       this.elements = {
         parent: parentMenu
       };
     }
-
     /**
      * Initialize the menu item by setting its tab index.
      */
-    initialize() {
-      this.element.setAttribute("role", "menuitem");
-      this.link.tabIndex = -1;
-    }
 
-    /**
-     * The menu item element in the DOM.
-     *
-     * @returns {object} - The menu item element.
-     */
-    get element() {
-      return this.domElements.menuItem;
-    }
 
-    /**
-     * The link element inside the menu item.
-     *
-     * @returns {object} - The link.
-     */
-    get link() {
-      return this.domElements.link;
-    }
+    _createClass(MenuItem, [{
+      key: "initialize",
+      value: function initialize() {
+        this.element.setAttribute("role", "menuitem");
+        this.link.tabIndex = -1;
+      }
+      /**
+       * The menu item element in the DOM.
+       *
+       * @returns {object} - The menu item element.
+       */
 
-    /**
-     * The item's parent Menu.
-     *
-     * @returns {Menu} - The parent menu.
-     */
-    get parentMenu() {
-      return this.elements.parent;
-    }
+    }, {
+      key: "focus",
 
-    /**
-     * Focuses the menu item's link.
-     */
-    focus() {
-      this.element.querySelector("a").focus();
-    }
-  }
+      /**
+       * Focuses the menu item's link.
+       */
+      value: function focus() {
+        this.element.querySelector("a").focus();
+      }
+    }, {
+      key: "element",
+      get: function get() {
+        return this.domElements.menuItem;
+      }
+      /**
+       * The link element inside the menu item.
+       *
+       * @returns {object} - The link.
+       */
 
-  class MenuToggle {
+    }, {
+      key: "link",
+      get: function get() {
+        return this.domElements.link;
+      }
+      /**
+       * The item's parent Menu.
+       *
+       * @returns {Menu} - The parent menu.
+       */
+
+    }, {
+      key: "parentMenu",
+      get: function get() {
+        return this.elements.parent;
+      }
+    }]);
+
+    return MenuItem;
+  }();
+
+  var MenuToggle =
+  /*#__PURE__*/
+  function () {
     /**
      * Construct the menu toggle.
      *
@@ -73,14 +100,14 @@ var AccessibleMenu = (function () {
      * @param {MenuItem} parentMenuItem    - The menu item containing the toggle.
      * @param {Menu}     rootMenu          - The root menu containing the toggle.
      */
-    constructor(
-      menuToggleElement,
-      menu,
-      openClass = "show",
-      parentMenu = null,
-      parentMenuItem = null,
-      rootMenu = null
-    ) {
+    function MenuToggle(menuToggleElement, menu) {
+      var openClass = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "show";
+      var parentMenu = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
+      var parentMenuItem = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : null;
+      var rootMenu = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : null;
+
+      _classCallCheck(this, MenuToggle);
+
       this.domElements = {
         toggle: menuToggleElement
       };
@@ -92,249 +119,278 @@ var AccessibleMenu = (function () {
       };
       this.openClass = openClass;
     }
-
     /**
      * Initialize the toggle by ensuring WAI-ARIA values are set,
      * handling click events, and adding new keydown events.
      */
-    initialize() {
-      // Add WAI-ARIA properties.
-      this.element.setAttribute("aria-haspopup", "true");
-      this.element.setAttribute("aria-expanded", "false");
-      this.element.setAttribute("role", "button");
 
-      // Ensure both toggle and menu have IDs.
-      if (this.element.id === "" || this.menu.element.id === "") {
-        const randomString = Math.random()
-          .toString(36)
-          .replace(/[^a-z]+/g, "")
-          .substr(0, 10);
 
-        const id = `${this.element.innerText
-        .toLowerCase()
-        .replace(/[^a-zA-Z0-9\s]/g, "")
-        .replace(/\s/g, "-")}-${randomString}`;
+    _createClass(MenuToggle, [{
+      key: "initialize",
+      value: function initialize() {
+        var _this = this;
 
-        this.element.id = this.element.id || `${id}-menu-button`;
-        this.menu.element.id = this.menu.element.id || `${id}-menu`;
-      }
-
-      // Set up proper aria label and control.
-      this.menu.element.setAttribute("aria-labelledby", this.element.id);
-      this.element.setAttribute("aria-controls", this.menu.element.id);
-
-      // Handle toggling the menu on click.
-      this.element.addEventListener("click", event => {
-        event.preventDefault();
-        event.stopPropagation();
-
-        this.toggle();
-      });
-
-      // Add new keydown events.
-      this.handleKeydown();
-    }
-
-    /**
-     * The toggle element in the DOM.
-     *
-     * @returns {object} - The toggle element.
-     */
-    get element() {
-      return this.domElements.toggle;
-    }
-
-    /**
-     * The toggle's parent MenuItem.
-     *
-     * @returns {MenuItem} - The parent menu item.
-     */
-    get menuItem() {
-      return this.elements.menuItem;
-    }
-
-    /**
-     * The menu controlled by the toggle.
-     *
-     * @returns {Menu} - The menu element.
-     */
-    get menu() {
-      return this.elements.menu;
-    }
-
-    /**
-     * The menu containing the toggle.
-     *
-     * @returns {Menu} - The menu element.
-     */
-    get parentMenu() {
-      return this.elements.parentMenu;
-    }
-
-    /**
-     * The root menu containing the toggle.
-     *
-     * @returns {Menu} - The root menu element.
-     */
-    get rootMenu() {
-      return this.elements.rootMenu;
-    }
-
-    /**
-     * The open state on the menu.
-     *
-     * @returns {boolean} - The open state.
-     */
-    get isOpen() {
-      return this.show;
-    }
-
-    /**
-     * Set the open state on the menu.
-     *
-     * @param {boolean} state - The open state.
-     */
-    set isOpen(state) {
-      if (typeof state !== "boolean") {
-        throw new TypeError("Open state must be true or false.");
-      }
-
-      this.show = state;
-    }
-
-    /**
-     * Opens the submenu.
-     */
-    open() {
-      if (!this.isOpen) {
-        // Set the open value.
-        this.isOpen = true;
-
-        // Assign new WAI-ARIA/class values.
-        this.element.setAttribute("aria-expanded", "true");
-        this.menuItem.element.classList.add(this.openClass);
-        this.menu.element.classList.add(this.openClass);
-
-        // Close all sibling menus.
-        this.closeSiblings();
-
-        // Set proper focus states to parent & child.
-        this.parentMenu.currentFocus = "child";
-        this.menu.currentFocus = "self";
-
-        // Set the new focus.
-        this.menu.focusFirstChild();
-      }
-    }
-
-    /**
-     * Closes the submenu.
-     */
-    close() {
-      if (this.isOpen) {
-        // Set the open value.
-        this.isOpen = false;
-
-        // Assign new WAI-ARIA/class values.
+        // Add WAI-ARIA properties.
+        this.element.setAttribute("aria-haspopup", "true");
         this.element.setAttribute("aria-expanded", "false");
-        this.menuItem.element.classList.remove(this.openClass);
-        this.menu.element.classList.remove(this.openClass);
+        this.element.setAttribute("role", "button"); // Ensure both toggle and menu have IDs.
 
-        // Close all child menus.
-        this.closeChildren();
+        if (this.element.id === "" || this.menu.element.id === "") {
+          var randomString = Math.random().toString(36).replace(/[^a-z]+/g, "").substr(0, 10);
+          var id = "".concat(this.element.innerText.toLowerCase().replace(/[^a-zA-Z0-9\s]/g, "").replace(/\s/g, "-"), "-").concat(randomString);
+          this.element.id = this.element.id || "".concat(id, "-menu-button");
+          this.menu.element.id = this.menu.element.id || "".concat(id, "-menu");
+        } // Set up proper aria label and control.
 
-        // Set proper focus states to parent & child.
-        this.menu.currentFocus = "none";
-        this.parentMenu.currentFocus = "self";
 
-        // Set the new focus.
-        this.parentMenu.focusCurrentChild();
+        this.menu.element.setAttribute("aria-labelledby", this.element.id);
+        this.element.setAttribute("aria-controls", this.menu.element.id); // Handle toggling the menu on click.
+
+        this.element.addEventListener("click", function (event) {
+          event.preventDefault();
+          event.stopPropagation();
+
+          _this.toggle();
+        }); // Add new keydown events.
+
+        this.handleKeydown();
       }
-    }
-
-    /**
-     * Toggles the open state of the menu.
-     */
-    toggle() {
-      if (this.isOpen) {
-        this.close();
-      } else {
-        this.open();
-      }
-    }
-
-    /**
-     * Closes all sibling menus.
-     */
-    closeSiblings() {
-      try {
-        this.parentMenu.menuToggles.forEach(toggle => {
-          if (toggle !== this) toggle.close();
-        });
-      } catch (error) {
-        // Fail quietly. No parent exists.
-      }
-    }
-
-    /**
-     * Closes all child menus.
-     */
-    closeChildren() {
-      this.menu.menuToggles.forEach(toggle => toggle.close());
-    }
-
-    /**
-     * Sets up the hijacked keydown events.
-     */
-    handleKeydown() {
       /**
-       * Short cut to preventing default event actions.
+       * The toggle element in the DOM.
        *
-       * @param {object} event - The event.
+       * @returns {object} - The toggle element.
        */
-      function preventDefault(event) {
-        event.preventDefault();
-        event.stopPropagation();
+
+    }, {
+      key: "open",
+
+      /**
+       * Opens the submenu.
+       */
+      value: function open() {
+        if (!this.isOpen) {
+          // Set the open value.
+          this.isOpen = true; // Assign new WAI-ARIA/class values.
+
+          this.element.setAttribute("aria-expanded", "true");
+          this.menuItem.element.classList.add(this.openClass);
+          this.menu.element.classList.add(this.openClass); // Close all sibling menus.
+
+          this.closeSiblings(); // Set proper focus states to parent & child.
+
+          this.parentMenu.currentFocus = "child";
+          this.menu.currentFocus = "self"; // Set the new focus.
+
+          this.menu.focusFirstChild();
+        }
       }
-      this.menu.element.addEventListener("keydown", event => {
-        const { key } = event;
+      /**
+       * Closes the submenu.
+       */
 
-        if (key === "Escape") {
-          // The Escape key should close the current menu.
-          preventDefault(event);
-          this.close();
-        } else if (this.parentMenu.isTopLevel && key === "ArrowRight") {
-          // The Right Arrow key should focus the next menu item in the parent menu.
-          preventDefault(event);
-          this.close();
-          this.parentMenu.focusNextChild();
-        } else if (this.parentMenu.isTopLevel && key === "ArrowLeft") {
-          // The Left Arrow key should focus the next menu item in the parent menu.
-          preventDefault(event);
-          this.close();
-          this.parentMenu.focusPreviousChild();
+    }, {
+      key: "close",
+      value: function close() {
+        if (this.isOpen) {
+          // Set the open value.
+          this.isOpen = false; // Assign new WAI-ARIA/class values.
+
+          this.element.setAttribute("aria-expanded", "false");
+          this.menuItem.element.classList.remove(this.openClass);
+          this.menu.element.classList.remove(this.openClass); // Close all child menus.
+
+          this.closeChildren(); // Set proper focus states to parent & child.
+
+          this.menu.currentFocus = "none";
+          this.parentMenu.currentFocus = "self"; // Set the new focus.
+
+          this.parentMenu.focusCurrentChild();
         }
-      });
-      this.menuItem.element.addEventListener("keydown", event => {
-        const { key } = event;
+      }
+      /**
+       * Toggles the open state of the menu.
+       */
 
-        if (this.menu.currentFocus === "none" && this.parentMenu.isTopLevel) {
-          if (key === "ArrowUp") {
-            // The Up Arrow key should open the submenu and select the last child.
+    }, {
+      key: "toggle",
+      value: function toggle() {
+        if (this.isOpen) {
+          this.close();
+        } else {
+          this.open();
+        }
+      }
+      /**
+       * Closes all sibling menus.
+       */
+
+    }, {
+      key: "closeSiblings",
+      value: function closeSiblings() {
+        var _this2 = this;
+
+        try {
+          this.parentMenu.menuToggles.forEach(function (toggle) {
+            if (toggle !== _this2) toggle.close();
+          });
+        } catch (error) {// Fail quietly. No parent exists.
+        }
+      }
+      /**
+       * Closes all child menus.
+       */
+
+    }, {
+      key: "closeChildren",
+      value: function closeChildren() {
+        this.menu.menuToggles.forEach(function (toggle) {
+          return toggle.close();
+        });
+      }
+      /**
+       * Sets up the hijacked keydown events.
+       */
+
+    }, {
+      key: "handleKeydown",
+      value: function handleKeydown() {
+        var _this3 = this;
+
+        /**
+         * Short cut to preventing default event actions.
+         *
+         * @param {object} event - The event.
+         */
+        function preventDefault(event) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+
+        this.menu.element.addEventListener("keydown", function (event) {
+          var key = event.key;
+
+          if (key === "Escape") {
+            // The Escape key should close the current menu.
             preventDefault(event);
-            this.open();
-            this.menu.focusLastChild();
-          } else if (key === "ArrowDown") {
-            // The Down Arrow key should open the submenu and select the first child.
+
+            _this3.close();
+          } else if (_this3.parentMenu.isTopLevel && key === "ArrowRight") {
+            // The Right Arrow key should focus the next menu item in the parent menu.
             preventDefault(event);
-            this.open();
+
+            _this3.close();
+
+            _this3.parentMenu.focusNextChild();
+          } else if (_this3.parentMenu.isTopLevel && key === "ArrowLeft") {
+            // The Left Arrow key should focus the next menu item in the parent menu.
+            preventDefault(event);
+
+            _this3.close();
+
+            _this3.parentMenu.focusPreviousChild();
           }
-        }
-      });
-    }
-  }
+        });
+        this.menuItem.element.addEventListener("keydown", function (event) {
+          var key = event.key;
 
-  class Menu {
+          if (_this3.menu.currentFocus === "none" && _this3.parentMenu.isTopLevel) {
+            if (key === "ArrowUp") {
+              // The Up Arrow key should open the submenu and select the last child.
+              preventDefault(event);
+
+              _this3.open();
+
+              _this3.menu.focusLastChild();
+            } else if (key === "ArrowDown") {
+              // The Down Arrow key should open the submenu and select the first child.
+              preventDefault(event);
+
+              _this3.open();
+            }
+          }
+        });
+      }
+    }, {
+      key: "element",
+      get: function get() {
+        return this.domElements.toggle;
+      }
+      /**
+       * The toggle's parent MenuItem.
+       *
+       * @returns {MenuItem} - The parent menu item.
+       */
+
+    }, {
+      key: "menuItem",
+      get: function get() {
+        return this.elements.menuItem;
+      }
+      /**
+       * The menu controlled by the toggle.
+       *
+       * @returns {Menu} - The menu element.
+       */
+
+    }, {
+      key: "menu",
+      get: function get() {
+        return this.elements.menu;
+      }
+      /**
+       * The menu containing the toggle.
+       *
+       * @returns {Menu} - The menu element.
+       */
+
+    }, {
+      key: "parentMenu",
+      get: function get() {
+        return this.elements.parentMenu;
+      }
+      /**
+       * The root menu containing the toggle.
+       *
+       * @returns {Menu} - The root menu element.
+       */
+
+    }, {
+      key: "rootMenu",
+      get: function get() {
+        return this.elements.rootMenu;
+      }
+      /**
+       * The open state on the menu.
+       *
+       * @returns {boolean} - The open state.
+       */
+
+    }, {
+      key: "isOpen",
+      get: function get() {
+        return this.show;
+      }
+      /**
+       * Set the open state on the menu.
+       *
+       * @param {boolean} state - The open state.
+       */
+      ,
+      set: function set(state) {
+        if (typeof state !== "boolean") {
+          throw new TypeError("Open state must be true or false.");
+        }
+
+        this.show = state;
+      }
+    }]);
+
+    return MenuToggle;
+  }();
+
+  var Menu =
+  /*#__PURE__*/
+  function () {
     /**
      * Constructs the menu.
      *
@@ -346,23 +402,20 @@ var AccessibleMenu = (function () {
      * @param {string}  submenuOpenClass      - The class to use when a submenu is open.
      * @param {boolean} isTopLevel            - Flags the menu as a top-level menu.
      */
-    constructor(
-      menuElement,
-      menuItemSelector,
-      submenuItemSelector,
-      submenuToggleSelector,
-      submenuSelector,
-      submenuOpenClass = "show",
-      isTopLevel = true
-    ) {
+    function Menu(menuElement, menuItemSelector, submenuItemSelector, submenuToggleSelector, submenuSelector) {
+      var submenuOpenClass = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : "show";
+      var isTopLevel = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : true;
+
+      _classCallCheck(this, Menu);
+
       this.domElements = {
         menu: menuElement,
-        menuItems: Array.from(
-          menuElement.querySelectorAll(menuItemSelector)
-        ).filter(item => item.parentElement === menuElement),
-        submenuItems: Array.from(
-          menuElement.querySelectorAll(submenuItemSelector)
-        ).filter(item => item.parentElement === menuElement)
+        menuItems: Array.from(menuElement.querySelectorAll(menuItemSelector)).filter(function (item) {
+          return item.parentElement === menuElement;
+        }),
+        submenuItems: Array.from(menuElement.querySelectorAll(submenuItemSelector)).filter(function (item) {
+          return item.parentElement === menuElement;
+        })
       };
       this.domSelectors = {
         "menu-items": menuItemSelector,
@@ -379,7 +432,6 @@ var AccessibleMenu = (function () {
       this.openClass = submenuOpenClass;
       this.root = isTopLevel;
     }
-
     /**
      * Initializes the menu with proper tab indexing and properties.
      *
@@ -387,339 +439,381 @@ var AccessibleMenu = (function () {
      *
      * @returns {undefined}
      */
-    initialize() {
-      this.element.setAttribute("role", "menu");
-      this.element.tabIndex = 0;
 
-      this.createMenuItems();
-      this.handleKeydown();
-      this.handleClick();
-    }
 
-    /**
-     * The menu element in the DOM.
-     *
-     * @returns {object} - The menu.
-     */
-    get element() {
-      return this.domElements.menu;
-    }
-
-    /**
-     * The menu item DOM elements contained in the menu.
-     *
-     * @returns {object[]} - The menu items.
-     */
-    get menuItemElements() {
-      return this.domElements.menuItems;
-    }
-
-    /**
-     * The submenu item DOM elements contained in the menu.
-     *
-     * @returns {object[]} - The submenu items.
-     */
-    get submenuItemElements() {
-      return this.domElements.submenuItems;
-    }
-
-    /**
-     * The menu items contained in the menu.
-     *
-     * @returns {MenuItem[]} - The menu items.
-     */
-    get menuItems() {
-      return this.elements.menuItems;
-    }
-
-    /**
-     * The menu toggles contained in the menu.
-     *
-     * @returns {MenuToggle[]} - The menu toggles.
-     */
-    get menuToggles() {
-      return this.elements.menuToggles;
-    }
-
-    /**
-     * The DOM Selectors for the menu.
-     *
-     * @returns {object} - The DOM Selectors.
-     */
-    get selector() {
-      return this.domSelectors;
-    }
-
-    /**
-     * The focus state of the menu.
-     *
-     * @returns {string} - The focus state (self, child, none).
-     */
-    get currentFocus() {
-      return this.focusState;
-    }
-
-    /**
-     * The class used for open submenus.
-     *
-     * @returns {string} - The open class.
-     */
-    get openClass() {
-      return this.submenuOpenClass;
-    }
-
-    /**
-     * The flag to mark as a top-level menu.
-     *
-     * @returns {boolean} - The top-level flag.
-     */
-    get isTopLevel() {
-      return this.root;
-    }
-
-    /**
-     * Set the focus state of the menu.
-     *
-     * @param {boolean} state - The focus state (self, child, none).
-     */
-    set currentFocus(state) {
-      const states = ["self", "child", "none"];
-
-      if (!states.includes(state)) {
-        throw new Error("Focus state must be 'self', 'child', or 'none'.");
+    _createClass(Menu, [{
+      key: "initialize",
+      value: function initialize() {
+        this.element.setAttribute("role", "menu");
+        this.element.tabIndex = 0;
+        this.createMenuItems();
+        this.handleKeydown();
+        this.handleClick();
       }
-
-      this.focusState = state;
-    }
-
-    /**
-     * Set the class used for open submenus.
-     *
-     * @param {string} value - The open class.
-     */
-    set openClass(value) {
-      if (typeof value !== "string") {
-        throw new TypeError("Class must be a string.");
-      }
-
-      this.submenuOpenClass = value;
-    }
-
-    set isTopLevel(value) {
-      if (typeof value !== "boolean") {
-        throw new TypeError("Top-level flag must be true or false.");
-      }
-
-      this.root = value;
-    }
-
-    /**
-     * Creates and initializes all menu items.
-     */
-    createMenuItems() {
-      this.menuItemElements.forEach(element => {
-        // Create a new MenuItem.
-        const menuItem = new MenuItem(element, this);
-
-        // Add the item to the list of menu items.
-        this.elements.menuItems.push(menuItem);
-
-        // Initialize the menu item.
-        menuItem.initialize();
-
-        // If the menu item is a dropdown, create a SubmenuItem,
-        // otherwise create a normal MenuItem.
-        if (this.submenuItemElements.includes(element)) {
-          // The menu's toggle controller DOM element.
-          const toggler = element.querySelector(this.selector["submenu-toggle"]);
-          // The actual menu DOM element.
-          const submenu = element.querySelector(this.selector.submenu);
-
-          // Create the new Menu and initialize it.
-          const menu = new Menu(
-            submenu,
-            this.selector["menu-items"],
-            this.selector["submenu-items"],
-            this.selector["submenu-toggle"],
-            this.selector.submenu,
-            this.openClass,
-            false
-          );
-          menu.initialize();
-
-          // Create the new MenuToggle.
-          const toggle = new MenuToggle(
-            toggler,
-            menu,
-            this.openClass,
-            this,
-            menuItem
-          );
-          toggle.initialize();
-
-          // Add it to the list of submenu items.
-          this.elements.menuToggles.push(toggle);
-        }
-      });
-    }
-
-    /**
-     * Sets up the hijacked keydown events.
-     */
-    handleKeydown() {
       /**
-       * Short cut to preventing default event actions.
+       * The menu element in the DOM.
        *
-       * @param {object} event - The event.
+       * @returns {object} - The menu.
        */
-      function preventDefault(event) {
-        event.preventDefault();
-        event.stopPropagation();
+
+    }, {
+      key: "createMenuItems",
+
+      /**
+       * Creates and initializes all menu items.
+       */
+      value: function createMenuItems() {
+        var _this4 = this;
+
+        this.menuItemElements.forEach(function (element) {
+          // Create a new MenuItem.
+          var menuItem = new MenuItem(element, _this4); // Add the item to the list of menu items.
+
+          _this4.elements.menuItems.push(menuItem); // Initialize the menu item.
+
+
+          menuItem.initialize(); // If the menu item is a dropdown, create a SubmenuItem,
+          // otherwise create a normal MenuItem.
+
+          if (_this4.submenuItemElements.includes(element)) {
+            // The menu's toggle controller DOM element.
+            var toggler = element.querySelector(_this4.selector["submenu-toggle"]); // The actual menu DOM element.
+
+            var submenu = element.querySelector(_this4.selector.submenu); // Create the new Menu and initialize it.
+
+            var menu = new Menu(submenu, _this4.selector["menu-items"], _this4.selector["submenu-items"], _this4.selector["submenu-toggle"], _this4.selector.submenu, _this4.openClass, false);
+            menu.initialize(); // Create the new MenuToggle.
+
+            var toggle = new MenuToggle(toggler, menu, _this4.openClass, _this4, menuItem);
+            toggle.initialize(); // Add it to the list of submenu items.
+
+            _this4.elements.menuToggles.push(toggle);
+          }
+        });
       }
+      /**
+       * Sets up the hijacked keydown events.
+       */
 
-      this.element.addEventListener("keydown", event => {
-        const { key, code } = event;
+    }, {
+      key: "handleKeydown",
+      value: function handleKeydown() {
+        var _this5 = this;
 
-        if (this.currentFocus === "none") {
-          if (key === "Enter" || (key === " " && code === "Space")) {
-            // The Enter & Space keys should enter the menu.
-            preventDefault(event);
-            this.currentFocus = "self";
-            this.focusFirstChild();
-          }
-        } else if (this.currentFocus === "self") {
-          if (key === "Escape") {
-            // The Escape key should exit the menu.
-            preventDefault(event);
-            this.focus();
-            this.currentFocus = "none";
-          } else if (!this.isTopLevel && key === "ArrowUp") {
-            // The Up Arrow key should focus the previous menu item in submenus.
-            preventDefault(event);
-            this.focusPreviousChild();
-          } else if (this.isTopLevel && key === "ArrowRight") {
-            // The Right Arrow key should focus the next menu item.
-            preventDefault(event);
-            this.focusNextChild();
-          } else if (!this.isTopLevel && key === "ArrowDown") {
-            // The Down Arrow key should focus the next item in submenus.
-            preventDefault(event);
-            this.focusNextChild();
-          } else if (this.isTopLevel && key === "ArrowLeft") {
-            // The Left Arrow key should focus the previous menu item.
-            preventDefault(event);
-            this.focusPreviousChild();
-          } else if (key === "Home") {
-            // The Home key should focus the first menu item.
-            preventDefault(event);
-            this.focusFirstChild();
-          } else if (key === "End") {
-            // The End key should focus the last menu item.
-            preventDefault(event);
-            this.focusLastChild();
-          }
+        /**
+         * Short cut to preventing default event actions.
+         *
+         * @param {object} event - The event.
+         */
+        function preventDefault(event) {
+          event.preventDefault();
+          event.stopPropagation();
         }
 
-        if (this.currentFocus !== "none") {
-          if (key === "Tab") {
-            // The Tab key should select the next element outside of the menu.
-            this.blur();
-            this.closeChildren();
+        this.element.addEventListener("keydown", function (event) {
+          var key = event.key,
+              code = event.code;
+
+          if (_this5.currentFocus === "none") {
+            if (key === "Enter" || key === " " && code === "Space") {
+              // The Enter & Space keys should enter the menu.
+              preventDefault(event);
+              _this5.currentFocus = "self";
+
+              _this5.focusFirstChild();
+            }
+          } else if (_this5.currentFocus === "self") {
+            if (key === "Escape") {
+              // The Escape key should exit the menu.
+              preventDefault(event);
+
+              _this5.focus();
+
+              _this5.currentFocus = "none";
+            } else if (!_this5.isTopLevel && key === "ArrowUp") {
+              // The Up Arrow key should focus the previous menu item in submenus.
+              preventDefault(event);
+
+              _this5.focusPreviousChild();
+            } else if (_this5.isTopLevel && key === "ArrowRight") {
+              // The Right Arrow key should focus the next menu item.
+              preventDefault(event);
+
+              _this5.focusNextChild();
+            } else if (!_this5.isTopLevel && key === "ArrowDown") {
+              // The Down Arrow key should focus the next item in submenus.
+              preventDefault(event);
+
+              _this5.focusNextChild();
+            } else if (_this5.isTopLevel && key === "ArrowLeft") {
+              // The Left Arrow key should focus the previous menu item.
+              preventDefault(event);
+
+              _this5.focusPreviousChild();
+            } else if (key === "Home") {
+              // The Home key should focus the first menu item.
+              preventDefault(event);
+
+              _this5.focusFirstChild();
+            } else if (key === "End") {
+              // The End key should focus the last menu item.
+              preventDefault(event);
+
+              _this5.focusLastChild();
+            }
           }
-        }
-      });
-    }
 
-    /**
-     * Handle click events required for proper menu usage.
-     */
-    handleClick() {
-      document.addEventListener("click", event => {
-        if (
-          !this.element.contains(event.target) &&
-          this.element !== event.target
-        ) {
-          this.blur();
-          this.closeChildren();
-        }
-      });
-    }
+          if (_this5.currentFocus !== "none") {
+            if (key === "Tab") {
+              // The Tab key should select the next element outside of the menu.
+              _this5.blur();
 
-    /**
-     * Focus the menu.
-     */
-    focus() {
-      this.focussedChild = 0;
-      this.currentFocus = "self";
-      this.element.focus();
-    }
+              _this5.closeChildren();
+            }
+          }
+        });
+      }
+      /**
+       * Handle click events required for proper menu usage.
+       */
 
-    /**
-     * Unfocus the menu.
-     */
-    blur() {
-      this.focussedChild = -1;
-      this.currentFocus = "none";
-      this.element.blur();
-    }
+    }, {
+      key: "handleClick",
+      value: function handleClick() {
+        var _this6 = this;
 
-    /**
-     * Focues the menu's first child.
-     */
-    focusFirstChild() {
-      this.focussedChild = 0;
-      this.focusCurrentChild();
-    }
+        document.addEventListener("click", function (event) {
+          if (!_this6.element.contains(event.target) && _this6.element !== event.target) {
+            _this6.blur();
 
-    /**
-     * Focus the menu's last child.
-     */
-    focusLastChild() {
-      this.focussedChild = this.menuItems.length - 1;
-      this.focusCurrentChild();
-    }
+            _this6.closeChildren();
+          }
+        });
+      }
+      /**
+       * Focus the menu.
+       */
 
-    /**
-     * Focus the menu's next child.
-     */
-    focusNextChild() {
-      if (this.focussedChild === this.menuItems.length - 1) {
-        this.focusFirstChild();
-      } else {
-        this.focussedChild = this.focussedChild + 1;
+    }, {
+      key: "focus",
+      value: function focus() {
+        this.focussedChild = 0;
+        this.currentFocus = "self";
+        this.element.focus();
+      }
+      /**
+       * Unfocus the menu.
+       */
+
+    }, {
+      key: "blur",
+      value: function blur() {
+        this.focussedChild = -1;
+        this.currentFocus = "none";
+        this.element.blur();
+      }
+      /**
+       * Focues the menu's first child.
+       */
+
+    }, {
+      key: "focusFirstChild",
+      value: function focusFirstChild() {
+        this.focussedChild = 0;
         this.focusCurrentChild();
       }
-    }
+      /**
+       * Focus the menu's last child.
+       */
 
-    /**
-     * Focus the menu's last child.
-     */
-    focusPreviousChild() {
-      if (this.focussedChild === 0) {
-        this.focusLastChild();
-      } else {
-        this.focussedChild = this.focussedChild - 1;
+    }, {
+      key: "focusLastChild",
+      value: function focusLastChild() {
+        this.focussedChild = this.menuItems.length - 1;
         this.focusCurrentChild();
       }
-    }
+      /**
+       * Focus the menu's next child.
+       */
 
-    /**
-     * Focus the menu's current child.
-     */
-    focusCurrentChild() {
-      if (this.focussedChild !== -1) {
-        this.menuItems[this.focussedChild].focus();
+    }, {
+      key: "focusNextChild",
+      value: function focusNextChild() {
+        if (this.focussedChild === this.menuItems.length - 1) {
+          this.focusFirstChild();
+        } else {
+          this.focussedChild = this.focussedChild + 1;
+          this.focusCurrentChild();
+        }
       }
-    }
+      /**
+       * Focus the menu's last child.
+       */
 
-    /**
-     * Close all submenu children.
-     */
-    closeChildren() {
-      this.menuToggles.forEach(toggle => toggle.close());
-    }
-  }
+    }, {
+      key: "focusPreviousChild",
+      value: function focusPreviousChild() {
+        if (this.focussedChild === 0) {
+          this.focusLastChild();
+        } else {
+          this.focussedChild = this.focussedChild - 1;
+          this.focusCurrentChild();
+        }
+      }
+      /**
+       * Focus the menu's current child.
+       */
+
+    }, {
+      key: "focusCurrentChild",
+      value: function focusCurrentChild() {
+        if (this.focussedChild !== -1) {
+          this.menuItems[this.focussedChild].focus();
+        }
+      }
+      /**
+       * Close all submenu children.
+       */
+
+    }, {
+      key: "closeChildren",
+      value: function closeChildren() {
+        this.menuToggles.forEach(function (toggle) {
+          return toggle.close();
+        });
+      }
+    }, {
+      key: "element",
+      get: function get() {
+        return this.domElements.menu;
+      }
+      /**
+       * The menu item DOM elements contained in the menu.
+       *
+       * @returns {object[]} - The menu items.
+       */
+
+    }, {
+      key: "menuItemElements",
+      get: function get() {
+        return this.domElements.menuItems;
+      }
+      /**
+       * The submenu item DOM elements contained in the menu.
+       *
+       * @returns {object[]} - The submenu items.
+       */
+
+    }, {
+      key: "submenuItemElements",
+      get: function get() {
+        return this.domElements.submenuItems;
+      }
+      /**
+       * The menu items contained in the menu.
+       *
+       * @returns {MenuItem[]} - The menu items.
+       */
+
+    }, {
+      key: "menuItems",
+      get: function get() {
+        return this.elements.menuItems;
+      }
+      /**
+       * The menu toggles contained in the menu.
+       *
+       * @returns {MenuToggle[]} - The menu toggles.
+       */
+
+    }, {
+      key: "menuToggles",
+      get: function get() {
+        return this.elements.menuToggles;
+      }
+      /**
+       * The DOM Selectors for the menu.
+       *
+       * @returns {object} - The DOM Selectors.
+       */
+
+    }, {
+      key: "selector",
+      get: function get() {
+        return this.domSelectors;
+      }
+      /**
+       * The focus state of the menu.
+       *
+       * @returns {string} - The focus state (self, child, none).
+       */
+
+    }, {
+      key: "currentFocus",
+      get: function get() {
+        return this.focusState;
+      }
+      /**
+       * The class used for open submenus.
+       *
+       * @returns {string} - The open class.
+       */
+      ,
+
+      /**
+       * Set the focus state of the menu.
+       *
+       * @param {boolean} state - The focus state (self, child, none).
+       */
+      set: function set(state) {
+        var states = ["self", "child", "none"];
+
+        if (!states.includes(state)) {
+          throw new Error("Focus state must be 'self', 'child', or 'none'.");
+        }
+
+        this.focusState = state;
+      }
+      /**
+       * Set the class used for open submenus.
+       *
+       * @param {string} value - The open class.
+       */
+
+    }, {
+      key: "openClass",
+      get: function get() {
+        return this.submenuOpenClass;
+      }
+      /**
+       * The flag to mark as a top-level menu.
+       *
+       * @returns {boolean} - The top-level flag.
+       */
+      ,
+      set: function set(value) {
+        if (typeof value !== "string") {
+          throw new TypeError("Class must be a string.");
+        }
+
+        this.submenuOpenClass = value;
+      }
+    }, {
+      key: "isTopLevel",
+      get: function get() {
+        return this.root;
+      },
+      set: function set(value) {
+        if (typeof value !== "boolean") {
+          throw new TypeError("Top-level flag must be true or false.");
+        }
+
+        this.root = value;
+      }
+    }]);
+
+    return Menu;
+  }();
 
   return Menu;
-
-}());
+}();
