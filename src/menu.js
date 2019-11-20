@@ -1,6 +1,59 @@
 import MenuItem from "./menuItem";
 import MenuToggle from "./menuToggle";
 
+const validate = {
+  menuElement: value => {
+    // Ensure value is an HTML element.
+    if (!(value instanceof HTMLElement)) {
+      throw new TypeError("menuElement must be an HTML Element.");
+    }
+  },
+  menuItemSelector: value => {
+    // Ensure value is a string.
+    if (typeof value !== "string") {
+      throw new TypeError("menuItemSelector must be a CSS selector string.");
+    }
+  },
+  submenuItemSelector: value => {
+    // Ensure value is a string.
+    if (typeof value !== "string") {
+      throw new TypeError("submenuItemSelector must be a CSS selector string.");
+    }
+  },
+  submenuToggleSelector: value => {
+    // Ensure value is a string.
+    if (typeof value !== "string") {
+      throw new TypeError(
+        "submenuToggleSelector must be a CSS selector string."
+      );
+    }
+  },
+  submenuSelector: value => {
+    // Ensure value is a string.
+    if (typeof value !== "string") {
+      throw new TypeError("submenuSelector must be a CSS selector string.");
+    }
+  },
+  submenuOpenClass: value => {
+    // Ensure value is a string.
+    if (typeof value !== "string") {
+      throw TypeError("submenuOpenClass must be a string.");
+    }
+
+    // Ensure value is a valid CSS class name.
+    const invalidCharacters = value.replace(/[_a-zA-Z0-9-]/g, "");
+    if (invalidCharacters.length > 0) {
+      throw Error("submenuOpenClass must be a valid CSS class.");
+    }
+  },
+  isTopLevel: value => {
+    // Ensure value is a string.
+    if (typeof value !== "boolean") {
+      throw new TypeError("isTopLevel must be true or false");
+    }
+  }
+};
+
 class Menu {
   /**
    * Constructs the menu.
@@ -22,6 +75,15 @@ class Menu {
     submenuOpenClass = "show",
     isTopLevel = true
   ) {
+    // Run validations.
+    validate.menuElement(menuElement);
+    validate.menuItemSelector(menuItemSelector);
+    validate.submenuItemSelector(submenuItemSelector);
+    validate.submenuToggleSelector(submenuToggleSelector);
+    validate.submenuSelector(submenuSelector);
+    validate.submenuOpenClass(submenuOpenClass);
+    validate.isTopLevel(isTopLevel);
+
     this.domElements = {
       menu: menuElement,
       menuItems: Array.from(
