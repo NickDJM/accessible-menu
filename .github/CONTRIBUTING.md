@@ -45,14 +45,44 @@ Everybody loves a thorough bug report!
 
 ## Keep Your Code Consistent
 
-- Use the standards provided by the lint file. Run `npm run lint` to be sure.
-- Keep all functional code in the `src/` directory.
+- Keep all functional code inside of the `src/` directory
+- Use the coding standards provided.
+
+This project follows a set of coding standards combining [StandardJS](https://standardjs.com/), [Prettier](https://prettier.io/), and [JSDoc](https://jsdoc.app/).
+
+To check your code, you can use [ESLint](https://eslint.org/) with the provided script:
+
+```
+npm run lint
+```
+
+You can also fix some violations automatically using:
+
+```
+npm run fix
+```
+
+Code that does not follow the linting standards _will not_ be merged.
 
 ## Commit Guidelines
 
-We use an [Angular style](https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#commits) for commit messages. Please make sure all commits follow this.
+This project uses the conventional commit standard, which means your commits should follow a basic template of:
 
-If you're unsure of how to format your messages, running `npm run commit` will give you a hand!
+    <type>[optional scope]: <description>
+
+    [optional body]
+
+    [optional footer(s)]
+
+For more detailed information about available types, scopes, breaking changes, etc. please see the [official documentation](https://www.conventionalcommits.org/en/v1.0.0/).
+
+This project also provides a command to assist you in formatting  commit messages using [commitizen](https://commitizen.github.io/cz-cli/):
+
+```
+npm run commit
+```
+
+Commits that do not follow this format _will not_ be merged.
 
 ## References
 
