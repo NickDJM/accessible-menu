@@ -5,7 +5,94 @@
 
 A JavaScript library to help you generate WAI-ARIA accessible menus in the DOM.
 
-## Committing
+## Installation
+
+### NPM
+
+NPM is recommended for large-scale development, since it works well with bundlers like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/guide/en/).
+
+```shell
+# latest stable
+npm install accessible-menu
+```
+
+### CDN
+
+For learning/prototyping purposes you can use the latest version with:
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/accessible-menu/dist/accessibleMenu.js"></script>
+```
+
+For production environments, it is recommend to use a specific version to avoid unforseen breaking changes:
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/accessible-menu@1.0.0-beta.1/dist/accessibleMenu.js"></script>
+```
+
+## Usage
+
+To use accessible-menu, you first need to ensure your menu follows a basic menu structure.
+
+```html
+<menu>
+    <menu-item><a>...</a></menu-item>
+    <menu-item-with-dropdown>
+        <dropdown-toggle />
+        <dropdown-menu>
+            <menu-item><a>...</a></menu-item>
+            ...
+        </dropdown-menu>
+    </menu-item-with-dropdown>
+    <menu-item><a>...</a></menu-item>
+    ...
+</menu>
+```
+
+include the root menu or bundled library in your project:
+
+```jsx
+import AccessibleMenu from 'accessible-menu';
+```
+
+or
+
+```html
+<script src="path/to/accessible-menu/dist/accessibleMenu.js"></script>
+```
+
+Once you have accessible-menu loaded, simply declare a new menu object and initialize it.
+
+```jsx
+const menu = new AccessibleMenu(
+    menuDOMObject,
+    "menu-item-css-selector",
+    "menu-item-with-dropdown-css-selector",
+    "dropdown-toggle-css-selector",
+    "dropdown-menu-css-selector",
+    "class-to-open-menus"
+);
+
+menu.initialize();
+```
+
+Want more detailed usage information? It's on the way! Check back for a later release which will include much more documentation.
+
+## Versioning
+
+This project uses Semantic Versioning 2.0.0 to keep track of releases.
+
+For more detailed information about SemVer, please see the [official documentation](https://semver.org/).
+
+## Development
+
+### Set up
+
+Run `npm install`.
+
+This will ensure you have all the dependencies needed to properly lint your code and commits.
+
+### Committing
 
 This project uses the conventional commit standard, which means your commits should follow a basic template of:
 
@@ -23,31 +110,7 @@ This project also provides a command to assist you in formatting  commit message
 npm run commit
 ```
 
-## Versioning
-
-This project uses Semantic Versioning 2.0.0 to keep track of releases.
-
-    Given a version number MAJOR.MINOR.PATCH, increment the:
-
-    1. MAJOR version when you make incompatible API changes,
-    2. MINOR version when you add functionality in a backward compatible manner, and
-    3. PATCH version when you make backwards compatible bug fixes.
-
-    Additional labels for pre-release and build metadata are available as extensions to the MAJOR.MINOR.PATCH format.
-
-For more detailed information about SemVer, please see the [official documentation](https://semver.org/).
-
-When making a release, you should use the provided command:
-
-```
-npm run release
-```
-
-This command uses [standard-version](https://github.com/conventional-changelog/standard-version) to parse through your commits, decide what kind of release will be created, and automatically generates a CHANGELOG.md file for your project. These changes are then commited using the message `chore(release): <version number>`.
-
-Once that is done, you can simply run `git push --follow-tags origin` to have your release pushed up to the repository.
-
-## Coding standards
+### Coding standards
 
 This project follows a set of coding standards combining [StandardJS](https://standardjs.com/), [Prettier](https://prettier.io/), and [JSDoc](https://jsdoc.app/).
 
