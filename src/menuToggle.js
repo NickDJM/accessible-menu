@@ -1,6 +1,59 @@
 import Menu from "./menu";
 import MenuItem from "./menuItem";
 
+const validate = {
+  menuToggleElement: value => {
+    // Ensure value is an HTML element.
+    if (!(value instanceof HTMLElement)) {
+      throw new TypeError("menuToggleElement must be an HTML Element.");
+    }
+  },
+  menu: value => {
+    // Ensure value is an Menu element.
+    if (!(value instanceof Menu)) {
+      throw new TypeError("menu must be a Menu.");
+    }
+  },
+  openClass: value => {
+    // Ensure value is a string.
+    if (typeof value !== "string") {
+      throw TypeError("openClass must be a string.");
+    }
+
+    // Ensure value is a valid CSS class name.
+    const invalidCharacters = value.replace(/[_a-zA-Z0-9-]/g, "");
+    if (invalidCharacters.length > 0) {
+      throw Error("openClass must be a valid CSS class.");
+    }
+  },
+  parentMenu: value => {
+    // Value is allowed to be null.
+    if (value === null) return;
+
+    // Ensure value is an Menu element.
+    if (!(value instanceof Menu)) {
+      throw new TypeError("parentMenu must be a Menu.");
+    }
+  },
+  parentMenuItem: value => {
+    // Value is allowed to be null.
+    if (value === null) return;
+
+    if (!(value instanceof MenuItem)) {
+      throw new TypeError("parentMenuItem must be a MenuItem.");
+    }
+  },
+  rootMenu: value => {
+    // Value is allowed to be null.
+    if (value === null) return;
+
+    // Ensure value is an Menu element.
+    if (!(value instanceof Menu)) {
+      throw new TypeError("rootMenu must be a Menu.");
+    }
+  }
+};
+
 class MenuToggle {
   /**
    * Construct the menu toggle.
@@ -20,6 +73,14 @@ class MenuToggle {
     parentMenuItem = null,
     rootMenu = null
   ) {
+    // Run validations.
+    validate.menuToggleElement(menuToggleElement);
+    validate.menu(menu);
+    validate.openClass(openClass);
+    validate.parentMenu(parentMenu);
+    validate.parentMenuItem(parentMenuItem);
+    validate.rootMenu(rootMenu);
+
     this.domElements = {
       toggle: menuToggleElement
     };

@@ -1,5 +1,20 @@
 import Menu from "./menu";
 
+const validate = {
+  menuItemElement: value => {
+    // Ensure value is an HTML element.
+    if (!(value instanceof HTMLElement)) {
+      throw new TypeError("menuItemElement must be an HTML Element.");
+    }
+  },
+  parentMenu: value => {
+    // Ensure value is an Menu element.
+    if (!(value instanceof Menu)) {
+      throw new TypeError("parentMenu must be a Menu.");
+    }
+  }
+};
+
 class MenuItem {
   /**
    * Construct the menu item.
@@ -8,6 +23,10 @@ class MenuItem {
    * @param {Menu}   parentMenu      - The parent menu.
    */
   constructor(menuItemElement, parentMenu) {
+    // Run validations.
+    validate.menuItemElement(menuItemElement);
+    validate.parentMenu(parentMenu);
+
     this.domElements = {
       menuItem: menuItemElement,
       link: menuItemElement.querySelector("a")
