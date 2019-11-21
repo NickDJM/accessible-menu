@@ -307,7 +307,8 @@ class Menu {
     }
 
     this.element.addEventListener("keydown", event => {
-      const { key, code } = event;
+      const { key, code, altKey, crtlKey, metaKey } = event;
+      const modifier = altKey || crtlKey || metaKey;
 
       if (this.currentFocus === "none") {
         if (key === "Enter" || (key === " " && code === "Space")) {
@@ -346,6 +347,10 @@ class Menu {
           // The End key should focus the last menu item.
           preventDefault(event);
           this.focusLastChild();
+        } else if (key.match(/^[a-zA-Z]{1}$/) && !modifier) {
+          // The A-Z keys should focus the next menu item starting with that letter.
+          preventDefault(event);
+          this.focusNextChildWithCharacter(key);
         }
       }
 
@@ -438,6 +443,33 @@ class Menu {
   focusCurrentChild() {
     if (this.focussedChild !== -1) {
       this.menuItems[this.focussedChild].focus();
+    }
+  }
+
+  /**
+   * Focus the menu's next child starting with a specific letter.
+   *
+   * @param {string} char - The character to look for.
+   */
+  focusNextChildWithCharacter(char) {
+    // Ensure the character is lowercase just to be safe.
+    const match = char.toLowerCase();
+
+    let index = this.focussedChild + 1;
+    let found = false;
+
+    while (!found && index < this.menuItems.length) {
+      // Ensure the text in the item is lowercase just to be safe.
+      const text = this.menuItems[index].element.innerText.toLowerCase();
+
+      // Focus the child if the text matches, otherwise move on.
+      if (text.startsWith(match)) {
+        found = true;
+        this.focussedChild = index;
+        this.focusCurrentChild();
+      }
+
+      index++;
     }
   }
 
