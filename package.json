@@ -39,17 +39,17 @@
     "@commitlint/config-conventional": "^8.2.0",
     "commitizen": "^4.0.3",
     "eslint": "^6.6.0",
-    "eslint-config-prettier": "^6.6.0",
+    "eslint-config-prettier": "^6.7.0",
     "eslint-config-standard": "^14.1.0",
     "eslint-plugin-import": "^2.18.2",
-    "eslint-plugin-jsdoc": "^18.0.1",
+    "eslint-plugin-jsdoc": "^18.1.4",
     "eslint-plugin-node": "^10.0.0",
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
-    "husky": "^3.0.9",
+    "husky": "^3.1.0",
     "prettier": "^1.19.1",
-    "rollup": "^1.27.0",
-    "standard-version": "^7.0.0"
+    "rollup": "^1.27.3",
+    "standard-version": "^7.0.1"
   }
 }
