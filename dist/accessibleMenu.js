@@ -649,7 +649,11 @@ var AccessibleMenu = function () {
 
         this.element.addEventListener("keydown", function (event) {
           var key = event.key,
-              code = event.code;
+              code = event.code,
+              altKey = event.altKey,
+              crtlKey = event.crtlKey,
+              metaKey = event.metaKey;
+          var modifier = altKey || crtlKey || metaKey;
 
           if (_this5.currentFocus === "none") {
             if (key === "Enter" || key === " " && code === "Space") {
@@ -697,6 +701,11 @@ var AccessibleMenu = function () {
               preventDefault(event);
 
               _this5.focusLastChild();
+            } else if (key.match(/^[a-zA-Z]{1}$/) && !modifier) {
+              // The A-Z keys should focus the next menu item starting with that letter.
+              preventDefault(event);
+
+              _this5.focusNextChildWithCharacter(key);
             }
           }
 
@@ -806,6 +815,34 @@ var AccessibleMenu = function () {
       value: function focusCurrentChild() {
         if (this.focussedChild !== -1) {
           this.menuItems[this.focussedChild].focus();
+        }
+      }
+      /**
+       * Focus the menu's next child starting with a specific letter.
+       *
+       * @param {string} char - The character to look for.
+       */
+
+    }, {
+      key: "focusNextChildWithCharacter",
+      value: function focusNextChildWithCharacter(_char) {
+        // Ensure the character is lowercase just to be safe.
+        var match = _char.toLowerCase();
+
+        var index = this.focussedChild + 1;
+        var found = false;
+
+        while (!found && index < this.menuItems.length) {
+          // Ensure the text in the item is lowercase just to be safe.
+          var text = this.menuItems[index].element.innerText.toLowerCase(); // Focus the child if the text matches, otherwise move on.
+
+          if (text.startsWith(match)) {
+            found = true;
+            this.focussedChild = index;
+            this.focusCurrentChild();
+          }
+
+          index++;
         }
       }
       /**
