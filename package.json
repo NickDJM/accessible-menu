@@ -9,7 +9,9 @@
     "fix": "npm run lint -- --fix",
     "release": "npx standard-version",
     "bundle": "npx rollup --config .rollup.config.js",
-    "build": "npm run bundle && npx babel dist -d dist"
+    "compile": "npx babel dist/accessibleMenu.js -o dist/accessibleMenu.js",
+    "minify": "npx terser dist/accessibleMenu.js -c -m -o dist/accessibleMenu.min.js",
+    "build": "npm run bundle && npm run compile && npm run minify"
   },
   "repository": {
     "type": "git",
@@ -50,6 +52,7 @@
     "husky": "^3.1.0",
     "prettier": "^1.19.1",
     "rollup": "^1.27.3",
-    "standard-version": "^7.0.1"
+    "standard-version": "^7.0.1",
+    "terser": "^4.4.0"
   }
 }
