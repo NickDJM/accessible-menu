@@ -8,6 +8,12 @@ const validate = {
       throw new TypeError("menuToggleElement must be an HTML Element.");
     }
   },
+  parentElement: value => {
+    // Ensure value is an HTML element.
+    if (!(value instanceof HTMLElement)) {
+      throw new TypeError("parentElement must be an HTML Element.");
+    }
+  },
   menu: value => {
     // Ensure value is an Menu element.
     if (!(value instanceof Menu)) {
@@ -35,14 +41,6 @@ const validate = {
       throw new TypeError("parentMenu must be a Menu.");
     }
   },
-  parentMenuItem: value => {
-    // Value is allowed to be null.
-    if (value === null) return;
-
-    if (!(value instanceof MenuItem)) {
-      throw new TypeError("parentMenuItem must be a MenuItem.");
-    }
-  },
   rootMenu: value => {
     // Value is allowed to be null.
     if (value === null) return;
@@ -58,34 +56,34 @@ class MenuToggle {
   /**
    * Construct the menu toggle.
    *
-   * @param {object}   menuToggleElement - The toggle element in the DOM.
-   * @param {Menu}     menu              - The menu controlled by the this toggle.
-   * @param {string}   openClass         - The class to use when a submenu is open.
-   * @param {Menu}     parentMenu        - The menu containing the toggle.
-   * @param {MenuItem} parentMenuItem    - The menu item containing the toggle.
-   * @param {Menu}     rootMenu          - The root menu containing the toggle.
+   * @param {HTMLElement} menuToggleElement - The toggle element in the DOM.
+   * @param {HTMLElement} parentElement     - The element containing the menu.
+   * @param {Menu}        menu              - The menu controlled by the this toggle.
+   * @param {string}      openClass         - The class to use when a submenu is open.
+   * @param {Menu}        parentMenu        - The menu containing the toggle.
+   * @param {Menu}        rootMenu          - The root menu containing the toggle.
    */
-  constructor(
+  constructor({
     menuToggleElement,
+    parentElement,
     menu,
     openClass = "show",
     parentMenu = null,
-    parentMenuItem = null,
     rootMenu = null
-  ) {
+  }) {
     // Run validations.
     validate.menuToggleElement(menuToggleElement);
+    validate.parentElement(parentElement);
     validate.menu(menu);
     validate.openClass(openClass);
     validate.parentMenu(parentMenu);
-    validate.parentMenuItem(parentMenuItem);
     validate.rootMenu(rootMenu);
 
     this.domElements = {
-      toggle: menuToggleElement
+      toggle: menuToggleElement,
+      menuItem: parentElement
     };
     this.elements = {
-      menuItem: parentMenuItem,
       menu: menu,
       parentMenu: parentMenu,
       rootMenu: rootMenu || parentMenu
@@ -149,8 +147,8 @@ class MenuToggle {
    *
    * @returns {MenuItem} - The parent menu item.
    */
-  get menuItem() {
-    return this.elements.menuItem;
+  get menuItemElement() {
+    return this.domElements.menuItem;
   }
 
   /**
@@ -212,14 +210,14 @@ class MenuToggle {
 
       // Assign new WAI-ARIA/class values.
       this.element.setAttribute("aria-expanded", "true");
-      this.menuItem.element.classList.add(this.openClass);
+      this.menuItemElement.classList.add(this.openClass);
       this.menu.element.classList.add(this.openClass);
 
       // Close all sibling menus.
       this.closeSiblings();
 
       // Set proper focus states to parent & child.
-      this.parentMenu.currentFocus = "child";
+      if (this.parentMenu) this.parentMenu.currentFocus = "child";
       this.menu.currentFocus = "self";
 
       // Set the new focus.
@@ -237,7 +235,7 @@ class MenuToggle {
 
       // Assign new WAI-ARIA/class values.
       this.element.setAttribute("aria-expanded", "false");
-      this.menuItem.element.classList.remove(this.openClass);
+      this.menuItemElement.classList.remove(this.openClass);
       this.menu.element.classList.remove(this.openClass);
 
       // Close all child menus.
@@ -245,10 +243,10 @@ class MenuToggle {
 
       // Set proper focus states to parent & child.
       this.menu.currentFocus = "none";
-      this.parentMenu.currentFocus = "self";
+      if (this.parentMenu) this.parentMenu.currentFocus = "self";
 
       // Set the new focus.
-      this.parentMenu.focusCurrentChild();
+      if (this.parentMenu) this.parentMenu.focusCurrentChild();
     }
   }
 
@@ -303,19 +301,21 @@ class MenuToggle {
         // The Escape key should close the current menu.
         preventDefault(event);
         this.close();
-      } else if (this.parentMenu.isTopLevel && key === "ArrowRight") {
-        // The Right Arrow key should focus the next menu item in the parent menu.
-        preventDefault(event);
-        this.close();
-        this.parentMenu.focusNextChild();
-      } else if (this.parentMenu.isTopLevel && key === "ArrowLeft") {
-        // The Left Arrow key should focus the next menu item in the parent menu.
-        preventDefault(event);
-        this.close();
-        this.parentMenu.focusPreviousChild();
+      } else if (this.parentMenu && this.parentMenu.isTopLevel) {
+        if (key === "ArrowRight") {
+          // The Right Arrow key should focus the next menu item in the parent menu.
+          preventDefault(event);
+          this.close();
+          this.parentMenu.focusNextChild();
+        } else if (key === "ArrowLeft") {
+          // The Left Arrow key should focus the next menu item in the parent menu.
+          preventDefault(event);
+          this.close();
+          this.parentMenu.focusPreviousChild();
+        }
       }
     });
-    this.menuItem.element.addEventListener("keydown", event => {
+    this.menuItemElement.addEventListener("keydown", event => {
       const { key } = event;
 
       if (this.menu.currentFocus === "none" && this.parentMenu.isTopLevel) {

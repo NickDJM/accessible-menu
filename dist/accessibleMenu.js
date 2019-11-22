@@ -33,7 +33,10 @@ var AccessibleMenu = function () {
      * @param {object} menuItemElement - The menu item in the DOM.
      * @param {Menu}   parentMenu      - The parent menu.
      */
-    function MenuItem(menuItemElement, parentMenu) {
+    function MenuItem(_ref) {
+      var menuItemElement = _ref.menuItemElement,
+          parentMenu = _ref.parentMenu;
+
       _classCallCheck(this, MenuItem);
 
       // Run validations.
@@ -112,6 +115,12 @@ var AccessibleMenu = function () {
         throw new TypeError("menuToggleElement must be an HTML Element.");
       }
     },
+    parentElement: function parentElement(value) {
+      // Ensure value is an HTML element.
+      if (!(value instanceof HTMLElement)) {
+        throw new TypeError("parentElement must be an HTML Element.");
+      }
+    },
     menu: function menu(value) {
       // Ensure value is an Menu element.
       if (!(value instanceof Menu)) {
@@ -139,14 +148,6 @@ var AccessibleMenu = function () {
         throw new TypeError("parentMenu must be a Menu.");
       }
     },
-    parentMenuItem: function parentMenuItem(value) {
-      // Value is allowed to be null.
-      if (value === null) return;
-
-      if (!(value instanceof MenuItem)) {
-        throw new TypeError("parentMenuItem must be a MenuItem.");
-      }
-    },
     rootMenu: function rootMenu(value) {
       // Value is allowed to be null.
       if (value === null) return; // Ensure value is an Menu element.
@@ -163,33 +164,38 @@ var AccessibleMenu = function () {
     /**
      * Construct the menu toggle.
      *
-     * @param {object}   menuToggleElement - The toggle element in the DOM.
-     * @param {Menu}     menu              - The menu controlled by the this toggle.
-     * @param {string}   openClass         - The class to use when a submenu is open.
-     * @param {Menu}     parentMenu        - The menu containing the toggle.
-     * @param {MenuItem} parentMenuItem    - The menu item containing the toggle.
-     * @param {Menu}     rootMenu          - The root menu containing the toggle.
+     * @param {HTMLElement} menuToggleElement - The toggle element in the DOM.
+     * @param {HTMLElement} parentElement     - The element containing the menu.
+     * @param {Menu}        menu              - The menu controlled by the this toggle.
+     * @param {string}      openClass         - The class to use when a submenu is open.
+     * @param {Menu}        parentMenu        - The menu containing the toggle.
+     * @param {Menu}        rootMenu          - The root menu containing the toggle.
      */
-    function MenuToggle(menuToggleElement, menu) {
-      var openClass = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "show";
-      var parentMenu = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
-      var parentMenuItem = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : null;
-      var rootMenu = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : null;
+    function MenuToggle(_ref2) {
+      var menuToggleElement = _ref2.menuToggleElement,
+          parentElement = _ref2.parentElement,
+          menu = _ref2.menu,
+          _ref2$openClass = _ref2.openClass,
+          openClass = _ref2$openClass === void 0 ? "show" : _ref2$openClass,
+          _ref2$parentMenu = _ref2.parentMenu,
+          parentMenu = _ref2$parentMenu === void 0 ? null : _ref2$parentMenu,
+          _ref2$rootMenu = _ref2.rootMenu,
+          rootMenu = _ref2$rootMenu === void 0 ? null : _ref2$rootMenu;
 
       _classCallCheck(this, MenuToggle);
 
       // Run validations.
       validate$1.menuToggleElement(menuToggleElement);
+      validate$1.parentElement(parentElement);
       validate$1.menu(menu);
       validate$1.openClass(openClass);
       validate$1.parentMenu(parentMenu);
-      validate$1.parentMenuItem(parentMenuItem);
       validate$1.rootMenu(rootMenu);
       this.domElements = {
-        toggle: menuToggleElement
+        toggle: menuToggleElement,
+        menuItem: parentElement
       };
       this.elements = {
-        menuItem: parentMenuItem,
         menu: menu,
         parentMenu: parentMenu,
         rootMenu: rootMenu || parentMenu
@@ -250,12 +256,12 @@ var AccessibleMenu = function () {
           this.isOpen = true; // Assign new WAI-ARIA/class values.
 
           this.element.setAttribute("aria-expanded", "true");
-          this.menuItem.element.classList.add(this.openClass);
+          this.menuItemElement.classList.add(this.openClass);
           this.menu.element.classList.add(this.openClass); // Close all sibling menus.
 
           this.closeSiblings(); // Set proper focus states to parent & child.
 
-          this.parentMenu.currentFocus = "child";
+          if (this.parentMenu) this.parentMenu.currentFocus = "child";
           this.menu.currentFocus = "self"; // Set the new focus.
 
           this.menu.focusFirstChild();
@@ -273,15 +279,15 @@ var AccessibleMenu = function () {
           this.isOpen = false; // Assign new WAI-ARIA/class values.
 
           this.element.setAttribute("aria-expanded", "false");
-          this.menuItem.element.classList.remove(this.openClass);
+          this.menuItemElement.classList.remove(this.openClass);
           this.menu.element.classList.remove(this.openClass); // Close all child menus.
 
           this.closeChildren(); // Set proper focus states to parent & child.
 
           this.menu.currentFocus = "none";
-          this.parentMenu.currentFocus = "self"; // Set the new focus.
+          if (this.parentMenu) this.parentMenu.currentFocus = "self"; // Set the new focus.
 
-          this.parentMenu.focusCurrentChild();
+          if (this.parentMenu) this.parentMenu.focusCurrentChild();
         }
       }
       /**
@@ -351,23 +357,25 @@ var AccessibleMenu = function () {
             preventDefault(event);
 
             _this3.close();
-          } else if (_this3.parentMenu.isTopLevel && key === "ArrowRight") {
-            // The Right Arrow key should focus the next menu item in the parent menu.
-            preventDefault(event);
+          } else if (_this3.parentMenu && _this3.parentMenu.isTopLevel) {
+            if (key === "ArrowRight") {
+              // The Right Arrow key should focus the next menu item in the parent menu.
+              preventDefault(event);
 
-            _this3.close();
+              _this3.close();
 
-            _this3.parentMenu.focusNextChild();
-          } else if (_this3.parentMenu.isTopLevel && key === "ArrowLeft") {
-            // The Left Arrow key should focus the next menu item in the parent menu.
-            preventDefault(event);
+              _this3.parentMenu.focusNextChild();
+            } else if (key === "ArrowLeft") {
+              // The Left Arrow key should focus the next menu item in the parent menu.
+              preventDefault(event);
 
-            _this3.close();
+              _this3.close();
 
-            _this3.parentMenu.focusPreviousChild();
+              _this3.parentMenu.focusPreviousChild();
+            }
           }
         });
-        this.menuItem.element.addEventListener("keydown", function (event) {
+        this.menuItemElement.addEventListener("keydown", function (event) {
           var key = event.key;
 
           if (_this3.menu.currentFocus === "none" && _this3.parentMenu.isTopLevel) {
@@ -399,9 +407,9 @@ var AccessibleMenu = function () {
        */
 
     }, {
-      key: "menuItem",
+      key: "menuItemElement",
       get: function get() {
-        return this.elements.menuItem;
+        return this.domElements.menuItem;
       }
       /**
        * The menu controlled by the toggle.
@@ -514,6 +522,18 @@ var AccessibleMenu = function () {
       if (typeof value !== "boolean") {
         throw new TypeError("isTopLevel must be true or false");
       }
+    },
+    isDropdown: function isDropdown(controller, container) {
+      // Values are allowed to be null if both are null.
+      if (controller === null && container === null) return; // Ensure value is an HTML element.
+
+      if (!(controller instanceof HTMLElement)) {
+        throw new TypeError("controllerElement must be an HTML Element if containerElement is provided.");
+      }
+
+      if (!(container instanceof HTMLElement)) {
+        throw new TypeError("containerElement must be an HTML Element if controllerElement is provided.");
+      }
     }
   };
 
@@ -523,17 +543,30 @@ var AccessibleMenu = function () {
     /**
      * Constructs the menu.
      *
-     * @param {object}  menuElement           - The menu element in the DOM.
-     * @param {string}  menuItemSelector      - The selector string for menu items.
-     * @param {string}  submenuItemSelector   - The selector string for submenu items.
-     * @param {string}  submenuToggleSelector - The selector string for submenu toggle triggers.
-     * @param {string}  submenuSelector       - The selector string for the submenu itself.
-     * @param {string}  submenuOpenClass      - The class to use when a submenu is open.
-     * @param {boolean} isTopLevel            - Flags the menu as a top-level menu.
+     * @param {HTMLElement}  menuElement           - The menu element in the DOM.
+     * @param {string}       menuItemSelector      - The selector string for menu items.
+     * @param {string}       submenuItemSelector   - The selector string for submenu items.
+     * @param {string}       submenuToggleSelector - The selector string for submenu toggle triggers.
+     * @param {string}       submenuSelector       - The selector string for the submenu itself.
+     * @param {string}       submenuOpenClass      - The class to use when a submenu is open.
+     * @param {boolean}      isTopLevel            - Flags the menu as a top-level menu.
+     * @param {HTMLElement}  controllerElement     - The element controlling the menu in the DOM.
+     * @param {HTMLElement}  containerElement      - The element containing the menu in the DOM.
      */
-    function Menu(menuElement, menuItemSelector, submenuItemSelector, submenuToggleSelector, submenuSelector) {
-      var submenuOpenClass = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : "show";
-      var isTopLevel = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : true;
+    function Menu(_ref3) {
+      var menuElement = _ref3.menuElement,
+          menuItemSelector = _ref3.menuItemSelector,
+          submenuItemSelector = _ref3.submenuItemSelector,
+          submenuToggleSelector = _ref3.submenuToggleSelector,
+          submenuSelector = _ref3.submenuSelector,
+          _ref3$submenuOpenClas = _ref3.submenuOpenClass,
+          submenuOpenClass = _ref3$submenuOpenClas === void 0 ? "show" : _ref3$submenuOpenClas,
+          _ref3$isTopLevel = _ref3.isTopLevel,
+          isTopLevel = _ref3$isTopLevel === void 0 ? true : _ref3$isTopLevel,
+          _ref3$controllerEleme = _ref3.controllerElement,
+          controllerElement = _ref3$controllerEleme === void 0 ? null : _ref3$controllerEleme,
+          _ref3$containerElemen = _ref3.containerElement,
+          containerElement = _ref3$containerElemen === void 0 ? null : _ref3$containerElemen;
 
       _classCallCheck(this, Menu);
 
@@ -545,8 +578,11 @@ var AccessibleMenu = function () {
       validate$2.submenuSelector(submenuSelector);
       validate$2.submenuOpenClass(submenuOpenClass);
       validate$2.isTopLevel(isTopLevel);
+      validate$2.isDropdown(controllerElement, containerElement);
       this.domElements = {
         menu: menuElement,
+        controller: controllerElement,
+        container: containerElement,
         menuItems: Array.from(menuElement.querySelectorAll(menuItemSelector)).filter(function (item) {
           return item.parentElement === menuElement;
         }),
@@ -586,6 +622,17 @@ var AccessibleMenu = function () {
         this.createMenuItems();
         this.handleKeydown();
         this.handleClick();
+
+        if (this.controllerElement && this.containerElement) {
+          // Create a new MenuToggle to control the menu.
+          var toggle = new MenuToggle({
+            menuToggleElement: this.controllerElement,
+            parentElement: this.containerElement,
+            menu: this,
+            openClass: this.openClass
+          });
+          toggle.initialize();
+        }
       }
       /**
        * The menu element in the DOM.
@@ -604,7 +651,10 @@ var AccessibleMenu = function () {
 
         this.menuItemElements.forEach(function (element) {
           // Create a new MenuItem.
-          var menuItem = new MenuItem(element, _this4); // Add the item to the list of menu items.
+          var menuItem = new MenuItem({
+            menuItemElement: element,
+            parentMenu: _this4
+          }); // Add the item to the list of menu items.
 
           _this4.elements.menuItems.push(menuItem); // Initialize the menu item.
 
@@ -618,10 +668,24 @@ var AccessibleMenu = function () {
 
             var submenu = element.querySelector(_this4.selector.submenu); // Create the new Menu and initialize it.
 
-            var menu = new Menu(submenu, _this4.selector["menu-items"], _this4.selector["submenu-items"], _this4.selector["submenu-toggle"], _this4.selector.submenu, _this4.openClass, false);
+            var menu = new Menu({
+              menuElement: submenu,
+              menuItemSelector: _this4.selector["menu-items"],
+              submenuItemSelector: _this4.selector["submenu-items"],
+              submenuToggleSelector: _this4.selector["submenu-toggle"],
+              submenuSelector: _this4.selector.submenu,
+              submenuOpenClass: _this4.openClass,
+              isTopLevel: false
+            });
             menu.initialize(); // Create the new MenuToggle.
 
-            var toggle = new MenuToggle(toggler, menu, _this4.openClass, _this4, menuItem);
+            var toggle = new MenuToggle({
+              menuToggleElement: toggler,
+              parentElement: element,
+              menu: menu,
+              openClass: _this4.openClass,
+              parentMenu: _this4
+            });
             toggle.initialize(); // Add it to the list of submenu items.
 
             _this4.elements.menuToggles.push(toggle);
@@ -860,6 +924,28 @@ var AccessibleMenu = function () {
       key: "element",
       get: function get() {
         return this.domElements.menu;
+      }
+      /**
+       * The menu's controller element in the DOM.
+       *
+       * @returns {HTMLElement} - The controller element.
+       */
+
+    }, {
+      key: "controllerElement",
+      get: function get() {
+        return this.domElements.controller;
+      }
+      /**
+       * The menu's container element in the DOM.
+       *
+       * @returns {HTMLElement} - The container element.
+       */
+
+    }, {
+      key: "containerElement",
+      get: function get() {
+        return this.domElements.container;
       }
       /**
        * The menu item DOM elements contained in the menu.

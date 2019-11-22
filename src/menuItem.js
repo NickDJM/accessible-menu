@@ -22,7 +22,7 @@ class MenuItem {
    * @param {object} menuItemElement - The menu item in the DOM.
    * @param {Menu}   parentMenu      - The parent menu.
    */
-  constructor(menuItemElement, parentMenu) {
+  constructor({ menuItemElement, parentMenu }) {
     // Run validations.
     validate.menuItemElement(menuItemElement);
     validate.parentMenu(parentMenu);
