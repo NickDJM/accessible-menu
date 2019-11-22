@@ -148,14 +148,6 @@ var AccessibleMenu = function () {
       if (!(value instanceof Menu)) {
         throw new TypeError("parentMenu must be a Menu.");
       }
-    },
-    rootMenu: function rootMenu(value) {
-      // Value is allowed to be null.
-      if (value === null) return; // Ensure value is an Menu element.
-
-      if (!(value instanceof Menu)) {
-        throw new TypeError("rootMenu must be a Menu.");
-      }
     }
   };
 
@@ -171,7 +163,6 @@ var AccessibleMenu = function () {
      * @param {Menu}        param0.menu              - The menu controlled by the this toggle.
      * @param {string}      param0.openClass         - The class to use when a submenu is open.
      * @param {Menu}        param0.parentMenu        - The menu containing the toggle.
-     * @param {Menu}        param0.rootMenu          - The root menu containing the toggle.
      */
     function MenuToggle(_ref2) {
       var menuToggleElement = _ref2.menuToggleElement,
@@ -180,9 +171,7 @@ var AccessibleMenu = function () {
           _ref2$openClass = _ref2.openClass,
           openClass = _ref2$openClass === void 0 ? "show" : _ref2$openClass,
           _ref2$parentMenu = _ref2.parentMenu,
-          parentMenu = _ref2$parentMenu === void 0 ? null : _ref2$parentMenu,
-          _ref2$rootMenu = _ref2.rootMenu,
-          rootMenu = _ref2$rootMenu === void 0 ? null : _ref2$rootMenu;
+          parentMenu = _ref2$parentMenu === void 0 ? null : _ref2$parentMenu;
 
       _classCallCheck(this, MenuToggle);
 
@@ -192,15 +181,13 @@ var AccessibleMenu = function () {
       validate$1.menu(menu);
       validate$1.openClass(openClass);
       validate$1.parentMenu(parentMenu);
-      validate$1.rootMenu(rootMenu);
       this.domElements = {
         toggle: menuToggleElement,
         menuItem: parentElement
       };
       this.elements = {
         menu: menu,
-        parentMenu: parentMenu,
-        rootMenu: rootMenu || parentMenu
+        parentMenu: parentMenu
       };
       this.openClass = openClass;
     }
@@ -434,17 +421,6 @@ var AccessibleMenu = function () {
       key: "parentMenu",
       get: function get() {
         return this.elements.parentMenu;
-      }
-      /**
-       * The root menu containing the toggle.
-       *
-       * @returns {Menu} - The root menu element.
-       */
-
-    }, {
-      key: "rootMenu",
-      get: function get() {
-        return this.elements.rootMenu;
       }
       /**
        * The open state on the menu.

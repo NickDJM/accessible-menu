@@ -40,15 +40,6 @@ const validate = {
     if (!(value instanceof Menu)) {
       throw new TypeError("parentMenu must be a Menu.");
     }
-  },
-  rootMenu: value => {
-    // Value is allowed to be null.
-    if (value === null) return;
-
-    // Ensure value is an Menu element.
-    if (!(value instanceof Menu)) {
-      throw new TypeError("rootMenu must be a Menu.");
-    }
   }
 };
 
@@ -62,15 +53,13 @@ class MenuToggle {
    * @param {Menu}        param0.menu              - The menu controlled by the this toggle.
    * @param {string}      param0.openClass         - The class to use when a submenu is open.
    * @param {Menu}        param0.parentMenu        - The menu containing the toggle.
-   * @param {Menu}        param0.rootMenu          - The root menu containing the toggle.
    */
   constructor({
     menuToggleElement,
     parentElement,
     menu,
     openClass = "show",
-    parentMenu = null,
-    rootMenu = null
+    parentMenu = null
   }) {
     // Run validations.
     validate.menuToggleElement(menuToggleElement);
@@ -78,7 +67,6 @@ class MenuToggle {
     validate.menu(menu);
     validate.openClass(openClass);
     validate.parentMenu(parentMenu);
-    validate.rootMenu(rootMenu);
 
     this.domElements = {
       toggle: menuToggleElement,
@@ -86,8 +74,7 @@ class MenuToggle {
     };
     this.elements = {
       menu: menu,
-      parentMenu: parentMenu,
-      rootMenu: rootMenu || parentMenu
+      parentMenu: parentMenu
     };
     this.openClass = openClass;
   }
@@ -168,15 +155,6 @@ class MenuToggle {
    */
   get parentMenu() {
     return this.elements.parentMenu;
-  }
-
-  /**
-   * The root menu containing the toggle.
-   *
-   * @returns {Menu} - The root menu element.
-   */
-  get rootMenu() {
-    return this.elements.rootMenu;
   }
 
   /**
