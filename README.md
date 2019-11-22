@@ -64,14 +64,14 @@ or
 Once you have accessible-menu loaded, simply declare a new menu object and initialize it.
 
 ```jsx
-const menu = new AccessibleMenu(
-    menuDOMObject,
-    "menu-item-css-selector",
-    "menu-item-with-dropdown-css-selector",
-    "dropdown-toggle-css-selector",
-    "dropdown-menu-css-selector",
-    "class-to-open-menus"
-);
+const menu = new AccessibleMenu({
+    menuElement: menuDOMObject,
+    menuItemSelector: "menu-item-css-selector",
+    submenuItemSelector: "menu-item-with-dropdown-css-selector",
+    submenuToggleSelector: "dropdown-toggle-css-selector",
+    submenuSelector: "dropdown-menu-css-selector",
+    submenuOpenClass: "class-to-open-menus"
+});
 
 menu.initialize();
 ```
