@@ -51,6 +51,23 @@ const validate = {
     if (typeof value !== "boolean") {
       throw new TypeError("isTopLevel must be true or false");
     }
+  },
+  isDropdown: (controller, container) => {
+    // Values are allowed to be null if both are null.
+    if (controller === null && container === null) return;
+
+    // Ensure value is an HTML element.
+    if (!(controller instanceof HTMLElement)) {
+      throw new TypeError(
+        "controllerElement must be an HTML Element if containerElement is provided."
+      );
+    }
+
+    if (!(container instanceof HTMLElement)) {
+      throw new TypeError(
+        "containerElement must be an HTML Element if controllerElement is provided."
+      );
+    }
   }
 };
 
@@ -58,23 +75,28 @@ class Menu {
   /**
    * Constructs the menu.
    *
-   * @param {object}  menuElement           - The menu element in the DOM.
-   * @param {string}  menuItemSelector      - The selector string for menu items.
-   * @param {string}  submenuItemSelector   - The selector string for submenu items.
-   * @param {string}  submenuToggleSelector - The selector string for submenu toggle triggers.
-   * @param {string}  submenuSelector       - The selector string for the submenu itself.
-   * @param {string}  submenuOpenClass      - The class to use when a submenu is open.
-   * @param {boolean} isTopLevel            - Flags the menu as a top-level menu.
+   * @param {object}       param0                       - The menu object.
+   * @param {HTMLElement}  param0.menuElement           - The menu element in the DOM.
+   * @param {string}       param0.menuItemSelector      - The selector string for menu items.
+   * @param {string}       param0.submenuItemSelector   - The selector string for submenu items.
+   * @param {string}       param0.submenuToggleSelector - The selector string for submenu toggle triggers.
+   * @param {string}       param0.submenuSelector       - The selector string for the submenu itself.
+   * @param {string}       param0.submenuOpenClass      - The class to use when a submenu is open.
+   * @param {boolean}      param0.isTopLevel            - Flags the menu as a top-level menu.
+   * @param {HTMLElement}  param0.controllerElement     - The element controlling the menu in the DOM.
+   * @param {HTMLElement}  param0.containerElement      - The element containing the menu in the DOM.
    */
-  constructor(
+  constructor({
     menuElement,
     menuItemSelector,
     submenuItemSelector,
     submenuToggleSelector,
     submenuSelector,
     submenuOpenClass = "show",
-    isTopLevel = true
-  ) {
+    isTopLevel = true,
+    controllerElement = null,
+    containerElement = null
+  }) {
     // Run validations.
     validate.menuElement(menuElement);
     validate.menuItemSelector(menuItemSelector);
@@ -83,9 +105,12 @@ class Menu {
     validate.submenuSelector(submenuSelector);
     validate.submenuOpenClass(submenuOpenClass);
     validate.isTopLevel(isTopLevel);
+    validate.isDropdown(controllerElement, containerElement);
 
     this.domElements = {
       menu: menuElement,
+      controller: controllerElement,
+      container: containerElement,
       menuItems: Array.from(
         menuElement.querySelectorAll(menuItemSelector)
       ).filter(item => item.parentElement === menuElement),
@@ -123,6 +148,17 @@ class Menu {
     this.createMenuItems();
     this.handleKeydown();
     this.handleClick();
+
+    if (this.controllerElement && this.containerElement) {
+      // Create a new MenuToggle to control the menu.
+      const toggle = new MenuToggle({
+        menuToggleElement: this.controllerElement,
+        parentElement: this.containerElement,
+        menu: this,
+        openClass: this.openClass
+      });
+      toggle.initialize();
+    }
   }
 
   /**
@@ -132,6 +168,24 @@ class Menu {
    */
   get element() {
     return this.domElements.menu;
+  }
+
+  /**
+   * The menu's controller element in the DOM.
+   *
+   * @returns {HTMLElement} - The controller element.
+   */
+  get controllerElement() {
+    return this.domElements.controller;
+  }
+
+  /**
+   * The menu's container element in the DOM.
+   *
+   * @returns {HTMLElement} - The container element.
+   */
+  get containerElement() {
+    return this.domElements.container;
   }
 
   /**
@@ -248,7 +302,10 @@ class Menu {
   createMenuItems() {
     this.menuItemElements.forEach(element => {
       // Create a new MenuItem.
-      const menuItem = new MenuItem(element, this);
+      const menuItem = new MenuItem({
+        menuItemElement: element,
+        parentMenu: this
+      });
 
       // Add the item to the list of menu items.
       this.elements.menuItems.push(menuItem);
@@ -265,25 +322,25 @@ class Menu {
         const submenu = element.querySelector(this.selector.submenu);
 
         // Create the new Menu and initialize it.
-        const menu = new Menu(
-          submenu,
-          this.selector["menu-items"],
-          this.selector["submenu-items"],
-          this.selector["submenu-toggle"],
-          this.selector.submenu,
-          this.openClass,
-          false
-        );
+        const menu = new Menu({
+          menuElement: submenu,
+          menuItemSelector: this.selector["menu-items"],
+          submenuItemSelector: this.selector["submenu-items"],
+          submenuToggleSelector: this.selector["submenu-toggle"],
+          submenuSelector: this.selector.submenu,
+          submenuOpenClass: this.openClass,
+          isTopLevel: false
+        });
         menu.initialize();
 
         // Create the new MenuToggle.
-        const toggle = new MenuToggle(
-          toggler,
-          menu,
-          this.openClass,
-          this,
-          menuItem
-        );
+        const toggle = new MenuToggle({
+          menuToggleElement: toggler,
+          parentElement: element,
+          menu: menu,
+          openClass: this.openClass,
+          parentMenu: this
+        });
         toggle.initialize();
 
         // Add it to the list of submenu items.
