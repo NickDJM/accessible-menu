@@ -75,15 +75,16 @@ class Menu {
   /**
    * Constructs the menu.
    *
-   * @param {HTMLElement}  menuElement           - The menu element in the DOM.
-   * @param {string}       menuItemSelector      - The selector string for menu items.
-   * @param {string}       submenuItemSelector   - The selector string for submenu items.
-   * @param {string}       submenuToggleSelector - The selector string for submenu toggle triggers.
-   * @param {string}       submenuSelector       - The selector string for the submenu itself.
-   * @param {string}       submenuOpenClass      - The class to use when a submenu is open.
-   * @param {boolean}      isTopLevel            - Flags the menu as a top-level menu.
-   * @param {HTMLElement}  controllerElement     - The element controlling the menu in the DOM.
-   * @param {HTMLElement}  containerElement      - The element containing the menu in the DOM.
+   * @param {object}       param0                       - The menu object.
+   * @param {HTMLElement}  param0.menuElement           - The menu element in the DOM.
+   * @param {string}       param0.menuItemSelector      - The selector string for menu items.
+   * @param {string}       param0.submenuItemSelector   - The selector string for submenu items.
+   * @param {string}       param0.submenuToggleSelector - The selector string for submenu toggle triggers.
+   * @param {string}       param0.submenuSelector       - The selector string for the submenu itself.
+   * @param {string}       param0.submenuOpenClass      - The class to use when a submenu is open.
+   * @param {boolean}      param0.isTopLevel            - Flags the menu as a top-level menu.
+   * @param {HTMLElement}  param0.controllerElement     - The element controlling the menu in the DOM.
+   * @param {HTMLElement}  param0.containerElement      - The element containing the menu in the DOM.
    */
   constructor({
     menuElement,

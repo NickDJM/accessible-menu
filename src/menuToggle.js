@@ -56,12 +56,13 @@ class MenuToggle {
   /**
    * Construct the menu toggle.
    *
-   * @param {HTMLElement} menuToggleElement - The toggle element in the DOM.
-   * @param {HTMLElement} parentElement     - The element containing the menu.
-   * @param {Menu}        menu              - The menu controlled by the this toggle.
-   * @param {string}      openClass         - The class to use when a submenu is open.
-   * @param {Menu}        parentMenu        - The menu containing the toggle.
-   * @param {Menu}        rootMenu          - The root menu containing the toggle.
+   * @param {object}      param0                   - The menu toggle object.
+   * @param {HTMLElement} param0.menuToggleElement - The toggle element in the DOM.
+   * @param {HTMLElement} param0.parentElement     - The element containing the menu.
+   * @param {Menu}        param0.menu              - The menu controlled by the this toggle.
+   * @param {string}      param0.openClass         - The class to use when a submenu is open.
+   * @param {Menu}        param0.parentMenu        - The menu containing the toggle.
+   * @param {Menu}        param0.rootMenu          - The root menu containing the toggle.
    */
   constructor({
     menuToggleElement,

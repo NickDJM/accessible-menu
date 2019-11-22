@@ -30,8 +30,9 @@ var AccessibleMenu = function () {
     /**
      * Construct the menu item.
      *
-     * @param {object} menuItemElement - The menu item in the DOM.
-     * @param {Menu}   parentMenu      - The parent menu.
+     * @param {object} param0                 - The menu item object.
+     * @param {object} param0.menuItemElement - The menu item in the DOM.
+     * @param {Menu}   param0.parentMenu      - The parent menu.
      */
     function MenuItem(_ref) {
       var menuItemElement = _ref.menuItemElement,
@@ -164,12 +165,13 @@ var AccessibleMenu = function () {
     /**
      * Construct the menu toggle.
      *
-     * @param {HTMLElement} menuToggleElement - The toggle element in the DOM.
-     * @param {HTMLElement} parentElement     - The element containing the menu.
-     * @param {Menu}        menu              - The menu controlled by the this toggle.
-     * @param {string}      openClass         - The class to use when a submenu is open.
-     * @param {Menu}        parentMenu        - The menu containing the toggle.
-     * @param {Menu}        rootMenu          - The root menu containing the toggle.
+     * @param {object}      param0                   - The menu toggle object.
+     * @param {HTMLElement} param0.menuToggleElement - The toggle element in the DOM.
+     * @param {HTMLElement} param0.parentElement     - The element containing the menu.
+     * @param {Menu}        param0.menu              - The menu controlled by the this toggle.
+     * @param {string}      param0.openClass         - The class to use when a submenu is open.
+     * @param {Menu}        param0.parentMenu        - The menu containing the toggle.
+     * @param {Menu}        param0.rootMenu          - The root menu containing the toggle.
      */
     function MenuToggle(_ref2) {
       var menuToggleElement = _ref2.menuToggleElement,
@@ -543,15 +545,16 @@ var AccessibleMenu = function () {
     /**
      * Constructs the menu.
      *
-     * @param {HTMLElement}  menuElement           - The menu element in the DOM.
-     * @param {string}       menuItemSelector      - The selector string for menu items.
-     * @param {string}       submenuItemSelector   - The selector string for submenu items.
-     * @param {string}       submenuToggleSelector - The selector string for submenu toggle triggers.
-     * @param {string}       submenuSelector       - The selector string for the submenu itself.
-     * @param {string}       submenuOpenClass      - The class to use when a submenu is open.
-     * @param {boolean}      isTopLevel            - Flags the menu as a top-level menu.
-     * @param {HTMLElement}  controllerElement     - The element controlling the menu in the DOM.
-     * @param {HTMLElement}  containerElement      - The element containing the menu in the DOM.
+     * @param {object}       param0                       - The menu object.
+     * @param {HTMLElement}  param0.menuElement           - The menu element in the DOM.
+     * @param {string}       param0.menuItemSelector      - The selector string for menu items.
+     * @param {string}       param0.submenuItemSelector   - The selector string for submenu items.
+     * @param {string}       param0.submenuToggleSelector - The selector string for submenu toggle triggers.
+     * @param {string}       param0.submenuSelector       - The selector string for the submenu itself.
+     * @param {string}       param0.submenuOpenClass      - The class to use when a submenu is open.
+     * @param {boolean}      param0.isTopLevel            - Flags the menu as a top-level menu.
+     * @param {HTMLElement}  param0.controllerElement     - The element controlling the menu in the DOM.
+     * @param {HTMLElement}  param0.containerElement      - The element containing the menu in the DOM.
      */
     function Menu(_ref3) {
       var menuElement = _ref3.menuElement,
