@@ -149,7 +149,7 @@ var AccessibleMenu = function () {
       ArrowLeft: key === "ArrowLeft" || key === "Left" || key === 37,
       Home: key === "Home" || key === 36,
       End: key === "End" || key === 35,
-      Character: key.match(/^[a-zA-Z]{1}$/),
+      Character: !!key.match(/^[a-zA-Z]{1}$/),
       Tab: key === "Tab" || key === 9
     };
     console.log(keys);
@@ -168,9 +168,7 @@ var AccessibleMenu = function () {
     // Run validation.
     validate$1.event(event);
     event.preventDefault();
-    event.stopPropagation(); // IE support.
-
-    event.cancelBubble = true;
+    event.stopPropagation();
   } // Custom validation for params.
 
 
@@ -793,7 +791,7 @@ var AccessibleMenu = function () {
               // The A-Z keys should focus the next menu item starting with that letter.
               preventEvent(event);
 
-              _this5.focusNextChildWithCharacter(key);
+              _this5.focusNextChildWithCharacter(event.key);
             }
           }
 

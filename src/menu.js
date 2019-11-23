@@ -403,7 +403,7 @@ class Menu {
         } else if (key.match(/^[a-zA-Z]{1}$/) && !modifier) {
           // The A-Z keys should focus the next menu item starting with that letter.
           preventEvent(event);
-          this.focusNextChildWithCharacter(key);
+          this.focusNextChildWithCharacter(event.key);
         }
       }
 
