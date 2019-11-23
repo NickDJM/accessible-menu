@@ -964,13 +964,19 @@ var AccessibleMenu = function () {
       value: function focusController() {
         if (this.controllerElement) {
           this.controllerElement.focus();
+          this.currentFocus = "none";
         }
       }
+      /**
+       * Focus the menu's container.
+       */
+
     }, {
       key: "focusContainer",
       value: function focusContainer() {
         if (this.containerElement) {
           this.containerElement.focus();
+          this.currentFocus = "none";
         }
       }
       /**

@@ -532,12 +532,17 @@ class Menu {
   focusController() {
     if (this.controllerElement) {
       this.controllerElement.focus();
+      this.currentFocus = "none";
     }
   }
 
+  /**
+   * Focus the menu's container.
+   */
   focusContainer() {
     if (this.containerElement) {
       this.containerElement.focus();
+      this.currentFocus = "none";
     }
   }
 
