@@ -297,7 +297,11 @@ class MenuToggle {
     this.menuItemElement.addEventListener("keydown", event => {
       const { key } = event;
 
-      if (this.menu.currentFocus === "none" && this.parentMenu.isTopLevel) {
+      if (
+        this.menu.currentFocus === "none" &&
+        this.parentMenu &&
+        this.parentMenu.isTopLevel
+      ) {
         if (key === "ArrowUp") {
           // The Up Arrow key should open the submenu and select the last child.
           preventDefault(event);
