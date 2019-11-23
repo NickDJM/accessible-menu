@@ -264,8 +264,6 @@ var AccessibleMenu = function () {
     _createClass(MenuToggle, [{
       key: "initialize",
       value: function initialize() {
-        var _this = this;
-
         // Add WAI-ARIA properties.
         this.element.setAttribute("aria-haspopup", "true");
         this.element.setAttribute("aria-expanded", "false");
@@ -280,15 +278,10 @@ var AccessibleMenu = function () {
 
 
         this.menu.element.setAttribute("aria-labelledby", this.element.id);
-        this.element.setAttribute("aria-controls", this.menu.element.id); // Handle toggling the menu on click.
-
-        this.element.addEventListener("click", function (event) {
-          preventEvent(event);
-
-          _this.toggle();
-        }); // Add new keydown events.
+        this.element.setAttribute("aria-controls", this.menu.element.id); // Add new keydown events.
 
         this.handleKeydown();
+        this.handleClick();
       }
       /**
        * The toggle element in the DOM.
@@ -367,11 +360,11 @@ var AccessibleMenu = function () {
     }, {
       key: "closeSiblings",
       value: function closeSiblings() {
-        var _this2 = this;
+        var _this = this;
 
         try {
           this.parentMenu.menuToggles.forEach(function (toggle) {
-            if (toggle !== _this2) toggle.close();
+            if (toggle !== _this) toggle.close();
           });
         } catch (error) {// Fail quietly. No parent exists.
         }
@@ -394,7 +387,7 @@ var AccessibleMenu = function () {
     }, {
       key: "handleKeydown",
       value: function handleKeydown() {
-        var _this3 = this;
+        var _this2 = this;
 
         this.menu.element.addEventListener("keydown", function (event) {
           var key = keyPress(event);
@@ -403,42 +396,42 @@ var AccessibleMenu = function () {
             // The Escape key should close the current menu.
             preventEvent(event);
 
-            _this3.close();
-          } else if (_this3.parentMenu && _this3.parentMenu.isTopLevel) {
+            _this2.close();
+          } else if (_this2.parentMenu && _this2.parentMenu.isTopLevel) {
             if (key === "ArrowRight") {
               // The Right Arrow key should focus the next menu item in the parent menu.
               preventEvent(event);
 
-              _this3.close();
+              _this2.close();
 
-              _this3.parentMenu.focusNextChild();
+              _this2.parentMenu.focusNextChild();
             } else if (key === "ArrowLeft") {
               // The Left Arrow key should focus the next menu item in the parent menu.
               preventEvent(event);
 
-              _this3.close();
+              _this2.close();
 
-              _this3.parentMenu.focusPreviousChild();
+              _this2.parentMenu.focusPreviousChild();
             }
           }
         });
         this.menuItemElement.addEventListener("keydown", function (event) {
           var key = keyPress(event);
 
-          if (_this3.menu.currentFocus === "none") {
-            if (_this3.parentMenu && _this3.parentMenu.isTopLevel) {
+          if (_this2.menu.currentFocus === "none") {
+            if (_this2.parentMenu && _this2.parentMenu.isTopLevel) {
               if (key === "ArrowUp") {
                 // The Up Arrow key should open the submenu and select the last child.
                 preventEvent(event);
 
-                _this3.open();
+                _this2.open();
 
-                _this3.menu.focusLastChild();
+                _this2.menu.focusLastChild();
               } else if (key === "ArrowDown") {
                 // The Down Arrow key should open the submenu and select the first child.
                 preventEvent(event);
 
-                _this3.open();
+                _this2.open();
               }
             }
 
@@ -446,9 +439,25 @@ var AccessibleMenu = function () {
               // The Enter & Space keys should open the menu.
               preventEvent(event);
 
-              _this3.open();
+              _this2.open();
             }
           }
+        });
+      }
+      /**
+       * Handle click events required for proper menu usage.
+       */
+
+    }, {
+      key: "handleClick",
+      value: function handleClick() {
+        var _this3 = this;
+
+        // Handle toggling the menu on click.
+        this.element.addEventListener("click", function (event) {
+          preventEvent(event);
+
+          _this3.toggle();
         });
       }
     }, {

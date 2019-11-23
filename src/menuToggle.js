@@ -111,15 +111,9 @@ class MenuToggle {
     this.menu.element.setAttribute("aria-labelledby", this.element.id);
     this.element.setAttribute("aria-controls", this.menu.element.id);
 
-    // Handle toggling the menu on click.
-    this.element.addEventListener("click", event => {
-      preventEvent(event);
-
-      this.toggle();
-    });
-
     // Add new keydown events.
     this.handleKeydown();
+    this.handleClick();
   }
 
   /**
@@ -313,6 +307,18 @@ class MenuToggle {
           this.open();
         }
       }
+    });
+  }
+
+  /**
+   * Handle click events required for proper menu usage.
+   */
+  handleClick() {
+    // Handle toggling the menu on click.
+    this.element.addEventListener("click", event => {
+      preventEvent(event);
+
+      this.toggle();
     });
   }
 }
