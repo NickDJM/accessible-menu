@@ -45,6 +45,7 @@ Everybody loves a thorough bug report!
 
 ## Keep Your Code Consistent
 
+- Run `npm install` to ensure you have all the tools needed.
 - Keep all functional code inside of the `src/` directory
 - Use the coding standards provided.
 
@@ -52,13 +53,13 @@ This project follows a set of coding standards combining [StandardJS](https://st
 
 To check your code, you can use [ESLint](https://eslint.org/) with the provided script:
 
-```
+```shell
 npm run lint
 ```
 
 You can also fix some violations automatically using:
 
-```
+```shell
 npm run fix
 ```
 
@@ -68,17 +69,17 @@ Code that does not follow the linting standards _will not_ be merged.
 
 This project uses the conventional commit standard, which means your commits should follow a basic template of:
 
-    <type>[optional scope]: <description>
-
-    [optional body]
-
-    [optional footer(s)]
+> \<type>[optional scope]: \<description>
+>
+> [optional body]
+>
+> [optional footer(s)]
 
 For more detailed information about available types, scopes, breaking changes, etc. please see the [official documentation](https://www.conventionalcommits.org/en/v1.0.0/).
 
-This project also provides a command to assist you in formatting  commit messages using [commitizen](https://commitizen.github.io/cz-cli/):
+This project also provides a command to assist you in formatting commit messages using [commitizen](https://commitizen.github.io/cz-cli/):
 
-```
+```shell
 npm run commit
 ```
 
