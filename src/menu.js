@@ -14,23 +14,23 @@ const validate = {
       throw new TypeError("menuItemSelector must be a CSS selector string.");
     }
   },
-  submenuItemSelector: value => {
-    // Ensure value is a string.
-    if (typeof value !== "string") {
+  hasSubmenus: (container, toggle, menu) => {
+    if (container === null && toggle === null && menu === null) return;
+
+    // Ensure container is a string.
+    if (typeof container !== "string") {
       throw new TypeError("submenuItemSelector must be a CSS selector string.");
     }
-  },
-  submenuToggleSelector: value => {
-    // Ensure value is a string.
-    if (typeof value !== "string") {
+
+    // Ensure toggle is a string.
+    if (typeof container !== "string") {
       throw new TypeError(
         "submenuToggleSelector must be a CSS selector string."
       );
     }
-  },
-  submenuSelector: value => {
-    // Ensure value is a string.
-    if (typeof value !== "string") {
+
+    // Ensure menu is a string.
+    if (typeof menu !== "string") {
       throw new TypeError("submenuSelector must be a CSS selector string.");
     }
   },
@@ -89,9 +89,9 @@ class Menu {
   constructor({
     menuElement,
     menuItemSelector,
-    submenuItemSelector,
-    submenuToggleSelector,
-    submenuSelector,
+    submenuItemSelector = null,
+    submenuToggleSelector = null,
+    submenuSelector = null,
     submenuOpenClass = "show",
     isTopLevel = true,
     controllerElement = null,
@@ -100,9 +100,11 @@ class Menu {
     // Run validations.
     validate.menuElement(menuElement);
     validate.menuItemSelector(menuItemSelector);
-    validate.submenuItemSelector(submenuItemSelector);
-    validate.submenuToggleSelector(submenuToggleSelector);
-    validate.submenuSelector(submenuSelector);
+    validate.hasSubmenus(
+      submenuItemSelector,
+      submenuToggleSelector,
+      submenuSelector
+    );
     validate.submenuOpenClass(submenuOpenClass);
     validate.isTopLevel(isTopLevel);
     validate.isDropdown(controllerElement, containerElement);
