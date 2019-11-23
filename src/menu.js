@@ -1,6 +1,8 @@
 import MenuItem from "./menuItem";
 import MenuToggle from "./menuToggle";
+import { keyPress, preventEvent } from "./eventHandlers";
 
+// Custom validation for params.
 const validate = {
   menuElement: value => {
     // Ensure value is an HTML element.
@@ -355,61 +357,53 @@ class Menu {
    * Sets up the hijacked keydown events.
    */
   handleKeydown() {
-    /**
-     * Short cut to preventing default event actions.
-     *
-     * @param {object} event - The event.
-     */
-    function preventDefault(event) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
-
     this.element.addEventListener("keydown", event => {
-      const { key, code, altKey, crtlKey, metaKey } = event;
+      // Key uses event.key or event.keyCode to support older browsers.
+      const key = keyPress(event);
+      const { altKey, crtlKey, metaKey } = event;
       const modifier = altKey || crtlKey || metaKey;
 
       if (this.currentFocus === "none") {
-        if (key === "Enter" || (key === " " && code === "Space")) {
+        if (key === "Enter" || key === "Space") {
           // The Enter & Space keys should enter the menu.
-          preventDefault(event);
+          preventEvent(event);
           this.currentFocus = "self";
           this.focusFirstChild();
         }
       } else if (this.currentFocus === "self") {
         if (key === "Escape") {
           // The Escape key should exit the menu.
-          preventDefault(event);
+          preventEvent(event);
           this.focus();
           this.currentFocus = "none";
         } else if (!this.isTopLevel && key === "ArrowUp") {
           // The Up Arrow key should focus the previous menu item in submenus.
-          preventDefault(event);
+          preventEvent(event);
           this.focusPreviousChild();
         } else if (this.isTopLevel && key === "ArrowRight") {
           // The Right Arrow key should focus the next menu item.
-          preventDefault(event);
+          preventEvent(event);
           this.focusNextChild();
         } else if (!this.isTopLevel && key === "ArrowDown") {
           // The Down Arrow key should focus the next item in submenus.
-          preventDefault(event);
+          preventEvent(event);
           this.focusNextChild();
         } else if (this.isTopLevel && key === "ArrowLeft") {
           // The Left Arrow key should focus the previous menu item.
-          preventDefault(event);
+          preventEvent(event);
           this.focusPreviousChild();
         } else if (key === "Home") {
           // The Home key should focus the first menu item.
-          preventDefault(event);
+          preventEvent(event);
           this.focusFirstChild();
         } else if (key === "End") {
           // The End key should focus the last menu item.
-          preventDefault(event);
+          preventEvent(event);
           this.focusLastChild();
-        } else if (key.match(/^[a-zA-Z]{1}$/) && !modifier) {
+        } else if (key === "Character" && !modifier) {
           // The A-Z keys should focus the next menu item starting with that letter.
-          preventDefault(event);
-          this.focusNextChildWithCharacter(key);
+          preventEvent(event);
+          this.focusNextChildWithCharacter(event.key);
         }
       }
 

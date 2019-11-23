@@ -1,6 +1,8 @@
 import Menu from "./menu";
 import MenuItem from "./menuItem";
+import { keyPress, preventEvent } from "./eventHandlers";
 
+// Custom validation for params.
 const validate = {
   menuToggleElement: value => {
     // Ensure value is an HTML element.
@@ -111,8 +113,7 @@ class MenuToggle {
 
     // Handle toggling the menu on click.
     this.element.addEventListener("click", event => {
-      event.preventDefault();
-      event.stopPropagation();
+      preventEvent(event);
 
       this.toggle();
     });
@@ -264,52 +265,46 @@ class MenuToggle {
    * Sets up the hijacked keydown events.
    */
   handleKeydown() {
-    /**
-     * Short cut to preventing default event actions.
-     *
-     * @param {object} event - The event.
-     */
-    function preventDefault(event) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
     this.menu.element.addEventListener("keydown", event => {
-      const { key } = event;
+      const key = keyPress(event);
 
       if (key === "Escape") {
         // The Escape key should close the current menu.
-        preventDefault(event);
+        preventEvent(event);
         this.close();
       } else if (this.parentMenu && this.parentMenu.isTopLevel) {
         if (key === "ArrowRight") {
           // The Right Arrow key should focus the next menu item in the parent menu.
-          preventDefault(event);
+          preventEvent(event);
           this.close();
           this.parentMenu.focusNextChild();
         } else if (key === "ArrowLeft") {
           // The Left Arrow key should focus the next menu item in the parent menu.
-          preventDefault(event);
+          preventEvent(event);
           this.close();
           this.parentMenu.focusPreviousChild();
         }
       }
     });
     this.menuItemElement.addEventListener("keydown", event => {
-      const { key } = event;
+      const key = keyPress(event);
 
-      if (
-        this.menu.currentFocus === "none" &&
-        this.parentMenu &&
-        this.parentMenu.isTopLevel
-      ) {
-        if (key === "ArrowUp") {
-          // The Up Arrow key should open the submenu and select the last child.
-          preventDefault(event);
-          this.open();
-          this.menu.focusLastChild();
-        } else if (key === "ArrowDown") {
-          // The Down Arrow key should open the submenu and select the first child.
-          preventDefault(event);
+      if (this.menu.currentFocus === "none") {
+        if (this.parentMenu && this.parentMenu.isTopLevel) {
+          if (key === "ArrowUp") {
+            // The Up Arrow key should open the submenu and select the last child.
+            preventEvent(event);
+            this.open();
+            this.menu.focusLastChild();
+          } else if (key === "ArrowDown") {
+            // The Down Arrow key should open the submenu and select the first child.
+            preventEvent(event);
+            this.open();
+          }
+        }
+        if (key === "Enter" || key === "Space") {
+          // The Enter & Space keys should open the menu.
+          preventEvent(event);
           this.open();
         }
       }
