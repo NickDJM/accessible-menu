@@ -82,7 +82,9 @@ const menu = new AccessibleMenu({
 menu.initialize();
 ```
 
-Want more detailed usage information? It's on the way! Check back for a later release which will include much more documentation.
+### Documentation
+
+* [Classes](docs/classes/index.md)
 
 ## Internet Explorer and Edge Support
 
