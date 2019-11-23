@@ -133,7 +133,6 @@ var AccessibleMenu = function () {
   function keyPress(event) {
     // Run validation.
     validate$1.keyboardEvent(event);
-    console.log(event);
 
     try {
       // Use event.key or event.keyCode to support older browsers.
@@ -155,8 +154,7 @@ var AccessibleMenu = function () {
         return keys[key] === true;
       });
     } catch (error) {
-      console.warn(error); // Return an empty string if something goes wrong.
-
+      // Return an empty string if something goes wrong.
       return "";
     }
   }
@@ -743,6 +741,9 @@ var AccessibleMenu = function () {
               crtlKey = event.crtlKey,
               metaKey = event.metaKey;
           var modifier = altKey || crtlKey || metaKey;
+          console.log(event);
+          console.log(key);
+          console.log(modifier);
 
           if (_this5.currentFocus === "none") {
             if (key === "Enter" || key === "Space") {
@@ -791,7 +792,8 @@ var AccessibleMenu = function () {
 
               _this5.focusLastChild();
             } else if (key === "Character" && !modifier) {
-              // The A-Z keys should focus the next menu item starting with that letter.
+              console.log("Character found!"); // The A-Z keys should focus the next menu item starting with that letter.
+
               preventEvent(event);
 
               _this5.focusNextChildWithCharacter(event.key);

@@ -23,8 +23,6 @@ export function keyPress(event) {
   // Run validation.
   validate.keyboardEvent(event);
 
-  console.log(event);
-
   try {
     // Use event.key or event.keyCode to support older browsers.
     const key = event.key || event.keyCode;
@@ -44,8 +42,6 @@ export function keyPress(event) {
 
     return Object.keys(keys).find(key => keys[key] === true);
   } catch (error) {
-    console.warn(error);
-
     // Return an empty string if something goes wrong.
     return "";
   }

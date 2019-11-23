@@ -363,6 +363,10 @@ class Menu {
       const { altKey, crtlKey, metaKey } = event;
       const modifier = altKey || crtlKey || metaKey;
 
+      console.log(event);
+      console.log(key);
+      console.log(modifier);
+
       if (this.currentFocus === "none") {
         if (key === "Enter" || key === "Space") {
           // The Enter & Space keys should enter the menu.
@@ -401,6 +405,8 @@ class Menu {
           preventEvent(event);
           this.focusLastChild();
         } else if (key === "Character" && !modifier) {
+          console.log("Character found!");
+
           // The A-Z keys should focus the next menu item starting with that letter.
           preventEvent(event);
           this.focusNextChildWithCharacter(event.key);
