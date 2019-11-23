@@ -134,7 +134,9 @@ var AccessibleMenu = function () {
     // Run validation.
     validate$1.keyboardEvent(event); // Use event.key or event.keyCode to support older browsers.
 
-    var key = event.key || event.keyCode;
+    var key = event.key || event.keyCode; // Return an empty string if the key can't be found for some reaosn.
+
+    if (typeof key === "undefined" || !key) return "";
     var keys = {
       Enter: key === "Enter" || key === 13,
       Space: key === " " || key === 32,

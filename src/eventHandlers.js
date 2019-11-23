@@ -25,6 +25,10 @@ export function keyPress(event) {
 
   // Use event.key or event.keyCode to support older browsers.
   const key = event.key || event.keyCode;
+
+  // Return an empty string if the key can't be found for some reaosn.
+  if (typeof key === "undefined" || !key) return "";
+
   const keys = {
     Enter: key === "Enter" || key === 13,
     Space: key === " " || key === 32,
