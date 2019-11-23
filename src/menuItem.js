@@ -1,5 +1,6 @@
 import Menu from "./menu";
 
+// Custom validation for params.
 const validate = {
   menuItemElement: value => {
     // Ensure value is an HTML element.

@@ -1,3 +1,4 @@
+// Custom validation for params.
 const validate = {
   event: value => {
     if (!(value instanceof Event)) {

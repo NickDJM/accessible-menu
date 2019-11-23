@@ -2,6 +2,7 @@ import MenuItem from "./menuItem";
 import MenuToggle from "./menuToggle";
 import { keyPress, preventEvent } from "./eventHandlers";
 
+// Custom validation for params.
 const validate = {
   menuElement: value => {
     // Ensure value is an HTML element.

@@ -7,7 +7,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 var AccessibleMenu = function () {
-  'use strict';
+  'use strict'; // Custom validation for params.
 
   var validate = {
     menuItemElement: function menuItemElement(value) {
@@ -107,7 +107,8 @@ var AccessibleMenu = function () {
     }]);
 
     return MenuItem;
-  }();
+  }(); // Custom validation for params.
+
 
   var validate$1 = {
     event: function event(value) {
@@ -165,7 +166,8 @@ var AccessibleMenu = function () {
     event.stopPropagation(); // IE support.
 
     event.cancelBubble = true;
-  }
+  } // Custom validation for params.
+
 
   var validate$2 = {
     menuToggleElement: function menuToggleElement(value) {
@@ -496,7 +498,8 @@ var AccessibleMenu = function () {
     }]);
 
     return MenuToggle;
-  }();
+  }(); // Custom validation for params.
+
 
   var validate$3 = {
     menuElement: function menuElement(value) {
