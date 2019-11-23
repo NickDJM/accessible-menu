@@ -527,6 +527,21 @@ class Menu {
   }
 
   /**
+   * Focus the menu's controller.
+   */
+  focusController() {
+    if (this.controllerElement) {
+      this.controllerElement.focus();
+    }
+  }
+
+  focusContainer() {
+    if (this.containerElement) {
+      this.containerElement.focus();
+    }
+  }
+
+  /**
    * Close all submenu children.
    */
   closeChildren() {

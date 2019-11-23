@@ -337,9 +337,14 @@ var AccessibleMenu = function () {
           this.closeChildren(); // Set proper focus states to parent & child.
 
           this.menu.currentFocus = "none";
-          if (this.parentMenu) this.parentMenu.currentFocus = "self"; // Set the new focus.
 
-          if (this.parentMenu) this.parentMenu.focusCurrentChild();
+          if (this.parentMenu) {
+            this.parentMenu.currentFocus = "self"; // Set the new focus.
+
+            this.parentMenu.focusCurrentChild();
+          } else if (this.menu.isTopLevel) {
+            this.menu.focusController();
+          }
         }
       }
       /**
@@ -939,6 +944,24 @@ var AccessibleMenu = function () {
           }
 
           index++;
+        }
+      }
+      /**
+       * Focus the menu's controller.
+       */
+
+    }, {
+      key: "focusController",
+      value: function focusController() {
+        if (this.controllerElement) {
+          this.controllerElement.focus();
+        }
+      }
+    }, {
+      key: "focusContainer",
+      value: function focusContainer() {
+        if (this.containerElement) {
+          this.containerElement.focus();
         }
       }
       /**

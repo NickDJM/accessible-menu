@@ -223,10 +223,15 @@ class MenuToggle {
 
       // Set proper focus states to parent & child.
       this.menu.currentFocus = "none";
-      if (this.parentMenu) this.parentMenu.currentFocus = "self";
 
-      // Set the new focus.
-      if (this.parentMenu) this.parentMenu.focusCurrentChild();
+      if (this.parentMenu) {
+        this.parentMenu.currentFocus = "self";
+
+        // Set the new focus.
+        this.parentMenu.focusCurrentChild();
+      } else if (this.menu.isTopLevel) {
+        this.menu.focusController();
+      }
     }
   }
 
