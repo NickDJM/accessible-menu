@@ -266,7 +266,7 @@ class MenuToggle {
    */
   handleKeydown() {
     this.menu.element.addEventListener("keydown", event => {
-      const { key } = event;
+      const key = keyPress(event);
 
       if (key === "Escape") {
         // The Escape key should close the current menu.

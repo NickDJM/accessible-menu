@@ -394,7 +394,7 @@ var AccessibleMenu = function () {
         var _this3 = this;
 
         this.menu.element.addEventListener("keydown", function (event) {
-          var key = event.key;
+          var key = keyPress(event);
 
           if (key === "Escape") {
             // The Escape key should close the current menu.
@@ -920,12 +920,15 @@ var AccessibleMenu = function () {
 
         var index = this.focussedChild + 1;
         var found = false;
+        console.log("Looking for \"".concat(match, "\"..."));
 
         while (!found && index < this.menuItems.length) {
           // Ensure the text in the item is lowercase just to be safe.
-          var text = this.menuItems[index].element.innerText.toLowerCase(); // Focus the child if the text matches, otherwise move on.
+          var text = this.menuItems[index].element.innerText.toLowerCase();
+          console.log("Searching \"".concat(text, "\" for \"").concat(match, "\"...")); // Focus the child if the text matches, otherwise move on.
 
           if (text.startsWith(match)) {
+            console.log("Found \"".concat(match, "\"!"));
             found = true;
             this.focussedChild = index;
             this.focusCurrentChild();

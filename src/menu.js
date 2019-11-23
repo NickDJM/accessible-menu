@@ -511,12 +511,18 @@ class Menu {
     let index = this.focussedChild + 1;
     let found = false;
 
+    console.log(`Looking for "${match}"...`);
+
     while (!found && index < this.menuItems.length) {
       // Ensure the text in the item is lowercase just to be safe.
       const text = this.menuItems[index].element.innerText.toLowerCase();
 
+      console.log(`Searching "${text}" for "${match}"...`);
+
       // Focus the child if the text matches, otherwise move on.
       if (text.startsWith(match)) {
+        console.log(`Found "${match}"!`);
+
         found = true;
         this.focussedChild = index;
         this.focusCurrentChild();
