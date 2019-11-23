@@ -9,7 +9,7 @@ A JavaScript library to help you generate WAI-ARIA accessible menus in the DOM.
 
 | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt="IE / Edge" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br>IE / Edge | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br>Firefox | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br>Chrome | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png" alt="Safari" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br>Safari | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari-ios/safari-ios_48x48.png" alt="iOS Safari" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br>iOS Safari | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/opera/opera_48x48.png" alt="Opera" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br>Opera |
 | --------- | --------- | --------- | --------- | --------- | --------- |
-| IE11, Edge| last 2 versions| last 2 versions| last 2 versions| last 2 versions| last 2 versions
+| IE11, Edge [*](#internet-explorer-and-edge-support) | last 2 versions| last 2 versions| last 2 versions| last 2 versions| last 2 versions
 
 ## Installation
 
@@ -83,6 +83,12 @@ menu.initialize();
 ```
 
 Want more detailed usage information? It's on the way! Check back for a later release which will include much more documentation.
+
+## Internet Explorer and Edge Support
+
+For both IE and Edge support, you will either need to use the CDN option, or run your code through [Babel](https://babeljs.io/).
+
+For IE, you will also need to ensure you load [Babel Polyfill](https://babeljs.io/docs/en/babel-polyfill) before loading accessible-menu.
 
 ## Versioning
 
