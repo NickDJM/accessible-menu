@@ -108,6 +108,52 @@ var AccessibleMenu = function () {
 
     return MenuItem;
   }();
+  /**
+   * Retrieves the pressed key from an event.
+   *
+   * @param   {KeyboardEvent} event - The keyboard event.
+   *
+   * @returns {string} - The name of the key.
+   */
+
+
+  function keyPress(event) {
+    if (!(event instanceof KeyboardEvent)) {
+      throw new TypeError("event must be a keyboard event.");
+    } // Use event.key or event.keyCode to support older browsers.
+
+
+    var key = event.key || event.keyCode;
+    var keys = {
+      Enter: key === "Enter" || key === 13,
+      Space: key === " " || key === 32,
+      Escape: key === "Escape" || key === "Esc" || key === 27,
+      ArrowUp: key === "ArrowUp" || key === 38,
+      ArrowRight: key === "ArrowRight" || key === 39,
+      ArrowDown: key === "ArrowDown" || key === 40,
+      ArrowLeft: key === "ArrowLeft" || key === 37,
+      Home: key === "Home" || key === 36,
+      End: key === "End" || key === 35,
+      Character: key.match(/^[a-zA-Z]{1}$/),
+      Tab: key === "Tab" || key === 9
+    };
+    return Object.keys(keys).find(function (key) {
+      return keys[key] === true;
+    });
+  }
+  /**
+   * Stops an event from taking action.
+   *
+   * @param {Event} event - The event.
+   */
+
+
+  function preventEvent(event) {
+    event.preventDefault();
+    event.stopPropagation(); // IE support.
+
+    event.cancelBubble = true;
+  }
 
   var validate$1 = {
     menuToggleElement: function menuToggleElement(value) {
@@ -328,35 +374,25 @@ var AccessibleMenu = function () {
       value: function handleKeydown() {
         var _this3 = this;
 
-        /**
-         * Short cut to preventing default event actions.
-         *
-         * @param {object} event - The event.
-         */
-        function preventDefault(event) {
-          event.preventDefault();
-          event.stopPropagation();
-        }
-
         this.menu.element.addEventListener("keydown", function (event) {
           var key = event.key;
 
           if (key === "Escape") {
             // The Escape key should close the current menu.
-            preventDefault(event);
+            preventEvent(event);
 
             _this3.close();
           } else if (_this3.parentMenu && _this3.parentMenu.isTopLevel) {
             if (key === "ArrowRight") {
               // The Right Arrow key should focus the next menu item in the parent menu.
-              preventDefault(event);
+              preventEvent(event);
 
               _this3.close();
 
               _this3.parentMenu.focusNextChild();
             } else if (key === "ArrowLeft") {
               // The Left Arrow key should focus the next menu item in the parent menu.
-              preventDefault(event);
+              preventEvent(event);
 
               _this3.close();
 
@@ -365,19 +401,19 @@ var AccessibleMenu = function () {
           }
         });
         this.menuItemElement.addEventListener("keydown", function (event) {
-          var key = event.key;
+          var key = keyPress(event);
 
-          if (_this3.menu.currentFocus === "none" && _this3.parentMenu.isTopLevel) {
+          if (_this3.menu.currentFocus === "none" && _this3.parentMenu && _this3.parentMenu.isTopLevel) {
             if (key === "ArrowUp") {
               // The Up Arrow key should open the submenu and select the last child.
-              preventDefault(event);
+              preventEvent(event);
 
               _this3.open();
 
               _this3.menu.focusLastChild();
             } else if (key === "ArrowDown") {
               // The Down Arrow key should open the submenu and select the first child.
-              preventDefault(event);
+              preventEvent(event);
 
               _this3.open();
             }
@@ -680,28 +716,18 @@ var AccessibleMenu = function () {
       value: function handleKeydown() {
         var _this5 = this;
 
-        /**
-         * Short cut to preventing default event actions.
-         *
-         * @param {object} event - The event.
-         */
-        function preventDefault(event) {
-          event.preventDefault();
-          event.stopPropagation();
-        }
-
         this.element.addEventListener("keydown", function (event) {
-          var key = event.key,
-              code = event.code,
-              altKey = event.altKey,
+          // Key uses event.key or event.keyCode to support older browsers.
+          var key = keyPress(event);
+          var altKey = event.altKey,
               crtlKey = event.crtlKey,
               metaKey = event.metaKey;
           var modifier = altKey || crtlKey || metaKey;
 
           if (_this5.currentFocus === "none") {
-            if (key === "Enter" || key === " " && code === "Space") {
+            if (key === "Enter" || key === "Space") {
               // The Enter & Space keys should enter the menu.
-              preventDefault(event);
+              preventEvent(event);
               _this5.currentFocus = "self";
 
               _this5.focusFirstChild();
@@ -709,44 +735,44 @@ var AccessibleMenu = function () {
           } else if (_this5.currentFocus === "self") {
             if (key === "Escape") {
               // The Escape key should exit the menu.
-              preventDefault(event);
+              preventEvent(event);
 
               _this5.focus();
 
               _this5.currentFocus = "none";
             } else if (!_this5.isTopLevel && key === "ArrowUp") {
               // The Up Arrow key should focus the previous menu item in submenus.
-              preventDefault(event);
+              preventEvent(event);
 
               _this5.focusPreviousChild();
             } else if (_this5.isTopLevel && key === "ArrowRight") {
               // The Right Arrow key should focus the next menu item.
-              preventDefault(event);
+              preventEvent(event);
 
               _this5.focusNextChild();
             } else if (!_this5.isTopLevel && key === "ArrowDown") {
               // The Down Arrow key should focus the next item in submenus.
-              preventDefault(event);
+              preventEvent(event);
 
               _this5.focusNextChild();
             } else if (_this5.isTopLevel && key === "ArrowLeft") {
               // The Left Arrow key should focus the previous menu item.
-              preventDefault(event);
+              preventEvent(event);
 
               _this5.focusPreviousChild();
             } else if (key === "Home") {
               // The Home key should focus the first menu item.
-              preventDefault(event);
+              preventEvent(event);
 
               _this5.focusFirstChild();
             } else if (key === "End") {
               // The End key should focus the last menu item.
-              preventDefault(event);
+              preventEvent(event);
 
               _this5.focusLastChild();
             } else if (key.match(/^[a-zA-Z]{1}$/) && !modifier) {
               // The A-Z keys should focus the next menu item starting with that letter.
-              preventDefault(event);
+              preventEvent(event);
 
               _this5.focusNextChildWithCharacter(key);
             }
