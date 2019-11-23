@@ -420,16 +420,25 @@ var AccessibleMenu = function () {
         this.menuItemElement.addEventListener("keydown", function (event) {
           var key = keyPress(event);
 
-          if (_this3.menu.currentFocus === "none" && _this3.parentMenu && _this3.parentMenu.isTopLevel) {
-            if (key === "ArrowUp") {
-              // The Up Arrow key should open the submenu and select the last child.
-              preventEvent(event);
+          if (_this3.menu.currentFocus === "none") {
+            if (_this3.parentMenu && _this3.parentMenu.isTopLevel) {
+              if (key === "ArrowUp") {
+                // The Up Arrow key should open the submenu and select the last child.
+                preventEvent(event);
 
-              _this3.open();
+                _this3.open();
 
-              _this3.menu.focusLastChild();
-            } else if (key === "ArrowDown") {
-              // The Down Arrow key should open the submenu and select the first child.
+                _this3.menu.focusLastChild();
+              } else if (key === "ArrowDown") {
+                // The Down Arrow key should open the submenu and select the first child.
+                preventEvent(event);
+
+                _this3.open();
+              }
+            }
+
+            if (key === "Enter" || key === "Space") {
+              // The Enter & Space keys should open the menu.
               preventEvent(event);
 
               _this3.open();
