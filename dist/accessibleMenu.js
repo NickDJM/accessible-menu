@@ -741,9 +741,6 @@ var AccessibleMenu = function () {
               crtlKey = event.crtlKey,
               metaKey = event.metaKey;
           var modifier = altKey || crtlKey || metaKey;
-          console.log(event);
-          console.log(key);
-          console.log(modifier);
 
           if (_this5.currentFocus === "none") {
             if (key === "Enter" || key === "Space") {
@@ -792,8 +789,7 @@ var AccessibleMenu = function () {
 
               _this5.focusLastChild();
             } else if (key === "Character" && !modifier) {
-              console.log("Character found!"); // The A-Z keys should focus the next menu item starting with that letter.
-
+              // The A-Z keys should focus the next menu item starting with that letter.
               preventEvent(event);
 
               _this5.focusNextChildWithCharacter(event.key);
@@ -922,15 +918,12 @@ var AccessibleMenu = function () {
 
         var index = this.focussedChild + 1;
         var found = false;
-        console.log("Looking for \"".concat(match, "\"..."));
 
         while (!found && index < this.menuItems.length) {
           // Ensure the text in the item is lowercase just to be safe.
-          var text = this.menuItems[index].element.innerText.toLowerCase();
-          console.log("Searching \"".concat(text, "\" for \"").concat(match, "\"...")); // Focus the child if the text matches, otherwise move on.
+          var text = this.menuItems[index].element.innerText.toLowerCase(); // Focus the child if the text matches, otherwise move on.
 
           if (text.startsWith(match)) {
-            console.log("Found \"".concat(match, "\"!"));
             found = true;
             this.focussedChild = index;
             this.focusCurrentChild();
