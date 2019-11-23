@@ -500,21 +500,20 @@ var AccessibleMenu = function () {
         throw new TypeError("menuItemSelector must be a CSS selector string.");
       }
     },
-    submenuItemSelector: function submenuItemSelector(value) {
-      // Ensure value is a string.
-      if (typeof value !== "string") {
+    hasSubmenus: function hasSubmenus(container, toggle, menu) {
+      if (container === null && toggle === null && menu === null) return; // Ensure container is a string.
+
+      if (typeof container !== "string") {
         throw new TypeError("submenuItemSelector must be a CSS selector string.");
-      }
-    },
-    submenuToggleSelector: function submenuToggleSelector(value) {
-      // Ensure value is a string.
-      if (typeof value !== "string") {
+      } // Ensure toggle is a string.
+
+
+      if (typeof container !== "string") {
         throw new TypeError("submenuToggleSelector must be a CSS selector string.");
-      }
-    },
-    submenuSelector: function submenuSelector(value) {
-      // Ensure value is a string.
-      if (typeof value !== "string") {
+      } // Ensure menu is a string.
+
+
+      if (typeof menu !== "string") {
         throw new TypeError("submenuSelector must be a CSS selector string.");
       }
     },
@@ -571,9 +570,12 @@ var AccessibleMenu = function () {
     function Menu(_ref3) {
       var menuElement = _ref3.menuElement,
           menuItemSelector = _ref3.menuItemSelector,
-          submenuItemSelector = _ref3.submenuItemSelector,
-          submenuToggleSelector = _ref3.submenuToggleSelector,
-          submenuSelector = _ref3.submenuSelector,
+          _ref3$submenuItemSele = _ref3.submenuItemSelector,
+          submenuItemSelector = _ref3$submenuItemSele === void 0 ? null : _ref3$submenuItemSele,
+          _ref3$submenuToggleSe = _ref3.submenuToggleSelector,
+          submenuToggleSelector = _ref3$submenuToggleSe === void 0 ? null : _ref3$submenuToggleSe,
+          _ref3$submenuSelector = _ref3.submenuSelector,
+          submenuSelector = _ref3$submenuSelector === void 0 ? null : _ref3$submenuSelector,
           _ref3$submenuOpenClas = _ref3.submenuOpenClass,
           submenuOpenClass = _ref3$submenuOpenClas === void 0 ? "show" : _ref3$submenuOpenClas,
           _ref3$isTopLevel = _ref3.isTopLevel,
@@ -588,9 +590,7 @@ var AccessibleMenu = function () {
       // Run validations.
       validate$2.menuElement(menuElement);
       validate$2.menuItemSelector(menuItemSelector);
-      validate$2.submenuItemSelector(submenuItemSelector);
-      validate$2.submenuToggleSelector(submenuToggleSelector);
-      validate$2.submenuSelector(submenuSelector);
+      validate$2.hasSubmenus(submenuItemSelector, submenuToggleSelector, submenuSelector);
       validate$2.submenuOpenClass(submenuOpenClass);
       validate$2.isTopLevel(isTopLevel);
       validate$2.isDropdown(controllerElement, containerElement);
