@@ -1,3 +1,16 @@
+const validate = {
+  event: value => {
+    if (!(value instanceof Event)) {
+      throw new TypeError("event must be an event.");
+    }
+  },
+  keyboardEvent: value => {
+    if (!(value instanceof KeyboardEvent)) {
+      throw new TypeError("event must be a keyboard event.");
+    }
+  }
+};
+
 /**
  * Retrieves the pressed key from an event.
  *
@@ -6,9 +19,8 @@
  * @returns {string} - The name of the key.
  */
 export function keyPress(event) {
-  if (!(event instanceof KeyboardEvent)) {
-    throw new TypeError("event must be a keyboard event.");
-  }
+  // Run validation.
+  validate.keyboardEvent(event);
 
   // Use event.key or event.keyCode to support older browsers.
   const key = event.key || event.keyCode;
@@ -35,6 +47,9 @@ export function keyPress(event) {
  * @param {Event} event - The event.
  */
 export function preventEvent(event) {
+  // Run validation.
+  validate.event(event);
+
   event.preventDefault();
   event.stopPropagation();
   // IE support.

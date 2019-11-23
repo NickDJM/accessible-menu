@@ -108,6 +108,19 @@ var AccessibleMenu = function () {
 
     return MenuItem;
   }();
+
+  var validate$1 = {
+    event: function event(value) {
+      if (!(value instanceof Event)) {
+        throw new TypeError("event must be an event.");
+      }
+    },
+    keyboardEvent: function keyboardEvent(value) {
+      if (!(value instanceof KeyboardEvent)) {
+        throw new TypeError("event must be a keyboard event.");
+      }
+    }
+  };
   /**
    * Retrieves the pressed key from an event.
    *
@@ -116,12 +129,9 @@ var AccessibleMenu = function () {
    * @returns {string} - The name of the key.
    */
 
-
   function keyPress(event) {
-    if (!(event instanceof KeyboardEvent)) {
-      throw new TypeError("event must be a keyboard event.");
-    } // Use event.key or event.keyCode to support older browsers.
-
+    // Run validation.
+    validate$1.keyboardEvent(event); // Use event.key or event.keyCode to support older browsers.
 
     var key = event.key || event.keyCode;
     var keys = {
@@ -149,13 +159,15 @@ var AccessibleMenu = function () {
 
 
   function preventEvent(event) {
+    // Run validation.
+    validate$1.event(event);
     event.preventDefault();
     event.stopPropagation(); // IE support.
 
     event.cancelBubble = true;
   }
 
-  var validate$1 = {
+  var validate$2 = {
     menuToggleElement: function menuToggleElement(value) {
       // Ensure value is an HTML element.
       if (!(value instanceof HTMLElement)) {
@@ -222,11 +234,11 @@ var AccessibleMenu = function () {
       _classCallCheck(this, MenuToggle);
 
       // Run validations.
-      validate$1.menuToggleElement(menuToggleElement);
-      validate$1.parentElement(parentElement);
-      validate$1.menu(menu);
-      validate$1.openClass(openClass);
-      validate$1.parentMenu(parentMenu);
+      validate$2.menuToggleElement(menuToggleElement);
+      validate$2.parentElement(parentElement);
+      validate$2.menu(menu);
+      validate$2.openClass(openClass);
+      validate$2.parentMenu(parentMenu);
       this.domElements = {
         toggle: menuToggleElement,
         menuItem: parentElement
@@ -486,7 +498,7 @@ var AccessibleMenu = function () {
     return MenuToggle;
   }();
 
-  var validate$2 = {
+  var validate$3 = {
     menuElement: function menuElement(value) {
       // Ensure value is an HTML element.
       if (!(value instanceof HTMLElement)) {
@@ -587,12 +599,12 @@ var AccessibleMenu = function () {
       _classCallCheck(this, Menu);
 
       // Run validations.
-      validate$2.menuElement(menuElement);
-      validate$2.menuItemSelector(menuItemSelector);
-      validate$2.hasSubmenus(submenuItemSelector, submenuToggleSelector, submenuSelector);
-      validate$2.submenuOpenClass(submenuOpenClass);
-      validate$2.isTopLevel(isTopLevel);
-      validate$2.isDropdown(controllerElement, containerElement);
+      validate$3.menuElement(menuElement);
+      validate$3.menuItemSelector(menuItemSelector);
+      validate$3.hasSubmenus(submenuItemSelector, submenuToggleSelector, submenuSelector);
+      validate$3.submenuOpenClass(submenuOpenClass);
+      validate$3.isTopLevel(isTopLevel);
+      validate$3.isDropdown(controllerElement, containerElement);
       this.domElements = {
         menu: menuElement,
         controller: controllerElement,
