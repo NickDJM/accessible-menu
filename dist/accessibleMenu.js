@@ -131,7 +131,8 @@ var AccessibleMenu = function () {
    */
 
   function keyPress(event) {
-    // Run validation.
+    console.log(event); // Run validation.
+
     validate$1.keyboardEvent(event); // Use event.key or event.keyCode to support older browsers.
 
     var key = event.key || event.keyCode; // Return an empty string if the key can't be found for some reaosn.

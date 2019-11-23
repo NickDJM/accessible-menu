@@ -20,6 +20,8 @@ const validate = {
  * @returns {string} - The name of the key.
  */
 export function keyPress(event) {
+  console.log(event);
+
   // Run validation.
   validate.keyboardEvent(event);
 
