@@ -16,13 +16,18 @@ const validate = {
   }
 };
 
+/**
+ * A basic navigation link contained inside of a Menu.
+ *
+ * Must be initialized to be fully functional.
+ */
 class MenuItem {
   /**
-   * Construct the menu item.
+   * {@inheritdoc}
    *
-   * @param {object} param0                 - The menu item object.
-   * @param {object} param0.menuItemElement - The menu item in the DOM.
-   * @param {Menu}   param0.parentMenu      - The parent menu.
+   * @param {object}      param0                 - The menu item object.
+   * @param {HTMLElement} param0.menuItemElement - The menu item in the DOM.
+   * @param {Menu}        param0.parentMenu      - The parent menu.
    */
   constructor({ menuItemElement, parentMenu }) {
     // Run validations.
@@ -50,7 +55,7 @@ class MenuItem {
   /**
    * The menu item element in the DOM.
    *
-   * @returns {object} - The menu item element.
+   * @returns {HTMLElement} - The menu item element.
    */
   get element() {
     return this.domElements.menuItem;
@@ -59,7 +64,7 @@ class MenuItem {
   /**
    * The link element inside the menu item.
    *
-   * @returns {object} - The link.
+   * @returns {HTMLElement} - The link.
    */
   get link() {
     return this.domElements.link;

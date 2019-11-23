@@ -1,5 +1,4 @@
 import Menu from "./menu";
-import MenuItem from "./menuItem";
 import { keyPress, preventEvent } from "./eventHandlers";
 
 // Custom validation for params.
@@ -45,16 +44,21 @@ const validate = {
   }
 };
 
+/**
+ * A link or button that controls the visibility of a menu.
+ *
+ * Must be initialized to be fully functional.
+ */
 class MenuToggle {
   /**
-   * Construct the menu toggle.
+   * {@inheritdoc}
    *
-   * @param {object}      param0                   - The menu toggle object.
-   * @param {HTMLElement} param0.menuToggleElement - The toggle element in the DOM.
-   * @param {HTMLElement} param0.parentElement     - The element containing the menu.
-   * @param {Menu}        param0.menu              - The menu controlled by the this toggle.
-   * @param {string}      param0.openClass         - The class to use when a submenu is open.
-   * @param {Menu}        param0.parentMenu        - The menu containing the toggle.
+   * @param {object}           param0                   - The menu toggle object.
+   * @param {HTMLElement}      param0.menuToggleElement - The toggle element in the DOM.
+   * @param {HTMLElement}      param0.parentElement     - The element containing the menu.
+   * @param {Menu}             param0.menu              - The menu controlled by the this toggle.
+   * @param {string}           param0.openClass         - The class to use when a submenu is open.
+   * @param {Menu|null}        param0.parentMenu        - The menu containing the toggle.
    */
   constructor({
     menuToggleElement,
@@ -72,7 +76,7 @@ class MenuToggle {
 
     this.domElements = {
       toggle: menuToggleElement,
-      menuItem: parentElement
+      parent: parentElement
     };
     this.elements = {
       menu: menu,
@@ -119,19 +123,19 @@ class MenuToggle {
   /**
    * The toggle element in the DOM.
    *
-   * @returns {object} - The toggle element.
+   * @returns {HTMLElement} - The toggle element.
    */
   get element() {
     return this.domElements.toggle;
   }
 
   /**
-   * The toggle's parent MenuItem.
+   * The toggle's parent DOM element.
    *
-   * @returns {MenuItem} - The parent menu item.
+   * @returns {HTMLElement} - The parent element.
    */
-  get menuItemElement() {
-    return this.domElements.menuItem;
+  get parentElement() {
+    return this.domElements.parent;
   }
 
   /**
@@ -164,14 +168,14 @@ class MenuToggle {
   /**
    * Set the open state on the menu.
    *
-   * @param {boolean} state - The open state.
+   * @param {boolean} value - The open state.
    */
-  set isOpen(state) {
-    if (typeof state !== "boolean") {
+  set isOpen(value) {
+    if (typeof value !== "boolean") {
       throw new TypeError("Open state must be true or false.");
     }
 
-    this.show = state;
+    this.show = value;
   }
 
   /**
@@ -184,7 +188,7 @@ class MenuToggle {
 
       // Assign new WAI-ARIA/class values.
       this.element.setAttribute("aria-expanded", "true");
-      this.menuItemElement.classList.add(this.openClass);
+      this.parentElement.classList.add(this.openClass);
       this.menu.element.classList.add(this.openClass);
 
       // Close all sibling menus.
@@ -209,7 +213,7 @@ class MenuToggle {
 
       // Assign new WAI-ARIA/class values.
       this.element.setAttribute("aria-expanded", "false");
-      this.menuItemElement.classList.remove(this.openClass);
+      this.parentElement.classList.remove(this.openClass);
       this.menu.element.classList.remove(this.openClass);
 
       // Close all child menus.
@@ -285,7 +289,7 @@ class MenuToggle {
         }
       }
     });
-    this.menuItemElement.addEventListener("keydown", event => {
+    this.parentElement.addEventListener("keydown", event => {
       const key = keyPress(event);
 
       if (this.menu.currentFocus === "none") {
