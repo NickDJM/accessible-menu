@@ -400,7 +400,7 @@ class Menu {
           // The End key should focus the last menu item.
           preventEvent(event);
           this.focusLastChild();
-        } else if (key.match(/^[a-zA-Z]{1}$/) && !modifier) {
+        } else if (key === "Character" && !modifier) {
           // The A-Z keys should focus the next menu item starting with that letter.
           preventEvent(event);
           this.focusNextChildWithCharacter(event.key);

@@ -131,31 +131,34 @@ var AccessibleMenu = function () {
    */
 
   function keyPress(event) {
-    console.log(event); // Run validation.
+    // Run validation.
+    validate$1.keyboardEvent(event);
+    console.log(event);
 
-    validate$1.keyboardEvent(event); // Use event.key or event.keyCode to support older browsers.
+    try {
+      // Use event.key or event.keyCode to support older browsers.
+      var key = event.key || event.keyCode;
+      var keys = {
+        Enter: key === "Enter" || key === 13,
+        Space: key === " " || key === "Spacebar" || key === 32,
+        Escape: key === "Escape" || key === "Esc" || key === 27,
+        ArrowUp: key === "ArrowUp" || key === "Up" || key === 38,
+        ArrowRight: key === "ArrowRight" || key === "Right" || key === 39,
+        ArrowDown: key === "ArrowDown" || key === "Down" || key === 40,
+        ArrowLeft: key === "ArrowLeft" || key === "Left" || key === 37,
+        Home: key === "Home" || key === 36,
+        End: key === "End" || key === 35,
+        Character: key.match(/^[a-zA-Z]{1}$/),
+        Tab: key === "Tab" || key === 9
+      };
+      return Object.keys(keys).find(function (key) {
+        return keys[key] === true;
+      });
+    } catch (error) {
+      console.warn(error); // Return an empty string if something goes wrong.
 
-    var key = event.key || event.keyCode;
-    console.log(key); // Return an empty string if the key can't be found for some reaosn.
-
-    if (typeof key === "undefined" || !key) return "";
-    var keys = {
-      Enter: key === "Enter" || key === 13,
-      Space: key === " " || key === 32,
-      Escape: key === "Escape" || key === "Esc" || key === 27,
-      ArrowUp: key === "ArrowUp" || key === "Up" || key === 38,
-      ArrowRight: key === "ArrowRight" || key === "Right" || key === 39,
-      ArrowDown: key === "ArrowDown" || key === "Down" || key === 40,
-      ArrowLeft: key === "ArrowLeft" || key === "Left" || key === 37,
-      Home: key === "Home" || key === 36,
-      End: key === "End" || key === 35,
-      Character: !!key.match(/^[a-zA-Z]{1}$/),
-      Tab: key === "Tab" || key === 9
-    };
-    console.log(keys);
-    return Object.keys(keys).find(function (key) {
-      return keys[key] === true;
-    });
+      return "";
+    }
   }
   /**
    * Stops an event from taking action.
@@ -787,7 +790,7 @@ var AccessibleMenu = function () {
               preventEvent(event);
 
               _this5.focusLastChild();
-            } else if (key.match(/^[a-zA-Z]{1}$/) && !modifier) {
+            } else if (key === "Character" && !modifier) {
               // The A-Z keys should focus the next menu item starting with that letter.
               preventEvent(event);
 
