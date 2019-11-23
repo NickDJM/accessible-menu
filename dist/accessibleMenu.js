@@ -265,8 +265,7 @@ var AccessibleMenu = function () {
         this.element.setAttribute("aria-controls", this.menu.element.id); // Handle toggling the menu on click.
 
         this.element.addEventListener("click", function (event) {
-          event.preventDefault();
-          event.stopPropagation();
+          preventEvent(event);
 
           _this.toggle();
         }); // Add new keydown events.

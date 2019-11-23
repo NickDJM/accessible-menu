@@ -112,8 +112,7 @@ class MenuToggle {
 
     // Handle toggling the menu on click.
     this.element.addEventListener("click", event => {
-      event.preventDefault();
-      event.stopPropagation();
+      preventEvent(event);
 
       this.toggle();
     });
