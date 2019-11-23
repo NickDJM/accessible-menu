@@ -28,6 +28,8 @@ export function keyPress(event) {
   // Use event.key or event.keyCode to support older browsers.
   const key = event.key || event.keyCode;
 
+  console.log(key);
+
   // Return an empty string if the key can't be found for some reaosn.
   if (typeof key === "undefined" || !key) return "";
 
@@ -44,6 +46,8 @@ export function keyPress(event) {
     Character: key.match(/^[a-zA-Z]{1}$/),
     Tab: key === "Tab" || key === 9
   };
+
+  console.log(keys);
 
   return Object.keys(keys).find(key => keys[key] === true);
 }

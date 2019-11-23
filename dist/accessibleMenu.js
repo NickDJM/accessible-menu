@@ -135,7 +135,8 @@ var AccessibleMenu = function () {
 
     validate$1.keyboardEvent(event); // Use event.key or event.keyCode to support older browsers.
 
-    var key = event.key || event.keyCode; // Return an empty string if the key can't be found for some reaosn.
+    var key = event.key || event.keyCode;
+    console.log(key); // Return an empty string if the key can't be found for some reaosn.
 
     if (typeof key === "undefined" || !key) return "";
     var keys = {
@@ -151,6 +152,7 @@ var AccessibleMenu = function () {
       Character: key.match(/^[a-zA-Z]{1}$/),
       Tab: key === "Tab" || key === 9
     };
+    console.log(keys);
     return Object.keys(keys).find(function (key) {
       return keys[key] === true;
     });
