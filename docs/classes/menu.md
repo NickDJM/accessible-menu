@@ -31,6 +31,7 @@ All Parameters _must_ be contained in a single object.
 | submenuItemElements | The submenu item DOM elements contained in the menu. | HTMLElement[] |
 | menuItems | The menu items contained in the menu. | MenuItem |
 | menuToggles | The menu toggles contained in the menu. | MenuToggle |
+| controller | The menu's controller toggle. |
 | selector | The DOM Selectors for the menu. | object |
 | currentFocus | The focus state of the menu. | string |
 | openClass | The class used for open submenus. | string |

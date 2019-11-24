@@ -80,7 +80,16 @@ var AccessibleMenu = function () {
        * Focuses the menu item's link.
        */
       value: function focus() {
-        this.element.querySelector("a").focus();
+        this.linkElement.focus();
+      }
+      /**
+       * Blurs the menu item's link.
+       */
+
+    }, {
+      key: "blur",
+      value: function blur() {
+        this.linkElement.blur();
       }
     }, {
       key: "element",
@@ -94,7 +103,7 @@ var AccessibleMenu = function () {
        */
 
     }, {
-      key: "link",
+      key: "linkElement",
       get: function get() {
         return this.domElements.link;
       }
@@ -669,7 +678,8 @@ var AccessibleMenu = function () {
       };
       this.elements = {
         menuItems: [],
-        menuToggles: []
+        menuToggles: [],
+        controller: null
       };
       this.focussedChild = -1;
       this.focusState = "none";
@@ -701,6 +711,7 @@ var AccessibleMenu = function () {
             openClass: this.openClass
           });
           toggle.initialize();
+          this.elements.controller = toggle;
         }
       }
       /**
@@ -856,6 +867,10 @@ var AccessibleMenu = function () {
             _this6.blur();
 
             _this6.closeChildren();
+
+            if (_this6.controller) {
+              _this6.controller.close();
+            }
           }
         });
       }
@@ -1073,6 +1088,17 @@ var AccessibleMenu = function () {
       key: "menuToggles",
       get: function get() {
         return this.elements.menuToggles;
+      }
+      /**
+       * The menu's controller toggle.
+       *
+       * @returns {MenuToggle} - The toggle.
+       */
+
+    }, {
+      key: "controller",
+      get: function get() {
+        return this.elements.controller;
       }
       /**
        * The DOM Selectors for the menu.

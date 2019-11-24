@@ -25,3 +25,4 @@ All Parameters _must_ be contained in a single object.
 | Method | Description |
 | --- | --- |
 | focus | Focuses the menu item's link. |
+| blur | Blurs the menu item's link. |
