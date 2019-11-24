@@ -2,6 +2,37 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.0.0](https://github.com/NickDJM/accessible-menu/compare/v1.0.0-beta.4...v1.0.0) (2019-11-24)
+
+
+### Bug Fixes
+
+* **menu:** add proper event handling for older browsers ([ef62b61](https://github.com/NickDJM/accessible-menu/commit/ef62b6116ca28afaf6747ad7f0a5368aacefc47a)), closes [#16](https://github.com/NickDJM/accessible-menu/issues/16)
+* **menu:** close top-level dropdowns on click away ([5c9ae7c](https://github.com/NickDJM/accessible-menu/commit/5c9ae7c3c3f9336950af19b8a851d66bc2e55c42)), closes [#42](https://github.com/NickDJM/accessible-menu/issues/42)
+* **menu:** fix focus on exit ([576b540](https://github.com/NickDJM/accessible-menu/commit/576b540554675ec1705505d0e26bd44210bf4232))
+* **menu:** focus menu controller on exit ([a89539c](https://github.com/NickDJM/accessible-menu/commit/a89539c24c7c8f5f8778a236aeb16183d28f03ea))
+* **toggle:** handle non-existant parent menu properly ([82e0156](https://github.com/NickDJM/accessible-menu/commit/82e0156f0c23dd49554c2e0d47920f7fd49d953e))
+
+
+### Build System
+
+* **npm:** update dependencies ([2b18bbb](https://github.com/NickDJM/accessible-menu/commit/2b18bbbd3a4f8fb008e993740e4b194bdb307fb8))
+
+
+### Documentation
+
+* **contribution:** keep all contributing docs in contributing.md ([9c252c0](https://github.com/NickDJM/accessible-menu/commit/9c252c0e34675a03bb48c69f51f8fce5274ac90a))
+* **general:** add class and usage documentation ([b007134](https://github.com/NickDJM/accessible-menu/commit/b0071344f9f98ad2fd7737a0c655ab368994590b)), closes [#38](https://github.com/NickDJM/accessible-menu/issues/38)
+* **readme:** add basic instructions for IE/Edge support ([fa0e3ee](https://github.com/NickDJM/accessible-menu/commit/fa0e3ee69a4015fe13ae236b365b2ce127d67e39)), closes [#37](https://github.com/NickDJM/accessible-menu/issues/37)
+* **readme:** add browser support icons ([081ce1b](https://github.com/NickDJM/accessible-menu/commit/081ce1b71620a71f4f3457096d588fdf94bb6bae))
+
+
+### Code Refactoring
+
+* **menu:** allow submenu selectors to be null ([db1c4d8](https://github.com/NickDJM/accessible-menu/commit/db1c4d80ae717768740823eeee11cc7591a10750))
+* **menu:** overhaul keydown handling ([ccf3ddc](https://github.com/NickDJM/accessible-menu/commit/ccf3ddc947494761c4bfd4dbd31f974bfac54000)), closes [#43](https://github.com/NickDJM/accessible-menu/issues/43) [#44](https://github.com/NickDJM/accessible-menu/issues/44)
+* **toggle:** move click event into handleClick ([337a275](https://github.com/NickDJM/accessible-menu/commit/337a275aba2d0db156da00b7094a8f699c568d1f))
+
 ## [1.0.0-beta.4](https://github.com/NickDJM/accessible-menu/compare/v1.0.0-beta.3...v1.0.0-beta.4) (2019-11-22)
 
 
