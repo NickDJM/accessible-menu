@@ -36,16 +36,16 @@ const validate = {
       throw new TypeError("submenuSelector must be a CSS selector string.");
     }
   },
-  submenuOpenClass: value => {
+  openClass: value => {
     // Ensure value is a string.
     if (typeof value !== "string") {
-      throw TypeError("submenuOpenClass must be a string.");
+      throw TypeError("openClass must be a string.");
     }
 
     // Ensure value is a valid CSS class name.
     const invalidCharacters = value.replace(/[_a-zA-Z0-9-]/g, "");
     if (invalidCharacters.length > 0) {
-      throw Error("submenuOpenClass must be a valid CSS class.");
+      throw Error("openClass must be a valid CSS class.");
     }
   },
   isTopLevel: value => {
@@ -88,7 +88,7 @@ class Menu {
    * @param {string|null}       param0.submenuItemSelector   - The selector string for submenu items.
    * @param {string|null}       param0.submenuToggleSelector - The selector string for submenu toggle triggers.
    * @param {string}            param0.submenuSelector       - The selector string for the submenu itself.
-   * @param {string}            param0.submenuOpenClass      - The class to use when a submenu is open.
+   * @param {string}            param0.openClass             - The class to use when a submenu is open.
    * @param {boolean}           param0.isTopLevel            - Flags the menu as a top-level menu.
    * @param {HTMLElement|null}  param0.controllerElement     - The element controlling the menu in the DOM.
    * @param {HTMLElement|null}  param0.containerElement      - The element containing the menu in the DOM.
@@ -99,7 +99,7 @@ class Menu {
     submenuItemSelector = null,
     submenuToggleSelector = null,
     submenuSelector = null,
-    submenuOpenClass = "show",
+    openClass = "show",
     isTopLevel = true,
     controllerElement = null,
     containerElement = null
@@ -112,7 +112,7 @@ class Menu {
       submenuToggleSelector,
       submenuSelector
     );
-    validate.submenuOpenClass(submenuOpenClass);
+    validate.openClass(openClass);
     validate.isTopLevel(isTopLevel);
     validate.isDropdown(controllerElement, containerElement);
 
@@ -139,7 +139,7 @@ class Menu {
     };
     this.focussedChild = -1;
     this.focusState = "none";
-    this.openClass = submenuOpenClass;
+    this.openClass = openClass;
     this.root = isTopLevel;
   }
 

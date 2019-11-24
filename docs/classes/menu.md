@@ -15,7 +15,7 @@ All Parameters _must_ be contained in a single object.
 | submenuItemSelector | The selector string for submenu items. | string\|null | false | `null` |
 | submenuToggleSelector | The selector string for submenu toggle triggers. | string\|null | false | `null` |
 | submenuSelector | The selector string for the submenu itself. | string\|null | false | `null` |
-| submenuOpenClass | The class to use when a submenu is open. | string | false | `"show"` |
+| openClass | The class to use when a submenu is open. | string | false | `"show"` |
 | isTopLevel | Flags the menu as a top-level menu. | boolean | false | `true` |
 | controllerElement | The element controlling the menu in the DOM. | HTMLElement\|null | false | `null` |
 | containerElement | The element containing the menu in the DOM. | HTMLElement\|null | false | `null` |
