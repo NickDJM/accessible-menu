@@ -66,7 +66,7 @@ class MenuItem {
    *
    * @returns {HTMLElement} - The link.
    */
-  get link() {
+  get linkElement() {
     return this.domElements.link;
   }
 
@@ -83,7 +83,14 @@ class MenuItem {
    * Focuses the menu item's link.
    */
   focus() {
-    this.element.querySelector("a").focus();
+    this.linkElement.focus();
+  }
+
+  /**
+   * Blurs the menu item's link.
+   */
+  blur() {
+    this.linkElement.blur();
   }
 }
 

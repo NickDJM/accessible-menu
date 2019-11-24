@@ -135,7 +135,8 @@ class Menu {
     };
     this.elements = {
       menuItems: [],
-      menuToggles: []
+      menuToggles: [],
+      controller: null
     };
     this.focussedChild = -1;
     this.focusState = "none";
@@ -165,6 +166,8 @@ class Menu {
         openClass: this.openClass
       });
       toggle.initialize();
+
+      this.elements.controller = toggle;
     }
   }
 
@@ -229,6 +232,15 @@ class Menu {
    */
   get menuToggles() {
     return this.elements.menuToggles;
+  }
+
+  /**
+   * The menu's controller toggle.
+   *
+   * @returns {MenuToggle} - The toggle.
+   */
+  get controller() {
+    return this.elements.controller;
   }
 
   /**
@@ -436,6 +448,10 @@ class Menu {
       ) {
         this.blur();
         this.closeChildren();
+
+        if (this.controller) {
+          this.controller.close();
+        }
       }
     });
   }
