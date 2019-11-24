@@ -23,16 +23,21 @@ var AccessibleMenu = function () {
       }
     }
   };
+  /**
+   * A basic navigation link contained inside of a Menu.
+   *
+   * Must be initialized to be fully functional.
+   */
 
   var MenuItem =
   /*#__PURE__*/
   function () {
     /**
-     * Construct the menu item.
+     * {@inheritdoc}
      *
-     * @param {object} param0                 - The menu item object.
-     * @param {object} param0.menuItemElement - The menu item in the DOM.
-     * @param {Menu}   param0.parentMenu      - The parent menu.
+     * @param {object}      param0                 - The menu item object.
+     * @param {HTMLElement} param0.menuItemElement - The menu item in the DOM.
+     * @param {Menu}        param0.parentMenu      - The parent menu.
      */
     function MenuItem(_ref) {
       var menuItemElement = _ref.menuItemElement,
@@ -65,7 +70,7 @@ var AccessibleMenu = function () {
       /**
        * The menu item element in the DOM.
        *
-       * @returns {object} - The menu item element.
+       * @returns {HTMLElement} - The menu item element.
        */
 
     }, {
@@ -85,7 +90,7 @@ var AccessibleMenu = function () {
       /**
        * The link element inside the menu item.
        *
-       * @returns {object} - The link.
+       * @returns {HTMLElement} - The link.
        */
 
     }, {
@@ -214,19 +219,24 @@ var AccessibleMenu = function () {
       }
     }
   };
+  /**
+   * A link or button that controls the visibility of a menu.
+   *
+   * Must be initialized to be fully functional.
+   */
 
   var MenuToggle =
   /*#__PURE__*/
   function () {
     /**
-     * Construct the menu toggle.
+     * {@inheritdoc}
      *
-     * @param {object}      param0                   - The menu toggle object.
-     * @param {HTMLElement} param0.menuToggleElement - The toggle element in the DOM.
-     * @param {HTMLElement} param0.parentElement     - The element containing the menu.
-     * @param {Menu}        param0.menu              - The menu controlled by the this toggle.
-     * @param {string}      param0.openClass         - The class to use when a submenu is open.
-     * @param {Menu}        param0.parentMenu        - The menu containing the toggle.
+     * @param {object}           param0                   - The menu toggle object.
+     * @param {HTMLElement}      param0.menuToggleElement - The toggle element in the DOM.
+     * @param {HTMLElement}      param0.parentElement     - The element containing the menu.
+     * @param {Menu}             param0.menu              - The menu controlled by the this toggle.
+     * @param {string}           param0.openClass         - The class to use when a submenu is open.
+     * @param {Menu|null}        param0.parentMenu        - The menu containing the toggle.
      */
     function MenuToggle(_ref2) {
       var menuToggleElement = _ref2.menuToggleElement,
@@ -247,7 +257,7 @@ var AccessibleMenu = function () {
       validate$2.parentMenu(parentMenu);
       this.domElements = {
         toggle: menuToggleElement,
-        menuItem: parentElement
+        parent: parentElement
       };
       this.elements = {
         menu: menu,
@@ -286,7 +296,7 @@ var AccessibleMenu = function () {
       /**
        * The toggle element in the DOM.
        *
-       * @returns {object} - The toggle element.
+       * @returns {HTMLElement} - The toggle element.
        */
 
     }, {
@@ -301,7 +311,7 @@ var AccessibleMenu = function () {
           this.isOpen = true; // Assign new WAI-ARIA/class values.
 
           this.element.setAttribute("aria-expanded", "true");
-          this.menuItemElement.classList.add(this.openClass);
+          this.parentElement.classList.add(this.openClass);
           this.menu.element.classList.add(this.openClass); // Close all sibling menus.
 
           this.closeSiblings(); // Set proper focus states to parent & child.
@@ -324,7 +334,7 @@ var AccessibleMenu = function () {
           this.isOpen = false; // Assign new WAI-ARIA/class values.
 
           this.element.setAttribute("aria-expanded", "false");
-          this.menuItemElement.classList.remove(this.openClass);
+          this.parentElement.classList.remove(this.openClass);
           this.menu.element.classList.remove(this.openClass); // Close all child menus.
 
           this.closeChildren(); // Set proper focus states to parent & child.
@@ -415,7 +425,7 @@ var AccessibleMenu = function () {
             }
           }
         });
-        this.menuItemElement.addEventListener("keydown", function (event) {
+        this.parentElement.addEventListener("keydown", function (event) {
           var key = keyPress(event);
 
           if (_this2.menu.currentFocus === "none") {
@@ -466,15 +476,15 @@ var AccessibleMenu = function () {
         return this.domElements.toggle;
       }
       /**
-       * The toggle's parent MenuItem.
+       * The toggle's parent DOM element.
        *
-       * @returns {MenuItem} - The parent menu item.
+       * @returns {HTMLElement} - The parent element.
        */
 
     }, {
-      key: "menuItemElement",
+      key: "parentElement",
       get: function get() {
-        return this.domElements.menuItem;
+        return this.domElements.parent;
       }
       /**
        * The menu controlled by the toggle.
@@ -512,15 +522,15 @@ var AccessibleMenu = function () {
       /**
        * Set the open state on the menu.
        *
-       * @param {boolean} state - The open state.
+       * @param {boolean} value - The open state.
        */
       ,
-      set: function set(state) {
-        if (typeof state !== "boolean") {
+      set: function set(value) {
+        if (typeof value !== "boolean") {
           throw new TypeError("Open state must be true or false.");
         }
 
-        this.show = state;
+        this.show = value;
       }
     }]);
 
@@ -558,17 +568,17 @@ var AccessibleMenu = function () {
         throw new TypeError("submenuSelector must be a CSS selector string.");
       }
     },
-    submenuOpenClass: function submenuOpenClass(value) {
+    openClass: function openClass(value) {
       // Ensure value is a string.
       if (typeof value !== "string") {
-        throw TypeError("submenuOpenClass must be a string.");
+        throw TypeError("openClass must be a string.");
       } // Ensure value is a valid CSS class name.
 
 
       var invalidCharacters = value.replace(/[_a-zA-Z0-9-]/g, "");
 
       if (invalidCharacters.length > 0) {
-        throw Error("submenuOpenClass must be a valid CSS class.");
+        throw Error("openClass must be a valid CSS class.");
       }
     },
     isTopLevel: function isTopLevel(value) {
@@ -590,23 +600,28 @@ var AccessibleMenu = function () {
       }
     }
   };
+  /**
+   * An accessible navigation element in the DOM.
+   *
+   * Must be initialized to be fully functional.
+   */
 
   var Menu =
   /*#__PURE__*/
   function () {
     /**
-     * Constructs the menu.
+     * {@inheritdoc}
      *
-     * @param {object}       param0                       - The menu object.
-     * @param {HTMLElement}  param0.menuElement           - The menu element in the DOM.
-     * @param {string}       param0.menuItemSelector      - The selector string for menu items.
-     * @param {string}       param0.submenuItemSelector   - The selector string for submenu items.
-     * @param {string}       param0.submenuToggleSelector - The selector string for submenu toggle triggers.
-     * @param {string}       param0.submenuSelector       - The selector string for the submenu itself.
-     * @param {string}       param0.submenuOpenClass      - The class to use when a submenu is open.
-     * @param {boolean}      param0.isTopLevel            - Flags the menu as a top-level menu.
-     * @param {HTMLElement}  param0.controllerElement     - The element controlling the menu in the DOM.
-     * @param {HTMLElement}  param0.containerElement      - The element containing the menu in the DOM.
+     * @param {object}            param0                       - The menu object.
+     * @param {HTMLElement}       param0.menuElement           - The menu element in the DOM.
+     * @param {string|null}       param0.menuItemSelector      - The selector string for menu items.
+     * @param {string|null}       param0.submenuItemSelector   - The selector string for submenu items.
+     * @param {string|null}       param0.submenuToggleSelector - The selector string for submenu toggle triggers.
+     * @param {string}            param0.submenuSelector       - The selector string for the submenu itself.
+     * @param {string}            param0.openClass             - The class to use when a submenu is open.
+     * @param {boolean}           param0.isTopLevel            - Flags the menu as a top-level menu.
+     * @param {HTMLElement|null}  param0.controllerElement     - The element controlling the menu in the DOM.
+     * @param {HTMLElement|null}  param0.containerElement      - The element containing the menu in the DOM.
      */
     function Menu(_ref3) {
       var menuElement = _ref3.menuElement,
@@ -617,8 +632,8 @@ var AccessibleMenu = function () {
           submenuToggleSelector = _ref3$submenuToggleSe === void 0 ? null : _ref3$submenuToggleSe,
           _ref3$submenuSelector = _ref3.submenuSelector,
           submenuSelector = _ref3$submenuSelector === void 0 ? null : _ref3$submenuSelector,
-          _ref3$submenuOpenClas = _ref3.submenuOpenClass,
-          submenuOpenClass = _ref3$submenuOpenClas === void 0 ? "show" : _ref3$submenuOpenClas,
+          _ref3$openClass = _ref3.openClass,
+          openClass = _ref3$openClass === void 0 ? "show" : _ref3$openClass,
           _ref3$isTopLevel = _ref3.isTopLevel,
           isTopLevel = _ref3$isTopLevel === void 0 ? true : _ref3$isTopLevel,
           _ref3$controllerEleme = _ref3.controllerElement,
@@ -632,7 +647,7 @@ var AccessibleMenu = function () {
       validate$3.menuElement(menuElement);
       validate$3.menuItemSelector(menuItemSelector);
       validate$3.hasSubmenus(submenuItemSelector, submenuToggleSelector, submenuSelector);
-      validate$3.submenuOpenClass(submenuOpenClass);
+      validate$3.openClass(openClass);
       validate$3.isTopLevel(isTopLevel);
       validate$3.isDropdown(controllerElement, containerElement);
       this.domElements = {
@@ -658,15 +673,13 @@ var AccessibleMenu = function () {
       };
       this.focussedChild = -1;
       this.focusState = "none";
-      this.openClass = submenuOpenClass;
+      this.openClass = openClass;
       this.root = isTopLevel;
     }
     /**
      * Initializes the menu with proper tab indexing and properties.
      *
      * This will also initialize all menu items and sub menus.
-     *
-     * @returns {undefined}
      */
 
 
@@ -693,7 +706,7 @@ var AccessibleMenu = function () {
       /**
        * The menu element in the DOM.
        *
-       * @returns {object} - The menu.
+       * @returns {HTMLElement} - The menu.
        */
 
     }, {
@@ -1020,7 +1033,7 @@ var AccessibleMenu = function () {
       /**
        * The menu item DOM elements contained in the menu.
        *
-       * @returns {object[]} - The menu items.
+       * @returns {HTMLElement[]} - The menu items.
        */
 
     }, {
@@ -1031,7 +1044,7 @@ var AccessibleMenu = function () {
       /**
        * The submenu item DOM elements contained in the menu.
        *
-       * @returns {object[]} - The submenu items.
+       * @returns {HTMLElement[]} - The submenu items.
        */
 
     }, {
@@ -1093,16 +1106,16 @@ var AccessibleMenu = function () {
       /**
        * Set the focus state of the menu.
        *
-       * @param {boolean} state - The focus state (self, child, none).
+       * @param {string} value - The focus state (self, child, none).
        */
-      set: function set(state) {
+      set: function set(value) {
         var states = ["self", "child", "none"];
 
-        if (!states.includes(state)) {
+        if (!states.includes(value)) {
           throw new Error("Focus state must be 'self', 'child', or 'none'.");
         }
 
-        this.focusState = state;
+        this.focusState = value;
       }
       /**
        * Set the class used for open submenus.
@@ -1128,6 +1141,12 @@ var AccessibleMenu = function () {
 
         this.submenuOpenClass = value;
       }
+      /**
+       * Sets the top level flag.
+       *
+       * @param {boolean} value - The state of the flag.
+       */
+
     }, {
       key: "isTopLevel",
       get: function get() {
