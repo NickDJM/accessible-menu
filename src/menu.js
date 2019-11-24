@@ -102,7 +102,7 @@ class Menu {
    * @param {boolean}          param0.isTopLevel            - A flag to mark the root menu.
    * @param {HTMLElement|null} param0.controllerElement     - The element controlling the menu in the DOM.
    * @param {HTMLElement|null} param0.containerElement      - The element containing the menu in the DOM.
-   * @param {Menu}             param0.parentMenu            - The menu containing this menu.
+   * @param {Menu|null}        param0.parentMenu            - The menu containing this menu.
    */
   constructor({
     menuElement,
@@ -199,7 +199,7 @@ class Menu {
   /**
    * The menu's controller element in the DOM.
    *
-   * @returns {HTMLElement} - The controller element.
+   * @returns {HTMLElement|null} - The controller element.
    */
   get controllerElement() {
     return this.domElements.controller;
@@ -208,7 +208,7 @@ class Menu {
   /**
    * The menu's container element in the DOM.
    *
-   * @returns {HTMLElement} - The container element.
+   * @returns {HTMLElement|null} - The container element.
    */
   get containerElement() {
     return this.domElements.container;

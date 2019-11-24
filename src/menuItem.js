@@ -56,13 +56,13 @@ class MenuItem {
   /**
    * {@inheritdoc}
    *
-   * @param {object}      param0                 - The menu item object.
-   * @param {HTMLElement} param0.menuItemElement - The menu item in the DOM.
-   * @param {HTMLElement} param0.menuLinkElement - The menu item's link in the DOM.
-   * @param {Menu}        param0.parentMenu      - The parent menu.
-   * @param {boolean}     param0.isSubmenuItem   - A flag to mark if the menu item is controlling a submenu.
-   * @param {Menu}        param0.childMenu       - The child menu.
-   * @param {MenuToggle}  param0.toggle          - The controller for the child menu.
+   * @param {object}          param0                 - The menu item object.
+   * @param {HTMLElement}     param0.menuItemElement - The menu item in the DOM.
+   * @param {HTMLElement}     param0.menuLinkElement - The menu item's link in the DOM.
+   * @param {Menu}            param0.parentMenu      - The parent menu.
+   * @param {boolean}         param0.isSubmenuItem   - A flag to mark if the menu item is controlling a submenu.
+   * @param {Menu|null}       param0.childMenu       - The child menu.
+   * @param {MenuToggle|null} param0.toggle          - The controller for the child menu.
    */
   constructor({
     menuItemElement,
@@ -132,7 +132,7 @@ class MenuItem {
   /**
    * The item's child menu.
    *
-   * @returns {Menu} - The menu.
+   * @returns {Menu|null} - The menu.
    */
   get childMenu() {
     return this.elements.childMenu;
@@ -141,7 +141,7 @@ class MenuItem {
   /**
    * The item's toggle.
    *
-   * @returns {MenuToggle} - The toggle.
+   * @returns {MenuToggle|null} - The toggle.
    */
   get toggle() {
     return this.elements.toggle;

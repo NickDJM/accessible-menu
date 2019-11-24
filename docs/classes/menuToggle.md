@@ -15,7 +15,6 @@ All Parameters _must_ be contained in a single object.
 | menu | The menu controlled by the this toggle. | Menu | true | `undefined` |
 | openClass | The class to use when a submenu is open. | string | false | `"show"` |
 | parentMenu | The menu containing the toggle. | Menu\|null | false | `null` |
-| rootMenu | The root menu containing the toggle (and all parent menus). | Menu\|null | false | `null` |
 
 ## Available getters
 
@@ -25,7 +24,6 @@ All Parameters _must_ be contained in a single object.
 | parentElement | The toggle's parent DOM element. | HTMLElement |
 | menu | The menu controlled by the toggle. | Menu |
 | parentMenu | The menu containing the toggle. | Menu |
-| rootMenu | The root menu containing the toggle (and all parent menus). | Menu |
 | isOpen | The open state on the menu. | boolean |
 
 ## Available setters
@@ -43,5 +41,4 @@ All Parameters _must_ be contained in a single object.
 | toggle | Toggles the open state of the menu. |
 | closeSiblings | Closes all sibling menus. |
 | closeChildren | Closes all child menus. |
-| handleKeydown | Sets up the hijacked keydown events. |
 | handleClick | Handle click events required for proper menu usage. |

@@ -421,13 +421,13 @@ var AccessibleMenu = function () {
     /**
      * {@inheritdoc}
      *
-     * @param {object}      param0                 - The menu item object.
-     * @param {HTMLElement} param0.menuItemElement - The menu item in the DOM.
-     * @param {HTMLElement} param0.menuLinkElement - The menu item's link in the DOM.
-     * @param {Menu}        param0.parentMenu      - The parent menu.
-     * @param {boolean}     param0.isSubmenuItem   - A flag to mark if the menu item is controlling a submenu.
-     * @param {Menu}        param0.childMenu       - The child menu.
-     * @param {MenuToggle}  param0.toggle          - The controller for the child menu.
+     * @param {object}          param0                 - The menu item object.
+     * @param {HTMLElement}     param0.menuItemElement - The menu item in the DOM.
+     * @param {HTMLElement}     param0.menuLinkElement - The menu item's link in the DOM.
+     * @param {Menu}            param0.parentMenu      - The parent menu.
+     * @param {boolean}         param0.isSubmenuItem   - A flag to mark if the menu item is controlling a submenu.
+     * @param {Menu|null}       param0.childMenu       - The child menu.
+     * @param {MenuToggle|null} param0.toggle          - The controller for the child menu.
      */
     function MenuItem(_ref2) {
       var menuItemElement = _ref2.menuItemElement,
@@ -525,7 +525,7 @@ var AccessibleMenu = function () {
       /**
        * The item's child menu.
        *
-       * @returns {Menu} - The menu.
+       * @returns {Menu|null} - The menu.
        */
 
     }, {
@@ -536,7 +536,7 @@ var AccessibleMenu = function () {
       /**
        * The item's toggle.
        *
-       * @returns {MenuToggle} - The toggle.
+       * @returns {MenuToggle|null} - The toggle.
        */
 
     }, {
@@ -654,7 +654,7 @@ var AccessibleMenu = function () {
      * @param {boolean}          param0.isTopLevel            - A flag to mark the root menu.
      * @param {HTMLElement|null} param0.controllerElement     - The element controlling the menu in the DOM.
      * @param {HTMLElement|null} param0.containerElement      - The element containing the menu in the DOM.
-     * @param {Menu}             param0.parentMenu            - The menu containing this menu.
+     * @param {Menu|null}        param0.parentMenu            - The menu containing this menu.
      */
     function Menu(_ref3) {
       var menuElement = _ref3.menuElement,
@@ -1192,7 +1192,7 @@ var AccessibleMenu = function () {
       /**
        * The menu's controller element in the DOM.
        *
-       * @returns {HTMLElement} - The controller element.
+       * @returns {HTMLElement|null} - The controller element.
        */
 
     }, {
@@ -1203,7 +1203,7 @@ var AccessibleMenu = function () {
       /**
        * The menu's container element in the DOM.
        *
-       * @returns {HTMLElement} - The container element.
+       * @returns {HTMLElement|null} - The container element.
        */
 
     }, {
