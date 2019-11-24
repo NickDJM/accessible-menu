@@ -12,7 +12,7 @@ const validate = {
   },
   menuItemSelector: selector => {
     // Ensure selector is a string.
-    if (typeof value !== "string") {
+    if (typeof selector !== "string") {
       throw new TypeError("menuItemSelector must be a CSS selector string.");
     }
   },
