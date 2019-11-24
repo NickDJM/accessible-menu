@@ -67,7 +67,7 @@ or
 <script src="path/to/accessible-menu/dist/accessibleMenu.js"></script>
 ```
 
-Once you have accessible-menu loaded, simply declare a new menu object and initialize it.
+Once you have accessible-menu loaded, simply declare a new menu object.
 
 ```jsx
 const menu = new AccessibleMenu({
@@ -76,10 +76,8 @@ const menu = new AccessibleMenu({
     submenuItemSelector: "menu-item-with-dropdown-css-selector",
     submenuToggleSelector: "dropdown-toggle-css-selector",
     submenuSelector: "dropdown-menu-css-selector",
-    submenuOpenClass: "class-to-open-menus"
+    openClass: "class-to-open-menus"
 });
-
-menu.initialize();
 ```
 
 ### Documentation

@@ -85,8 +85,6 @@ const validate = {
 
 /**
  * An accessible navigation element in the DOM.
- *
- * Must be initialized to be fully functional.
  */
 class Menu {
   /**

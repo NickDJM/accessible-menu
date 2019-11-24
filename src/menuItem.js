@@ -49,8 +49,6 @@ const validate = {
 
 /**
  * A basic navigation link contained inside of a Menu.
- *
- * Must be initialized to be fully functional.
  */
 class MenuItem {
   /**

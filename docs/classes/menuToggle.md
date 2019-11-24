@@ -2,8 +2,6 @@
 
 A link or button that controls the visibility of a menu.
 
-Must be initialized to be fully functional.
-
 ## Parameters
 
 All Parameters _must_ be contained in a single object.

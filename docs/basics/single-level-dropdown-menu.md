@@ -51,6 +51,4 @@ const menu = new AccessibleMenu({
   controllerElement,
   containerElement
 });
-
-menu.initialize();
 ```

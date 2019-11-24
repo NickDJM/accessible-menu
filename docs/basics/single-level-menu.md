@@ -41,6 +41,4 @@ const menu = new AccessibleMenu({
   menuElement,
   menuItemSelector
 });
-
-menu.initialize();
 ```

@@ -115,8 +115,6 @@ var AccessibleMenu = function () {
   };
   /**
    * A link or button that controls the visibility of a menu.
-   *
-   * Must be initialized to be fully functional.
    */
 
   var MenuToggle =
@@ -412,8 +410,6 @@ var AccessibleMenu = function () {
   };
   /**
    * A basic navigation link contained inside of a Menu.
-   *
-   * Must be initialized to be fully functional.
    */
 
   var MenuItem =
@@ -636,8 +632,6 @@ var AccessibleMenu = function () {
   };
   /**
    * An accessible navigation element in the DOM.
-   *
-   * Must be initialized to be fully functional.
    */
 
   var Menu =

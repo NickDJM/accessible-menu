@@ -2,8 +2,6 @@
 
 An accessible navigation element in the DOM.
 
-Must be initialized to be fully functional.
-
 ## Parameters
 
 All Parameters _must_ be contained in a single object.
