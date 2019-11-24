@@ -1,42 +1,47 @@
 import Menu from "./menu";
 import MenuToggle from "./menuToggle";
 
+// Basic validation for the class.
 const validate = {
-  menuItemElement: value => {
-    // Ensure value is an HTML element.
-    if (!(value instanceof HTMLElement)) {
+  menuItemElement: element => {
+    // Ensure element is an HTML element.
+    if (!(element instanceof HTMLElement)) {
       throw new TypeError("menuItemElement must be an HTML Element.");
     }
   },
-  menuLinkElement: value => {
-    if (!(value instanceof HTMLElement)) {
+  menuLinkElement: element => {
+    // Ensure element is an HTML element.
+    if (!(element instanceof HTMLElement)) {
       throw new TypeError("menuLinkElement must be an HTML Element.");
     }
   },
-  parentMenu: value => {
-    // Ensure value is a Menu element.
-    if (!(value instanceof Menu)) {
+  parentMenu: menu => {
+    // Ensure menu is a Menu element.
+    if (!(menu instanceof Menu)) {
       throw new TypeError("parentMenu must be a Menu.");
     }
   },
-  isSubmenuItem: value => {
-    if (typeof value !== "boolean") {
+  isSubmenuItem: flag => {
+    // Ensure flag is a boolean.
+    if (typeof flag !== "boolean") {
       throw new TypeError("isSubmenuItem must be true or false");
     }
   },
-  childMenu: value => {
-    // Value can be null.
-    if (value === null) return;
+  childMenu: menu => {
+    // Menu can be null.
+    if (menu === null) return;
 
-    if (!(value instanceof Menu)) {
+    // Ensure menu is a Menu element.
+    if (!(menu instanceof Menu)) {
       throw new TypeError("childMenu must be a Menu.");
     }
   },
-  toggle: value => {
-    // Value can be null.
-    if (value === null) return;
+  toggle: toggle => {
+    // Toggle can be null.
+    if (toggle === null) return;
 
-    if (!(value instanceof MenuToggle)) {
+    // Ensure toggle is a MenuToggle element.
+    if (!(toggle instanceof MenuToggle)) {
       throw new TypeError("toggle must be a MenuToggle.");
     }
   }

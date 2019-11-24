@@ -69,24 +69,25 @@ var AccessibleMenu = function () {
     validate.event(event);
     event.preventDefault();
     event.stopPropagation();
-  }
+  } // Basic validation for the class.
+
 
   var validate$1 = {
-    menuToggleElement: function menuToggleElement(value) {
-      // Ensure value is an HTML element.
-      if (!(value instanceof HTMLElement)) {
+    menuToggleElement: function menuToggleElement(element) {
+      // Ensure element is an HTML element.
+      if (!(element instanceof HTMLElement)) {
         throw new TypeError("menuToggleElement must be an HTML Element.");
       }
     },
-    parentElement: function parentElement(value) {
-      // Ensure value is an HTML element.
-      if (!(value instanceof HTMLElement)) {
+    parentElement: function parentElement(element) {
+      // Ensure element is an HTML element.
+      if (!(element instanceof HTMLElement)) {
         throw new TypeError("parentElement must be an HTML Element.");
       }
     },
-    menu: function menu(value) {
-      // Ensure value is an Menu element.
-      if (!(value instanceof Menu)) {
+    menu: function menu(_menu) {
+      // Ensure menu is an Menu element.
+      if (!(_menu instanceof Menu)) {
         throw new TypeError("menu must be a Menu.");
       }
     },
@@ -103,11 +104,11 @@ var AccessibleMenu = function () {
         throw Error("openClass must be a valid CSS class.");
       }
     },
-    parentMenu: function parentMenu(value) {
-      // Value is allowed to be null.
-      if (value === null) return; // Ensure value is an Menu element.
+    parentMenu: function parentMenu(menu) {
+      // Menu can be null.
+      if (menu === null) return; // Ensure menu is an Menu element.
 
-      if (!(value instanceof Menu)) {
+      if (!(menu instanceof Menu)) {
         throw new TypeError("parentMenu must be a Menu.");
       }
     }
@@ -363,44 +364,47 @@ var AccessibleMenu = function () {
     }]);
 
     return MenuToggle;
-  }();
+  }(); // Basic validation for the class.
+
 
   var validate$2 = {
-    menuItemElement: function menuItemElement(value) {
-      // Ensure value is an HTML element.
-      if (!(value instanceof HTMLElement)) {
+    menuItemElement: function menuItemElement(element) {
+      // Ensure element is an HTML element.
+      if (!(element instanceof HTMLElement)) {
         throw new TypeError("menuItemElement must be an HTML Element.");
       }
     },
-    menuLinkElement: function menuLinkElement(value) {
-      if (!(value instanceof HTMLElement)) {
+    menuLinkElement: function menuLinkElement(element) {
+      // Ensure element is an HTML element.
+      if (!(element instanceof HTMLElement)) {
         throw new TypeError("menuLinkElement must be an HTML Element.");
       }
     },
-    parentMenu: function parentMenu(value) {
-      // Ensure value is a Menu element.
-      if (!(value instanceof Menu)) {
+    parentMenu: function parentMenu(menu) {
+      // Ensure menu is a Menu element.
+      if (!(menu instanceof Menu)) {
         throw new TypeError("parentMenu must be a Menu.");
       }
     },
-    isSubmenuItem: function isSubmenuItem(value) {
-      if (typeof value !== "boolean") {
+    isSubmenuItem: function isSubmenuItem(flag) {
+      // Ensure flag is a boolean.
+      if (typeof flag !== "boolean") {
         throw new TypeError("isSubmenuItem must be true or false");
       }
     },
-    childMenu: function childMenu(value) {
-      // Value can be null.
-      if (value === null) return;
+    childMenu: function childMenu(menu) {
+      // Menu can be null.
+      if (menu === null) return; // Ensure menu is a Menu element.
 
-      if (!(value instanceof Menu)) {
+      if (!(menu instanceof Menu)) {
         throw new TypeError("childMenu must be a Menu.");
       }
     },
-    toggle: function toggle(value) {
-      // Value can be null.
-      if (value === null) return;
+    toggle: function toggle(_toggle) {
+      // Toggle can be null.
+      if (_toggle === null) return; // Ensure toggle is a MenuToggle element.
 
-      if (!(value instanceof MenuToggle)) {
+      if (!(_toggle instanceof MenuToggle)) {
         throw new TypeError("toggle must be a MenuToggle.");
       }
     }
@@ -554,17 +558,18 @@ var AccessibleMenu = function () {
     }]);
 
     return MenuItem;
-  }();
+  }(); // Basic validation for the class.
+
 
   var validate$3 = {
-    menuElement: function menuElement(value) {
-      // Ensure value is an HTML element.
-      if (!(value instanceof HTMLElement)) {
+    menuElement: function menuElement(element) {
+      // Ensure element is an HTML element.
+      if (!(element instanceof HTMLElement)) {
         throw new TypeError("menuElement must be an HTML Element.");
       }
     },
-    menuItemSelector: function menuItemSelector(value) {
-      // Ensure value is a string.
+    menuItemSelector: function menuItemSelector(selector) {
+      // Ensure selector is a string.
       if (typeof value !== "string") {
         throw new TypeError("menuItemSelector must be a CSS selector string.");
       }
@@ -599,28 +604,30 @@ var AccessibleMenu = function () {
         throw Error("openClass must be a valid CSS class.");
       }
     },
-    isTopLevel: function isTopLevel(value) {
-      if (typeof value !== "boolean") {
+    isTopLevel: function isTopLevel(flag) {
+      // Ensure flag is a boolean.
+      if (typeof flag !== "boolean") {
         throw new TypeError("isTopLevel must be true of false.");
       }
     },
     isDropdown: function isDropdown(controller, container) {
       // Values are allowed to be null if both are null.
-      if (controller === null && container === null) return; // Ensure value is an HTML element.
+      if (controller === null && container === null) return; // Ensure controller is an HTML element.
 
       if (!(controller instanceof HTMLElement)) {
         throw new TypeError("controllerElement must be an HTML Element if containerElement is provided.");
-      }
+      } // Ensure container is an HTML element.
+
 
       if (!(container instanceof HTMLElement)) {
         throw new TypeError("containerElement must be an HTML Element if controllerElement is provided.");
       }
     },
-    parentMenu: function parentMenu(value) {
-      // Value can be null.
-      if (value === null) return;
+    parentMenu: function parentMenu(menu) {
+      // Menu can be null.
+      if (menu === null) return; // Ensure menu is a Menu element.
 
-      if (!(value instanceof Menu)) {
+      if (!(menu instanceof Menu)) {
         throw new TypeError("parentMenu must be a Menu.");
       }
     }
@@ -799,7 +806,8 @@ var AccessibleMenu = function () {
             });
             toggle.initialize(); // Add it to the list of submenu items.
 
-            _this3.elements.menuToggles.push(toggle);
+            _this3.elements.menuToggles.push(toggle); // Create a new MenuItem.
+
 
             menuItem = new MenuItem({
               menuItemElement: element,

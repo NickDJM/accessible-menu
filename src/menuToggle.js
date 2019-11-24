@@ -1,22 +1,23 @@
 import Menu from "./menu";
 import { preventEvent } from "./eventHandlers";
 
+// Basic validation for the class.
 const validate = {
-  menuToggleElement: value => {
-    // Ensure value is an HTML element.
-    if (!(value instanceof HTMLElement)) {
+  menuToggleElement: element => {
+    // Ensure element is an HTML element.
+    if (!(element instanceof HTMLElement)) {
       throw new TypeError("menuToggleElement must be an HTML Element.");
     }
   },
-  parentElement: value => {
-    // Ensure value is an HTML element.
-    if (!(value instanceof HTMLElement)) {
+  parentElement: element => {
+    // Ensure element is an HTML element.
+    if (!(element instanceof HTMLElement)) {
       throw new TypeError("parentElement must be an HTML Element.");
     }
   },
-  menu: value => {
-    // Ensure value is an Menu element.
-    if (!(value instanceof Menu)) {
+  menu: menu => {
+    // Ensure menu is an Menu element.
+    if (!(menu instanceof Menu)) {
       throw new TypeError("menu must be a Menu.");
     }
   },
@@ -32,12 +33,12 @@ const validate = {
       throw Error("openClass must be a valid CSS class.");
     }
   },
-  parentMenu: value => {
-    // Value is allowed to be null.
-    if (value === null) return;
+  parentMenu: menu => {
+    // Menu can be null.
+    if (menu === null) return;
 
-    // Ensure value is an Menu element.
-    if (!(value instanceof Menu)) {
+    // Ensure menu is an Menu element.
+    if (!(menu instanceof Menu)) {
       throw new TypeError("parentMenu must be a Menu.");
     }
   }

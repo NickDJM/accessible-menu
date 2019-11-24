@@ -2,15 +2,16 @@ import MenuItem from "./menuItem";
 import MenuToggle from "./menuToggle";
 import { keyPress, preventEvent } from "./eventHandlers";
 
+// Basic validation for the class.
 const validate = {
-  menuElement: value => {
-    // Ensure value is an HTML element.
-    if (!(value instanceof HTMLElement)) {
+  menuElement: element => {
+    // Ensure element is an HTML element.
+    if (!(element instanceof HTMLElement)) {
       throw new TypeError("menuElement must be an HTML Element.");
     }
   },
-  menuItemSelector: value => {
-    // Ensure value is a string.
+  menuItemSelector: selector => {
+    // Ensure selector is a string.
     if (typeof value !== "string") {
       throw new TypeError("menuItemSelector must be a CSS selector string.");
     }
@@ -47,8 +48,9 @@ const validate = {
       throw Error("openClass must be a valid CSS class.");
     }
   },
-  isTopLevel: value => {
-    if (typeof value !== "boolean") {
+  isTopLevel: flag => {
+    // Ensure flag is a boolean.
+    if (typeof flag !== "boolean") {
       throw new TypeError("isTopLevel must be true of false.");
     }
   },
@@ -56,24 +58,26 @@ const validate = {
     // Values are allowed to be null if both are null.
     if (controller === null && container === null) return;
 
-    // Ensure value is an HTML element.
+    // Ensure controller is an HTML element.
     if (!(controller instanceof HTMLElement)) {
       throw new TypeError(
         "controllerElement must be an HTML Element if containerElement is provided."
       );
     }
 
+    // Ensure container is an HTML element.
     if (!(container instanceof HTMLElement)) {
       throw new TypeError(
         "containerElement must be an HTML Element if controllerElement is provided."
       );
     }
   },
-  parentMenu: value => {
-    // Value can be null.
-    if (value === null) return;
+  parentMenu: menu => {
+    // Menu can be null.
+    if (menu === null) return;
 
-    if (!(value instanceof Menu)) {
+    // Ensure menu is a Menu element.
+    if (!(menu instanceof Menu)) {
       throw new TypeError("parentMenu must be a Menu.");
     }
   }
@@ -400,6 +404,7 @@ class Menu {
         // Add it to the list of submenu items.
         this.elements.menuToggles.push(toggle);
 
+        // Create a new MenuItem.
         menuItem = new MenuItem({
           menuItemElement: element,
           menuLinkElement: toggler,
