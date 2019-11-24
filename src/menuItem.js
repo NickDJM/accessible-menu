@@ -1,17 +1,48 @@
 import Menu from "./menu";
+import MenuToggle from "./menuToggle";
 
-// Custom validation for params.
+// Basic validation for the class.
 const validate = {
-  menuItemElement: value => {
-    // Ensure value is an HTML element.
-    if (!(value instanceof HTMLElement)) {
+  menuItemElement: element => {
+    // Ensure element is an HTML element.
+    if (!(element instanceof HTMLElement)) {
       throw new TypeError("menuItemElement must be an HTML Element.");
     }
   },
-  parentMenu: value => {
-    // Ensure value is an Menu element.
-    if (!(value instanceof Menu)) {
+  menuLinkElement: element => {
+    // Ensure element is an HTML element.
+    if (!(element instanceof HTMLElement)) {
+      throw new TypeError("menuLinkElement must be an HTML Element.");
+    }
+  },
+  parentMenu: menu => {
+    // Ensure menu is a Menu element.
+    if (!(menu instanceof Menu)) {
       throw new TypeError("parentMenu must be a Menu.");
+    }
+  },
+  isSubmenuItem: flag => {
+    // Ensure flag is a boolean.
+    if (typeof flag !== "boolean") {
+      throw new TypeError("isSubmenuItem must be true or false");
+    }
+  },
+  childMenu: menu => {
+    // Menu can be null.
+    if (menu === null) return;
+
+    // Ensure menu is a Menu element.
+    if (!(menu instanceof Menu)) {
+      throw new TypeError("childMenu must be a Menu.");
+    }
+  },
+  toggle: toggle => {
+    // Toggle can be null.
+    if (toggle === null) return;
+
+    // Ensure toggle is a MenuToggle element.
+    if (!(toggle instanceof MenuToggle)) {
+      throw new TypeError("toggle must be a MenuToggle.");
     }
   }
 };
@@ -25,23 +56,44 @@ class MenuItem {
   /**
    * {@inheritdoc}
    *
-   * @param {object}      param0                 - The menu item object.
-   * @param {HTMLElement} param0.menuItemElement - The menu item in the DOM.
-   * @param {Menu}        param0.parentMenu      - The parent menu.
+   * @param {object}          param0                 - The menu item object.
+   * @param {HTMLElement}     param0.menuItemElement - The menu item in the DOM.
+   * @param {HTMLElement}     param0.menuLinkElement - The menu item's link in the DOM.
+   * @param {Menu}            param0.parentMenu      - The parent menu.
+   * @param {boolean}         param0.isSubmenuItem   - A flag to mark if the menu item is controlling a submenu.
+   * @param {Menu|null}       param0.childMenu       - The child menu.
+   * @param {MenuToggle|null} param0.toggle          - The controller for the child menu.
    */
-  constructor({ menuItemElement, parentMenu }) {
+  constructor({
+    menuItemElement,
+    menuLinkElement,
+    parentMenu,
+    isSubmenuItem = false,
+    childMenu = null,
+    toggle = null
+  }) {
     // Run validations.
     validate.menuItemElement(menuItemElement);
+    validate.menuLinkElement(menuLinkElement);
     validate.parentMenu(parentMenu);
+    validate.isSubmenuItem(isSubmenuItem);
+    validate.childMenu(childMenu);
+    validate.toggle(toggle);
 
     this.domElements = {
       menuItem: menuItemElement,
-      link: menuItemElement.querySelector("a")
+      link: menuLinkElement
     };
 
     this.elements = {
-      parent: parentMenu
+      parentMenu,
+      childMenu,
+      toggle
     };
+
+    this.isController = isSubmenuItem;
+
+    this.initialize();
   }
 
   /**
@@ -49,7 +101,7 @@ class MenuItem {
    */
   initialize() {
     this.element.setAttribute("role", "menuitem");
-    this.link.tabIndex = -1;
+    this.linkElement.tabIndex = -1;
   }
 
   /**
@@ -76,7 +128,34 @@ class MenuItem {
    * @returns {Menu} - The parent menu.
    */
   get parentMenu() {
-    return this.elements.parent;
+    return this.elements.parentMenu;
+  }
+
+  /**
+   * The item's child menu.
+   *
+   * @returns {Menu|null} - The menu.
+   */
+  get childMenu() {
+    return this.elements.childMenu;
+  }
+
+  /**
+   * The item's toggle.
+   *
+   * @returns {MenuToggle|null} - The toggle.
+   */
+  get toggle() {
+    return this.elements.toggle;
+  }
+
+  /**
+   * A flag marking a submenu item.
+   *
+   * @returns {boolean} - The submenu flag.
+   */
+  get isSubmenuItem() {
+    return this.isController;
   }
 
   /**

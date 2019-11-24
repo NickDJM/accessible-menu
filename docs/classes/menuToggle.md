@@ -41,5 +41,4 @@ All Parameters _must_ be contained in a single object.
 | toggle | Toggles the open state of the menu. |
 | closeSiblings | Closes all sibling menus. |
 | closeChildren | Closes all child menus. |
-| handleKeydown | Sets up the hijacked keydown events. |
 | handleClick | Handle click events required for proper menu usage. |
