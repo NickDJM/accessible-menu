@@ -791,7 +791,7 @@ var AccessibleMenu = function () {
               submenuItemSelector: _this3.selector["submenu-items"],
               submenuToggleSelector: _this3.selector["submenu-toggle"],
               submenuSelector: _this3.selector.submenu,
-              submenuOpenClass: _this3.openClass,
+              openClass: _this3.openClass,
               isTopLevel: false,
               parentMenu: _this3
             });
@@ -943,8 +943,6 @@ var AccessibleMenu = function () {
 
                 if (_this4.rootMenu.currentMenuItem.isSubmenuItem) {
                   _this4.rootMenu.currentMenuItem.toggle.open();
-
-                  _this4.rootMenu.currentMenuItem.childMenu.focus();
                 }
               }
             } else if (key === "ArrowLeft") {
@@ -955,8 +953,8 @@ var AccessibleMenu = function () {
               //   - Opens submenu of newly focused menubar item, keeping focus on that parent menubar item.
               preventEvent(event);
 
-              if (_this4.currentMenuItem.isSubmenuItem) {
-                _this4.currentMenuItem.toggle.close();
+              if (_this4.parentMenu.currentMenuItem.isSubmenuItem) {
+                _this4.parentMenu.currentMenuItem.toggle.close();
 
                 if (_this4.parentMenu === _this4.rootMenu) {
                   _this4.rootMenu.closeChildren();
@@ -965,8 +963,6 @@ var AccessibleMenu = function () {
 
                   if (_this4.rootMenu.currentMenuItem.isSubmenuItem) {
                     _this4.rootMenu.currentMenuItem.toggle.open();
-
-                    _this4.rootMenu.currentMenuItem.childMenu.focus();
                   }
                 }
               }

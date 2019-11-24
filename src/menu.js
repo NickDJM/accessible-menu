@@ -385,7 +385,7 @@ class Menu {
           submenuItemSelector: this.selector["submenu-items"],
           submenuToggleSelector: this.selector["submenu-toggle"],
           submenuSelector: this.selector.submenu,
-          submenuOpenClass: this.openClass,
+          openClass: this.openClass,
           isTopLevel: false,
           parentMenu: this
         });
@@ -522,7 +522,6 @@ class Menu {
 
             if (this.rootMenu.currentMenuItem.isSubmenuItem) {
               this.rootMenu.currentMenuItem.toggle.open();
-              this.rootMenu.currentMenuItem.childMenu.focus();
             }
           }
         } else if (key === "ArrowLeft") {
@@ -532,8 +531,8 @@ class Menu {
           //   - moves focus to previous item in the menubar.
           //   - Opens submenu of newly focused menubar item, keeping focus on that parent menubar item.
           preventEvent(event);
-          if (this.currentMenuItem.isSubmenuItem) {
-            this.currentMenuItem.toggle.close();
+          if (this.parentMenu.currentMenuItem.isSubmenuItem) {
+            this.parentMenu.currentMenuItem.toggle.close();
 
             if (this.parentMenu === this.rootMenu) {
               this.rootMenu.closeChildren();
@@ -541,7 +540,6 @@ class Menu {
 
               if (this.rootMenu.currentMenuItem.isSubmenuItem) {
                 this.rootMenu.currentMenuItem.toggle.open();
-                this.rootMenu.currentMenuItem.childMenu.focus();
               }
             }
           }
