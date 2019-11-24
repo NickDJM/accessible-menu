@@ -5,16 +5,15 @@ A single-level dropdown menu is probably the most common use-case for menus; the
 ## Parameters Needed
 
 * `menuElement`,
-* `controllerElement`,
-* `containerElement`,
-* `menuItemSelector`, and
-* `openClass`
+* `menuItemSelector`,
+* `openClass`,
+* `controllerElement`, and
+* `containerElement`
 
 ## HTML
 
 ```html
 <nav class="collapsable">
-  <h2>Main Menu</h2>
   <ul class="menu">
     <li class="menu-item">
       <a href="#">First Item</a>
@@ -33,24 +32,24 @@ A single-level dropdown menu is probably the most common use-case for menus; the
     </li>
   </ul>
 </nav>
-<button class="navigation-toggle">Toggle Navigation</button>
+<button class="navigation-toggle">Main Navigation</button>
 ```
 
 ## JavaScript
 
 ```jsx
 const menuElement = document.querySelector("ul.menu");
-const controllerElement = document.querySelector("button.navigation-toggle");
-const containerElement = document.querySelector("nav.collapsable");
 const menuItemSelector = "li.menu-item";
 const openClass = "open";
+const controllerElement = document.querySelector("button.navigation-toggle");
+const containerElement = document.querySelector("nav.collapsable");
 
 const menu = new AccessibleMenu({
   menuElement,
-  controllerElement,
-  containerElement,
   menuItemSelector,
-  openClass
+  openClass,
+  controllerElement,
+  containerElement
 });
 
 menu.initialize();

@@ -85,6 +85,13 @@ menu.initialize();
 ### Documentation
 
 * [Classes](docs/classes/index.md)
+  * [Menu](docs/classes/menu.md)
+  * [MenuItem](docs/classes/menuItem.md)
+  * [MenuToggle](docs/classes/menuToggle.md)
+* [Basic Examples](docs/basics/index.md)
+  * [Single-Level Menu](docs/basics/single-level-menu.md)
+  * [Single-Level Dropdown Menu](docs/basics/single-level-dropdown-menu.md)
+  * [Two-Level Dropdown Menu](docs/basics/two-level-dropdown-menu.md)
 
 ## Internet Explorer and Edge Support
 
