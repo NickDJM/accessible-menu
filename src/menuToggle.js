@@ -1,7 +1,6 @@
 import Menu from "./menu";
 import { preventEvent } from "./eventHandlers";
 
-// Custom validation for params.
 const validate = {
   menuToggleElement: value => {
     // Ensure value is an HTML element.
@@ -219,7 +218,7 @@ class MenuToggle {
       this.closeChildren();
 
       // Set proper focus states to parent & child.
-      this.menu.currentFocus = "none";
+      this.menu.blur();
 
       if (this.parentMenu) {
         this.parentMenu.currentFocus = "self";

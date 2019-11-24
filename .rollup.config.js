@@ -1,5 +1,5 @@
 module.exports = {
-  input: "src/menu.js",
+  input: "main.js",
   output: {
     name: "AccessibleMenu",
     file: "dist/accessibleMenu.js",
