@@ -19,6 +19,7 @@ All Parameters _must_ be contained in a single object.
 | isTopLevel | Flags the menu as a top-level menu. | boolean | false | `true` |
 | controllerElement | The element controlling the menu in the DOM. | HTMLElement\|null | false | `null` |
 | containerElement | The element containing the menu in the DOM. | HTMLElement\|null | false | `null` |
+| rootMenu | The root menu containing this menu. | Menu\|null | false | `null` |
 
 ## Available getters
 

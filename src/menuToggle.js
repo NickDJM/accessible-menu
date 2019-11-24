@@ -1,5 +1,5 @@
 import Menu from "./menu";
-import { keyPress, preventEvent } from "./eventHandlers";
+import { preventEvent } from "./eventHandlers";
 
 // Custom validation for params.
 const validate = {
@@ -115,8 +115,7 @@ class MenuToggle {
     this.menu.element.setAttribute("aria-labelledby", this.element.id);
     this.element.setAttribute("aria-controls", this.menu.element.id);
 
-    // Add new keydown events.
-    this.handleKeydown();
+    // Add new events.
     this.handleClick();
   }
 
@@ -262,56 +261,6 @@ class MenuToggle {
    */
   closeChildren() {
     this.menu.menuToggles.forEach(toggle => toggle.close());
-  }
-
-  /**
-   * Sets up the hijacked keydown events.
-   */
-  handleKeydown() {
-    this.menu.element.addEventListener("keydown", event => {
-      const key = keyPress(event);
-
-      if (key === "Escape") {
-        // The Escape key should close the current menu.
-        preventEvent(event);
-        this.close();
-      } else if (this.parentMenu && this.parentMenu.isTopLevel) {
-        if (key === "ArrowRight") {
-          // The Right Arrow key should focus the next menu item in the parent menu.
-          preventEvent(event);
-          this.close();
-          this.parentMenu.focusNextChild();
-        } else if (key === "ArrowLeft") {
-          // The Left Arrow key should focus the next menu item in the parent menu.
-          preventEvent(event);
-          this.close();
-          this.parentMenu.focusPreviousChild();
-        }
-      }
-    });
-    this.parentElement.addEventListener("keydown", event => {
-      const key = keyPress(event);
-
-      if (this.menu.currentFocus === "none") {
-        if (this.parentMenu && this.parentMenu.isTopLevel) {
-          if (key === "ArrowUp") {
-            // The Up Arrow key should open the submenu and select the last child.
-            preventEvent(event);
-            this.open();
-            this.menu.focusLastChild();
-          } else if (key === "ArrowDown") {
-            // The Down Arrow key should open the submenu and select the first child.
-            preventEvent(event);
-            this.open();
-          }
-        }
-        if (key === "Enter" || key === "Space") {
-          // The Enter & Space keys should open the menu.
-          preventEvent(event);
-          this.open();
-        }
-      }
-    });
   }
 
   /**

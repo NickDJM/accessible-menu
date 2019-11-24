@@ -1,4 +1,5 @@
 import Menu from "./menu";
+import Submenu from "./submenu";
 
 // Custom validation for params.
 const validate = {
@@ -9,9 +10,9 @@ const validate = {
     }
   },
   parentMenu: value => {
-    // Ensure value is an Menu element.
-    if (!(value instanceof Menu)) {
-      throw new TypeError("parentMenu must be a Menu.");
+    // Ensure value is an Menu or Submenu element.
+    if (!(value instanceof Menu || value instanceof Submenu)) {
+      throw new TypeError("parentMenu must be a Menu or a Submenu.");
     }
   }
 };
@@ -40,7 +41,7 @@ class MenuItem {
     };
 
     this.elements = {
-      parent: parentMenu
+      parentMenu
     };
   }
 
@@ -49,7 +50,7 @@ class MenuItem {
    */
   initialize() {
     this.element.setAttribute("role", "menuitem");
-    this.link.tabIndex = -1;
+    this.linkElement.tabIndex = -1;
   }
 
   /**
@@ -76,7 +77,7 @@ class MenuItem {
    * @returns {Menu} - The parent menu.
    */
   get parentMenu() {
-    return this.elements.parent;
+    return this.elements.parentMenu;
   }
 
   /**

@@ -1,4 +1,6 @@
 import MenuItem from "./menuItem";
+import SubmenuItem from "./submenuItem";
+import Submenu from "./submenu";
 import MenuToggle from "./menuToggle";
 import { keyPress, preventEvent } from "./eventHandlers";
 
@@ -48,12 +50,6 @@ const validate = {
       throw Error("openClass must be a valid CSS class.");
     }
   },
-  isTopLevel: value => {
-    // Ensure value is a string.
-    if (typeof value !== "boolean") {
-      throw new TypeError("isTopLevel must be true or false");
-    }
-  },
   isDropdown: (controller, container) => {
     // Values are allowed to be null if both are null.
     if (controller === null && container === null) return;
@@ -89,7 +85,6 @@ class Menu {
    * @param {string|null}       param0.submenuToggleSelector - The selector string for submenu toggle triggers.
    * @param {string}            param0.submenuSelector       - The selector string for the submenu itself.
    * @param {string}            param0.openClass             - The class to use when a submenu is open.
-   * @param {boolean}           param0.isTopLevel            - Flags the menu as a top-level menu.
    * @param {HTMLElement|null}  param0.controllerElement     - The element controlling the menu in the DOM.
    * @param {HTMLElement|null}  param0.containerElement      - The element containing the menu in the DOM.
    */
@@ -100,7 +95,6 @@ class Menu {
     submenuToggleSelector = null,
     submenuSelector = null,
     openClass = "show",
-    isTopLevel = true,
     controllerElement = null,
     containerElement = null
   }) {
@@ -113,7 +107,6 @@ class Menu {
       submenuSelector
     );
     validate.openClass(openClass);
-    validate.isTopLevel(isTopLevel);
     validate.isDropdown(controllerElement, containerElement);
 
     this.domElements = {
@@ -141,7 +134,6 @@ class Menu {
     this.focussedChild = -1;
     this.focusState = "none";
     this.openClass = openClass;
-    this.root = isTopLevel;
   }
 
   /**
@@ -150,7 +142,7 @@ class Menu {
    * This will also initialize all menu items and sub menus.
    */
   initialize() {
-    this.element.setAttribute("role", "menu");
+    this.element.setAttribute("role", "menubar");
     this.element.tabIndex = 0;
 
     this.createMenuItems();
@@ -219,7 +211,7 @@ class Menu {
   /**
    * The menu items contained in the menu.
    *
-   * @returns {MenuItem[]} - The menu items.
+   * @returns {MenuItem|SubmenuItem[]} - The menu items.
    */
   get menuItems() {
     return this.elements.menuItems;
@@ -271,12 +263,12 @@ class Menu {
   }
 
   /**
-   * The flag to mark as a top-level menu.
+   * The currently focussed menu item.
    *
-   * @returns {boolean} - The top-level flag.
+   * @returns {MenuItem|SubmenuItem} - The menu item.
    */
-  get isTopLevel() {
-    return this.root;
+  get currentMenuItem() {
+    return this.menuItems[this.focussedChild];
   }
 
   /**
@@ -308,37 +300,12 @@ class Menu {
   }
 
   /**
-   * Sets the top level flag.
-   *
-   * @param {boolean} value - The state of the flag.
-   */
-  set isTopLevel(value) {
-    if (typeof value !== "boolean") {
-      throw new TypeError("Top-level flag must be true or false.");
-    }
-
-    this.root = value;
-  }
-
-  /**
    * Creates and initializes all menu items.
    */
   createMenuItems() {
     this.menuItemElements.forEach(element => {
-      // Create a new MenuItem.
-      const menuItem = new MenuItem({
-        menuItemElement: element,
-        parentMenu: this
-      });
+      let menuItem;
 
-      // Add the item to the list of menu items.
-      this.elements.menuItems.push(menuItem);
-
-      // Initialize the menu item.
-      menuItem.initialize();
-
-      // If the menu item is a dropdown, create a SubmenuItem,
-      // otherwise create a normal MenuItem.
       if (this.submenuItemElements.includes(element)) {
         // The menu's toggle controller DOM element.
         const toggler = element.querySelector(this.selector["submenu-toggle"]);
@@ -346,14 +313,14 @@ class Menu {
         const submenu = element.querySelector(this.selector.submenu);
 
         // Create the new Menu and initialize it.
-        const menu = new Menu({
+        const menu = new Submenu({
           menuElement: submenu,
           menuItemSelector: this.selector["menu-items"],
           submenuItemSelector: this.selector["submenu-items"],
           submenuToggleSelector: this.selector["submenu-toggle"],
           submenuSelector: this.selector.submenu,
           submenuOpenClass: this.openClass,
-          isTopLevel: false
+          parentMenu: this
         });
         menu.initialize();
 
@@ -369,7 +336,24 @@ class Menu {
 
         // Add it to the list of submenu items.
         this.elements.menuToggles.push(toggle);
+
+        menuItem = new SubmenuItem({
+          menuItemElement: element,
+          parentMenu: this,
+          childMenu: menu,
+          toggle
+        });
+      } else {
+        // Create a new MenuItem.
+        menuItem = new MenuItem({
+          menuItemElement: element,
+          parentMenu: this
+        });
       }
+
+      menuItem.initialize();
+
+      this.elements.menuItem.push(menuItem);
     });
   }
 
@@ -378,50 +362,59 @@ class Menu {
    */
   handleKeydown() {
     this.element.addEventListener("keydown", event => {
-      // Key uses event.key or event.keyCode to support older browsers.
       const key = keyPress(event);
       const { altKey, crtlKey, metaKey } = event;
       const modifier = altKey || crtlKey || metaKey;
 
       if (this.currentFocus === "none") {
-        if (key === "Enter" || key === "Space") {
-          // The Enter & Space keys should enter the menu.
+        if (key === "Space" || key === "Enter") {
+          // Hitting Space or Enter:
+          // - Opens submenu and moves focus to first item in the submenu.
           preventEvent(event);
           this.currentFocus = "self";
           this.focusFirstChild();
         }
       } else if (this.currentFocus === "self") {
-        if (key === "Escape") {
-          // The Escape key should exit the menu.
-          preventEvent(event);
-          this.focus();
-          this.currentFocus = "none";
-        } else if (!this.isTopLevel && key === "ArrowUp") {
-          // The Up Arrow key should focus the previous menu item in submenus.
-          preventEvent(event);
-          this.focusPreviousChild();
-        } else if (this.isTopLevel && key === "ArrowRight") {
-          // The Right Arrow key should focus the next menu item.
+        if (key === "RightArrow") {
+          // Hitting the Right Arrow:
+          // - Moves focus to the next item in the menubar.
+          // - If focus is on the last item, moves focus to the first item.
           preventEvent(event);
           this.focusNextChild();
-        } else if (!this.isTopLevel && key === "ArrowDown") {
-          // The Down Arrow key should focus the next item in submenus.
-          preventEvent(event);
-          this.focusNextChild();
-        } else if (this.isTopLevel && key === "ArrowLeft") {
-          // The Left Arrow key should focus the previous menu item.
+        } else if (key === "LeftArrow") {
+          // Hitting the Left Arrow:
+          // - Moves focus to the previous item in the menubar.
+          // - If focus is on the first item, moves focus to the last item.
           preventEvent(event);
           this.focusPreviousChild();
+        } else if (key === "DownArrow") {
+          // Hitting the Down Arrow:
+          // - Opens submenu and moves focus to first item in the submenu.
+          if (this.currentMenuItem instanceof SubmenuItem) {
+            this.currentMenuItem.toggle.open();
+            this.currentMenuItem.childMenu.focusFirstChild();
+          }
+        } else if (key === "UpArrow") {
+          // Hitting the Up Arrow:
+          // - Opens submenu and moves focus to last item in the submenu.
+          if (this.currentMenuItem instanceof SubmenuItem) {
+            this.currentMenuItem.toggle.open();
+            this.currentMenuItem.childMenu.focusLastChild();
+          }
         } else if (key === "Home") {
-          // The Home key should focus the first menu item.
+          // Hitting Home:
+          // - Moves focus to first item in the menubar.
           preventEvent(event);
           this.focusFirstChild();
         } else if (key === "End") {
-          // The End key should focus the last menu item.
+          // Hitting End:
+          // - Moves focus to last item in the menubar.
           preventEvent(event);
           this.focusLastChild();
         } else if (key === "Character" && !modifier) {
-          // The A-Z keys should focus the next menu item starting with that letter.
+          // Hitting Character:
+          // - Moves focus to next item in the menubar having a name that starts with the typed character.
+          // - If none of the items have a name starting with the typed character, focus does not move.
           preventEvent(event);
           this.focusNextChildWithCharacter(event.key);
         }
@@ -429,7 +422,8 @@ class Menu {
 
       if (this.currentFocus !== "none") {
         if (key === "Tab") {
-          // The Tab key should select the next element outside of the menu.
+          // Hitting Tab:
+          // - Moves focus out of the menu.
           this.blur();
           this.closeChildren();
         }
