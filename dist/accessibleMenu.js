@@ -158,6 +158,7 @@ var AccessibleMenu = function () {
         parentMenu: parentMenu
       };
       this.openClass = openClass;
+      this.initialize();
     }
     /**
      * Initialize the toggle by ensuring WAI-ARIA values are set,
@@ -459,6 +460,7 @@ var AccessibleMenu = function () {
         toggle: toggle
       };
       this.isController = isSubmenuItem;
+      this.initialize();
     }
     /**
      * Initialize the menu item by setting its tab index.
@@ -714,6 +716,7 @@ var AccessibleMenu = function () {
       this.focusState = "none";
       this.openClass = openClass;
       this.root = isTopLevel;
+      this.initialize();
     }
     /**
      * Initializes the menu with proper tab indexing and properties.
@@ -740,7 +743,6 @@ var AccessibleMenu = function () {
             menu: this,
             openClass: this.openClass
           });
-          toggle.initialize();
           this.elements.controller = toggle;
         }
       }
@@ -794,8 +796,7 @@ var AccessibleMenu = function () {
               openClass: _this3.openClass,
               isTopLevel: false,
               parentMenu: _this3
-            });
-            menu.initialize(); // Create the new MenuToggle.
+            }); // Create the new MenuToggle.
 
             var toggle = new MenuToggle({
               menuToggleElement: toggler,
@@ -803,8 +804,7 @@ var AccessibleMenu = function () {
               menu: menu,
               openClass: _this3.openClass,
               parentMenu: _this3
-            });
-            toggle.initialize(); // Add it to the list of submenu items.
+            }); // Add it to the list of submenu items.
 
             _this3.elements.menuToggles.push(toggle); // Create a new MenuItem.
 
@@ -826,8 +826,6 @@ var AccessibleMenu = function () {
               parentMenu: _this3
             });
           }
-
-          menuItem.initialize();
 
           _this3.elements.menuItems.push(menuItem);
         });

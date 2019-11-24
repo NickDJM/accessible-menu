@@ -92,6 +92,8 @@ class MenuItem {
     };
 
     this.isController = isSubmenuItem;
+
+    this.initialize();
   }
 
   /**

@@ -157,6 +157,8 @@ class Menu {
     this.focusState = "none";
     this.openClass = openClass;
     this.root = isTopLevel;
+
+    this.initialize();
   }
 
   /**
@@ -181,7 +183,6 @@ class Menu {
         menu: this,
         openClass: this.openClass
       });
-      toggle.initialize();
 
       this.elements.controller = toggle;
     }
@@ -389,7 +390,6 @@ class Menu {
           isTopLevel: false,
           parentMenu: this
         });
-        menu.initialize();
 
         // Create the new MenuToggle.
         const toggle = new MenuToggle({
@@ -399,7 +399,6 @@ class Menu {
           openClass: this.openClass,
           parentMenu: this
         });
-        toggle.initialize();
 
         // Add it to the list of submenu items.
         this.elements.menuToggles.push(toggle);
@@ -423,8 +422,6 @@ class Menu {
           parentMenu: this
         });
       }
-
-      menuItem.initialize();
 
       this.elements.menuItems.push(menuItem);
     });

@@ -83,6 +83,8 @@ class MenuToggle {
       parentMenu: parentMenu
     };
     this.openClass = openClass;
+
+    this.initialize();
   }
 
   /**
