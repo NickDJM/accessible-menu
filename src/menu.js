@@ -576,7 +576,7 @@ class Menu {
           // Hitting Tab:
           // - Moves focus out of the menu.
           this.rootMenu.blur();
-          this.rootMent.closeChildren();
+          this.rootMenu.closeChildren();
         }
       }
     });
