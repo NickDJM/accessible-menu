@@ -1002,7 +1002,7 @@ var AccessibleMenu = function () {
               // - Moves focus out of the menu.
               _this4.rootMenu.blur();
 
-              _this4.rootMent.closeChildren();
+              _this4.rootMenu.closeChildren();
             }
           }
         });
