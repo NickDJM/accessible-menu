@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.2](https://github.com/NickDJM/accessible-menu/compare/v1.0.1...v1.0.2) (2019-11-25)
+
+
+### Bug Fixes
+
+* **menu:** correct type in tab event ([d0d9420](https://github.com/NickDJM/accessible-menu/commit/d0d9420813dc60e2579e072e6015760f1b2b3ca6))
+
+
+### Documentation
+
+* **general:** update version in cdn example ([da78b06](https://github.com/NickDJM/accessible-menu/commit/da78b066c3c046a6122cf047c0448cd2ed8ccf2f))
+* **general:** update version in cdn example ([588dd78](https://github.com/NickDJM/accessible-menu/commit/588dd782a6a920d16d744d6e6eab45a684088bd9))
+
 ### [1.0.1](https://github.com/NickDJM/accessible-menu/compare/v1.0.0...v1.0.1) (2019-11-24)
 
 
