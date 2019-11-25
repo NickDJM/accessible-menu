@@ -33,7 +33,7 @@ For learning/prototyping purposes you can use the latest version with:
 For production environments, it is recommend to use a specific version to avoid unforseen breaking changes:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/accessible-menu@1.0.0-beta.1/dist/accessibleMenu.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/accessible-menu@1.0.0/dist/accessibleMenu.js"></script>
 ```
 
 ## Usage
