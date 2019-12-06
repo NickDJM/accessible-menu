@@ -869,6 +869,8 @@ var AccessibleMenu = function () {
                 // Hitting the Down Arrow:
                 // - Opens submenu and moves focus to first item in the submenu.
                 if (_this4.currentMenuItem.isSubmenuItem) {
+                  preventEvent(event);
+
                   _this4.currentMenuItem.toggle.open();
 
                   _this4.currentMenuItem.childMenu.focusFirstChild();
@@ -877,6 +879,8 @@ var AccessibleMenu = function () {
                 // Hitting the Up Arrow:
                 // - Opens submenu and moves focus to last item in the submenu.
                 if (_this4.currentMenuItem.isSubmenuItem) {
+                  preventEvent(event);
+
                   _this4.currentMenuItem.toggle.open();
 
                   _this4.currentMenuItem.childMenu.focusLastChild();
@@ -924,11 +928,13 @@ var AccessibleMenu = function () {
               //   - Closes submenu.
               //   - Moves focus to next item in the menubar.
               //   - Opens submenu of newly focused menubar item, keeping focus on that parent menubar item.
-              preventEvent(event);
-
               if (_this4.currentMenuItem.isSubmenuItem) {
+                preventEvent(event);
+
                 _this4.currentMenuItem.toggle.open();
               } else {
+                preventEvent(event);
+
                 _this4.rootMenu.closeChildren();
 
                 _this4.rootMenu.focusNextChild();
@@ -943,9 +949,9 @@ var AccessibleMenu = function () {
               // - If parent menu item is in the menubar, also:
               //   - moves focus to previous item in the menubar.
               //   - Opens submenu of newly focused menubar item, keeping focus on that parent menubar item.
-              preventEvent(event);
-
               if (_this4.parentMenu.currentMenuItem.isSubmenuItem) {
+                preventEvent(event);
+
                 _this4.parentMenu.currentMenuItem.toggle.close();
 
                 if (_this4.parentMenu === _this4.rootMenu) {

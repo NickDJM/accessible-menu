@@ -460,6 +460,7 @@ class Menu {
             // Hitting the Down Arrow:
             // - Opens submenu and moves focus to first item in the submenu.
             if (this.currentMenuItem.isSubmenuItem) {
+              preventEvent(event);
               this.currentMenuItem.toggle.open();
               this.currentMenuItem.childMenu.focusFirstChild();
             }
@@ -467,6 +468,7 @@ class Menu {
             // Hitting the Up Arrow:
             // - Opens submenu and moves focus to last item in the submenu.
             if (this.currentMenuItem.isSubmenuItem) {
+              preventEvent(event);
               this.currentMenuItem.toggle.open();
               this.currentMenuItem.childMenu.focusLastChild();
             }
@@ -508,10 +510,11 @@ class Menu {
           //   - Closes submenu.
           //   - Moves focus to next item in the menubar.
           //   - Opens submenu of newly focused menubar item, keeping focus on that parent menubar item.
-          preventEvent(event);
           if (this.currentMenuItem.isSubmenuItem) {
+            preventEvent(event);
             this.currentMenuItem.toggle.open();
           } else {
+            preventEvent(event);
             this.rootMenu.closeChildren();
             this.rootMenu.focusNextChild();
 
@@ -525,8 +528,8 @@ class Menu {
           // - If parent menu item is in the menubar, also:
           //   - moves focus to previous item in the menubar.
           //   - Opens submenu of newly focused menubar item, keeping focus on that parent menubar item.
-          preventEvent(event);
           if (this.parentMenu.currentMenuItem.isSubmenuItem) {
+            preventEvent(event);
             this.parentMenu.currentMenuItem.toggle.close();
 
             if (this.parentMenu === this.rootMenu) {
