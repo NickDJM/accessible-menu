@@ -3,6 +3,11 @@
   "version": "1.0.3",
   "description": "A JavaScript library to help you generate WAI-ARIA accessible menus in the DOM.",
   "main": "main.js",
+  "files": [
+    "main.js",
+    "dist/",
+    "src/"
+  ],
   "scripts": {
     "commit": "npx git cz",
     "lint": "npx eslint --ext .js --ignore-path .eslintignore .",
