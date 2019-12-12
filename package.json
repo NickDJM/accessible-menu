@@ -2,9 +2,9 @@
   "name": "accessible-menu",
   "version": "1.0.3",
   "description": "A JavaScript library to help you generate WAI-ARIA accessible menus in the DOM.",
-  "main": "main.js",
+  "main": "index.js",
   "files": [
-    "main.js",
+    "index.js",
     "dist/",
     "src/"
   ],
