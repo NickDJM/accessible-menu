@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.4](https://github.com/NickDJM/accessible-menu/compare/v1.0.3...v1.0.4) (2019-12-15)
+
+
+### Bug Fixes
+
+* **menu:** keep focus on root item after left/right arrows ([f0d1499](https://github.com/NickDJM/accessible-menu/commit/f0d149968e153b22b3fdd7ba6dc9c9fda0ed2edb)), closes [#50](https://github.com/NickDJM/accessible-menu/issues/50)
+* **menu:** prevent default event on arrow up/down on top level menus ([d9410f3](https://github.com/NickDJM/accessible-menu/commit/d9410f30955110e17fa7500afefb270f41cefbf3)), closes [#47](https://github.com/NickDJM/accessible-menu/issues/47)
+
+
+### Build System
+
+* **npm:** disallow .files from being packaged ([73e0579](https://github.com/NickDJM/accessible-menu/commit/73e0579a559b3529d65cb201c1aeb8f8f39efaa4))
+* **npm:** ensure build is run and committed with release ([a9f03ff](https://github.com/NickDJM/accessible-menu/commit/a9f03ff2bac8809c16a564f2a7a267569f5d1c79))
+
+
+### Code Refactoring
+
+* **main:** change main.js to index.js to keep to internal standard ([c4091ab](https://github.com/NickDJM/accessible-menu/commit/c4091abcc70c978511823911b293a2157ff72f67))
+
 ### [1.0.3](https://github.com/NickDJM/accessible-menu/compare/v1.0.2...v1.0.3) (2019-11-25)
 
 
