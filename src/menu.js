@@ -448,14 +448,46 @@ class Menu {
             // Hitting the Right Arrow:
             // - Moves focus to the next item in the menubar.
             // - If focus is on the last item, moves focus to the first item.
+            // - If focus was on an open submenu and the newly focussed item has a submenu, open the submenu.
             preventEvent(event);
+
+            // Store the current item's info if its an open dropdown.
+            const previousChildOpen =
+              this.currentMenuItem.isSubmenuItem &&
+              this.currentMenuItem.toggle.isOpen;
+
             this.focusNextChild();
+
+            // Open the newly focussed submenu if applicable.
+            if (previousChildOpen) {
+              if (this.currentMenuItem.isSubmenuItem) {
+                this.currentMenuItem.toggle.preview();
+              } else {
+                this.closeChildren();
+              }
+            }
           } else if (key === "ArrowLeft") {
             // Hitting the Left Arrow:
             // - Moves focus to the previous item in the menubar.
             // - If focus is on the first item, moves focus to the last item.
+            // - If focus was on an open submenu and the newly focussed item has a submenu, open the submenu.
             preventEvent(event);
+
+            // Store the current item's info if its an open dropdown.
+            const previousChildOpen =
+              this.currentMenuItem.isSubmenuItem &&
+              this.currentMenuItem.toggle.isOpen;
+
             this.focusPreviousChild();
+
+            // Open the newly focussed submenu if applicable.
+            if (previousChildOpen) {
+              if (this.currentMenuItem.isSubmenuItem) {
+                this.currentMenuItem.toggle.preview();
+              } else {
+                this.closeChildren();
+              }
+            }
           } else if (key === "ArrowDown") {
             // Hitting the Down Arrow:
             // - Opens submenu and moves focus to first item in the submenu.
@@ -519,7 +551,7 @@ class Menu {
             this.rootMenu.focusNextChild();
 
             if (this.rootMenu.currentMenuItem.isSubmenuItem) {
-              this.rootMenu.currentMenuItem.toggle.open();
+              this.rootMenu.currentMenuItem.toggle.preview();
             }
           }
         } else if (key === "ArrowLeft") {
@@ -537,7 +569,7 @@ class Menu {
               this.rootMenu.focusPreviousChild();
 
               if (this.rootMenu.currentMenuItem.isSubmenuItem) {
-                this.rootMenu.currentMenuItem.toggle.open();
+                this.rootMenu.currentMenuItem.toggle.preview();
               }
             }
           }

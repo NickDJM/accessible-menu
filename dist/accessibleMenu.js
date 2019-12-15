@@ -156,6 +156,7 @@ var AccessibleMenu = function () {
         parentMenu: parentMenu
       };
       this.openClass = openClass;
+      this.show = false;
       this.initialize();
     }
     /**
@@ -192,27 +193,56 @@ var AccessibleMenu = function () {
        */
 
     }, {
-      key: "open",
+      key: "expand",
 
+      /**
+       * Expands the submenu.
+       */
+      value: function expand() {
+        // Assign new WAI-ARIA/class values.
+        this.element.setAttribute("aria-expanded", "true");
+        this.parentElement.classList.add(this.openClass);
+        this.menu.element.classList.add(this.openClass);
+      }
       /**
        * Opens the submenu.
        */
+
+    }, {
+      key: "open",
       value: function open() {
-        if (!this.isOpen) {
-          // Set the open value.
-          this.isOpen = true; // Assign new WAI-ARIA/class values.
+        // Set the open value.
+        this.isOpen = true; // Expand the menu.
 
-          this.element.setAttribute("aria-expanded", "true");
-          this.parentElement.classList.add(this.openClass);
-          this.menu.element.classList.add(this.openClass); // Close all sibling menus.
+        this.expand(); // Close all sibling menus.
 
-          this.closeSiblings(); // Set proper focus states to parent & child.
+        this.closeSiblings(); // Set proper focus states to parent & child.
 
-          if (this.parentMenu) this.parentMenu.currentFocus = "child";
-          this.menu.currentFocus = "self"; // Set the new focus.
+        if (this.parentMenu) this.parentMenu.currentFocus = "child";
+        this.menu.currentFocus = "self"; // Set the new focus.
 
-          this.menu.focusFirstChild();
+        this.menu.focusFirstChild();
+      }
+      /**
+       * Opens the submenu without focus entering it.
+       */
+
+    }, {
+      key: "preview",
+      value: function preview() {
+        // Set the open value.
+        this.isOpen = true; // Expand the menu.
+
+        this.expand(); // Close all sibling menus.
+
+        this.closeSiblings(); // Set proper focus states to parent & child.
+
+        if (this.parentMenu) {
+          this.parentMenu.currentFocus = "self";
+          this.parentMenu.focusCurrentChild();
         }
+
+        this.menu.currentFocus = "none";
       }
       /**
        * Closes the submenu.
@@ -855,16 +885,40 @@ var AccessibleMenu = function () {
                 // Hitting the Right Arrow:
                 // - Moves focus to the next item in the menubar.
                 // - If focus is on the last item, moves focus to the first item.
-                preventEvent(event);
+                // - If focus was on an open submenu and the newly focussed item has a submenu, open the submenu.
+                preventEvent(event); // Store the current item's info if its an open dropdown.
 
-                _this4.focusNextChild();
+                var previousChildOpen = _this4.currentMenuItem.isSubmenuItem && _this4.currentMenuItem.toggle.isOpen;
+
+                _this4.focusNextChild(); // Open the newly focussed submenu if applicable.
+
+
+                if (previousChildOpen) {
+                  if (_this4.currentMenuItem.isSubmenuItem) {
+                    _this4.currentMenuItem.toggle.preview();
+                  } else {
+                    _this4.closeChildren();
+                  }
+                }
               } else if (key === "ArrowLeft") {
                 // Hitting the Left Arrow:
                 // - Moves focus to the previous item in the menubar.
                 // - If focus is on the first item, moves focus to the last item.
-                preventEvent(event);
+                // - If focus was on an open submenu and the newly focussed item has a submenu, open the submenu.
+                preventEvent(event); // Store the current item's info if its an open dropdown.
 
-                _this4.focusPreviousChild();
+                var _previousChildOpen = _this4.currentMenuItem.isSubmenuItem && _this4.currentMenuItem.toggle.isOpen;
+
+                _this4.focusPreviousChild(); // Open the newly focussed submenu if applicable.
+
+
+                if (_previousChildOpen) {
+                  if (_this4.currentMenuItem.isSubmenuItem) {
+                    _this4.currentMenuItem.toggle.preview();
+                  } else {
+                    _this4.closeChildren();
+                  }
+                }
               } else if (key === "ArrowDown") {
                 // Hitting the Down Arrow:
                 // - Opens submenu and moves focus to first item in the submenu.
@@ -940,7 +994,7 @@ var AccessibleMenu = function () {
                 _this4.rootMenu.focusNextChild();
 
                 if (_this4.rootMenu.currentMenuItem.isSubmenuItem) {
-                  _this4.rootMenu.currentMenuItem.toggle.open();
+                  _this4.rootMenu.currentMenuItem.toggle.preview();
                 }
               }
             } else if (key === "ArrowLeft") {
@@ -960,7 +1014,7 @@ var AccessibleMenu = function () {
                   _this4.rootMenu.focusPreviousChild();
 
                   if (_this4.rootMenu.currentMenuItem.isSubmenuItem) {
-                    _this4.rootMenu.currentMenuItem.toggle.open();
+                    _this4.rootMenu.currentMenuItem.toggle.preview();
                   }
                 }
               }
