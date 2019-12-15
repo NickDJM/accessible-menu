@@ -81,6 +81,7 @@ class MenuToggle {
       parentMenu: parentMenu
     };
     this.openClass = openClass;
+    this.show = false;
 
     this.initialize();
   }
@@ -178,28 +179,55 @@ class MenuToggle {
   }
 
   /**
+   * Expands the submenu.
+   */
+  expand() {
+    // Assign new WAI-ARIA/class values.
+    this.element.setAttribute("aria-expanded", "true");
+    this.parentElement.classList.add(this.openClass);
+    this.menu.element.classList.add(this.openClass);
+  }
+
+  /**
    * Opens the submenu.
    */
   open() {
-    if (!this.isOpen) {
-      // Set the open value.
-      this.isOpen = true;
+    // Set the open value.
+    this.isOpen = true;
 
-      // Assign new WAI-ARIA/class values.
-      this.element.setAttribute("aria-expanded", "true");
-      this.parentElement.classList.add(this.openClass);
-      this.menu.element.classList.add(this.openClass);
+    // Expand the menu.
+    this.expand();
 
-      // Close all sibling menus.
-      this.closeSiblings();
+    // Close all sibling menus.
+    this.closeSiblings();
 
-      // Set proper focus states to parent & child.
-      if (this.parentMenu) this.parentMenu.currentFocus = "child";
-      this.menu.currentFocus = "self";
+    // Set proper focus states to parent & child.
+    if (this.parentMenu) this.parentMenu.currentFocus = "child";
+    this.menu.currentFocus = "self";
 
-      // Set the new focus.
-      this.menu.focusFirstChild();
+    // Set the new focus.
+    this.menu.focusFirstChild();
+  }
+
+  /**
+   * Opens the submenu without focus entering it.
+   */
+  preview() {
+    // Set the open value.
+    this.isOpen = true;
+
+    // Expand the menu.
+    this.expand();
+
+    // Close all sibling menus.
+    this.closeSiblings();
+
+    // Set proper focus states to parent & child.
+    if (this.parentMenu) {
+      this.parentMenu.currentFocus = "self";
+      this.parentMenu.focusCurrentChild();
     }
+    this.menu.currentFocus = "none";
   }
 
   /**

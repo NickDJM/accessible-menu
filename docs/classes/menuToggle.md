@@ -34,7 +34,9 @@ All Parameters _must_ be contained in a single object.
 
 | Method | Description |
 | --- | --- |
+| expand | Expands the submenu. |
 | open | Opens the submenu. |
+| preview | Opens the submenu without focus entering it. |
 | close | Closes the submenu. |
 | toggle | Toggles the open state of the menu. |
 | closeSiblings | Closes all sibling menus. |
