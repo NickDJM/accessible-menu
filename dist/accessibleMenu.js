@@ -257,7 +257,8 @@ var AccessibleMenu = function () {
 
           this.element.setAttribute("aria-expanded", "false");
           this.parentElement.classList.remove(this.openClass);
-          this.menu.element.classList.remove(this.openClass); // Close all child menus.
+          this.menu.element.classList.remove(this.openClass);
+          this.menu.focusFirstChild(); // Close all child menus.
 
           this.closeChildren(); // Set proper focus states to parent & child.
 
@@ -755,8 +756,8 @@ var AccessibleMenu = function () {
         this.element.setAttribute("role", "menubar");
         if (this.rootMenu === null) this.findRootMenu(this);
         this.createMenuItems();
-        this.handleClick();
         this.handleKeydown();
+        this.handleClick();
 
         if (this.isTopLevel) {
           // Set initial tabIndex.
@@ -1119,8 +1120,15 @@ var AccessibleMenu = function () {
 
 
             if (_this6.rootMenu.currentFocus === "none") {
+              _this6.rootMenu.blur();
+
+              _this6.rootMenu.closeChildren();
+
               _this6.rootMenu.currentMenuItem.element.tabIndex = 0;
             }
+          } else {
+            console.log(event);
+            _this6.rootMenu.currentMenuItem.element.tabIndex = -1;
           }
         }); // Ensure proper menu focus is applied.
 

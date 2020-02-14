@@ -663,8 +663,12 @@ class Menu {
 
         // Set tabIndex for the root's current menuItem.
         if (this.rootMenu.currentFocus === "none") {
+          this.rootMenu.blur();
+          this.rootMenu.closeChildren();
           this.rootMenu.currentMenuItem.element.tabIndex = 0;
         }
+      } else {
+        this.rootMenu.currentMenuItem.element.tabIndex = -1;
       }
     });
 
