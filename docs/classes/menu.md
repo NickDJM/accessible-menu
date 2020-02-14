@@ -53,6 +53,7 @@ All Parameters _must_ be contained in a single object.
 | initialize | Initializes the menu with proper tab indexing and properties. This will also initialize all menu items and sub menus. |
 | findRootMenu[*](#findrootmenu) | Finds the root Menu element. |
 | createMenuItems | Creates and initializes all menu items. |
+| handleFoucs | Sets up focusin/focusout handling. |
 | handleKeydown | Sets up the hijacked keydown events. |
 | handleClick | Handle click events required for proper menu usage. |
 | focus | Focus the menu. |
