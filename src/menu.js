@@ -174,7 +174,7 @@ class Menu {
 
     if (this.isTopLevel) {
       // Set initial tabIndex.
-      this.element.tabIndex = 0;
+      this.currentMenuItem.linkElement.tabIndex = 0;
       this.handleFocus();
 
       if (this.controllerElement && this.containerElement) {
@@ -434,21 +434,22 @@ class Menu {
    * Sets up focusin/focusout handling.
    */
   handleFocus() {
-    // Properly enter menu on focus.
-    this.element.addEventListener("focusin", () => {
-      if (this.currentFocus === "none") {
-        this.element.tabIndex = -1;
-        this.currentFocus = "self";
-        this.focusCurrentChild();
-      }
-    });
+    this.menuItems.forEach(item => {
+      // Properly enter menu on focus.
+      item.linkElement.addEventListener("focusin", () => {
+        if (this.currentFocus === "none") {
+          this.currentFocus = "self";
+          this.focusCurrentChild();
+        }
+      });
 
-    // Set tabIndex for the current menuItem.
-    this.element.addEventListener("focusout", () => {
-      if (this.currentFocus === "none") {
-        this.element.tabIndex = 0;
-        this.blur();
-      }
+      // Set tabIndex for the current menuItem.
+      item.linkElement.addEventListener("focusout", () => {
+        if (this.currentFocus === "none") {
+          this.blur();
+          this.closeChildren();
+        }
+      });
     });
   }
 
@@ -659,10 +660,6 @@ class Menu {
         if (this.controller) {
           this.controller.close();
         }
-
-        if (this.rootMenu.currentFocus === "none") {
-          this.rootMenu.element.tabIndex = 0;
-        }
       }
     });
 
@@ -698,6 +695,7 @@ class Menu {
    * Focues the menu's first child.
    */
   focusFirstChild() {
+    this.blurCurrentChild();
     this.focussedChild = 0;
     this.focusCurrentChild();
   }
@@ -706,6 +704,7 @@ class Menu {
    * Focus the menu's last child.
    */
   focusLastChild() {
+    this.blurCurrentChild();
     this.focussedChild = this.menuItems.length - 1;
     this.focusCurrentChild();
   }
@@ -717,6 +716,7 @@ class Menu {
     if (this.focussedChild === this.menuItems.length - 1) {
       this.focusFirstChild();
     } else {
+      this.blurCurrentChild();
       this.focussedChild = this.focussedChild + 1;
       this.focusCurrentChild();
     }
@@ -729,6 +729,7 @@ class Menu {
     if (this.focussedChild === 0) {
       this.focusLastChild();
     } else {
+      this.blurCurrentChild();
       this.focussedChild = this.focussedChild - 1;
       this.focusCurrentChild();
     }
@@ -739,7 +740,16 @@ class Menu {
    */
   focusCurrentChild() {
     if (this.focussedChild !== -1) {
-      this.menuItems[this.focussedChild].focus();
+      this.currentMenuItem.focus();
+    }
+  }
+
+  /**
+   * Blurs the menu's current child.
+   */
+  blurCurrentChild() {
+    if (this.focussedChild !== -1) {
+      this.currentMenuItem.blur();
     }
   }
 

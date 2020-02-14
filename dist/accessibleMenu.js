@@ -510,19 +510,28 @@ var AccessibleMenu = function () {
       key: "focus",
 
       /**
-       * Focuses the menu item's link.
+       * Focuses the menu item's link and set proper tabIndex.
        */
       value: function focus() {
         this.linkElement.focus();
+
+        if (this.parentMenu.isTopLevel) {
+          this.parentMenu.currentFocus = "self";
+          this.linkElement.tabIndex = 0;
+        }
       }
       /**
-       * Blurs the menu item's link.
+       * Blurs the menu item's link and set proper tabIndex.
        */
 
     }, {
       key: "blur",
       value: function blur() {
         this.linkElement.blur();
+
+        if (this.parentMenu.isTopLevel) {
+          this.linkElement.tabIndex = -1;
+        }
       }
     }, {
       key: "element",
@@ -761,7 +770,7 @@ var AccessibleMenu = function () {
 
         if (this.isTopLevel) {
           // Set initial tabIndex.
-          this.element.tabIndex = 0;
+          this.currentMenuItem.linkElement.tabIndex = 0;
           this.handleFocus();
 
           if (this.controllerElement && this.containerElement) {
@@ -869,22 +878,23 @@ var AccessibleMenu = function () {
       value: function handleFocus() {
         var _this4 = this;
 
-        // Properly enter menu on focus.
-        this.element.addEventListener("focusin", function () {
-          if (_this4.currentFocus === "none") {
-            _this4.element.tabIndex = -1;
-            _this4.currentFocus = "self";
+        this.menuItems.forEach(function (item) {
+          // Properly enter menu on focus.
+          item.linkElement.addEventListener("focusin", function () {
+            if (_this4.currentFocus === "none") {
+              _this4.currentFocus = "self";
 
-            _this4.focusCurrentChild();
-          }
-        }); // Set tabIndex for the current menuItem.
+              _this4.focusCurrentChild();
+            }
+          }); // Set tabIndex for the current menuItem.
 
-        this.element.addEventListener("focusout", function () {
-          if (_this4.currentFocus === "none") {
-            _this4.element.tabIndex = 0;
+          item.linkElement.addEventListener("focusout", function () {
+            if (_this4.currentFocus === "none") {
+              _this4.blur();
 
-            _this4.blur();
-          }
+              _this4.closeChildren();
+            }
+          });
         });
       }
       /**
@@ -1118,10 +1128,6 @@ var AccessibleMenu = function () {
             if (_this6.controller) {
               _this6.controller.close();
             }
-
-            if (_this6.rootMenu.currentFocus === "none") {
-              _this6.rootMenu.element.tabIndex = 0;
-            }
           }
         }); // Ensure proper menu focus is applied.
 
@@ -1162,6 +1168,7 @@ var AccessibleMenu = function () {
     }, {
       key: "focusFirstChild",
       value: function focusFirstChild() {
+        this.blurCurrentChild();
         this.focussedChild = 0;
         this.focusCurrentChild();
       }
@@ -1172,6 +1179,7 @@ var AccessibleMenu = function () {
     }, {
       key: "focusLastChild",
       value: function focusLastChild() {
+        this.blurCurrentChild();
         this.focussedChild = this.menuItems.length - 1;
         this.focusCurrentChild();
       }
@@ -1185,6 +1193,7 @@ var AccessibleMenu = function () {
         if (this.focussedChild === this.menuItems.length - 1) {
           this.focusFirstChild();
         } else {
+          this.blurCurrentChild();
           this.focussedChild = this.focussedChild + 1;
           this.focusCurrentChild();
         }
@@ -1199,6 +1208,7 @@ var AccessibleMenu = function () {
         if (this.focussedChild === 0) {
           this.focusLastChild();
         } else {
+          this.blurCurrentChild();
           this.focussedChild = this.focussedChild - 1;
           this.focusCurrentChild();
         }
@@ -1211,7 +1221,18 @@ var AccessibleMenu = function () {
       key: "focusCurrentChild",
       value: function focusCurrentChild() {
         if (this.focussedChild !== -1) {
-          this.menuItems[this.focussedChild].focus();
+          this.currentMenuItem.focus();
+        }
+      }
+      /**
+       * Blurs the menu's current child.
+       */
+
+    }, {
+      key: "blurCurrentChild",
+      value: function blurCurrentChild() {
+        if (this.focussedChild !== -1) {
+          this.currentMenuItem.blur();
         }
       }
       /**
