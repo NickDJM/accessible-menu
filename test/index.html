@@ -29,6 +29,25 @@
       margin: 0 auto;
     }
 
+    nav {
+      display: flex;
+      background-color: #55808d;
+    }
+
+    #main-menu > .menu {
+      display: none;
+    }
+
+    #main-menu.show > .menu {
+      display: flex;
+    }
+
+    .menu-toggle {
+      background: transparent;
+      border: none;
+      font-size: 1rem;
+    }
+
     .sr-only {
       position: absolute !important;
       width: 1px !important;
@@ -50,7 +69,8 @@
       padding: 0;
     }
 
-    a.menu-link {
+    a.menu-link,
+    .menu-toggle {
       display: block;
       padding: 1rem 2rem;
       color: #fff;
@@ -60,7 +80,9 @@
 
     a.menu-link:hover,
     a.menu-link:focus,
-    a.menu-link:focus-within {
+    a.menu-link:focus-within,
+    .menu-toggle:hover,
+    .menu-toggle:focus {
       background-color: #436874;
     }
 
@@ -104,6 +126,7 @@
   <header>
     <nav id="main-menu" aria-labelledby="main-menu-title">
       <h2 id="main-menu-title" class="menu-title sr-only">Main</h2>
+      <button href="" class="menu-toggle">Toggle Menu</button>
       <ul class="menu">
         <li class="menu-item"><a href="https://github.com/NickDJM/accessible-menu/tree/master" target="_blank" class="menu-link">GitHub</a></li>
         <li class="menu-item"><a href="https://www.npmjs.com/package/accessible-menu" target="_blank" class="menu-link">NPM</a></li>
@@ -161,24 +184,33 @@
   </footer>
   <script src="../dist/accessibleMenu.min.js"></script>
   <script>
-    const menus = document.querySelectorAll(".menu:not(.dropdown)");
-    const menuItemSelector = ".menu-item";
-    const submenuItemSelector = ".menu-item.dropdown";
-    const submenuToggleSelector = ".dropdown-toggle";
-    const submenuSelector = ".menu.dropdown";
-    const openClass = "show";
+    const navs = document.querySelectorAll("nav");
+    const menuSettings = {
+      menuItemSelector: ".menu-item",
+      submenuItemSelector: ".menu-item.dropdown",
+      submenuToggleSelector: ".dropdown-toggle",
+      submenuSelector: ".menu.dropdown",
+      openClass: "show"
+    };
 
-    menus.forEach(menuElement => {
-      const menu = new AccessibleMenu({
-        menuElement,
-        menuItemSelector,
-        submenuItemSelector,
-        submenuToggleSelector,
-        submenuSelector,
-        openClass
-      });
+    navs.forEach(nav => {
+      const menuElement = nav.querySelector(".menu");
+
+      if (nav.id === "main-menu") {
+        const controllerElement = nav.querySelector(".menu-toggle");
+        const menu = new AccessibleMenu({
+          menuElement,
+          ...menuSettings,
+          controllerElement,
+          containerElement: nav
+        });
+      } else {
+        const menu = new AccessibleMenu({
+          menuElement,
+          ...menuSettings
+        });
+      }
     });
-    // const menu = new AccessibleMenu();
   </script>
 </body>
 </html>
