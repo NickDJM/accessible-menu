@@ -157,17 +157,25 @@ class MenuItem {
   }
 
   /**
-   * Focuses the menu item's link.
+   * Focuses the menu item's link and set proper tabIndex.
    */
   focus() {
     this.linkElement.focus();
+
+    if (this.parentMenu.isTopLevel) {
+      this.linkElement.tabIndex = 0;
+    }
   }
 
   /**
-   * Blurs the menu item's link.
+   * Blurs the menu item's link and set proper tabIndex.
    */
   blur() {
     this.linkElement.blur();
+
+    if (this.parentMenu.isTopLevel) {
+      this.linkElement.tabIndex = -1;
+    }
   }
 }
 

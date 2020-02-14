@@ -53,6 +53,7 @@ All Parameters _must_ be contained in a single object.
 | initialize | Initializes the menu with proper tab indexing and properties. This will also initialize all menu items and sub menus. |
 | findRootMenu[*](#findrootmenu) | Finds the root Menu element. |
 | createMenuItems | Creates and initializes all menu items. |
+| handleFoucs | Sets up focusin/focusout handling. |
 | handleKeydown | Sets up the hijacked keydown events. |
 | handleClick | Handle click events required for proper menu usage. |
 | focus | Focus the menu. |
@@ -62,6 +63,7 @@ All Parameters _must_ be contained in a single object.
 | focusNextChild | Focus the menu's next child. |
 | focusPreviousChild | Focus the menu's last child. |
 | focusCurrentChild | Focus the menu's current child. |
+| blurCurrentChild | Blurs the menu's current child. |
 | focusNextChildWithCharacter[*](#focusnextchildwithcharacter) | Focus the menu's next child starting with a specific letter. |
 | focusController | Focus the menu's controller. |
 | focusContainer | Focus the menu's container. |

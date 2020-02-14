@@ -242,6 +242,7 @@ class MenuToggle {
       this.element.setAttribute("aria-expanded", "false");
       this.parentElement.classList.remove(this.openClass);
       this.menu.element.classList.remove(this.openClass);
+      this.menu.focusFirstChild();
 
       // Close all child menus.
       this.closeChildren();

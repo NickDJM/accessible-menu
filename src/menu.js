@@ -151,7 +151,7 @@ class Menu {
       parentMenu: parentMenu,
       rootMenu: isTopLevel ? this : null
     };
-    this.focussedChild = -1;
+    this.focussedChild = 0;
     this.focusState = "none";
     this.openClass = openClass;
     this.root = isTopLevel;
@@ -166,23 +166,28 @@ class Menu {
    */
   initialize() {
     this.element.setAttribute("role", "menubar");
-    this.element.tabIndex = 0;
 
     if (this.rootMenu === null) this.findRootMenu(this);
     this.createMenuItems();
     this.handleKeydown();
     this.handleClick();
 
-    if (this.isTopLevel && this.controllerElement && this.containerElement) {
-      // Create a new MenuToggle to control the menu.
-      const toggle = new MenuToggle({
-        menuToggleElement: this.controllerElement,
-        parentElement: this.containerElement,
-        menu: this,
-        openClass: this.openClass
-      });
+    if (this.isTopLevel) {
+      // Set initial tabIndex.
+      this.currentMenuItem.linkElement.tabIndex = 0;
+      this.handleFocus();
 
-      this.elements.controller = toggle;
+      if (this.controllerElement && this.containerElement) {
+        // Create a new MenuToggle to control the menu.
+        const toggle = new MenuToggle({
+          menuToggleElement: this.controllerElement,
+          parentElement: this.containerElement,
+          menu: this,
+          openClass: this.openClass
+        });
+
+        this.elements.controller = toggle;
+      }
     }
   }
 
@@ -426,6 +431,29 @@ class Menu {
   }
 
   /**
+   * Sets up focusin/focusout handling.
+   */
+  handleFocus() {
+    this.menuItems.forEach(item => {
+      // Properly enter menu on focus.
+      item.linkElement.addEventListener("focusin", () => {
+        if (this.currentFocus === "none") {
+          this.currentFocus = "self";
+          this.focusCurrentChild();
+        }
+      });
+
+      // Set tabIndex for the current menuItem.
+      item.linkElement.addEventListener("focusout", () => {
+        if (this.currentFocus === "none") {
+          this.blur();
+          this.closeChildren();
+        }
+      });
+    });
+  }
+
+  /**
    * Sets up the hijacked keydown events.
    */
   handleKeydown() {
@@ -634,13 +662,19 @@ class Menu {
         }
       }
     });
+
+    // Ensure proper menu focus is applied.
+    this.menuItems.forEach(menuItem => {
+      menuItem.linkElement.addEventListener("click", () => {
+        this.focussedChild = this.menuItems.indexOf(menuItem);
+      });
+    });
   }
 
   /**
    * Focus the menu.
    */
   focus() {
-    this.focussedChild = 0;
     this.currentFocus = "self";
     this.element.focus();
   }
@@ -649,15 +683,19 @@ class Menu {
    * Unfocus the menu.
    */
   blur() {
-    this.focussedChild = -1;
     this.currentFocus = "none";
     this.element.blur();
+
+    if (this.isTopLevel && this.controller) {
+      this.controller.close();
+    }
   }
 
   /**
    * Focues the menu's first child.
    */
   focusFirstChild() {
+    this.blurCurrentChild();
     this.focussedChild = 0;
     this.focusCurrentChild();
   }
@@ -666,6 +704,7 @@ class Menu {
    * Focus the menu's last child.
    */
   focusLastChild() {
+    this.blurCurrentChild();
     this.focussedChild = this.menuItems.length - 1;
     this.focusCurrentChild();
   }
@@ -677,6 +716,7 @@ class Menu {
     if (this.focussedChild === this.menuItems.length - 1) {
       this.focusFirstChild();
     } else {
+      this.blurCurrentChild();
       this.focussedChild = this.focussedChild + 1;
       this.focusCurrentChild();
     }
@@ -689,6 +729,7 @@ class Menu {
     if (this.focussedChild === 0) {
       this.focusLastChild();
     } else {
+      this.blurCurrentChild();
       this.focussedChild = this.focussedChild - 1;
       this.focusCurrentChild();
     }
@@ -699,7 +740,16 @@ class Menu {
    */
   focusCurrentChild() {
     if (this.focussedChild !== -1) {
-      this.menuItems[this.focussedChild].focus();
+      this.currentMenuItem.focus();
+    }
+  }
+
+  /**
+   * Blurs the menu's current child.
+   */
+  blurCurrentChild() {
+    if (this.focussedChild !== -1) {
+      this.currentMenuItem.blur();
     }
   }
 
