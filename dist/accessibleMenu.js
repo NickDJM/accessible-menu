@@ -761,7 +761,7 @@ var AccessibleMenu = function () {
 
         if (this.isTopLevel) {
           // Set initial tabIndex.
-          this.currentMenuItem.element.tabIndex = 0;
+          this.element.tabIndex = 0;
           this.handleFocus();
 
           if (this.controllerElement && this.containerElement) {
@@ -869,11 +869,10 @@ var AccessibleMenu = function () {
       value: function handleFocus() {
         var _this4 = this;
 
-        var element = this.currentMenuItem.element; // Properly enter menu on focus.
-
-        this.element.addEventListener("focusin", function (event) {
+        // Properly enter menu on focus.
+        this.element.addEventListener("focusin", function () {
           if (_this4.currentFocus === "none") {
-            element.tabIndex = -1;
+            _this4.element.tabIndex = -1;
             _this4.currentFocus = "self";
 
             _this4.focusCurrentChild();
@@ -882,7 +881,9 @@ var AccessibleMenu = function () {
 
         this.element.addEventListener("focusout", function () {
           if (_this4.currentFocus === "none") {
-            element.tabIndex = 0;
+            _this4.element.tabIndex = 0;
+
+            _this4.blur();
           }
         });
       }
@@ -1116,22 +1117,16 @@ var AccessibleMenu = function () {
 
             if (_this6.controller) {
               _this6.controller.close();
-            } // Set tabIndex for the root's current menuItem.
-
+            }
 
             if (_this6.rootMenu.currentFocus === "none") {
-              _this6.rootMenu.blur();
-
-              _this6.rootMenu.closeChildren();
-
-              _this6.rootMenu.currentMenuItem.element.tabIndex = 0;
+              _this6.rootMenu.element.tabIndex = 0;
             }
           }
         }); // Ensure proper menu focus is applied.
 
         this.menuItems.forEach(function (menuItem) {
           menuItem.linkElement.addEventListener("click", function () {
-            _this6.rootMenu.currentMenuItem.element.tabIndex = -1;
             _this6.focussedChild = _this6.menuItems.indexOf(menuItem);
           });
         });
@@ -1155,6 +1150,10 @@ var AccessibleMenu = function () {
       value: function blur() {
         this.currentFocus = "none";
         this.element.blur();
+
+        if (this.isTopLevel && this.controller) {
+          this.controller.close();
+        }
       }
       /**
        * Focues the menu's first child.

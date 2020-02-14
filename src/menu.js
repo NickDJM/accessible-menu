@@ -174,7 +174,7 @@ class Menu {
 
     if (this.isTopLevel) {
       // Set initial tabIndex.
-      this.currentMenuItem.element.tabIndex = 0;
+      this.element.tabIndex = 0;
       this.handleFocus();
 
       if (this.controllerElement && this.containerElement) {
@@ -434,12 +434,10 @@ class Menu {
    * Sets up focusin/focusout handling.
    */
   handleFocus() {
-    const { element } = this.currentMenuItem;
-
     // Properly enter menu on focus.
-    this.element.addEventListener("focusin", event => {
+    this.element.addEventListener("focusin", () => {
       if (this.currentFocus === "none") {
-        element.tabIndex = -1;
+        this.element.tabIndex = -1;
         this.currentFocus = "self";
         this.focusCurrentChild();
       }
@@ -448,7 +446,8 @@ class Menu {
     // Set tabIndex for the current menuItem.
     this.element.addEventListener("focusout", () => {
       if (this.currentFocus === "none") {
-        element.tabIndex = 0;
+        this.element.tabIndex = 0;
+        this.blur();
       }
     });
   }
@@ -661,11 +660,8 @@ class Menu {
           this.controller.close();
         }
 
-        // Set tabIndex for the root's current menuItem.
         if (this.rootMenu.currentFocus === "none") {
-          this.rootMenu.blur();
-          this.rootMenu.closeChildren();
-          this.rootMenu.currentMenuItem.element.tabIndex = 0;
+          this.rootMenu.element.tabIndex = 0;
         }
       }
     });
@@ -673,7 +669,6 @@ class Menu {
     // Ensure proper menu focus is applied.
     this.menuItems.forEach(menuItem => {
       menuItem.linkElement.addEventListener("click", () => {
-        this.rootMenu.currentMenuItem.element.tabIndex = -1;
         this.focussedChild = this.menuItems.indexOf(menuItem);
       });
     });
@@ -693,6 +688,10 @@ class Menu {
   blur() {
     this.currentFocus = "none";
     this.element.blur();
+
+    if (this.isTopLevel && this.controller) {
+      this.controller.close();
+    }
   }
 
   /**
