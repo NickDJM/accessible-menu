@@ -516,7 +516,6 @@ var AccessibleMenu = function () {
         this.linkElement.focus();
 
         if (this.parentMenu.isTopLevel) {
-          this.parentMenu.currentFocus = "self";
           this.linkElement.tabIndex = 0;
         }
       }
