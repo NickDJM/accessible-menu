@@ -667,14 +667,13 @@ class Menu {
           this.rootMenu.closeChildren();
           this.rootMenu.currentMenuItem.element.tabIndex = 0;
         }
-      } else {
-        this.rootMenu.currentMenuItem.element.tabIndex = -1;
       }
     });
 
     // Ensure proper menu focus is applied.
     this.menuItems.forEach(menuItem => {
       menuItem.linkElement.addEventListener("click", () => {
+        this.rootMenu.currentMenuItem.element.tabIndex = -1;
         this.focussedChild = this.menuItems.indexOf(menuItem);
       });
     });

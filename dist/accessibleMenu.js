@@ -1126,14 +1126,12 @@ var AccessibleMenu = function () {
 
               _this6.rootMenu.currentMenuItem.element.tabIndex = 0;
             }
-          } else {
-            console.log(event);
-            _this6.rootMenu.currentMenuItem.element.tabIndex = -1;
           }
         }); // Ensure proper menu focus is applied.
 
         this.menuItems.forEach(function (menuItem) {
           menuItem.linkElement.addEventListener("click", function () {
+            _this6.rootMenu.currentMenuItem.element.tabIndex = -1;
             _this6.focussedChild = _this6.menuItems.indexOf(menuItem);
           });
         });
