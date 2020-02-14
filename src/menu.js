@@ -151,7 +151,7 @@ class Menu {
       parentMenu: parentMenu,
       rootMenu: isTopLevel ? this : null
     };
-    this.focussedChild = -1;
+    this.focussedChild = 0;
     this.focusState = "none";
     this.openClass = openClass;
     this.root = isTopLevel;
@@ -166,23 +166,28 @@ class Menu {
    */
   initialize() {
     this.element.setAttribute("role", "menubar");
-    this.element.tabIndex = 0;
 
     if (this.rootMenu === null) this.findRootMenu(this);
     this.createMenuItems();
     this.handleKeydown();
     this.handleClick();
 
-    if (this.isTopLevel && this.controllerElement && this.containerElement) {
-      // Create a new MenuToggle to control the menu.
-      const toggle = new MenuToggle({
-        menuToggleElement: this.controllerElement,
-        parentElement: this.containerElement,
-        menu: this,
-        openClass: this.openClass
-      });
+    if (this.isTopLevel) {
+      // Set initial tabIndex.
+      this.currentMenuItem.element.tabIndex = 0;
+      this.handleFocus();
 
-      this.elements.controller = toggle;
+      if (this.controllerElement && this.containerElement) {
+        // Create a new MenuToggle to control the menu.
+        const toggle = new MenuToggle({
+          menuToggleElement: this.controllerElement,
+          parentElement: this.containerElement,
+          menu: this,
+          openClass: this.openClass
+        });
+
+        this.elements.controller = toggle;
+      }
     }
   }
 
@@ -426,6 +431,29 @@ class Menu {
   }
 
   /**
+   * Sets up focusin/focusout handling.
+   */
+  handleFocus() {
+    const { element } = this.currentMenuItem;
+
+    // Properly enter menu on focus.
+    this.element.addEventListener("focusin", event => {
+      if (this.currentFocus === "none") {
+        element.tabIndex = -1;
+        this.currentFocus = "self";
+        this.focusCurrentChild();
+      }
+    });
+
+    // Set tabIndex for the current menuItem.
+    this.element.addEventListener("focusout", () => {
+      if (this.currentFocus === "none") {
+        element.tabIndex = 0;
+      }
+    });
+  }
+
+  /**
    * Sets up the hijacked keydown events.
    */
   handleKeydown() {
@@ -632,7 +660,19 @@ class Menu {
         if (this.controller) {
           this.controller.close();
         }
+
+        // Set tabIndex for the root's current menuItem.
+        if (this.rootMenu.currentFocus === "none") {
+          this.rootMenu.currentMenuItem.element.tabIndex = 0;
+        }
       }
+    });
+
+    // Ensure proper menu focus is applied.
+    this.menuItems.forEach(menuItem => {
+      menuItem.linkElement.addEventListener("click", () => {
+        this.focussedChild = this.menuItems.indexOf(menuItem);
+      });
     });
   }
 
@@ -640,7 +680,6 @@ class Menu {
    * Focus the menu.
    */
   focus() {
-    this.focussedChild = 0;
     this.currentFocus = "self";
     this.element.focus();
   }
@@ -649,7 +688,6 @@ class Menu {
    * Unfocus the menu.
    */
   blur() {
-    this.focussedChild = -1;
     this.currentFocus = "none";
     this.element.blur();
   }
