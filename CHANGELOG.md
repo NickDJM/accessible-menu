@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.5](https://github.com/NickDJM/accessible-menu/compare/v1.0.4...v1.0.5) (2020-02-14)
+
+
+### Bug Fixes
+
+* **menu:** focus menuitem on tab instead of whole menu ([e24c2eb](https://github.com/NickDJM/accessible-menu/commit/e24c2eb070dbe6c3dc79edd8d8aaf2154cefb9b0)), closes [#52](https://github.com/NickDJM/accessible-menu/issues/52)
+
 ### [1.0.4](https://github.com/NickDJM/accessible-menu/compare/v1.0.3...v1.0.4) (2019-12-15)
 
 
