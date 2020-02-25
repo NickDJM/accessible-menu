@@ -497,7 +497,8 @@ var AccessibleMenu = function () {
     _createClass(MenuItem, [{
       key: "initialize",
       value: function initialize() {
-        this.element.setAttribute("role", "menuitem");
+        this.element.setAttribute("role", "none");
+        this.linkElement.setAttribute("role", "menuitem");
         this.linkElement.tabIndex = -1;
       }
       /**
