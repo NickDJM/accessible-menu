@@ -98,7 +98,8 @@ class MenuItem {
    * Initialize the menu item by setting its tab index.
    */
   initialize() {
-    this.element.setAttribute("role", "menuitem");
+    this.element.setAttribute("role", "none");
+    this.linkElement.setAttribute("role", "menuitem");
     this.linkElement.tabIndex = -1;
   }
 
