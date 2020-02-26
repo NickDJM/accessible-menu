@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.6](https://github.com/NickDJM/accessible-menu/compare/v1.0.5...v1.0.6) (2020-02-26)
+
+
+### Bug Fixes
+
+* **accessibility:** correct role declarations on menu items ([66aca2f](https://github.com/NickDJM/accessible-menu/commit/66aca2f230c9d065e1770e68c01b0b2726084780)), closes [#54](https://github.com/NickDJM/accessible-menu/issues/54)
+
 ### [1.0.5](https://github.com/NickDJM/accessible-menu/compare/v1.0.4...v1.0.5) (2020-02-14)
 
 
