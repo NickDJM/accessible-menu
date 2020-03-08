@@ -9,7 +9,7 @@
     "src/"
   ],
   "scripts": {
-    "commit": "npx git cz",
+    "commit": "npx git-cz",
     "lint": "npx eslint --ext .js --ignore-path .eslintignore .",
     "fix": "npm run lint -- --fix",
     "prerelease": "npm run build",
@@ -46,6 +46,7 @@
     "@commitlint/cli": "^8.2.0",
     "@commitlint/config-conventional": "^8.2.0",
     "commitizen": "^4.0.3",
+    "cz-conventional-changelog": "^3.1.0",
     "eslint": "^6.7.0",
     "eslint-config-prettier": "^6.7.0",
     "eslint-config-standard": "^14.1.0",
@@ -60,5 +61,10 @@
     "rollup": "^1.27.4",
     "standard-version": "^7.0.1",
     "terser": "^4.4.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
   }
 }
