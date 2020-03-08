@@ -93,6 +93,10 @@ const menu = new AccessibleMenu({
   * [Single-Level Dropdown Menu](docs/basics/single-level-dropdown-menu.md)
   * [Two-Level Dropdown Menu](docs/basics/two-level-dropdown-menu.md)
 
+### Examples
+
+Looking for a working example of accessible-menu? Check out this [jsfiddle](https://jsfiddle.net/NickDJM/yokxg0vr/).
+
 ## Internet Explorer and Edge Support
 
 For both IE and Edge support, you will either need to use the CDN option, or run your code through [Babel](https://babeljs.io/).
