@@ -3,7 +3,9 @@
 [![Latest release](https://img.shields.io/github/v/release/NickDJM/accessible-menu?include_prereleases&style=for-the-badge)](https://github.com/NickDJM/accessible-menu/releases)
 [![License](https://img.shields.io/github/license/NickDJM/accessible-menu?style=for-the-badge)](/LICENSE)
 
-A JavaScript library to help you generate WAI-ARIA accessible menus in the DOM.
+A JavaScript library to help you generate WCAG accessible menus in the DOM.
+
+The current reference used is W3C's [Navigation Menubar Example](https://w3c.github.io/aria-practices/examples/menubar/menubar-1/menubar-1.html).
 
 ## Browser Support
 
