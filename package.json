@@ -17,6 +17,7 @@
     "fix": "npm run lint -- --fix",
     "prerelease": "npm run lint && npm run build",
     "release": "git add dist/. && npx standard-version -a",
+    "compile:test": "npx babel test/js/main.js -o test/js/main-ie.js",
     "build": "npx rollup --config .rollup.config.js"
   },
   "repository": {

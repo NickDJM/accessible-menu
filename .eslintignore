@@ -10,3 +10,6 @@ package-lock.json
 
 # Polyfills.
 src/polyfills/*
+
+# Tests
+test/*
