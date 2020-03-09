@@ -15,12 +15,9 @@
     "commit": "npx git-cz",
     "lint": "npx eslint --ext .js --ignore-path .eslintignore .",
     "fix": "npm run lint -- --fix",
-    "prerelease": "npm run build",
+    "prerelease": "npm run lint && npm run build",
     "release": "git add dist/. && npx standard-version -a",
-    "bundle": "npx rollup --config .rollup.config.js",
-    "compile": "npx babel dist/accessibleMenu.js -o dist/accessibleMenu.js",
-    "minify": "npx terser dist/accessibleMenu.js -c -m -o dist/accessibleMenu.min.js",
-    "build": "npm run bundle && npm run compile && npm run minify"
+    "build": "npx rollup --config .rollup.config.js"
   },
   "repository": {
     "type": "git",
@@ -48,6 +45,7 @@
     "@babel/preset-env": "^7.7.4",
     "@commitlint/cli": "^8.2.0",
     "@commitlint/config-conventional": "^8.2.0",
+    "@rollup/plugin-node-resolve": "^7.1.1",
     "commitizen": "^4.0.3",
     "cz-conventional-changelog": "^3.1.0",
     "eslint": "^6.7.0",
@@ -62,6 +60,8 @@
     "husky": "^3.1.0",
     "prettier": "^1.19.1",
     "rollup": "^1.27.4",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-terser": "^5.2.0",
     "standard-version": "^7.0.1",
     "terser": "^4.4.0"
   },
@@ -69,5 +69,6 @@
     "commitizen": {
       "path": "cz-conventional-changelog"
     }
-  }
+  },
+  "dependencies": {}
 }

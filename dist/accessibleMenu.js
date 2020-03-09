@@ -1,14 +1,173 @@
-"use strict";
+var AccessibleMenu = (function () {
+  'use strict';
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+  // Production steps of ECMA-262, Edition 6, 22.1.2.1
+  if (!Array.from) {
+    Array.from = function () {
+      var toStr = Object.prototype.toString;
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+      var isCallable = function isCallable(fn) {
+        return typeof fn === 'function' || toStr.call(fn) === '[object Function]';
+      };
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+      var toInteger = function toInteger(value) {
+        var number = Number(value);
 
-var AccessibleMenu = function () {
-  'use strict'; // Custom validation for params.
+        if (isNaN(number)) {
+          return 0;
+        }
 
+        if (number === 0 || !isFinite(number)) {
+          return number;
+        }
+
+        return (number > 0 ? 1 : -1) * Math.floor(Math.abs(number));
+      };
+
+      var maxSafeInteger = Math.pow(2, 53) - 1;
+
+      var toLength = function toLength(value) {
+        var len = toInteger(value);
+        return Math.min(Math.max(len, 0), maxSafeInteger);
+      }; // The length property of the from method is 1.
+
+
+      return function from(arrayLike
+      /*, mapFn, thisArg */
+      ) {
+        // 1. Let C be the this value.
+        var C = this; // 2. Let items be ToObject(arrayLike).
+
+        var items = Object(arrayLike); // 3. ReturnIfAbrupt(items).
+
+        if (arrayLike == null) {
+          throw new TypeError('Array.from requires an array-like object - not null or undefined');
+        } // 4. If mapfn is undefined, then let mapping be false.
+
+
+        var mapFn = arguments.length > 1 ? arguments[1] : void undefined;
+        var T;
+
+        if (typeof mapFn !== 'undefined') {
+          // 5. else
+          // 5. a If IsCallable(mapfn) is false, throw a TypeError exception.
+          if (!isCallable(mapFn)) {
+            throw new TypeError('Array.from: when provided, the second argument must be a function');
+          } // 5. b. If thisArg was supplied, let T be thisArg; else let T be undefined.
+
+
+          if (arguments.length > 2) {
+            T = arguments[2];
+          }
+        } // 10. Let lenValue be Get(items, "length").
+        // 11. Let len be ToLength(lenValue).
+
+
+        var len = toLength(items.length); // 13. If IsConstructor(C) is true, then
+        // 13. a. Let A be the result of calling the [[Construct]] internal method
+        // of C with an argument list containing the single item len.
+        // 14. a. Else, Let A be ArrayCreate(len).
+
+        var A = isCallable(C) ? Object(new C(len)) : new Array(len); // 16. Let k be 0.
+
+        var k = 0; // 17. Repeat, while k < len… (also steps a - h)
+
+        var kValue;
+
+        while (k < len) {
+          kValue = items[k];
+
+          if (mapFn) {
+            A[k] = typeof T === 'undefined' ? mapFn(kValue, k) : mapFn.call(T, kValue, k);
+          } else {
+            A[k] = kValue;
+          }
+
+          k += 1;
+        } // 18. Let putStatus be Put(A, "length", len, true).
+
+
+        A.length = len; // 20. Return A.
+
+        return A;
+      };
+    }();
+  }
+
+  if (!Array.includes) {
+    Array.prototype.includes = function (search) {
+      return !!~this.indexOf(search);
+    };
+  }
+
+  // https://tc39.github.io/ecma262/#sec-array.prototype.find
+  if (!Array.prototype.find) {
+    Object.defineProperty(Array.prototype, 'find', {
+      value: function value(predicate) {
+        // 1. Let O be ? ToObject(this value).
+        if (this == null) {
+          throw TypeError('"this" is null or not defined');
+        }
+
+        var o = Object(this); // 2. Let len be ? ToLength(? Get(O, "length")).
+
+        var len = o.length >>> 0; // 3. If IsCallable(predicate) is false, throw a TypeError exception.
+
+        if (typeof predicate !== 'function') {
+          throw TypeError('predicate must be a function');
+        } // 4. If thisArg was supplied, let T be thisArg; else let T be undefined.
+
+
+        var thisArg = arguments[1]; // 5. Let k be 0.
+
+        var k = 0; // 6. Repeat, while k < len
+
+        while (k < len) {
+          // a. Let Pk be ! ToString(k).
+          // b. Let kValue be ? Get(O, Pk).
+          // c. Let testResult be ToBoolean(? Call(predicate, T, « kValue, k, O »)).
+          // d. If testResult is true, return kValue.
+          var kValue = o[k];
+
+          if (predicate.call(thisArg, kValue, k, o)) {
+            return kValue;
+          } // e. Increase k by 1.
+
+
+          k++;
+        } // 7. Return undefined.
+
+
+        return undefined;
+      },
+      configurable: true,
+      writable: true
+    });
+  }
+
+  function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  }
+
+  function _defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];
+      descriptor.enumerable = descriptor.enumerable || false;
+      descriptor.configurable = true;
+      if ("value" in descriptor) descriptor.writable = true;
+      Object.defineProperty(target, descriptor.key, descriptor);
+    }
+  }
+
+  function _createClass(Constructor, protoProps, staticProps) {
+    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) _defineProperties(Constructor, staticProps);
+    return Constructor;
+  }
+
+  // Custom validation for params.
   var validate = {
     event: function event(value) {
       if (!(value instanceof Event)) {
@@ -63,14 +222,12 @@ var AccessibleMenu = function () {
    * @param {Event} event - The event.
    */
 
-
   function preventEvent(event) {
     // Run validation.
     validate.event(event);
     event.preventDefault();
     event.stopPropagation();
-  } // Basic validation for the class.
-
+  }
 
   var validate$1 = {
     menuToggleElement: function menuToggleElement(element) {
@@ -394,8 +551,7 @@ var AccessibleMenu = function () {
     }]);
 
     return MenuToggle;
-  }(); // Basic validation for the class.
-
+  }();
 
   var validate$2 = {
     menuItemElement: function menuItemElement(element) {
@@ -457,16 +613,16 @@ var AccessibleMenu = function () {
      * @param {Menu|null}       param0.childMenu       - The child menu.
      * @param {MenuToggle|null} param0.toggle          - The controller for the child menu.
      */
-    function MenuItem(_ref2) {
-      var menuItemElement = _ref2.menuItemElement,
-          menuLinkElement = _ref2.menuLinkElement,
-          parentMenu = _ref2.parentMenu,
-          _ref2$isSubmenuItem = _ref2.isSubmenuItem,
-          isSubmenuItem = _ref2$isSubmenuItem === void 0 ? false : _ref2$isSubmenuItem,
-          _ref2$childMenu = _ref2.childMenu,
-          childMenu = _ref2$childMenu === void 0 ? null : _ref2$childMenu,
-          _ref2$toggle = _ref2.toggle,
-          toggle = _ref2$toggle === void 0 ? null : _ref2$toggle;
+    function MenuItem(_ref) {
+      var menuItemElement = _ref.menuItemElement,
+          menuLinkElement = _ref.menuLinkElement,
+          parentMenu = _ref.parentMenu,
+          _ref$isSubmenuItem = _ref.isSubmenuItem,
+          isSubmenuItem = _ref$isSubmenuItem === void 0 ? false : _ref$isSubmenuItem,
+          _ref$childMenu = _ref.childMenu,
+          childMenu = _ref$childMenu === void 0 ? null : _ref$childMenu,
+          _ref$toggle = _ref.toggle,
+          toggle = _ref$toggle === void 0 ? null : _ref$toggle;
 
       _classCallCheck(this, MenuItem);
 
@@ -596,8 +752,7 @@ var AccessibleMenu = function () {
     }]);
 
     return MenuItem;
-  }(); // Basic validation for the class.
-
+  }();
 
   var validate$3 = {
     menuElement: function menuElement(element) {
@@ -692,25 +847,25 @@ var AccessibleMenu = function () {
      * @param {HTMLElement|null} param0.containerElement      - The element containing the menu in the DOM.
      * @param {Menu|null}        param0.parentMenu            - The menu containing this menu.
      */
-    function Menu(_ref3) {
-      var menuElement = _ref3.menuElement,
-          menuItemSelector = _ref3.menuItemSelector,
-          _ref3$submenuItemSele = _ref3.submenuItemSelector,
-          submenuItemSelector = _ref3$submenuItemSele === void 0 ? null : _ref3$submenuItemSele,
-          _ref3$submenuToggleSe = _ref3.submenuToggleSelector,
-          submenuToggleSelector = _ref3$submenuToggleSe === void 0 ? null : _ref3$submenuToggleSe,
-          _ref3$submenuSelector = _ref3.submenuSelector,
-          submenuSelector = _ref3$submenuSelector === void 0 ? null : _ref3$submenuSelector,
-          _ref3$openClass = _ref3.openClass,
-          openClass = _ref3$openClass === void 0 ? "show" : _ref3$openClass,
-          _ref3$isTopLevel = _ref3.isTopLevel,
-          isTopLevel = _ref3$isTopLevel === void 0 ? true : _ref3$isTopLevel,
-          _ref3$controllerEleme = _ref3.controllerElement,
-          controllerElement = _ref3$controllerEleme === void 0 ? null : _ref3$controllerEleme,
-          _ref3$containerElemen = _ref3.containerElement,
-          containerElement = _ref3$containerElemen === void 0 ? null : _ref3$containerElemen,
-          _ref3$parentMenu = _ref3.parentMenu,
-          parentMenu = _ref3$parentMenu === void 0 ? null : _ref3$parentMenu;
+    function Menu(_ref) {
+      var menuElement = _ref.menuElement,
+          menuItemSelector = _ref.menuItemSelector,
+          _ref$submenuItemSelec = _ref.submenuItemSelector,
+          submenuItemSelector = _ref$submenuItemSelec === void 0 ? null : _ref$submenuItemSelec,
+          _ref$submenuToggleSel = _ref.submenuToggleSelector,
+          submenuToggleSelector = _ref$submenuToggleSel === void 0 ? null : _ref$submenuToggleSel,
+          _ref$submenuSelector = _ref.submenuSelector,
+          submenuSelector = _ref$submenuSelector === void 0 ? null : _ref$submenuSelector,
+          _ref$openClass = _ref.openClass,
+          openClass = _ref$openClass === void 0 ? "show" : _ref$openClass,
+          _ref$isTopLevel = _ref.isTopLevel,
+          isTopLevel = _ref$isTopLevel === void 0 ? true : _ref$isTopLevel,
+          _ref$controllerElemen = _ref.controllerElement,
+          controllerElement = _ref$controllerElemen === void 0 ? null : _ref$controllerElemen,
+          _ref$containerElement = _ref.containerElement,
+          containerElement = _ref$containerElement === void 0 ? null : _ref$containerElement,
+          _ref$parentMenu = _ref.parentMenu,
+          parentMenu = _ref$parentMenu === void 0 ? null : _ref$parentMenu;
 
       _classCallCheck(this, Menu);
 
@@ -815,43 +970,43 @@ var AccessibleMenu = function () {
     }, {
       key: "createMenuItems",
       value: function createMenuItems() {
-        var _this3 = this;
+        var _this = this;
 
         this.menuItemElements.forEach(function (element) {
           var menuItem;
 
-          if (_this3.submenuItemElements.includes(element)) {
+          if (_this.submenuItemElements.includes(element)) {
             // The menu's toggle controller DOM element.
-            var toggler = element.querySelector(_this3.selector["submenu-toggle"]); // The actual menu DOM element.
+            var toggler = element.querySelector(_this.selector["submenu-toggle"]); // The actual menu DOM element.
 
-            var submenu = element.querySelector(_this3.selector.submenu); // Create the new Menu and initialize it.
+            var submenu = element.querySelector(_this.selector.submenu); // Create the new Menu and initialize it.
 
             var menu = new Menu({
               menuElement: submenu,
-              menuItemSelector: _this3.selector["menu-items"],
-              submenuItemSelector: _this3.selector["submenu-items"],
-              submenuToggleSelector: _this3.selector["submenu-toggle"],
-              submenuSelector: _this3.selector.submenu,
-              openClass: _this3.openClass,
+              menuItemSelector: _this.selector["menu-items"],
+              submenuItemSelector: _this.selector["submenu-items"],
+              submenuToggleSelector: _this.selector["submenu-toggle"],
+              submenuSelector: _this.selector.submenu,
+              openClass: _this.openClass,
               isTopLevel: false,
-              parentMenu: _this3
+              parentMenu: _this
             }); // Create the new MenuToggle.
 
             var toggle = new MenuToggle({
               menuToggleElement: toggler,
               parentElement: element,
               menu: menu,
-              openClass: _this3.openClass,
-              parentMenu: _this3
+              openClass: _this.openClass,
+              parentMenu: _this
             }); // Add it to the list of submenu items.
 
-            _this3.elements.menuToggles.push(toggle); // Create a new MenuItem.
+            _this.elements.menuToggles.push(toggle); // Create a new MenuItem.
 
 
             menuItem = new MenuItem({
               menuItemElement: element,
               menuLinkElement: toggler,
-              parentMenu: _this3,
+              parentMenu: _this,
               isSubmenuItem: true,
               childMenu: menu,
               toggle: toggle
@@ -862,11 +1017,11 @@ var AccessibleMenu = function () {
             menuItem = new MenuItem({
               menuItemElement: element,
               menuLinkElement: link,
-              parentMenu: _this3
+              parentMenu: _this
             });
           }
 
-          _this3.elements.menuItems.push(menuItem);
+          _this.elements.menuItems.push(menuItem);
         });
       }
       /**
@@ -876,23 +1031,23 @@ var AccessibleMenu = function () {
     }, {
       key: "handleFocus",
       value: function handleFocus() {
-        var _this4 = this;
+        var _this2 = this;
 
         this.menuItems.forEach(function (item) {
           // Properly enter menu on focus.
           item.linkElement.addEventListener("focusin", function () {
-            if (_this4.currentFocus === "none") {
-              _this4.currentFocus = "self";
+            if (_this2.currentFocus === "none") {
+              _this2.currentFocus = "self";
 
-              _this4.focusCurrentChild();
+              _this2.focusCurrentChild();
             }
           }); // Set tabIndex for the current menuItem.
 
           item.linkElement.addEventListener("focusout", function () {
-            if (_this4.currentFocus === "none") {
-              _this4.blur();
+            if (_this2.currentFocus === "none") {
+              _this2.blur();
 
-              _this4.closeChildren();
+              _this2.closeChildren();
             }
           });
         });
@@ -904,7 +1059,7 @@ var AccessibleMenu = function () {
     }, {
       key: "handleKeydown",
       value: function handleKeydown() {
-        var _this5 = this;
+        var _this3 = this;
 
         this.element.addEventListener("keydown", function (event) {
           var key = keyPress(event);
@@ -913,23 +1068,23 @@ var AccessibleMenu = function () {
               metaKey = event.metaKey;
           var modifier = altKey || crtlKey || metaKey;
 
-          if (_this5.isTopLevel) {
-            if (_this5.currentFocus === "none") {
+          if (_this3.isTopLevel) {
+            if (_this3.currentFocus === "none") {
               if (key === "Space" || key === "Enter") {
                 // Hitting Space or Enter:
                 // - Opens submenu and moves focus to first item in the submenu.
                 preventEvent(event);
-                _this5.currentFocus = "self";
+                _this3.currentFocus = "self";
 
-                _this5.focusFirstChild();
+                _this3.focusFirstChild();
               }
-            } else if (_this5.currentFocus === "self") {
+            } else if (_this3.currentFocus === "self") {
               if (key === "Space" || key === "Enter") {
                 // Hitting Space or Enter:
                 // - Activates menu item, causing the link to be activated.
                 preventEvent(event);
 
-                _this5.currentMenuItem.linkElement.click();
+                _this3.currentMenuItem.linkElement.click();
               } else if (key === "ArrowRight") {
                 // Hitting the Right Arrow:
                 // - Moves focus to the next item in the menubar.
@@ -937,16 +1092,16 @@ var AccessibleMenu = function () {
                 // - If focus was on an open submenu and the newly focussed item has a submenu, open the submenu.
                 preventEvent(event); // Store the current item's info if its an open dropdown.
 
-                var previousChildOpen = _this5.currentMenuItem.isSubmenuItem && _this5.currentMenuItem.toggle.isOpen;
+                var previousChildOpen = _this3.currentMenuItem.isSubmenuItem && _this3.currentMenuItem.toggle.isOpen;
 
-                _this5.focusNextChild(); // Open the newly focussed submenu if applicable.
+                _this3.focusNextChild(); // Open the newly focussed submenu if applicable.
 
 
                 if (previousChildOpen) {
-                  if (_this5.currentMenuItem.isSubmenuItem) {
-                    _this5.currentMenuItem.toggle.preview();
+                  if (_this3.currentMenuItem.isSubmenuItem) {
+                    _this3.currentMenuItem.toggle.preview();
                   } else {
-                    _this5.closeChildren();
+                    _this3.closeChildren();
                   }
                 }
               } else if (key === "ArrowLeft") {
@@ -956,55 +1111,55 @@ var AccessibleMenu = function () {
                 // - If focus was on an open submenu and the newly focussed item has a submenu, open the submenu.
                 preventEvent(event); // Store the current item's info if its an open dropdown.
 
-                var _previousChildOpen = _this5.currentMenuItem.isSubmenuItem && _this5.currentMenuItem.toggle.isOpen;
+                var _previousChildOpen = _this3.currentMenuItem.isSubmenuItem && _this3.currentMenuItem.toggle.isOpen;
 
-                _this5.focusPreviousChild(); // Open the newly focussed submenu if applicable.
+                _this3.focusPreviousChild(); // Open the newly focussed submenu if applicable.
 
 
                 if (_previousChildOpen) {
-                  if (_this5.currentMenuItem.isSubmenuItem) {
-                    _this5.currentMenuItem.toggle.preview();
+                  if (_this3.currentMenuItem.isSubmenuItem) {
+                    _this3.currentMenuItem.toggle.preview();
                   } else {
-                    _this5.closeChildren();
+                    _this3.closeChildren();
                   }
                 }
               } else if (key === "ArrowDown") {
                 // Hitting the Down Arrow:
                 // - Opens submenu and moves focus to first item in the submenu.
-                if (_this5.currentMenuItem.isSubmenuItem) {
+                if (_this3.currentMenuItem.isSubmenuItem) {
                   preventEvent(event);
 
-                  _this5.currentMenuItem.toggle.open();
+                  _this3.currentMenuItem.toggle.open();
 
-                  _this5.currentMenuItem.childMenu.focusFirstChild();
+                  _this3.currentMenuItem.childMenu.focusFirstChild();
                 }
               } else if (key === "ArrowUp") {
                 // Hitting the Up Arrow:
                 // - Opens submenu and moves focus to last item in the submenu.
-                if (_this5.currentMenuItem.isSubmenuItem) {
+                if (_this3.currentMenuItem.isSubmenuItem) {
                   preventEvent(event);
 
-                  _this5.currentMenuItem.toggle.open();
+                  _this3.currentMenuItem.toggle.open();
 
-                  _this5.currentMenuItem.childMenu.focusLastChild();
+                  _this3.currentMenuItem.childMenu.focusLastChild();
                 }
               } else if (key === "Home") {
                 // Hitting Home:
                 // - Moves focus to first item in the menubar.
                 preventEvent(event);
 
-                _this5.focusFirstChild();
+                _this3.focusFirstChild();
               } else if (key === "End") {
                 // Hitting End:
                 // - Moves focus to last item in the menubar.
                 preventEvent(event);
 
-                _this5.focusLastChild();
+                _this3.focusLastChild();
               } else if (key === "Escape") {
-                if (_this5.controller !== null) {
+                if (_this3.controller !== null) {
                   // Hitting Escape:
                   // - Closes menu.
-                  _this5.controller.close();
+                  _this3.controller.close();
                 }
               }
             }
@@ -1014,16 +1169,16 @@ var AccessibleMenu = function () {
               // - Activates menu item, causing the link to be activated.
               preventEvent(event);
 
-              _this5.currentMenuItem.linkElement.click();
+              _this3.currentMenuItem.linkElement.click();
             } else if (key === "Escape") {
               // Hitting Escape:
               // - Closes submenu.
               // - Moves focus to parent menubar item.
               preventEvent(event);
 
-              _this5.rootMenu.closeChildren();
+              _this3.rootMenu.closeChildren();
 
-              _this5.rootMenu.focusCurrentChild();
+              _this3.rootMenu.focusCurrentChild();
             } else if (key === "ArrowRight") {
               // Hitting the Right Arrow:
               // - If focus is on an item with a submenu, opens the submenu and places focus on the first item.
@@ -1031,19 +1186,19 @@ var AccessibleMenu = function () {
               //   - Closes submenu.
               //   - Moves focus to next item in the menubar.
               //   - Opens submenu of newly focused menubar item, keeping focus on that parent menubar item.
-              if (_this5.currentMenuItem.isSubmenuItem) {
+              if (_this3.currentMenuItem.isSubmenuItem) {
                 preventEvent(event);
 
-                _this5.currentMenuItem.toggle.open();
+                _this3.currentMenuItem.toggle.open();
               } else {
                 preventEvent(event);
 
-                _this5.rootMenu.closeChildren();
+                _this3.rootMenu.closeChildren();
 
-                _this5.rootMenu.focusNextChild();
+                _this3.rootMenu.focusNextChild();
 
-                if (_this5.rootMenu.currentMenuItem.isSubmenuItem) {
-                  _this5.rootMenu.currentMenuItem.toggle.preview();
+                if (_this3.rootMenu.currentMenuItem.isSubmenuItem) {
+                  _this3.rootMenu.currentMenuItem.toggle.preview();
                 }
               }
             } else if (key === "ArrowLeft") {
@@ -1052,18 +1207,18 @@ var AccessibleMenu = function () {
               // - If parent menu item is in the menubar, also:
               //   - moves focus to previous item in the menubar.
               //   - Opens submenu of newly focused menubar item, keeping focus on that parent menubar item.
-              if (_this5.parentMenu.currentMenuItem.isSubmenuItem) {
+              if (_this3.parentMenu.currentMenuItem.isSubmenuItem) {
                 preventEvent(event);
 
-                _this5.parentMenu.currentMenuItem.toggle.close();
+                _this3.parentMenu.currentMenuItem.toggle.close();
 
-                if (_this5.parentMenu === _this5.rootMenu) {
-                  _this5.rootMenu.closeChildren();
+                if (_this3.parentMenu === _this3.rootMenu) {
+                  _this3.rootMenu.closeChildren();
 
-                  _this5.rootMenu.focusPreviousChild();
+                  _this3.rootMenu.focusPreviousChild();
 
-                  if (_this5.rootMenu.currentMenuItem.isSubmenuItem) {
-                    _this5.rootMenu.currentMenuItem.toggle.preview();
+                  if (_this3.rootMenu.currentMenuItem.isSubmenuItem) {
+                    _this3.rootMenu.currentMenuItem.toggle.preview();
                   }
                 }
               }
@@ -1073,26 +1228,26 @@ var AccessibleMenu = function () {
               // - If focus is on the last item, moves focus to the first item.
               preventEvent(event);
 
-              _this5.focusNextChild();
+              _this3.focusNextChild();
             } else if (key === "ArrowUp") {
               // Hitting the Up Arrow:
               // - Moves focus to the previous item in the menubar.
               // - If focus is on the first item, moves focus to the last item.
               preventEvent(event);
 
-              _this5.focusPreviousChild();
+              _this3.focusPreviousChild();
             } else if (key === "Home") {
               // Hitting Home:
               // - Moves focus to first item in the menubar.
               preventEvent(event);
 
-              _this5.focusFirstChild();
+              _this3.focusFirstChild();
             } else if (key === "End") {
               // Hitting End:
               // - Moves focus to last item in the menubar.
               preventEvent(event);
 
-              _this5.focusLastChild();
+              _this3.focusLastChild();
             }
           }
 
@@ -1102,16 +1257,16 @@ var AccessibleMenu = function () {
             // - If none of the items have a name starting with the typed character, focus does not move.
             preventEvent(event);
 
-            _this5.focusNextChildWithCharacter(event.key);
+            _this3.focusNextChildWithCharacter(event.key);
           }
 
-          if (_this5.currentFocus !== "none") {
+          if (_this3.currentFocus !== "none") {
             if (key === "Tab") {
               // Hitting Tab:
               // - Moves focus out of the menu.
-              _this5.rootMenu.blur();
+              _this3.rootMenu.blur();
 
-              _this5.rootMenu.closeChildren();
+              _this3.rootMenu.closeChildren();
             }
           }
         });
@@ -1123,23 +1278,23 @@ var AccessibleMenu = function () {
     }, {
       key: "handleClick",
       value: function handleClick() {
-        var _this6 = this;
+        var _this4 = this;
 
         document.addEventListener("click", function (event) {
-          if (!_this6.element.contains(event.target) && _this6.element !== event.target) {
-            _this6.blur();
+          if (!_this4.element.contains(event.target) && _this4.element !== event.target) {
+            _this4.blur();
 
-            _this6.closeChildren();
+            _this4.closeChildren();
 
-            if (_this6.controller) {
-              _this6.controller.close();
+            if (_this4.controller) {
+              _this4.controller.close();
             }
           }
         }); // Ensure proper menu focus is applied.
 
         this.menuItems.forEach(function (menuItem) {
           menuItem.linkElement.addEventListener("click", function () {
-            _this6.focussedChild = _this6.menuItems.indexOf(menuItem);
+            _this4.focussedChild = _this4.menuItems.indexOf(menuItem);
           });
         });
       }
@@ -1497,4 +1652,5 @@ var AccessibleMenu = function () {
   }();
 
   return Menu;
-}();
+
+}());
