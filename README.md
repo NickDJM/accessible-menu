@@ -35,7 +35,7 @@ For learning/prototyping purposes you can use the latest version with:
 For production environments, it is recommend to use a specific version to avoid unforseen breaking changes:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/accessible-menu@1.0.2/dist/accessibleMenu.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/accessible-menu@1.1.0/dist/accessibleMenu.js"></script>
 ```
 
 ## Usage
@@ -99,9 +99,9 @@ Looking for a working example of accessible-menu? Check out this [jsfiddle](http
 
 ## Internet Explorer and Edge Support
 
-For both IE and Edge support, you will either need to use the CDN option, or run your code through [Babel](https://babeljs.io/).
+For both IE and older (non-chromium-based) versions of Edge support, you will either need to use the CDN option, or run your code through [Babel](https://babeljs.io/).
 
-For IE, you will also need to ensure you load [Babel Polyfill](https://babeljs.io/docs/en/babel-polyfill) before loading accessible-menu.
+If you are compiling your own code without the help of something like Babel + [core-js](https://www.npmjs.com/package/core-js), you will need polyfills for `Array.from()`, `Array.includes()`, and `Array.find()` for IE11 support.
 
 ## Versioning
 

@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars, no-undef */
-
 const navs = document.querySelectorAll("nav");
 const menuSettings = {
   menuItemSelector: ".menu-item",
@@ -9,7 +7,7 @@ const menuSettings = {
   openClass: "show"
 };
 
-navs.forEach(nav => {
+Array.from(navs).forEach(nav => {
   const menuElement = nav.querySelector(".menu");
 
   if (nav.id === "main-menu") {

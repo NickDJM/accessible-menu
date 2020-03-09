@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Accessible Menu Functional Test</title>
+  <link href="../css/styles.css" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <nav id="main-menu" aria-labelledby="main-menu-title">
+      <span id="main-menu-title" class="menu-title visually-hidden">Main</span>
+      <span class="branding" aria-hidden="true">Accessible Menu</span>
+      <button href="" class="menu-toggle">☰<span class="visually-hidden"> Toggle Menu</span></button>
+      <ul class="menu">
+        <li class="menu-item"><a href="https://github.com/NickDJM/accessible-menu/tree/master" target="_blank" class="menu-link">GitHub</a></li>
+        <li class="menu-item"><a href="https://www.npmjs.com/package/accessible-menu" target="_blank" class="menu-link">NPM</a></li>
+        <li class="menu-item dropdown">
+          <a href="#" class="menu-link dropdown-toggle">Documentation</a>
+          <ul class="menu dropdown">
+            <li class="menu-item"><a href="https://github.com/NickDJM/accessible-menu/blob/master/README.md" target="_blank" class="menu-link">Main&nbsp;documentation</a></li>
+            <li class="menu-item dropdown">
+              <a href="#" class="menu-link dropdown-toggle">Classes</a>
+              <ul class="menu dropdown">
+                <li class="menu-item"><a href="https://github.com/NickDJM/accessible-menu/blob/master/docs/classes/menu.md" target="_blank" class="menu-link">Menu</a></li>
+                <li class="menu-item"><a href="https://github.com/NickDJM/accessible-menu/blob/master/docs/classes/menuItem.md" target="_blank" class="menu-link">MenuItem</a></li>
+                <li class="menu-item"><a href="https://github.com/NickDJM/accessible-menu/blob/master/docs/classes/menuToggle.md" target="_blank" class="menu-link">MenuToggle</a></li>
+              </ul>
+            </li>
+            <li class="menu-item dropdown">
+              <a href="#" class="menu-link dropdown-toggle">Basic&nbsp;examples</a>
+              <ul class="menu dropdown">
+                <li class="menu-item"><a href="https://github.com/NickDJM/accessible-menu/blob/master/docs/basics/single-level-menu.md" target="_blank" class="menu-link">Single-level&nbsp;menu</a></li>
+                <li class="menu-item"><a href="https://github.com/NickDJM/accessible-menu/blob/master/docs/basics/single-level-dropdown-menu.md" target="_blank" class="menu-link">Single-level&nbsp;dropdown&nbsp;menu</a></li>
+                <li class="menu-item"><a href="https://github.com/NickDJM/accessible-menu/blob/master/docs/basics/two-level-dropdown-menu.md" target="_blank" class="menu-link">Two-level&nbsp;dropdown&nbsp;menu</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li class="menu-item dropdown">
+          <a href="#" class="menu-link dropdown-toggle">Developer Documentation</a>
+          <ul class="menu dropdown">
+            <li class="menu-item"><a href="https://github.com/NickDJM/accessible-menu/blob/master/.github/CONTRIBUTING.md" target="_blank" class="menu-link">Contribution&nbsp;guide</a></li>
+            <li class="menu-item"><a href="https://github.com/NickDJM/accessible-menu/blob/master/.github/CODE_OF_CONDUCT.md" target="_blank" class="menu-link">Code&nbsp;of&nbsp;conduct</a></li>
+            <li class="menu-item"><a href="https://github.com/NickDJM/accessible-menu/blob/master/.github/COMMIT_CONVENTION.md" target="_blank" class="menu-link">Committing&nbsp;standards</a></li>
+            <li class="menu-item"><a href="https://github.com/NickDJM/accessible-menu/blob/master/docs/releases.md" target="_blank" class="menu-link">Release&nbsp;guide</a></li>
+          </ul>
+        </li>
+        <li class="menu-item"><a href="https://github.com/NickDJM/accessible-menu/blob/master/CHANGELOG.md" target="_blank" class="menu-link">Changelog</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <h1>Accessible Menu Functional Test</h1>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis quibusdam molestias, aliquam debitis iste hic saepe veniam ullam architecto odit voluptates magni repellat laudantium quod eaque soluta voluptatibus quasi tempora?</p>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis quibusdam molestias, aliquam debitis iste hic saepe veniam ullam architecto odit voluptates magni repellat laudantium quod eaque soluta voluptatibus quasi tempora?</p>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+  </main>
+  <footer>
+    <nav id="footer-menu" aria-labelledby="footer-menu-title">
+      <span id="footer-menu-title" class="menu-title visually-hidden">Developer links</span>
+      <ul class="menu">
+        <li class="menu-item"><a href="https://github.com/NickDJM/accessible-menu/blob/master/LICENSE" target="_blank" class="menu-link">Licence</a></li>
+        <li class="menu-item"><a href="https://github.com/NickDJM/accessible-menu/releases" target="_blank" class="menu-link">Releases</a></li>
+      </ul>
+    </nav>
+  </footer>
+  <script src="../../dist/accessibleMenu.js"></script>
+  <script src="../../src/polyfills/array.from.polyfill.js"></script>
+  <script src="../js/main-ie.js"></script>
+</body>
+</html>
