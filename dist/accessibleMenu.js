@@ -924,7 +924,13 @@ var AccessibleMenu = function () {
                 _this5.focusFirstChild();
               }
             } else if (_this5.currentFocus === "self") {
-              if (key === "ArrowRight") {
+              if (key === "Space" || key === "Enter") {
+                // Hitting Space or Enter:
+                // - Activates menu item, causing the link to be activated.
+                preventEvent(event);
+
+                _this5.currentMenuItem.linkElement.click();
+              } else if (key === "ArrowRight") {
                 // Hitting the Right Arrow:
                 // - Moves focus to the next item in the menubar.
                 // - If focus is on the last item, moves focus to the first item.
