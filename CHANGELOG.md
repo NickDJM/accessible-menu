@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/NickDJM/accessible-menu/compare/v1.0.6...v1.1.0) (2020-03-09)
+
+
+### Features
+
+* add built-in ie11 support to cdn  ([0fbba5b](https://github.com/NickDJM/accessible-menu/commit/0fbba5b6620ba6102938e17d08a06b183434b495)), closes [#58](https://github.com/NickDJM/accessible-menu/issues/58)
+
+
+### Bug Fixes
+
+* **menu:** add handlers for enter/space in root level menus ([4b26192](https://github.com/NickDJM/accessible-menu/commit/4b26192e499b8fa8c97de9683a50b745f4406b07)), closes [#56](https://github.com/NickDJM/accessible-menu/issues/56)
+
+
+### Build System
+
+* **npm:** fix commitizen ([244e5b1](https://github.com/NickDJM/accessible-menu/commit/244e5b1d9b5a2c5ac9a802740be1ad76e94a6fc1))
+
+
+### Documentation
+
+* **general:** add jsfiddle example for the library ([8304580](https://github.com/NickDJM/accessible-menu/commit/8304580fea306610580e1c81fa3cacc64168d82e))
+* **general:** update description ([6427d56](https://github.com/NickDJM/accessible-menu/commit/6427d568c1a386593270a407bdcd1d7d86af9758))
+
 ### [1.0.6](https://github.com/NickDJM/accessible-menu/compare/v1.0.5...v1.0.6) (2020-02-26)
 
 
