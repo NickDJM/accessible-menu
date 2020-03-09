@@ -6,7 +6,10 @@
   "files": [
     "index.js",
     "dist/",
-    "src/"
+    "src/eventHandlers.js",
+    "src/menu.js",
+    "src/menuItem.js",
+    "src/menuToggle.js"
   ],
   "scripts": {
     "commit": "npx git-cz",
