@@ -7,3 +7,6 @@
 
 # Lock files.
 package-lock.json
+
+# Polyfills.
+src/polyfills/*
