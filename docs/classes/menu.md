@@ -9,10 +9,10 @@ All Parameters _must_ be contained in a single object.
 | Paramter | Description | Type | Required | Default Value |
 | --- | --- | --- | --- | --- |
 | menuElement | The menu element in the DOM. | HTMLElement | true | `undefined`|
-| menuItemSelector | The selector string for menu items. | string\|null | true | `undefined`|
+| menuItemSelector | The selector string for menu items. | string | true | `"li"`|
 | submenuItemSelector | The selector string for submenu items. | string\|null | false | `null`|
 | submenuToggleSelector | The selector string for submenu toggle triggers. | string\|null | false | `null`|
-| submenuSelector | The selector string for the submenu itself. | string | false | `null`|
+| submenuSelector | The selector string for the submenu itself. | string\|null | false | `null`|
 | openClass | The class to use when a submenu is open. | string | false | `"show"`|
 | isTopLevel | A flag to mark the root menu. | boolean | false | `true`|
 | controllerElement | The element controlling the menu in the DOM. | HTMLElement\|null | false | `null`|

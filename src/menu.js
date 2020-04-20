@@ -19,7 +19,7 @@ class Menu {
    *
    * @param {object}           param0                                - The menu object.
    * @param {HTMLElement}      param0.menuElement                    - The menu element in the DOM.
-   * @param {string|null}      [param0.menuItemSelector = null]      - The selector string for menu items.
+   * @param {string}           [param0.menuItemSelector = "li"]      - The selector string for menu items.
    * @param {string|null}      [param0.submenuItemSelector = null]   - The selector string for submenu items.
    * @param {string|null}      [param0.submenuToggleSelector = null] - The selector string for submenu toggle triggers.
    * @param {string|null}      [param0.submenuSelector = null]       - The selector string for the submenu itself.
@@ -31,7 +31,7 @@ class Menu {
    */
   constructor({
     menuElement,
-    menuItemSelector,
+    menuItemSelector = "li",
     submenuItemSelector = null,
     submenuToggleSelector = null,
     submenuSelector = null,

@@ -980,7 +980,7 @@ var AccessibleMenu = (function () {
      *
      * @param {object}           param0                                - The menu object.
      * @param {HTMLElement}      param0.menuElement                    - The menu element in the DOM.
-     * @param {string|null}      [param0.menuItemSelector = null]      - The selector string for menu items.
+     * @param {string}           [param0.menuItemSelector = "li"]      - The selector string for menu items.
      * @param {string|null}      [param0.submenuItemSelector = null]   - The selector string for submenu items.
      * @param {string|null}      [param0.submenuToggleSelector = null] - The selector string for submenu toggle triggers.
      * @param {string|null}      [param0.submenuSelector = null]       - The selector string for the submenu itself.
@@ -992,7 +992,8 @@ var AccessibleMenu = (function () {
      */
     function Menu(_ref) {
       var menuElement = _ref.menuElement,
-          menuItemSelector = _ref.menuItemSelector,
+          _ref$menuItemSelector = _ref.menuItemSelector,
+          menuItemSelector = _ref$menuItemSelector === void 0 ? "li" : _ref$menuItemSelector,
           _ref$submenuItemSelec = _ref.submenuItemSelector,
           submenuItemSelector = _ref$submenuItemSelec === void 0 ? null : _ref$submenuItemSelec,
           _ref$submenuToggleSel = _ref.submenuToggleSelector,
