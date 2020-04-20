@@ -591,7 +591,7 @@ class Menu {
       }
 
       if (this.currentFocus !== "none") {
-        if (this.menuType === "menubar" && key === "Tab") {
+        if (key === "Tab") {
           // Hitting Tab:
           // - Moves focus out of the menu.
           this.rootMenu.blur(event);

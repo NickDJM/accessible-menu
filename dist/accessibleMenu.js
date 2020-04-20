@@ -1561,7 +1561,7 @@ var AccessibleMenu = (function () {
           }
 
           if (_this3.currentFocus !== "none") {
-            if (_this3.menuType === "menubar" && key === "Tab") {
+            if (key === "Tab") {
               // Hitting Tab:
               // - Moves focus out of the menu.
               _this3.rootMenu.blur(event);
