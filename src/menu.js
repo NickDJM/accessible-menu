@@ -6,9 +6,11 @@ import {
   isCSSSelector,
   isBoolean,
   isNumber,
+  isString,
   hasSubmenus,
   isDropdown,
-  isMenu
+  isMenu,
+  isValidState
 } from "./validate";
 
 /**
@@ -284,11 +286,7 @@ class Menu {
    * @param {string} value - The focus state (self, child, none).
    */
   set currentFocus(value) {
-    const states = ["self", "child", "none"];
-
-    if (!states.includes(value)) {
-      throw new Error("Focus state must be 'self', 'child', or 'none'.");
-    }
+    isValidState({ value });
 
     this.focusState = value;
   }
@@ -299,9 +297,7 @@ class Menu {
    * @param {string} value - The open class.
    */
   set openClass(value) {
-    if (typeof value !== "string") {
-      throw new TypeError("Class must be a string.");
-    }
+    isString({ value });
 
     this.submenuOpenClass = value;
   }

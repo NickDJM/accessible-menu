@@ -127,9 +127,7 @@ class MenuToggle {
    * @param {boolean} value - The open state.
    */
   set isOpen(value) {
-    if (typeof value !== "boolean") {
-      throw new TypeError("Open state must be true or false.");
-    }
+    isBoolean(value);
 
     this.show = value;
   }
