@@ -111,6 +111,40 @@ export function isBoolean(element) {
 }
 
 /**
+ * Checks to see if the provided element is a number.
+ *
+ * If you provide the element to check inside of an object
+ * the name of the variable will be output in the error message.
+ *
+ * Will return true is the check is successful.
+ *
+ * @param   {object|number} element - The element to check.
+ *
+ * @returns {boolean} - The result of the check.
+ */
+export function isNumber(element) {
+  let name = "element";
+
+  try {
+    if (typeof element !== "number") {
+      if (typeof element === "object") {
+        for (const key in element) {
+          name = key;
+
+          if (typeof element[key] !== "number") throw Error;
+        }
+      } else {
+        throw Error;
+      }
+    } else {
+      return true;
+    }
+  } catch (error) {
+    throw new TypeError(`${name} must be a number.`);
+  }
+}
+
+/**
  * Checks to see if the provided element is an Event.
  *
  * If you provide the element to check inside of an object

@@ -5,6 +5,7 @@ import {
   isHTMLElement,
   isCSSSelector,
   isBoolean,
+  isNumber,
   hasSubmenus,
   isDropdown,
   isMenu
@@ -29,6 +30,8 @@ class Menu {
    * @param {HTMLElement|null} [param0.controllerElement = null]     - The element controlling the menu in the DOM.
    * @param {HTMLElement|null} [param0.containerElement = null]      - The element containing the menu in the DOM.
    * @param {Menu|null}        [param0.parentMenu = null]            - The menu containing this menu.
+   * @param {boolean}          [param0.isHoverable = false]          - A flag to allow hover events on the menu.
+   * @param {number}           [param0.hoverDelay = 500]             - The delay for closing menus if the menu is hoverable (in miliseconds).
    */
   constructor({
     menuElement,
@@ -41,12 +44,15 @@ class Menu {
     isTopLevel = true,
     controllerElement = null,
     containerElement = null,
-    parentMenu = null
+    parentMenu = null,
+    isHoverable = false,
+    hoverDelay = 500
   }) {
     // Run validations.
     isHTMLElement({ menuElement });
     isCSSSelector({ menuItemSelector, menuLinkSelector, openClass });
-    isBoolean({ isTopLevel });
+    isBoolean({ isTopLevel, isHoverable });
+    isNumber({ hoverDelay });
     hasSubmenus(submenuItemSelector, submenuToggleSelector, submenuSelector);
     isDropdown(controllerElement, containerElement);
     if (parentMenu !== null) isMenu({ parentMenu });
@@ -80,6 +86,8 @@ class Menu {
     this.focusState = "none";
     this.openClass = openClass;
     this.root = isTopLevel;
+    this.hoverable = isHoverable;
+    this.delay = hoverDelay;
 
     this.initialize();
   }
@@ -96,6 +104,7 @@ class Menu {
     this.createMenuItems();
     this.handleKeydown();
     this.handleClick();
+    if (this.isHoverable) this.handleHover();
 
     if (this.isTopLevel) {
       // Set initial tabIndex.
@@ -252,6 +261,24 @@ class Menu {
   }
 
   /**
+   * A flag to allow hover events on the menu.
+   *
+   * @returns {boolean} - The hoverable flag.
+   */
+  get isHoverable() {
+    return this.hoverable;
+  }
+
+  /**
+   * The time delay (in miliseconds) for closing menus if the menu is hoverable.
+   *
+   * @returns {number} - The delay in ms.
+   */
+  get hoverDelay() {
+    return this.delay;
+  }
+
+  /**
    * Set the focus state of the menu.
    *
    * @param {string} value - The focus state (self, child, none).
@@ -317,7 +344,8 @@ class Menu {
           submenuSelector: this.selector.submenu,
           openClass: this.openClass,
           isTopLevel: false,
-          parentMenu: this
+          parentMenu: this,
+          isHoverable: this.isHoverable
         });
 
         // Create the new MenuToggle.
@@ -599,6 +627,25 @@ class Menu {
       menuItem.linkElement.addEventListener("click", () => {
         this.focussedChild = this.menuItems.indexOf(menuItem);
       });
+    });
+  }
+
+  /**
+   * Handle hover events required for proper menu usage.
+   */
+  handleHover() {
+    this.menuItems.forEach(menuItem => {
+      if (menuItem.isSubmenuItem) {
+        menuItem.element.addEventListener("mouseenter", () => {
+          menuItem.toggle.open();
+        });
+
+        menuItem.element.addEventListener("mouseleave", () => {
+          setTimeout(() => {
+            menuItem.toggle.close();
+          }, this.hoverDelay);
+        });
+      }
     });
   }
 

@@ -287,6 +287,39 @@ var AccessibleMenu = (function () {
     }
   }
   /**
+   * Checks to see if the provided element is a number.
+   *
+   * If you provide the element to check inside of an object
+   * the name of the variable will be output in the error message.
+   *
+   * Will return true is the check is successful.
+   *
+   * @param   {object|number} element - The element to check.
+   *
+   * @returns {boolean} - The result of the check.
+   */
+
+  function isNumber(element) {
+    var name = "element";
+
+    try {
+      if (typeof element !== "number") {
+        if (_typeof(element) === "object") {
+          for (var key in element) {
+            name = key;
+            if (typeof element[key] !== "number") throw Error;
+          }
+        } else {
+          throw Error;
+        }
+      } else {
+        return true;
+      }
+    } catch (error) {
+      throw new TypeError("".concat(name, " must be a number."));
+    }
+  }
+  /**
    * Checks to see if the provided element is an Event.
    *
    * If you provide the element to check inside of an object
@@ -990,6 +1023,8 @@ var AccessibleMenu = (function () {
      * @param {HTMLElement|null} [param0.controllerElement = null]     - The element controlling the menu in the DOM.
      * @param {HTMLElement|null} [param0.containerElement = null]      - The element containing the menu in the DOM.
      * @param {Menu|null}        [param0.parentMenu = null]            - The menu containing this menu.
+     * @param {boolean}          [param0.isHoverable = false]          - A flag to allow hover events on the menu.
+     * @param {number}           [param0.hoverDelay = 500]             - The delay for closing menus if the menu is hoverable (in miliseconds).
      */
     function Menu(_ref) {
       var menuElement = _ref.menuElement,
@@ -1012,7 +1047,11 @@ var AccessibleMenu = (function () {
           _ref$containerElement = _ref.containerElement,
           containerElement = _ref$containerElement === void 0 ? null : _ref$containerElement,
           _ref$parentMenu = _ref.parentMenu,
-          parentMenu = _ref$parentMenu === void 0 ? null : _ref$parentMenu;
+          parentMenu = _ref$parentMenu === void 0 ? null : _ref$parentMenu,
+          _ref$isHoverable = _ref.isHoverable,
+          isHoverable = _ref$isHoverable === void 0 ? false : _ref$isHoverable,
+          _ref$hoverDelay = _ref.hoverDelay,
+          hoverDelay = _ref$hoverDelay === void 0 ? 500 : _ref$hoverDelay;
 
       _classCallCheck(this, Menu);
 
@@ -1026,7 +1065,11 @@ var AccessibleMenu = (function () {
         openClass: openClass
       });
       isBoolean({
-        isTopLevel: isTopLevel
+        isTopLevel: isTopLevel,
+        isHoverable: isHoverable
+      });
+      isNumber({
+        hoverDelay: hoverDelay
       });
       hasSubmenus(submenuItemSelector, submenuToggleSelector, submenuSelector);
       isDropdown(controllerElement, containerElement);
@@ -1062,6 +1105,8 @@ var AccessibleMenu = (function () {
       this.focusState = "none";
       this.openClass = openClass;
       this.root = isTopLevel;
+      this.hoverable = isHoverable;
+      this.delay = hoverDelay;
       this.initialize();
     }
     /**
@@ -1079,6 +1124,7 @@ var AccessibleMenu = (function () {
         this.createMenuItems();
         this.handleKeydown();
         this.handleClick();
+        if (this.isHoverable) this.handleHover();
 
         if (this.isTopLevel) {
           // Set initial tabIndex.
@@ -1147,7 +1193,8 @@ var AccessibleMenu = (function () {
               submenuSelector: _this.selector.submenu,
               openClass: _this.openClass,
               isTopLevel: false,
-              parentMenu: _this
+              parentMenu: _this,
+              isHoverable: _this.isHoverable
             }); // Create the new MenuToggle.
 
             var toggle = new MenuToggle({
@@ -1454,6 +1501,28 @@ var AccessibleMenu = (function () {
           menuItem.linkElement.addEventListener("click", function () {
             _this4.focussedChild = _this4.menuItems.indexOf(menuItem);
           });
+        });
+      }
+      /**
+       * Handle hover events required for proper menu usage.
+       */
+
+    }, {
+      key: "handleHover",
+      value: function handleHover() {
+        var _this5 = this;
+
+        this.menuItems.forEach(function (menuItem) {
+          if (menuItem.isSubmenuItem) {
+            menuItem.element.addEventListener("mouseenter", function () {
+              menuItem.toggle.open();
+            });
+            menuItem.element.addEventListener("mouseleave", function () {
+              setTimeout(function () {
+                menuItem.toggle.close();
+              }, _this5.hoverDelay);
+            });
+          }
         });
       }
       /**
@@ -1803,6 +1872,28 @@ var AccessibleMenu = (function () {
       key: "isTopLevel",
       get: function get() {
         return this.root;
+      }
+      /**
+       * A flag to allow hover events on the menu.
+       *
+       * @returns {boolean} - The hoverable flag.
+       */
+
+    }, {
+      key: "isHoverable",
+      get: function get() {
+        return this.hoverable;
+      }
+      /**
+       * The time delay (in miliseconds) for closing menus if the menu is hoverable.
+       *
+       * @returns {number} - The delay in ms.
+       */
+
+    }, {
+      key: "hoverDelay",
+      get: function get() {
+        return this.delay;
       }
     }]);
 
