@@ -9,13 +9,13 @@ class MenuItem {
   /**
    * {@inheritdoc}
    *
-   * @param {object}          param0                 - The menu item object.
-   * @param {HTMLElement}     param0.menuItemElement - The menu item in the DOM.
-   * @param {HTMLElement}     param0.menuLinkElement - The menu item's link in the DOM.
-   * @param {Menu}            param0.parentMenu      - The parent menu.
-   * @param {boolean}         param0.isSubmenuItem   - A flag to mark if the menu item is controlling a submenu.
-   * @param {Menu|null}       param0.childMenu       - The child menu.
-   * @param {MenuToggle|null} param0.toggle          - The controller for the child menu.
+   * @param {object}          param0                         - The menu item object.
+   * @param {HTMLElement}     param0.menuItemElement         - The menu item in the DOM.
+   * @param {HTMLElement}     param0.menuLinkElement         - The menu item's link in the DOM.
+   * @param {Menu}            param0.parentMenu              - The parent menu.
+   * @param {boolean}         [param0.isSubmenuItem = false] - A flag to mark if the menu item is controlling a submenu.
+   * @param {Menu|null}       [param0.childMenu = null]      - The child menu.
+   * @param {MenuToggle|null} [param0.toggle = null]         - The controller for the child menu.
    */
   constructor({
     menuItemElement,

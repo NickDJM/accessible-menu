@@ -17,17 +17,17 @@ class Menu {
   /**
    * {@inheritdoc}
    *
-   * @param {object}           param0                       - The menu object.
-   * @param {HTMLElement}      param0.menuElement           - The menu element in the DOM.
-   * @param {string|null}      param0.menuItemSelector      - The selector string for menu items.
-   * @param {string|null}      param0.submenuItemSelector   - The selector string for submenu items.
-   * @param {string|null}      param0.submenuToggleSelector - The selector string for submenu toggle triggers.
-   * @param {string}           param0.submenuSelector       - The selector string for the submenu itself.
-   * @param {string}           param0.openClass             - The class to use when a submenu is open.
-   * @param {boolean}          param0.isTopLevel            - A flag to mark the root menu.
-   * @param {HTMLElement|null} param0.controllerElement     - The element controlling the menu in the DOM.
-   * @param {HTMLElement|null} param0.containerElement      - The element containing the menu in the DOM.
-   * @param {Menu|null}        param0.parentMenu            - The menu containing this menu.
+   * @param {object}           param0                                - The menu object.
+   * @param {HTMLElement}      param0.menuElement                    - The menu element in the DOM.
+   * @param {string|null}      [param0.menuItemSelector = null]      - The selector string for menu items.
+   * @param {string|null}      [param0.submenuItemSelector = null]   - The selector string for submenu items.
+   * @param {string|null}      [param0.submenuToggleSelector = null] - The selector string for submenu toggle triggers.
+   * @param {string|null}      [param0.submenuSelector = null]       - The selector string for the submenu itself.
+   * @param {string}           [param0.openClass = "show"]           - The class to use when a submenu is open.
+   * @param {boolean}          [param0.isTopLevel = true]            - A flag to mark the root menu.
+   * @param {HTMLElement|null} [param0.controllerElement = null]     - The element controlling the menu in the DOM.
+   * @param {HTMLElement|null} [param0.containerElement = null]      - The element containing the menu in the DOM.
+   * @param {Menu|null}        [param0.parentMenu = null]            - The menu containing this menu.
    */
   constructor({
     menuElement,

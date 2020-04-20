@@ -9,12 +9,12 @@ class MenuToggle {
   /**
    * {@inheritdoc}
    *
-   * @param {object}           param0                   - The menu toggle object.
-   * @param {HTMLElement}      param0.menuToggleElement - The toggle element in the DOM.
-   * @param {HTMLElement}      param0.parentElement     - The element containing the menu.
-   * @param {Menu}             param0.menu              - The menu controlled by the this toggle.
-   * @param {string}           param0.openClass         - The class to use when a submenu is open.
-   * @param {Menu|null}        param0.parentMenu        - The menu containing the toggle.
+   * @param {object}      param0                      - The menu toggle object.
+   * @param {HTMLElement} param0.menuToggleElement    - The toggle element in the DOM.
+   * @param {HTMLElement} param0.parentElement        - The element containing the menu.
+   * @param {Menu}        param0.menu                 - The menu controlled by the this toggle.
+   * @param {string}      [param0.openClass = "show"] - The class to use when a submenu is open.
+   * @param {Menu|null}   [param0.parentMenu = null]  - The menu containing the toggle.
    */
   constructor({
     menuToggleElement,
