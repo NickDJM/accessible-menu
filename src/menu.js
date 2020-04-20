@@ -341,7 +341,8 @@ class Menu {
           openClass: this.openClass,
           isTopLevel: false,
           parentMenu: this,
-          isHoverable: this.isHoverable
+          isHoverable: this.isHoverable,
+          hoverDelay: this.hoverDelay
         });
 
         // Create the new MenuToggle.
@@ -590,7 +591,7 @@ class Menu {
       }
 
       if (this.currentFocus !== "none") {
-        if (key === "Tab") {
+        if (this.menuType === "menubar" && key === "Tab") {
           // Hitting Tab:
           // - Moves focus out of the menu.
           this.rootMenu.blur(event);

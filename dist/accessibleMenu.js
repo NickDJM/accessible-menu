@@ -1288,7 +1288,8 @@ var AccessibleMenu = (function () {
               openClass: _this.openClass,
               isTopLevel: false,
               parentMenu: _this,
-              isHoverable: _this.isHoverable
+              isHoverable: _this.isHoverable,
+              hoverDelay: _this.hoverDelay
             }); // Create the new MenuToggle.
 
             var toggle = new MenuToggle({
@@ -1560,7 +1561,7 @@ var AccessibleMenu = (function () {
           }
 
           if (_this3.currentFocus !== "none") {
-            if (key === "Tab") {
+            if (_this3.menuType === "menubar" && key === "Tab") {
               // Hitting Tab:
               // - Moves focus out of the menu.
               _this3.rootMenu.blur(event);
