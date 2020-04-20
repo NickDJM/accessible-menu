@@ -9,7 +9,8 @@ All Parameters _must_ be contained in a single object.
 | Paramter | Description | Type | Required | Default Value |
 | --- | --- | --- | --- | --- |
 | menuElement | The menu element in the DOM. | HTMLElement | true | `undefined`|
-| menuItemSelector | The selector string for menu items. | string | true | `"li"`|
+| menuItemSelector | The selector string for menu items. | string | false | `"li"`|
+| menuLinkSelector | The selector string for menu links. | string | false | `"a"`|
 | submenuItemSelector | The selector string for submenu items. | string\|null | false | `null`|
 | submenuToggleSelector | The selector string for submenu toggle triggers. | string\|null | false | `null`|
 | submenuSelector | The selector string for the submenu itself. | string\|null | false | `null`|

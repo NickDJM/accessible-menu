@@ -20,6 +20,7 @@ class Menu {
    * @param {object}           param0                                - The menu object.
    * @param {HTMLElement}      param0.menuElement                    - The menu element in the DOM.
    * @param {string}           [param0.menuItemSelector = "li"]      - The selector string for menu items.
+   * @param {string}           [param0.menuLinkSelector = "a"]       - The selector string for menu links.
    * @param {string|null}      [param0.submenuItemSelector = null]   - The selector string for submenu items.
    * @param {string|null}      [param0.submenuToggleSelector = null] - The selector string for submenu toggle triggers.
    * @param {string|null}      [param0.submenuSelector = null]       - The selector string for the submenu itself.
@@ -32,6 +33,7 @@ class Menu {
   constructor({
     menuElement,
     menuItemSelector = "li",
+    menuLinkSelector = "a",
     submenuItemSelector = null,
     submenuToggleSelector = null,
     submenuSelector = null,
@@ -43,7 +45,7 @@ class Menu {
   }) {
     // Run validations.
     isHTMLElement({ menuElement });
-    isCSSSelector({ menuItemSelector, openClass });
+    isCSSSelector({ menuItemSelector, menuLinkSelector, openClass });
     isBoolean({ isTopLevel });
     hasSubmenus(submenuItemSelector, submenuToggleSelector, submenuSelector);
     isDropdown(controllerElement, containerElement);
@@ -62,6 +64,7 @@ class Menu {
     };
     this.domSelectors = {
       "menu-items": menuItemSelector,
+      "menu-links": menuLinkSelector,
       "submenu-items": submenuItemSelector,
       "submenu-toggle": submenuToggleSelector,
       submenu: submenuSelector
@@ -308,6 +311,7 @@ class Menu {
         const menu = new Menu({
           menuElement: submenu,
           menuItemSelector: this.selector["menu-items"],
+          menuLinkSelector: this.selector["menu-links"],
           submenuItemSelector: this.selector["submenu-items"],
           submenuToggleSelector: this.selector["submenu-toggle"],
           submenuSelector: this.selector.submenu,
@@ -338,7 +342,7 @@ class Menu {
           toggle
         });
       } else {
-        const link = element.querySelector("a");
+        const link = element.querySelector(this.selector["menu-links"]);
 
         // Create a new MenuItem.
         menuItem = new MenuItem({
