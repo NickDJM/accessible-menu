@@ -20,7 +20,7 @@ All Parameters _must_ be contained in a single object.
 | containerElement | The element containing the menu in the DOM. | HTMLElement\|null | false | `null`|
 | parentMenu | The menu containing this menu. | Menu\|null | false | `null`|
 | isHoverable | A flag to allow hover events on the menu. | boolean | false | `false` |
-| hoverDelay | The delay for closing menus if the menu is hoverable (in miliseconds). | number | false | `500` |
+| hoverDelay | The delay for closing menus if the menu is hoverable (in miliseconds). | number | false | `250` |
 
 ## Available getters
 
