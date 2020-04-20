@@ -23,7 +23,7 @@ class MenuItem {
     parentMenu,
     isSubmenuItem = false,
     childMenu = null,
-    toggle = null
+    toggle = null,
   }) {
     // Run validations.
     isHTMLElement({ menuItemElement, menuLinkElement });
@@ -35,13 +35,13 @@ class MenuItem {
 
     this.domElements = {
       menuItem: menuItemElement,
-      link: menuLinkElement
+      link: menuLinkElement,
     };
 
     this.elements = {
       parentMenu,
       childMenu,
-      toggle
+      toggle,
     };
 
     this.isController = isSubmenuItem;

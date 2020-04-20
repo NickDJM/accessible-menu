@@ -21,7 +21,7 @@ class MenuToggle {
     parentElement,
     menu,
     openClass = "show",
-    parentMenu = null
+    parentMenu = null,
   }) {
     // Run validations.
     isHTMLElement({ menuToggleElement, parentElement });
@@ -30,11 +30,11 @@ class MenuToggle {
 
     this.domElements = {
       toggle: menuToggleElement,
-      parent: parentElement
+      parent: parentElement,
     };
     this.elements = {
       menu: menu,
-      parentMenu: parentMenu
+      parentMenu: parentMenu,
     };
     this.openClass = openClass;
     this.show = false;

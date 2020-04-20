@@ -273,7 +273,7 @@ export function hasSubmenus(
   return isCSSSelector({
     submenuItemSelector,
     submenuToggleSelector,
-    submenuSelector
+    submenuSelector,
   });
 }
 

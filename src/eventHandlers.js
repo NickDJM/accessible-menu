@@ -25,7 +25,7 @@ export function keyPress(event) {
       Home: key === "Home" || key === 36,
       End: key === "End" || key === 35,
       Character: !!key.match(/^[a-zA-Z]{1}$/),
-      Tab: key === "Tab" || key === 9
+      Tab: key === "Tab" || key === 9,
     };
 
     return Object.keys(keys).find(key => keys[key] === true);

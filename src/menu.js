@@ -10,7 +10,7 @@ import {
   hasSubmenus,
   isDropdown,
   isMenu,
-  isValidState
+  isValidState,
 } from "./validate";
 
 /**
@@ -48,7 +48,7 @@ class Menu {
     containerElement = null,
     parentMenu = null,
     isHoverable = false,
-    hoverDelay = 250
+    hoverDelay = 250,
   }) {
     // Run validations.
     isHTMLElement({ menuElement });
@@ -68,21 +68,21 @@ class Menu {
       ).filter(item => item.parentElement === menuElement),
       submenuItems: Array.from(
         menuElement.querySelectorAll(submenuItemSelector)
-      ).filter(item => item.parentElement === menuElement)
+      ).filter(item => item.parentElement === menuElement),
     };
     this.domSelectors = {
       "menu-items": menuItemSelector,
       "menu-links": menuLinkSelector,
       "submenu-items": submenuItemSelector,
       "submenu-toggle": submenuToggleSelector,
-      submenu: submenuSelector
+      submenu: submenuSelector,
     };
     this.elements = {
       menuItems: [],
       menuToggles: [],
       controller: null,
       parentMenu: parentMenu,
-      rootMenu: isTopLevel ? this : null
+      rootMenu: isTopLevel ? this : null,
     };
     this.focussedChild = 0;
     this.focusState = "none";
@@ -119,7 +119,7 @@ class Menu {
           menuToggleElement: this.controllerElement,
           parentElement: this.containerElement,
           menu: this,
-          openClass: this.openClass
+          openClass: this.openClass,
         });
 
         this.elements.controller = toggle;
@@ -342,7 +342,7 @@ class Menu {
           isTopLevel: false,
           parentMenu: this,
           isHoverable: this.isHoverable,
-          hoverDelay: this.hoverDelay
+          hoverDelay: this.hoverDelay,
         });
 
         // Create the new MenuToggle.
@@ -351,7 +351,7 @@ class Menu {
           parentElement: element,
           menu: menu,
           openClass: this.openClass,
-          parentMenu: this
+          parentMenu: this,
         });
 
         // Add it to the list of submenu items.
@@ -364,7 +364,7 @@ class Menu {
           parentMenu: this,
           isSubmenuItem: true,
           childMenu: menu,
-          toggle
+          toggle,
         });
       } else {
         const link = element.querySelector(this.selector["menu-links"]);
@@ -373,7 +373,7 @@ class Menu {
         menuItem = new MenuItem({
           menuItemElement: element,
           menuLinkElement: link,
-          parentMenu: this
+          parentMenu: this,
         });
       }
 
