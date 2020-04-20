@@ -9,7 +9,8 @@
     "src/eventHandlers.js",
     "src/menu.js",
     "src/menuItem.js",
-    "src/menuToggle.js"
+    "src/menuToggle.js",
+    "src/validate.js"
   ],
   "scripts": {
     "commit": "npx git-cz",

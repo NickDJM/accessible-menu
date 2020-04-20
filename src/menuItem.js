@@ -1,51 +1,6 @@
 import Menu from "./menu";
 import MenuToggle from "./menuToggle";
-
-// Basic validation for the class.
-const validate = {
-  menuItemElement: element => {
-    // Ensure element is an HTML element.
-    if (!(element instanceof HTMLElement)) {
-      throw new TypeError("menuItemElement must be an HTML Element.");
-    }
-  },
-  menuLinkElement: element => {
-    // Ensure element is an HTML element.
-    if (!(element instanceof HTMLElement)) {
-      throw new TypeError("menuLinkElement must be an HTML Element.");
-    }
-  },
-  parentMenu: menu => {
-    // Ensure menu is a Menu element.
-    if (!(menu instanceof Menu)) {
-      throw new TypeError("parentMenu must be a Menu.");
-    }
-  },
-  isSubmenuItem: flag => {
-    // Ensure flag is a boolean.
-    if (typeof flag !== "boolean") {
-      throw new TypeError("isSubmenuItem must be true or false");
-    }
-  },
-  childMenu: menu => {
-    // Menu can be null.
-    if (menu === null) return;
-
-    // Ensure menu is a Menu element.
-    if (!(menu instanceof Menu)) {
-      throw new TypeError("childMenu must be a Menu.");
-    }
-  },
-  toggle: toggle => {
-    // Toggle can be null.
-    if (toggle === null) return;
-
-    // Ensure toggle is a MenuToggle element.
-    if (!(toggle instanceof MenuToggle)) {
-      throw new TypeError("toggle must be a MenuToggle.");
-    }
-  }
-};
+import { isHTMLElement, isMenu, isBoolean, isMenuToggle } from "./validate";
 
 /**
  * A basic navigation link contained inside of a Menu.
@@ -71,12 +26,12 @@ class MenuItem {
     toggle = null
   }) {
     // Run validations.
-    validate.menuItemElement(menuItemElement);
-    validate.menuLinkElement(menuLinkElement);
-    validate.parentMenu(parentMenu);
-    validate.isSubmenuItem(isSubmenuItem);
-    validate.childMenu(childMenu);
-    validate.toggle(toggle);
+    isHTMLElement({ menuItemElement, menuLinkElement });
+    childMenu !== null
+      ? isMenu({ parentMenu, childMenu })
+      : isMenu({ parentMenu });
+    isBoolean({ isSubmenuItem });
+    if (toggle !== null) isMenuToggle({ toggle });
 
     this.domElements = {
       menuItem: menuItemElement,

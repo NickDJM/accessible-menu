@@ -1,87 +1,14 @@
 import MenuItem from "./menuItem";
 import MenuToggle from "./menuToggle";
 import { keyPress, preventEvent } from "./eventHandlers";
-
-// Basic validation for the class.
-const validate = {
-  menuElement: element => {
-    // Ensure element is an HTML element.
-    if (!(element instanceof HTMLElement)) {
-      throw new TypeError("menuElement must be an HTML Element.");
-    }
-  },
-  menuItemSelector: selector => {
-    // Ensure selector is a string.
-    if (typeof selector !== "string") {
-      throw new TypeError("menuItemSelector must be a CSS selector string.");
-    }
-  },
-  hasSubmenus: (container, toggle, menu) => {
-    if (container === null && toggle === null && menu === null) return;
-
-    // Ensure container is a string.
-    if (typeof container !== "string") {
-      throw new TypeError("submenuItemSelector must be a CSS selector string.");
-    }
-
-    // Ensure toggle is a string.
-    if (typeof container !== "string") {
-      throw new TypeError(
-        "submenuToggleSelector must be a CSS selector string."
-      );
-    }
-
-    // Ensure menu is a string.
-    if (typeof menu !== "string") {
-      throw new TypeError("submenuSelector must be a CSS selector string.");
-    }
-  },
-  openClass: value => {
-    // Ensure value is a string.
-    if (typeof value !== "string") {
-      throw TypeError("openClass must be a string.");
-    }
-
-    // Ensure value is a valid CSS class name.
-    const invalidCharacters = value.replace(/[_a-zA-Z0-9-]/g, "");
-    if (invalidCharacters.length > 0) {
-      throw Error("openClass must be a valid CSS class.");
-    }
-  },
-  isTopLevel: flag => {
-    // Ensure flag is a boolean.
-    if (typeof flag !== "boolean") {
-      throw new TypeError("isTopLevel must be true of false.");
-    }
-  },
-  isDropdown: (controller, container) => {
-    // Values are allowed to be null if both are null.
-    if (controller === null && container === null) return;
-
-    // Ensure controller is an HTML element.
-    if (!(controller instanceof HTMLElement)) {
-      throw new TypeError(
-        "controllerElement must be an HTML Element if containerElement is provided."
-      );
-    }
-
-    // Ensure container is an HTML element.
-    if (!(container instanceof HTMLElement)) {
-      throw new TypeError(
-        "containerElement must be an HTML Element if controllerElement is provided."
-      );
-    }
-  },
-  parentMenu: menu => {
-    // Menu can be null.
-    if (menu === null) return;
-
-    // Ensure menu is a Menu element.
-    if (!(menu instanceof Menu)) {
-      throw new TypeError("parentMenu must be a Menu.");
-    }
-  }
-};
+import {
+  isHTMLElement,
+  isCSSSelector,
+  isBoolean,
+  hasSubmenus,
+  isDropdown,
+  isMenu
+} from "./validate";
 
 /**
  * An accessible navigation element in the DOM.
@@ -115,17 +42,12 @@ class Menu {
     parentMenu = null
   }) {
     // Run validations.
-    validate.menuElement(menuElement);
-    validate.menuItemSelector(menuItemSelector);
-    validate.hasSubmenus(
-      submenuItemSelector,
-      submenuToggleSelector,
-      submenuSelector
-    );
-    validate.openClass(openClass);
-    validate.isTopLevel(isTopLevel);
-    validate.isDropdown(controllerElement, containerElement);
-    validate.parentMenu(parentMenu);
+    isHTMLElement({ menuElement });
+    isCSSSelector({ menuItemSelector, openClass });
+    isBoolean({ isTopLevel });
+    hasSubmenus(submenuItemSelector, submenuToggleSelector, submenuSelector);
+    isDropdown(controllerElement, containerElement);
+    if (parentMenu !== null) isMenu({ parentMenu });
 
     this.domElements = {
       menu: menuElement,
