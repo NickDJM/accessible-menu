@@ -287,6 +287,72 @@ var AccessibleMenu = (function () {
     }
   }
   /**
+   * Checks to see if the provided element is a number.
+   *
+   * If you provide the element to check inside of an object
+   * the name of the variable will be output in the error message.
+   *
+   * Will return true is the check is successful.
+   *
+   * @param   {object|number} element - The element to check.
+   *
+   * @returns {boolean} - The result of the check.
+   */
+
+  function isNumber(element) {
+    var name = "element";
+
+    try {
+      if (typeof element !== "number") {
+        if (_typeof(element) === "object") {
+          for (var key in element) {
+            name = key;
+            if (typeof element[key] !== "number") throw Error;
+          }
+        } else {
+          throw Error;
+        }
+      } else {
+        return true;
+      }
+    } catch (error) {
+      throw new TypeError("".concat(name, " must be a number."));
+    }
+  }
+  /**
+   * Checks to see if the provided element is a string.
+   *
+   * If you provide the element to check inside of an object
+   * the name of the variable will be output in the error message.
+   *
+   * Will return true is the check is successful.
+   *
+   * @param   {object|string} element - The element to check.
+   *
+   * @returns {boolean} - The result of the check.
+   */
+
+  function isString(element) {
+    var name = "element";
+
+    try {
+      if (typeof element !== "string") {
+        if (_typeof(element) === "object") {
+          for (var key in element) {
+            name = key;
+            if (typeof element[key] !== "string") throw Error;
+          }
+        } else {
+          throw Error;
+        }
+      } else {
+        return true;
+      }
+    } catch (error) {
+      throw new TypeError("".concat(name, " must be a string."));
+    }
+  }
+  /**
    * Checks to see if the provided element is an Event.
    *
    * If you provide the element to check inside of an object
@@ -458,6 +524,45 @@ var AccessibleMenu = (function () {
       throw new TypeError("".concat(name, " must be a MenuToggle."));
     }
   }
+  /**
+   * Check to see if the provided element is a valid focus state.
+   *
+   * If you provide the element to check inside of an object
+   * the name of the variable will be output in the error message.
+   *
+   * Will return true is the check is successful.
+   *
+   * @param   {object|string} element - The element to check.
+   *
+   * @returns {boolean} - The result of the check.
+   */
+
+  function isValidState(element) {
+    var validStates = ["self", "child", "none"];
+    var name = "element";
+
+    try {
+      if (typeof element !== "string") {
+        if (_typeof(element) === "object") {
+          for (var key in element) {
+            name = key;
+
+            if (!validStates.includes(element[key])) {
+              throw Error;
+            }
+          }
+        } else {
+          throw Error;
+        }
+      } else if (!validStates.includes(element)) {
+        throw Error;
+      } else {
+        return true;
+      }
+    } catch (error) {
+      throw new Error("".concat(name, " must be on of the following: ").concat(validStates.join(", ")));
+    }
+  }
 
   /**
    * Retrieves the pressed key from an event.
@@ -609,51 +714,63 @@ var AccessibleMenu = (function () {
       }
       /**
        * Opens the submenu.
+       *
+       * @param {Event} event - The triggering event.
        */
 
     }, {
       key: "open",
-      value: function open() {
+      value: function open(event) {
         // Set the open value.
         this.isOpen = true; // Expand the menu.
 
         this.expand(); // Close all sibling menus.
 
-        this.closeSiblings(); // Set proper focus states to parent & child.
+        this.closeSiblings(event); // Set proper focus states to parent & child.
 
         if (this.parentMenu) this.parentMenu.currentFocus = "child";
-        this.menu.currentFocus = "self"; // Set the new focus.
+        this.menu.currentFocus = "self";
 
-        this.menu.focusFirstChild();
+        if (!(event instanceof MouseEvent)) {
+          // Set the new focus.
+          this.menu.focusFirstChild();
+        }
       }
       /**
        * Opens the submenu without focus entering it.
+       *
+       * @param {Event} event - The triggering event.
        */
 
     }, {
       key: "preview",
-      value: function preview() {
+      value: function preview(event) {
         // Set the open value.
         this.isOpen = true; // Expand the menu.
 
         this.expand(); // Close all sibling menus.
 
-        this.closeSiblings(); // Set proper focus states to parent & child.
+        this.closeSiblings(event); // Set proper focus states to parent & child.
 
         if (this.parentMenu) {
           this.parentMenu.currentFocus = "self";
-          this.parentMenu.focusCurrentChild();
+
+          if (!(event instanceof MouseEvent)) {
+            this.parentMenu.focusCurrentChild();
+          }
         }
 
         this.menu.currentFocus = "none";
       }
       /**
        * Closes the submenu.
+       *
+       * @param {Event} event - The triggering event.
        */
 
     }, {
       key: "close",
-      value: function close() {
+      value: function close(event) {
         if (this.isOpen) {
           // Set the open value.
           this.isOpen = false; // Assign new WAI-ARIA/class values.
@@ -661,59 +778,72 @@ var AccessibleMenu = (function () {
           this.element.setAttribute("aria-expanded", "false");
           this.parentElement.classList.remove(this.openClass);
           this.menu.element.classList.remove(this.openClass);
-          this.menu.focusFirstChild(); // Close all child menus.
 
-          this.closeChildren(); // Set proper focus states to parent & child.
+          if (!(event instanceof MouseEvent)) {
+            this.menu.focusFirstChild();
+          } // Close all child menus.
 
-          this.menu.blur();
+
+          this.closeChildren(event); // Set proper focus states to parent & child.
+
+          this.menu.blur(event);
 
           if (this.parentMenu) {
-            this.parentMenu.currentFocus = "self"; // Set the new focus.
+            this.parentMenu.currentFocus = "self";
 
-            this.parentMenu.focusCurrentChild();
-          } else if (this.menu.isTopLevel) {
+            if (!(event instanceof MouseEvent)) {
+              // Set the new focus.
+              this.parentMenu.focusCurrentChild();
+            }
+          } else if (this.menu.isTopLevel && !(event instanceof MouseEvent)) {
             this.menu.focusController();
           }
         }
       }
       /**
        * Toggles the open state of the menu.
+       *
+       * @param {Event} event - The triggering event.
        */
 
     }, {
       key: "toggle",
-      value: function toggle() {
+      value: function toggle(event) {
         if (this.isOpen) {
-          this.close();
+          this.close(event);
         } else {
-          this.open();
+          this.open(event);
         }
       }
       /**
        * Closes all sibling menus.
+       *
+       * @param {Event} event - The triggering event.
        */
 
     }, {
       key: "closeSiblings",
-      value: function closeSiblings() {
+      value: function closeSiblings(event) {
         var _this = this;
 
         try {
           this.parentMenu.menuToggles.forEach(function (toggle) {
-            if (toggle !== _this) toggle.close();
+            if (toggle !== _this) toggle.close(event);
           });
         } catch (error) {// Fail quietly. No parent exists.
         }
       }
       /**
        * Closes all child menus.
+       *
+       * @param {Event} event - The triggering event.
        */
 
     }, {
       key: "closeChildren",
-      value: function closeChildren() {
+      value: function closeChildren(event) {
         this.menu.menuToggles.forEach(function (toggle) {
-          return toggle.close();
+          return toggle.close(event);
         });
       }
       /**
@@ -729,7 +859,7 @@ var AccessibleMenu = (function () {
         this.element.addEventListener("click", function (event) {
           preventEvent(event);
 
-          _this2.toggle();
+          _this2.toggle(event);
         });
       }
     }, {
@@ -788,10 +918,7 @@ var AccessibleMenu = (function () {
        */
       ,
       set: function set(value) {
-        if (typeof value !== "boolean") {
-          throw new TypeError("Open state must be true or false.");
-        }
-
+        isBoolean(value);
         this.show = value;
       }
     }]);
@@ -990,6 +1117,8 @@ var AccessibleMenu = (function () {
      * @param {HTMLElement|null} [param0.controllerElement = null]     - The element controlling the menu in the DOM.
      * @param {HTMLElement|null} [param0.containerElement = null]      - The element containing the menu in the DOM.
      * @param {Menu|null}        [param0.parentMenu = null]            - The menu containing this menu.
+     * @param {boolean}          [param0.isHoverable = false]          - A flag to allow hover events on the menu.
+     * @param {number}           [param0.hoverDelay = 250]             - The delay for closing menus if the menu is hoverable (in miliseconds).
      */
     function Menu(_ref) {
       var menuElement = _ref.menuElement,
@@ -1012,7 +1141,11 @@ var AccessibleMenu = (function () {
           _ref$containerElement = _ref.containerElement,
           containerElement = _ref$containerElement === void 0 ? null : _ref$containerElement,
           _ref$parentMenu = _ref.parentMenu,
-          parentMenu = _ref$parentMenu === void 0 ? null : _ref$parentMenu;
+          parentMenu = _ref$parentMenu === void 0 ? null : _ref$parentMenu,
+          _ref$isHoverable = _ref.isHoverable,
+          isHoverable = _ref$isHoverable === void 0 ? false : _ref$isHoverable,
+          _ref$hoverDelay = _ref.hoverDelay,
+          hoverDelay = _ref$hoverDelay === void 0 ? 250 : _ref$hoverDelay;
 
       _classCallCheck(this, Menu);
 
@@ -1026,7 +1159,11 @@ var AccessibleMenu = (function () {
         openClass: openClass
       });
       isBoolean({
-        isTopLevel: isTopLevel
+        isTopLevel: isTopLevel,
+        isHoverable: isHoverable
+      });
+      isNumber({
+        hoverDelay: hoverDelay
       });
       hasSubmenus(submenuItemSelector, submenuToggleSelector, submenuSelector);
       isDropdown(controllerElement, containerElement);
@@ -1062,6 +1199,8 @@ var AccessibleMenu = (function () {
       this.focusState = "none";
       this.openClass = openClass;
       this.root = isTopLevel;
+      this.hoverable = isHoverable;
+      this.delay = hoverDelay;
       this.initialize();
     }
     /**
@@ -1079,6 +1218,7 @@ var AccessibleMenu = (function () {
         this.createMenuItems();
         this.handleKeydown();
         this.handleClick();
+        if (this.isHoverable) this.handleHover();
 
         if (this.isTopLevel) {
           // Set initial tabIndex.
@@ -1147,7 +1287,8 @@ var AccessibleMenu = (function () {
               submenuSelector: _this.selector.submenu,
               openClass: _this.openClass,
               isTopLevel: false,
-              parentMenu: _this
+              parentMenu: _this,
+              isHoverable: _this.isHoverable
             }); // Create the new MenuToggle.
 
             var toggle = new MenuToggle({
@@ -1201,11 +1342,11 @@ var AccessibleMenu = (function () {
             }
           }); // Set tabIndex for the current menuItem.
 
-          item.linkElement.addEventListener("focusout", function () {
+          item.linkElement.addEventListener("focusout", function (event) {
             if (_this2.currentFocus === "none") {
-              _this2.blur();
+              _this2.blur(event);
 
-              _this2.closeChildren();
+              _this2.closeChildren(event);
             }
           });
         });
@@ -1257,9 +1398,9 @@ var AccessibleMenu = (function () {
 
                 if (previousChildOpen) {
                   if (_this3.currentMenuItem.isSubmenuItem) {
-                    _this3.currentMenuItem.toggle.preview();
+                    _this3.currentMenuItem.toggle.preview(event);
                   } else {
-                    _this3.closeChildren();
+                    _this3.closeChildren(event);
                   }
                 }
               } else if (key === "ArrowLeft") {
@@ -1276,9 +1417,9 @@ var AccessibleMenu = (function () {
 
                 if (_previousChildOpen) {
                   if (_this3.currentMenuItem.isSubmenuItem) {
-                    _this3.currentMenuItem.toggle.preview();
+                    _this3.currentMenuItem.toggle.preview(event);
                   } else {
-                    _this3.closeChildren();
+                    _this3.closeChildren(event);
                   }
                 }
               } else if (key === "ArrowDown") {
@@ -1287,7 +1428,7 @@ var AccessibleMenu = (function () {
                 if (_this3.currentMenuItem.isSubmenuItem) {
                   preventEvent(event);
 
-                  _this3.currentMenuItem.toggle.open();
+                  _this3.currentMenuItem.toggle.open(event);
 
                   _this3.currentMenuItem.childMenu.focusFirstChild();
                 }
@@ -1297,7 +1438,7 @@ var AccessibleMenu = (function () {
                 if (_this3.currentMenuItem.isSubmenuItem) {
                   preventEvent(event);
 
-                  _this3.currentMenuItem.toggle.open();
+                  _this3.currentMenuItem.toggle.open(event);
 
                   _this3.currentMenuItem.childMenu.focusLastChild();
                 }
@@ -1317,7 +1458,7 @@ var AccessibleMenu = (function () {
                 if (_this3.controller !== null) {
                   // Hitting Escape:
                   // - Closes menu.
-                  _this3.controller.close();
+                  _this3.controller.close(event);
                 }
               }
             }
@@ -1334,7 +1475,7 @@ var AccessibleMenu = (function () {
               // - Moves focus to parent menubar item.
               preventEvent(event);
 
-              _this3.rootMenu.closeChildren();
+              _this3.rootMenu.closeChildren(event);
 
               _this3.rootMenu.focusCurrentChild();
             } else if (key === "ArrowRight") {
@@ -1347,16 +1488,16 @@ var AccessibleMenu = (function () {
               if (_this3.currentMenuItem.isSubmenuItem) {
                 preventEvent(event);
 
-                _this3.currentMenuItem.toggle.open();
+                _this3.currentMenuItem.toggle.open(event);
               } else {
                 preventEvent(event);
 
-                _this3.rootMenu.closeChildren();
+                _this3.rootMenu.closeChildren(event);
 
                 _this3.rootMenu.focusNextChild();
 
                 if (_this3.rootMenu.currentMenuItem.isSubmenuItem) {
-                  _this3.rootMenu.currentMenuItem.toggle.preview();
+                  _this3.rootMenu.currentMenuItem.toggle.preview(event);
                 }
               }
             } else if (key === "ArrowLeft") {
@@ -1368,15 +1509,15 @@ var AccessibleMenu = (function () {
               if (_this3.parentMenu.currentMenuItem.isSubmenuItem) {
                 preventEvent(event);
 
-                _this3.parentMenu.currentMenuItem.toggle.close();
+                _this3.parentMenu.currentMenuItem.toggle.close(event);
 
                 if (_this3.parentMenu === _this3.rootMenu) {
-                  _this3.rootMenu.closeChildren();
+                  _this3.rootMenu.closeChildren(event);
 
                   _this3.rootMenu.focusPreviousChild();
 
                   if (_this3.rootMenu.currentMenuItem.isSubmenuItem) {
-                    _this3.rootMenu.currentMenuItem.toggle.preview();
+                    _this3.rootMenu.currentMenuItem.toggle.preview(event);
                   }
                 }
               }
@@ -1422,9 +1563,9 @@ var AccessibleMenu = (function () {
             if (key === "Tab") {
               // Hitting Tab:
               // - Moves focus out of the menu.
-              _this3.rootMenu.blur();
+              _this3.rootMenu.blur(event);
 
-              _this3.rootMenu.closeChildren();
+              _this3.rootMenu.closeChildren(event);
             }
           }
         });
@@ -1440,12 +1581,12 @@ var AccessibleMenu = (function () {
 
         document.addEventListener("click", function (event) {
           if (!_this4.element.contains(event.target) && _this4.element !== event.target) {
-            _this4.blur();
+            _this4.blur(event);
 
-            _this4.closeChildren();
+            _this4.closeChildren(event);
 
             if (_this4.controller) {
-              _this4.controller.close();
+              _this4.controller.close(event);
             }
           }
         }); // Ensure proper menu focus is applied.
@@ -1454,6 +1595,28 @@ var AccessibleMenu = (function () {
           menuItem.linkElement.addEventListener("click", function () {
             _this4.focussedChild = _this4.menuItems.indexOf(menuItem);
           });
+        });
+      }
+      /**
+       * Handle hover events required for proper menu usage.
+       */
+
+    }, {
+      key: "handleHover",
+      value: function handleHover() {
+        var _this5 = this;
+
+        this.menuItems.forEach(function (menuItem) {
+          if (menuItem.isSubmenuItem) {
+            menuItem.element.addEventListener("mouseenter", function (event) {
+              menuItem.toggle.open(event);
+            });
+            menuItem.element.addEventListener("mouseleave", function (event) {
+              setTimeout(function () {
+                menuItem.toggle.close(event);
+              }, _this5.hoverDelay);
+            });
+          }
         });
       }
       /**
@@ -1468,16 +1631,18 @@ var AccessibleMenu = (function () {
       }
       /**
        * Unfocus the menu.
+       *
+       * @param {Event} event - The triggering event.
        */
 
     }, {
       key: "blur",
-      value: function blur() {
+      value: function blur(event) {
         this.currentFocus = "none";
         this.element.blur();
 
         if (this.isTopLevel && this.controller) {
-          this.controller.close();
+          this.controller.close(event);
         }
       }
       /**
@@ -1608,13 +1773,15 @@ var AccessibleMenu = (function () {
       }
       /**
        * Close all submenu children.
+       *
+       * @param {Event} event - The triggering event.
        */
 
     }, {
       key: "closeChildren",
-      value: function closeChildren() {
+      value: function closeChildren(event) {
         this.menuToggles.forEach(function (toggle) {
-          return toggle.close();
+          return toggle.close(event);
         });
       }
     }, {
@@ -1756,12 +1923,9 @@ var AccessibleMenu = (function () {
        * @param {string} value - The focus state (self, child, none).
        */
       set: function set(value) {
-        var states = ["self", "child", "none"];
-
-        if (!states.includes(value)) {
-          throw new Error("Focus state must be 'self', 'child', or 'none'.");
-        }
-
+        isValidState({
+          value: value
+        });
         this.focusState = value;
       }
       /**
@@ -1782,10 +1946,9 @@ var AccessibleMenu = (function () {
        */
       ,
       set: function set(value) {
-        if (typeof value !== "string") {
-          throw new TypeError("Class must be a string.");
-        }
-
+        isString({
+          value: value
+        });
         this.submenuOpenClass = value;
       }
     }, {
@@ -1803,6 +1966,28 @@ var AccessibleMenu = (function () {
       key: "isTopLevel",
       get: function get() {
         return this.root;
+      }
+      /**
+       * A flag to allow hover events on the menu.
+       *
+       * @returns {boolean} - The hoverable flag.
+       */
+
+    }, {
+      key: "isHoverable",
+      get: function get() {
+        return this.hoverable;
+      }
+      /**
+       * The time delay (in miliseconds) for closing menus if the menu is hoverable.
+       *
+       * @returns {number} - The delay in ms.
+       */
+
+    }, {
+      key: "hoverDelay",
+      get: function get() {
+        return this.delay;
       }
     }]);
 

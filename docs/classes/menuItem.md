@@ -18,6 +18,7 @@ All Parameters _must_ be contained in a single object.
 ## Available getters
 
 | Getter |  Description | Type |
+| --- | --- | --- |
 | element | The menu item element in the DOM. | HTMLElement |
 | linkElement | The link element inside the menu item. | HTMLElement |
 | parentMenu | The item's parent Menu. | Menu |

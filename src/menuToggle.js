@@ -1,6 +1,6 @@
 import Menu from "./menu";
 import { preventEvent } from "./eventHandlers";
-import { isHTMLElement, isMenu, isCSSSelector } from "./validate";
+import { isHTMLElement, isMenu, isCSSSelector, isBoolean } from "./validate";
 
 /**
  * A link or button that controls the visibility of a menu.
@@ -127,9 +127,7 @@ class MenuToggle {
    * @param {boolean} value - The open state.
    */
   set isOpen(value) {
-    if (typeof value !== "boolean") {
-      throw new TypeError("Open state must be true or false.");
-    }
+    isBoolean(value);
 
     this.show = value;
   }
@@ -146,8 +144,10 @@ class MenuToggle {
 
   /**
    * Opens the submenu.
+   *
+   * @param {Event} event - The triggering event.
    */
-  open() {
+  open(event) {
     // Set the open value.
     this.isOpen = true;
 
@@ -155,20 +155,24 @@ class MenuToggle {
     this.expand();
 
     // Close all sibling menus.
-    this.closeSiblings();
+    this.closeSiblings(event);
 
     // Set proper focus states to parent & child.
     if (this.parentMenu) this.parentMenu.currentFocus = "child";
     this.menu.currentFocus = "self";
 
-    // Set the new focus.
-    this.menu.focusFirstChild();
+    if (!(event instanceof MouseEvent)) {
+      // Set the new focus.
+      this.menu.focusFirstChild();
+    }
   }
 
   /**
    * Opens the submenu without focus entering it.
+   *
+   * @param {Event} event - The triggering event.
    */
-  preview() {
+  preview(event) {
     // Set the open value.
     this.isOpen = true;
 
@@ -176,20 +180,25 @@ class MenuToggle {
     this.expand();
 
     // Close all sibling menus.
-    this.closeSiblings();
+    this.closeSiblings(event);
 
     // Set proper focus states to parent & child.
     if (this.parentMenu) {
       this.parentMenu.currentFocus = "self";
-      this.parentMenu.focusCurrentChild();
+
+      if (!(event instanceof MouseEvent)) {
+        this.parentMenu.focusCurrentChild();
+      }
     }
     this.menu.currentFocus = "none";
   }
 
   /**
    * Closes the submenu.
+   *
+   * @param {Event} event - The triggering event.
    */
-  close() {
+  close(event) {
     if (this.isOpen) {
       // Set the open value.
       this.isOpen = false;
@@ -198,20 +207,25 @@ class MenuToggle {
       this.element.setAttribute("aria-expanded", "false");
       this.parentElement.classList.remove(this.openClass);
       this.menu.element.classList.remove(this.openClass);
-      this.menu.focusFirstChild();
+
+      if (!(event instanceof MouseEvent)) {
+        this.menu.focusFirstChild();
+      }
 
       // Close all child menus.
-      this.closeChildren();
+      this.closeChildren(event);
 
       // Set proper focus states to parent & child.
-      this.menu.blur();
+      this.menu.blur(event);
 
       if (this.parentMenu) {
         this.parentMenu.currentFocus = "self";
 
-        // Set the new focus.
-        this.parentMenu.focusCurrentChild();
-      } else if (this.menu.isTopLevel) {
+        if (!(event instanceof MouseEvent)) {
+          // Set the new focus.
+          this.parentMenu.focusCurrentChild();
+        }
+      } else if (this.menu.isTopLevel && !(event instanceof MouseEvent)) {
         this.menu.focusController();
       }
     }
@@ -219,22 +233,26 @@ class MenuToggle {
 
   /**
    * Toggles the open state of the menu.
+   *
+   * @param {Event} event - The triggering event.
    */
-  toggle() {
+  toggle(event) {
     if (this.isOpen) {
-      this.close();
+      this.close(event);
     } else {
-      this.open();
+      this.open(event);
     }
   }
 
   /**
    * Closes all sibling menus.
+   *
+   * @param {Event} event - The triggering event.
    */
-  closeSiblings() {
+  closeSiblings(event) {
     try {
       this.parentMenu.menuToggles.forEach(toggle => {
-        if (toggle !== this) toggle.close();
+        if (toggle !== this) toggle.close(event);
       });
     } catch (error) {
       // Fail quietly. No parent exists.
@@ -243,9 +261,11 @@ class MenuToggle {
 
   /**
    * Closes all child menus.
+   *
+   * @param {Event} event - The triggering event.
    */
-  closeChildren() {
-    this.menu.menuToggles.forEach(toggle => toggle.close());
+  closeChildren(event) {
+    this.menu.menuToggles.forEach(toggle => toggle.close(event));
   }
 
   /**
@@ -256,7 +276,7 @@ class MenuToggle {
     this.element.addEventListener("click", event => {
       preventEvent(event);
 
-      this.toggle();
+      this.toggle(event);
     });
   }
 }

@@ -4,7 +4,8 @@ const menuSettings = {
   submenuItemSelector: ".menu-item.dropdown",
   submenuToggleSelector: ".dropdown-toggle",
   submenuSelector: ".menu.dropdown",
-  openClass: "show"
+  openClass: "show",
+  isHoverable: true
 };
 
 Array.from(navs).forEach(nav => {

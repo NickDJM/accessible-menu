@@ -19,6 +19,8 @@ All Parameters _must_ be contained in a single object.
 | controllerElement | The element controlling the menu in the DOM. | HTMLElement\|null | false | `null`|
 | containerElement | The element containing the menu in the DOM. | HTMLElement\|null | false | `null`|
 | parentMenu | The menu containing this menu. | Menu\|null | false | `null`|
+| isHoverable | A flag to allow hover events on the menu. | boolean | false | `false` |
+| hoverDelay | The delay for closing menus if the menu is hoverable (in miliseconds). | number | false | `250` |
 
 ## Available getters
 
@@ -39,6 +41,8 @@ All Parameters _must_ be contained in a single object.
 | openClass | The class used for open submenus. | string |
 | currentMenuItem | The currently focussed menu item. | MenuItem |
 | isTopLevel | A flag marking the root menu. | boolean |
+| isHoverable | A flag to allow hover events on the menu. | boolean |
+| hoverDelay | The time delay (in miliseconds) for closing menus if the menu is hoverable. | number |
 
 ## Available setters
 
@@ -57,6 +61,7 @@ All Parameters _must_ be contained in a single object.
 | handleFoucs | Sets up focusin/focusout handling. |
 | handleKeydown | Sets up the hijacked keydown events. |
 | handleClick | Handle click events required for proper menu usage. |
+| handleHover | Handle hover events required for proper menu usage. |
 | focus | Focus the menu. |
 | blur | Unfocus the menu. |
 | focusFirstChild | Focues the menu's first child. |

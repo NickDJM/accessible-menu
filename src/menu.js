@@ -5,9 +5,12 @@ import {
   isHTMLElement,
   isCSSSelector,
   isBoolean,
+  isNumber,
+  isString,
   hasSubmenus,
   isDropdown,
-  isMenu
+  isMenu,
+  isValidState
 } from "./validate";
 
 /**
@@ -29,6 +32,8 @@ class Menu {
    * @param {HTMLElement|null} [param0.controllerElement = null]     - The element controlling the menu in the DOM.
    * @param {HTMLElement|null} [param0.containerElement = null]      - The element containing the menu in the DOM.
    * @param {Menu|null}        [param0.parentMenu = null]            - The menu containing this menu.
+   * @param {boolean}          [param0.isHoverable = false]          - A flag to allow hover events on the menu.
+   * @param {number}           [param0.hoverDelay = 250]             - The delay for closing menus if the menu is hoverable (in miliseconds).
    */
   constructor({
     menuElement,
@@ -41,12 +46,15 @@ class Menu {
     isTopLevel = true,
     controllerElement = null,
     containerElement = null,
-    parentMenu = null
+    parentMenu = null,
+    isHoverable = false,
+    hoverDelay = 250
   }) {
     // Run validations.
     isHTMLElement({ menuElement });
     isCSSSelector({ menuItemSelector, menuLinkSelector, openClass });
-    isBoolean({ isTopLevel });
+    isBoolean({ isTopLevel, isHoverable });
+    isNumber({ hoverDelay });
     hasSubmenus(submenuItemSelector, submenuToggleSelector, submenuSelector);
     isDropdown(controllerElement, containerElement);
     if (parentMenu !== null) isMenu({ parentMenu });
@@ -80,6 +88,8 @@ class Menu {
     this.focusState = "none";
     this.openClass = openClass;
     this.root = isTopLevel;
+    this.hoverable = isHoverable;
+    this.delay = hoverDelay;
 
     this.initialize();
   }
@@ -96,6 +106,7 @@ class Menu {
     this.createMenuItems();
     this.handleKeydown();
     this.handleClick();
+    if (this.isHoverable) this.handleHover();
 
     if (this.isTopLevel) {
       // Set initial tabIndex.
@@ -252,16 +263,30 @@ class Menu {
   }
 
   /**
+   * A flag to allow hover events on the menu.
+   *
+   * @returns {boolean} - The hoverable flag.
+   */
+  get isHoverable() {
+    return this.hoverable;
+  }
+
+  /**
+   * The time delay (in miliseconds) for closing menus if the menu is hoverable.
+   *
+   * @returns {number} - The delay in ms.
+   */
+  get hoverDelay() {
+    return this.delay;
+  }
+
+  /**
    * Set the focus state of the menu.
    *
    * @param {string} value - The focus state (self, child, none).
    */
   set currentFocus(value) {
-    const states = ["self", "child", "none"];
-
-    if (!states.includes(value)) {
-      throw new Error("Focus state must be 'self', 'child', or 'none'.");
-    }
+    isValidState({ value });
 
     this.focusState = value;
   }
@@ -272,9 +297,7 @@ class Menu {
    * @param {string} value - The open class.
    */
   set openClass(value) {
-    if (typeof value !== "string") {
-      throw new TypeError("Class must be a string.");
-    }
+    isString({ value });
 
     this.submenuOpenClass = value;
   }
@@ -317,7 +340,8 @@ class Menu {
           submenuSelector: this.selector.submenu,
           openClass: this.openClass,
           isTopLevel: false,
-          parentMenu: this
+          parentMenu: this,
+          isHoverable: this.isHoverable
         });
 
         // Create the new MenuToggle.
@@ -370,10 +394,10 @@ class Menu {
       });
 
       // Set tabIndex for the current menuItem.
-      item.linkElement.addEventListener("focusout", () => {
+      item.linkElement.addEventListener("focusout", event => {
         if (this.currentFocus === "none") {
-          this.blur();
-          this.closeChildren();
+          this.blur(event);
+          this.closeChildren(event);
         }
       });
     });
@@ -420,9 +444,9 @@ class Menu {
             // Open the newly focussed submenu if applicable.
             if (previousChildOpen) {
               if (this.currentMenuItem.isSubmenuItem) {
-                this.currentMenuItem.toggle.preview();
+                this.currentMenuItem.toggle.preview(event);
               } else {
-                this.closeChildren();
+                this.closeChildren(event);
               }
             }
           } else if (key === "ArrowLeft") {
@@ -442,9 +466,9 @@ class Menu {
             // Open the newly focussed submenu if applicable.
             if (previousChildOpen) {
               if (this.currentMenuItem.isSubmenuItem) {
-                this.currentMenuItem.toggle.preview();
+                this.currentMenuItem.toggle.preview(event);
               } else {
-                this.closeChildren();
+                this.closeChildren(event);
               }
             }
           } else if (key === "ArrowDown") {
@@ -452,7 +476,7 @@ class Menu {
             // - Opens submenu and moves focus to first item in the submenu.
             if (this.currentMenuItem.isSubmenuItem) {
               preventEvent(event);
-              this.currentMenuItem.toggle.open();
+              this.currentMenuItem.toggle.open(event);
               this.currentMenuItem.childMenu.focusFirstChild();
             }
           } else if (key === "ArrowUp") {
@@ -460,7 +484,7 @@ class Menu {
             // - Opens submenu and moves focus to last item in the submenu.
             if (this.currentMenuItem.isSubmenuItem) {
               preventEvent(event);
-              this.currentMenuItem.toggle.open();
+              this.currentMenuItem.toggle.open(event);
               this.currentMenuItem.childMenu.focusLastChild();
             }
           } else if (key === "Home") {
@@ -477,7 +501,7 @@ class Menu {
             if (this.controller !== null) {
               // Hitting Escape:
               // - Closes menu.
-              this.controller.close();
+              this.controller.close(event);
             }
           }
         }
@@ -492,7 +516,7 @@ class Menu {
           // - Closes submenu.
           // - Moves focus to parent menubar item.
           preventEvent(event);
-          this.rootMenu.closeChildren();
+          this.rootMenu.closeChildren(event);
           this.rootMenu.focusCurrentChild();
         } else if (key === "ArrowRight") {
           // Hitting the Right Arrow:
@@ -503,14 +527,14 @@ class Menu {
           //   - Opens submenu of newly focused menubar item, keeping focus on that parent menubar item.
           if (this.currentMenuItem.isSubmenuItem) {
             preventEvent(event);
-            this.currentMenuItem.toggle.open();
+            this.currentMenuItem.toggle.open(event);
           } else {
             preventEvent(event);
-            this.rootMenu.closeChildren();
+            this.rootMenu.closeChildren(event);
             this.rootMenu.focusNextChild();
 
             if (this.rootMenu.currentMenuItem.isSubmenuItem) {
-              this.rootMenu.currentMenuItem.toggle.preview();
+              this.rootMenu.currentMenuItem.toggle.preview(event);
             }
           }
         } else if (key === "ArrowLeft") {
@@ -521,14 +545,14 @@ class Menu {
           //   - Opens submenu of newly focused menubar item, keeping focus on that parent menubar item.
           if (this.parentMenu.currentMenuItem.isSubmenuItem) {
             preventEvent(event);
-            this.parentMenu.currentMenuItem.toggle.close();
+            this.parentMenu.currentMenuItem.toggle.close(event);
 
             if (this.parentMenu === this.rootMenu) {
-              this.rootMenu.closeChildren();
+              this.rootMenu.closeChildren(event);
               this.rootMenu.focusPreviousChild();
 
               if (this.rootMenu.currentMenuItem.isSubmenuItem) {
-                this.rootMenu.currentMenuItem.toggle.preview();
+                this.rootMenu.currentMenuItem.toggle.preview(event);
               }
             }
           }
@@ -569,8 +593,8 @@ class Menu {
         if (key === "Tab") {
           // Hitting Tab:
           // - Moves focus out of the menu.
-          this.rootMenu.blur();
-          this.rootMenu.closeChildren();
+          this.rootMenu.blur(event);
+          this.rootMenu.closeChildren(event);
         }
       }
     });
@@ -585,11 +609,11 @@ class Menu {
         !this.element.contains(event.target) &&
         this.element !== event.target
       ) {
-        this.blur();
-        this.closeChildren();
+        this.blur(event);
+        this.closeChildren(event);
 
         if (this.controller) {
-          this.controller.close();
+          this.controller.close(event);
         }
       }
     });
@@ -603,6 +627,25 @@ class Menu {
   }
 
   /**
+   * Handle hover events required for proper menu usage.
+   */
+  handleHover() {
+    this.menuItems.forEach(menuItem => {
+      if (menuItem.isSubmenuItem) {
+        menuItem.element.addEventListener("mouseenter", event => {
+          menuItem.toggle.open(event);
+        });
+
+        menuItem.element.addEventListener("mouseleave", event => {
+          setTimeout(() => {
+            menuItem.toggle.close(event);
+          }, this.hoverDelay);
+        });
+      }
+    });
+  }
+
+  /**
    * Focus the menu.
    */
   focus() {
@@ -612,13 +655,15 @@ class Menu {
 
   /**
    * Unfocus the menu.
+   *
+   * @param {Event} event - The triggering event.
    */
-  blur() {
+  blur(event) {
     this.currentFocus = "none";
     this.element.blur();
 
     if (this.isTopLevel && this.controller) {
-      this.controller.close();
+      this.controller.close(event);
     }
   }
 
@@ -733,9 +778,11 @@ class Menu {
 
   /**
    * Close all submenu children.
+   *
+   * @param {Event} event - The triggering event.
    */
-  closeChildren() {
-    this.menuToggles.forEach(toggle => toggle.close());
+  closeChildren(event) {
+    this.menuToggles.forEach(toggle => toggle.close(event));
   }
 }
 

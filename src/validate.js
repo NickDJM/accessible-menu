@@ -111,6 +111,74 @@ export function isBoolean(element) {
 }
 
 /**
+ * Checks to see if the provided element is a number.
+ *
+ * If you provide the element to check inside of an object
+ * the name of the variable will be output in the error message.
+ *
+ * Will return true is the check is successful.
+ *
+ * @param   {object|number} element - The element to check.
+ *
+ * @returns {boolean} - The result of the check.
+ */
+export function isNumber(element) {
+  let name = "element";
+
+  try {
+    if (typeof element !== "number") {
+      if (typeof element === "object") {
+        for (const key in element) {
+          name = key;
+
+          if (typeof element[key] !== "number") throw Error;
+        }
+      } else {
+        throw Error;
+      }
+    } else {
+      return true;
+    }
+  } catch (error) {
+    throw new TypeError(`${name} must be a number.`);
+  }
+}
+
+/**
+ * Checks to see if the provided element is a string.
+ *
+ * If you provide the element to check inside of an object
+ * the name of the variable will be output in the error message.
+ *
+ * Will return true is the check is successful.
+ *
+ * @param   {object|string} element - The element to check.
+ *
+ * @returns {boolean} - The result of the check.
+ */
+export function isString(element) {
+  let name = "element";
+
+  try {
+    if (typeof element !== "string") {
+      if (typeof element === "object") {
+        for (const key in element) {
+          name = key;
+
+          if (typeof element[key] !== "string") throw Error;
+        }
+      } else {
+        throw Error;
+      }
+    } else {
+      return true;
+    }
+  } catch (error) {
+    throw new TypeError(`${name} must be a string.`);
+  }
+}
+
+/**
  * Checks to see if the provided element is an Event.
  *
  * If you provide the element to check inside of an object
@@ -325,5 +393,46 @@ export function isMenuToggle(element) {
     }
   } catch (error) {
     throw new TypeError(`${name} must be a MenuToggle.`);
+  }
+}
+
+/**
+ * Check to see if the provided element is a valid focus state.
+ *
+ * If you provide the element to check inside of an object
+ * the name of the variable will be output in the error message.
+ *
+ * Will return true is the check is successful.
+ *
+ * @param   {object|string} element - The element to check.
+ *
+ * @returns {boolean} - The result of the check.
+ */
+export function isValidState(element) {
+  const validStates = ["self", "child", "none"];
+  let name = "element";
+
+  try {
+    if (typeof element !== "string") {
+      if (typeof element === "object") {
+        for (const key in element) {
+          name = key;
+
+          if (!validStates.includes(element[key])) {
+            throw Error;
+          }
+        }
+      } else {
+        throw Error;
+      }
+    } else if (!validStates.includes(element)) {
+      throw Error;
+    } else {
+      return true;
+    }
+  } catch (error) {
+    throw new Error(
+      `${name} must be on of the following: ${validStates.join(", ")}`
+    );
   }
 }
