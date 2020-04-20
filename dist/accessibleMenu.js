@@ -981,6 +981,7 @@ var AccessibleMenu = (function () {
      * @param {object}           param0                                - The menu object.
      * @param {HTMLElement}      param0.menuElement                    - The menu element in the DOM.
      * @param {string}           [param0.menuItemSelector = "li"]      - The selector string for menu items.
+     * @param {string}           [param0.menuLinkSelector = "a"]       - The selector string for menu links.
      * @param {string|null}      [param0.submenuItemSelector = null]   - The selector string for submenu items.
      * @param {string|null}      [param0.submenuToggleSelector = null] - The selector string for submenu toggle triggers.
      * @param {string|null}      [param0.submenuSelector = null]       - The selector string for the submenu itself.
@@ -994,6 +995,8 @@ var AccessibleMenu = (function () {
       var menuElement = _ref.menuElement,
           _ref$menuItemSelector = _ref.menuItemSelector,
           menuItemSelector = _ref$menuItemSelector === void 0 ? "li" : _ref$menuItemSelector,
+          _ref$menuLinkSelector = _ref.menuLinkSelector,
+          menuLinkSelector = _ref$menuLinkSelector === void 0 ? "a" : _ref$menuLinkSelector,
           _ref$submenuItemSelec = _ref.submenuItemSelector,
           submenuItemSelector = _ref$submenuItemSelec === void 0 ? null : _ref$submenuItemSelec,
           _ref$submenuToggleSel = _ref.submenuToggleSelector,
@@ -1019,6 +1022,7 @@ var AccessibleMenu = (function () {
       });
       isCSSSelector({
         menuItemSelector: menuItemSelector,
+        menuLinkSelector: menuLinkSelector,
         openClass: openClass
       });
       isBoolean({
@@ -1042,6 +1046,7 @@ var AccessibleMenu = (function () {
       };
       this.domSelectors = {
         "menu-items": menuItemSelector,
+        "menu-links": menuLinkSelector,
         "submenu-items": submenuItemSelector,
         "submenu-toggle": submenuToggleSelector,
         submenu: submenuSelector
@@ -1136,6 +1141,7 @@ var AccessibleMenu = (function () {
             var menu = new Menu({
               menuElement: submenu,
               menuItemSelector: _this.selector["menu-items"],
+              menuLinkSelector: _this.selector["menu-links"],
               submenuItemSelector: _this.selector["submenu-items"],
               submenuToggleSelector: _this.selector["submenu-toggle"],
               submenuSelector: _this.selector.submenu,
@@ -1164,7 +1170,7 @@ var AccessibleMenu = (function () {
               toggle: toggle
             });
           } else {
-            var link = element.querySelector("a"); // Create a new MenuItem.
+            var link = element.querySelector(_this.selector["menu-links"]); // Create a new MenuItem.
 
             menuItem = new MenuItem({
               menuItemElement: element,
