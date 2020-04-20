@@ -1,16 +1,4 @@
-// Custom validation for params.
-const validate = {
-  event: value => {
-    if (!(value instanceof Event)) {
-      throw new TypeError("event must be an event.");
-    }
-  },
-  keyboardEvent: value => {
-    if (!(value instanceof KeyboardEvent)) {
-      throw new TypeError("event must be a keyboard event.");
-    }
-  }
-};
+import { isEvent, isKeyboardEvent } from "./validate";
 
 /**
  * Retrieves the pressed key from an event.
@@ -21,7 +9,7 @@ const validate = {
  */
 export function keyPress(event) {
   // Run validation.
-  validate.keyboardEvent(event);
+  isKeyboardEvent(event);
 
   try {
     // Use event.key or event.keyCode to support older browsers.
@@ -54,7 +42,7 @@ export function keyPress(event) {
  */
 export function preventEvent(event) {
   // Run validation.
-  validate.event(event);
+  isEvent(event);
 
   event.preventDefault();
   event.stopPropagation();

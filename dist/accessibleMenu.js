@@ -145,6 +145,20 @@ var AccessibleMenu = (function () {
     });
   }
 
+  function _typeof(obj) {
+    if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+      _typeof = function (obj) {
+        return typeof obj;
+      };
+    } else {
+      _typeof = function (obj) {
+        return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+      };
+    }
+
+    return _typeof(obj);
+  }
+
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
       throw new TypeError("Cannot call a class as a function");
@@ -167,19 +181,284 @@ var AccessibleMenu = (function () {
     return Constructor;
   }
 
-  // Custom validation for params.
-  var validate = {
-    event: function event(value) {
-      if (!(value instanceof Event)) {
-        throw new TypeError("event must be an event.");
+  /**
+   * Checks to see if the provided element is an HTMLElement.
+   *
+   * If you provide the element to check inside of an object
+   * the name of the variable will be output in the error message.
+   *
+   * Will return true is the check is successful.
+   *
+   * @param   {object|HTMLElement} element - The element to check.
+   *
+   * @returns {boolean} - The result of the check.
+   */
+
+  function isHTMLElement(element) {
+    var name = "element";
+
+    try {
+      if (!(element instanceof HTMLElement)) {
+        if (_typeof(element) === "object") {
+          for (var key in element) {
+            name = key;
+
+            if (!(element[key] instanceof HTMLElement)) {
+              throw Error;
+            }
+          }
+        } else {
+          throw Error;
+        }
+      } else {
+        return true;
       }
-    },
-    keyboardEvent: function keyboardEvent(value) {
-      if (!(value instanceof KeyboardEvent)) {
-        throw new TypeError("event must be a keyboard event.");
-      }
+    } catch (error) {
+      throw new TypeError("".concat(name, " must be an HTML Element."));
     }
-  };
+  }
+  /**
+   * Checks to see if the provided element is a valid CSS selector.
+   *
+   * If you provide the element to check inside of an object
+   * the name of the variable will be output in the error message.
+   *
+   * Will return true is the check is successful.
+   *
+   * @param   {object|string} element - The element to check.
+   *
+   * @returns {boolean} - The result of the check.
+   */
+
+  function isCSSSelector(element) {
+    var name = "element";
+
+    try {
+      if (typeof element !== "string") {
+        if (_typeof(element) === "object") {
+          for (var key in element) {
+            name = key;
+            if (typeof element[key] !== "string") throw Error;
+            document.querySelector(element[key]);
+          }
+        } else {
+          throw Error;
+        }
+      } else {
+        document.querySelector(element);
+      }
+
+      return true;
+    } catch (error) {
+      throw new TypeError("".concat(name, " must be a valid CSS selector."));
+    }
+  }
+  /**
+   * Checks to see if the provided element is a boolean.
+   *
+   * If you provide the element to check inside of an object
+   * the name of the variable will be output in the error message.
+   *
+   * Will return true is the check is successful.
+   *
+   * @param   {object|boolean} element - The element to check.
+   *
+   * @returns {boolean} - The result of the check.
+   */
+
+  function isBoolean(element) {
+    var name = "element";
+
+    try {
+      if (typeof element !== "boolean") {
+        if (_typeof(element) === "object") {
+          for (var key in element) {
+            name = key;
+            if (typeof element[key] !== "boolean") throw Error;
+          }
+        } else {
+          throw Error;
+        }
+      } else {
+        return true;
+      }
+    } catch (error) {
+      throw new TypeError("".concat(name, " must be a boolean."));
+    }
+  }
+  /**
+   * Checks to see if the provided element is an Event.
+   *
+   * If you provide the element to check inside of an object
+   * the name of the variable will be output in the error message.
+   *
+   * Will return true is the check is successful.
+   *
+   * @param   {object|Event} element - The element to check.
+   *
+   * @returns {boolean} - The result of the check.
+   */
+
+  function isEvent(element) {
+    var name = "event";
+
+    try {
+      if (!(element instanceof Event)) {
+        if (_typeof(element) === "object") {
+          for (var key in element) {
+            name = key;
+            if (!(element[key] instanceof Event)) throw Error;
+          }
+        } else {
+          throw Error;
+        }
+      } else {
+        return true;
+      }
+    } catch (error) {
+      throw new TypeError("".concat(name, " must be an Event."));
+    }
+  }
+  /**
+   * Checks to see if the provided element is a KeyboardEvent.
+   *
+   * If you provide the element to check inside of an object
+   * the name of the variable will be output in the error message.
+   *
+   * Will return true is the check is successful.
+   *
+   * @param   {object|KeyboardEvent} element - The element to check.
+   *
+   * @returns {boolean} - The result of the check.
+   */
+
+  function isKeyboardEvent(element) {
+    var name = "event";
+
+    try {
+      if (!(element instanceof KeyboardEvent)) {
+        if (_typeof(element) === "object") {
+          for (var key in element) {
+            name = key;
+            if (!(element[key] instanceof KeyboardEvent)) throw Error;
+          }
+        } else {
+          throw Error;
+        }
+      } else {
+        return true;
+      }
+    } catch (error) {
+      throw new TypeError("".concat(name, " must be a KeyboardEvent."));
+    }
+  }
+  /**
+   * Checks to see if the menu has everything it needs for submenus.
+   *
+   * Will return true is the check is successful.
+   *
+   * @param   {string} submenuItemSelector   - The CSS selector for submenu items.
+   * @param   {string} submenuToggleSelector - The CSS selector for submenu togglers.
+   * @param   {string} submenuSelector       - The CSS selector for submenus.
+   *
+   * @returns {boolean} - The result of the check.
+   */
+
+  function hasSubmenus(submenuItemSelector, submenuToggleSelector, submenuSelector) {
+    // if none of the submenu selectors are provided, the menu has no submenus.
+    if (submenuItemSelector === null && submenuToggleSelector === null && submenuSelector === null) return true;
+    return isCSSSelector({
+      submenuItemSelector: submenuItemSelector,
+      submenuToggleSelector: submenuToggleSelector,
+      submenuSelector: submenuSelector
+    });
+  }
+  /**
+   * Checks to see if the menu has everything is needs to be a dropdown.
+   *
+   * Will return true is the check is successful.
+   *
+   * @param   {HTMLElement} controllerElement - The toggle for the dropdown.
+   * @param   {HTMLElement} containerElement  - The container for the dropdown.
+   *
+   * @returns {boolean} - The result of the check.
+   */
+
+  function isDropdown(controllerElement, containerElement) {
+    // If neither of the selectors are provided, the menu isn't a dropdown.
+    if (controllerElement === null && containerElement === null) return true;
+    return isHTMLElement({
+      controllerElement: controllerElement,
+      containerElement: containerElement
+    });
+  }
+  /**
+   * Check to see if the provided element is a Menu.
+   *
+   * If you provide the element to check inside of an object
+   * the name of the variable will be output in the error message.
+   *
+   * Will return true is the check is successful.
+   *
+   * @param   {object|Menu} element - The element to check.
+   *
+   * @returns {boolean} - The result of the check.
+   */
+
+  function isMenu(element) {
+    var name = "element";
+
+    try {
+      if (!(element instanceof Menu)) {
+        if (_typeof(element) === "object") {
+          for (var key in element) {
+            name = key;
+            if (!(element[key] instanceof Menu)) throw Error;
+          }
+        } else {
+          throw Error;
+        }
+      } else {
+        return true;
+      }
+    } catch (error) {
+      throw new TypeError("".concat(name, " must be a Menu."));
+    }
+  }
+  /**
+   * Check to see if the provided element is a MenuToggle.
+   *
+   * If you provide the element to check inside of an object
+   * the name of the variable will be output in the error message.
+   *
+   * Will return true is the check is successful.
+   *
+   * @param   {object|MenuToggle} element - The element to check.
+   *
+   * @returns {boolean} - The result of the check.
+   */
+
+  function isMenuToggle(element) {
+    var name = "element";
+
+    try {
+      if (!(element instanceof MenuToggle)) {
+        if (_typeof(element) === "object" && !(element instanceof MenuToggle)) {
+          for (var key in element) {
+            name = key;
+            if (!(element[key] instanceof MenuToggle)) throw Error;
+          }
+        } else {
+          throw Error;
+        }
+      } else {
+        return true;
+      }
+    } catch (error) {
+      throw new TypeError("".concat(name, " must be a MenuToggle."));
+    }
+  }
+
   /**
    * Retrieves the pressed key from an event.
    *
@@ -190,7 +469,7 @@ var AccessibleMenu = (function () {
 
   function keyPress(event) {
     // Run validation.
-    validate.keyboardEvent(event);
+    isKeyboardEvent(event);
 
     try {
       // Use event.key or event.keyCode to support older browsers.
@@ -224,52 +503,11 @@ var AccessibleMenu = (function () {
 
   function preventEvent(event) {
     // Run validation.
-    validate.event(event);
+    isEvent(event);
     event.preventDefault();
     event.stopPropagation();
   }
 
-  var validate$1 = {
-    menuToggleElement: function menuToggleElement(element) {
-      // Ensure element is an HTML element.
-      if (!(element instanceof HTMLElement)) {
-        throw new TypeError("menuToggleElement must be an HTML Element.");
-      }
-    },
-    parentElement: function parentElement(element) {
-      // Ensure element is an HTML element.
-      if (!(element instanceof HTMLElement)) {
-        throw new TypeError("parentElement must be an HTML Element.");
-      }
-    },
-    menu: function menu(_menu) {
-      // Ensure menu is an Menu element.
-      if (!(_menu instanceof Menu)) {
-        throw new TypeError("menu must be a Menu.");
-      }
-    },
-    openClass: function openClass(value) {
-      // Ensure value is a string.
-      if (typeof value !== "string") {
-        throw TypeError("openClass must be a string.");
-      } // Ensure value is a valid CSS class name.
-
-
-      var invalidCharacters = value.replace(/[_a-zA-Z0-9-]/g, "");
-
-      if (invalidCharacters.length > 0) {
-        throw Error("openClass must be a valid CSS class.");
-      }
-    },
-    parentMenu: function parentMenu(menu) {
-      // Menu can be null.
-      if (menu === null) return; // Ensure menu is an Menu element.
-
-      if (!(menu instanceof Menu)) {
-        throw new TypeError("parentMenu must be a Menu.");
-      }
-    }
-  };
   /**
    * A link or button that controls the visibility of a menu.
    */
@@ -299,11 +537,19 @@ var AccessibleMenu = (function () {
       _classCallCheck(this, MenuToggle);
 
       // Run validations.
-      validate$1.menuToggleElement(menuToggleElement);
-      validate$1.parentElement(parentElement);
-      validate$1.menu(menu);
-      validate$1.openClass(openClass);
-      validate$1.parentMenu(parentMenu);
+      isHTMLElement({
+        menuToggleElement: menuToggleElement,
+        parentElement: parentElement
+      });
+      parentMenu !== null ? isMenu({
+        menu: menu,
+        parentMenu: parentMenu
+      }) : isMenu({
+        menu: menu
+      });
+      isCSSSelector({
+        openClass: openClass
+      });
       this.domElements = {
         toggle: menuToggleElement,
         parent: parentElement
@@ -553,48 +799,6 @@ var AccessibleMenu = (function () {
     return MenuToggle;
   }();
 
-  var validate$2 = {
-    menuItemElement: function menuItemElement(element) {
-      // Ensure element is an HTML element.
-      if (!(element instanceof HTMLElement)) {
-        throw new TypeError("menuItemElement must be an HTML Element.");
-      }
-    },
-    menuLinkElement: function menuLinkElement(element) {
-      // Ensure element is an HTML element.
-      if (!(element instanceof HTMLElement)) {
-        throw new TypeError("menuLinkElement must be an HTML Element.");
-      }
-    },
-    parentMenu: function parentMenu(menu) {
-      // Ensure menu is a Menu element.
-      if (!(menu instanceof Menu)) {
-        throw new TypeError("parentMenu must be a Menu.");
-      }
-    },
-    isSubmenuItem: function isSubmenuItem(flag) {
-      // Ensure flag is a boolean.
-      if (typeof flag !== "boolean") {
-        throw new TypeError("isSubmenuItem must be true or false");
-      }
-    },
-    childMenu: function childMenu(menu) {
-      // Menu can be null.
-      if (menu === null) return; // Ensure menu is a Menu element.
-
-      if (!(menu instanceof Menu)) {
-        throw new TypeError("childMenu must be a Menu.");
-      }
-    },
-    toggle: function toggle(_toggle) {
-      // Toggle can be null.
-      if (_toggle === null) return; // Ensure toggle is a MenuToggle element.
-
-      if (!(_toggle instanceof MenuToggle)) {
-        throw new TypeError("toggle must be a MenuToggle.");
-      }
-    }
-  };
   /**
    * A basic navigation link contained inside of a Menu.
    */
@@ -627,12 +831,22 @@ var AccessibleMenu = (function () {
       _classCallCheck(this, MenuItem);
 
       // Run validations.
-      validate$2.menuItemElement(menuItemElement);
-      validate$2.menuLinkElement(menuLinkElement);
-      validate$2.parentMenu(parentMenu);
-      validate$2.isSubmenuItem(isSubmenuItem);
-      validate$2.childMenu(childMenu);
-      validate$2.toggle(toggle);
+      isHTMLElement({
+        menuItemElement: menuItemElement,
+        menuLinkElement: menuLinkElement
+      });
+      childMenu !== null ? isMenu({
+        parentMenu: parentMenu,
+        childMenu: childMenu
+      }) : isMenu({
+        parentMenu: parentMenu
+      });
+      isBoolean({
+        isSubmenuItem: isSubmenuItem
+      });
+      if (toggle !== null) isMenuToggle({
+        toggle: toggle
+      });
       this.domElements = {
         menuItem: menuItemElement,
         link: menuLinkElement
@@ -754,77 +968,6 @@ var AccessibleMenu = (function () {
     return MenuItem;
   }();
 
-  var validate$3 = {
-    menuElement: function menuElement(element) {
-      // Ensure element is an HTML element.
-      if (!(element instanceof HTMLElement)) {
-        throw new TypeError("menuElement must be an HTML Element.");
-      }
-    },
-    menuItemSelector: function menuItemSelector(selector) {
-      // Ensure selector is a string.
-      if (typeof selector !== "string") {
-        throw new TypeError("menuItemSelector must be a CSS selector string.");
-      }
-    },
-    hasSubmenus: function hasSubmenus(container, toggle, menu) {
-      if (container === null && toggle === null && menu === null) return; // Ensure container is a string.
-
-      if (typeof container !== "string") {
-        throw new TypeError("submenuItemSelector must be a CSS selector string.");
-      } // Ensure toggle is a string.
-
-
-      if (typeof container !== "string") {
-        throw new TypeError("submenuToggleSelector must be a CSS selector string.");
-      } // Ensure menu is a string.
-
-
-      if (typeof menu !== "string") {
-        throw new TypeError("submenuSelector must be a CSS selector string.");
-      }
-    },
-    openClass: function openClass(value) {
-      // Ensure value is a string.
-      if (typeof value !== "string") {
-        throw TypeError("openClass must be a string.");
-      } // Ensure value is a valid CSS class name.
-
-
-      var invalidCharacters = value.replace(/[_a-zA-Z0-9-]/g, "");
-
-      if (invalidCharacters.length > 0) {
-        throw Error("openClass must be a valid CSS class.");
-      }
-    },
-    isTopLevel: function isTopLevel(flag) {
-      // Ensure flag is a boolean.
-      if (typeof flag !== "boolean") {
-        throw new TypeError("isTopLevel must be true of false.");
-      }
-    },
-    isDropdown: function isDropdown(controller, container) {
-      // Values are allowed to be null if both are null.
-      if (controller === null && container === null) return; // Ensure controller is an HTML element.
-
-      if (!(controller instanceof HTMLElement)) {
-        throw new TypeError("controllerElement must be an HTML Element if containerElement is provided.");
-      } // Ensure container is an HTML element.
-
-
-      if (!(container instanceof HTMLElement)) {
-        throw new TypeError("containerElement must be an HTML Element if controllerElement is provided.");
-      }
-    },
-    parentMenu: function parentMenu(menu) {
-      // Menu can be null.
-      if (menu === null) return; // Ensure menu is a Menu element.
-
-      if (!(menu instanceof Menu)) {
-        throw new TypeError("parentMenu must be a Menu.");
-      }
-    }
-  };
   /**
    * An accessible navigation element in the DOM.
    */
@@ -870,13 +1013,21 @@ var AccessibleMenu = (function () {
       _classCallCheck(this, Menu);
 
       // Run validations.
-      validate$3.menuElement(menuElement);
-      validate$3.menuItemSelector(menuItemSelector);
-      validate$3.hasSubmenus(submenuItemSelector, submenuToggleSelector, submenuSelector);
-      validate$3.openClass(openClass);
-      validate$3.isTopLevel(isTopLevel);
-      validate$3.isDropdown(controllerElement, containerElement);
-      validate$3.parentMenu(parentMenu);
+      isHTMLElement({
+        menuElement: menuElement
+      });
+      isCSSSelector({
+        menuItemSelector: menuItemSelector,
+        openClass: openClass
+      });
+      isBoolean({
+        isTopLevel: isTopLevel
+      });
+      hasSubmenus(submenuItemSelector, submenuToggleSelector, submenuSelector);
+      isDropdown(controllerElement, containerElement);
+      if (parentMenu !== null) isMenu({
+        parentMenu: parentMenu
+      });
       this.domElements = {
         menu: menuElement,
         controller: controllerElement,
