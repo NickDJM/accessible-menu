@@ -8,21 +8,28 @@ const menuSettings = {
   isHoverable: true
 };
 
+const menus = [];
+
 Array.from(navs).forEach(nav => {
   const menuElement = nav.querySelector(".menu");
+  let menu = null;
 
   if (nav.id === "main-menu") {
     const controllerElement = nav.querySelector(".menu-toggle");
-    const menu = new AccessibleMenu({
+    menu = new AccessibleMenu({
       menuElement,
       ...menuSettings,
       controllerElement,
       containerElement: nav
     });
   } else {
-    const menu = new AccessibleMenu({
+    menu = new AccessibleMenu({
       menuElement,
       ...menuSettings
     });
   }
+
+  menus.push(menu);
 });
+
+console.log(menus);

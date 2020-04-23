@@ -1,6 +1,6 @@
 import Menu from "./menu";
 import { preventEvent } from "./eventHandlers";
-import { isHTMLElement, isMenu, isCSSSelector, isBoolean } from "./validate";
+import { isHTMLElement, isMenu, isString, isBoolean } from "./validate";
 
 /**
  * A link or button that controls the visibility of a menu.
@@ -11,33 +11,37 @@ class MenuToggle {
    *
    * @param {object}      param0                      - The menu toggle object.
    * @param {HTMLElement} param0.menuToggleElement    - The toggle element in the DOM.
-   * @param {HTMLElement} param0.parentElement        - The element containing the menu.
-   * @param {Menu}        param0.menu                 - The menu controlled by the this toggle.
-   * @param {string}      [param0.openClass = "show"] - The class to use when a submenu is open.
-   * @param {Menu|null}   [param0.parentMenu = null]  - The menu containing the toggle.
+   * @param {HTMLElement} param0.parentElement        - The element containing the controlled menu.
+   * @param {Menu}        param0.controlledMenu       - The menu controlled by this toggle.
+   * @param {string}      [param0.openClass = "show"] - The class to apply when the controlled menu is "open".
+   * @param {Menu|null}   [param0.parentMenu = null]  - The menu containing this toggle.
    */
   constructor({
     menuToggleElement,
     parentElement,
-    menu,
+    controlledMenu,
     openClass = "show",
     parentMenu = null,
   }) {
     // Run validations.
     isHTMLElement({ menuToggleElement, parentElement });
-    parentMenu !== null ? isMenu({ menu, parentMenu }) : isMenu({ menu });
-    isCSSSelector({ openClass });
+
+    if (parentMenu !== null) {
+      isMenu({ controlledMenu, parentMenu });
+    } else {
+      isMenu({ controlledMenu });
+    }
 
     this.domElements = {
       toggle: menuToggleElement,
       parent: parentElement,
     };
-    this.elements = {
-      menu: menu,
-      parentMenu: parentMenu,
+    this.menuElements = {
+      controlledMenu,
+      parentMenu,
     };
     this.openClass = openClass;
-    this.show = false;
+    this.isOpen = false;
 
     this.initialize();
   }
@@ -48,68 +52,60 @@ class MenuToggle {
    */
   initialize() {
     // Add WAI-ARIA properties.
-    this.element.setAttribute("aria-haspopup", "true");
-    this.element.setAttribute("aria-expanded", "false");
-    this.element.setAttribute("role", "button");
+    this.dom.toggle.setAttribute("aria-haspopup", "true");
+    this.dom.toggle.setAttribute("aria-expanded", "false");
+    this.dom.toggle.setAttribute("role", "button");
 
     // Ensure both toggle and menu have IDs.
-    if (this.element.id === "" || this.menu.element.id === "") {
+    if (
+      this.dom.toggle.id === "" ||
+      this.elements.controlledMenu.dom.menu.id === ""
+    ) {
       const randomString = Math.random()
         .toString(36)
         .replace(/[^a-z]+/g, "")
         .substr(0, 10);
 
-      const id = `${this.element.innerText
+      const id = `${this.dom.toggle.innerText
         .toLowerCase()
         .replace(/[^a-zA-Z0-9\s]/g, "")
         .replace(/\s/g, "-")}-${randomString}`;
 
-      this.element.id = this.element.id || `${id}-menu-button`;
-      this.menu.element.id = this.menu.element.id || `${id}-menu`;
+      this.dom.toggle.id = this.dom.toggle.id || `${id}-menu-button`;
+      this.elements.controlledMenu.dom.menu.id =
+        this.elements.controlledMenu.dom.menu.id || `${id}-menu`;
     }
 
     // Set up proper aria label and control.
-    this.menu.element.setAttribute("aria-labelledby", this.element.id);
-    this.element.setAttribute("aria-controls", this.menu.element.id);
+    this.elements.controlledMenu.dom.menu.setAttribute(
+      "aria-labelledby",
+      this.dom.toggle.id
+    );
+    this.dom.toggle.setAttribute(
+      "aria-controls",
+      this.elements.controlledMenu.dom.menu.id
+    );
 
     // Add new events.
     this.handleClick();
   }
 
   /**
-   * The toggle element in the DOM.
+   * The DOM elements within the toggle.
    *
-   * @returns {HTMLElement} - The toggle element.
+   * @returns {object} - The DOM elements.
    */
-  get element() {
-    return this.domElements.toggle;
+  get dom() {
+    return this.domElements;
   }
 
   /**
-   * The toggle's parent DOM element.
+   * The elements within the toggle.
    *
-   * @returns {HTMLElement} - The parent element.
+   * @returns {object} - The elements.
    */
-  get parentElement() {
-    return this.domElements.parent;
-  }
-
-  /**
-   * The menu controlled by the toggle.
-   *
-   * @returns {Menu} - The menu element.
-   */
-  get menu() {
-    return this.elements.menu;
-  }
-
-  /**
-   * The menu containing the toggle.
-   *
-   * @returns {Menu} - The menu element.
-   */
-  get parentMenu() {
-    return this.elements.parentMenu;
+  get elements() {
+    return this.menuElements;
   }
 
   /**
@@ -122,24 +118,45 @@ class MenuToggle {
   }
 
   /**
+   * The class to apply when the controlled menu is "open".
+   *
+   * @returns {string} - The class.
+   */
+  get openClass() {
+    return this.controlledMenuOpenClass;
+  }
+
+  /**
    * Set the open state on the menu.
    *
    * @param {boolean} value - The open state.
    */
   set isOpen(value) {
-    isBoolean(value);
+    isBoolean({ value });
 
     this.show = value;
   }
 
   /**
-   * Expands the submenu.
+   * Set the class to apply when the controlled menu is "open".
+   *
+   * @param {string} value - The class.
+   */
+  set openClass(value) {
+    isString({ value });
+
+    this.controlledMenuOpenClass = value;
+  }
+
+  /**
+   * Expands the controlled menu.
+   *
+   * Alters ARIA attributes and classes.
    */
   expand() {
-    // Assign new WAI-ARIA/class values.
-    this.element.setAttribute("aria-expanded", "true");
-    this.parentElement.classList.add(this.openClass);
-    this.menu.element.classList.add(this.openClass);
+    this.dom.toggle.setAttribute("aria-expanded", "true");
+    this.dom.parent.classList.add(this.openClass);
+    this.elements.controlledMenu.dom.menu.classList.add(this.openClass);
   }
 
   /**
@@ -151,24 +168,22 @@ class MenuToggle {
     // Set the open value.
     this.isOpen = true;
 
-    // Expand the menu.
+    // Expand the controlled menu and close all siblings.
     this.expand();
-
-    // Close all sibling menus.
     this.closeSiblings(event);
 
     // Set proper focus states to parent & child.
-    if (this.parentMenu) this.parentMenu.currentFocus = "child";
-    this.menu.currentFocus = "self";
+    if (this.elements.parentMenu) this.elements.parentMenu.focusState = "child";
+    this.elements.controlledMenu.focusState = "self";
 
     if (!(event instanceof MouseEvent)) {
       // Set the new focus.
-      this.menu.focusFirstChild();
+      this.elements.controlledMenu.focusFirstChild();
     }
   }
 
   /**
-   * Opens the submenu without focus entering it.
+   * Opens the controlled menu without the current focus entering it.
    *
    * @param {Event} event - The triggering event.
    */
@@ -176,63 +191,64 @@ class MenuToggle {
     // Set the open value.
     this.isOpen = true;
 
-    // Expand the menu.
+    // Expand the controlled menu and close all siblings.
     this.expand();
-
-    // Close all sibling menus.
     this.closeSiblings(event);
 
     // Set proper focus states to parent & child.
-    if (this.parentMenu) {
-      this.parentMenu.currentFocus = "self";
+    if (this.elements.parentMenu) {
+      this.elements.parentMenu.focusState = "self";
 
       if (!(event instanceof MouseEvent)) {
-        this.parentMenu.focusCurrentChild();
+        this.elements.parentMenu.focusCurrentChild();
       }
     }
-    this.menu.currentFocus = "none";
+
+    this.elements.controlledMenu.focusState = "none";
   }
 
   /**
-   * Closes the submenu.
+   * Closes the controlled menu.
    *
    * @param {Event} event - The triggering event.
    */
   close(event) {
     if (this.isOpen) {
-      // Set the open value.
       this.isOpen = false;
 
       // Assign new WAI-ARIA/class values.
-      this.element.setAttribute("aria-expanded", "false");
-      this.parentElement.classList.remove(this.openClass);
-      this.menu.element.classList.remove(this.openClass);
+      this.dom.toggle.setAttribute("aria-expanded", "false");
+      this.dom.parent.classList.remove(this.openClass);
+      this.elements.controlledMenu.dom.menu.classList.remove(this.openClass);
 
       if (!(event instanceof MouseEvent)) {
-        this.menu.focusFirstChild();
+        this.elements.controlledMenu.focusFirstChild();
       }
 
       // Close all child menus.
       this.closeChildren(event);
 
       // Set proper focus states to parent & child.
-      this.menu.blur(event);
+      this.elements.controlledMenu.blur(event);
 
-      if (this.parentMenu) {
-        this.parentMenu.currentFocus = "self";
+      if (this.elements.parentMenu) {
+        this.elements.parentMenu.focusState = "self";
 
         if (!(event instanceof MouseEvent)) {
           // Set the new focus.
-          this.parentMenu.focusCurrentChild();
+          this.elements.parentMenu.focusCurrentChild();
         }
-      } else if (this.menu.isTopLevel && !(event instanceof MouseEvent)) {
-        this.menu.focusController();
+      } else if (
+        this.elements.controlledMenu.isTopLevel &&
+        !(event instanceof MouseEvent)
+      ) {
+        this.elements.controlledMenu.focusController();
       }
     }
   }
 
   /**
-   * Toggles the open state of the menu.
+   * Toggles the open state of the controlled menu.
    *
    * @param {Event} event - The triggering event.
    */
@@ -251,7 +267,7 @@ class MenuToggle {
    */
   closeSiblings(event) {
     try {
-      this.parentMenu.menuToggles.forEach(toggle => {
+      this.elements.parentMenu.elements.submenuToggles.forEach(toggle => {
         if (toggle !== this) toggle.close(event);
       });
     } catch (error) {
@@ -265,7 +281,9 @@ class MenuToggle {
    * @param {Event} event - The triggering event.
    */
   closeChildren(event) {
-    this.menu.menuToggles.forEach(toggle => toggle.close(event));
+    this.elements.controlledMenu.elements.submenuToggles.forEach(toggle =>
+      toggle.close(event)
+    );
   }
 
   /**
@@ -273,7 +291,7 @@ class MenuToggle {
    */
   handleClick() {
     // Handle toggling the menu on click.
-    this.element.addEventListener("click", event => {
+    this.dom.toggle.addEventListener("click", event => {
       preventEvent(event);
 
       this.toggle(event);
