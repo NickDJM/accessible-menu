@@ -120,17 +120,12 @@ class Menu {
 
     // Set all of the DOM elements.
     this.setDOMElements();
-
     this.dom.menu.setAttribute("role", "menubar");
     this.createChildElements();
-    this.handleKeydown();
-    this.handleClick();
-    if (this.isHoverable) this.handleHover();
 
     if (this.isTopLevel) {
       // Set initial tabIndex.
       this.currentMenuItem.dom.link.tabIndex = 0;
-      this.handleFocus();
 
       if (this.dom.controller && this.dom.container) {
         // Create a new MenuToggle to control the menu.
@@ -145,6 +140,12 @@ class Menu {
         this.menuElements.controller = toggle;
       }
     }
+
+    this.handleFocus();
+    this.handleClick();
+    if (this.isHoverable) this.handleHover();
+    this.handleKeydown();
+    this.handleKeyup();
   }
 
   /**
@@ -529,54 +530,125 @@ class Menu {
   }
 
   /**
-   * Sets up focusin/focusout handling.
+   * Handles focus events throughout the menu for proper menu use.
    */
   handleFocus() {
-    this.elements.menuItems.forEach(menuItem => {
-      // Properly enter menu on focus.
-      menuItem.dom.link.addEventListener("focusin", () => {
-        if (this.focusState === "none") {
-          this.focusState = "self";
-          this.focusCurrentChild();
-        }
-      });
+    this.elements.menuItems.forEach((menuItem, index) => {
+      menuItem.dom.link.addEventListener("focus", () => {
+        if (this.elements.parentMenu)
+          this.elements.parentMenu.focusState = "child";
+        if (menuItem.elements.childMenu)
+          menuItem.elements.childMenu.focusState = "none";
 
-      // Set tabIndex for the current menuItem.
-      menuItem.dom.link.addEventListener("focusout", event => {
-        if (this.focusState === "none") {
-          this.blur();
-          this.closeChildren();
-        }
+        this.focusState = "self";
+        this.currentChild = index;
       });
     });
   }
 
   /**
-   * Sets up the hijacked keydown events.
+   * Handles keydown events throughout the menu for proper menu use.
    */
   handleKeydown() {
     this.dom.menu.addEventListener("keydown", event => {
       this.currentEvent = "keyboard";
 
       const key = keyPress(event);
+
+      if (key === "Tab") {
+        // Hitting Tab:
+        // - Moves focus out of the menu.
+        if (this.elements.rootMenu.focusState !== "none") {
+          this.elements.rootMenu.blur();
+          this.elements.rootMenu.closeChildren();
+        } else {
+          this.elements.rootMenu.focus();
+        }
+      }
+
+      // Prevent default event actions if we're handling the keyup event.
+      if (key === "Character") {
+        preventEvent(event);
+      } else if (this.isTopLevel) {
+        if (this.focusState === "self") {
+          const keys = ["ArrowRight", "ArrowLeft", "Home", "End"];
+          const submenuKeys = ["Space", "Enter", "ArrowDown", "ArrowUp"];
+          const controllerKeys = ["Espace"];
+
+          if (keys.includes(key)) {
+            preventEvent(event);
+          } else if (
+            this.currentMenuItem.isSubmenuItem &&
+            submenuKeys.includes(key)
+          ) {
+            preventEvent(event);
+          } else if (this.elements.controller && controllerKeys.includes(key)) {
+            preventEvent(event);
+          }
+        }
+      } else {
+        const keys = [
+          "Escape",
+          "ArrowRight",
+          "ArrowLeft",
+          "ArrowDown",
+          "ArrowUp",
+          "Home",
+          "End",
+        ];
+        const submenuKeys = ["Space", "Enter"];
+
+        if (keys.includes(key)) {
+          preventEvent(event);
+        } else if (
+          this.currentMenuItem.isSubmenuItem &&
+          submenuKeys.includes(key)
+        ) {
+          preventEvent(event);
+        }
+      }
+    });
+
+    if (this.isTopLevel && this.elements.controller) {
+      this.elements.controller.dom.toggle.addEventListener("keydown", () => {
+        this.currentEvent = "keyboard";
+
+        const key = keyPress(event);
+
+        if (key === "Space" || key === "Enter") {
+          preventEvent(event);
+        }
+      });
+    }
+  }
+
+  /**
+   * Handles keyup events throughout the menu for proper menu use.
+   */
+  handleKeyup() {
+    this.dom.menu.addEventListener("keyup", event => {
+      this.currentEvent = "keyboard";
+
+      const key = keyPress(event);
       const { altKey, crtlKey, metaKey } = event;
       const modifier = altKey || crtlKey || metaKey;
 
-      if (this.isTopLevel) {
-        if (this.focusState === "none") {
+      if (key === "Character" && !modifier) {
+        // Hitting Character:
+        // - Moves focus to next item in the menubar having a name that starts with the typed character.
+        // - If none of the items have a name starting with the typed character, focus does not move.
+        preventEvent(event);
+        this.focusNextChildWithCharacter(event.key);
+      } else if (this.isTopLevel) {
+        if (this.focusState === "self") {
           if (key === "Space" || key === "Enter") {
             // Hitting Space or Enter:
             // - Opens submenu and moves focus to first item in the submenu.
-            preventEvent(event);
-            this.focusState = "self";
-            this.focusFirstChild();
-          }
-        } else if (this.focusState === "self") {
-          if (key === "Space" || key === "Enter") {
-            // Hitting Space or Enter:
-            // - Activates menu item, causing the link to be activated.
-            preventEvent(event);
-            this.currentMenuItem.dom.link.click();
+            if (this.currentMenuItem.isSubmenuItem) {
+              preventEvent(event);
+              this.currentMenuItem.elements.toggle.open();
+              this.currentMenuItem.elements.childMenu.focusFirstChild();
+            }
           } else if (key === "ArrowRight") {
             // Hitting the Right Arrow:
             // - Moves focus to the next item in the menubar.
@@ -651,7 +723,11 @@ class Menu {
             if (this.elements.controller !== null) {
               // Hitting Escape:
               // - Closes menu.
-              this.elements.controller.close();
+              if (this.elements.controller.isOpen) {
+                preventEvent(event);
+                this.elements.controller.close();
+                this.focusController();
+              }
             }
           }
         }
@@ -659,8 +735,11 @@ class Menu {
         if (key === "Space" || key === "Enter") {
           // Hitting Space or Enter:
           // - Activates menu item, causing the link to be activated.
-          preventEvent(event);
-          this.currentMenuItem.dom.link.click();
+          if (this.currentMenuItem.isSubmenuItem) {
+            preventEvent(event);
+            this.currentMenuItem.elements.toggle.open();
+            this.currentMenuItem.elements.childMenu.focusFirstChild();
+          }
         } else if (key === "Escape") {
           // Hitting Escape:
           // - Closes submenu.
@@ -678,15 +757,14 @@ class Menu {
           if (this.currentMenuItem.isSubmenuItem) {
             preventEvent(event);
             this.currentMenuItem.elements.toggle.open();
+            this.currentMenuItem.elements.childMenu.focusFirstChild();
           } else {
             preventEvent(event);
             this.elements.rootMenu.closeChildren();
             this.elements.rootMenu.focusNextChild();
 
             if (this.elements.rootMenu.currentMenuItem.isSubmenuItem) {
-              this.elements.rootMenu.currentMenuItem.elements.toggle.preview(
-                event
-              );
+              this.elements.rootMenu.currentMenuItem.elements.toggle.preview();
             }
           }
         } else if (key === "ArrowLeft") {
@@ -697,18 +775,15 @@ class Menu {
           //   - Opens submenu of newly focused menubar item, keeping focus on that parent menubar item.
           if (this.elements.parentMenu.currentMenuItem.isSubmenuItem) {
             preventEvent(event);
-            this.elements.parentMenu.currentMenuItem.elements.toggle.close(
-              event
-            );
+            this.elements.parentMenu.currentMenuItem.elements.toggle.close();
+            this.elements.parentMenu.focusCurrentChild();
 
             if (this.elements.parentMenu === this.elements.rootMenu) {
               this.elements.rootMenu.closeChildren();
               this.elements.rootMenu.focusPreviousChild();
 
               if (this.elements.rootMenu.currentMenuItem.isSubmenuItem) {
-                this.elements.rootMenu.currentMenuItem.elements.toggle.preview(
-                  event
-                );
+                this.elements.rootMenu.currentMenuItem.elements.toggle.preview();
               }
             }
           }
@@ -736,28 +811,25 @@ class Menu {
           this.focusLastChild();
         }
       }
-
-      if (key === "Character" && !modifier) {
-        // Hitting Character:
-        // - Moves focus to next item in the menubar having a name that starts with the typed character.
-        // - If none of the items have a name starting with the typed character, focus does not move.
-        preventEvent(event);
-        this.focusNextChildWithCharacter(event.key);
-      }
-
-      if (this.focusState !== "none") {
-        if (key === "Tab") {
-          // Hitting Tab:
-          // - Moves focus out of the menu.
-          this.elements.rootMenu.blur();
-          this.elements.rootMenu.closeChildren();
-        }
-      }
     });
+
+    if (this.isTopLevel && this.elements.controller) {
+      this.elements.controller.dom.toggle.addEventListener("keyup", () => {
+        this.currentEvent = "keyboard";
+
+        const key = keyPress(event);
+
+        if (key === "Space" || key === "Enter") {
+          preventEvent(event);
+          this.elements.controller.open();
+          this.focusFirstChild();
+        }
+      });
+    }
   }
 
   /**
-   * Adds click events throughout the menu for proper use.
+   * Handles click events throughout the menu for proper use.
    */
   handleClick() {
     document.addEventListener("click", event => {
@@ -777,18 +849,10 @@ class Menu {
         }
       }
     });
-
-    // Ensure proper menu focus is applied.
-    this.elements.menuItems.forEach(menuItem => {
-      menuItem.dom.link.addEventListener("click", () => {
-        this.currentEvent = "mouse";
-        this.currentChild = this.elements.menuItems.indexOf(menuItem);
-      });
-    });
   }
 
   /**
-   * Adds hover events throughout the menu for proper use.
+   * Handles hover events throughout the menu for proper use.
    */
   handleHover() {
     this.elements.submenuToggles.forEach(toggle => {
