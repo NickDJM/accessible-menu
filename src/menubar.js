@@ -244,14 +244,23 @@ class Menubar extends BaseMenu {
             preventEvent(event);
             this.focusLastChild();
           } else if (key === "Escape") {
-            if (this.elements.controller !== null) {
-              // Hitting Escape:
-              // - Closes menu.
-              if (this.elements.controller.isOpen) {
-                preventEvent(event);
-                this.elements.controller.close();
-                this.focusController();
-              }
+            // Hitting Escape:
+            // - Closes menu.
+            const hasOpenChild = this.elements.submenuToggles.some(
+              toggle => toggle.isOpen
+            );
+
+            if (hasOpenChild) {
+              preventEvent(event);
+              this.closeChildren();
+            } else if (
+              this.isTopLevel &&
+              this.elements.controller &&
+              this.elements.controller.isOpen
+            ) {
+              preventEvent(event);
+              this.elements.controller.close();
+              this.focusController();
             }
           }
         }

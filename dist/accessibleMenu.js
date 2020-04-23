@@ -2344,16 +2344,22 @@ var AccessibleMenu = (function () {
 
                 _this2.focusLastChild();
               } else if (key === "Escape") {
-                if (_this2.elements.controller !== null) {
-                  // Hitting Escape:
-                  // - Closes menu.
-                  if (_this2.elements.controller.isOpen) {
-                    preventEvent(event);
+                // Hitting Escape:
+                // - Closes menu.
+                var hasOpenChild = _this2.elements.submenuToggles.some(function (toggle) {
+                  return toggle.isOpen;
+                });
 
-                    _this2.elements.controller.close();
+                if (hasOpenChild) {
+                  preventEvent(event);
 
-                    _this2.focusController();
-                  }
+                  _this2.closeChildren();
+                } else if (_this2.isTopLevel && _this2.elements.controller && _this2.elements.controller.isOpen) {
+                  preventEvent(event);
+
+                  _this2.elements.controller.close();
+
+                  _this2.focusController();
                 }
               }
             }
