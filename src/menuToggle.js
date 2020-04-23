@@ -1,5 +1,4 @@
 import Menu from "./menu";
-import { preventEvent } from "./eventHandlers";
 import { isHTMLElement, isMenu, isString, isBoolean, isTag } from "./validate";
 
 /**
@@ -95,9 +94,6 @@ class MenuToggle {
 
     // Add closed class.
     this.dom.parent.classList.add(this.closeClass);
-
-    // Add new events.
-    this.handleClick();
   }
 
   /**
@@ -300,18 +296,6 @@ class MenuToggle {
     this.elements.controlledMenu.elements.submenuToggles.forEach(toggle =>
       toggle.close()
     );
-  }
-
-  /**
-   * Handle click events required for proper menu usage.
-   */
-  handleClick() {
-    // Handle toggling the menu on click.
-    this.dom.toggle.addEventListener("click", event => {
-      preventEvent();
-
-      this.toggle();
-    });
   }
 }
 

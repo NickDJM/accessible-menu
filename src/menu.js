@@ -849,6 +849,33 @@ class Menu {
         }
       }
     });
+
+    // Toggle submenus when their controllers are clicked.
+    this.elements.submenuToggles.forEach(toggle => {
+      toggle.dom.toggle.addEventListener("click", event => {
+        preventEvent(event);
+
+        this.currentEvent = "mouse";
+
+        toggle.toggle();
+
+        if (toggle.isOpen) {
+          this.focusState = "self";
+          toggle.elements.controlledMenu.focusState = "none";
+        }
+      });
+    });
+
+    // Open the this menu if it's controller is clicked.
+    if (this.isTopLevel && this.elements.controller) {
+      this.elements.controller.dom.toggle.addEventListener("click", event => {
+        preventEvent(event);
+
+        this.currentEvent = "mouse";
+
+        this.elements.controller.toggle();
+      });
+    }
   }
 
   /**
