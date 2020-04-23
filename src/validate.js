@@ -351,3 +351,42 @@ export function isValidState(value) {
     );
   }
 }
+
+/**
+ * Check to see if the provided value is a valid event type for a menu.
+ *
+ * If you provide the value to check inside of an object
+ * the name of the variable will be output in the error message.
+ *
+ * Will return true is the check is successful.
+ *
+ * @param   {object|string} value - The value to check.
+ *
+ * @returns {boolean} - The result of the check.
+ */
+export function isValidEvent(value) {
+  isString(value);
+
+  const validStates = ["none", "mouse", "keyboard"];
+  let name = "value";
+
+  try {
+    if (typeof value === "object") {
+      for (const key in value) {
+        name = key;
+
+        if (!validStates.includes(value[key])) {
+          throw Error;
+        }
+      }
+    } else if (!validStates.includes(value)) {
+      throw Error;
+    } else {
+      return true;
+    }
+  } catch (error) {
+    throw new Error(
+      `${name} must be one of the following values: ${validStates.join(", ")}`
+    );
+  }
+}
