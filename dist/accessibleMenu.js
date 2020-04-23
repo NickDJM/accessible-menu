@@ -545,7 +545,7 @@ var AccessibleMenu = (function () {
         return true;
       }
     } catch (error) {
-      throw new TypeError("".concat(name, " must be an instance of either BaseMenu or Menubar"));
+      throw new TypeError("".concat(name, " must be an instance of either BaseMenu, Menubar, or DisclosureMenu"));
     }
   }
   /**
@@ -2434,8 +2434,108 @@ var AccessibleMenu = (function () {
     return Menubar;
   }(BaseMenu);
 
+  /**
+   * An accessible disclosure menu in the DOM.
+   */
+
+  var DisclosureMenu =
+  /*#__PURE__*/
+  function (_BaseMenu) {
+    _inherits(DisclosureMenu, _BaseMenu);
+
+    /**
+     * {@inheritdoc}
+     *
+     * @param {object}         param0                               - The menu object.
+     * @param {HTMLElement}    param0.menuElement                   - The menu element in the DOM.
+     * @param {string}         [param0.menuItemSelector = "li"]     - The CSS selector string for menu items.
+     * @param {string}         [param0.menuLinkSelector = "a"]      - The CSS selector string for menu links.
+     * @param {string}         [param0.submenuItemSelector = ""]    - The CSS selector string for menu items containing submenus.
+     * @param {string}         [param0.submenuToggleSelector = "a"] - The CSS selector string for submenu toggle buttons/links.
+     * @param {string}         [param0.submenuSelector = "ul"]      - The CSS selector string for submenus.
+     * @param {HTMLElement}    param0.controllerElement             - The element controlling the menu in the DOM.
+     * @param {HTMLElement}    param0.containerElement              - The element containing the menu in the DOM.
+     * @param {string}         [param0.openClass = "show"]          - The class to apply when a menu is "open".
+     * @param {string}         [param0.closeClass = "hide"]         - The class to apply when a menu is "closed".
+     * @param {boolean}        [param0.isTopLevel = false]          - A flag to mark the root menu.
+     * @param {DisclosureMenu} param0.parentMenu                    - The parent menu to this menu.
+     * @param {boolean}        [param0.isHoverable = false]         - A flag to allow hover events on the menu.
+     * @param {number}         [param0.hoverDelay = 250]            - The delay for closing menus if the menu is hoverable (in miliseconds).
+     */
+    function DisclosureMenu(_ref) {
+      var _this;
+
+      var menuElement = _ref.menuElement,
+          _ref$menuItemSelector = _ref.menuItemSelector,
+          menuItemSelector = _ref$menuItemSelector === void 0 ? "li" : _ref$menuItemSelector,
+          _ref$menuLinkSelector = _ref.menuLinkSelector,
+          menuLinkSelector = _ref$menuLinkSelector === void 0 ? "a" : _ref$menuLinkSelector,
+          _ref$submenuItemSelec = _ref.submenuItemSelector,
+          submenuItemSelector = _ref$submenuItemSelec === void 0 ? "" : _ref$submenuItemSelec,
+          _ref$submenuToggleSel = _ref.submenuToggleSelector,
+          submenuToggleSelector = _ref$submenuToggleSel === void 0 ? "a" : _ref$submenuToggleSel,
+          _ref$submenuSelector = _ref.submenuSelector,
+          submenuSelector = _ref$submenuSelector === void 0 ? "ul" : _ref$submenuSelector,
+          controllerElement = _ref.controllerElement,
+          containerElement = _ref.containerElement,
+          _ref$openClass = _ref.openClass,
+          openClass = _ref$openClass === void 0 ? "show" : _ref$openClass,
+          _ref$closeClass = _ref.closeClass,
+          closeClass = _ref$closeClass === void 0 ? "hide" : _ref$closeClass,
+          _ref$isTopLevel = _ref.isTopLevel,
+          isTopLevel = _ref$isTopLevel === void 0 ? true : _ref$isTopLevel,
+          parentMenu = _ref.parentMenu,
+          _ref$isHoverable = _ref.isHoverable,
+          isHoverable = _ref$isHoverable === void 0 ? false : _ref$isHoverable,
+          _ref$hoverDelay = _ref.hoverDelay,
+          hoverDelay = _ref$hoverDelay === void 0 ? 250 : _ref$hoverDelay;
+
+      _classCallCheck(this, DisclosureMenu);
+
+      _this = _possibleConstructorReturn(this, _getPrototypeOf(DisclosureMenu).call(this, {
+        menuElement: menuElement,
+        menuItemSelector: menuItemSelector,
+        menuLinkSelector: menuLinkSelector,
+        submenuItemSelector: submenuItemSelector,
+        submenuToggleSelector: submenuToggleSelector,
+        submenuSelector: submenuSelector,
+        controllerElement: controllerElement,
+        containerElement: containerElement,
+        openClass: openClass,
+        closeClass: closeClass,
+        isTopLevel: isTopLevel,
+        parentMenu: parentMenu,
+        isHoverable: isHoverable,
+        hoverDelay: hoverDelay
+      }));
+      _this.currentChild = -1;
+      return _this;
+    }
+    /**
+     * Initializes the menu.
+     *
+     * This will also initialize all menu items and sub menus.
+     */
+
+
+    _createClass(DisclosureMenu, [{
+      key: "initialize",
+      value: function initialize() {
+        _get(_getPrototypeOf(DisclosureMenu.prototype), "initialize", this).call(this);
+
+        this.createChildElements(DisclosureMenu);
+        this.handleFocus();
+        this.handleClick();
+        if (this.isHoverable) this.handleHover();
+      }
+    }]);
+
+    return DisclosureMenu;
+  }(BaseMenu);
+
   var rollup = {
-    Menubar: Menubar
+    Menubar: Menubar,
+    DisclosureMenu: DisclosureMenu
   };
 
   return rollup;
