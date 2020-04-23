@@ -161,16 +161,14 @@ class MenuToggle {
 
   /**
    * Opens the submenu.
-   *
-   * @param {Event} event - The triggering event.
    */
-  open(event) {
+  open() {
     // Set the open value.
     this.isOpen = true;
 
     // Expand the controlled menu and close all siblings.
     this.expand();
-    this.closeSiblings(event);
+    this.closeSiblings();
 
     // Set proper focus states to parent & child.
     if (this.elements.parentMenu) this.elements.parentMenu.focusState = "child";
@@ -184,16 +182,14 @@ class MenuToggle {
 
   /**
    * Opens the controlled menu without the current focus entering it.
-   *
-   * @param {Event} event - The triggering event.
    */
-  preview(event) {
+  preview() {
     // Set the open value.
     this.isOpen = true;
 
     // Expand the controlled menu and close all siblings.
     this.expand();
-    this.closeSiblings(event);
+    this.closeSiblings();
 
     // Set proper focus states to parent & child.
     if (this.elements.parentMenu) {
@@ -209,10 +205,8 @@ class MenuToggle {
 
   /**
    * Closes the controlled menu.
-   *
-   * @param {Event} event - The triggering event.
    */
-  close(event) {
+  close() {
     if (this.isOpen) {
       this.isOpen = false;
 
@@ -226,10 +220,10 @@ class MenuToggle {
       }
 
       // Close all child menus.
-      this.closeChildren(event);
+      this.closeChildren();
 
       // Set proper focus states to parent & child.
-      this.elements.controlledMenu.blur(event);
+      this.elements.controlledMenu.blur();
 
       if (this.elements.parentMenu) {
         this.elements.parentMenu.focusState = "self";
@@ -249,26 +243,22 @@ class MenuToggle {
 
   /**
    * Toggles the open state of the controlled menu.
-   *
-   * @param {Event} event - The triggering event.
    */
-  toggle(event) {
+  toggle() {
     if (this.isOpen) {
-      this.close(event);
+      this.close();
     } else {
-      this.open(event);
+      this.open();
     }
   }
 
   /**
    * Closes all sibling menus.
-   *
-   * @param {Event} event - The triggering event.
    */
-  closeSiblings(event) {
+  closeSiblings() {
     try {
       this.elements.parentMenu.elements.submenuToggles.forEach(toggle => {
-        if (toggle !== this) toggle.close(event);
+        if (toggle !== this) toggle.close();
       });
     } catch (error) {
       // Fail quietly. No parent exists.
@@ -277,12 +267,10 @@ class MenuToggle {
 
   /**
    * Closes all child menus.
-   *
-   * @param {Event} event - The triggering event.
    */
-  closeChildren(event) {
+  closeChildren() {
     this.elements.controlledMenu.elements.submenuToggles.forEach(toggle =>
-      toggle.close(event)
+      toggle.close()
     );
   }
 
@@ -292,9 +280,9 @@ class MenuToggle {
   handleClick() {
     // Handle toggling the menu on click.
     this.dom.toggle.addEventListener("click", event => {
-      preventEvent(event);
+      preventEvent();
 
-      this.toggle(event);
+      this.toggle();
     });
   }
 }

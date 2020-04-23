@@ -9,6 +9,7 @@ import {
   isString,
   isMenu,
   isValidState,
+  isValidEvent,
 } from "./validate";
 
 /**
@@ -102,6 +103,7 @@ class Menu {
     this.root = isTopLevel;
     this.currentChild = 0;
     this.focusState = "none";
+    this.currentEvent = "none";
     this.isHoverable = isHoverable;
     this.hoverDelay = hoverDelay;
 
@@ -207,6 +209,15 @@ class Menu {
   }
 
   /**
+   * This last event triggered on the menu.
+   *
+   * @returns {string} - The event type.
+   */
+  get currentEvent() {
+    return this.event;
+  }
+
+  /**
    * The currently selected menu item.
    *
    * @returns {MenuItem} - The menu item.
@@ -264,6 +275,17 @@ class Menu {
     isValidState({ value });
 
     this.state = value;
+  }
+
+  /**
+   * Set the last event triggered on the menu.
+   *
+   * @param {string} value - The event type.
+   */
+  set currentEvent(value) {
+    isValidEvent({ value });
+
+    this.event = value;
   }
 
   /**
@@ -383,8 +405,8 @@ class Menu {
       // Set tabIndex for the current menuItem.
       menuItem.dom.link.addEventListener("focusout", event => {
         if (this.focusState === "none") {
-          this.blur(event);
-          this.closeChildren(event);
+          this.blur();
+          this.closeChildren();
         }
       });
     });
@@ -395,6 +417,8 @@ class Menu {
    */
   handleKeydown() {
     this.dom.menu.addEventListener("keydown", event => {
+      this.currentEvent = "keyboard";
+
       const key = keyPress(event);
       const { altKey, crtlKey, metaKey } = event;
       const modifier = altKey || crtlKey || metaKey;
@@ -431,9 +455,9 @@ class Menu {
             // Open the newly focussed submenu if applicable.
             if (previousChildOpen) {
               if (this.currentMenuItem.isSubmenuItem) {
-                this.currentMenuItem.elements.toggle.preview(event);
+                this.currentMenuItem.elements.toggle.preview();
               } else {
-                this.closeChildren(event);
+                this.closeChildren();
               }
             }
           } else if (key === "ArrowLeft") {
@@ -453,9 +477,9 @@ class Menu {
             // Open the newly focussed submenu if applicable.
             if (previousChildOpen) {
               if (this.currentMenuItem.isSubmenuItem) {
-                this.currentMenuItem.elements.toggle.preview(event);
+                this.currentMenuItem.elements.toggle.preview();
               } else {
-                this.closeChildren(event);
+                this.closeChildren();
               }
             }
           } else if (key === "ArrowDown") {
@@ -463,7 +487,7 @@ class Menu {
             // - Opens submenu and moves focus to first item in the submenu.
             if (this.currentMenuItem.isSubmenuItem) {
               preventEvent(event);
-              this.currentMenuItem.elements.toggle.open(event);
+              this.currentMenuItem.elements.toggle.open();
               this.currentMenuItem.elements.childMenu.focusFirstChild();
             }
           } else if (key === "ArrowUp") {
@@ -471,7 +495,7 @@ class Menu {
             // - Opens submenu and moves focus to last item in the submenu.
             if (this.currentMenuItem.isSubmenuItem) {
               preventEvent(event);
-              this.currentMenuItem.elements.toggle.open(event);
+              this.currentMenuItem.elements.toggle.open();
               this.currentMenuItem.elements.childMenu.focusLastChild();
             }
           } else if (key === "Home") {
@@ -488,7 +512,7 @@ class Menu {
             if (this.elements.controller !== null) {
               // Hitting Escape:
               // - Closes menu.
-              this.elements.controller.close(event);
+              this.elements.controller.close();
             }
           }
         }
@@ -503,7 +527,7 @@ class Menu {
           // - Closes submenu.
           // - Moves focus to parent menubar item.
           preventEvent(event);
-          this.elements.rootMenu.closeChildren(event);
+          this.elements.rootMenu.closeChildren();
           this.elements.rootMenu.focusCurrentChild();
         } else if (key === "ArrowRight") {
           // Hitting the Right Arrow:
@@ -514,10 +538,10 @@ class Menu {
           //   - Opens submenu of newly focused menubar item, keeping focus on that parent menubar item.
           if (this.currentMenuItem.isSubmenuItem) {
             preventEvent(event);
-            this.currentMenuItem.elements.toggle.open(event);
+            this.currentMenuItem.elements.toggle.open();
           } else {
             preventEvent(event);
-            this.elements.rootMenu.closeChildren(event);
+            this.elements.rootMenu.closeChildren();
             this.elements.rootMenu.focusNextChild();
 
             if (this.elements.rootMenu.currentMenuItem.isSubmenuItem) {
@@ -539,7 +563,7 @@ class Menu {
             );
 
             if (this.elements.parentMenu === this.elements.rootMenu) {
-              this.elements.rootMenu.closeChildren(event);
+              this.elements.rootMenu.closeChildren();
               this.elements.rootMenu.focusPreviousChild();
 
               if (this.elements.rootMenu.currentMenuItem.isSubmenuItem) {
@@ -586,8 +610,8 @@ class Menu {
         if (key === "Tab") {
           // Hitting Tab:
           // - Moves focus out of the menu.
-          this.elements.rootMenu.blur(event);
-          this.elements.rootMenu.closeChildren(event);
+          this.elements.rootMenu.blur();
+          this.elements.rootMenu.closeChildren();
         }
       }
     });
@@ -599,15 +623,17 @@ class Menu {
   handleClick() {
     document.addEventListener("click", event => {
       if (this.focusState !== "none") {
+        this.currentEvent = "mouse";
+
         if (
           !this.dom.menu.contains(event.target) &&
           !this.dom.menu !== event.target
         ) {
-          this.closeChildren(event);
-          this.blur(event);
+          this.closeChildren();
+          this.blur();
 
           if (this.elements.controller) {
-            this.elements.controller.close(event);
+            this.elements.controller.close();
           }
         }
       }
@@ -616,6 +642,7 @@ class Menu {
     // Ensure proper menu focus is applied.
     this.elements.menuItems.forEach(menuItem => {
       menuItem.dom.link.addEventListener("click", () => {
+        this.currentEvent = "mouse";
         this.currentChild = this.elements.menuItems.indexOf(menuItem);
       });
     });
@@ -627,11 +654,13 @@ class Menu {
   handleHover() {
     this.elements.submenuToggles.forEach(toggle => {
       toggle.dom.parent.addEventListener("mouseenter", () => {
+        this.currentEvent = "mouse";
         toggle.open();
       });
 
       toggle.dom.parent.addEventListener("mouseleave", () => {
         setTimeout(() => {
+          this.currentEvent = "mouse";
           toggle.close();
         }, this.hoverDelay);
       });
@@ -643,20 +672,24 @@ class Menu {
    */
   focus() {
     this.focusState = "self";
-    this.dom.menu.focus();
+
+    if (this.currentEvent !== "mouse") {
+      this.dom.menu.focus();
+    }
   }
 
   /**
    * Unfocus the menu.
-   *
-   * @param {Event} event - The triggering event.
    */
-  blur(event) {
+  blur() {
     this.focusState = "none";
-    this.dom.menu.blur();
+
+    if (this.currentEvent !== "mouse") {
+      this.dom.menu.blur();
+    }
 
     if (this.isTopLevel && this.elements.controller) {
-      this.elements.controller.close(event);
+      this.elements.controller.close();
     }
   }
 
@@ -755,7 +788,10 @@ class Menu {
    */
   focusController() {
     if (this.dom.controller) {
-      this.dom.controller.focus();
+      if (this.currentEvent !== "mouse") {
+        this.dom.controller.focus();
+      }
+
       this.focusState = "none";
     }
   }
@@ -765,18 +801,19 @@ class Menu {
    */
   focusContainer() {
     if (this.dom.container) {
-      this.dom.container.focus();
+      if (this.currentEvent !== "mouse") {
+        this.dom.container.focus();
+      }
+
       this.focusState = "none";
     }
   }
 
   /**
    * Close all submenu children.
-   *
-   * @param {Event} event - The triggering event.
    */
-  closeChildren(event) {
-    this.elements.submenuToggles.forEach(toggle => toggle.close(event));
+  closeChildren() {
+    this.elements.submenuToggles.forEach(toggle => toggle.close());
   }
 }
 
