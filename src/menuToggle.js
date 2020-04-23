@@ -1,6 +1,6 @@
 import Menu from "./menu";
 import { preventEvent } from "./eventHandlers";
-import { isHTMLElement, isMenu, isString, isBoolean } from "./validate";
+import { isHTMLElement, isMenu, isString, isBoolean, isTag } from "./validate";
 
 /**
  * A link or button that controls the visibility of a menu.
@@ -57,7 +57,11 @@ class MenuToggle {
     // Add WAI-ARIA properties.
     this.dom.toggle.setAttribute("aria-haspopup", "true");
     this.dom.toggle.setAttribute("aria-expanded", "false");
-    this.dom.toggle.setAttribute("role", "button");
+
+    // If the toggle element is a button, there's no need to add a role.
+    if (!isTag("button", this.dom.toggle)) {
+      this.dom.toggle.setAttribute("role", "button");
+    }
 
     // Ensure both toggle and menu have IDs.
     if (

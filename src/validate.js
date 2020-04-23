@@ -280,6 +280,36 @@ export function isMenu(element) {
 }
 
 /**
+ * Checks to see if the provided element is using a specific tag.
+ *
+ * If you provide the element to check inside of an object
+ * the name of the variable will be output in the error message.
+ *
+ * @param   {string}             tagName - The name of the tag.
+ * @param   {object|HTMLElement} element - The element to check.
+ *
+ * @returns {boolean} - The result of the check.
+ */
+export function isTag(tagName, element) {
+  isString(tagName);
+  isHTMLElement(element);
+
+  const tag = tagName.toLowerCase();
+
+  if (!(element instanceof HTMLElement)) {
+    let check = true;
+
+    for (const key in element) {
+      if (element[key].tagName.toLowerCase() !== tag) check = false;
+    }
+
+    return check;
+  } else {
+    return element.tagName.toLowerCase() === tag;
+  }
+}
+
+/**
  * Check to see if the provided element is a MenuToggle.
  *
  * If you provide the element to check inside of an object
