@@ -1,5 +1,4 @@
 import Menu from "./menu";
-import MenuItem from "./menuItem";
 import MenuToggle from "./menuToggle";
 
 /**
@@ -39,35 +38,33 @@ export function isHTMLElement(element) {
 }
 
 /**
- * Checks to see if the provided element is a valid CSS selector.
+ * Checks to see if the provided value is a valid CSS selector.
  *
- * If you provide the element to check inside of an object
+ * If you provide the value to check inside of an object
  * the name of the variable will be output in the error message.
  *
  * Will return true is the check is successful.
  *
- * @param   {object|string} element - The element to check.
+ * @param   {object|string} value - The value to check.
  *
  * @returns {boolean} - The result of the check.
  */
-export function isCSSSelector(element) {
-  let name = "element";
+export function isCSSSelector(value) {
+  isString(value);
+
+  let name = "value";
 
   try {
-    if (typeof element !== "string") {
-      if (typeof element === "object") {
-        for (const key in element) {
-          name = key;
+    if (typeof value === "object") {
+      for (const key in value) {
+        name = key;
 
-          if (typeof element[key] !== "string") throw Error;
+        if (typeof value[key] !== "string") throw Error;
 
-          document.querySelector(element[key]);
-        }
-      } else {
-        throw Error;
+        document.querySelector(value[key]);
       }
     } else {
-      document.querySelector(element);
+      document.querySelector(value);
     }
 
     return true;
@@ -77,27 +74,27 @@ export function isCSSSelector(element) {
 }
 
 /**
- * Checks to see if the provided element is a boolean.
+ * Checks to see if the provided value is a boolean.
  *
- * If you provide the element to check inside of an object
+ * If you provide the value to check inside of an object
  * the name of the variable will be output in the error message.
  *
  * Will return true is the check is successful.
  *
- * @param   {object|boolean} element - The element to check.
+ * @param   {object|boolean} value - The value to check.
  *
  * @returns {boolean} - The result of the check.
  */
-export function isBoolean(element) {
-  let name = "element";
+export function isBoolean(value) {
+  let name = "value";
 
   try {
-    if (typeof element !== "boolean") {
-      if (typeof element === "object") {
-        for (const key in element) {
+    if (typeof value !== "boolean") {
+      if (typeof value === "object") {
+        for (const key in value) {
           name = key;
 
-          if (typeof element[key] !== "boolean") throw Error;
+          if (typeof value[key] !== "boolean") throw Error;
         }
       } else {
         throw Error;
@@ -111,27 +108,27 @@ export function isBoolean(element) {
 }
 
 /**
- * Checks to see if the provided element is a number.
+ * Checks to see if the provided value is a number.
  *
- * If you provide the element to check inside of an object
+ * If you provide the value to check inside of an object
  * the name of the variable will be output in the error message.
  *
  * Will return true is the check is successful.
  *
- * @param   {object|number} element - The element to check.
+ * @param   {object|number} value - The value to check.
  *
  * @returns {boolean} - The result of the check.
  */
-export function isNumber(element) {
-  let name = "element";
+export function isNumber(value) {
+  let name = "value";
 
   try {
-    if (typeof element !== "number") {
-      if (typeof element === "object") {
-        for (const key in element) {
+    if (typeof value !== "number") {
+      if (typeof value === "object") {
+        for (const key in value) {
           name = key;
 
-          if (typeof element[key] !== "number") throw Error;
+          if (typeof value[key] !== "number") throw Error;
         }
       } else {
         throw Error;
@@ -145,27 +142,27 @@ export function isNumber(element) {
 }
 
 /**
- * Checks to see if the provided element is a string.
+ * Checks to see if the provided value is a string.
  *
- * If you provide the element to check inside of an object
+ * If you provide the value to check inside of an object
  * the name of the variable will be output in the error message.
  *
  * Will return true is the check is successful.
  *
- * @param   {object|string} element - The element to check.
+ * @param   {object|string} value - The value to check.
  *
  * @returns {boolean} - The result of the check.
  */
-export function isString(element) {
-  let name = "element";
+export function isString(value) {
+  let name = "value";
 
   try {
-    if (typeof element !== "string") {
-      if (typeof element === "object") {
-        for (const key in element) {
+    if (typeof value !== "string") {
+      if (typeof value === "object") {
+        for (const key in value) {
           name = key;
 
-          if (typeof element[key] !== "string") throw Error;
+          if (typeof value[key] !== "string") throw Error;
         }
       } else {
         throw Error;
@@ -179,27 +176,27 @@ export function isString(element) {
 }
 
 /**
- * Checks to see if the provided element is an Event.
+ * Checks to see if the provided event is an Event.
  *
- * If you provide the element to check inside of an object
+ * If you provide the event to check inside of an object
  * the name of the variable will be output in the error message.
  *
  * Will return true is the check is successful.
  *
- * @param   {object|Event} element - The element to check.
+ * @param   {object|Event} event - The event to check.
  *
  * @returns {boolean} - The result of the check.
  */
-export function isEvent(element) {
+export function isEvent(event) {
   let name = "event";
 
   try {
-    if (!(element instanceof Event)) {
-      if (typeof element === "object") {
-        for (const key in element) {
+    if (!(event instanceof Event)) {
+      if (typeof event === "object") {
+        for (const key in event) {
           name = key;
 
-          if (!(element[key] instanceof Event)) throw Error;
+          if (!(event[key] instanceof Event)) throw Error;
         }
       } else {
         throw Error;
@@ -213,27 +210,27 @@ export function isEvent(element) {
 }
 
 /**
- * Checks to see if the provided element is a KeyboardEvent.
+ * Checks to see if the provided event is a KeyboardEvent.
  *
- * If you provide the element to check inside of an object
+ * If you provide the event to check inside of an object
  * the name of the variable will be output in the error message.
  *
  * Will return true is the check is successful.
  *
- * @param   {object|KeyboardEvent} element - The element to check.
+ * @param   {object|KeyboardEvent} event - The event to check.
  *
  * @returns {boolean} - The result of the check.
  */
-export function isKeyboardEvent(element) {
+export function isKeyboardEvent(event) {
   let name = "event";
 
   try {
-    if (!(element instanceof KeyboardEvent)) {
-      if (typeof element === "object") {
-        for (const key in element) {
+    if (!(event instanceof KeyboardEvent)) {
+      if (typeof event === "object") {
+        for (const key in event) {
           name = key;
 
-          if (!(element[key] instanceof KeyboardEvent)) throw Error;
+          if (!(event[key] instanceof KeyboardEvent)) throw Error;
         }
       } else {
         throw Error;
@@ -247,55 +244,7 @@ export function isKeyboardEvent(element) {
 }
 
 /**
- * Checks to see if the menu has everything it needs for submenus.
- *
- * Will return true is the check is successful.
- *
- * @param   {string} submenuItemSelector   - The CSS selector for submenu items.
- * @param   {string} submenuToggleSelector - The CSS selector for submenu togglers.
- * @param   {string} submenuSelector       - The CSS selector for submenus.
- *
- * @returns {boolean} - The result of the check.
- */
-export function hasSubmenus(
-  submenuItemSelector,
-  submenuToggleSelector,
-  submenuSelector
-) {
-  // if none of the submenu selectors are provided, the menu has no submenus.
-  if (
-    submenuItemSelector === null &&
-    submenuToggleSelector === null &&
-    submenuSelector === null
-  )
-    return true;
-
-  return isCSSSelector({
-    submenuItemSelector,
-    submenuToggleSelector,
-    submenuSelector,
-  });
-}
-
-/**
- * Checks to see if the menu has everything is needs to be a dropdown.
- *
- * Will return true is the check is successful.
- *
- * @param   {HTMLElement} controllerElement - The toggle for the dropdown.
- * @param   {HTMLElement} containerElement  - The container for the dropdown.
- *
- * @returns {boolean} - The result of the check.
- */
-export function isDropdown(controllerElement, containerElement) {
-  // If neither of the selectors are provided, the menu isn't a dropdown.
-  if (controllerElement === null && containerElement === null) return true;
-
-  return isHTMLElement({ controllerElement, containerElement });
-}
-
-/**
- * Check to see if the provided element is a Menu.
+ * Checks to see if the provided element is a menu.
  *
  * If you provide the element to check inside of an object
  * the name of the variable will be output in the error message.
@@ -315,7 +264,9 @@ export function isMenu(element) {
         for (const key in element) {
           name = key;
 
-          if (!(element[key] instanceof Menu)) throw Error;
+          if (!(element[key] instanceof Menu)) {
+            throw Error;
+          }
         }
       } else {
         throw Error;
@@ -324,41 +275,7 @@ export function isMenu(element) {
       return true;
     }
   } catch (error) {
-    throw new TypeError(`${name} must be a Menu.`);
-  }
-}
-
-/**
- * Check to see if the provided element is a MenuItem.
- *
- * If you provide the element to check inside of an object
- * the name of the variable will be output in the error message.
- *
- * Will return true is the check is successful.
- *
- * @param   {object|MenuItem} element - The element to check.
- *
- * @returns {boolean} - The result of the check.
- */
-export function isMenuItem(element) {
-  let name = "element";
-
-  try {
-    if (!(element instanceof MenuItem)) {
-      if (typeof element === "object" && !(element instanceof MenuItem)) {
-        for (const key in element) {
-          name = key;
-
-          if (!(element[key] instanceof MenuItem)) throw Error;
-        }
-      } else {
-        throw Error;
-      }
-    } else {
-      return true;
-    }
-  } catch (error) {
-    throw new TypeError(`${name} must be a MenuItem.`);
+    throw new TypeError(`${name} must be an instance of Menu`);
   }
 }
 
@@ -397,42 +314,40 @@ export function isMenuToggle(element) {
 }
 
 /**
- * Check to see if the provided element is a valid focus state.
+ * Check to see if the provided value is a valid focus state for a menu.
  *
- * If you provide the element to check inside of an object
+ * If you provide the value to check inside of an object
  * the name of the variable will be output in the error message.
  *
  * Will return true is the check is successful.
  *
- * @param   {object|string} element - The element to check.
+ * @param   {object|string} value - The value to check.
  *
  * @returns {boolean} - The result of the check.
  */
-export function isValidState(element) {
-  const validStates = ["self", "child", "none"];
-  let name = "element";
+export function isValidState(value) {
+  isString(value);
+
+  const validStates = ["none", "self", "child"];
+  let name = "value";
 
   try {
-    if (typeof element !== "string") {
-      if (typeof element === "object") {
-        for (const key in element) {
-          name = key;
+    if (typeof value === "object") {
+      for (const key in value) {
+        name = key;
 
-          if (!validStates.includes(element[key])) {
-            throw Error;
-          }
+        if (!validStates.includes(value[key])) {
+          throw Error;
         }
-      } else {
-        throw Error;
       }
-    } else if (!validStates.includes(element)) {
+    } else if (!validStates.includes(value)) {
       throw Error;
     } else {
       return true;
     }
   } catch (error) {
     throw new Error(
-      `${name} must be on of the following: ${validStates.join(", ")}`
+      `${name} must be one of the following values: ${validStates.join(", ")}`
     );
   }
 }
