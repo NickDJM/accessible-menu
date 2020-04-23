@@ -76,12 +76,8 @@ class Menu {
 
     this.domElements = {
       menu: menuElement,
-      menuItems: Array.from(
-        menuElement.querySelectorAll(menuItemSelector)
-      ).filter(item => item.parentElement === menuElement),
-      submenuItems: Array.from(
-        menuElement.querySelectorAll(submenuItemSelector)
-      ).filter(item => item.parentElement === menuElement),
+      menuItems: [],
+      submenuItems: [],
       submenuToggles: [],
       submenus: [],
       controller: controllerElement,

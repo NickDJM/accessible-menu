@@ -1204,12 +1204,8 @@ var AccessibleMenu = (function () {
       });
       this.domElements = {
         menu: menuElement,
-        menuItems: Array.from(menuElement.querySelectorAll(menuItemSelector)).filter(function (item) {
-          return item.parentElement === menuElement;
-        }),
-        submenuItems: Array.from(menuElement.querySelectorAll(submenuItemSelector)).filter(function (item) {
-          return item.parentElement === menuElement;
-        }),
+        menuItems: [],
+        submenuItems: [],
         submenuToggles: [],
         submenus: [],
         controller: controllerElement,
