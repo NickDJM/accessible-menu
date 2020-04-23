@@ -27,23 +27,25 @@ class MenuItem {
   }) {
     // Run validations.
     isHTMLElement({ menuItemElement, menuLinkElement });
-    childMenu !== null
-      ? isMenu({ parentMenu, childMenu })
-      : isMenu({ parentMenu });
     isBoolean({ isSubmenuItem });
+
+    if (childMenu !== null) {
+      isMenu({ parentMenu, childMenu });
+    } else {
+      isMenu({ parentMenu });
+    }
+
     if (toggle !== null) isMenuToggle({ toggle });
 
     this.domElements = {
-      menuItem: menuItemElement,
+      item: menuItemElement,
       link: menuLinkElement,
     };
-
-    this.elements = {
+    this.menuElements = {
       parentMenu,
       childMenu,
       toggle,
     };
-
     this.isController = isSubmenuItem;
 
     this.initialize();
@@ -53,54 +55,27 @@ class MenuItem {
    * Initialize the menu item by setting its tab index.
    */
   initialize() {
-    this.element.setAttribute("role", "none");
-    this.linkElement.setAttribute("role", "menuitem");
-    this.linkElement.tabIndex = -1;
+    this.dom.item.setAttribute("role", "none");
+    this.dom.link.setAttribute("role", "menuitem");
+    this.dom.link.tabIndex = -1;
   }
 
   /**
-   * The menu item element in the DOM.
+   * The DOM elements within the menu item.
    *
-   * @returns {HTMLElement} - The menu item element.
+   * @returns {object} - The DOM elements.
    */
-  get element() {
-    return this.domElements.menuItem;
+  get dom() {
+    return this.domElements;
   }
 
   /**
-   * The link element inside the menu item.
+   * The elements within the menu item.
    *
-   * @returns {HTMLElement} - The link.
+   * @returns {object} - The elements.
    */
-  get linkElement() {
-    return this.domElements.link;
-  }
-
-  /**
-   * The item's parent Menu.
-   *
-   * @returns {Menu} - The parent menu.
-   */
-  get parentMenu() {
-    return this.elements.parentMenu;
-  }
-
-  /**
-   * The item's child menu.
-   *
-   * @returns {Menu|null} - The menu.
-   */
-  get childMenu() {
-    return this.elements.childMenu;
-  }
-
-  /**
-   * The item's toggle.
-   *
-   * @returns {MenuToggle|null} - The toggle.
-   */
-  get toggle() {
-    return this.elements.toggle;
+  get elements() {
+    return this.menuElements;
   }
 
   /**
@@ -116,10 +91,10 @@ class MenuItem {
    * Focuses the menu item's link and set proper tabIndex.
    */
   focus() {
-    this.linkElement.focus();
+    this.dom.link.focus();
 
-    if (this.parentMenu.isTopLevel) {
-      this.linkElement.tabIndex = 0;
+    if (this.elements.parentMenu.isTopLevel) {
+      this.dom.link.tabIndex = 0;
     }
   }
 
@@ -127,10 +102,10 @@ class MenuItem {
    * Blurs the menu item's link and set proper tabIndex.
    */
   blur() {
-    this.linkElement.blur();
+    this.dom.link.blur();
 
-    if (this.parentMenu.isTopLevel) {
-      this.linkElement.tabIndex = -1;
+    if (this.elements.parentMenu.isTopLevel) {
+      this.dom.link.tabIndex = -1;
     }
   }
 }
