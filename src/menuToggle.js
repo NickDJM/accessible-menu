@@ -1,5 +1,5 @@
-import Menu from "./menu";
-import { isHTMLElement, isMenu, isString, isBoolean, isTag } from "./validate";
+import BaseMenu from "./_baseMenu";
+import { isHTMLElement, isMenu, isString, isTag, isBoolean } from "./validate";
 
 /**
  * A link or button that controls the visibility of a menu.
@@ -8,13 +8,13 @@ class MenuToggle {
   /**
    * {@inheritdoc}
    *
-   * @param {object}      param0                       - The menu toggle object.
-   * @param {HTMLElement} param0.menuToggleElement     - The toggle element in the DOM.
-   * @param {HTMLElement} param0.parentElement         - The element containing the controlled menu.
-   * @param {Menu}        param0.controlledMenu        - The menu controlled by this toggle.
-   * @param {string}      [param0.openClass = "show"]  - The class to apply when the controlled menu is "open".
-   * @param {string}      [param0.closeClass = "hide"] - The class to apply when the controlled menu is "closed".
-   * @param {Menu|null}   [param0.parentMenu = null]   - The menu containing this toggle.
+   * @param {object}        param0                       - The menu toggle object.
+   * @param {HTMLElement}   param0.menuToggleElement     - The toggle element in the DOM.
+   * @param {HTMLElement}   param0.parentElement         - The element containing the controlled menu.
+   * @param {BaseMenu}      param0.controlledMenu        - The menu controlled by this toggle.
+   * @param {string}        [param0.openClass = "show"]  - The class to apply when the controlled menu is "open".
+   * @param {string}        [param0.closeClass = "hide"] - The class to apply when the controlled menu is "closed".
+   * @param {BaseMenu|null} [param0.parentMenu = null]   - The menu containing this toggle.
    */
   constructor({
     menuToggleElement,
@@ -201,10 +201,9 @@ class MenuToggle {
   }
 
   /**
-   * Opens the submenu.
+   * Opens the controlled menu.
    */
   open() {
-    // Set the open value.
     this.isOpen = true;
 
     // Expand the controlled menu and close all siblings.
@@ -214,18 +213,12 @@ class MenuToggle {
     // Set proper focus states to parent & child.
     if (this.elements.parentMenu) this.elements.parentMenu.focusState = "child";
     this.elements.controlledMenu.focusState = "self";
-
-    if (!(event instanceof MouseEvent)) {
-      // Set the new focus.
-      this.elements.controlledMenu.focusFirstChild();
-    }
   }
 
   /**
    * Opens the controlled menu without the current focus entering it.
    */
   preview() {
-    // Set the open value.
     this.isOpen = true;
 
     // Expand the controlled menu and close all siblings.
@@ -235,10 +228,6 @@ class MenuToggle {
     // Set proper focus states to parent & child.
     if (this.elements.parentMenu) {
       this.elements.parentMenu.focusState = "self";
-
-      if (!(event instanceof MouseEvent)) {
-        this.elements.parentMenu.focusCurrentChild();
-      }
     }
 
     this.elements.controlledMenu.focusState = "none";
@@ -280,12 +269,10 @@ class MenuToggle {
    * Closes all sibling menus.
    */
   closeSiblings() {
-    try {
+    if (this.elements.parentMenu) {
       this.elements.parentMenu.elements.submenuToggles.forEach(toggle => {
         if (toggle !== this) toggle.close();
       });
-    } catch (error) {
-      // Fail quietly. No parent exists.
     }
   }
 

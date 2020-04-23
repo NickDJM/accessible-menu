@@ -15,7 +15,7 @@ import {
 /**
  * An accessible navigation element in the DOM.
  */
-class Menu {
+class BaseMenu {
   /**
    * {@inheritdoc}
    *
@@ -31,7 +31,7 @@ class Menu {
    * @param {string}           [param0.openClass = "show"]          - The class to apply when a menu is "open".
    * @param {string}           [param0.closeClass = "hide"]         - The class to apply when a menu is "closed".
    * @param {boolean}          [param0.isTopLevel = false]          - A flag to mark the root menu.
-   * @param {Menu|null}        [param0.parentMenu = null]           - The parent menu to this menu.
+   * @param {BaseMenu|null}    [param0.parentMenu = null]           - The parent menu to this menu.
    * @param {boolean}          [param0.isHoverable = false]         - A flag to allow hover events on the menu.
    * @param {number}           [param0.hoverDelay = 250]            - The delay for closing menus if the menu is hoverable (in miliseconds).
    */
@@ -451,7 +451,7 @@ class Menu {
   /**
    * Finds the root Menu element.
    *
-   * @param {Menu} menu - The menu to check.
+   * @param {BaseMenu} menu - The menu to check.
    */
   findRootMenu(menu) {
     if (menu.isTopLevel) {
@@ -477,7 +477,7 @@ class Menu {
         const submenu = element.querySelector(this.selectors.submenus);
 
         // Create the new Menu and initialize it.
-        const menu = new Menu({
+        const menu = new BaseMenu({
           menuElement: submenu,
           menuItemSelector: this.selectors.menuItems,
           menuLinkSelector: this.selectors.menuLinks,
@@ -1047,4 +1047,4 @@ class Menu {
   }
 }
 
-export default Menu;
+export default BaseMenu;
