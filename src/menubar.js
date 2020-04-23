@@ -82,6 +82,8 @@ class Menubar extends BaseMenu {
    * Handles keydown events throughout the menu for proper menu use.
    */
   handleKeydown() {
+    super.handleKeydown();
+
     this.dom.menu.addEventListener("keydown", event => {
       this.currentEvent = "keyboard";
 
@@ -140,24 +142,14 @@ class Menubar extends BaseMenu {
         }
       }
     });
-
-    if (this.isTopLevel && this.elements.controller) {
-      this.elements.controller.dom.toggle.addEventListener("keydown", () => {
-        this.currentEvent = "keyboard";
-
-        const key = keyPress(event);
-
-        if (key === "Space" || key === "Enter") {
-          preventEvent(event);
-        }
-      });
-    }
   }
 
   /**
    * Handles keyup events throughout the menu for proper menu use.
    */
   handleKeyup() {
+    super.handleKeyup();
+
     this.dom.menu.addEventListener("keyup", event => {
       this.currentEvent = "keyboard";
 
@@ -344,20 +336,6 @@ class Menubar extends BaseMenu {
         }
       }
     });
-
-    if (this.isTopLevel && this.elements.controller) {
-      this.elements.controller.dom.toggle.addEventListener("keyup", () => {
-        this.currentEvent = "keyboard";
-
-        const key = keyPress(event);
-
-        if (key === "Space" || key === "Enter") {
-          preventEvent(event);
-          this.elements.controller.open();
-          this.focusFirstChild();
-        }
-      });
-    }
   }
 }
 
