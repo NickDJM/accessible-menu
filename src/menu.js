@@ -29,6 +29,7 @@ class Menu {
    * @param {HTMLElement|null} [param0.controllerElement = null]    - The element controlling the menu in the DOM.
    * @param {HTMLElement|null} [param0.containerElement = null]     - The element containing the menu in the DOM.
    * @param {string}           [param0.openClass = "show"]          - The class to apply when a menu is "open".
+   * @param {string}           [param0.closeClass = "hide"]         - The class to apply when a menu is "closed".
    * @param {boolean}          [param0.isTopLevel = false]          - A flag to mark the root menu.
    * @param {Menu|null}        [param0.parentMenu = null]           - The parent menu to this menu.
    * @param {boolean}          [param0.isHoverable = false]         - A flag to allow hover events on the menu.
@@ -44,6 +45,7 @@ class Menu {
     controllerElement = null,
     containerElement = null,
     openClass = "show",
+    closeClass = "hide",
     isTopLevel = true,
     parentMenu = null,
     isHoverable = false,
@@ -100,6 +102,7 @@ class Menu {
       rootMenu: isTopLevel ? this : null,
     };
     this.openClass = openClass;
+    this.closeClass = closeClass;
     this.root = isTopLevel;
     this.currentChild = 0;
     this.focusState = "none";
@@ -138,6 +141,7 @@ class Menu {
           parentElement: this.dom.container,
           controlledMenu: this,
           openClass: this.openClass,
+          closeClass: this.closeClass,
         });
 
         this.menuElements.controller = toggle;
@@ -179,6 +183,15 @@ class Menu {
    */
   get openClass() {
     return this.submenuOpenClass;
+  }
+
+  /**
+   * The class to apply when the menu is "closed".
+   *
+   * @returns {string} - The class.
+   */
+  get closeClass() {
+    return this.submenuCloseClass;
   }
 
   /**
@@ -253,6 +266,17 @@ class Menu {
     isString({ value });
 
     this.submenuOpenClass = value;
+  }
+
+  /**
+   * Set the class to apply when the menu is "closed".
+   *
+   * @param {string} value - The class.
+   */
+  set closeClass(value) {
+    isString({ value });
+
+    this.submenuCloseClass = value;
   }
 
   /**
@@ -347,6 +371,7 @@ class Menu {
           submenuToggleSelector: this.selectors.submenuToggles,
           submenuSelector: this.selectors.submenus,
           openClass: this.openClass,
+          closeClass: this.closeClass,
           isTopLevel: false,
           parentMenu: this,
           isHoverable: this.isHoverable,
@@ -359,6 +384,7 @@ class Menu {
           parentElement: element,
           controlledMenu: menu,
           openClass: this.openClass,
+          closeClass: this.closeClass,
           parentMenu: this,
         });
 

@@ -9,18 +9,20 @@ class MenuToggle {
   /**
    * {@inheritdoc}
    *
-   * @param {object}      param0                      - The menu toggle object.
-   * @param {HTMLElement} param0.menuToggleElement    - The toggle element in the DOM.
-   * @param {HTMLElement} param0.parentElement        - The element containing the controlled menu.
-   * @param {Menu}        param0.controlledMenu       - The menu controlled by this toggle.
-   * @param {string}      [param0.openClass = "show"] - The class to apply when the controlled menu is "open".
-   * @param {Menu|null}   [param0.parentMenu = null]  - The menu containing this toggle.
+   * @param {object}      param0                       - The menu toggle object.
+   * @param {HTMLElement} param0.menuToggleElement     - The toggle element in the DOM.
+   * @param {HTMLElement} param0.parentElement         - The element containing the controlled menu.
+   * @param {Menu}        param0.controlledMenu        - The menu controlled by this toggle.
+   * @param {string}      [param0.openClass = "show"]  - The class to apply when the controlled menu is "open".
+   * @param {string}      [param0.closeClass = "hide"] - The class to apply when the controlled menu is "closed".
+   * @param {Menu|null}   [param0.parentMenu = null]   - The menu containing this toggle.
    */
   constructor({
     menuToggleElement,
     parentElement,
     controlledMenu,
     openClass = "show",
+    closeClass = "hide",
     parentMenu = null,
   }) {
     // Run validations.
@@ -41,6 +43,7 @@ class MenuToggle {
       parentMenu,
     };
     this.openClass = openClass;
+    this.closeClass = closeClass;
     this.isOpen = false;
 
     this.initialize();
@@ -86,6 +89,9 @@ class MenuToggle {
       this.elements.controlledMenu.dom.menu.id
     );
 
+    // Add closed class.
+    this.dom.parent.classList.add(this.closeClass);
+
     // Add new events.
     this.handleClick();
   }
@@ -127,6 +133,15 @@ class MenuToggle {
   }
 
   /**
+   * The class to apply when the controlled menu is "closed".
+   *
+   * @returns {string} - The class.
+   */
+  get closeClass() {
+    return this.controlledMenuCloseClass;
+  }
+
+  /**
    * Set the open state on the menu.
    *
    * @param {boolean} value - The open state.
@@ -149,6 +164,17 @@ class MenuToggle {
   }
 
   /**
+   * Set the class to apply when the controlled menu is "closed".
+   *
+   * @param {string} value - The class.
+   */
+  set closeClass(value) {
+    isString({ value });
+
+    this.controlledMenuCloseClass = value;
+  }
+
+  /**
    * Expands the controlled menu.
    *
    * Alters ARIA attributes and classes.
@@ -157,6 +183,8 @@ class MenuToggle {
     this.dom.toggle.setAttribute("aria-expanded", "true");
     this.dom.parent.classList.add(this.openClass);
     this.elements.controlledMenu.dom.menu.classList.add(this.openClass);
+    this.dom.parent.classList.remove(this.closeClass);
+    this.elements.controlledMenu.dom.menu.classList.remove(this.closeClass);
   }
 
   /**
@@ -212,6 +240,8 @@ class MenuToggle {
 
       // Assign new WAI-ARIA/class values.
       this.dom.toggle.setAttribute("aria-expanded", "false");
+      this.dom.parent.classList.add(this.closeClass);
+      this.elements.controlledMenu.dom.menu.classList.add(this.closeClass);
       this.dom.parent.classList.remove(this.openClass);
       this.elements.controlledMenu.dom.menu.classList.remove(this.openClass);
 

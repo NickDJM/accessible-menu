@@ -616,12 +616,13 @@ var AccessibleMenu = (function () {
     /**
      * {@inheritdoc}
      *
-     * @param {object}      param0                      - The menu toggle object.
-     * @param {HTMLElement} param0.menuToggleElement    - The toggle element in the DOM.
-     * @param {HTMLElement} param0.parentElement        - The element containing the controlled menu.
-     * @param {Menu}        param0.controlledMenu       - The menu controlled by this toggle.
-     * @param {string}      [param0.openClass = "show"] - The class to apply when the controlled menu is "open".
-     * @param {Menu|null}   [param0.parentMenu = null]  - The menu containing this toggle.
+     * @param {object}      param0                       - The menu toggle object.
+     * @param {HTMLElement} param0.menuToggleElement     - The toggle element in the DOM.
+     * @param {HTMLElement} param0.parentElement         - The element containing the controlled menu.
+     * @param {Menu}        param0.controlledMenu        - The menu controlled by this toggle.
+     * @param {string}      [param0.openClass = "show"]  - The class to apply when the controlled menu is "open".
+     * @param {string}      [param0.closeClass = "hide"] - The class to apply when the controlled menu is "closed".
+     * @param {Menu|null}   [param0.parentMenu = null]   - The menu containing this toggle.
      */
     function MenuToggle(_ref) {
       var menuToggleElement = _ref.menuToggleElement,
@@ -629,6 +630,8 @@ var AccessibleMenu = (function () {
           controlledMenu = _ref.controlledMenu,
           _ref$openClass = _ref.openClass,
           openClass = _ref$openClass === void 0 ? "show" : _ref$openClass,
+          _ref$closeClass = _ref.closeClass,
+          closeClass = _ref$closeClass === void 0 ? "hide" : _ref$closeClass,
           _ref$parentMenu = _ref.parentMenu,
           parentMenu = _ref$parentMenu === void 0 ? null : _ref$parentMenu;
 
@@ -660,6 +663,7 @@ var AccessibleMenu = (function () {
         parentMenu: parentMenu
       };
       this.openClass = openClass;
+      this.closeClass = closeClass;
       this.isOpen = false;
       this.initialize();
     }
@@ -686,7 +690,9 @@ var AccessibleMenu = (function () {
 
 
         this.elements.controlledMenu.dom.menu.setAttribute("aria-labelledby", this.dom.toggle.id);
-        this.dom.toggle.setAttribute("aria-controls", this.elements.controlledMenu.dom.menu.id); // Add new events.
+        this.dom.toggle.setAttribute("aria-controls", this.elements.controlledMenu.dom.menu.id); // Add closed class.
+
+        this.dom.parent.classList.add(this.closeClass); // Add new events.
 
         this.handleClick();
       }
@@ -708,6 +714,8 @@ var AccessibleMenu = (function () {
         this.dom.toggle.setAttribute("aria-expanded", "true");
         this.dom.parent.classList.add(this.openClass);
         this.elements.controlledMenu.dom.menu.classList.add(this.openClass);
+        this.dom.parent.classList.remove(this.closeClass);
+        this.elements.controlledMenu.dom.menu.classList.remove(this.closeClass);
       }
       /**
        * Opens the submenu.
@@ -764,6 +772,8 @@ var AccessibleMenu = (function () {
           this.isOpen = false; // Assign new WAI-ARIA/class values.
 
           this.dom.toggle.setAttribute("aria-expanded", "false");
+          this.dom.parent.classList.add(this.closeClass);
+          this.elements.controlledMenu.dom.menu.classList.add(this.closeClass);
           this.dom.parent.classList.remove(this.openClass);
           this.elements.controlledMenu.dom.menu.classList.remove(this.openClass);
 
@@ -899,12 +909,35 @@ var AccessibleMenu = (function () {
       key: "openClass",
       get: function get() {
         return this.controlledMenuOpenClass;
-      },
+      }
+      /**
+       * The class to apply when the controlled menu is "closed".
+       *
+       * @returns {string} - The class.
+       */
+      ,
       set: function set(value) {
         isString({
           value: value
         });
         this.controlledMenuOpenClass = value;
+      }
+      /**
+       * Set the class to apply when the controlled menu is "closed".
+       *
+       * @param {string} value - The class.
+       */
+
+    }, {
+      key: "closeClass",
+      get: function get() {
+        return this.controlledMenuCloseClass;
+      },
+      set: function set(value) {
+        isString({
+          value: value
+        });
+        this.controlledMenuCloseClass = value;
       }
     }]);
 
@@ -1077,6 +1110,7 @@ var AccessibleMenu = (function () {
      * @param {HTMLElement|null} [param0.controllerElement = null]    - The element controlling the menu in the DOM.
      * @param {HTMLElement|null} [param0.containerElement = null]     - The element containing the menu in the DOM.
      * @param {string}           [param0.openClass = "show"]          - The class to apply when a menu is "open".
+     * @param {string}           [param0.closeClass = "hide"]         - The class to apply when a menu is "closed".
      * @param {boolean}          [param0.isTopLevel = false]          - A flag to mark the root menu.
      * @param {Menu|null}        [param0.parentMenu = null]           - The parent menu to this menu.
      * @param {boolean}          [param0.isHoverable = false]         - A flag to allow hover events on the menu.
@@ -1100,6 +1134,8 @@ var AccessibleMenu = (function () {
           containerElement = _ref$containerElement === void 0 ? null : _ref$containerElement,
           _ref$openClass = _ref.openClass,
           openClass = _ref$openClass === void 0 ? "show" : _ref$openClass,
+          _ref$closeClass = _ref.closeClass,
+          closeClass = _ref$closeClass === void 0 ? "hide" : _ref$closeClass,
           _ref$isTopLevel = _ref.isTopLevel,
           isTopLevel = _ref$isTopLevel === void 0 ? true : _ref$isTopLevel,
           _ref$parentMenu = _ref.parentMenu,
@@ -1174,6 +1210,7 @@ var AccessibleMenu = (function () {
         rootMenu: isTopLevel ? this : null
       };
       this.openClass = openClass;
+      this.closeClass = closeClass;
       this.root = isTopLevel;
       this.currentChild = 0;
       this.focusState = "none";
@@ -1211,7 +1248,8 @@ var AccessibleMenu = (function () {
               menuToggleElement: this.dom.controller,
               parentElement: this.dom.container,
               controlledMenu: this,
-              openClass: this.openClass
+              openClass: this.openClass,
+              closeClass: this.closeClass
             });
             this.menuElements.controller = toggle;
           }
@@ -1266,6 +1304,7 @@ var AccessibleMenu = (function () {
               submenuToggleSelector: _this.selectors.submenuToggles,
               submenuSelector: _this.selectors.submenus,
               openClass: _this.openClass,
+              closeClass: _this.closeClass,
               isTopLevel: false,
               parentMenu: _this,
               isHoverable: _this.isHoverable,
@@ -1277,6 +1316,7 @@ var AccessibleMenu = (function () {
               parentElement: element,
               controlledMenu: menu,
               openClass: _this.openClass,
+              closeClass: _this.closeClass,
               parentMenu: _this
             }); // Add the toggle to the list of toggles.
 
@@ -1818,9 +1858,9 @@ var AccessibleMenu = (function () {
         return this.submenuOpenClass;
       }
       /**
-       * A flag marking the root menu.
+       * The class to apply when the menu is "closed".
        *
-       * @returns {boolean} - The top-level flag.
+       * @returns {string} - The class.
        */
       ,
 
@@ -1834,6 +1874,29 @@ var AccessibleMenu = (function () {
           value: value
         });
         this.submenuOpenClass = value;
+      }
+      /**
+       * Set the class to apply when the menu is "closed".
+       *
+       * @param {string} value - The class.
+       */
+
+    }, {
+      key: "closeClass",
+      get: function get() {
+        return this.submenuCloseClass;
+      }
+      /**
+       * A flag marking the root menu.
+       *
+       * @returns {boolean} - The top-level flag.
+       */
+      ,
+      set: function set(value) {
+        isString({
+          value: value
+        });
+        this.submenuCloseClass = value;
       }
       /**
        * Set the index currently selected menu item in the menu.
