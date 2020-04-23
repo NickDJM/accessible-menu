@@ -105,7 +105,7 @@ class Menubar extends BaseMenu {
         if (this.focusState === "self") {
           const keys = ["ArrowRight", "ArrowLeft", "Home", "End"];
           const submenuKeys = ["Space", "Enter", "ArrowDown", "ArrowUp"];
-          const controllerKeys = ["Espace"];
+          const controllerKeys = ["Escape"];
 
           if (keys.includes(key)) {
             preventEvent(event);
