@@ -76,12 +76,8 @@ class Menu {
 
     this.domElements = {
       menu: menuElement,
-      menuItems: Array.from(
-        menuElement.querySelectorAll(menuItemSelector)
-      ).filter(item => item.parentElement === menuElement),
-      submenuItems: Array.from(
-        menuElement.querySelectorAll(submenuItemSelector)
-      ).filter(item => item.parentElement === menuElement),
+      menuItems: [],
+      submenuItems: [],
       submenuToggles: [],
       submenus: [],
       controller: controllerElement,
@@ -119,19 +115,21 @@ class Menu {
    * This will also initialize all menu items and sub menus.
    */
   initialize() {
-    this.dom.menu.setAttribute("role", "menubar");
-
+    // Get the root menu if it doesn't exist.
     if (this.elements.rootMenu === null) this.findRootMenu(this);
-    this.createMenuItems();
+
+    // Set all of the DOM elements.
+    this.setDOMElements();
+
+    this.dom.menu.setAttribute("role", "menubar");
+    this.createChildElements();
     this.handleKeydown();
     this.handleClick();
     if (this.isHoverable) this.handleHover();
 
     if (this.isTopLevel) {
-      const { link } = this.currentMenuItem.dom;
-
       // Set initial tabIndex.
-      link.tabIndex = 0;
+      this.currentMenuItem.dom.link.tabIndex = 0;
       this.handleFocus();
 
       if (this.dom.controller && this.dom.container) {
@@ -335,6 +333,121 @@ class Menu {
   }
 
   /**
+   * Sets DOM elements within the menu.
+   *
+   * @param {string}      elementType - The type of element to populate.
+   * @param {HTMLElement} base        - The element used as the base for the querySelect.
+   * @param {Function}    filter      - A filter to use to narrow down the DOM elements selected.
+   */
+  setDOMElementType(elementType, base, filter) {
+    if (typeof this.selectors[elementType] === "string") {
+      if (base) isHTMLElement({ base });
+
+      const baseElement = base || this.dom.menu;
+      const baseFilter = item => item.parentElement === baseElement;
+      const selector = this.selectors[elementType];
+      const domElements = Array.from(baseElement.querySelectorAll(selector));
+
+      if (typeof filter !== "undefined") {
+        if (typeof filter === "function") {
+          this.domElements[elementType] = domElements.filter(item =>
+            filter(item)
+          );
+        } else {
+          this.domElements[elementType] = domElements;
+        }
+      } else {
+        this.domElements[elementType] = domElements.filter(item =>
+          baseFilter(item)
+        );
+      }
+    } else {
+      throw new Error(
+        `${elementType} is not a valid element type within the menu.`
+      );
+    }
+  }
+
+  /**
+   * Adds an element to DOM elements within the menu.
+   *
+   * @param {string}      elementType - The type of element to populate.
+   * @param {HTMLElement} base        - The element used as the base for the querySelect.
+   * @param {Function}    filter      - A filter to use to narrow down the DOM elements selected.
+   */
+  addDOMElementType(elementType, base, filter) {
+    if (typeof this.selectors[elementType] === "string") {
+      if (base) isHTMLElement({ base });
+
+      const baseElement = base || this.dom.menu;
+      const baseFilter = item => item.parentElement === baseElement;
+      const selector = this.selectors[elementType];
+      const domElements = Array.from(baseElement.querySelectorAll(selector));
+
+      if (typeof filter !== "undefined") {
+        if (typeof filter === "function") {
+          this.domElements[elementType] = [
+            ...this.domElements[elementType],
+            ...domElements.filter(item => filter(item)),
+          ];
+        } else {
+          this.domElements[elementType] = [
+            ...this.domElements[elementType],
+            ...domElements,
+          ];
+        }
+      } else {
+        this.domElements[elementType] = [
+          ...this.domElements[elementType],
+          ...domElements.filter(item => baseFilter(item)),
+        ];
+      }
+    } else {
+      throw new Error(
+        `${elementType} is not a valid element type within the menu.`
+      );
+    }
+  }
+
+  /**
+   * Clears DOM elements within the menu.
+   *
+   * @param {string} elementType - The type of element to clear.
+   */
+  clearDOMElementType(elementType) {
+    if (elementType === "menu") return;
+
+    if (Array.isArray(this.domElements[elementType])) {
+      this.domElements[elementType] = [];
+    } else if (typeof this.domElements[elementType] !== "undefined") {
+      this.domElements[elementType] = null;
+    } else {
+      throw new Error(
+        `${elementType} is not a valid element type within the menu.`
+      );
+    }
+  }
+
+  /**
+   * Sets all DOM elements within the menu.
+   */
+  setDOMElements() {
+    this.setDOMElementType("menuItems");
+
+    if (this.selectors.submenuItems !== "") {
+      this.setDOMElementType("submenuItems");
+
+      this.clearDOMElementType("submenuToggles");
+      this.clearDOMElementType("submenus");
+
+      this.dom.submenuItems.forEach(item => {
+        this.addDOMElementType("submenuToggles", item);
+        this.addDOMElementType("submenus", item);
+      });
+    }
+  }
+
+  /**
    * Finds the root Menu element.
    *
    * @param {Menu} menu - The menu to check.
@@ -352,7 +465,7 @@ class Menu {
   /**
    * Creates and initializes all menu items and submenus.
    */
-  createMenuItems() {
+  createChildElements() {
     this.dom.menuItems.forEach(element => {
       let menuItem;
 
