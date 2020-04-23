@@ -10,11 +10,7 @@ var _AccessibleMenu = AccessibleMenu,
     Menubar = _AccessibleMenu.Menubar;
 var navs = document.querySelectorAll("nav");
 var menuSettings = {
-  menuItemSelector: ".menu-item",
   submenuItemSelector: ".menu-item.dropdown",
-  submenuToggleSelector: ".dropdown-toggle",
-  submenuSelector: ".menu.dropdown",
-  openClass: "show",
   isHoverable: true
 };
 var menus = [];
