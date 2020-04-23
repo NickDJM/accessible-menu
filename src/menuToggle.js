@@ -192,6 +192,19 @@ class MenuToggle {
   }
 
   /**
+   * Collapses the controlled menu.
+   *
+   * Alters ARIA attributes and classes.
+   */
+  collapse() {
+    this.dom.toggle.setAttribute("aria-expanded", "false");
+    this.dom.parent.classList.add(this.closeClass);
+    this.elements.controlledMenu.dom.menu.classList.add(this.closeClass);
+    this.dom.parent.classList.remove(this.openClass);
+    this.elements.controlledMenu.dom.menu.classList.remove(this.openClass);
+  }
+
+  /**
    * Opens the submenu.
    */
   open() {
@@ -242,35 +255,16 @@ class MenuToggle {
     if (this.isOpen) {
       this.isOpen = false;
 
-      // Assign new WAI-ARIA/class values.
-      this.dom.toggle.setAttribute("aria-expanded", "false");
-      this.dom.parent.classList.add(this.closeClass);
-      this.elements.controlledMenu.dom.menu.classList.add(this.closeClass);
-      this.dom.parent.classList.remove(this.openClass);
-      this.elements.controlledMenu.dom.menu.classList.remove(this.openClass);
-
-      if (!(event instanceof MouseEvent)) {
-        this.elements.controlledMenu.focusFirstChild();
-      }
-
-      // Close all child menus.
+      // Close the controlled menu and close all siblings.
+      this.collapse();
       this.closeChildren();
 
       // Set proper focus states to parent & child.
+      this.elements.controlledMenu.currentChild = 0;
       this.elements.controlledMenu.blur();
 
       if (this.elements.parentMenu) {
         this.elements.parentMenu.focusState = "self";
-
-        if (!(event instanceof MouseEvent)) {
-          // Set the new focus.
-          this.elements.parentMenu.focusCurrentChild();
-        }
-      } else if (
-        this.elements.controlledMenu.isTopLevel &&
-        !(event instanceof MouseEvent)
-      ) {
-        this.elements.controlledMenu.focusController();
       }
     }
   }
