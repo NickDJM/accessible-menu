@@ -1651,6 +1651,50 @@ var AccessibleMenu = (function () {
         });
       }
       /**
+       * Handles keydown events throughout the menu for proper menu use.
+       */
+
+    }, {
+      key: "handleKeydown",
+      value: function handleKeydown() {
+        var _this6 = this;
+
+        if (this.isTopLevel && this.elements.controller) {
+          this.elements.controller.dom.toggle.addEventListener("keydown", function () {
+            _this6.currentEvent = "keyboard";
+            var key = keyPress(event);
+
+            if (key === "Space" || key === "Enter") {
+              preventEvent(event);
+            }
+          });
+        }
+      }
+      /**
+       * Handles keyup events throughout the menu for proper menu use.
+       */
+
+    }, {
+      key: "handleKeyup",
+      value: function handleKeyup() {
+        var _this7 = this;
+
+        if (this.isTopLevel && this.elements.controller) {
+          this.elements.controller.dom.toggle.addEventListener("keyup", function () {
+            _this7.currentEvent = "keyboard";
+            var key = keyPress(event);
+
+            if (key === "Space" || key === "Enter") {
+              preventEvent(event);
+
+              _this7.elements.controller.open();
+
+              _this7.focusFirstChild();
+            }
+          });
+        }
+      }
+      /**
        * Focus the menu.
        */
 
@@ -2050,21 +2094,21 @@ var AccessibleMenu = (function () {
     /**
      * {@inheritdoc}
      *
-     * @param {object}      param0                               - The menu object.
-     * @param {HTMLElement} param0.menuElement                   - The menu element in the DOM.
-     * @param {string}      [param0.menuItemSelector = "li"]     - The CSS selector string for menu items.
-     * @param {string}      [param0.menuLinkSelector = "a"]      - The CSS selector string for menu links.
-     * @param {string}      [param0.submenuItemSelector = ""]    - The CSS selector string for menu items containing submenus.
-     * @param {string}      [param0.submenuToggleSelector = "a"] - The CSS selector string for submenu toggle buttons/links.
-     * @param {string}      [param0.submenuSelector = "ul"]      - The CSS selector string for submenus.
-     * @param {HTMLElement} param0.controllerElement             - The element controlling the menu in the DOM.
-     * @param {HTMLElement} param0.containerElement              - The element containing the menu in the DOM.
-     * @param {string}      [param0.openClass = "show"]          - The class to apply when a menu is "open".
-     * @param {string}      [param0.closeClass = "hide"]         - The class to apply when a menu is "closed".
-     * @param {boolean}     [param0.isTopLevel = false]          - A flag to mark the root menu.
-     * @param {Menubar}     param0.parentMenu                    - The parent menu to this menu.
-     * @param {boolean}     [param0.isHoverable = false]         - A flag to allow hover events on the menu.
-     * @param {number}      [param0.hoverDelay = 250]            - The delay for closing menus if the menu is hoverable (in miliseconds).
+     * @param {object}           param0                               - The menu object.
+     * @param {HTMLElement}      param0.menuElement                   - The menu element in the DOM.
+     * @param {string}           [param0.menuItemSelector = "li"]     - The CSS selector string for menu items.
+     * @param {string}           [param0.menuLinkSelector = "a"]      - The CSS selector string for menu links.
+     * @param {string}           [param0.submenuItemSelector = ""]    - The CSS selector string for menu items containing submenus.
+     * @param {string}           [param0.submenuToggleSelector = "a"] - The CSS selector string for submenu toggle buttons/links.
+     * @param {string}           [param0.submenuSelector = "ul"]      - The CSS selector string for submenus.
+     * @param {HTMLElement|null} [param0.controllerElement = null]    - The element controlling the menu in the DOM.
+     * @param {HTMLElement|null} [param0.containerElement = null]     - The element containing the menu in the DOM.
+     * @param {string}           [param0.openClass = "show"]          - The class to apply when a menu is "open".
+     * @param {string}           [param0.closeClass = "hide"]         - The class to apply when a menu is "closed".
+     * @param {boolean}          [param0.isTopLevel = false]          - A flag to mark the root menu.
+     * @param {Menubar|null}     [param0.parentMenu = null]           - The parent menu to this menu.
+     * @param {boolean}          [param0.isHoverable = false]         - A flag to allow hover events on the menu.
+     * @param {number}           [param0.hoverDelay = 250]            - The delay for closing menus if the menu is hoverable (in miliseconds).
      */
     function Menubar(_ref) {
       var menuElement = _ref.menuElement,
@@ -2078,15 +2122,18 @@ var AccessibleMenu = (function () {
           submenuToggleSelector = _ref$submenuToggleSel === void 0 ? "a" : _ref$submenuToggleSel,
           _ref$submenuSelector = _ref.submenuSelector,
           submenuSelector = _ref$submenuSelector === void 0 ? "ul" : _ref$submenuSelector,
-          controllerElement = _ref.controllerElement,
-          containerElement = _ref.containerElement,
+          _ref$controllerElemen = _ref.controllerElement,
+          controllerElement = _ref$controllerElemen === void 0 ? null : _ref$controllerElemen,
+          _ref$containerElement = _ref.containerElement,
+          containerElement = _ref$containerElement === void 0 ? null : _ref$containerElement,
           _ref$openClass = _ref.openClass,
           openClass = _ref$openClass === void 0 ? "show" : _ref$openClass,
           _ref$closeClass = _ref.closeClass,
           closeClass = _ref$closeClass === void 0 ? "hide" : _ref$closeClass,
           _ref$isTopLevel = _ref.isTopLevel,
           isTopLevel = _ref$isTopLevel === void 0 ? true : _ref$isTopLevel,
-          parentMenu = _ref.parentMenu,
+          _ref$parentMenu = _ref.parentMenu,
+          parentMenu = _ref$parentMenu === void 0 ? null : _ref$parentMenu,
           _ref$isHoverable = _ref.isHoverable,
           isHoverable = _ref$isHoverable === void 0 ? false : _ref$isHoverable,
           _ref$hoverDelay = _ref.hoverDelay,
@@ -2141,6 +2188,8 @@ var AccessibleMenu = (function () {
       value: function handleKeydown() {
         var _this = this;
 
+        _get(_getPrototypeOf(Menubar.prototype), "handleKeydown", this).call(this);
+
         this.dom.menu.addEventListener("keydown", function (event) {
           _this.currentEvent = "keyboard";
           var key = keyPress(event);
@@ -2164,7 +2213,7 @@ var AccessibleMenu = (function () {
             if (_this.focusState === "self") {
               var keys = ["ArrowRight", "ArrowLeft", "Home", "End"];
               var submenuKeys = ["Space", "Enter", "ArrowDown", "ArrowUp"];
-              var controllerKeys = ["Espace"];
+              var controllerKeys = ["Escape"];
 
               if (keys.includes(key)) {
                 preventEvent(event);
@@ -2185,17 +2234,6 @@ var AccessibleMenu = (function () {
             }
           }
         });
-
-        if (this.isTopLevel && this.elements.controller) {
-          this.elements.controller.dom.toggle.addEventListener("keydown", function () {
-            _this.currentEvent = "keyboard";
-            var key = keyPress(event);
-
-            if (key === "Space" || key === "Enter") {
-              preventEvent(event);
-            }
-          });
-        }
       }
       /**
        * Handles keyup events throughout the menu for proper menu use.
@@ -2205,6 +2243,8 @@ var AccessibleMenu = (function () {
       key: "handleKeyup",
       value: function handleKeyup() {
         var _this2 = this;
+
+        _get(_getPrototypeOf(Menubar.prototype), "handleKeyup", this).call(this);
 
         this.dom.menu.addEventListener("keyup", function (event) {
           _this2.currentEvent = "keyboard";
@@ -2413,21 +2453,6 @@ var AccessibleMenu = (function () {
             }
           }
         });
-
-        if (this.isTopLevel && this.elements.controller) {
-          this.elements.controller.dom.toggle.addEventListener("keyup", function () {
-            _this2.currentEvent = "keyboard";
-            var key = keyPress(event);
-
-            if (key === "Space" || key === "Enter") {
-              preventEvent(event);
-
-              _this2.elements.controller.open();
-
-              _this2.focusFirstChild();
-            }
-          });
-        }
       }
     }]);
 
@@ -2446,21 +2471,21 @@ var AccessibleMenu = (function () {
     /**
      * {@inheritdoc}
      *
-     * @param {object}         param0                               - The menu object.
-     * @param {HTMLElement}    param0.menuElement                   - The menu element in the DOM.
-     * @param {string}         [param0.menuItemSelector = "li"]     - The CSS selector string for menu items.
-     * @param {string}         [param0.menuLinkSelector = "a"]      - The CSS selector string for menu links.
-     * @param {string}         [param0.submenuItemSelector = ""]    - The CSS selector string for menu items containing submenus.
-     * @param {string}         [param0.submenuToggleSelector = "a"] - The CSS selector string for submenu toggle buttons/links.
-     * @param {string}         [param0.submenuSelector = "ul"]      - The CSS selector string for submenus.
-     * @param {HTMLElement}    param0.controllerElement             - The element controlling the menu in the DOM.
-     * @param {HTMLElement}    param0.containerElement              - The element containing the menu in the DOM.
-     * @param {string}         [param0.openClass = "show"]          - The class to apply when a menu is "open".
-     * @param {string}         [param0.closeClass = "hide"]         - The class to apply when a menu is "closed".
-     * @param {boolean}        [param0.isTopLevel = false]          - A flag to mark the root menu.
-     * @param {DisclosureMenu} param0.parentMenu                    - The parent menu to this menu.
-     * @param {boolean}        [param0.isHoverable = false]         - A flag to allow hover events on the menu.
-     * @param {number}         [param0.hoverDelay = 250]            - The delay for closing menus if the menu is hoverable (in miliseconds).
+     * @param {object}              param0                               - The menu object.
+     * @param {HTMLElement}         param0.menuElement                   - The menu element in the DOM.
+     * @param {string}              [param0.menuItemSelector = "li"]     - The CSS selector string for menu items.
+     * @param {string}              [param0.menuLinkSelector = "a"]      - The CSS selector string for menu links.
+     * @param {string}              [param0.submenuItemSelector = ""]    - The CSS selector string for menu items containing submenus.
+     * @param {string}              [param0.submenuToggleSelector = "a"] - The CSS selector string for submenu toggle buttons/links.
+     * @param {string}              [param0.submenuSelector = "ul"]      - The CSS selector string for submenus.
+     * @param {HTMLElement|null}    [param0.controllerElement = null]    - The element controlling the menu in the DOM.
+     * @param {HTMLElement|null}    [param0.containerElement = null]     - The element containing the menu in the DOM.
+     * @param {string}              [param0.openClass = "show"]          - The class to apply when a menu is "open".
+     * @param {string}              [param0.closeClass = "hide"]         - The class to apply when a menu is "closed".
+     * @param {boolean}             [param0.isTopLevel = false]          - A flag to mark the root menu.
+     * @param {DisclosureMenu|null} [param0.parentMenu = null]           - The parent menu to this menu.
+     * @param {boolean}             [param0.isHoverable = false]         - A flag to allow hover events on the menu.
+     * @param {number}              [param0.hoverDelay = 250]            - The delay for closing menus if the menu is hoverable (in miliseconds).
      */
     function DisclosureMenu(_ref) {
       var _this;
@@ -2476,15 +2501,18 @@ var AccessibleMenu = (function () {
           submenuToggleSelector = _ref$submenuToggleSel === void 0 ? "a" : _ref$submenuToggleSel,
           _ref$submenuSelector = _ref.submenuSelector,
           submenuSelector = _ref$submenuSelector === void 0 ? "ul" : _ref$submenuSelector,
-          controllerElement = _ref.controllerElement,
-          containerElement = _ref.containerElement,
+          _ref$controllerElemen = _ref.controllerElement,
+          controllerElement = _ref$controllerElemen === void 0 ? null : _ref$controllerElemen,
+          _ref$containerElement = _ref.containerElement,
+          containerElement = _ref$containerElement === void 0 ? null : _ref$containerElement,
           _ref$openClass = _ref.openClass,
           openClass = _ref$openClass === void 0 ? "show" : _ref$openClass,
           _ref$closeClass = _ref.closeClass,
           closeClass = _ref$closeClass === void 0 ? "hide" : _ref$closeClass,
           _ref$isTopLevel = _ref.isTopLevel,
           isTopLevel = _ref$isTopLevel === void 0 ? true : _ref$isTopLevel,
-          parentMenu = _ref.parentMenu,
+          _ref$parentMenu = _ref.parentMenu,
+          parentMenu = _ref$parentMenu === void 0 ? null : _ref$parentMenu,
           _ref$isHoverable = _ref.isHoverable,
           isHoverable = _ref$isHoverable === void 0 ? false : _ref$isHoverable,
           _ref$hoverDelay = _ref.hoverDelay,
@@ -2527,6 +2555,152 @@ var AccessibleMenu = (function () {
         this.handleFocus();
         this.handleClick();
         if (this.isHoverable) this.handleHover();
+        this.handleKeydown();
+        this.handleKeyup();
+      }
+      /**
+       * Handles keydown events throughout the menu for proper menu use.
+       */
+
+    }, {
+      key: "handleKeydown",
+      value: function handleKeydown() {
+        var _this2 = this;
+
+        _get(_getPrototypeOf(DisclosureMenu.prototype), "handleKeydown", this).call(this);
+
+        this.dom.menu.addEventListener("keydown", function (event) {
+          _this2.currentEvent = "keyboard";
+          var key = keyPress(event); // Prevent default event actions if we're handling the keyup event.
+
+          if (_this2.focusState === "self") {
+            var keys = ["ArrowUp", "ArrowRight", "ArrowDown", "ArrowLeft", "Home", "End"];
+            var submenuKeys = ["Space", "Enter"];
+            var controllerKeys = ["Escape"];
+            var parentKeys = ["Escape"];
+
+            if (keys.includes(key)) {
+              preventEvent(event);
+            } else if (_this2.currentMenuItem.isSubmenuItem && submenuKeys.includes(key)) {
+              preventEvent(event);
+            } else if (_this2.elements.controller && controllerKeys.includes(key)) {
+              preventEvent(event);
+            } else if (_this2.elements.parentMenu && parentKeys.includes(key)) {
+              preventEvent(event);
+            }
+          }
+        });
+      }
+      /**
+       * Handles keyup events throughout the menu for proper menu use.
+       */
+
+    }, {
+      key: "handleKeyup",
+      value: function handleKeyup() {
+        var _this3 = this;
+
+        _get(_getPrototypeOf(DisclosureMenu.prototype), "handleKeyup", this).call(this);
+
+        this.dom.menu.addEventListener("keyup", function (event) {
+          _this3.currentEvent = "keyboard";
+          var key = keyPress(event);
+
+          if (_this3.focusState === "self") {
+            if (key === "Space" || key === "Enter") {
+              // Hitting Space or Enter:
+              // - If focus is on a disclosure button, activates the button, which toggles the visibility of the dropdown.
+              // - Click handling of other links in the menu is handled by the browser.
+              if (_this3.currentMenuItem.isSubmenuItem) {
+                preventEvent(event);
+
+                _this3.currentMenuItem.elements.toggle.preview();
+              }
+            } else if (key === "Escape") {
+              // Hitting Escape
+              // - If a dropdown is open, closes it.
+              // - If was within the closed dropdown, sets focus on the button that controls that dropdown.
+              var hasOpenChild = _this3.elements.submenuToggles.some(function (toggle) {
+                return toggle.isOpen;
+              });
+
+              if (hasOpenChild) {
+                preventEvent(event);
+
+                _this3.closeChildren();
+              } else if (_this3.elements.parentMenu) {
+                preventEvent(event);
+
+                _this3.elements.parentMenu.closeChildren();
+
+                _this3.elements.parentMenu.focusCurrentChild();
+              } else if (_this3.isTopLevel && _this3.elements.controller && _this3.elements.controller.isOpen) {
+                _this3.elements.controller.close();
+
+                _this3.focusController();
+              }
+            } else if (key === "ArrowDown" || key === "ArrowRight") {
+              // Hitting the Down or Right Arrow:
+              // - If focus is on a button and its dropdown is collapsed, and it is not the last button, moves focus to the next button.
+              // - If focus is on a button and its dropdown is expanded, moves focus to the first link in the dropdown.
+              // - If focus is on a link, and it is not the last link, moves focus to the next link.
+              preventEvent(event);
+
+              if (_this3.currentMenuItem.isSubmenuItem && _this3.currentMenuItem.elements.toggle.isOpen) {
+                _this3.currentMenuItem.elements.childMenu.focusFirstChild();
+              } else {
+                _this3.focusNextChild();
+              }
+            } else if (key === "ArrowUp" || key === "ArrowLeft") {
+              // Hitting the Up or Left Arrow:
+              // - If focus is on a button, and it is not the first button, moves focus to the previous button.
+              // - If focus is on a link, and it is not the first link, moves focus to the previous link.
+              preventEvent(event);
+
+              _this3.focusPreviousChild();
+            } else if (key === "Home") {
+              // Hitting Home:
+              // - If focus is on a button, and it is not the first button, moves focus to the first button.
+              // - If focus is on a link, and it is not the first link, moves focus to the first link.
+              preventEvent(event);
+
+              _this3.focusFirstChild();
+            } else if (key === "End") {
+              // Hitting End:
+              // - If focus is on a button, and it is not the last button, moves focus to the last button.
+              // - If focus is on a link, and it is not the last link, moves focus to the last link.
+              preventEvent(event);
+
+              _this3.focusLastChild();
+            }
+          }
+        });
+      }
+      /**
+       * Focus the menu's next child.
+       */
+
+    }, {
+      key: "focusNextChild",
+      value: function focusNextChild() {
+        if (this.currentChild < this.elements.menuItems.length - 1) {
+          this.blurCurrentChild();
+          this.currentChild = this.currentChild + 1;
+          this.focusCurrentChild();
+        }
+      }
+      /**
+       * Focus the menu's last child.
+       */
+
+    }, {
+      key: "focusPreviousChild",
+      value: function focusPreviousChild() {
+        if (this.currentChild > 0) {
+          this.blurCurrentChild();
+          this.currentChild = this.currentChild - 1;
+          this.focusCurrentChild();
+        }
       }
     }]);
 
