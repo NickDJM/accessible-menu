@@ -1,4 +1,5 @@
 import BaseMenu from "./_baseMenu";
+import Menubar from "./menubar";
 import MenuToggle from "./menuToggle";
 import { isHTMLElement, isBoolean, isMenu, isMenuToggle } from "./validate";
 
@@ -55,9 +56,13 @@ class MenuItem {
    * Initialize the menu item by setting its tab index.
    */
   initialize() {
-    this.dom.item.setAttribute("role", "none");
-    this.dom.link.setAttribute("role", "menuitem");
-    this.dom.link.tabIndex = -1;
+    this.isMenubar = this.elements.parentMenu instanceof Menubar;
+
+    if (this.isMenubar) {
+      this.dom.item.setAttribute("role", "none");
+      this.dom.link.setAttribute("role", "menuitem");
+      this.dom.link.tabIndex = -1;
+    }
   }
 
   /**
@@ -95,7 +100,7 @@ class MenuItem {
       this.dom.link.focus();
     }
 
-    if (this.elements.parentMenu.isTopLevel) {
+    if (this.isMenubar && this.elements.parentMenu.isTopLevel) {
       this.dom.link.tabIndex = 0;
     }
   }
@@ -108,7 +113,7 @@ class MenuItem {
       this.dom.link.blur();
     }
 
-    if (this.elements.parentMenu.isTopLevel) {
+    if (this.isMenubar && this.elements.parentMenu.isTopLevel) {
       this.dom.link.tabIndex = -1;
     }
   }

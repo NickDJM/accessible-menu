@@ -1,3 +1,4 @@
+const { Menubar } = AccessibleMenu;
 const navs = document.querySelectorAll("nav");
 const menuSettings = {
   menuItemSelector: ".menu-item",
@@ -16,14 +17,14 @@ Array.from(navs).forEach(nav => {
 
   if (nav.id === "main-menu") {
     const controllerElement = nav.querySelector(".menu-toggle");
-    menu = new AccessibleMenu({
+    menu = new Menubar({
       menuElement,
       ...menuSettings,
       controllerElement,
       containerElement: nav
     });
   } else {
-    menu = new AccessibleMenu({
+    menu = new Menubar({
       menuElement,
       ...menuSettings
     });

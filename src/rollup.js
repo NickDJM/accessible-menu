@@ -1,6 +1,8 @@
 import "./polyfills/array.from.polyfill";
 import "./polyfills/array.includes.polyfill";
 import "./polyfills/array.find.polyfill";
-import Menu from "./menu";
+import Menubar from "./menubar";
 
-export default Menu;
+export default {
+  Menubar,
+};

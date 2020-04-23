@@ -275,7 +275,9 @@ export function isMenu(element) {
       return true;
     }
   } catch (error) {
-    throw new TypeError(`${name} must be an instance of BaseMenu`);
+    throw new TypeError(
+      `${name} must be an instance of either BaseMenu or Menubar`
+    );
   }
 }
 

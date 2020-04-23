@@ -181,6 +181,83 @@ var AccessibleMenu = (function () {
     return Constructor;
   }
 
+  function _inherits(subClass, superClass) {
+    if (typeof superClass !== "function" && superClass !== null) {
+      throw new TypeError("Super expression must either be null or a function");
+    }
+
+    subClass.prototype = Object.create(superClass && superClass.prototype, {
+      constructor: {
+        value: subClass,
+        writable: true,
+        configurable: true
+      }
+    });
+    if (superClass) _setPrototypeOf(subClass, superClass);
+  }
+
+  function _getPrototypeOf(o) {
+    _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+      return o.__proto__ || Object.getPrototypeOf(o);
+    };
+    return _getPrototypeOf(o);
+  }
+
+  function _setPrototypeOf(o, p) {
+    _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+      o.__proto__ = p;
+      return o;
+    };
+
+    return _setPrototypeOf(o, p);
+  }
+
+  function _assertThisInitialized(self) {
+    if (self === void 0) {
+      throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+    }
+
+    return self;
+  }
+
+  function _possibleConstructorReturn(self, call) {
+    if (call && (typeof call === "object" || typeof call === "function")) {
+      return call;
+    }
+
+    return _assertThisInitialized(self);
+  }
+
+  function _superPropBase(object, property) {
+    while (!Object.prototype.hasOwnProperty.call(object, property)) {
+      object = _getPrototypeOf(object);
+      if (object === null) break;
+    }
+
+    return object;
+  }
+
+  function _get(target, property, receiver) {
+    if (typeof Reflect !== "undefined" && Reflect.get) {
+      _get = Reflect.get;
+    } else {
+      _get = function _get(target, property, receiver) {
+        var base = _superPropBase(target, property);
+
+        if (!base) return;
+        var desc = Object.getOwnPropertyDescriptor(base, property);
+
+        if (desc.get) {
+          return desc.get.call(receiver);
+        }
+
+        return desc.value;
+      };
+    }
+
+    return _get(target, property, receiver || target);
+  }
+
   function _toConsumableArray(arr) {
     return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
   }
@@ -443,7 +520,7 @@ var AccessibleMenu = (function () {
    *
    * Will return true is the check is successful.
    *
-   * @param   {object|Menu} element - The element to check.
+   * @param   {object|BaseMenu} element - The element to check.
    *
    * @returns {boolean} - The result of the check.
    */
@@ -452,12 +529,12 @@ var AccessibleMenu = (function () {
     var name = "element";
 
     try {
-      if (!(element instanceof Menu)) {
+      if (!(element instanceof BaseMenu)) {
         if (_typeof(element) === "object") {
           for (var key in element) {
             name = key;
 
-            if (!(element[key] instanceof Menu)) {
+            if (!(element[key] instanceof BaseMenu)) {
               throw Error;
             }
           }
@@ -468,7 +545,7 @@ var AccessibleMenu = (function () {
         return true;
       }
     } catch (error) {
-      throw new TypeError("".concat(name, " must be an instance of Menu"));
+      throw new TypeError("".concat(name, " must be an instance of either BaseMenu or Menubar"));
     }
   }
   /**
@@ -616,13 +693,13 @@ var AccessibleMenu = (function () {
     /**
      * {@inheritdoc}
      *
-     * @param {object}      param0                       - The menu toggle object.
-     * @param {HTMLElement} param0.menuToggleElement     - The toggle element in the DOM.
-     * @param {HTMLElement} param0.parentElement         - The element containing the controlled menu.
-     * @param {Menu}        param0.controlledMenu        - The menu controlled by this toggle.
-     * @param {string}      [param0.openClass = "show"]  - The class to apply when the controlled menu is "open".
-     * @param {string}      [param0.closeClass = "hide"] - The class to apply when the controlled menu is "closed".
-     * @param {Menu|null}   [param0.parentMenu = null]   - The menu containing this toggle.
+     * @param {object}        param0                       - The menu toggle object.
+     * @param {HTMLElement}   param0.menuToggleElement     - The toggle element in the DOM.
+     * @param {HTMLElement}   param0.parentElement         - The element containing the controlled menu.
+     * @param {BaseMenu}      param0.controlledMenu        - The menu controlled by this toggle.
+     * @param {string}        [param0.openClass = "show"]  - The class to apply when the controlled menu is "open".
+     * @param {string}        [param0.closeClass = "hide"] - The class to apply when the controlled menu is "closed".
+     * @param {BaseMenu|null} [param0.parentMenu = null]   - The menu containing this toggle.
      */
     function MenuToggle(_ref) {
       var menuToggleElement = _ref.menuToggleElement,
@@ -735,13 +812,12 @@ var AccessibleMenu = (function () {
         this.elements.controlledMenu.dom.menu.classList.remove(this.openClass);
       }
       /**
-       * Opens the submenu.
+       * Opens the controlled menu.
        */
 
     }, {
       key: "open",
       value: function open() {
-        // Set the open value.
         this.isOpen = true; // Expand the controlled menu and close all siblings.
 
         this.expand();
@@ -749,11 +825,6 @@ var AccessibleMenu = (function () {
 
         if (this.elements.parentMenu) this.elements.parentMenu.focusState = "child";
         this.elements.controlledMenu.focusState = "self";
-
-        if (!(event instanceof MouseEvent)) {
-          // Set the new focus.
-          this.elements.controlledMenu.focusFirstChild();
-        }
       }
       /**
        * Opens the controlled menu without the current focus entering it.
@@ -762,7 +833,6 @@ var AccessibleMenu = (function () {
     }, {
       key: "preview",
       value: function preview() {
-        // Set the open value.
         this.isOpen = true; // Expand the controlled menu and close all siblings.
 
         this.expand();
@@ -770,10 +840,6 @@ var AccessibleMenu = (function () {
 
         if (this.elements.parentMenu) {
           this.elements.parentMenu.focusState = "self";
-
-          if (!(event instanceof MouseEvent)) {
-            this.elements.parentMenu.focusCurrentChild();
-          }
         }
 
         this.elements.controlledMenu.focusState = "none";
@@ -821,11 +887,10 @@ var AccessibleMenu = (function () {
       value: function closeSiblings() {
         var _this = this;
 
-        try {
+        if (this.elements.parentMenu) {
           this.elements.parentMenu.elements.submenuToggles.forEach(function (toggle) {
             if (toggle !== _this) toggle.close();
           });
-        } catch (error) {// Fail quietly. No parent exists.
         }
       }
       /**
@@ -942,9 +1007,9 @@ var AccessibleMenu = (function () {
      * @param {object}          param0                         - The menu item object.
      * @param {HTMLElement}     param0.menuItemElement         - The menu item in the DOM.
      * @param {HTMLElement}     param0.menuLinkElement         - The menu item's link in the DOM.
-     * @param {Menu}            param0.parentMenu              - The parent menu.
+     * @param {BaseMenu}        param0.parentMenu              - The parent menu.
      * @param {boolean}         [param0.isSubmenuItem = false] - A flag to mark if the menu item is controlling a submenu.
-     * @param {Menu|null}       [param0.childMenu = null]      - The child menu.
+     * @param {BaseMenu|null}   [param0.childMenu = null]      - The child menu.
      * @param {MenuToggle|null} [param0.toggle = null]         - The controller for the child menu.
      */
     function MenuItem(_ref) {
@@ -1003,9 +1068,13 @@ var AccessibleMenu = (function () {
     _createClass(MenuItem, [{
       key: "initialize",
       value: function initialize() {
-        this.dom.item.setAttribute("role", "none");
-        this.dom.link.setAttribute("role", "menuitem");
-        this.dom.link.tabIndex = -1;
+        this.isMenubar = this.elements.parentMenu instanceof Menubar;
+
+        if (this.isMenubar) {
+          this.dom.item.setAttribute("role", "none");
+          this.dom.link.setAttribute("role", "menuitem");
+          this.dom.link.tabIndex = -1;
+        }
       }
       /**
        * The DOM elements within the menu item.
@@ -1024,7 +1093,7 @@ var AccessibleMenu = (function () {
           this.dom.link.focus();
         }
 
-        if (this.elements.parentMenu.isTopLevel) {
+        if (this.isMenubar && this.elements.parentMenu.isTopLevel) {
           this.dom.link.tabIndex = 0;
         }
       }
@@ -1039,7 +1108,7 @@ var AccessibleMenu = (function () {
           this.dom.link.blur();
         }
 
-        if (this.elements.parentMenu.isTopLevel) {
+        if (this.isMenubar && this.elements.parentMenu.isTopLevel) {
           this.dom.link.tabIndex = -1;
         }
       }
@@ -1128,7 +1197,7 @@ var AccessibleMenu = (function () {
    * An accessible navigation element in the DOM.
    */
 
-  var Menu =
+  var BaseMenu =
   /*#__PURE__*/
   function () {
     /**
@@ -1146,11 +1215,11 @@ var AccessibleMenu = (function () {
      * @param {string}           [param0.openClass = "show"]          - The class to apply when a menu is "open".
      * @param {string}           [param0.closeClass = "hide"]         - The class to apply when a menu is "closed".
      * @param {boolean}          [param0.isTopLevel = false]          - A flag to mark the root menu.
-     * @param {Menu|null}        [param0.parentMenu = null]           - The parent menu to this menu.
+     * @param {BaseMenu|null}    [param0.parentMenu = null]           - The parent menu to this menu.
      * @param {boolean}          [param0.isHoverable = false]         - A flag to allow hover events on the menu.
      * @param {number}           [param0.hoverDelay = 250]            - The delay for closing menus if the menu is hoverable (in miliseconds).
      */
-    function Menu(_ref) {
+    function BaseMenu(_ref) {
       var menuElement = _ref.menuElement,
           _ref$menuItemSelector = _ref.menuItemSelector,
           menuItemSelector = _ref$menuItemSelector === void 0 ? "li" : _ref$menuItemSelector,
@@ -1179,7 +1248,7 @@ var AccessibleMenu = (function () {
           _ref$hoverDelay = _ref.hoverDelay,
           hoverDelay = _ref$hoverDelay === void 0 ? 250 : _ref$hoverDelay;
 
-      _classCallCheck(this, Menu);
+      _classCallCheck(this, BaseMenu);
 
       // Run validations.
       isBoolean({
@@ -1250,26 +1319,21 @@ var AccessibleMenu = (function () {
       this.initialize();
     }
     /**
-     * Initializes the menu with proper tab indexing and properties.
+     * Initializes the menu.
      *
      * This will also initialize all menu items and sub menus.
      */
 
 
-    _createClass(Menu, [{
+    _createClass(BaseMenu, [{
       key: "initialize",
       value: function initialize() {
         // Get the root menu if it doesn't exist.
         if (this.elements.rootMenu === null) this.findRootMenu(this); // Set all of the DOM elements.
 
         this.setDOMElements();
-        this.dom.menu.setAttribute("role", "menubar");
-        this.createChildElements();
 
         if (this.isTopLevel) {
-          // Set initial tabIndex.
-          this.currentMenuItem.dom.link.tabIndex = 0;
-
           if (this.dom.controller && this.dom.container) {
             // Create a new MenuToggle to control the menu.
             var toggle = new MenuToggle({
@@ -1282,12 +1346,6 @@ var AccessibleMenu = (function () {
             this.menuElements.controller = toggle;
           }
         }
-
-        this.handleFocus();
-        this.handleClick();
-        if (this.isHoverable) this.handleHover();
-        this.handleKeydown();
-        this.handleKeyup();
       }
       /**
        * The DOM elements within the menu.
@@ -1419,9 +1477,9 @@ var AccessibleMenu = (function () {
         }
       }
       /**
-       * Finds the root Menu element.
+       * Finds the root menu element.
        *
-       * @param {Menu} menu - The menu to check.
+       * @param {BaseMenu} menu - The menu to check.
        */
 
     }, {
@@ -1437,6 +1495,8 @@ var AccessibleMenu = (function () {
       }
       /**
        * Creates and initializes all menu items and submenus.
+       *
+       * @param {object} MenuType - The menu type for created submenus.
        */
 
     }, {
@@ -1444,6 +1504,7 @@ var AccessibleMenu = (function () {
       value: function createChildElements() {
         var _this2 = this;
 
+        var MenuType = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : BaseMenu;
         this.dom.menuItems.forEach(function (element) {
           var menuItem;
 
@@ -1451,9 +1512,9 @@ var AccessibleMenu = (function () {
             // The menu's toggle controller DOM element.
             var toggler = element.querySelector(_this2.selectors.submenuToggles); // The actual menu DOM element.
 
-            var submenu = element.querySelector(_this2.selectors.submenus); // Create the new Menu and initialize it.
+            var submenu = element.querySelector(_this2.selectors.submenus); // Create the new menu and initialize it.
 
-            var menu = new Menu({
+            var menu = new MenuType({
               menuElement: submenu,
               menuItemSelector: _this2.selectors.menuItems,
               menuLinkSelector: _this2.selectors.menuLinks,
@@ -1520,322 +1581,26 @@ var AccessibleMenu = (function () {
         });
       }
       /**
-       * Handles keydown events throughout the menu for proper menu use.
-       */
-
-    }, {
-      key: "handleKeydown",
-      value: function handleKeydown() {
-        var _this4 = this;
-
-        this.dom.menu.addEventListener("keydown", function (event) {
-          _this4.currentEvent = "keyboard";
-          var key = keyPress(event);
-
-          if (key === "Tab") {
-            // Hitting Tab:
-            // - Moves focus out of the menu.
-            if (_this4.elements.rootMenu.focusState !== "none") {
-              _this4.elements.rootMenu.blur();
-
-              _this4.elements.rootMenu.closeChildren();
-            } else {
-              _this4.elements.rootMenu.focus();
-            }
-          } // Prevent default event actions if we're handling the keyup event.
-
-
-          if (key === "Character") {
-            preventEvent(event);
-          } else if (_this4.isTopLevel) {
-            if (_this4.focusState === "self") {
-              var keys = ["ArrowRight", "ArrowLeft", "Home", "End"];
-              var submenuKeys = ["Space", "Enter", "ArrowDown", "ArrowUp"];
-              var controllerKeys = ["Espace"];
-
-              if (keys.includes(key)) {
-                preventEvent(event);
-              } else if (_this4.currentMenuItem.isSubmenuItem && submenuKeys.includes(key)) {
-                preventEvent(event);
-              } else if (_this4.elements.controller && controllerKeys.includes(key)) {
-                preventEvent(event);
-              }
-            }
-          } else {
-            var _keys = ["Escape", "ArrowRight", "ArrowLeft", "ArrowDown", "ArrowUp", "Home", "End"];
-            var _submenuKeys = ["Space", "Enter"];
-
-            if (_keys.includes(key)) {
-              preventEvent(event);
-            } else if (_this4.currentMenuItem.isSubmenuItem && _submenuKeys.includes(key)) {
-              preventEvent(event);
-            }
-          }
-        });
-
-        if (this.isTopLevel && this.elements.controller) {
-          this.elements.controller.dom.toggle.addEventListener("keydown", function () {
-            _this4.currentEvent = "keyboard";
-            var key = keyPress(event);
-
-            if (key === "Space" || key === "Enter") {
-              preventEvent(event);
-            }
-          });
-        }
-      }
-      /**
-       * Handles keyup events throughout the menu for proper menu use.
-       */
-
-    }, {
-      key: "handleKeyup",
-      value: function handleKeyup() {
-        var _this5 = this;
-
-        this.dom.menu.addEventListener("keyup", function (event) {
-          _this5.currentEvent = "keyboard";
-          var key = keyPress(event);
-          var altKey = event.altKey,
-              crtlKey = event.crtlKey,
-              metaKey = event.metaKey;
-          var modifier = altKey || crtlKey || metaKey;
-
-          if (key === "Character" && !modifier) {
-            // Hitting Character:
-            // - Moves focus to next item in the menubar having a name that starts with the typed character.
-            // - If none of the items have a name starting with the typed character, focus does not move.
-            preventEvent(event);
-
-            _this5.focusNextChildWithCharacter(event.key);
-          } else if (_this5.isTopLevel) {
-            if (_this5.focusState === "self") {
-              if (key === "Space" || key === "Enter") {
-                // Hitting Space or Enter:
-                // - Opens submenu and moves focus to first item in the submenu.
-                if (_this5.currentMenuItem.isSubmenuItem) {
-                  preventEvent(event);
-
-                  _this5.currentMenuItem.elements.toggle.open();
-
-                  _this5.currentMenuItem.elements.childMenu.focusFirstChild();
-                }
-              } else if (key === "ArrowRight") {
-                // Hitting the Right Arrow:
-                // - Moves focus to the next item in the menubar.
-                // - If focus is on the last item, moves focus to the first item.
-                // - If focus was on an open submenu and the newly focussed item has a submenu, open the submenu.
-                preventEvent(event); // Store the current item's info if its an open dropdown.
-
-                var previousChildOpen = _this5.currentMenuItem.isSubmenuItem && _this5.currentMenuItem.elements.toggle.isOpen;
-
-                _this5.focusNextChild(); // Open the newly focussed submenu if applicable.
-
-
-                if (previousChildOpen) {
-                  if (_this5.currentMenuItem.isSubmenuItem) {
-                    _this5.currentMenuItem.elements.toggle.preview();
-                  } else {
-                    _this5.closeChildren();
-                  }
-                }
-              } else if (key === "ArrowLeft") {
-                // Hitting the Left Arrow:
-                // - Moves focus to the previous item in the menubar.
-                // - If focus is on the first item, moves focus to the last item.
-                // - If focus was on an open submenu and the newly focussed item has a submenu, open the submenu.
-                preventEvent(event); // Store the current item's info if its an open dropdown.
-
-                var _previousChildOpen = _this5.currentMenuItem.isSubmenuItem && _this5.currentMenuItem.elements.toggle.isOpen;
-
-                _this5.focusPreviousChild(); // Open the newly focussed submenu if applicable.
-
-
-                if (_previousChildOpen) {
-                  if (_this5.currentMenuItem.isSubmenuItem) {
-                    _this5.currentMenuItem.elements.toggle.preview();
-                  } else {
-                    _this5.closeChildren();
-                  }
-                }
-              } else if (key === "ArrowDown") {
-                // Hitting the Down Arrow:
-                // - Opens submenu and moves focus to first item in the submenu.
-                if (_this5.currentMenuItem.isSubmenuItem) {
-                  preventEvent(event);
-
-                  _this5.currentMenuItem.elements.toggle.open();
-
-                  _this5.currentMenuItem.elements.childMenu.focusFirstChild();
-                }
-              } else if (key === "ArrowUp") {
-                // Hitting the Up Arrow:
-                // - Opens submenu and moves focus to last item in the submenu.
-                if (_this5.currentMenuItem.isSubmenuItem) {
-                  preventEvent(event);
-
-                  _this5.currentMenuItem.elements.toggle.open();
-
-                  _this5.currentMenuItem.elements.childMenu.focusLastChild();
-                }
-              } else if (key === "Home") {
-                // Hitting Home:
-                // - Moves focus to first item in the menubar.
-                preventEvent(event);
-
-                _this5.focusFirstChild();
-              } else if (key === "End") {
-                // Hitting End:
-                // - Moves focus to last item in the menubar.
-                preventEvent(event);
-
-                _this5.focusLastChild();
-              } else if (key === "Escape") {
-                if (_this5.elements.controller !== null) {
-                  // Hitting Escape:
-                  // - Closes menu.
-                  if (_this5.elements.controller.isOpen) {
-                    preventEvent(event);
-
-                    _this5.elements.controller.close();
-
-                    _this5.focusController();
-                  }
-                }
-              }
-            }
-          } else {
-            if (key === "Space" || key === "Enter") {
-              // Hitting Space or Enter:
-              // - Activates menu item, causing the link to be activated.
-              if (_this5.currentMenuItem.isSubmenuItem) {
-                preventEvent(event);
-
-                _this5.currentMenuItem.elements.toggle.open();
-
-                _this5.currentMenuItem.elements.childMenu.focusFirstChild();
-              }
-            } else if (key === "Escape") {
-              // Hitting Escape:
-              // - Closes submenu.
-              // - Moves focus to parent menubar item.
-              preventEvent(event);
-
-              _this5.elements.rootMenu.closeChildren();
-
-              _this5.elements.rootMenu.focusCurrentChild();
-            } else if (key === "ArrowRight") {
-              // Hitting the Right Arrow:
-              // - If focus is on an item with a submenu, opens the submenu and places focus on the first item.
-              // - If focus is on an item that does not have a submenu:
-              //   - Closes submenu.
-              //   - Moves focus to next item in the menubar.
-              //   - Opens submenu of newly focused menubar item, keeping focus on that parent menubar item.
-              if (_this5.currentMenuItem.isSubmenuItem) {
-                preventEvent(event);
-
-                _this5.currentMenuItem.elements.toggle.open();
-
-                _this5.currentMenuItem.elements.childMenu.focusFirstChild();
-              } else {
-                preventEvent(event);
-
-                _this5.elements.rootMenu.closeChildren();
-
-                _this5.elements.rootMenu.focusNextChild();
-
-                if (_this5.elements.rootMenu.currentMenuItem.isSubmenuItem) {
-                  _this5.elements.rootMenu.currentMenuItem.elements.toggle.preview();
-                }
-              }
-            } else if (key === "ArrowLeft") {
-              // Hitting the Left Arrow:
-              // - Closes submenu and moves focus to parent menu item.
-              // - If parent menu item is in the menubar, also:
-              //   - moves focus to previous item in the menubar.
-              //   - Opens submenu of newly focused menubar item, keeping focus on that parent menubar item.
-              if (_this5.elements.parentMenu.currentMenuItem.isSubmenuItem) {
-                preventEvent(event);
-
-                _this5.elements.parentMenu.currentMenuItem.elements.toggle.close();
-
-                _this5.elements.parentMenu.focusCurrentChild();
-
-                if (_this5.elements.parentMenu === _this5.elements.rootMenu) {
-                  _this5.elements.rootMenu.closeChildren();
-
-                  _this5.elements.rootMenu.focusPreviousChild();
-
-                  if (_this5.elements.rootMenu.currentMenuItem.isSubmenuItem) {
-                    _this5.elements.rootMenu.currentMenuItem.elements.toggle.preview();
-                  }
-                }
-              }
-            } else if (key === "ArrowDown") {
-              // Hitting the Down Arrow:
-              // - Moves focus to the next item in the menubar.
-              // - If focus is on the last item, moves focus to the first item.
-              preventEvent(event);
-
-              _this5.focusNextChild();
-            } else if (key === "ArrowUp") {
-              // Hitting the Up Arrow:
-              // - Moves focus to the previous item in the menubar.
-              // - If focus is on the first item, moves focus to the last item.
-              preventEvent(event);
-
-              _this5.focusPreviousChild();
-            } else if (key === "Home") {
-              // Hitting Home:
-              // - Moves focus to first item in the menubar.
-              preventEvent(event);
-
-              _this5.focusFirstChild();
-            } else if (key === "End") {
-              // Hitting End:
-              // - Moves focus to last item in the menubar.
-              preventEvent(event);
-
-              _this5.focusLastChild();
-            }
-          }
-        });
-
-        if (this.isTopLevel && this.elements.controller) {
-          this.elements.controller.dom.toggle.addEventListener("keyup", function () {
-            _this5.currentEvent = "keyboard";
-            var key = keyPress(event);
-
-            if (key === "Space" || key === "Enter") {
-              preventEvent(event);
-
-              _this5.elements.controller.open();
-
-              _this5.focusFirstChild();
-            }
-          });
-        }
-      }
-      /**
        * Handles click events throughout the menu for proper use.
        */
 
     }, {
       key: "handleClick",
       value: function handleClick() {
-        var _this6 = this;
+        var _this4 = this;
 
+        // Close the menu if a click event happens outside of it.
         document.addEventListener("click", function (event) {
-          if (_this6.focusState !== "none") {
-            _this6.currentEvent = "mouse";
+          if (_this4.focusState !== "none") {
+            _this4.currentEvent = "mouse";
 
-            if (!_this6.dom.menu.contains(event.target) && !_this6.dom.menu !== event.target) {
-              _this6.closeChildren();
+            if (!_this4.dom.menu.contains(event.target) && !_this4.dom.menu !== event.target) {
+              _this4.closeChildren();
 
-              _this6.blur();
+              _this4.blur();
 
-              if (_this6.elements.controller) {
-                _this6.elements.controller.close();
+              if (_this4.elements.controller) {
+                _this4.elements.controller.close();
               }
             }
           }
@@ -1844,11 +1609,11 @@ var AccessibleMenu = (function () {
         this.elements.submenuToggles.forEach(function (toggle) {
           toggle.dom.toggle.addEventListener("click", function (event) {
             preventEvent(event);
-            _this6.currentEvent = "mouse";
+            _this4.currentEvent = "mouse";
             toggle.toggle();
 
             if (toggle.isOpen) {
-              _this6.focusState = "self";
+              _this4.focusState = "self";
               toggle.elements.controlledMenu.focusState = "none";
             }
           });
@@ -1857,9 +1622,9 @@ var AccessibleMenu = (function () {
         if (this.isTopLevel && this.elements.controller) {
           this.elements.controller.dom.toggle.addEventListener("click", function (event) {
             preventEvent(event);
-            _this6.currentEvent = "mouse";
+            _this4.currentEvent = "mouse";
 
-            _this6.elements.controller.toggle();
+            _this4.elements.controller.toggle();
           });
         }
       }
@@ -1870,18 +1635,18 @@ var AccessibleMenu = (function () {
     }, {
       key: "handleHover",
       value: function handleHover() {
-        var _this7 = this;
+        var _this5 = this;
 
         this.elements.submenuToggles.forEach(function (toggle) {
           toggle.dom.parent.addEventListener("mouseenter", function () {
-            _this7.currentEvent = "mouse";
+            _this5.currentEvent = "mouse";
             toggle.open();
           });
           toggle.dom.parent.addEventListener("mouseleave", function () {
             setTimeout(function () {
-              _this7.currentEvent = "mouse";
+              _this5.currentEvent = "mouse";
               toggle.close();
-            }, _this7.hoverDelay);
+            }, _this5.hoverDelay);
           });
         });
       }
@@ -2270,9 +2035,409 @@ var AccessibleMenu = (function () {
       }
     }]);
 
-    return Menu;
+    return BaseMenu;
   }();
 
-  return Menu;
+  /**
+   * An accessible menubar navigation in the DOM.
+   */
+
+  var Menubar =
+  /*#__PURE__*/
+  function (_BaseMenu) {
+    _inherits(Menubar, _BaseMenu);
+
+    /**
+     * {@inheritdoc}
+     *
+     * @param {object}      param0                               - The menu object.
+     * @param {HTMLElement} param0.menuElement                   - The menu element in the DOM.
+     * @param {string}      [param0.menuItemSelector = "li"]     - The CSS selector string for menu items.
+     * @param {string}      [param0.menuLinkSelector = "a"]      - The CSS selector string for menu links.
+     * @param {string}      [param0.submenuItemSelector = ""]    - The CSS selector string for menu items containing submenus.
+     * @param {string}      [param0.submenuToggleSelector = "a"] - The CSS selector string for submenu toggle buttons/links.
+     * @param {string}      [param0.submenuSelector = "ul"]      - The CSS selector string for submenus.
+     * @param {HTMLElement} param0.controllerElement             - The element controlling the menu in the DOM.
+     * @param {HTMLElement} param0.containerElement              - The element containing the menu in the DOM.
+     * @param {string}      [param0.openClass = "show"]          - The class to apply when a menu is "open".
+     * @param {string}      [param0.closeClass = "hide"]         - The class to apply when a menu is "closed".
+     * @param {boolean}     [param0.isTopLevel = false]          - A flag to mark the root menu.
+     * @param {Menubar}     param0.parentMenu                    - The parent menu to this menu.
+     * @param {boolean}     [param0.isHoverable = false]         - A flag to allow hover events on the menu.
+     * @param {number}      [param0.hoverDelay = 250]            - The delay for closing menus if the menu is hoverable (in miliseconds).
+     */
+    function Menubar(_ref) {
+      var menuElement = _ref.menuElement,
+          _ref$menuItemSelector = _ref.menuItemSelector,
+          menuItemSelector = _ref$menuItemSelector === void 0 ? "li" : _ref$menuItemSelector,
+          _ref$menuLinkSelector = _ref.menuLinkSelector,
+          menuLinkSelector = _ref$menuLinkSelector === void 0 ? "a" : _ref$menuLinkSelector,
+          _ref$submenuItemSelec = _ref.submenuItemSelector,
+          submenuItemSelector = _ref$submenuItemSelec === void 0 ? "" : _ref$submenuItemSelec,
+          _ref$submenuToggleSel = _ref.submenuToggleSelector,
+          submenuToggleSelector = _ref$submenuToggleSel === void 0 ? "a" : _ref$submenuToggleSel,
+          _ref$submenuSelector = _ref.submenuSelector,
+          submenuSelector = _ref$submenuSelector === void 0 ? "ul" : _ref$submenuSelector,
+          controllerElement = _ref.controllerElement,
+          containerElement = _ref.containerElement,
+          _ref$openClass = _ref.openClass,
+          openClass = _ref$openClass === void 0 ? "show" : _ref$openClass,
+          _ref$closeClass = _ref.closeClass,
+          closeClass = _ref$closeClass === void 0 ? "hide" : _ref$closeClass,
+          _ref$isTopLevel = _ref.isTopLevel,
+          isTopLevel = _ref$isTopLevel === void 0 ? true : _ref$isTopLevel,
+          parentMenu = _ref.parentMenu,
+          _ref$isHoverable = _ref.isHoverable,
+          isHoverable = _ref$isHoverable === void 0 ? false : _ref$isHoverable,
+          _ref$hoverDelay = _ref.hoverDelay,
+          hoverDelay = _ref$hoverDelay === void 0 ? 250 : _ref$hoverDelay;
+
+      _classCallCheck(this, Menubar);
+
+      return _possibleConstructorReturn(this, _getPrototypeOf(Menubar).call(this, {
+        menuElement: menuElement,
+        menuItemSelector: menuItemSelector,
+        menuLinkSelector: menuLinkSelector,
+        submenuItemSelector: submenuItemSelector,
+        submenuToggleSelector: submenuToggleSelector,
+        submenuSelector: submenuSelector,
+        controllerElement: controllerElement,
+        containerElement: containerElement,
+        openClass: openClass,
+        closeClass: closeClass,
+        isTopLevel: isTopLevel,
+        parentMenu: parentMenu,
+        isHoverable: isHoverable,
+        hoverDelay: hoverDelay
+      }));
+    }
+    /**
+     * Initializes the menu.
+     *
+     * This will also initialize all menu items and sub menus.
+     */
+
+
+    _createClass(Menubar, [{
+      key: "initialize",
+      value: function initialize() {
+        _get(_getPrototypeOf(Menubar.prototype), "initialize", this).call(this);
+
+        this.dom.menu.setAttribute("role", "menubar");
+        this.createChildElements(Menubar);
+        this.handleFocus();
+        this.handleClick();
+        if (this.isHoverable) this.handleHover();
+        this.handleKeydown();
+        this.handleKeyup();
+        this.elements.menuItems[0].dom.link.tabIndex = 0;
+      }
+      /**
+       * Handles keydown events throughout the menu for proper menu use.
+       */
+
+    }, {
+      key: "handleKeydown",
+      value: function handleKeydown() {
+        var _this = this;
+
+        this.dom.menu.addEventListener("keydown", function (event) {
+          _this.currentEvent = "keyboard";
+          var key = keyPress(event);
+
+          if (key === "Tab") {
+            // Hitting Tab:
+            // - Moves focus out of the menu.
+            if (_this.elements.rootMenu.focusState !== "none") {
+              _this.elements.rootMenu.blur();
+
+              _this.elements.rootMenu.closeChildren();
+            } else {
+              _this.elements.rootMenu.focus();
+            }
+          } // Prevent default event actions if we're handling the keyup event.
+
+
+          if (key === "Character") {
+            preventEvent(event);
+          } else if (_this.isTopLevel) {
+            if (_this.focusState === "self") {
+              var keys = ["ArrowRight", "ArrowLeft", "Home", "End"];
+              var submenuKeys = ["Space", "Enter", "ArrowDown", "ArrowUp"];
+              var controllerKeys = ["Espace"];
+
+              if (keys.includes(key)) {
+                preventEvent(event);
+              } else if (_this.currentMenuItem.isSubmenuItem && submenuKeys.includes(key)) {
+                preventEvent(event);
+              } else if (_this.elements.controller && controllerKeys.includes(key)) {
+                preventEvent(event);
+              }
+            }
+          } else {
+            var _keys = ["Escape", "ArrowRight", "ArrowLeft", "ArrowDown", "ArrowUp", "Home", "End"];
+            var _submenuKeys = ["Space", "Enter"];
+
+            if (_keys.includes(key)) {
+              preventEvent(event);
+            } else if (_this.currentMenuItem.isSubmenuItem && _submenuKeys.includes(key)) {
+              preventEvent(event);
+            }
+          }
+        });
+
+        if (this.isTopLevel && this.elements.controller) {
+          this.elements.controller.dom.toggle.addEventListener("keydown", function () {
+            _this.currentEvent = "keyboard";
+            var key = keyPress(event);
+
+            if (key === "Space" || key === "Enter") {
+              preventEvent(event);
+            }
+          });
+        }
+      }
+      /**
+       * Handles keyup events throughout the menu for proper menu use.
+       */
+
+    }, {
+      key: "handleKeyup",
+      value: function handleKeyup() {
+        var _this2 = this;
+
+        this.dom.menu.addEventListener("keyup", function (event) {
+          _this2.currentEvent = "keyboard";
+          var key = keyPress(event);
+          var altKey = event.altKey,
+              crtlKey = event.crtlKey,
+              metaKey = event.metaKey;
+          var modifier = altKey || crtlKey || metaKey;
+
+          if (key === "Character" && !modifier) {
+            // Hitting Character:
+            // - Moves focus to next item in the menubar having a name that starts with the typed character.
+            // - If none of the items have a name starting with the typed character, focus does not move.
+            preventEvent(event);
+
+            _this2.focusNextChildWithCharacter(event.key);
+          } else if (_this2.isTopLevel) {
+            if (_this2.focusState === "self") {
+              if (key === "Space" || key === "Enter") {
+                // Hitting Space or Enter:
+                // - Opens submenu and moves focus to first item in the submenu.
+                if (_this2.currentMenuItem.isSubmenuItem) {
+                  preventEvent(event);
+
+                  _this2.currentMenuItem.elements.toggle.open();
+
+                  _this2.currentMenuItem.elements.childMenu.focusFirstChild();
+                }
+              } else if (key === "ArrowRight") {
+                // Hitting the Right Arrow:
+                // - Moves focus to the next item in the menubar.
+                // - If focus is on the last item, moves focus to the first item.
+                // - If focus was on an open submenu and the newly focussed item has a submenu, open the submenu.
+                preventEvent(event); // Store the current item's info if its an open dropdown.
+
+                var previousChildOpen = _this2.currentMenuItem.isSubmenuItem && _this2.currentMenuItem.elements.toggle.isOpen;
+
+                _this2.focusNextChild(); // Open the newly focussed submenu if applicable.
+
+
+                if (previousChildOpen) {
+                  if (_this2.currentMenuItem.isSubmenuItem) {
+                    _this2.currentMenuItem.elements.toggle.preview();
+                  } else {
+                    _this2.closeChildren();
+                  }
+                }
+              } else if (key === "ArrowLeft") {
+                // Hitting the Left Arrow:
+                // - Moves focus to the previous item in the menubar.
+                // - If focus is on the first item, moves focus to the last item.
+                // - If focus was on an open submenu and the newly focussed item has a submenu, open the submenu.
+                preventEvent(event); // Store the current item's info if its an open dropdown.
+
+                var _previousChildOpen = _this2.currentMenuItem.isSubmenuItem && _this2.currentMenuItem.elements.toggle.isOpen;
+
+                _this2.focusPreviousChild(); // Open the newly focussed submenu if applicable.
+
+
+                if (_previousChildOpen) {
+                  if (_this2.currentMenuItem.isSubmenuItem) {
+                    _this2.currentMenuItem.elements.toggle.preview();
+                  } else {
+                    _this2.closeChildren();
+                  }
+                }
+              } else if (key === "ArrowDown") {
+                // Hitting the Down Arrow:
+                // - Opens submenu and moves focus to first item in the submenu.
+                if (_this2.currentMenuItem.isSubmenuItem) {
+                  preventEvent(event);
+
+                  _this2.currentMenuItem.elements.toggle.open();
+
+                  _this2.currentMenuItem.elements.childMenu.focusFirstChild();
+                }
+              } else if (key === "ArrowUp") {
+                // Hitting the Up Arrow:
+                // - Opens submenu and moves focus to last item in the submenu.
+                if (_this2.currentMenuItem.isSubmenuItem) {
+                  preventEvent(event);
+
+                  _this2.currentMenuItem.elements.toggle.open();
+
+                  _this2.currentMenuItem.elements.childMenu.focusLastChild();
+                }
+              } else if (key === "Home") {
+                // Hitting Home:
+                // - Moves focus to first item in the menubar.
+                preventEvent(event);
+
+                _this2.focusFirstChild();
+              } else if (key === "End") {
+                // Hitting End:
+                // - Moves focus to last item in the menubar.
+                preventEvent(event);
+
+                _this2.focusLastChild();
+              } else if (key === "Escape") {
+                if (_this2.elements.controller !== null) {
+                  // Hitting Escape:
+                  // - Closes menu.
+                  if (_this2.elements.controller.isOpen) {
+                    preventEvent(event);
+
+                    _this2.elements.controller.close();
+
+                    _this2.focusController();
+                  }
+                }
+              }
+            }
+          } else {
+            if (key === "Space" || key === "Enter") {
+              // Hitting Space or Enter:
+              // - Activates menu item, causing the link to be activated.
+              if (_this2.currentMenuItem.isSubmenuItem) {
+                preventEvent(event);
+
+                _this2.currentMenuItem.elements.toggle.open();
+
+                _this2.currentMenuItem.elements.childMenu.focusFirstChild();
+              }
+            } else if (key === "Escape") {
+              // Hitting Escape:
+              // - Closes submenu.
+              // - Moves focus to parent menubar item.
+              preventEvent(event);
+
+              _this2.elements.rootMenu.closeChildren();
+
+              _this2.elements.rootMenu.focusCurrentChild();
+            } else if (key === "ArrowRight") {
+              // Hitting the Right Arrow:
+              // - If focus is on an item with a submenu, opens the submenu and places focus on the first item.
+              // - If focus is on an item that does not have a submenu:
+              //   - Closes submenu.
+              //   - Moves focus to next item in the menubar.
+              //   - Opens submenu of newly focused menubar item, keeping focus on that parent menubar item.
+              if (_this2.currentMenuItem.isSubmenuItem) {
+                preventEvent(event);
+
+                _this2.currentMenuItem.elements.toggle.open();
+
+                _this2.currentMenuItem.elements.childMenu.focusFirstChild();
+              } else {
+                preventEvent(event);
+
+                _this2.elements.rootMenu.closeChildren();
+
+                _this2.elements.rootMenu.focusNextChild();
+
+                if (_this2.elements.rootMenu.currentMenuItem.isSubmenuItem) {
+                  _this2.elements.rootMenu.currentMenuItem.elements.toggle.preview();
+                }
+              }
+            } else if (key === "ArrowLeft") {
+              // Hitting the Left Arrow:
+              // - Closes submenu and moves focus to parent menu item.
+              // - If parent menu item is in the menubar, also:
+              //   - moves focus to previous item in the menubar.
+              //   - Opens submenu of newly focused menubar item, keeping focus on that parent menubar item.
+              if (_this2.elements.parentMenu.currentMenuItem.isSubmenuItem) {
+                preventEvent(event);
+
+                _this2.elements.parentMenu.currentMenuItem.elements.toggle.close();
+
+                _this2.elements.parentMenu.focusCurrentChild();
+
+                if (_this2.elements.parentMenu === _this2.elements.rootMenu) {
+                  _this2.elements.rootMenu.closeChildren();
+
+                  _this2.elements.rootMenu.focusPreviousChild();
+
+                  if (_this2.elements.rootMenu.currentMenuItem.isSubmenuItem) {
+                    _this2.elements.rootMenu.currentMenuItem.elements.toggle.preview();
+                  }
+                }
+              }
+            } else if (key === "ArrowDown") {
+              // Hitting the Down Arrow:
+              // - Moves focus to the next item in the menubar.
+              // - If focus is on the last item, moves focus to the first item.
+              preventEvent(event);
+
+              _this2.focusNextChild();
+            } else if (key === "ArrowUp") {
+              // Hitting the Up Arrow:
+              // - Moves focus to the previous item in the menubar.
+              // - If focus is on the first item, moves focus to the last item.
+              preventEvent(event);
+
+              _this2.focusPreviousChild();
+            } else if (key === "Home") {
+              // Hitting Home:
+              // - Moves focus to first item in the menubar.
+              preventEvent(event);
+
+              _this2.focusFirstChild();
+            } else if (key === "End") {
+              // Hitting End:
+              // - Moves focus to last item in the menubar.
+              preventEvent(event);
+
+              _this2.focusLastChild();
+            }
+          }
+        });
+
+        if (this.isTopLevel && this.elements.controller) {
+          this.elements.controller.dom.toggle.addEventListener("keyup", function () {
+            _this2.currentEvent = "keyboard";
+            var key = keyPress(event);
+
+            if (key === "Space" || key === "Enter") {
+              preventEvent(event);
+
+              _this2.elements.controller.open();
+
+              _this2.focusFirstChild();
+            }
+          });
+        }
+      }
+    }]);
+
+    return Menubar;
+  }(BaseMenu);
+
+  var rollup = {
+    Menubar: Menubar
+  };
+
+  return rollup;
 
 }());
