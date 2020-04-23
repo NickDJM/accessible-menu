@@ -1,4 +1,4 @@
-import Menu from "./menu";
+import BaseMenu from "./_baseMenu";
 import MenuToggle from "./menuToggle";
 
 /**
@@ -251,7 +251,7 @@ export function isKeyboardEvent(event) {
  *
  * Will return true is the check is successful.
  *
- * @param   {object|Menu} element - The element to check.
+ * @param   {object|BaseMenu} element - The element to check.
  *
  * @returns {boolean} - The result of the check.
  */
@@ -259,12 +259,12 @@ export function isMenu(element) {
   let name = "element";
 
   try {
-    if (!(element instanceof Menu)) {
+    if (!(element instanceof BaseMenu)) {
       if (typeof element === "object") {
         for (const key in element) {
           name = key;
 
-          if (!(element[key] instanceof Menu)) {
+          if (!(element[key] instanceof BaseMenu)) {
             throw Error;
           }
         }
@@ -275,7 +275,9 @@ export function isMenu(element) {
       return true;
     }
   } catch (error) {
-    throw new TypeError(`${name} must be an instance of Menu`);
+    throw new TypeError(
+      `${name} must be an instance of either BaseMenu or Menubar`
+    );
   }
 }
 

@@ -6,29 +6,36 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-/* eslint-disable no-unused-vars, no-undef */
+var _AccessibleMenu = AccessibleMenu,
+    Menubar = _AccessibleMenu.Menubar;
 var navs = document.querySelectorAll("nav");
 var menuSettings = {
   menuItemSelector: ".menu-item",
   submenuItemSelector: ".menu-item.dropdown",
   submenuToggleSelector: ".dropdown-toggle",
   submenuSelector: ".menu.dropdown",
-  openClass: "show"
+  openClass: "show",
+  isHoverable: true
 };
+var menus = [];
 Array.from(navs).forEach(function (nav) {
   var menuElement = nav.querySelector(".menu");
+  var menu = null;
 
   if (nav.id === "main-menu") {
     var controllerElement = nav.querySelector(".menu-toggle");
-    var menu = new AccessibleMenu(_objectSpread({
+    menu = new Menubar(_objectSpread({
       menuElement: menuElement
     }, menuSettings, {
       controllerElement: controllerElement,
       containerElement: nav
     }));
   } else {
-    var _menu = new AccessibleMenu(_objectSpread({
+    menu = new Menubar(_objectSpread({
       menuElement: menuElement
     }, menuSettings));
   }
+
+  menus.push(menu);
 });
+console.log(menus);

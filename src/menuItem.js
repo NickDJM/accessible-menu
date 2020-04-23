@@ -1,6 +1,7 @@
-import Menu from "./menu";
+import BaseMenu from "./_baseMenu";
+import Menubar from "./menubar";
 import MenuToggle from "./menuToggle";
-import { isHTMLElement, isMenu, isBoolean, isMenuToggle } from "./validate";
+import { isHTMLElement, isBoolean, isMenu, isMenuToggle } from "./validate";
 
 /**
  * A basic navigation link contained inside of a Menu.
@@ -12,9 +13,9 @@ class MenuItem {
    * @param {object}          param0                         - The menu item object.
    * @param {HTMLElement}     param0.menuItemElement         - The menu item in the DOM.
    * @param {HTMLElement}     param0.menuLinkElement         - The menu item's link in the DOM.
-   * @param {Menu}            param0.parentMenu              - The parent menu.
+   * @param {BaseMenu}        param0.parentMenu              - The parent menu.
    * @param {boolean}         [param0.isSubmenuItem = false] - A flag to mark if the menu item is controlling a submenu.
-   * @param {Menu|null}       [param0.childMenu = null]      - The child menu.
+   * @param {BaseMenu|null}   [param0.childMenu = null]      - The child menu.
    * @param {MenuToggle|null} [param0.toggle = null]         - The controller for the child menu.
    */
   constructor({
@@ -55,9 +56,13 @@ class MenuItem {
    * Initialize the menu item by setting its tab index.
    */
   initialize() {
-    this.dom.item.setAttribute("role", "none");
-    this.dom.link.setAttribute("role", "menuitem");
-    this.dom.link.tabIndex = -1;
+    this.isMenubar = this.elements.parentMenu instanceof Menubar;
+
+    if (this.isMenubar) {
+      this.dom.item.setAttribute("role", "none");
+      this.dom.link.setAttribute("role", "menuitem");
+      this.dom.link.tabIndex = -1;
+    }
   }
 
   /**
@@ -95,7 +100,7 @@ class MenuItem {
       this.dom.link.focus();
     }
 
-    if (this.elements.parentMenu.isTopLevel) {
+    if (this.isMenubar && this.elements.parentMenu.isTopLevel) {
       this.dom.link.tabIndex = 0;
     }
   }
@@ -108,7 +113,7 @@ class MenuItem {
       this.dom.link.blur();
     }
 
-    if (this.elements.parentMenu.isTopLevel) {
+    if (this.isMenubar && this.elements.parentMenu.isTopLevel) {
       this.dom.link.tabIndex = -1;
     }
   }
