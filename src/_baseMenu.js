@@ -10,7 +10,7 @@ import {
   isValidState,
   isValidEvent,
 } from "./validate";
-import { preventEvent } from "./eventHandlers";
+import { preventEvent, keyPress } from "./eventHandlers";
 
 /**
  * An accessible navigation element in the DOM.
@@ -605,6 +605,42 @@ class BaseMenu {
         }, this.hoverDelay);
       });
     });
+  }
+
+  /**
+   * Handles keydown events throughout the menu for proper menu use.
+   */
+  handleKeydown() {
+    if (this.isTopLevel && this.elements.controller) {
+      this.elements.controller.dom.toggle.addEventListener("keydown", () => {
+        this.currentEvent = "keyboard";
+
+        const key = keyPress(event);
+
+        if (key === "Space" || key === "Enter") {
+          preventEvent(event);
+        }
+      });
+    }
+  }
+
+  /**
+   * Handles keyup events throughout the menu for proper menu use.
+   */
+  handleKeyup() {
+    if (this.isTopLevel && this.elements.controller) {
+      this.elements.controller.dom.toggle.addEventListener("keyup", () => {
+        this.currentEvent = "keyboard";
+
+        const key = keyPress(event);
+
+        if (key === "Space" || key === "Enter") {
+          preventEvent(event);
+          this.elements.controller.open();
+          this.focusFirstChild();
+        }
+      });
+    }
   }
 
   /**

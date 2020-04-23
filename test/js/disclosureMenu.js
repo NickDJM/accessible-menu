@@ -1,11 +1,7 @@
-const { Menubar } = AccessibleMenu;
+const { DisclosureMenu } = AccessibleMenu;
 const navs = document.querySelectorAll("nav");
 const menuSettings = {
-  menuItemSelector: ".menu-item",
   submenuItemSelector: ".menu-item.dropdown",
-  submenuToggleSelector: ".dropdown-toggle",
-  submenuSelector: ".menu.dropdown",
-  openClass: "show",
   isHoverable: true
 };
 
@@ -17,14 +13,14 @@ Array.from(navs).forEach(nav => {
 
   if (nav.id === "main-menu") {
     const controllerElement = nav.querySelector(".menu-toggle");
-    menu = new Menubar({
+    menu = new DisclosureMenu({
       menuElement,
       ...menuSettings,
       controllerElement,
       containerElement: nav
     });
   } else {
-    menu = new Menubar({
+    menu = new DisclosureMenu({
       menuElement,
       ...menuSettings
     });

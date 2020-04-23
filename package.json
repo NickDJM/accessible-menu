@@ -18,7 +18,7 @@
     "fix": "npm run lint -- --fix",
     "prerelease": "npm run lint && npm run build",
     "release": "git add dist/. && npx standard-version -a",
-    "compile:test": "npx babel test/js/main.js -o test/js/main-ie.js",
+    "compile:test": "npx babel test/js --out-dir test/ie/js && npx sass test/scss:test/css",
     "build": "npx rollup --config .rollup.config.js"
   },
   "repository": {
@@ -64,6 +64,7 @@
     "rollup": "^1.27.4",
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-terser": "^5.2.0",
+    "sass": "^1.26.3",
     "standard-version": "^7.0.1",
     "terser": "^4.4.0"
   },

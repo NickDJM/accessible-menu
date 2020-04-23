@@ -8,21 +8,21 @@ class Menubar extends BaseMenu {
   /**
    * {@inheritdoc}
    *
-   * @param {object}      param0                               - The menu object.
-   * @param {HTMLElement} param0.menuElement                   - The menu element in the DOM.
-   * @param {string}      [param0.menuItemSelector = "li"]     - The CSS selector string for menu items.
-   * @param {string}      [param0.menuLinkSelector = "a"]      - The CSS selector string for menu links.
-   * @param {string}      [param0.submenuItemSelector = ""]    - The CSS selector string for menu items containing submenus.
-   * @param {string}      [param0.submenuToggleSelector = "a"] - The CSS selector string for submenu toggle buttons/links.
-   * @param {string}      [param0.submenuSelector = "ul"]      - The CSS selector string for submenus.
-   * @param {HTMLElement} param0.controllerElement             - The element controlling the menu in the DOM.
-   * @param {HTMLElement} param0.containerElement              - The element containing the menu in the DOM.
-   * @param {string}      [param0.openClass = "show"]          - The class to apply when a menu is "open".
-   * @param {string}      [param0.closeClass = "hide"]         - The class to apply when a menu is "closed".
-   * @param {boolean}     [param0.isTopLevel = false]          - A flag to mark the root menu.
-   * @param {Menubar}     param0.parentMenu                    - The parent menu to this menu.
-   * @param {boolean}     [param0.isHoverable = false]         - A flag to allow hover events on the menu.
-   * @param {number}      [param0.hoverDelay = 250]            - The delay for closing menus if the menu is hoverable (in miliseconds).
+   * @param {object}           param0                               - The menu object.
+   * @param {HTMLElement}      param0.menuElement                   - The menu element in the DOM.
+   * @param {string}           [param0.menuItemSelector = "li"]     - The CSS selector string for menu items.
+   * @param {string}           [param0.menuLinkSelector = "a"]      - The CSS selector string for menu links.
+   * @param {string}           [param0.submenuItemSelector = ""]    - The CSS selector string for menu items containing submenus.
+   * @param {string}           [param0.submenuToggleSelector = "a"] - The CSS selector string for submenu toggle buttons/links.
+   * @param {string}           [param0.submenuSelector = "ul"]      - The CSS selector string for submenus.
+   * @param {HTMLElement|null} [param0.controllerElement = null]    - The element controlling the menu in the DOM.
+   * @param {HTMLElement|null} [param0.containerElement = null]     - The element containing the menu in the DOM.
+   * @param {string}           [param0.openClass = "show"]          - The class to apply when a menu is "open".
+   * @param {string}           [param0.closeClass = "hide"]         - The class to apply when a menu is "closed".
+   * @param {boolean}          [param0.isTopLevel = false]          - A flag to mark the root menu.
+   * @param {Menubar|null}     [param0.parentMenu = null]           - The parent menu to this menu.
+   * @param {boolean}          [param0.isHoverable = false]         - A flag to allow hover events on the menu.
+   * @param {number}           [param0.hoverDelay = 250]            - The delay for closing menus if the menu is hoverable (in miliseconds).
    */
   constructor({
     menuElement,
@@ -31,12 +31,12 @@ class Menubar extends BaseMenu {
     submenuItemSelector = "",
     submenuToggleSelector = "a",
     submenuSelector = "ul",
-    controllerElement,
-    containerElement,
+    controllerElement = null,
+    containerElement = null,
     openClass = "show",
     closeClass = "hide",
     isTopLevel = true,
-    parentMenu,
+    parentMenu = null,
     isHoverable = false,
     hoverDelay = 250,
   }) {
@@ -82,6 +82,8 @@ class Menubar extends BaseMenu {
    * Handles keydown events throughout the menu for proper menu use.
    */
   handleKeydown() {
+    super.handleKeydown();
+
     this.dom.menu.addEventListener("keydown", event => {
       this.currentEvent = "keyboard";
 
@@ -105,7 +107,7 @@ class Menubar extends BaseMenu {
         if (this.focusState === "self") {
           const keys = ["ArrowRight", "ArrowLeft", "Home", "End"];
           const submenuKeys = ["Space", "Enter", "ArrowDown", "ArrowUp"];
-          const controllerKeys = ["Espace"];
+          const controllerKeys = ["Escape"];
 
           if (keys.includes(key)) {
             preventEvent(event);
@@ -140,24 +142,14 @@ class Menubar extends BaseMenu {
         }
       }
     });
-
-    if (this.isTopLevel && this.elements.controller) {
-      this.elements.controller.dom.toggle.addEventListener("keydown", () => {
-        this.currentEvent = "keyboard";
-
-        const key = keyPress(event);
-
-        if (key === "Space" || key === "Enter") {
-          preventEvent(event);
-        }
-      });
-    }
   }
 
   /**
    * Handles keyup events throughout the menu for proper menu use.
    */
   handleKeyup() {
+    super.handleKeyup();
+
     this.dom.menu.addEventListener("keyup", event => {
       this.currentEvent = "keyboard";
 
@@ -344,20 +336,6 @@ class Menubar extends BaseMenu {
         }
       }
     });
-
-    if (this.isTopLevel && this.elements.controller) {
-      this.elements.controller.dom.toggle.addEventListener("keyup", () => {
-        this.currentEvent = "keyboard";
-
-        const key = keyPress(event);
-
-        if (key === "Space" || key === "Enter") {
-          preventEvent(event);
-          this.elements.controller.open();
-          this.focusFirstChild();
-        }
-      });
-    }
   }
 }
 
