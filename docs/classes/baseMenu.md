@@ -210,12 +210,12 @@ Focus the menu's last child.
 ### focusNextChild
 Focus the menu's next child.
 
-If the currently focussed child in the menu is the last child, then this will focus the first child in the menu.
+If the currently focussed child in the menu is the last child then this will focus the first child in the menu.
 
 ### focusPreviousChild
 Focus the menu's last child.
 
-If the currently focussed child in the menu is the first child, then this will focus the last child in the menu.
+If the currently focussed child in the menu is the first child then this will focus the last child in the menu.
 
 ### focusCurrentChild
 Focus the menu's current child.
