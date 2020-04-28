@@ -1,6 +1,6 @@
-# Single-level menu with toggle
+# Two-level menu with toggle
 
-A single-level menu with a toggle is probably the most standard menu type to use with accessible-menu.
+A two-level menu with a toggle similar to the single-level, except it adds submenus and toggle links.
 
 A basic example of this kind of menu is as follows:
 

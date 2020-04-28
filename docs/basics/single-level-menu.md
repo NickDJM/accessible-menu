@@ -1,4 +1,4 @@
-# Single-level menu with toggle
+# Single-level menu
 
 A single-level menu is the most simple type of menu that can be used with accessible-menu.
 

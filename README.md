@@ -5,7 +5,10 @@
 
 A JavaScript library to help you generate WCAG accessible menus in the DOM.
 
-The current reference used is W3C's [Navigation Menubar Example](https://w3c.github.io/aria-practices/examples/menubar/menubar-1/menubar-1.html).
+The two supported menu types are:
+
+- [Navigation Menubar](https://www.w3.org/TR/wai-aria-practices-1.2/examples/menubar/menubar-1/menubar-1.html), and
+- [Disclosure Navigation Menus](https://www.w3.org/TR/wai-aria-practices-1.2/examples/disclosure/disclosure-navigation.html)
 
 ## Browser Support
 
@@ -35,7 +38,7 @@ For learning/prototyping purposes you can use the latest version with:
 For production environments, it is recommend to use a specific version to avoid unforseen breaking changes:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/accessible-menu@1.1.0/dist/accessibleMenu.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/accessible-menu@2.0.0/dist/accessibleMenu.js"></script>
 ```
 
 ## Usage
@@ -72,26 +75,29 @@ or
 Once you have accessible-menu loaded, simply declare a new menu object.
 
 ```jsx
-const menu = new AccessibleMenu({
+const menu = new AccessibleMenu.DisclosureMenu({
     menuElement: menuDOMObject,
     menuItemSelector: "menu-item-css-selector",
+    menuLinkSelector: "menu-item-css-selector",
     submenuItemSelector: "menu-item-with-dropdown-css-selector",
     submenuToggleSelector: "dropdown-toggle-css-selector",
     submenuSelector: "dropdown-menu-css-selector",
-    openClass: "class-to-open-menus"
+    openClass: "class-to-open-menus",
 });
 ```
 
 ### Documentation
 
 * [Classes](docs/classes/index.md)
-  * [Menu](docs/classes/menu.md)
+  * [BaseMenu](docs/classes/baseMenu.md)
+  * [Menubar](docs/classes/menubar.md)
+  * [DisclosureMenu](docs/classes/disclosureMenu.md)
   * [MenuItem](docs/classes/menuItem.md)
   * [MenuToggle](docs/classes/menuToggle.md)
-* [Basic Examples](docs/basics/index.md)
-  * [Single-Level Menu](docs/basics/single-level-menu.md)
-  * [Single-Level Dropdown Menu](docs/basics/single-level-dropdown-menu.md)
-  * [Two-Level Dropdown Menu](docs/basics/two-level-dropdown-menu.md)
+* [Basic examples](docs/basics/index.md)
+  * [Single-level menu](docs/basics/single-level-menu.md)
+  * [Single-level menu with toggle](docs/basics/single-level-menu-with-toggle.md)
+  * [Two-level menu with toggle](docs/basics/two-level-menu-with-toggle.md)
 
 ### Examples
 
