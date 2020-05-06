@@ -3,6 +3,8 @@ import { preventEvent, keyPress } from "./eventHandlers";
 
 /**
  * An accessible disclosure menu in the DOM.
+ *
+ * See https://www.w3.org/TR/wai-aria-practices-1.2/examples/disclosure/disclosure-navigation.html
  */
 class DisclosureMenu extends BaseMenu {
   /**

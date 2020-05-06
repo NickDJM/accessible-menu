@@ -2125,6 +2125,8 @@ var AccessibleMenu = (function () {
 
   /**
    * An accessible menubar navigation in the DOM.
+   *
+   * See https://www.w3.org/TR/wai-aria-practices-1.2/examples/menubar/menubar-1/menubar-1.html
    */
 
   var Menubar = /*#__PURE__*/function (_BaseMenu) {
@@ -2508,6 +2510,8 @@ var AccessibleMenu = (function () {
 
   /**
    * An accessible disclosure menu in the DOM.
+   *
+   * See https://www.w3.org/TR/wai-aria-practices-1.2/examples/disclosure/disclosure-navigation.html
    */
 
   var DisclosureMenu = /*#__PURE__*/function (_BaseMenu) {
