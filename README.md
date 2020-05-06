@@ -1,6 +1,6 @@
 # accessible-menu
 
-[![Latest release](https://img.shields.io/github/v/release/NickDJM/accessible-menu?include_prereleases&style=for-the-badge)](https://github.com/NickDJM/accessible-menu/releases)
+[![Latest release](https://img.shields.io/npm/v/accessible-menu?label=RELEASE&style=for-the-badge)](https://www.npmjs.com/package/accessible-menu)
 [![License](https://img.shields.io/github/license/NickDJM/accessible-menu?style=for-the-badge)](/LICENSE)
 
 A JavaScript library to help you generate WCAG accessible menus in the DOM.
@@ -105,6 +105,7 @@ Looking for a working example of accessible-menu? Check out these jsfiddles:
 
 - [Custom implementation](https://jsfiddle.net/NickDJM/yokxg0vr/)
 - [Bootstrap 4](https://jsfiddle.net/NickDJM/ku28qd97/)
+- [TailwindCSS](https://jsfiddle.net/NickDJM/4rfsqw5z/)
 
 ## Internet Explorer and Edge Support
 
