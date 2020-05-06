@@ -146,6 +146,8 @@ var AccessibleMenu = (function () {
   }
 
   function _typeof(obj) {
+    "@babel/helpers - typeof";
+
     if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
       _typeof = function (obj) {
         return typeof obj;
@@ -212,6 +214,19 @@ var AccessibleMenu = (function () {
     return _setPrototypeOf(o, p);
   }
 
+  function _isNativeReflectConstruct() {
+    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+    if (Reflect.construct.sham) return false;
+    if (typeof Proxy === "function") return true;
+
+    try {
+      Date.prototype.toString.call(Reflect.construct(Date, [], function () {}));
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   function _assertThisInitialized(self) {
     if (self === void 0) {
       throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
@@ -226,6 +241,25 @@ var AccessibleMenu = (function () {
     }
 
     return _assertThisInitialized(self);
+  }
+
+  function _createSuper(Derived) {
+    var hasNativeReflectConstruct = _isNativeReflectConstruct();
+
+    return function () {
+      var Super = _getPrototypeOf(Derived),
+          result;
+
+      if (hasNativeReflectConstruct) {
+        var NewTarget = _getPrototypeOf(this).constructor;
+
+        result = Reflect.construct(Super, arguments, NewTarget);
+      } else {
+        result = Super.apply(this, arguments);
+      }
+
+      return _possibleConstructorReturn(this, result);
+    };
   }
 
   function _superPropBase(object, property) {
@@ -259,23 +293,36 @@ var AccessibleMenu = (function () {
   }
 
   function _toConsumableArray(arr) {
-    return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
+    return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
   }
 
   function _arrayWithoutHoles(arr) {
-    if (Array.isArray(arr)) {
-      for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
-
-      return arr2;
-    }
+    if (Array.isArray(arr)) return _arrayLikeToArray(arr);
   }
 
   function _iterableToArray(iter) {
-    if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+    if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);
+  }
+
+  function _unsupportedIterableToArray(o, minLen) {
+    if (!o) return;
+    if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+    var n = Object.prototype.toString.call(o).slice(8, -1);
+    if (n === "Object" && o.constructor) n = o.constructor.name;
+    if (n === "Map" || n === "Set") return Array.from(o);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+  }
+
+  function _arrayLikeToArray(arr, len) {
+    if (len == null || len > arr.length) len = arr.length;
+
+    for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
+
+    return arr2;
   }
 
   function _nonIterableSpread() {
-    throw new TypeError("Invalid attempt to spread non-iterable instance");
+    throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
   }
 
   /**
@@ -687,9 +734,7 @@ var AccessibleMenu = (function () {
    * A link or button that controls the visibility of a menu.
    */
 
-  var MenuToggle =
-  /*#__PURE__*/
-  function () {
+  var MenuToggle = /*#__PURE__*/function () {
     /**
      * {@inheritdoc}
      *
@@ -998,9 +1043,7 @@ var AccessibleMenu = (function () {
    * A basic navigation link contained inside of a Menu.
    */
 
-  var MenuItem =
-  /*#__PURE__*/
-  function () {
+  var MenuItem = /*#__PURE__*/function () {
     /**
      * {@inheritdoc}
      *
@@ -1197,9 +1240,7 @@ var AccessibleMenu = (function () {
    * An accessible navigation element in the DOM.
    */
 
-  var BaseMenu =
-  /*#__PURE__*/
-  function () {
+  var BaseMenu = /*#__PURE__*/function () {
     /**
      * {@inheritdoc}
      *
@@ -2086,10 +2127,10 @@ var AccessibleMenu = (function () {
    * An accessible menubar navigation in the DOM.
    */
 
-  var Menubar =
-  /*#__PURE__*/
-  function (_BaseMenu) {
+  var Menubar = /*#__PURE__*/function (_BaseMenu) {
     _inherits(Menubar, _BaseMenu);
+
+    var _super = _createSuper(Menubar);
 
     /**
      * {@inheritdoc}
@@ -2141,7 +2182,7 @@ var AccessibleMenu = (function () {
 
       _classCallCheck(this, Menubar);
 
-      return _possibleConstructorReturn(this, _getPrototypeOf(Menubar).call(this, {
+      return _super.call(this, {
         menuElement: menuElement,
         menuItemSelector: menuItemSelector,
         menuLinkSelector: menuLinkSelector,
@@ -2156,7 +2197,7 @@ var AccessibleMenu = (function () {
         parentMenu: parentMenu,
         isHoverable: isHoverable,
         hoverDelay: hoverDelay
-      }));
+      });
     }
     /**
      * Initializes the menu.
@@ -2469,10 +2510,10 @@ var AccessibleMenu = (function () {
    * An accessible disclosure menu in the DOM.
    */
 
-  var DisclosureMenu =
-  /*#__PURE__*/
-  function (_BaseMenu) {
+  var DisclosureMenu = /*#__PURE__*/function (_BaseMenu) {
     _inherits(DisclosureMenu, _BaseMenu);
+
+    var _super = _createSuper(DisclosureMenu);
 
     /**
      * {@inheritdoc}
@@ -2526,7 +2567,7 @@ var AccessibleMenu = (function () {
 
       _classCallCheck(this, DisclosureMenu);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(DisclosureMenu).call(this, {
+      _this = _super.call(this, {
         menuElement: menuElement,
         menuItemSelector: menuItemSelector,
         menuLinkSelector: menuLinkSelector,
@@ -2541,7 +2582,7 @@ var AccessibleMenu = (function () {
         parentMenu: parentMenu,
         isHoverable: isHoverable,
         hoverDelay: hoverDelay
-      }));
+      });
       _this.currentChild = -1;
       return _this;
     }
