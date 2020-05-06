@@ -101,7 +101,10 @@ const menu = new AccessibleMenu.DisclosureMenu({
 
 ### Examples
 
-Looking for a working example of accessible-menu? Check out this [jsfiddle](https://jsfiddle.net/NickDJM/yokxg0vr/).
+Looking for a working example of accessible-menu? Check out these jsfiddles:
+
+- [Custom implementation](https://jsfiddle.net/NickDJM/yokxg0vr/)
+- [Bootstrap 4](https://jsfiddle.net/NickDJM/ku28qd97/)
 
 ## Internet Explorer and Edge Support
 
