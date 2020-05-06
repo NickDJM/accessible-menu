@@ -1,3 +1,7 @@
-import Menu from "./src/menu";
+import Menubar from "./menubar";
+import DisclosureMenu from "./disclosureMenu";
 
-export default Menu;
+export default {
+  Menubar,
+  DisclosureMenu,
+};
