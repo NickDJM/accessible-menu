@@ -8,10 +8,10 @@
     "dist/",
     "src/_baseMenu.js",
     "src/disclosureMenu.js",
-    "src/eventHandles.js",
-    "src/menubar.js",
+    "src/eventHandlers.js",
     "src/menuItem.js",
     "src/menuToggle.js",
+    "src/menubar.js",
     "src/validate.js"
   ],
   "scripts": {
