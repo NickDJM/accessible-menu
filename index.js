@@ -1,5 +1,5 @@
-import Menubar from "./menubar";
-import DisclosureMenu from "./disclosureMenu";
+import Menubar from "./src/menubar";
+import DisclosureMenu from "./src/disclosureMenu";
 
 export default {
   Menubar,
