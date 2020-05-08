@@ -1,6 +1,11 @@
 @charset "UTF-8";
 * {
-  box-sizing: border-box;
+  box-sizing: content-box;
+}
+*:focus {
+  outline: 2px dashed #000 !important;
+  outline-offset: -2px !important;
+  box-shadow: 0 0 0 2px #fff inset !important;
 }
 
 html {
@@ -37,11 +42,6 @@ nav {
   align-items: center;
   background-color: #25585f;
   color: #fff;
-}
-nav a:focus,
-nav button:focus {
-  outline: 0.2rem solid #f58a97;
-  outline-offset: -0.2rem;
 }
 
 h1 {

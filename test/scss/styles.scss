@@ -5,7 +5,13 @@ $green-90: #25585f;
 $red: #f58a97;
 
 * {
-  box-sizing: border-box;
+  box-sizing: content-box;
+
+  &:focus {
+    outline: 2px dashed $black !important;
+    outline-offset: -2px !important;
+    box-shadow: 0 0 0 2px $white inset !important;
+  }
 }
 
 html {
@@ -41,12 +47,6 @@ nav {
   align-items: center;
   background-color: $green-90;
   color: $white;
-
-  a:focus,
-  button:focus {
-    outline: 0.2rem solid $red;
-    outline-offset: -0.2rem;
-  }
 }
 
 h1 {
