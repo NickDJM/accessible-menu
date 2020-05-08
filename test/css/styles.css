@@ -151,11 +151,11 @@ h1 {
   margin-left: 0.5rem;
   display: inline-block;
 }
-.menu .menu-item.show > .menu.dropdown {
+.menu .menu.dropdown.show {
   display: flex;
 }
 @media screen and (min-width: 1070px) {
-  .menu .menu-item.show > .menu.dropdown {
+  .menu .menu.dropdown.show {
     position: absolute;
     left: 0;
   }

@@ -818,7 +818,7 @@ var AccessibleMenu = (function () {
         this.elements.controlledMenu.dom.menu.setAttribute("aria-labelledby", this.dom.toggle.id);
         this.dom.toggle.setAttribute("aria-controls", this.elements.controlledMenu.dom.menu.id); // Add closed class.
 
-        this.dom.parent.classList.add(this.closeClass);
+        this.elements.controlledMenu.dom.menu.classList.add(this.closeClass);
       }
       /**
        * The DOM elements within the toggle.
@@ -836,9 +836,7 @@ var AccessibleMenu = (function () {
        */
       value: function expand() {
         this.dom.toggle.setAttribute("aria-expanded", "true");
-        this.dom.parent.classList.add(this.openClass);
         this.elements.controlledMenu.dom.menu.classList.add(this.openClass);
-        this.dom.parent.classList.remove(this.closeClass);
         this.elements.controlledMenu.dom.menu.classList.remove(this.closeClass);
       }
       /**
@@ -851,9 +849,7 @@ var AccessibleMenu = (function () {
       key: "collapse",
       value: function collapse() {
         this.dom.toggle.setAttribute("aria-expanded", "false");
-        this.dom.parent.classList.add(this.closeClass);
         this.elements.controlledMenu.dom.menu.classList.add(this.closeClass);
-        this.dom.parent.classList.remove(this.openClass);
         this.elements.controlledMenu.dom.menu.classList.remove(this.openClass);
       }
       /**

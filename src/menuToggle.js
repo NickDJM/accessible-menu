@@ -93,7 +93,7 @@ class MenuToggle {
     );
 
     // Add closed class.
-    this.dom.parent.classList.add(this.closeClass);
+    this.elements.controlledMenu.dom.menu.classList.add(this.closeClass);
   }
 
   /**
@@ -181,9 +181,7 @@ class MenuToggle {
    */
   expand() {
     this.dom.toggle.setAttribute("aria-expanded", "true");
-    this.dom.parent.classList.add(this.openClass);
     this.elements.controlledMenu.dom.menu.classList.add(this.openClass);
-    this.dom.parent.classList.remove(this.closeClass);
     this.elements.controlledMenu.dom.menu.classList.remove(this.closeClass);
   }
 
@@ -194,9 +192,7 @@ class MenuToggle {
    */
   collapse() {
     this.dom.toggle.setAttribute("aria-expanded", "false");
-    this.dom.parent.classList.add(this.closeClass);
     this.elements.controlledMenu.dom.menu.classList.add(this.closeClass);
-    this.dom.parent.classList.remove(this.openClass);
     this.elements.controlledMenu.dom.menu.classList.remove(this.openClass);
   }
 

@@ -20,9 +20,9 @@ Array.from(navs).forEach(function (nav) {
 
   if (nav.id === "main-menu") {
     var controllerElement = nav.querySelector(".menu-toggle");
-    menu = new Menubar(_objectSpread({
+    menu = new Menubar(_objectSpread(_objectSpread({
       menuElement: menuElement
-    }, menuSettings, {
+    }, menuSettings), {}, {
       controllerElement: controllerElement,
       containerElement: nav
     }));

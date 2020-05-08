@@ -171,13 +171,14 @@ h1 {
       display: inline-block;
     }
 
-    &.show > .menu.dropdown {
-      display: flex;
+  }
 
-      @media screen and (min-width: 1070px) {
-        position: absolute;
-        left: 0;
-      }
+  .menu.dropdown.show {
+    display: flex;
+
+    @media screen and (min-width: 1070px) {
+      position: absolute;
+      left: 0;
     }
   }
 }
