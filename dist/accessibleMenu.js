@@ -729,6 +729,21 @@ var AccessibleMenu = (function () {
       throw new Error("".concat(name, " must be one of the following values: ").concat(validStates.join(", ")));
     }
   }
+  /**
+   * Checks to see if an event is supported by a node.
+   *
+   * @param   {string}      event   - The event type.
+   * @param   {HTMLElement} element - The element to check.
+   *
+   * @returns {boolean} - The result.
+   */
+
+  function isEventSupported(event, element) {
+    isString(event);
+    isHTMLElement(element);
+    var eventProp = "on".concat(event);
+    return typeof element[eventProp] !== "undefined";
+  }
 
   /**
    * A link or button that controls the visibility of a menu.
@@ -1627,7 +1642,7 @@ var AccessibleMenu = (function () {
         var _this4 = this;
 
         // Close the menu if a click event happens outside of it.
-        document.addEventListener("click", function (event) {
+        document.addEventListener("mouseup", function (event) {
           if (_this4.focusState !== "none") {
             _this4.currentEvent = "mouse";
 
@@ -1641,23 +1656,41 @@ var AccessibleMenu = (function () {
               }
             }
           }
-        }); // Toggle submenus when their controllers are clicked.
+        });
+        /**
+         * Toggles a toggle element.
+         *
+         * @param {BaseMenu} menu - This menu.
+         * @param {MenuToggle} toggle - The menu toggle
+         * @param {Event} event - A Javascript event.
+         */
+
+        function toggleToggle(menu, toggle, event) {
+          preventEvent(event);
+          menu.currentEvent = "mouse";
+          toggle.toggle();
+
+          if (toggle.isOpen) {
+            menu.focusState = "self";
+            toggle.elements.controlledMenu.focusState = "none";
+          }
+        } // Toggle submenus when their controllers are clicked.
+
 
         this.elements.submenuToggles.forEach(function (toggle) {
-          toggle.dom.toggle.addEventListener("click", function (event) {
-            preventEvent(event);
-            _this4.currentEvent = "mouse";
-            toggle.toggle();
-
-            if (toggle.isOpen) {
-              _this4.focusState = "self";
-              toggle.elements.controlledMenu.focusState = "none";
-            }
-          });
+          if (isEventSupported("touchend", toggle.dom.toggle)) {
+            toggle.dom.toggle.addEventListener("touchend", function (event) {
+              return toggleToggle(_this4, toggle, event);
+            });
+          } else {
+            toggle.dom.toggle.addEventListener("mouseup", function (event) {
+              return toggleToggle(_this4, toggle, event);
+            });
+          }
         }); // Open the this menu if it's controller is clicked.
 
         if (this.isTopLevel && this.elements.controller) {
-          this.elements.controller.dom.toggle.addEventListener("click", function (event) {
+          this.elements.controller.dom.toggle.addEventListener("mouseup", function (event) {
             preventEvent(event);
             _this4.currentEvent = "mouse";
 

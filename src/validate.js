@@ -422,3 +422,20 @@ export function isValidEvent(value) {
     );
   }
 }
+
+/**
+ * Checks to see if an event is supported by a node.
+ *
+ * @param   {string}      event   - The event type.
+ * @param   {HTMLElement} element - The element to check.
+ *
+ * @returns {boolean} - The result.
+ */
+export function isEventSupported(event, element) {
+  isString(event);
+  isHTMLElement(element);
+
+  const eventProp = `on${event}`;
+
+  return typeof element[eventProp] !== "undefined";
+}

@@ -9,6 +9,7 @@ import {
   isNumber,
   isValidState,
   isValidEvent,
+  isEventSupported,
 } from "./validate";
 import { preventEvent, keyPress } from "./eventHandlers";
 
@@ -542,7 +543,7 @@ class BaseMenu {
    */
   handleClick() {
     // Close the menu if a click event happens outside of it.
-    document.addEventListener("click", event => {
+    document.addEventListener("mouseup", event => {
       if (this.focusState !== "none") {
         this.currentEvent = "mouse";
 
@@ -560,25 +561,42 @@ class BaseMenu {
       }
     });
 
+    /**
+     * Toggles a toggle element.
+     *
+     * @param {BaseMenu} menu - This menu.
+     * @param {MenuToggle} toggle - The menu toggle
+     * @param {Event} event - A Javascript event.
+     */
+    function toggleToggle(menu, toggle, event) {
+      preventEvent(event);
+
+      menu.currentEvent = "mouse";
+
+      toggle.toggle();
+
+      if (toggle.isOpen) {
+        menu.focusState = "self";
+        toggle.elements.controlledMenu.focusState = "none";
+      }
+    }
+
     // Toggle submenus when their controllers are clicked.
     this.elements.submenuToggles.forEach(toggle => {
-      toggle.dom.toggle.addEventListener("click", event => {
-        preventEvent(event);
-
-        this.currentEvent = "mouse";
-
-        toggle.toggle();
-
-        if (toggle.isOpen) {
-          this.focusState = "self";
-          toggle.elements.controlledMenu.focusState = "none";
-        }
-      });
+      if (isEventSupported("touchend", toggle.dom.toggle)) {
+        toggle.dom.toggle.addEventListener("touchend", event =>
+          toggleToggle(this, toggle, event)
+        );
+      } else {
+        toggle.dom.toggle.addEventListener("mouseup", event =>
+          toggleToggle(this, toggle, event)
+        );
+      }
     });
 
     // Open the this menu if it's controller is clicked.
     if (this.isTopLevel && this.elements.controller) {
-      this.elements.controller.dom.toggle.addEventListener("click", event => {
+      this.elements.controller.dom.toggle.addEventListener("mouseup", event => {
         preventEvent(event);
 
         this.currentEvent = "mouse";
