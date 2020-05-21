@@ -2,6 +2,69 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0](https://github.com/NickDJM/accessible-menu/compare/v1.1.0...v2.0.0) (2020-05-21)
+
+
+### ⚠ BREAKING CHANGES
+
+* **menutoggle:** Bootstrap users will need to adjust their custom styles to handle not having the
+parent's class altered when menus are toggled
+* **menu:** AccessibleMenu is no longer a constructor, so uses will have to use
+AccessibleMenu.Menubar
+* **menu:** Anything relying on the menu.js file will need to be updated to _baseMenu.js
+* **menu:** Using old getters/setter will result in an error
+
+### Features
+
+* **events:** use keyup events instead of keydown events ([4b8a5ad](https://github.com/NickDJM/accessible-menu/commit/4b8a5ad5a6219e1fac1b98b936036788694aecdc))
+* **menu:** add ability to make submenu's open/close on hover ([6b30546](https://github.com/NickDJM/accessible-menu/commit/6b30546e4da5c3b30013b753856539508518e737))
+* **menu:** add DisclosureMenu class ([9ade527](https://github.com/NickDJM/accessible-menu/commit/9ade527c1d222e5b494b37fbd6bbc37f8c60cc2e)), closes [#61](https://github.com/NickDJM/accessible-menu/issues/61)
+* **menu:** add menuLinkSelector property to Menu class ([6b4e1f2](https://github.com/NickDJM/accessible-menu/commit/6b4e1f2c6dc1c6f771f3a363c2ff37dde1fc0e8a)), closes [#61](https://github.com/NickDJM/accessible-menu/issues/61)
+* **menu:** add new methods for setting dom elements in the menu ([f55951c](https://github.com/NickDJM/accessible-menu/commit/f55951c1213e65cfc7dc1bb6534d93f16c6624a9))
+* **menu:** add support for a closed class ([0668b56](https://github.com/NickDJM/accessible-menu/commit/0668b56dc43f8f12ec56fe1012aedb990bf9e71b))
+* **menu:** remove focus changing when user is using a mouse ([0b02fb0](https://github.com/NickDJM/accessible-menu/commit/0b02fb06f294d4fd686957ffeb9aa3ebc6bc2998))
+* **menu:** split out menubar functionality into it's own class ([3466db1](https://github.com/NickDJM/accessible-menu/commit/3466db1ce166035b617ed105dd145ebf90bdea04)), closes [#61](https://github.com/NickDJM/accessible-menu/issues/61)
+
+
+### Bug Fixes
+
+* **events:** use touchup and mouseup events instead of click ([24f8eaf](https://github.com/NickDJM/accessible-menu/commit/24f8eaf3a3ca2e82188275646ada2d46b64f576d))
+* **ie:** add string.prototype.startsWith polyfill ([181194b](https://github.com/NickDJM/accessible-menu/commit/181194b1143b373fb9247455c9f48b2a7cd97300))
+* **importing:** update index to match new structure ([5e7a09b](https://github.com/NickDJM/accessible-menu/commit/5e7a09b31031caf1b3b20e2fbf890287191113df))
+* **menu:** pass hoverDelay to all submenus ([4eca2aa](https://github.com/NickDJM/accessible-menu/commit/4eca2aaac8355be0c4d97a0af5a5713dfdc5b7d4))
+* **package:** adjust files ([4bd259a](https://github.com/NickDJM/accessible-menu/commit/4bd259a26a62c22fb7faea12684748cff61693a9))
+* correct paths ([ee62bc3](https://github.com/NickDJM/accessible-menu/commit/ee62bc37aa5d4c81e72a3b1df2cd7d088c65cd14))
+* **menubar:** ensure escape will always close open menus ([c42d2e5](https://github.com/NickDJM/accessible-menu/commit/c42d2e585f26284977802a01bb580b53b84aceae))
+
+
+### Performance Improvements
+
+* **events:** add menu-level event tracking ([338a2b0](https://github.com/NickDJM/accessible-menu/commit/338a2b0d6814395fa0cfe76c02ff5eeff9196efc)), closes [#61](https://github.com/NickDJM/accessible-menu/issues/61)
+* **menu:** set default menuItemSelector to li ([98e7ec5](https://github.com/NickDJM/accessible-menu/commit/98e7ec5dea58345b12413a6f53b129a66173e904))
+* **toggle:** clean up close function and create collapse ([131d22d](https://github.com/NickDJM/accessible-menu/commit/131d22db6b02d1c6457cc97cf452bb7692f24ddc))
+* **toggle:** only add button role if toggle isn't a button ([95f2cfb](https://github.com/NickDJM/accessible-menu/commit/95f2cfb855342033aa0612cf129468c3b29d5c3a))
+* **validation:** condense more of the validation ([d9064ac](https://github.com/NickDJM/accessible-menu/commit/d9064ac1127cd20205f63ba4b61d055b475ee675))
+* **validation:** move validation to its own file for code reuse ([9df795d](https://github.com/NickDJM/accessible-menu/commit/9df795da6ddac0b7f592798d804d724796f3c699))
+
+
+### Build System
+
+* update dependencies and config ([aa10023](https://github.com/NickDJM/accessible-menu/commit/aa100231f8c90885fbe9c5332e162006425b1e48))
+
+
+### Documentation
+
+* update documentation for 2.0.0 ([794b553](https://github.com/NickDJM/accessible-menu/commit/794b5533b53f837c475cecc57e454e46bec4fee4))
+* update jsdocs to have proper default values declared ([e7335a1](https://github.com/NickDJM/accessible-menu/commit/e7335a18d277b22bf7effc6891ffe102023054fb))
+
+
+### Code Refactoring
+
+* **events:** move toggle events into main menu ([04fcc98](https://github.com/NickDJM/accessible-menu/commit/04fcc98b34680e94b1a0b8a22357d70711e18bf0)), closes [#61](https://github.com/NickDJM/accessible-menu/issues/61)
+* **menu:** change constructors, getters, and setters for menus ([3800046](https://github.com/NickDJM/accessible-menu/commit/3800046e197f1d56a5ced5bd3a0250dc4ebbc358)), closes [#61](https://github.com/NickDJM/accessible-menu/issues/61)
+* **menu:** rename Menu to BaseMenu ([6ad7ec6](https://github.com/NickDJM/accessible-menu/commit/6ad7ec637229120dd48196987f101bd0d3ff7a2c)), closes [#61](https://github.com/NickDJM/accessible-menu/issues/61)
+* **menutoggle:** only alter controlled menu classes on open/close ([8099df8](https://github.com/NickDJM/accessible-menu/commit/8099df84e73f635ab7b81473fd3fc9f92012730f))
+
 ## [1.1.0](https://github.com/NickDJM/accessible-menu/compare/v1.0.6...v1.1.0) (2020-03-09)
 
 
