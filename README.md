@@ -13,8 +13,8 @@ The two supported menu types are:
 ## Browser Support
 
 | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt="IE / Edge" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br>IE / Edge | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br>Firefox | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br>Chrome | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png" alt="Safari" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br>Safari | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari-ios/safari-ios_48x48.png" alt="iOS Safari" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br>iOS Safari | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/opera/opera_48x48.png" alt="Opera" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br>Opera |
-| --------- | --------- | --------- | --------- | --------- | --------- |
-| IE11, Edge [*](#internet-explorer-and-edge-support) | last 2 versions | last 2 versions | last 2 versions | last 2 versions | last 2 versions |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| IE11, Edge [\*](#internet-explorer-and-edge-support)                                                                                                                                                           | last 2 versions                                                                                                                                                                                                  | last 2 versions                                                                                                                                                                                              | last 2 versions                                                                                                                                                                                              | last 2 versions                                                                                                                                                                                                              | last 2 versions                                                                                                                                                                                          |
 
 ## Installation
 
@@ -47,23 +47,23 @@ To use accessible-menu, you first need to ensure your menu follows a basic menu 
 
 ```html
 <menu>
-    <menu-item><a>...</a></menu-item>
-    <menu-item-with-dropdown>
-        <dropdown-toggle />
-        <dropdown-menu>
-            <menu-item><a>...</a></menu-item>
-            ...
-        </dropdown-menu>
-    </menu-item-with-dropdown>
-    <menu-item><a>...</a></menu-item>
-    ...
+  <menu-item><a>...</a></menu-item>
+  <menu-item-with-dropdown>
+    <dropdown-toggle />
+    <dropdown-menu>
+      <menu-item><a>...</a></menu-item>
+      ...
+    </dropdown-menu>
+  </menu-item-with-dropdown>
+  <menu-item><a>...</a></menu-item>
+  ...
 </menu>
 ```
 
 include the root menu or bundled library in your project:
 
 ```jsx
-import AccessibleMenu from 'accessible-menu';
+import AccessibleMenu from "accessible-menu";
 ```
 
 or
@@ -76,28 +76,28 @@ Once you have accessible-menu loaded, simply declare a new menu object.
 
 ```jsx
 const menu = new AccessibleMenu.DisclosureMenu({
-    menuElement: menuDOMObject,
-    menuItemSelector: "menu-item-css-selector",
-    menuLinkSelector: "menu-item-css-selector",
-    submenuItemSelector: "menu-item-with-dropdown-css-selector",
-    submenuToggleSelector: "dropdown-toggle-css-selector",
-    submenuSelector: "dropdown-menu-css-selector",
-    openClass: "class-to-open-menus",
+  menuElement: menuDOMObject,
+  menuItemSelector: "menu-item-css-selector",
+  menuLinkSelector: "menu-item-css-selector",
+  submenuItemSelector: "menu-item-with-dropdown-css-selector",
+  submenuToggleSelector: "dropdown-toggle-css-selector",
+  submenuSelector: "dropdown-menu-css-selector",
+  openClass: "class-to-open-menus",
 });
 ```
 
 ### Documentation
 
-* [Classes](docs/classes/index.md)
-  * [BaseMenu](docs/classes/baseMenu.md)
-  * [Menubar](docs/classes/menubar.md)
-  * [DisclosureMenu](docs/classes/disclosureMenu.md)
-  * [MenuItem](docs/classes/menuItem.md)
-  * [MenuToggle](docs/classes/menuToggle.md)
-* [Basic examples](docs/basics/index.md)
-  * [Single-level menu](docs/basics/single-level-menu.md)
-  * [Single-level menu with toggle](docs/basics/single-level-menu-with-toggle.md)
-  * [Two-level menu with toggle](docs/basics/two-level-menu-with-toggle.md)
+- [Classes](docs/classes/index.md)
+  - [BaseMenu](docs/classes/baseMenu.md)
+  - [Menubar](docs/classes/menubar.md)
+  - [DisclosureMenu](docs/classes/disclosureMenu.md)
+  - [MenuItem](docs/classes/menuItem.md)
+  - [MenuToggle](docs/classes/menuToggle.md)
+- [Basic examples](docs/basics/index.md)
+  - [Single-level menu](docs/basics/single-level-menu.md)
+  - [Single-level menu with toggle](docs/basics/single-level-menu-with-toggle.md)
+  - [Two-level menu with toggle](docs/basics/two-level-menu-with-toggle.md)
 
 ### Examples
 
@@ -111,7 +111,7 @@ Looking for a working example of accessible-menu? Check out these jsfiddles:
 
 For both IE and older (non-chromium-based) versions of Edge support, you will either need to use the CDN option, or run your code through [Babel](https://babeljs.io/).
 
-If you are compiling your own code without the help of something like Babel + [core-js](https://www.npmjs.com/package/core-js), you will need polyfills for `Array.from()`, `Array.includes()`, and `Array.find()` for IE11 support.
+If you are compiling your own code without the help of something like Babel + [core-js](https://www.npmjs.com/package/core-js), you will need polyfills for [`Array.from()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from), [`Array.prototype.includes()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/includes), [`Array.find()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find), and [`String.prototype.startsWith()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/startsWith) for IE11 support.
 
 ## Versioning
 
