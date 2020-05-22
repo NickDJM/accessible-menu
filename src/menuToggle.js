@@ -1,5 +1,11 @@
 import BaseMenu from "./_baseMenu";
-import { isHTMLElement, isMenu, isString, isTag, isBoolean } from "./validate";
+import {
+  isHTMLElement,
+  isMenu,
+  isTag,
+  isBoolean,
+  isValidClassList,
+} from "./validate";
 
 /**
  * A link or button that controls the visibility of a menu.
@@ -8,13 +14,13 @@ class MenuToggle {
   /**
    * {@inheritdoc}
    *
-   * @param {object}        param0                       - The menu toggle object.
-   * @param {HTMLElement}   param0.menuToggleElement     - The toggle element in the DOM.
-   * @param {HTMLElement}   param0.parentElement         - The element containing the controlled menu.
-   * @param {BaseMenu}      param0.controlledMenu        - The menu controlled by this toggle.
-   * @param {string|null}   [param0.openClass = "show"]  - The class to apply when the controlled menu is "open".
-   * @param {string|null}   [param0.closeClass = "hide"] - The class to apply when the controlled menu is "closed".
-   * @param {BaseMenu|null} [param0.parentMenu = null]   - The menu containing this toggle.
+   * @param {object}               param0                       - The menu toggle object.
+   * @param {HTMLElement}          param0.menuToggleElement     - The toggle element in the DOM.
+   * @param {HTMLElement}          param0.parentElement         - The element containing the controlled menu.
+   * @param {BaseMenu}             param0.controlledMenu        - The menu controlled by this toggle.
+   * @param {string|string[]|null} [param0.openClass = "show"]  - The class to apply when the controlled menu is "open".
+   * @param {string|string[]|null} [param0.closeClass = "hide"] - The class to apply when the controlled menu is "closed".
+   * @param {BaseMenu|null}        [param0.parentMenu = null]   - The menu containing this toggle.
    */
   constructor({
     menuToggleElement,
@@ -94,7 +100,11 @@ class MenuToggle {
 
     // Add closed class.
     if (this.closeClass !== "") {
-      this.elements.controlledMenu.dom.menu.classList.add(this.closeClass);
+      if (typeof this.closeClass === "string") {
+        this.elements.controlledMenu.dom.menu.classList.add(this.closeClass);
+      } else {
+        this.elements.controlledMenu.dom.menu.classList.add(...this.closeClass);
+      }
     }
   }
 
@@ -160,7 +170,7 @@ class MenuToggle {
    * @param {string} value - The class.
    */
   set openClass(value) {
-    isString({ value });
+    isValidClassList({ openClass: value });
 
     this.controlledMenuOpenClass = value;
   }
@@ -171,7 +181,7 @@ class MenuToggle {
    * @param {string} value - The class.
    */
   set closeClass(value) {
-    isString({ value });
+    isValidClassList({ closeClass: value });
 
     this.controlledMenuCloseClass = value;
   }
@@ -185,19 +195,23 @@ class MenuToggle {
     this.dom.toggle.setAttribute("aria-expanded", "true");
 
     // Add the open class
-    if (
-      this.openClass !== "" &&
-      !this.elements.controlledMenu.dom.menu.classList.contains(this.openClass)
-    ) {
-      this.elements.controlledMenu.dom.menu.classList.add(this.openClass);
+    if (this.openClass !== "") {
+      if (typeof this.openClass === "string") {
+        this.elements.controlledMenu.dom.menu.classList.add(this.openClass);
+      } else {
+        this.elements.controlledMenu.dom.menu.classList.add(...this.openClass);
+      }
     }
 
     // Remove the close class.
-    if (
-      (this.closeClass !== "") &
-      this.elements.controlledMenu.dom.menu.classList.contains(this.closeClass)
-    ) {
-      this.elements.controlledMenu.dom.menu.classList.remove(this.closeClass);
+    if (this.closeClass !== "") {
+      if (typeof this.closeClass === "string") {
+        this.elements.controlledMenu.dom.menu.classList.remove(this.closeClass);
+      } else {
+        this.elements.controlledMenu.dom.menu.classList.remove(
+          ...this.closeClass
+        );
+      }
     }
   }
 
@@ -210,19 +224,23 @@ class MenuToggle {
     this.dom.toggle.setAttribute("aria-expanded", "false");
 
     // Add the close class
-    if (
-      this.closeClass !== "" &&
-      !this.elements.controlledMenu.dom.menu.classList.contains(this.closeClass)
-    ) {
-      this.elements.controlledMenu.dom.menu.classList.add(this.closeClass);
+    if (this.closeClass !== "") {
+      if (typeof this.closeClass === "string") {
+        this.elements.controlledMenu.dom.menu.classList.add(this.closeClass);
+      } else {
+        this.elements.controlledMenu.dom.menu.classList.add(...this.closeClass);
+      }
     }
 
     // Remove the open class.
-    if (
-      (this.openClass !== "") &
-      this.elements.controlledMenu.dom.menu.classList.contains(this.openClass)
-    ) {
-      this.elements.controlledMenu.dom.menu.classList.remove(this.openClass);
+    if (this.openClass !== "") {
+      if (typeof this.openClass === "string") {
+        this.elements.controlledMenu.dom.menu.classList.remove(this.openClass);
+      } else {
+        this.elements.controlledMenu.dom.menu.classList.remove(
+          ...this.openClass
+        );
+      }
     }
   }
 

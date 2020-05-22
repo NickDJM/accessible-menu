@@ -3,13 +3,13 @@ import MenuItem from "./menuItem";
 import {
   isHTMLElement,
   isCSSSelector,
-  isString,
   isBoolean,
   isMenu,
   isNumber,
   isValidState,
   isValidEvent,
   isEventSupported,
+  isValidClassList,
 } from "./validate";
 import { preventEvent, keyPress } from "./eventHandlers";
 
@@ -20,21 +20,21 @@ class BaseMenu {
   /**
    * {@inheritdoc}
    *
-   * @param {object}           param0                               - The menu object.
-   * @param {HTMLElement}      param0.menuElement                   - The menu element in the DOM.
-   * @param {string}           [param0.menuItemSelector = "li"]     - The CSS selector string for menu items.
-   * @param {string}           [param0.menuLinkSelector = "a"]      - The CSS selector string for menu links.
-   * @param {string}           [param0.submenuItemSelector = ""]    - The CSS selector string for menu items containing submenus.
-   * @param {string}           [param0.submenuToggleSelector = "a"] - The CSS selector string for submenu toggle buttons/links.
-   * @param {string}           [param0.submenuSelector = "ul"]      - The CSS selector string for submenus.
-   * @param {HTMLElement|null} [param0.controllerElement = null]    - The element controlling the menu in the DOM.
-   * @param {HTMLElement|null} [param0.containerElement = null]     - The element containing the menu in the DOM.
-   * @param {string|null}      [param0.openClass = "show"]          - The class to apply when a menu is "open".
-   * @param {string|null}      [param0.closeClass = "hide"]         - The class to apply when a menu is "closed".
-   * @param {boolean}          [param0.isTopLevel = false]          - A flag to mark the root menu.
-   * @param {BaseMenu|null}    [param0.parentMenu = null]           - The parent menu to this menu.
-   * @param {boolean}          [param0.isHoverable = false]         - A flag to allow hover events on the menu.
-   * @param {number}           [param0.hoverDelay = 250]            - The delay for closing menus if the menu is hoverable (in miliseconds).
+   * @param {object}               param0                               - The menu object.
+   * @param {HTMLElement}          param0.menuElement                   - The menu element in the DOM.
+   * @param {string}               [param0.menuItemSelector = "li"]     - The CSS selector string for menu items.
+   * @param {string}               [param0.menuLinkSelector = "a"]      - The CSS selector string for menu links.
+   * @param {string}               [param0.submenuItemSelector = ""]    - The CSS selector string for menu items containing submenus.
+   * @param {string}               [param0.submenuToggleSelector = "a"] - The CSS selector string for submenu toggle buttons/links.
+   * @param {string}               [param0.submenuSelector = "ul"]      - The CSS selector string for submenus.
+   * @param {HTMLElement|null}     [param0.controllerElement = null]    - The element controlling the menu in the DOM.
+   * @param {HTMLElement|null}     [param0.containerElement = null]     - The element containing the menu in the DOM.
+   * @param {string|string[]|null} [param0.openClass = "show"]          - The class to apply when a menu is "open".
+   * @param {string|string[]|null} [param0.closeClass = "hide"]         - The class to apply when a menu is "closed".
+   * @param {boolean}              [param0.isTopLevel = false]          - A flag to mark the root menu.
+   * @param {BaseMenu|null}        [param0.parentMenu = null]           - The parent menu to this menu.
+   * @param {boolean}              [param0.isHoverable = false]         - A flag to allow hover events on the menu.
+   * @param {number}               [param0.hoverDelay = 250]            - The delay for closing menus if the menu is hoverable (in miliseconds).
    */
   constructor({
     menuElement,
@@ -252,7 +252,7 @@ class BaseMenu {
    * @param {string} value - The class.
    */
   set openClass(value) {
-    isString({ value });
+    isValidClassList({ openClass: value });
 
     this.submenuOpenClass = value;
   }
@@ -263,7 +263,7 @@ class BaseMenu {
    * @param {string} value - The class.
    */
   set closeClass(value) {
-    isString({ value });
+    isValidClassList({ closeClass: value });
 
     this.submenuCloseClass = value;
   }
