@@ -3,7 +3,8 @@ const navs = document.querySelectorAll("nav");
 const menuSettings = {
   submenuItemSelector: ".menu-item.dropdown",
   isHoverable: true,
-  closeClass: null,
+  openClass: ["show", "open"],
+  closeClass: ["hide", "closed"]
 };
 
 const menus = [];

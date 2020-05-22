@@ -439,3 +439,47 @@ export function isEventSupported(event, element) {
 
   return typeof element[eventProp] !== "undefined";
 }
+
+/**
+ * Checks to see if the provided value is either a string of an array of strings.
+ *
+ * If you provide the value to check inside of an object
+ * the name of the variable will be output in the error message.
+ *
+ * Will return true is the check is successful.
+ *
+ * @param   {object|string|string[]} value - The value to check.
+ *
+ * @returns {boolean} - The result of the check.
+ */
+export function isValidClassList(value) {
+  let name = "value";
+
+  try {
+    if (typeof value !== "string") {
+      if (typeof value === "object") {
+        for (const key in value) {
+          name = key;
+
+          if (typeof value[key] !== "string") {
+            if (Array.isArray(value[key])) {
+              isString(value[key]);
+            } else {
+              throw Error;
+            }
+          }
+        }
+      } else if (Array.isArray(value)) {
+        isString(value);
+      } else {
+        throw Error;
+      }
+    } else {
+      return true;
+    }
+  } catch (error) {
+    throw new TypeError(
+      `${name} must be either a string or an array of strings.`
+    );
+  }
+}
