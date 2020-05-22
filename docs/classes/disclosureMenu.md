@@ -18,8 +18,8 @@ All Parameters _must_ be contained in a single object.
 | submenuSelector | The CSS selector string for submenus. | string | false | `"ul"` |
 | controllerElement | The element controlling the menu in the DOM. | HTMLElement\|null | false | `null` |
 | containerElement | The element containing the menu in the DOM. | HTMLElement\|null | false | `null` |
-| openClass | The class to apply when a menu is "open". | string | false | `"show"` |
-| closeClass | The class to apply when a menu is "closed". | string | false | `"hide"` |
+| openClass | The class to apply when a menu is "open". | string\|string[]\|null | false | `"show"` |
+| closeClass | The class to apply when a menu is "closed". | string\|string[]\|null | false | `"hide"` |
 | isTopLevel | A flag to mark the root menu. | boolean | false | `false` |
 | parentMenu | The parent menu to this menu. | DisclosureMenu\|null | false | `null` |
 | isHoverable | A flag to allow hover events on the menu. | boolean | false | `false` |
