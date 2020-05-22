@@ -29,8 +29,8 @@ class BaseMenu {
    * @param {string}           [param0.submenuSelector = "ul"]      - The CSS selector string for submenus.
    * @param {HTMLElement|null} [param0.controllerElement = null]    - The element controlling the menu in the DOM.
    * @param {HTMLElement|null} [param0.containerElement = null]     - The element containing the menu in the DOM.
-   * @param {string}           [param0.openClass = "show"]          - The class to apply when a menu is "open".
-   * @param {string}           [param0.closeClass = "hide"]         - The class to apply when a menu is "closed".
+   * @param {string|null}      [param0.openClass = "show"]          - The class to apply when a menu is "open".
+   * @param {string|null}      [param0.closeClass = "hide"]         - The class to apply when a menu is "closed".
    * @param {boolean}          [param0.isTopLevel = false]          - A flag to mark the root menu.
    * @param {BaseMenu|null}    [param0.parentMenu = null]           - The parent menu to this menu.
    * @param {boolean}          [param0.isHoverable = false]         - A flag to allow hover events on the menu.
@@ -98,8 +98,8 @@ class BaseMenu {
       parentMenu,
       rootMenu: isTopLevel ? this : null,
     };
-    this.openClass = openClass;
-    this.closeClass = closeClass;
+    this.openClass = openClass || "";
+    this.closeClass = closeClass || "";
     this.root = isTopLevel;
     this.currentChild = 0;
     this.focusState = "none";
