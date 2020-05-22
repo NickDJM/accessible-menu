@@ -2,7 +2,8 @@ const { Menubar } = AccessibleMenu;
 const navs = document.querySelectorAll("nav");
 const menuSettings = {
   submenuItemSelector: ".menu-item.dropdown",
-  isHoverable: true
+  isHoverable: true,
+  closeClass: "",
 };
 
 const menus = [];

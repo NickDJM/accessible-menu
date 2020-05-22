@@ -766,8 +766,8 @@ var AccessibleMenu = (function () {
      * @param {HTMLElement}   param0.menuToggleElement     - The toggle element in the DOM.
      * @param {HTMLElement}   param0.parentElement         - The element containing the controlled menu.
      * @param {BaseMenu}      param0.controlledMenu        - The menu controlled by this toggle.
-     * @param {string}        [param0.openClass = "show"]  - The class to apply when the controlled menu is "open".
-     * @param {string}        [param0.closeClass = "hide"] - The class to apply when the controlled menu is "closed".
+     * @param {string|null}   [param0.openClass = "show"]  - The class to apply when the controlled menu is "open".
+     * @param {string|null}   [param0.closeClass = "hide"] - The class to apply when the controlled menu is "closed".
      * @param {BaseMenu|null} [param0.parentMenu = null]   - The menu containing this toggle.
      */
     function MenuToggle(_ref) {
@@ -808,8 +808,8 @@ var AccessibleMenu = (function () {
         controlledMenu: controlledMenu,
         parentMenu: parentMenu
       };
-      this.openClass = openClass;
-      this.closeClass = closeClass;
+      this.openClass = openClass || "";
+      this.closeClass = closeClass || "";
       this.isOpen = false;
       this.initialize();
     }
@@ -842,7 +842,9 @@ var AccessibleMenu = (function () {
         this.elements.controlledMenu.dom.menu.setAttribute("aria-labelledby", this.dom.toggle.id);
         this.dom.toggle.setAttribute("aria-controls", this.elements.controlledMenu.dom.menu.id); // Add closed class.
 
-        this.elements.controlledMenu.dom.menu.classList.add(this.closeClass);
+        if (this.closeClass !== "") {
+          this.elements.controlledMenu.dom.menu.classList.add(this.closeClass);
+        }
       }
       /**
        * The DOM elements within the toggle.
@@ -859,9 +861,16 @@ var AccessibleMenu = (function () {
        * Alters ARIA attributes and classes.
        */
       value: function expand() {
-        this.dom.toggle.setAttribute("aria-expanded", "true");
-        this.elements.controlledMenu.dom.menu.classList.add(this.openClass);
-        this.elements.controlledMenu.dom.menu.classList.remove(this.closeClass);
+        this.dom.toggle.setAttribute("aria-expanded", "true"); // Add the open class
+
+        if (this.openClass !== "" && !this.elements.controlledMenu.dom.menu.classList.contains(this.openClass)) {
+          this.elements.controlledMenu.dom.menu.classList.add(this.openClass);
+        } // Remove the close class.
+
+
+        if (this.closeClass !== "" & this.elements.controlledMenu.dom.menu.classList.contains(this.closeClass)) {
+          this.elements.controlledMenu.dom.menu.classList.remove(this.closeClass);
+        }
       }
       /**
        * Collapses the controlled menu.
@@ -872,9 +881,16 @@ var AccessibleMenu = (function () {
     }, {
       key: "collapse",
       value: function collapse() {
-        this.dom.toggle.setAttribute("aria-expanded", "false");
-        this.elements.controlledMenu.dom.menu.classList.add(this.closeClass);
-        this.elements.controlledMenu.dom.menu.classList.remove(this.openClass);
+        this.dom.toggle.setAttribute("aria-expanded", "false"); // Add the close class
+
+        if (this.closeClass !== "" && !this.elements.controlledMenu.dom.menu.classList.contains(this.closeClass)) {
+          this.elements.controlledMenu.dom.menu.classList.add(this.closeClass);
+        } // Remove the open class.
+
+
+        if (this.openClass !== "" & this.elements.controlledMenu.dom.menu.classList.contains(this.openClass)) {
+          this.elements.controlledMenu.dom.menu.classList.remove(this.openClass);
+        }
       }
       /**
        * Opens the controlled menu.
@@ -1273,8 +1289,8 @@ var AccessibleMenu = (function () {
      * @param {string}           [param0.submenuSelector = "ul"]      - The CSS selector string for submenus.
      * @param {HTMLElement|null} [param0.controllerElement = null]    - The element controlling the menu in the DOM.
      * @param {HTMLElement|null} [param0.containerElement = null]     - The element containing the menu in the DOM.
-     * @param {string}           [param0.openClass = "show"]          - The class to apply when a menu is "open".
-     * @param {string}           [param0.closeClass = "hide"]         - The class to apply when a menu is "closed".
+     * @param {string|null}      [param0.openClass = "show"]          - The class to apply when a menu is "open".
+     * @param {string|null}      [param0.closeClass = "hide"]         - The class to apply when a menu is "closed".
      * @param {boolean}          [param0.isTopLevel = false]          - A flag to mark the root menu.
      * @param {BaseMenu|null}    [param0.parentMenu = null]           - The parent menu to this menu.
      * @param {boolean}          [param0.isHoverable = false]         - A flag to allow hover events on the menu.
@@ -1369,8 +1385,8 @@ var AccessibleMenu = (function () {
         parentMenu: parentMenu,
         rootMenu: isTopLevel ? this : null
       };
-      this.openClass = openClass;
-      this.closeClass = closeClass;
+      this.openClass = openClass || "";
+      this.closeClass = closeClass || "";
       this.root = isTopLevel;
       this.currentChild = 0;
       this.focusState = "none";

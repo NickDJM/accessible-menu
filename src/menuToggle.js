@@ -12,8 +12,8 @@ class MenuToggle {
    * @param {HTMLElement}   param0.menuToggleElement     - The toggle element in the DOM.
    * @param {HTMLElement}   param0.parentElement         - The element containing the controlled menu.
    * @param {BaseMenu}      param0.controlledMenu        - The menu controlled by this toggle.
-   * @param {string}        [param0.openClass = "show"]  - The class to apply when the controlled menu is "open".
-   * @param {string}        [param0.closeClass = "hide"] - The class to apply when the controlled menu is "closed".
+   * @param {string|null}   [param0.openClass = "show"]  - The class to apply when the controlled menu is "open".
+   * @param {string|null}   [param0.closeClass = "hide"] - The class to apply when the controlled menu is "closed".
    * @param {BaseMenu|null} [param0.parentMenu = null]   - The menu containing this toggle.
    */
   constructor({
@@ -41,8 +41,8 @@ class MenuToggle {
       controlledMenu,
       parentMenu,
     };
-    this.openClass = openClass;
-    this.closeClass = closeClass;
+    this.openClass = openClass || "";
+    this.closeClass = closeClass || "";
     this.isOpen = false;
 
     this.initialize();
@@ -93,7 +93,9 @@ class MenuToggle {
     );
 
     // Add closed class.
-    this.elements.controlledMenu.dom.menu.classList.add(this.closeClass);
+    if (this.closeClass !== "") {
+      this.elements.controlledMenu.dom.menu.classList.add(this.closeClass);
+    }
   }
 
   /**
@@ -181,8 +183,22 @@ class MenuToggle {
    */
   expand() {
     this.dom.toggle.setAttribute("aria-expanded", "true");
-    this.elements.controlledMenu.dom.menu.classList.add(this.openClass);
-    this.elements.controlledMenu.dom.menu.classList.remove(this.closeClass);
+
+    // Add the open class
+    if (
+      this.openClass !== "" &&
+      !this.elements.controlledMenu.dom.menu.classList.contains(this.openClass)
+    ) {
+      this.elements.controlledMenu.dom.menu.classList.add(this.openClass);
+    }
+
+    // Remove the close class.
+    if (
+      (this.closeClass !== "") &
+      this.elements.controlledMenu.dom.menu.classList.contains(this.closeClass)
+    ) {
+      this.elements.controlledMenu.dom.menu.classList.remove(this.closeClass);
+    }
   }
 
   /**
@@ -192,8 +208,22 @@ class MenuToggle {
    */
   collapse() {
     this.dom.toggle.setAttribute("aria-expanded", "false");
-    this.elements.controlledMenu.dom.menu.classList.add(this.closeClass);
-    this.elements.controlledMenu.dom.menu.classList.remove(this.openClass);
+
+    // Add the close class
+    if (
+      this.closeClass !== "" &&
+      !this.elements.controlledMenu.dom.menu.classList.contains(this.closeClass)
+    ) {
+      this.elements.controlledMenu.dom.menu.classList.add(this.closeClass);
+    }
+
+    // Remove the open class.
+    if (
+      (this.openClass !== "") &
+      this.elements.controlledMenu.dom.menu.classList.contains(this.openClass)
+    ) {
+      this.elements.controlledMenu.dom.menu.classList.remove(this.openClass);
+    }
   }
 
   /**
