@@ -46,18 +46,18 @@ For production environments, it is recommend to use a specific version to avoid 
 To use accessible-menu, you first need to ensure your menu follows a basic menu structure.
 
 ```html
-<menu>
-  <menu-item><a>...</a></menu-item>
-  <menu-item-with-dropdown>
-    <dropdown-toggle />
-    <dropdown-menu>
-      <menu-item><a>...</a></menu-item>
+<ul>
+  <li><a>...</a></li>
+  <li class="dropdown">
+    <button>☰</button>
+    <ul>
+      <li><a>...</a></li>
       ...
-    </dropdown-menu>
-  </menu-item-with-dropdown>
-  <menu-item><a>...</a></menu-item>
+    </ul>
+  </li>
+  <li><a>...</a></li>
   ...
-</menu>
+</ul>
 ```
 
 include the root menu or bundled library in your project:
@@ -77,9 +77,9 @@ Once you have accessible-menu loaded, simply declare a new menu object.
 ```jsx
 const menu = new AccessibleMenu.DisclosureMenu({
   menuElement: menuDOMObject,
-  menuItemSelector: "menu-item-css-selector",
-  menuLinkSelector: "menu-item-css-selector",
-  submenuItemSelector: "menu-item-with-dropdown-css-selector",
+  menuItemSelector: "li-css-selector",
+  menuLinkSelector: "li-css-selector",
+  submenuItemSelector: "li-with-dropdown-css-selector",
   submenuToggleSelector: "dropdown-toggle-css-selector",
   submenuSelector: "dropdown-menu-css-selector",
   openClass: "class-to-open-menus",
