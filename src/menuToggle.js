@@ -6,6 +6,7 @@ import {
   isBoolean,
   isValidClassList,
 } from "./validate";
+import { addClass, removeClass } from "./classList";
 
 /**
  * A link or button that controls the visibility of a menu.
@@ -100,11 +101,7 @@ class MenuToggle {
 
     // Add closed class.
     if (this.closeClass !== "") {
-      if (typeof this.closeClass === "string") {
-        this.elements.controlledMenu.dom.menu.classList.add(this.closeClass);
-      } else {
-        this.elements.controlledMenu.dom.menu.classList.add(...this.closeClass);
-      }
+      addClass(this.elements.controlledMenu.dom.menu, this.closeClass);
     }
   }
 
@@ -196,22 +193,12 @@ class MenuToggle {
 
     // Add the open class
     if (this.openClass !== "") {
-      if (typeof this.openClass === "string") {
-        this.elements.controlledMenu.dom.menu.classList.add(this.openClass);
-      } else {
-        this.elements.controlledMenu.dom.menu.classList.add(...this.openClass);
-      }
+      addClass(this.elements.controlledMenu.dom.menu, this.openClass);
     }
 
     // Remove the close class.
     if (this.closeClass !== "") {
-      if (typeof this.closeClass === "string") {
-        this.elements.controlledMenu.dom.menu.classList.remove(this.closeClass);
-      } else {
-        this.elements.controlledMenu.dom.menu.classList.remove(
-          ...this.closeClass
-        );
-      }
+      removeClass(this.elements.controlledMenu.dom.menu, this.closeClass);
     }
   }
 
@@ -225,22 +212,12 @@ class MenuToggle {
 
     // Add the close class
     if (this.closeClass !== "") {
-      if (typeof this.closeClass === "string") {
-        this.elements.controlledMenu.dom.menu.classList.add(this.closeClass);
-      } else {
-        this.elements.controlledMenu.dom.menu.classList.add(...this.closeClass);
-      }
+      addClass(this.elements.controlledMenu.dom.menu, this.closeClass);
     }
 
     // Remove the open class.
     if (this.openClass !== "") {
-      if (typeof this.openClass === "string") {
-        this.elements.controlledMenu.dom.menu.classList.remove(this.openClass);
-      } else {
-        this.elements.controlledMenu.dom.menu.classList.remove(
-          ...this.openClass
-        );
-      }
+      removeClass(this.elements.controlledMenu.dom.ment, this.openClass);
     }
   }
 
