@@ -584,25 +584,27 @@ class BaseMenu {
     // Toggle submenus when their controllers are clicked.
     this.elements.submenuToggles.forEach(toggle => {
       if (isEventSupported("touchend", toggle.dom.toggle)) {
-        toggle.dom.toggle.addEventListener("touchend", event =>
-          toggleToggle(this, toggle, event)
-        );
+        toggle.dom.toggle.ontouchend = event => {
+          toggleToggle(this, toggle, event);
+        };
       } else {
-        toggle.dom.toggle.addEventListener("mouseup", event =>
-          toggleToggle(this, toggle, event)
-        );
+        toggle.dom.toggle.onmouseup = event => {
+          toggleToggle(this, toggle, event);
+        };
       }
     });
 
     // Open the this menu if it's controller is clicked.
     if (this.isTopLevel && this.elements.controller) {
-      this.elements.controller.dom.toggle.addEventListener("mouseup", event => {
-        preventEvent(event);
-
-        this.currentEvent = "mouse";
-
-        this.elements.controller.toggle();
-      });
+      if (isEventSupported("touchend", this.elements.controller.dom.toggle)) {
+        this.elements.controller.dom.toggle.ontouchend = event => {
+          toggleToggle(this, this.elements.controller, event);
+        };
+      } else {
+        this.elements.controller.dom.toggle.onmouseup = event => {
+          toggleToggle(this, this.elements.controller, event);
+        };
+      }
     }
   }
 
