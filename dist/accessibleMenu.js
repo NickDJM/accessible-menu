@@ -255,7 +255,7 @@ var AccessibleMenu = (function () {
   function _createSuper(Derived) {
     var hasNativeReflectConstruct = _isNativeReflectConstruct();
 
-    return function _createSuperInternal() {
+    return function () {
       var Super = _getPrototypeOf(Derived),
           result;
 
@@ -754,7 +754,7 @@ var AccessibleMenu = (function () {
     return typeof element[eventProp] !== "undefined";
   }
   /**
-   * Checks to see if the provided value is either a string of an array of strings.
+   * Checks to see if the provided value is either a string or an array of strings.
    *
    * If you provide the value to check inside of an object
    * the name of the variable will be output in the error message.
@@ -777,7 +777,9 @@ var AccessibleMenu = (function () {
 
             if (typeof value[key] !== "string") {
               if (Array.isArray(value[key])) {
-                isString(value[key]);
+                value[key].forEach(function (item) {
+                  isString(item);
+                });
               } else {
                 throw Error;
               }
@@ -864,6 +866,8 @@ var AccessibleMenu = (function () {
     _createClass(MenuToggle, [{
       key: "initialize",
       value: function initialize() {
+        var _this = this;
+
         // Add WAI-ARIA properties.
         this.dom.toggle.setAttribute("aria-haspopup", "true");
         this.dom.toggle.setAttribute("aria-expanded", "false"); // If the toggle element is a button, there's no need to add a role.
@@ -887,10 +891,10 @@ var AccessibleMenu = (function () {
         if (this.closeClass !== "") {
           if (typeof this.closeClass === "string") {
             this.elements.controlledMenu.dom.menu.classList.add(this.closeClass);
-          } else {
-            var _this$elements$contro;
-
-            (_this$elements$contro = this.elements.controlledMenu.dom.menu.classList).add.apply(_this$elements$contro, _toConsumableArray(this.closeClass));
+          } else if (Array.isArray(this.closeClass)) {
+            this.closeClass.forEach(function (value) {
+              _this.elements.controlledMenu.dom.menu.classList.add(value);
+            });
           }
         }
       }
@@ -909,15 +913,17 @@ var AccessibleMenu = (function () {
        * Alters ARIA attributes and classes.
        */
       value: function expand() {
+        var _this2 = this;
+
         this.dom.toggle.setAttribute("aria-expanded", "true"); // Add the open class
 
         if (this.openClass !== "") {
           if (typeof this.openClass === "string") {
             this.elements.controlledMenu.dom.menu.classList.add(this.openClass);
-          } else {
-            var _this$elements$contro2;
-
-            (_this$elements$contro2 = this.elements.controlledMenu.dom.menu.classList).add.apply(_this$elements$contro2, _toConsumableArray(this.openClass));
+          } else if (Array.isArray(this.openClass)) {
+            this.openClass.forEach(function (value) {
+              _this2.elements.controlledMenu.dom.menu.classList.add(value);
+            });
           }
         } // Remove the close class.
 
@@ -925,10 +931,10 @@ var AccessibleMenu = (function () {
         if (this.closeClass !== "") {
           if (typeof this.closeClass === "string") {
             this.elements.controlledMenu.dom.menu.classList.remove(this.closeClass);
-          } else {
-            var _this$elements$contro3;
-
-            (_this$elements$contro3 = this.elements.controlledMenu.dom.menu.classList).remove.apply(_this$elements$contro3, _toConsumableArray(this.closeClass));
+          } else if (Array.isArray(this.closeClass)) {
+            this.closeClass.forEach(function (value) {
+              _this2.elements.controlledMenu.dom.menu.classList.remove(value);
+            });
           }
         }
       }
@@ -941,15 +947,17 @@ var AccessibleMenu = (function () {
     }, {
       key: "collapse",
       value: function collapse() {
+        var _this3 = this;
+
         this.dom.toggle.setAttribute("aria-expanded", "false"); // Add the close class
 
         if (this.closeClass !== "") {
           if (typeof this.closeClass === "string") {
             this.elements.controlledMenu.dom.menu.classList.add(this.closeClass);
-          } else {
-            var _this$elements$contro4;
-
-            (_this$elements$contro4 = this.elements.controlledMenu.dom.menu.classList).add.apply(_this$elements$contro4, _toConsumableArray(this.closeClass));
+          } else if (Array.isArray(this.closeClass)) {
+            this.closeClass.forEach(function (value) {
+              _this3.elements.controlledMenu.dom.menu.classList.add(value);
+            });
           }
         } // Remove the open class.
 
@@ -957,10 +965,10 @@ var AccessibleMenu = (function () {
         if (this.openClass !== "") {
           if (typeof this.openClass === "string") {
             this.elements.controlledMenu.dom.menu.classList.remove(this.openClass);
-          } else {
-            var _this$elements$contro5;
-
-            (_this$elements$contro5 = this.elements.controlledMenu.dom.menu.classList).remove.apply(_this$elements$contro5, _toConsumableArray(this.openClass));
+          } else if (Array.isArray(this.openClass)) {
+            this.openClass.forEach(function (value) {
+              _this3.elements.controlledMenu.dom.menu.classList.remove(value);
+            });
           }
         }
       }
@@ -1038,11 +1046,11 @@ var AccessibleMenu = (function () {
     }, {
       key: "closeSiblings",
       value: function closeSiblings() {
-        var _this = this;
+        var _this4 = this;
 
         if (this.elements.parentMenu) {
           this.elements.parentMenu.elements.submenuToggles.forEach(function (toggle) {
-            if (toggle !== _this) toggle.close();
+            if (toggle !== _this4) toggle.close();
           });
         }
       }

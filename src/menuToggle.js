@@ -6,7 +6,6 @@ import {
   isBoolean,
   isValidClassList,
 } from "./validate";
-import { addClass, removeClass } from "./classList";
 
 /**
  * A link or button that controls the visibility of a menu.
@@ -101,7 +100,13 @@ class MenuToggle {
 
     // Add closed class.
     if (this.closeClass !== "") {
-      addClass(this.elements.controlledMenu.dom.menu, this.closeClass);
+      if (typeof this.closeClass === "string") {
+        this.elements.controlledMenu.dom.menu.classList.add(this.closeClass);
+      } else if (Array.isArray(this.closeClass)) {
+        this.closeClass.forEach(value => {
+          this.elements.controlledMenu.dom.menu.classList.add(value);
+        });
+      }
     }
   }
 
@@ -193,12 +198,24 @@ class MenuToggle {
 
     // Add the open class
     if (this.openClass !== "") {
-      addClass(this.elements.controlledMenu.dom.menu, this.openClass);
+      if (typeof this.openClass === "string") {
+        this.elements.controlledMenu.dom.menu.classList.add(this.openClass);
+      } else if (Array.isArray(this.openClass)) {
+        this.openClass.forEach(value => {
+          this.elements.controlledMenu.dom.menu.classList.add(value);
+        });
+      }
     }
 
     // Remove the close class.
     if (this.closeClass !== "") {
-      removeClass(this.elements.controlledMenu.dom.menu, this.closeClass);
+      if (typeof this.closeClass === "string") {
+        this.elements.controlledMenu.dom.menu.classList.remove(this.closeClass);
+      } else if (Array.isArray(this.closeClass)) {
+        this.closeClass.forEach(value => {
+          this.elements.controlledMenu.dom.menu.classList.remove(value);
+        });
+      }
     }
   }
 
@@ -212,12 +229,24 @@ class MenuToggle {
 
     // Add the close class
     if (this.closeClass !== "") {
-      addClass(this.elements.controlledMenu.dom.menu, this.closeClass);
+      if (typeof this.closeClass === "string") {
+        this.elements.controlledMenu.dom.menu.classList.add(this.closeClass);
+      } else if (Array.isArray(this.closeClass)) {
+        this.closeClass.forEach(value => {
+          this.elements.controlledMenu.dom.menu.classList.add(value);
+        });
+      }
     }
 
     // Remove the open class.
     if (this.openClass !== "") {
-      removeClass(this.elements.controlledMenu.dom.ment, this.openClass);
+      if (typeof this.openClass === "string") {
+        this.elements.controlledMenu.dom.menu.classList.remove(this.openClass);
+      } else if (Array.isArray(this.openClass)) {
+        this.openClass.forEach(value => {
+          this.elements.controlledMenu.dom.menu.classList.remove(value);
+        });
+      }
     }
   }
 
