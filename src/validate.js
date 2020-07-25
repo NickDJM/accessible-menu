@@ -441,7 +441,7 @@ export function isEventSupported(event, element) {
 }
 
 /**
- * Checks to see if the provided value is either a string of an array of strings.
+ * Checks to see if the provided value is either a string or an array of strings.
  *
  * If you provide the value to check inside of an object
  * the name of the variable will be output in the error message.
@@ -463,7 +463,9 @@ export function isValidClassList(value) {
 
           if (typeof value[key] !== "string") {
             if (Array.isArray(value[key])) {
-              isString(value[key]);
+              value[key].forEach(item => {
+                isString(item);
+              });
             } else {
               throw Error;
             }
