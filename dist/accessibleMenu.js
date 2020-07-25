@@ -255,7 +255,7 @@ var AccessibleMenu = (function () {
   function _createSuper(Derived) {
     var hasNativeReflectConstruct = _isNativeReflectConstruct();
 
-    return function () {
+    return function _createSuperInternal() {
       var Super = _getPrototypeOf(Derived),
           result;
 
@@ -1776,23 +1776,26 @@ var AccessibleMenu = (function () {
 
         this.elements.submenuToggles.forEach(function (toggle) {
           if (isEventSupported("touchend", toggle.dom.toggle)) {
-            toggle.dom.toggle.addEventListener("touchend", function (event) {
-              return toggleToggle(_this4, toggle, event);
-            });
+            toggle.dom.toggle.ontouchend = function (event) {
+              toggleToggle(_this4, toggle, event);
+            };
           } else {
-            toggle.dom.toggle.addEventListener("mouseup", function (event) {
-              return toggleToggle(_this4, toggle, event);
-            });
+            toggle.dom.toggle.onmouseup = function (event) {
+              toggleToggle(_this4, toggle, event);
+            };
           }
         }); // Open the this menu if it's controller is clicked.
 
         if (this.isTopLevel && this.elements.controller) {
-          this.elements.controller.dom.toggle.addEventListener("mouseup", function (event) {
-            preventEvent(event);
-            _this4.currentEvent = "mouse";
-
-            _this4.elements.controller.toggle();
-          });
+          if (isEventSupported("touchend", this.elements.controller.dom.toggle)) {
+            this.elements.controller.dom.toggle.ontouchend = function (event) {
+              toggleToggle(_this4, _this4.elements.controller, event);
+            };
+          } else {
+            this.elements.controller.dom.toggle.onmouseup = function (event) {
+              toggleToggle(_this4, _this4.elements.controller, event);
+            };
+          }
         }
       }
       /**

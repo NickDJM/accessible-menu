@@ -7,7 +7,7 @@ Array.from(navs).forEach(nav => {
   const controllerElement = nav.id === "main-menu" ? nav.querySelector("button") : null;
   const containerElement = nav.id === "main-menu" ? nav : null;
 
-  menus.push(new AccessibleMenu.Menubar({
+  menus.push(new AccessibleMenu.DisclosureMenu({
     menuElement,
     submenuItemSelector,
     controllerElement,
