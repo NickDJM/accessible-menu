@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.1.0](https://github.com/NickDJM/accessible-menu/compare/v2.0.0...v2.1.0) (2020-07-25)
+
+
+### Features
+
+* **menu:** allow for empty open and close classes ([a58b1e3](https://github.com/NickDJM/accessible-menu/commit/a58b1e335c54ec9c4d919075463248c0ef62f316)), closes [#72](https://github.com/NickDJM/accessible-menu/issues/72)
+* **menu:** allow for multiple open and close classes ([b4bc19f](https://github.com/NickDJM/accessible-menu/commit/b4bc19f4d4acd987f6ee1749192799387b533355)), closes [#73](https://github.com/NickDJM/accessible-menu/issues/73)
+
+
+### Bug Fixes
+
+* **events:** make click handling a lot more strict ([7f91256](https://github.com/NickDJM/accessible-menu/commit/7f91256be4e2ad016be02f2cc41c210ac72b34da))
+* **toggle:** allow for multiple open/close classes in IE with loop ([608450d](https://github.com/NickDJM/accessible-menu/commit/608450d51214cd35bc44fa4ebcc40cb2dfdb95ac)), closes [#72](https://github.com/NickDJM/accessible-menu/issues/72)
+
+
+### Documentation
+
+* **usage:** update example to be plain html ([302a87c](https://github.com/NickDJM/accessible-menu/commit/302a87cdba7abb510ea85a4f78d6be58eed0df30)), closes [#75](https://github.com/NickDJM/accessible-menu/issues/75)
+
+
+### Build System
+
+* **deps-dev:** bump standard-version from 7.1.0 to 8.0.1 ([7b6a2c2](https://github.com/NickDJM/accessible-menu/commit/7b6a2c21da5ad96c98799a63e3e1cceed6736378)), closes [#82](https://github.com/NickDJM/accessible-menu/issues/82)
+* **deps-dev:** bump standard-version from 7.1.0 to 8.0.1 ([0fc954f](https://github.com/NickDJM/accessible-menu/commit/0fc954fea531393ec2443aee713de2ab8974c784))
+
 ## [2.0.0](https://github.com/NickDJM/accessible-menu/compare/v1.1.0...v2.0.0) (2020-05-21)
 
 
