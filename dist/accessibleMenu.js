@@ -255,7 +255,7 @@ var AccessibleMenu = (function () {
   function _createSuper(Derived) {
     var hasNativeReflectConstruct = _isNativeReflectConstruct();
 
-    return function () {
+    return function _createSuperInternal() {
       var Super = _getPrototypeOf(Derived),
           result;
 
@@ -1817,14 +1817,18 @@ var AccessibleMenu = (function () {
 
         this.elements.submenuToggles.forEach(function (toggle) {
           toggle.dom.parent.addEventListener("mouseenter", function () {
-            _this5.currentEvent = "mouse";
-            toggle.open();
+            if (_this5.isHoverable) {
+              _this5.currentEvent = "mouse";
+              toggle.open();
+            }
           });
           toggle.dom.parent.addEventListener("mouseleave", function () {
-            setTimeout(function () {
-              _this5.currentEvent = "mouse";
-              toggle.close();
-            }, _this5.hoverDelay);
+            if (_this5.isHoverable) {
+              setTimeout(function () {
+                _this5.currentEvent = "mouse";
+                toggle.close();
+              }, _this5.hoverDelay);
+            }
           });
         });
       }
