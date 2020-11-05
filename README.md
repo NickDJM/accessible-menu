@@ -111,7 +111,7 @@ Looking for a working example of accessible-menu? Check out these jsfiddles:
 
 For both IE and older (non-chromium-based) versions of Edge support, you will either need to use the CDN option, or run your code through [Babel](https://babeljs.io/).
 
-If you are compiling your own code without the help of something like Babel + [core-js](https://www.npmjs.com/package/core-js), you will need polyfills for [`Array.from()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from), [`Array.prototype.includes()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/includes), [`Array.find()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find), and [`String.prototype.startsWith()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/startsWith) for IE11 support.
+If you are compiling your own code without the help of something like Babel + [core-js](https://www.npmjs.com/package/core-js), you will need polyfills for [`Array.from()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from), [`Array.prototype.includes()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/includes), [`Array.find()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find), [`String.prototype.startsWith()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/startsWith), and [`String.prototype.endsWith()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/endsWith) for IE11 support.
 
 ## Versioning
 
