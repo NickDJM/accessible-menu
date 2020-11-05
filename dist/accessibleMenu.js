@@ -154,6 +154,16 @@ var AccessibleMenu = (function () {
     });
   }
 
+  if (!String.prototype.endsWith) {
+    String.prototype.endsWith = function (search, this_len) {
+      if (this_len === undefined || this_len > this.length) {
+        this_len = this.length;
+      }
+
+      return this.substring(this_len - search.length, this_len) === search;
+    };
+  }
+
   function _typeof(obj) {
     "@babel/helpers - typeof";
 
@@ -255,7 +265,7 @@ var AccessibleMenu = (function () {
   function _createSuper(Derived) {
     var hasNativeReflectConstruct = _isNativeReflectConstruct();
 
-    return function () {
+    return function _createSuperInternal() {
       var Super = _getPrototypeOf(Derived),
           result;
 
@@ -879,9 +889,29 @@ var AccessibleMenu = (function () {
 
         if (this.dom.toggle.id === "" || this.elements.controlledMenu.dom.menu.id === "") {
           var randomString = Math.random().toString(36).replace(/[^a-z]+/g, "").substr(0, 10);
-          var id = "".concat(this.dom.toggle.innerText.toLowerCase().replace(/[^a-zA-Z0-9\s]/g, "").replace(/\s/g, "-"), "-").concat(randomString);
-          this.dom.toggle.id = this.dom.toggle.id || "".concat(id, "-menu-button");
-          this.elements.controlledMenu.dom.menu.id = this.elements.controlledMenu.dom.menu.id || "".concat(id, "-menu");
+          var id = this.dom.toggle.innerText.replace(/[^a-zA-Z0-9\s]/g, "");
+          var finalID = randomString;
+
+          if (!id.replace(/\s/g, "").length && this.dom.toggle.getAttribute("aria-label")) {
+            id = this.dom.toggle.getAttribute("aria-label").replace(/[^a-zA-Z0-9\s]/g, "");
+          }
+
+          if (id.replace(/\s/g, "").length > 0) {
+            id = id.toLowerCase().replace(/\s+/g, "-");
+
+            if (id.startsWith("-")) {
+              id = id.substring(1);
+            }
+
+            if (id.endsWith("-")) {
+              id = id.slice(0, -1);
+            }
+
+            finalID = "".concat(id, "-").concat(finalID);
+          }
+
+          this.dom.toggle.id = this.dom.toggle.id || "".concat(finalID, "-menu-button");
+          this.elements.controlledMenu.dom.menu.id = this.elements.controlledMenu.dom.menu.id || "".concat(finalID, "-menu");
         } // Set up proper aria label and control.
 
 
