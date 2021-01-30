@@ -1,5 +1,5 @@
-import MenuToggle from "./menuToggle";
-import MenuItem from "./menuItem";
+import BaseMenuToggle from "./_baseMenuToggle.js";
+import BaseMenuItem from "./_baseMenuItem.js";
 import {
   isHTMLElement,
   isCSSSelector,
@@ -222,7 +222,7 @@ class BaseMenu {
   /**
    * The currently selected menu item.
    *
-   * @returns {MenuItem} - The menu item.
+   * @returns {BaseMenuItem} - The menu item.
    */
   get currentMenuItem() {
     return this.elements.menuItems[this.currentChild];
@@ -564,9 +564,9 @@ class BaseMenu {
     /**
      * Toggles a toggle element.
      *
-     * @param {BaseMenu} menu - This menu.
-     * @param {MenuToggle} toggle - The menu toggle
-     * @param {Event} event - A Javascript event.
+     * @param {BaseMenu}       menu - This menu.
+     * @param {BaseMenuToggle} toggle - The menu toggle
+     * @param {Event}          event - A Javascript event.
      */
     function toggleToggle(menu, toggle, event) {
       preventEvent(event);

@@ -1,22 +1,21 @@
-import BaseMenu from "./_baseMenu";
-import Menubar from "./menubar";
-import MenuToggle from "./menuToggle";
-import { isHTMLElement, isBoolean, isMenu, isMenuToggle } from "./validate";
+/* eslint-disable jsdoc/no-undefined-types */
+
+import { isHTMLElement, isBoolean, isMenu, isMenuToggle } from "./validate.js";
 
 /**
  * A basic navigation link contained inside of a Menu.
  */
-class MenuItem {
+class BaseMenuItem {
   /**
    * {@inheritdoc}
    *
-   * @param {object}          param0                         - The menu item object.
-   * @param {HTMLElement}     param0.menuItemElement         - The menu item in the DOM.
-   * @param {HTMLElement}     param0.menuLinkElement         - The menu item's link in the DOM.
-   * @param {BaseMenu}        param0.parentMenu              - The parent menu.
-   * @param {boolean}         [param0.isSubmenuItem = false] - A flag to mark if the menu item is controlling a submenu.
-   * @param {BaseMenu|null}   [param0.childMenu = null]      - The child menu.
-   * @param {MenuToggle|null} [param0.toggle = null]         - The controller for the child menu.
+   * @param {object}              param0                         - The menu item object.
+   * @param {HTMLElement}         param0.menuItemElement         - The menu item in the DOM.
+   * @param {HTMLElement}         param0.menuLinkElement         - The menu item's link in the DOM.
+   * @param {BaseMenu}            param0.parentMenu              - The parent menu.
+   * @param {boolean}             [param0.isSubmenuItem = false] - A flag to mark if the menu item is controlling a submenu.
+   * @param {BaseMenu|null}       [param0.childMenu = null]      - The child menu.
+   * @param {BaseMenuToggle|null} [param0.toggle = null]         - The controller for the child menu.
    */
   constructor({
     menuItemElement,
@@ -48,22 +47,12 @@ class MenuItem {
       toggle,
     };
     this.isController = isSubmenuItem;
-
-    this.initialize();
   }
 
   /**
-   * Initialize the menu item by setting its tab index.
+   * Initialize the menu item.
    */
-  initialize() {
-    this.isMenubar = this.elements.parentMenu instanceof Menubar;
-
-    if (this.isMenubar) {
-      this.dom.item.setAttribute("role", "none");
-      this.dom.link.setAttribute("role", "menuitem");
-      this.dom.link.tabIndex = -1;
-    }
-  }
+  initialize() {}
 
   /**
    * The DOM elements within the menu item.
@@ -99,10 +88,6 @@ class MenuItem {
     if (this.elements.parentMenu.currentEvent !== "mouse") {
       this.dom.link.focus();
     }
-
-    if (this.isMenubar && this.elements.parentMenu.isTopLevel) {
-      this.dom.link.tabIndex = 0;
-    }
   }
 
   /**
@@ -112,11 +97,7 @@ class MenuItem {
     if (this.elements.parentMenu.currentEvent !== "mouse") {
       this.dom.link.blur();
     }
-
-    if (this.isMenubar && this.elements.parentMenu.isTopLevel) {
-      this.dom.link.tabIndex = -1;
-    }
   }
 }
 
-export default MenuItem;
+export default BaseMenuItem;

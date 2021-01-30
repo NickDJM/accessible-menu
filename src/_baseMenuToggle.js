@@ -1,16 +1,17 @@
-import BaseMenu from "./_baseMenu";
+/* eslint-disable jsdoc/no-undefined-types */
+
 import {
   isHTMLElement,
   isMenu,
   isTag,
   isBoolean,
   isValidClassList,
-} from "./validate";
+} from "./validate.js";
 
-/**
- * A link or button that controls the visibility of a menu.
+/*
+ * A link or button that controls the visibility of a Menu.
  */
-class MenuToggle {
+class BaseMenuToggle {
   /**
    * {@inheritdoc}
    *
@@ -50,8 +51,6 @@ class MenuToggle {
     this.openClass = openClass || "";
     this.closeClass = closeClass || "";
     this.isOpen = false;
-
-    this.initialize();
   }
 
   /**
@@ -357,4 +356,4 @@ class MenuToggle {
   }
 }
 
-export default MenuToggle;
+export default BaseMenuToggle;
