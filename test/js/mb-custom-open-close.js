@@ -16,3 +16,11 @@ Array.from(navs).forEach(nav => {
     closeClass: "",
   }));
 });
+
+document.addEventListener("accessibleMenuExpand", event => {
+  console.log(event);
+});
+
+document.addEventListener("accessibleMenuCollapse", event => {
+  console.log(event);
+});
