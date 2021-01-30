@@ -1,7 +1,7 @@
 import BaseMenu from "./_baseMenu.js";
 import DisclosureMenuItem from "./disclosureMenuItem.js";
 import DisclosureMenuToggle from "./disclosureMenuToggle.js";
-import { preventEvent, keyPress } from "./eventHandlers";
+import { preventEvent, keyPress } from "./eventHandlers.js";
 
 /**
  * An accessible disclosure menu in the DOM.

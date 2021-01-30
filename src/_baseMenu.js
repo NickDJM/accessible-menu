@@ -10,8 +10,8 @@ import {
   isValidEvent,
   isEventSupported,
   isValidClassList,
-} from "./validate";
-import { preventEvent, keyPress } from "./eventHandlers";
+} from "./validate.js";
+import { preventEvent, keyPress } from "./eventHandlers.js";
 
 /**
  * An accessible navigation element in the DOM.

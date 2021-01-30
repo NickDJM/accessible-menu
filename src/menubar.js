@@ -1,7 +1,7 @@
 import BaseMenu from "./_baseMenu.js";
 import MenubarItem from "./menubarItem.js";
 import MenubarToggle from "./menubarToggle.js";
-import { keyPress, preventEvent } from "./eventHandlers";
+import { keyPress, preventEvent } from "./eventHandlers.js";
 
 /**
  * An accessible menubar navigation in the DOM.

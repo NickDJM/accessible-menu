@@ -1,4 +1,4 @@
-import { isEvent, isKeyboardEvent } from "./validate";
+import { isEvent, isKeyboardEvent } from "./validate.js";
 
 /**
  * Retrieves the pressed key from an event.
