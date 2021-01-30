@@ -1,5 +1,5 @@
-import BaseMenu from "./_baseMenu";
-import MenuToggle from "./menuToggle";
+import BaseMenu from "./_baseMenu.js";
+import BaseMenuToggle from "./_baseMenuToggle.js";
 
 /**
  * Checks to see if the provided element is an HTMLElement.
@@ -312,14 +312,14 @@ export function isTag(tagName, element) {
 }
 
 /**
- * Check to see if the provided element is a MenuToggle.
+ * Check to see if the provided element is a BaseMenuToggle.
  *
  * If you provide the element to check inside of an object
  * the name of the variable will be output in the error message.
  *
  * Will return true is the check is successful.
  *
- * @param   {object|MenuToggle} element - The element to check.
+ * @param   {object|BaseMenuToggle} element - The element to check.
  *
  * @returns {boolean} - The result of the check.
  */
@@ -327,12 +327,12 @@ export function isMenuToggle(element) {
   let name = "element";
 
   try {
-    if (!(element instanceof MenuToggle)) {
-      if (typeof element === "object" && !(element instanceof MenuToggle)) {
+    if (!(element instanceof BaseMenuToggle)) {
+      if (typeof element === "object" && !(element instanceof BaseMenuToggle)) {
         for (const key in element) {
           name = key;
 
-          if (!(element[key] instanceof MenuToggle)) throw Error;
+          if (!(element[key] instanceof BaseMenuToggle)) throw Error;
         }
       } else {
         throw Error;
@@ -341,7 +341,7 @@ export function isMenuToggle(element) {
       return true;
     }
   } catch (error) {
-    throw new TypeError(`${name} must be a MenuToggle.`);
+    throw new TypeError(`${name} must be a BaseMenuToggle.`);
   }
 }
 
