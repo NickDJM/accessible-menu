@@ -1,4 +1,6 @@
-import BaseMenu from "./_baseMenu";
+import BaseMenu from "./_baseMenu.js";
+import MenubarItem from "./menubarItem.js";
+import MenubarToggle from "./menubarToggle.js";
 import { keyPress, preventEvent } from "./eventHandlers";
 
 /**
@@ -58,6 +60,12 @@ class Menubar extends BaseMenu {
       isHoverable,
       hoverDelay,
     });
+
+    this.MenuType = Menubar;
+    this.MenuItemType = MenubarItem;
+    this.MenuToggleType = MenubarToggle;
+
+    this.initialize();
   }
 
   /**
@@ -70,7 +78,6 @@ class Menubar extends BaseMenu {
 
     this.dom.menu.setAttribute("role", "menubar");
 
-    this.createChildElements(Menubar);
     this.handleFocus();
     this.handleClick();
     if (this.isHoverable) this.handleHover();
