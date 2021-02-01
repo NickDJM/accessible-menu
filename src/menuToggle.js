@@ -51,6 +51,15 @@ class MenuToggle {
     this.closeClass = closeClass || "";
     this.isOpen = false;
 
+    this.expandEvent = new CustomEvent("accessibleMenuExpand", {
+      bubbles: true,
+      detail: { toggle: this },
+    });
+    this.collapseEvent = new CustomEvent("accessibleMenuCollapse", {
+      bubbles: true,
+      detail: { toggle: this },
+    });
+
     this.initialize();
   }
 
@@ -238,6 +247,8 @@ class MenuToggle {
         });
       }
     }
+
+    this.dom.toggle.dispatchEvent(this.expandEvent);
   }
 
   /**
@@ -269,6 +280,8 @@ class MenuToggle {
         });
       }
     }
+
+    this.dom.toggle.dispatchEvent(this.collapseEvent);
   }
 
   /**

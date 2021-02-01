@@ -865,6 +865,18 @@ var AccessibleMenu = (function () {
       this.openClass = openClass || "";
       this.closeClass = closeClass || "";
       this.isOpen = false;
+      this.expandEvent = new CustomEvent("accessibleMenuExpand", {
+        bubbles: true,
+        detail: {
+          toggle: this
+        }
+      });
+      this.collapseEvent = new CustomEvent("accessibleMenuCollapse", {
+        bubbles: true,
+        detail: {
+          toggle: this
+        }
+      });
       this.initialize();
     }
     /**
@@ -967,6 +979,8 @@ var AccessibleMenu = (function () {
             });
           }
         }
+
+        this.dom.toggle.dispatchEvent(this.expandEvent);
       }
       /**
        * Collapses the controlled menu.
@@ -1001,6 +1015,8 @@ var AccessibleMenu = (function () {
             });
           }
         }
+
+        this.dom.toggle.dispatchEvent(this.collapseEvent);
       }
       /**
        * Opens the controlled menu.
