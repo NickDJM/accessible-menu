@@ -51,6 +51,15 @@ class MenuToggle {
     this.closeClass = closeClass || "";
     this.isOpen = false;
 
+    this.expandEvent = new CustomEvent("accessibleMenuExpand", {
+      bubbles: true,
+      detail: { toggle: this },
+    });
+    this.collapseEvent = new CustomEvent("accessibleMenuCollapse", {
+      bubbles: true,
+      detail: { toggle: this },
+    });
+
     this.initialize();
   }
 
@@ -78,14 +87,35 @@ class MenuToggle {
         .replace(/[^a-z]+/g, "")
         .substr(0, 10);
 
-      const id = `${this.dom.toggle.innerText
-        .toLowerCase()
-        .replace(/[^a-zA-Z0-9\s]/g, "")
-        .replace(/\s/g, "-")}-${randomString}`;
+      let id = this.dom.toggle.innerText.replace(/[^a-zA-Z0-9\s]/g, "");
+      let finalID = randomString;
 
-      this.dom.toggle.id = this.dom.toggle.id || `${id}-menu-button`;
+      if (
+        !id.replace(/\s/g, "").length &&
+        this.dom.toggle.getAttribute("aria-label")
+      ) {
+        id = this.dom.toggle
+          .getAttribute("aria-label")
+          .replace(/[^a-zA-Z0-9\s]/g, "");
+      }
+
+      if (id.replace(/\s/g, "").length > 0) {
+        id = id.toLowerCase().replace(/\s+/g, "-");
+
+        if (id.startsWith("-")) {
+          id = id.substring(1);
+        }
+
+        if (id.endsWith("-")) {
+          id = id.slice(0, -1);
+        }
+
+        finalID = `${id}-${finalID}`;
+      }
+
+      this.dom.toggle.id = this.dom.toggle.id || `${finalID}-menu-button`;
       this.elements.controlledMenu.dom.menu.id =
-        this.elements.controlledMenu.dom.menu.id || `${id}-menu`;
+        this.elements.controlledMenu.dom.menu.id || `${finalID}-menu`;
     }
 
     // Set up proper aria label and control.
@@ -217,6 +247,8 @@ class MenuToggle {
         });
       }
     }
+
+    this.dom.toggle.dispatchEvent(this.expandEvent);
   }
 
   /**
@@ -248,6 +280,8 @@ class MenuToggle {
         });
       }
     }
+
+    this.dom.toggle.dispatchEvent(this.collapseEvent);
   }
 
   /**

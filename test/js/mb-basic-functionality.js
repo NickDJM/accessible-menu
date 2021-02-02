@@ -14,3 +14,11 @@ Array.from(navs).forEach(nav => {
     containerElement,
   }));
 });
+
+document.addEventListener("accessibleMenuExpand", event => {
+  console.log(event);
+});
+
+document.addEventListener("accessibleMenuCollapse", event => {
+  console.log(event);
+});

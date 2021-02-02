@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.1](https://github.com/NickDJM/accessible-menu/compare/v2.1.0...v2.1.1) (2020-11-05)
+
+
+### Bug Fixes
+
+* **accessibility:** handle various scenarios causing inaccessible IDs ([c55ff1d](https://github.com/NickDJM/accessible-menu/commit/c55ff1d0df6145c51ad8da4f1eb35956116d8acc)), closes [#87](https://github.com/NickDJM/accessible-menu/issues/87)
+
+
+### Build System
+
+* **npm:** update dependencies and security violations ([d05e1c6](https://github.com/NickDJM/accessible-menu/commit/d05e1c6bdcf53d0c705d24c18dba8f738e9e673e))
+* **polyfills:** add polyfill for String.prototype.endsWith() ([82b345a](https://github.com/NickDJM/accessible-menu/commit/82b345a47a211656385703e3e82efe7d2ac68d59))
+
 ## [2.1.0](https://github.com/NickDJM/accessible-menu/compare/v2.0.0...v2.1.0) (2020-07-25)
 
 
