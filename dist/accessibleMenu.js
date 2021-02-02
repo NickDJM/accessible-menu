@@ -1888,7 +1888,7 @@ var AccessibleMenu = (function () {
         var _this6 = this;
 
         if (this.isTopLevel && this.elements.controller) {
-          this.elements.controller.dom.toggle.addEventListener("keydown", function () {
+          this.elements.controller.dom.toggle.addEventListener("keydown", function (event) {
             _this6.currentEvent = "keyboard";
             var key = keyPress(event);
 
@@ -1908,7 +1908,7 @@ var AccessibleMenu = (function () {
         var _this7 = this;
 
         if (this.isTopLevel && this.elements.controller) {
-          this.elements.controller.dom.toggle.addEventListener("keyup", function () {
+          this.elements.controller.dom.toggle.addEventListener("keyup", function (event) {
             _this7.currentEvent = "keyboard";
             var key = keyPress(event);
 

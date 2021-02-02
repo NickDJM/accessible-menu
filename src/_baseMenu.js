@@ -636,7 +636,7 @@ class BaseMenu {
    */
   handleKeydown() {
     if (this.isTopLevel && this.elements.controller) {
-      this.elements.controller.dom.toggle.addEventListener("keydown", () => {
+      this.elements.controller.dom.toggle.addEventListener("keydown", event => {
         this.currentEvent = "keyboard";
 
         const key = keyPress(event);
@@ -653,7 +653,7 @@ class BaseMenu {
    */
   handleKeyup() {
     if (this.isTopLevel && this.elements.controller) {
-      this.elements.controller.dom.toggle.addEventListener("keyup", () => {
+      this.elements.controller.dom.toggle.addEventListener("keyup", event => {
         this.currentEvent = "keyboard";
 
         const key = keyPress(event);
