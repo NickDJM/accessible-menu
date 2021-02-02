@@ -1,5 +1,5 @@
-import MenuToggle from "./menuToggle";
-import MenuItem from "./menuItem";
+import BaseMenuToggle from "./_baseMenuToggle.js";
+import BaseMenuItem from "./_baseMenuItem.js";
 import {
   isHTMLElement,
   isCSSSelector,
@@ -10,8 +10,8 @@ import {
   isValidEvent,
   isEventSupported,
   isValidClassList,
-} from "./validate";
-import { preventEvent, keyPress } from "./eventHandlers";
+} from "./validate.js";
+import { preventEvent, keyPress } from "./eventHandlers.js";
 
 /**
  * An accessible navigation element in the DOM.
@@ -107,7 +107,10 @@ class BaseMenu {
     this.isHoverable = isHoverable;
     this.hoverDelay = hoverDelay;
 
-    this.initialize();
+    // Set default class types.
+    this.MenuType = BaseMenu;
+    this.MenuItemType = BaseMenuItem;
+    this.MenuToggleType = BaseMenuToggle;
   }
 
   /**
@@ -116,6 +119,8 @@ class BaseMenu {
    * This will also initialize all menu items and sub menus.
    */
   initialize() {
+    const { MenuToggleType } = this;
+
     // Get the root menu if it doesn't exist.
     if (this.elements.rootMenu === null) this.findRootMenu(this);
 
@@ -124,8 +129,8 @@ class BaseMenu {
 
     if (this.isTopLevel) {
       if (this.dom.controller && this.dom.container) {
-        // Create a new MenuToggle to control the menu.
-        const toggle = new MenuToggle({
+        // Create a new BaseMenuToggle to control the menu.
+        const toggle = new MenuToggleType({
           menuToggleElement: this.dom.controller,
           parentElement: this.dom.container,
           controlledMenu: this,
@@ -136,6 +141,8 @@ class BaseMenu {
         this.menuElements.controller = toggle;
       }
     }
+
+    this.createChildElements();
   }
 
   /**
@@ -222,7 +229,7 @@ class BaseMenu {
   /**
    * The currently selected menu item.
    *
-   * @returns {MenuItem} - The menu item.
+   * @returns {BaseMenuItem} - The menu item.
    */
   get currentMenuItem() {
     return this.elements.menuItems[this.currentChild];
@@ -455,10 +462,10 @@ class BaseMenu {
 
   /**
    * Creates and initializes all menu items and submenus.
-   *
-   * @param {object} MenuType - The menu type for created submenus.
    */
-  createChildElements(MenuType = BaseMenu) {
+  createChildElements() {
+    const { MenuType, MenuItemType, MenuToggleType } = this;
+
     this.dom.menuItems.forEach(element => {
       let menuItem;
 
@@ -484,8 +491,8 @@ class BaseMenu {
           hoverDelay: this.hoverDelay,
         });
 
-        // Create the new MenuToggle.
-        const toggle = new MenuToggle({
+        // Create the new menu toggle.
+        const toggle = new MenuToggleType({
           menuToggleElement: toggler,
           parentElement: element,
           controlledMenu: menu,
@@ -497,8 +504,8 @@ class BaseMenu {
         // Add the toggle to the list of toggles.
         this.menuElements.submenuToggles.push(toggle);
 
-        // Create a new MenuItem.
-        menuItem = new MenuItem({
+        // Create a new menu item.
+        menuItem = new MenuItemType({
           menuItemElement: element,
           menuLinkElement: toggler,
           parentMenu: this,
@@ -509,8 +516,8 @@ class BaseMenu {
       } else {
         const link = element.querySelector(this.selectors.menuLinks);
 
-        // Create a new MenuItem.
-        menuItem = new MenuItem({
+        // Create a new menu item.
+        menuItem = new MenuItemType({
           menuItemElement: element,
           menuLinkElement: link,
           parentMenu: this,
@@ -564,9 +571,9 @@ class BaseMenu {
     /**
      * Toggles a toggle element.
      *
-     * @param {BaseMenu} menu - This menu.
-     * @param {MenuToggle} toggle - The menu toggle
-     * @param {Event} event - A Javascript event.
+     * @param {BaseMenu}       menu - This menu.
+     * @param {BaseMenuToggle} toggle - The menu toggle
+     * @param {Event}          event - A Javascript event.
      */
     function toggleToggle(menu, toggle, event) {
       preventEvent(event);

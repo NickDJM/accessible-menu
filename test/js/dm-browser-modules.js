@@ -1,7 +1,9 @@
+import DisclosureMenu from "../../src/disclosureMenu.js";
+
 /**
  * Toggles the hover state of a menu and its submenus.
  *
- * @param {AccessibleMenu.DisclosureMenu} menu - The menu to toggle.
+ * @param {DisclosureMenu} menu - The menu to toggle.
  */
 function toggleHover(menu) {
   menu.elements.submenuToggles.forEach(toggle => {
@@ -20,13 +22,11 @@ Array.from(navs).forEach(nav => {
   const controllerElement = nav.id === "main-menu" ? nav.querySelector("button") : null;
   const containerElement = nav.id === "main-menu" ? nav : null;
 
-  menus.push(new AccessibleMenu.DisclosureMenu({
+  menus.push(new DisclosureMenu({
     menuElement,
     submenuItemSelector,
     controllerElement,
     containerElement,
-    openClass: ["show", "open"],
-    closeClass: "",
     isHoverable: window.innerWidth >= 1070,
   }));
 });

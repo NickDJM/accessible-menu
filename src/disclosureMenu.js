@@ -1,5 +1,7 @@
-import BaseMenu from "./_baseMenu";
-import { preventEvent, keyPress } from "./eventHandlers";
+import BaseMenu from "./_baseMenu.js";
+import DisclosureMenuItem from "./disclosureMenuItem.js";
+import DisclosureMenuToggle from "./disclosureMenuToggle.js";
+import { preventEvent, keyPress } from "./eventHandlers.js";
 
 /**
  * An accessible disclosure menu in the DOM.
@@ -59,7 +61,14 @@ class DisclosureMenu extends BaseMenu {
       hoverDelay,
     });
 
+    // Set default class types.
+    this.MenuType = DisclosureMenu;
+    this.MenuItemType = DisclosureMenuItem;
+    this.MenuToggleType = DisclosureMenuToggle;
+
     this.currentChild = -1;
+
+    this.initialize();
   }
 
   /**
@@ -70,7 +79,6 @@ class DisclosureMenu extends BaseMenu {
   initialize() {
     super.initialize();
 
-    this.createChildElements(DisclosureMenu);
     this.handleFocus();
     this.handleClick();
     if (this.isHoverable) this.handleHover();

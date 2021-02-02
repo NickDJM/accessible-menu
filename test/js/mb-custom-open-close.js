@@ -27,7 +27,7 @@ Array.from(navs).forEach(nav => {
     containerElement,
     openClass: ["show", "open"],
     closeClass: "",
-    isHoverable: true,
+    isHoverable: window.innerWidth >= 1070,
   }));
 });
 
