@@ -25,7 +25,7 @@ Array.from(navs).forEach(nav => {
     submenuItemSelector,
     controllerElement,
     containerElement,
-    isHoverable: true,
+    isHoverable: window.innerWidth >= 1070,
   }));
 });
 
