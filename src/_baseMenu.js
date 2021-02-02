@@ -614,15 +614,19 @@ class BaseMenu {
   handleHover() {
     this.elements.submenuToggles.forEach(toggle => {
       toggle.dom.parent.addEventListener("mouseenter", () => {
-        this.currentEvent = "mouse";
-        toggle.open();
+        if (this.isHoverable) {
+          this.currentEvent = "mouse";
+          toggle.open();
+        }
       });
 
       toggle.dom.parent.addEventListener("mouseleave", () => {
-        setTimeout(() => {
-          this.currentEvent = "mouse";
-          toggle.close();
-        }, this.hoverDelay);
+        if (this.isHoverable) {
+          setTimeout(() => {
+            this.currentEvent = "mouse";
+            toggle.close();
+          }, this.hoverDelay);
+        }
       });
     });
   }
