@@ -621,15 +621,19 @@ class BaseMenu {
   handleHover() {
     this.elements.submenuToggles.forEach(toggle => {
       toggle.dom.parent.addEventListener("mouseenter", () => {
-        this.currentEvent = "mouse";
-        toggle.open();
+        if (this.isHoverable) {
+          this.currentEvent = "mouse";
+          toggle.open();
+        }
       });
 
       toggle.dom.parent.addEventListener("mouseleave", () => {
-        setTimeout(() => {
-          this.currentEvent = "mouse";
-          toggle.close();
-        }, this.hoverDelay);
+        if (this.isHoverable) {
+          setTimeout(() => {
+            this.currentEvent = "mouse";
+            toggle.close();
+          }, this.hoverDelay);
+        }
       });
     });
   }
@@ -639,7 +643,7 @@ class BaseMenu {
    */
   handleKeydown() {
     if (this.isTopLevel && this.elements.controller) {
-      this.elements.controller.dom.toggle.addEventListener("keydown", () => {
+      this.elements.controller.dom.toggle.addEventListener("keydown", event => {
         this.currentEvent = "keyboard";
 
         const key = keyPress(event);
@@ -656,7 +660,7 @@ class BaseMenu {
    */
   handleKeyup() {
     if (this.isTopLevel && this.elements.controller) {
-      this.elements.controller.dom.toggle.addEventListener("keyup", () => {
+      this.elements.controller.dom.toggle.addEventListener("keyup", event => {
         this.currentEvent = "keyboard";
 
         const key = keyPress(event);

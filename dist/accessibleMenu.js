@@ -865,6 +865,19 @@ var AccessibleMenu = (function () {
       this.openClass = openClass || "";
       this.closeClass = closeClass || "";
       this.isOpen = false;
+      this.expandEvent = new CustomEvent("accessibleMenuExpand", {
+        bubbles: true,
+        detail: {
+          toggle: this
+        }
+      });
+      this.collapseEvent = new CustomEvent("accessibleMenuCollapse", {
+        bubbles: true,
+        detail: {
+          toggle: this
+        }
+      });
+      this.initialize();
     }
     /**
      * Initialize the toggle by ensuring WAI-ARIA values are set,
@@ -966,6 +979,8 @@ var AccessibleMenu = (function () {
             });
           }
         }
+
+        this.dom.toggle.dispatchEvent(this.expandEvent);
       }
       /**
        * Collapses the controlled menu.
@@ -1000,6 +1015,8 @@ var AccessibleMenu = (function () {
             });
           }
         }
+
+        this.dom.toggle.dispatchEvent(this.collapseEvent);
       }
       /**
        * Opens the controlled menu.
@@ -1835,14 +1852,18 @@ var AccessibleMenu = (function () {
 
         this.elements.submenuToggles.forEach(function (toggle) {
           toggle.dom.parent.addEventListener("mouseenter", function () {
-            _this5.currentEvent = "mouse";
-            toggle.open();
+            if (_this5.isHoverable) {
+              _this5.currentEvent = "mouse";
+              toggle.open();
+            }
           });
           toggle.dom.parent.addEventListener("mouseleave", function () {
-            setTimeout(function () {
-              _this5.currentEvent = "mouse";
-              toggle.close();
-            }, _this5.hoverDelay);
+            if (_this5.isHoverable) {
+              setTimeout(function () {
+                _this5.currentEvent = "mouse";
+                toggle.close();
+              }, _this5.hoverDelay);
+            }
           });
         });
       }
@@ -1856,7 +1877,7 @@ var AccessibleMenu = (function () {
         var _this6 = this;
 
         if (this.isTopLevel && this.elements.controller) {
-          this.elements.controller.dom.toggle.addEventListener("keydown", function () {
+          this.elements.controller.dom.toggle.addEventListener("keydown", function (event) {
             _this6.currentEvent = "keyboard";
             var key = keyPress(event);
 
@@ -1876,7 +1897,7 @@ var AccessibleMenu = (function () {
         var _this7 = this;
 
         if (this.isTopLevel && this.elements.controller) {
-          this.elements.controller.dom.toggle.addEventListener("keyup", function () {
+          this.elements.controller.dom.toggle.addEventListener("keyup", function (event) {
             _this7.currentEvent = "keyboard";
             var key = keyPress(event);
 

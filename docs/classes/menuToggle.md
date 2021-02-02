@@ -82,11 +82,15 @@ Expands the controlled menu.
 
 Sets the toggle's "aria-expanded" to "true", adds the open class to the toggle's parent menu item and controlled menu, and removed the closed class from the toggle's parent menu item and controlled menu.
 
+This will also emit a custom event called `accessibleMenuExpand` which bubbles and contains the toggle object in `event.detail`.
+
 ### collapse
 
 Collapses the controlled menu.
 
 Sets the toggle's "aria-expanded" to "false", adds the closed class to the toggle's parent menu item and controlled menu, and removed the open class from the toggle's parent menu item and controlled menu.
+
+This will also emit a custom event called `accessibleMenuCollapse` which bubbles and contains the toggle object in `event.detail`.
 
 ### open
 
