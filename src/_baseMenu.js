@@ -238,10 +238,15 @@ class BaseMenu {
   /**
    * A flag to allow hover events on the menu.
    *
+   * This functions differently for root vs. submenus.
+   * Submenus will always inherit their root menu's hoverability.
+   *
    * @returns {boolean} - The hoverable flag.
    */
   get isHoverable() {
-    return this.hoverable;
+    return this.isTopLevel
+      ? this.hoverable
+      : this.elements.rootMenu.isHoverable;
   }
 
   /**

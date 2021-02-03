@@ -2257,13 +2257,16 @@ var AccessibleMenu = (function () {
       /**
        * A flag to allow hover events on the menu.
        *
+       * This functions differently for root vs. submenus.
+       * Submenus will always inherit their root menu's hoverability.
+       *
        * @returns {boolean} - The hoverable flag.
        */
 
     }, {
       key: "isHoverable",
       get: function get() {
-        return this.hoverable;
+        return this.isTopLevel ? this.hoverable : this.elements.rootMenu.isHoverable;
       }
       /**
        * The delay time (in miliseconds) used for mouseout events to take place.
@@ -2546,7 +2549,7 @@ var AccessibleMenu = (function () {
         this.dom.menu.setAttribute("role", "menubar");
         this.handleFocus();
         this.handleClick();
-        if (this.isHoverable) this.handleHover();
+        this.handleHover();
         this.handleKeydown();
         this.handleKeyup();
         this.elements.menuItems[0].dom.link.tabIndex = 0;
@@ -3044,7 +3047,7 @@ var AccessibleMenu = (function () {
 
         this.handleFocus();
         this.handleClick();
-        if (this.isHoverable) this.handleHover();
+        this.handleHover();
         this.handleKeydown();
         this.handleKeyup();
       }

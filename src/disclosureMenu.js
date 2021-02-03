@@ -81,7 +81,7 @@ class DisclosureMenu extends BaseMenu {
 
     this.handleFocus();
     this.handleClick();
-    if (this.isHoverable) this.handleHover();
+    this.handleHover();
     this.handleKeydown();
     this.handleKeyup();
   }
