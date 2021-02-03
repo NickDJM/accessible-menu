@@ -6,13 +6,17 @@
   "files": [
     "index.js",
     "dist/",
-    "src/_baseMenu.js",
-    "src/disclosureMenu.js",
     "src/eventHandlers.js",
-    "src/menuItem.js",
-    "src/menuToggle.js",
+    "src/validate.js",
+    "src/_baseMenu.js",
+    "src/_baseMenuItem.js",
+    "src/_baseMenuToggle.js",
+    "src/disclosureMenu.js",
+    "src/disclosureMenuItem.js",
+    "src/disclosureMenuToggle.js",
     "src/menubar.js",
-    "src/validate.js"
+    "src/menubarItem.js",
+    "src/menubarToggle.js"
   ],
   "scripts": {
     "preinstall": "npx npm-force-resolutions || true",
