@@ -1680,11 +1680,6 @@ var AccessibleMenu = (function () {
           this.dom.link.blur();
         }
       }
-    }, {
-      key: baseMenuToggleType,
-      get: function get() {
-        return true;
-      }
     }]);
 
     return BaseMenuItem;
