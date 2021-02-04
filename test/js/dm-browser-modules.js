@@ -6,10 +6,6 @@ import DisclosureMenu from "../../src/disclosureMenu.js";
  * @param {DisclosureMenu} menu - The menu to toggle.
  */
 function toggleHover(menu) {
-  menu.elements.submenuToggles.forEach(toggle => {
-    toggle.elements.controlledMenu.isHoverable = !menu.isHoverable;
-  });
-
   menu.isHoverable = !menu.isHoverable;
 }
 

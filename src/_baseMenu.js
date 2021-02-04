@@ -173,21 +173,31 @@ class BaseMenu {
   }
 
   /**
-   * The class to apply when the menu is "open".
+   * The class(es) to apply when the menu is "open".
    *
-   * @returns {string} - The class.
+   * This functions differently for root vs. submenus.
+   * Submenus will always inherit their root menu's open class(es).
+   *
+   * @returns {string|string[]} - The class(es).
    */
   get openClass() {
-    return this.submenuOpenClass;
+    return this.isTopLevel
+      ? this.submenuOpenClass
+      : this.elements.rootMenu.openClass;
   }
 
   /**
-   * The class to apply when the menu is "closed".
+   * The class(es) to apply when the menu is "closed".
    *
-   * @returns {string} - The class.
+   * This functions differently for root vs. submenus.
+   * Submenus will always inherit their root menu's close class(es).
+   *
+   * @returns {string|string[]} - The class(es).
    */
   get closeClass() {
-    return this.submenuCloseClass;
+    return this.isTopLevel
+      ? this.submenuCloseClass
+      : this.elements.rootMenu.closeClass;
   }
 
   /**
@@ -238,19 +248,27 @@ class BaseMenu {
   /**
    * A flag to allow hover events on the menu.
    *
+   * This functions differently for root vs. submenus.
+   * Submenus will always inherit their root menu's hoverability.
+   *
    * @returns {boolean} - The hoverable flag.
    */
   get isHoverable() {
-    return this.hoverable;
+    return this.isTopLevel
+      ? this.hoverable
+      : this.elements.rootMenu.isHoverable;
   }
 
   /**
    * The delay time (in miliseconds) used for mouseout events to take place.
    *
+   * This functions differently for root vs. submenus.
+   * Submenus will always inherit their root menu's hover delay.
+   *
    * @returns {number} - The delay time.
    */
   get hoverDelay() {
-    return this.delay;
+    return this.isTopLevel ? this.delay : this.elements.rootMenu.hoverDelay;
   }
 
   /**
@@ -496,8 +514,6 @@ class BaseMenu {
           menuToggleElement: toggler,
           parentElement: element,
           controlledMenu: menu,
-          openClass: this.openClass,
-          closeClass: this.closeClass,
           parentMenu: this,
         });
 

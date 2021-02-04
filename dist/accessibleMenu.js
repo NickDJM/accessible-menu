@@ -820,18 +820,12 @@ var AccessibleMenu = (function () {
      * @param {HTMLElement}          param0.menuToggleElement     - The toggle element in the DOM.
      * @param {HTMLElement}          param0.parentElement         - The element containing the controlled menu.
      * @param {BaseMenu}             param0.controlledMenu        - The menu controlled by this toggle.
-     * @param {string|string[]|null} [param0.openClass = "show"]  - The class to apply when the controlled menu is "open".
-     * @param {string|string[]|null} [param0.closeClass = "hide"] - The class to apply when the controlled menu is "closed".
      * @param {BaseMenu|null}        [param0.parentMenu = null]   - The menu containing this toggle.
      */
     function BaseMenuToggle(_ref) {
       var menuToggleElement = _ref.menuToggleElement,
           parentElement = _ref.parentElement,
           controlledMenu = _ref.controlledMenu,
-          _ref$openClass = _ref.openClass,
-          openClass = _ref$openClass === void 0 ? "show" : _ref$openClass,
-          _ref$closeClass = _ref.closeClass,
-          closeClass = _ref$closeClass === void 0 ? "hide" : _ref$closeClass,
           _ref$parentMenu = _ref.parentMenu,
           parentMenu = _ref$parentMenu === void 0 ? null : _ref$parentMenu;
 
@@ -862,8 +856,6 @@ var AccessibleMenu = (function () {
         controlledMenu: controlledMenu,
         parentMenu: parentMenu
       };
-      this.openClass = openClass || "";
-      this.closeClass = closeClass || "";
       this.isOpen = false;
       this.expandEvent = new CustomEvent("accessibleMenuExpand", {
         bubbles: true,
@@ -890,7 +882,8 @@ var AccessibleMenu = (function () {
       value: function initialize() {
         var _this = this;
 
-        // Add WAI-ARIA properties.
+        var closeClass = this.elements.controlledMenu.closeClass; // Add WAI-ARIA properties.
+
         this.dom.toggle.setAttribute("aria-haspopup", "true");
         this.dom.toggle.setAttribute("aria-expanded", "false"); // If the toggle element is a button, there's no need to add a role.
 
@@ -930,11 +923,11 @@ var AccessibleMenu = (function () {
         this.elements.controlledMenu.dom.menu.setAttribute("aria-labelledby", this.dom.toggle.id);
         this.dom.toggle.setAttribute("aria-controls", this.elements.controlledMenu.dom.menu.id); // Add closed class.
 
-        if (this.closeClass !== "") {
-          if (typeof this.closeClass === "string") {
-            this.elements.controlledMenu.dom.menu.classList.add(this.closeClass);
-          } else if (Array.isArray(this.closeClass)) {
-            this.closeClass.forEach(function (value) {
+        if (closeClass !== "") {
+          if (typeof closeClass === "string") {
+            this.elements.controlledMenu.dom.menu.classList.add(closeClass);
+          } else if (Array.isArray(closeClass)) {
+            closeClass.forEach(function (value) {
               _this.elements.controlledMenu.dom.menu.classList.add(value);
             });
           }
@@ -957,24 +950,27 @@ var AccessibleMenu = (function () {
       value: function expand() {
         var _this2 = this;
 
+        var _this$elements$contro = this.elements.controlledMenu,
+            closeClass = _this$elements$contro.closeClass,
+            openClass = _this$elements$contro.openClass;
         this.dom.toggle.setAttribute("aria-expanded", "true"); // Add the open class
 
-        if (this.openClass !== "") {
-          if (typeof this.openClass === "string") {
-            this.elements.controlledMenu.dom.menu.classList.add(this.openClass);
-          } else if (Array.isArray(this.openClass)) {
-            this.openClass.forEach(function (value) {
+        if (openClass !== "") {
+          if (typeof openClass === "string") {
+            this.elements.controlledMenu.dom.menu.classList.add(openClass);
+          } else if (Array.isArray(openClass)) {
+            openClass.forEach(function (value) {
               _this2.elements.controlledMenu.dom.menu.classList.add(value);
             });
           }
         } // Remove the close class.
 
 
-        if (this.closeClass !== "") {
-          if (typeof this.closeClass === "string") {
-            this.elements.controlledMenu.dom.menu.classList.remove(this.closeClass);
-          } else if (Array.isArray(this.closeClass)) {
-            this.closeClass.forEach(function (value) {
+        if (closeClass !== "") {
+          if (typeof closeClass === "string") {
+            this.elements.controlledMenu.dom.menu.classList.remove(closeClass);
+          } else if (Array.isArray(closeClass)) {
+            closeClass.forEach(function (value) {
               _this2.elements.controlledMenu.dom.menu.classList.remove(value);
             });
           }
@@ -993,24 +989,27 @@ var AccessibleMenu = (function () {
       value: function collapse() {
         var _this3 = this;
 
+        var _this$elements$contro2 = this.elements.controlledMenu,
+            closeClass = _this$elements$contro2.closeClass,
+            openClass = _this$elements$contro2.openClass;
         this.dom.toggle.setAttribute("aria-expanded", "false"); // Add the close class
 
-        if (this.closeClass !== "") {
-          if (typeof this.closeClass === "string") {
-            this.elements.controlledMenu.dom.menu.classList.add(this.closeClass);
-          } else if (Array.isArray(this.closeClass)) {
-            this.closeClass.forEach(function (value) {
+        if (closeClass !== "") {
+          if (typeof closeClass === "string") {
+            this.elements.controlledMenu.dom.menu.classList.add(closeClass);
+          } else if (Array.isArray(closeClass)) {
+            closeClass.forEach(function (value) {
               _this3.elements.controlledMenu.dom.menu.classList.add(value);
             });
           }
         } // Remove the open class.
 
 
-        if (this.openClass !== "") {
-          if (typeof this.openClass === "string") {
-            this.elements.controlledMenu.dom.menu.classList.remove(this.openClass);
-          } else if (Array.isArray(this.openClass)) {
-            this.openClass.forEach(function (value) {
+        if (openClass !== "") {
+          if (typeof openClass === "string") {
+            this.elements.controlledMenu.dom.menu.classList.remove(openClass);
+          } else if (Array.isArray(openClass)) {
+            openClass.forEach(function (value) {
               _this3.elements.controlledMenu.dom.menu.classList.remove(value);
             });
           }
@@ -1139,62 +1138,16 @@ var AccessibleMenu = (function () {
         return this.show;
       }
       /**
-       * The class to apply when the controlled menu is "open".
-       *
-       * @returns {string} - The class.
-       */
-      ,
-
-      /**
        * Set the open state on the menu.
        *
        * @param {boolean} value - The open state.
        */
+      ,
       set: function set(value) {
         isBoolean({
           value: value
         });
         this.show = value;
-      }
-      /**
-       * Set the class to apply when the controlled menu is "open".
-       *
-       * @param {string} value - The class.
-       */
-
-    }, {
-      key: "openClass",
-      get: function get() {
-        return this.controlledMenuOpenClass;
-      }
-      /**
-       * The class to apply when the controlled menu is "closed".
-       *
-       * @returns {string} - The class.
-       */
-      ,
-      set: function set(value) {
-        isValidClassList({
-          openClass: value
-        });
-        this.controlledMenuOpenClass = value;
-      }
-      /**
-       * Set the class to apply when the controlled menu is "closed".
-       *
-       * @param {string} value - The class.
-       */
-
-    }, {
-      key: "closeClass",
-      get: function get() {
-        return this.controlledMenuCloseClass;
-      },
-      set: function set(value) {
-        isValidClassList({
-          closeClass: value
-        });
-        this.controlledMenuCloseClass = value;
       }
     }]);
 
@@ -1725,8 +1678,6 @@ var AccessibleMenu = (function () {
               menuToggleElement: toggler,
               parentElement: element,
               controlledMenu: menu,
-              openClass: _this2.openClass,
-              closeClass: _this2.closeClass,
               parentMenu: _this2
             }); // Add the toggle to the list of toggles.
 
@@ -2112,20 +2063,26 @@ var AccessibleMenu = (function () {
         return this.menuElements;
       }
       /**
-       * The class to apply when the menu is "open".
+       * The class(es) to apply when the menu is "open".
        *
-       * @returns {string} - The class.
+       * This functions differently for root vs. submenus.
+       * Submenus will always inherit their root menu's open class(es).
+       *
+       * @returns {string|string[]} - The class(es).
        */
 
     }, {
       key: "openClass",
       get: function get() {
-        return this.submenuOpenClass;
+        return this.isTopLevel ? this.submenuOpenClass : this.elements.rootMenu.openClass;
       }
       /**
-       * The class to apply when the menu is "closed".
+       * The class(es) to apply when the menu is "closed".
        *
-       * @returns {string} - The class.
+       * This functions differently for root vs. submenus.
+       * Submenus will always inherit their root menu's close class(es).
+       *
+       * @returns {string|string[]} - The class(es).
        */
       ,
 
@@ -2149,7 +2106,7 @@ var AccessibleMenu = (function () {
     }, {
       key: "closeClass",
       get: function get() {
-        return this.submenuCloseClass;
+        return this.isTopLevel ? this.submenuCloseClass : this.elements.rootMenu.closeClass;
       }
       /**
        * A flag marking the root menu.
@@ -2257,16 +2214,22 @@ var AccessibleMenu = (function () {
       /**
        * A flag to allow hover events on the menu.
        *
+       * This functions differently for root vs. submenus.
+       * Submenus will always inherit their root menu's hoverability.
+       *
        * @returns {boolean} - The hoverable flag.
        */
 
     }, {
       key: "isHoverable",
       get: function get() {
-        return this.hoverable;
+        return this.isTopLevel ? this.hoverable : this.elements.rootMenu.isHoverable;
       }
       /**
        * The delay time (in miliseconds) used for mouseout events to take place.
+       *
+       * This functions differently for root vs. submenus.
+       * Submenus will always inherit their root menu's hover delay.
        *
        * @returns {number} - The delay time.
        */
@@ -2286,7 +2249,7 @@ var AccessibleMenu = (function () {
     }, {
       key: "hoverDelay",
       get: function get() {
-        return this.delay;
+        return this.isTopLevel ? this.delay : this.elements.rootMenu.hoverDelay;
       },
       set: function set(value) {
         isNumber({
@@ -2546,7 +2509,7 @@ var AccessibleMenu = (function () {
         this.dom.menu.setAttribute("role", "menubar");
         this.handleFocus();
         this.handleClick();
-        if (this.isHoverable) this.handleHover();
+        this.handleHover();
         this.handleKeydown();
         this.handleKeyup();
         this.elements.menuItems[0].dom.link.tabIndex = 0;
@@ -3044,7 +3007,7 @@ var AccessibleMenu = (function () {
 
         this.handleFocus();
         this.handleClick();
-        if (this.isHoverable) this.handleHover();
+        this.handleHover();
         this.handleKeydown();
         this.handleKeyup();
       }

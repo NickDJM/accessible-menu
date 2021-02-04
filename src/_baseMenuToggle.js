@@ -1,12 +1,6 @@
 /* eslint-disable jsdoc/no-undefined-types */
 
-import {
-  isHTMLElement,
-  isMenu,
-  isTag,
-  isBoolean,
-  isValidClassList,
-} from "./validate.js";
+import { isHTMLElement, isMenu, isTag, isBoolean } from "./validate.js";
 
 /*
  * A link or button that controls the visibility of a Menu.
@@ -19,16 +13,12 @@ class BaseMenuToggle {
    * @param {HTMLElement}          param0.menuToggleElement     - The toggle element in the DOM.
    * @param {HTMLElement}          param0.parentElement         - The element containing the controlled menu.
    * @param {BaseMenu}             param0.controlledMenu        - The menu controlled by this toggle.
-   * @param {string|string[]|null} [param0.openClass = "show"]  - The class to apply when the controlled menu is "open".
-   * @param {string|string[]|null} [param0.closeClass = "hide"] - The class to apply when the controlled menu is "closed".
    * @param {BaseMenu|null}        [param0.parentMenu = null]   - The menu containing this toggle.
    */
   constructor({
     menuToggleElement,
     parentElement,
     controlledMenu,
-    openClass = "show",
-    closeClass = "hide",
     parentMenu = null,
   }) {
     // Run validations.
@@ -48,8 +38,6 @@ class BaseMenuToggle {
       controlledMenu,
       parentMenu,
     };
-    this.openClass = openClass || "";
-    this.closeClass = closeClass || "";
     this.isOpen = false;
 
     this.expandEvent = new CustomEvent("accessibleMenuExpand", {
@@ -69,6 +57,8 @@ class BaseMenuToggle {
    * handling click events, and adding new keydown events.
    */
   initialize() {
+    const { closeClass } = this.elements.controlledMenu;
+
     // Add WAI-ARIA properties.
     this.dom.toggle.setAttribute("aria-haspopup", "true");
     this.dom.toggle.setAttribute("aria-expanded", "false");
@@ -130,11 +120,11 @@ class BaseMenuToggle {
     );
 
     // Add closed class.
-    if (this.closeClass !== "") {
-      if (typeof this.closeClass === "string") {
-        this.elements.controlledMenu.dom.menu.classList.add(this.closeClass);
-      } else if (Array.isArray(this.closeClass)) {
-        this.closeClass.forEach(value => {
+    if (closeClass !== "") {
+      if (typeof closeClass === "string") {
+        this.elements.controlledMenu.dom.menu.classList.add(closeClass);
+      } else if (Array.isArray(closeClass)) {
+        closeClass.forEach(value => {
           this.elements.controlledMenu.dom.menu.classList.add(value);
         });
       }
@@ -169,24 +159,6 @@ class BaseMenuToggle {
   }
 
   /**
-   * The class to apply when the controlled menu is "open".
-   *
-   * @returns {string} - The class.
-   */
-  get openClass() {
-    return this.controlledMenuOpenClass;
-  }
-
-  /**
-   * The class to apply when the controlled menu is "closed".
-   *
-   * @returns {string} - The class.
-   */
-  get closeClass() {
-    return this.controlledMenuCloseClass;
-  }
-
-  /**
    * Set the open state on the menu.
    *
    * @param {boolean} value - The open state.
@@ -198,52 +170,32 @@ class BaseMenuToggle {
   }
 
   /**
-   * Set the class to apply when the controlled menu is "open".
-   *
-   * @param {string} value - The class.
-   */
-  set openClass(value) {
-    isValidClassList({ openClass: value });
-
-    this.controlledMenuOpenClass = value;
-  }
-
-  /**
-   * Set the class to apply when the controlled menu is "closed".
-   *
-   * @param {string} value - The class.
-   */
-  set closeClass(value) {
-    isValidClassList({ closeClass: value });
-
-    this.controlledMenuCloseClass = value;
-  }
-
-  /**
    * Expands the controlled menu.
    *
    * Alters ARIA attributes and classes.
    */
   expand() {
+    const { closeClass, openClass } = this.elements.controlledMenu;
+
     this.dom.toggle.setAttribute("aria-expanded", "true");
 
     // Add the open class
-    if (this.openClass !== "") {
-      if (typeof this.openClass === "string") {
-        this.elements.controlledMenu.dom.menu.classList.add(this.openClass);
-      } else if (Array.isArray(this.openClass)) {
-        this.openClass.forEach(value => {
+    if (openClass !== "") {
+      if (typeof openClass === "string") {
+        this.elements.controlledMenu.dom.menu.classList.add(openClass);
+      } else if (Array.isArray(openClass)) {
+        openClass.forEach(value => {
           this.elements.controlledMenu.dom.menu.classList.add(value);
         });
       }
     }
 
     // Remove the close class.
-    if (this.closeClass !== "") {
-      if (typeof this.closeClass === "string") {
-        this.elements.controlledMenu.dom.menu.classList.remove(this.closeClass);
-      } else if (Array.isArray(this.closeClass)) {
-        this.closeClass.forEach(value => {
+    if (closeClass !== "") {
+      if (typeof closeClass === "string") {
+        this.elements.controlledMenu.dom.menu.classList.remove(closeClass);
+      } else if (Array.isArray(closeClass)) {
+        closeClass.forEach(value => {
           this.elements.controlledMenu.dom.menu.classList.remove(value);
         });
       }
@@ -258,25 +210,27 @@ class BaseMenuToggle {
    * Alters ARIA attributes and classes.
    */
   collapse() {
+    const { closeClass, openClass } = this.elements.controlledMenu;
+
     this.dom.toggle.setAttribute("aria-expanded", "false");
 
     // Add the close class
-    if (this.closeClass !== "") {
-      if (typeof this.closeClass === "string") {
-        this.elements.controlledMenu.dom.menu.classList.add(this.closeClass);
-      } else if (Array.isArray(this.closeClass)) {
-        this.closeClass.forEach(value => {
+    if (closeClass !== "") {
+      if (typeof closeClass === "string") {
+        this.elements.controlledMenu.dom.menu.classList.add(closeClass);
+      } else if (Array.isArray(closeClass)) {
+        closeClass.forEach(value => {
           this.elements.controlledMenu.dom.menu.classList.add(value);
         });
       }
     }
 
     // Remove the open class.
-    if (this.openClass !== "") {
-      if (typeof this.openClass === "string") {
-        this.elements.controlledMenu.dom.menu.classList.remove(this.openClass);
-      } else if (Array.isArray(this.openClass)) {
-        this.openClass.forEach(value => {
+    if (openClass !== "") {
+      if (typeof openClass === "string") {
+        this.elements.controlledMenu.dom.menu.classList.remove(openClass);
+      } else if (Array.isArray(openClass)) {
+        openClass.forEach(value => {
           this.elements.controlledMenu.dom.menu.classList.remove(value);
         });
       }
