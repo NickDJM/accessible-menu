@@ -252,10 +252,13 @@ class BaseMenu {
   /**
    * The delay time (in miliseconds) used for mouseout events to take place.
    *
+   * This functions differently for root vs. submenus.
+   * Submenus will always inherit their root menu's hover delay.
+   *
    * @returns {number} - The delay time.
    */
   get hoverDelay() {
-    return this.delay;
+    return this.isTopLevel ? this.delay : this.elements.rootMenu.hoverDelay;
   }
 
   /**
