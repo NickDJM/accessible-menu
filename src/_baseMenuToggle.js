@@ -1,5 +1,6 @@
 /* eslint-disable jsdoc/no-undefined-types */
 
+import { baseMenuToggleType } from "./_baseTypes.js";
 import { isHTMLElement, isMenu, isTag, isBoolean } from "./validate.js";
 
 /*
@@ -322,6 +323,10 @@ class BaseMenuToggle {
     this.elements.controlledMenu.elements.submenuToggles.forEach(toggle =>
       toggle.close()
     );
+  }
+
+  get [baseMenuToggleType]() {
+    return true;
   }
 }
 

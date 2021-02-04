@@ -1,5 +1,6 @@
 /* eslint-disable jsdoc/no-undefined-types */
 
+import { baseMenuToggleType } from "./_baseTypes.js";
 import { isHTMLElement, isBoolean, isMenu, isMenuToggle } from "./validate.js";
 
 /**
@@ -97,6 +98,10 @@ class BaseMenuItem {
     if (this.elements.parentMenu.currentEvent !== "mouse") {
       this.dom.link.blur();
     }
+  }
+
+  get [baseMenuToggleType]() {
+    return true;
   }
 }
 
