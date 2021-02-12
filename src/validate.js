@@ -1,5 +1,4 @@
-import BaseMenu from "./_baseMenu.js";
-import BaseMenuToggle from "./_baseMenuToggle.js";
+import { baseMenuType, baseMenuToggleType } from "./_baseTypes.js";
 
 /**
  * Checks to see if the provided element is an HTMLElement.
@@ -251,7 +250,7 @@ export function isKeyboardEvent(event) {
  *
  * Will return true is the check is successful.
  *
- * @param   {object|BaseMenu} element - The element to check.
+ * @param   {object} element - The element to check.
  *
  * @returns {boolean} - The result of the check.
  */
@@ -259,12 +258,12 @@ export function isMenu(element) {
   let name = "element";
 
   try {
-    if (!(element instanceof BaseMenu)) {
+    if (!element[baseMenuType]) {
       if (typeof element === "object") {
         for (const key in element) {
           name = key;
 
-          if (!(element[key] instanceof BaseMenu)) {
+          if (!element[key][baseMenuType]) {
             throw Error;
           }
         }
@@ -319,7 +318,7 @@ export function isTag(tagName, element) {
  *
  * Will return true is the check is successful.
  *
- * @param   {object|BaseMenuToggle} element - The element to check.
+ * @param   {object} element - The element to check.
  *
  * @returns {boolean} - The result of the check.
  */
@@ -327,12 +326,12 @@ export function isMenuToggle(element) {
   let name = "element";
 
   try {
-    if (!(element instanceof BaseMenuToggle)) {
-      if (typeof element === "object" && !(element instanceof BaseMenuToggle)) {
+    if (!element[baseMenuToggleType]) {
+      if (typeof element === "object" && !element[baseMenuToggleType]) {
         for (const key in element) {
           name = key;
 
-          if (!(element[key] instanceof BaseMenuToggle)) throw Error;
+          if (!element[key][baseMenuToggleType]) throw Error;
         }
       } else {
         throw Error;

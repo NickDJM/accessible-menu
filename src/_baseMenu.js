@@ -1,3 +1,4 @@
+import { baseMenuType } from "./_baseTypes.js";
 import BaseMenuToggle from "./_baseMenuToggle.js";
 import BaseMenuItem from "./_baseMenuItem.js";
 import {
@@ -837,6 +838,10 @@ class BaseMenu {
    */
   closeChildren() {
     this.elements.submenuToggles.forEach(toggle => toggle.close());
+  }
+
+  get [baseMenuType]() {
+    return true;
   }
 }
 

@@ -164,6 +164,398 @@ var AccessibleMenu = (function () {
     };
   }
 
+  // A modification of https://github.com/WebReflection/get-own-property-symbols
+  // (C) Andrea Giammarchi - MIT Licensed
+  if (!('Symbol' in self && self.Symbol.length === 0)) {
+    /* global Type */
+    (function (Object, GOPS, global) {
+
+      var supportsGetters = function () {
+        // supports getters
+        try {
+          var a = {};
+          Object.defineProperty(a, "t", {
+            configurable: true,
+            enumerable: false,
+            get: function get() {
+              return true;
+            },
+            set: undefined
+          });
+          return !!a.t;
+        } catch (e) {
+          return false;
+        }
+      }();
+
+      var setDescriptor;
+      var id = 0;
+      var random = '' + Math.random();
+      var prefix = '__\x01symbol:';
+      var prefixLength = prefix.length;
+      var internalSymbol = '__\x01symbol@@' + random;
+      var emptySymbolLookup = {};
+      var DP = 'defineProperty';
+      var DPies = 'defineProperties';
+      var GOPN = 'getOwnPropertyNames';
+      var GOPD = 'getOwnPropertyDescriptor';
+      var PIE = 'propertyIsEnumerable';
+      var ObjectProto = Object.prototype;
+      var hOP = ObjectProto.hasOwnProperty;
+      var pIE = ObjectProto[PIE];
+      var toString = ObjectProto.toString;
+      var concat = Array.prototype.concat;
+      var cachedWindowNames = Object.getOwnPropertyNames ? Object.getOwnPropertyNames(self) : [];
+      var nGOPN = Object[GOPN];
+
+      var gOPN = function getOwnPropertyNames(obj) {
+        if (toString.call(obj) === '[object Window]') {
+          try {
+            return nGOPN(obj);
+          } catch (e) {
+            // IE bug where layout engine calls userland gOPN for cross-domain `window` objects
+            return concat.call([], cachedWindowNames);
+          }
+        }
+
+        return nGOPN(obj);
+      };
+
+      var gOPD = Object[GOPD];
+      var objectCreate = Object.create;
+      var objectKeys = Object.keys;
+      var freeze = Object.freeze || Object;
+      var objectDefineProperty = Object[DP];
+      var $defineProperties = Object[DPies];
+      var descriptor = gOPD(Object, GOPN);
+
+      var addInternalIfNeeded = function addInternalIfNeeded(o, uid, enumerable) {
+        if (!hOP.call(o, internalSymbol)) {
+          try {
+            objectDefineProperty(o, internalSymbol, {
+              enumerable: false,
+              configurable: false,
+              writable: false,
+              value: {}
+            });
+          } catch (e) {
+            o[internalSymbol] = {};
+          }
+        }
+
+        o[internalSymbol]['@@' + uid] = enumerable;
+      };
+
+      var createWithSymbols = function createWithSymbols(proto, descriptors) {
+        var self = objectCreate(proto);
+        gOPN(descriptors).forEach(function (key) {
+          if (propertyIsEnumerable.call(descriptors, key)) {
+            $defineProperty(self, key, descriptors[key]);
+          }
+        });
+        return self;
+      };
+
+      var copyAsNonEnumerable = function copyAsNonEnumerable(descriptor) {
+        var newDescriptor = objectCreate(descriptor);
+        newDescriptor.enumerable = false;
+        return newDescriptor;
+      };
+
+      var get = function get() {};
+
+      var onlyNonSymbols = function onlyNonSymbols(name) {
+        return name != internalSymbol && !hOP.call(source, name);
+      };
+
+      var onlySymbols = function onlySymbols(name) {
+        return name != internalSymbol && hOP.call(source, name);
+      };
+
+      var propertyIsEnumerable = function propertyIsEnumerable(key) {
+        var uid = '' + key;
+        return onlySymbols(uid) ? hOP.call(this, uid) && this[internalSymbol] && this[internalSymbol]['@@' + uid] : pIE.call(this, key);
+      };
+
+      var setAndGetSymbol = function setAndGetSymbol(uid) {
+        var descriptor = {
+          enumerable: false,
+          configurable: true,
+          get: get,
+          set: function set(value) {
+            setDescriptor(this, uid, {
+              enumerable: false,
+              configurable: true,
+              writable: true,
+              value: value
+            });
+            addInternalIfNeeded(this, uid, true);
+          }
+        };
+
+        try {
+          objectDefineProperty(ObjectProto, uid, descriptor);
+        } catch (e) {
+          ObjectProto[uid] = descriptor.value;
+        }
+
+        source[uid] = objectDefineProperty(Object(uid), 'constructor', sourceConstructor);
+        var description = gOPD(_Symbol.prototype, 'description');
+
+        if (description) {
+          objectDefineProperty(source[uid], 'description', description);
+        }
+
+        return freeze(source[uid]);
+      };
+
+      var symbolDescription = function symbolDescription(s) {
+        var sym = thisSymbolValue(s); // 3. Return sym.[[Description]].
+
+        if (supportsInferredNames) {
+          var name = getInferredName(sym);
+
+          if (name !== "") {
+            return name.slice(1, -1); // name.slice('['.length, -']'.length);
+          }
+        }
+
+        if (emptySymbolLookup[sym] !== undefined) {
+          return emptySymbolLookup[sym];
+        }
+
+        var string = sym.toString();
+        var randomStartIndex = string.lastIndexOf("0.");
+        string = string.slice(10, randomStartIndex);
+
+        if (string === "") {
+          return undefined;
+        }
+
+        return string;
+      };
+
+      var _Symbol = function _Symbol2() {
+        var description = arguments[0];
+
+        if (this instanceof _Symbol2) {
+          throw new TypeError('Symbol is not a constructor');
+        }
+
+        var uid = prefix.concat(description || '', random, ++id);
+
+        if (description !== undefined && (description === null || isNaN(description) || String(description) === "")) {
+          emptySymbolLookup[uid] = String(description);
+        }
+
+        var that = setAndGetSymbol(uid);
+
+        if (!supportsGetters) {
+          Object.defineProperty(that, "description", {
+            configurable: true,
+            enumerable: false,
+            value: symbolDescription(that)
+          });
+        }
+
+        return that;
+      };
+
+      var source = objectCreate(null);
+      var sourceConstructor = {
+        value: _Symbol
+      };
+
+      var sourceMap = function sourceMap(uid) {
+        return source[uid];
+      };
+
+      var $defineProperty = function defineProperty(o, key, descriptor) {
+        var uid = '' + key;
+
+        if (onlySymbols(uid)) {
+          setDescriptor(o, uid, descriptor.enumerable ? copyAsNonEnumerable(descriptor) : descriptor);
+          addInternalIfNeeded(o, uid, !!descriptor.enumerable);
+        } else {
+          objectDefineProperty(o, key, descriptor);
+        }
+
+        return o;
+      };
+
+      var onlyInternalSymbols = function onlyInternalSymbols(obj) {
+        return function (name) {
+          return hOP.call(obj, internalSymbol) && hOP.call(obj[internalSymbol], '@@' + name);
+        };
+      };
+
+      var $getOwnPropertySymbols = function getOwnPropertySymbols(o) {
+        return gOPN(o).filter(o === ObjectProto ? onlyInternalSymbols(o) : onlySymbols).map(sourceMap);
+      };
+
+      descriptor.value = $defineProperty;
+      objectDefineProperty(Object, DP, descriptor);
+      descriptor.value = $getOwnPropertySymbols;
+      objectDefineProperty(Object, GOPS, descriptor);
+
+      descriptor.value = function getOwnPropertyNames(o) {
+        return gOPN(o).filter(onlyNonSymbols);
+      };
+
+      objectDefineProperty(Object, GOPN, descriptor);
+
+      descriptor.value = function defineProperties(o, descriptors) {
+        var symbols = $getOwnPropertySymbols(descriptors);
+
+        if (symbols.length) {
+          objectKeys(descriptors).concat(symbols).forEach(function (uid) {
+            if (propertyIsEnumerable.call(descriptors, uid)) {
+              $defineProperty(o, uid, descriptors[uid]);
+            }
+          });
+        } else {
+          $defineProperties(o, descriptors);
+        }
+
+        return o;
+      };
+
+      objectDefineProperty(Object, DPies, descriptor);
+      descriptor.value = propertyIsEnumerable;
+      objectDefineProperty(ObjectProto, PIE, descriptor);
+      descriptor.value = _Symbol;
+      objectDefineProperty(global, 'Symbol', descriptor); // defining `Symbol.for(key)`
+
+      descriptor.value = function (key) {
+        var uid = prefix.concat(prefix, key, random);
+        return uid in ObjectProto ? source[uid] : setAndGetSymbol(uid);
+      };
+
+      objectDefineProperty(_Symbol, 'for', descriptor); // defining `Symbol.keyFor(symbol)`
+
+      descriptor.value = function (symbol) {
+        if (onlyNonSymbols(symbol)) throw new TypeError(symbol + ' is not a symbol');
+        return hOP.call(source, symbol) ? symbol.slice(prefixLength * 2, -random.length) : void 0;
+      };
+
+      objectDefineProperty(_Symbol, 'keyFor', descriptor);
+
+      descriptor.value = function getOwnPropertyDescriptor(o, key) {
+        var descriptor = gOPD(o, key);
+
+        if (descriptor && onlySymbols(key)) {
+          descriptor.enumerable = propertyIsEnumerable.call(o, key);
+        }
+
+        return descriptor;
+      };
+
+      objectDefineProperty(Object, GOPD, descriptor);
+
+      descriptor.value = function create(proto, descriptors) {
+        return arguments.length === 1 || typeof descriptors === "undefined" ? objectCreate(proto) : createWithSymbols(proto, descriptors);
+      };
+
+      objectDefineProperty(Object, 'create', descriptor);
+
+      var strictModeSupported = function () {
+
+        return this;
+      }.call(null) === null;
+
+      if (strictModeSupported) {
+        descriptor.value = function () {
+          var str = toString.call(this);
+          return str === '[object String]' && onlySymbols(this) ? '[object Symbol]' : str;
+        };
+      } else {
+        descriptor.value = function () {
+          // https://github.com/Financial-Times/polyfill-library/issues/164#issuecomment-486965300
+          // Polyfill.io this code is here for the situation where a browser does not
+          // support strict mode and is executing `Object.prototype.toString.call(null)`.
+          // This code ensures that we return the correct result in that situation however,
+          // this code also introduces a bug where it will return the incorrect result for
+          // `Object.prototype.toString.call(window)`. We can't have the correct result for
+          // both `window` and `null`, so we have opted for `null` as we believe this is the more
+          // common situation.
+          if (this === window) {
+            return '[object Null]';
+          }
+
+          var str = toString.call(this);
+          return str === '[object String]' && onlySymbols(this) ? '[object Symbol]' : str;
+        };
+      }
+
+      objectDefineProperty(ObjectProto, 'toString', descriptor);
+
+      setDescriptor = function setDescriptor(o, key, descriptor) {
+        var protoDescriptor = gOPD(ObjectProto, key);
+        delete ObjectProto[key];
+        objectDefineProperty(o, key, descriptor);
+
+        if (o !== ObjectProto) {
+          objectDefineProperty(ObjectProto, key, protoDescriptor);
+        }
+      }; // The abstract operation thisSymbolValue(value) performs the following steps:
+
+
+      function thisSymbolValue(value) {
+        // 1. If Type(value) is Symbol, return value.
+        if (Type(value) === "symbol") {
+          return value;
+        } // 2. If Type(value) is Object and value has a [[SymbolData]] internal slot, then
+        // a. Let s be value.[[SymbolData]].
+        // b. Assert: Type(s) is Symbol.
+        // c. Return s.
+        // 3. Throw a TypeError exception.
+
+
+        throw TypeError(value + " is not a symbol");
+      } // Symbol.prototype.description
+
+
+      if (function () {
+        // supports getters
+        try {
+          var a = {};
+          Object.defineProperty(a, "t", {
+            configurable: true,
+            enumerable: false,
+            get: function get() {
+              return true;
+            },
+            set: undefined
+          });
+          return !!a.t;
+        } catch (e) {
+          return false;
+        }
+      }()) {
+        var getInferredName;
+
+        try {
+          // eslint-disable-next-line no-new-func
+          getInferredName = Function("s", "var v = s.valueOf(); return { [v]() {} }[v].name;"); // eslint-disable-next-line no-empty
+        } catch (e) {}
+
+        var inferred = function inferred() {};
+
+        var supportsInferredNames = getInferredName && inferred.name === "inferred" ? getInferredName : null; // 19.4.3.2 get Symbol.prototype.description
+
+        Object.defineProperty(global.Symbol.prototype, "description", {
+          configurable: true,
+          enumerable: false,
+          get: function get() {
+            // 1. Let s be the this value.
+            var s = this;
+            return symbolDescription(s);
+          }
+        });
+      }
+    })(Object, 'getOwnPropertySymbols', self);
+  }
+
   function _typeof(obj) {
     "@babel/helpers - typeof";
 
@@ -343,6 +735,9 @@ var AccessibleMenu = (function () {
   function _nonIterableSpread() {
     throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
   }
+
+  var baseMenuType = Symbol("BaseMenu");
+  var baseMenuToggleType = Symbol("BaseMenuToggle");
 
   /**
    * Checks to see if the provided element is an HTMLElement.
@@ -586,7 +981,7 @@ var AccessibleMenu = (function () {
    *
    * Will return true is the check is successful.
    *
-   * @param   {object|BaseMenu} element - The element to check.
+   * @param   {object} element - The element to check.
    *
    * @returns {boolean} - The result of the check.
    */
@@ -595,12 +990,12 @@ var AccessibleMenu = (function () {
     var name = "element";
 
     try {
-      if (!(element instanceof BaseMenu)) {
+      if (!element[baseMenuType]) {
         if (_typeof(element) === "object") {
           for (var key in element) {
             name = key;
 
-            if (!(element[key] instanceof BaseMenu)) {
+            if (!element[key][baseMenuType]) {
               throw Error;
             }
           }
@@ -651,7 +1046,7 @@ var AccessibleMenu = (function () {
    *
    * Will return true is the check is successful.
    *
-   * @param   {object|BaseMenuToggle} element - The element to check.
+   * @param   {object} element - The element to check.
    *
    * @returns {boolean} - The result of the check.
    */
@@ -660,11 +1055,11 @@ var AccessibleMenu = (function () {
     var name = "element";
 
     try {
-      if (!(element instanceof BaseMenuToggle)) {
-        if (_typeof(element) === "object" && !(element instanceof BaseMenuToggle)) {
+      if (!element[baseMenuToggleType]) {
+        if (_typeof(element) === "object" && !element[baseMenuToggleType]) {
           for (var key in element) {
             name = key;
-            if (!(element[key] instanceof BaseMenuToggle)) throw Error;
+            if (!element[key][baseMenuToggleType]) throw Error;
           }
         } else {
           throw Error;
@@ -940,13 +1335,52 @@ var AccessibleMenu = (function () {
        */
 
     }, {
-      key: "expand",
+      key: "dom",
+      get: function get() {
+        return this.domElements;
+      }
+      /**
+       * The elements within the toggle.
+       *
+       * @returns {object} - The elements.
+       */
 
+    }, {
+      key: "elements",
+      get: function get() {
+        return this.menuElements;
+      }
+      /**
+       * The open state on the menu.
+       *
+       * @returns {boolean} - The open state.
+       */
+
+    }, {
+      key: "isOpen",
+      get: function get() {
+        return this.show;
+      }
+      /**
+       * Set the open state on the menu.
+       *
+       * @param {boolean} value - The open state.
+       */
+      ,
+      set: function set(value) {
+        isBoolean({
+          value: value
+        });
+        this.show = value;
+      }
       /**
        * Expands the controlled menu.
        *
        * Alters ARIA attributes and classes.
        */
+
+    }, {
+      key: "expand",
       value: function expand() {
         var _this2 = this;
 
@@ -1111,43 +1545,9 @@ var AccessibleMenu = (function () {
         });
       }
     }, {
-      key: "dom",
+      key: baseMenuToggleType,
       get: function get() {
-        return this.domElements;
-      }
-      /**
-       * The elements within the toggle.
-       *
-       * @returns {object} - The elements.
-       */
-
-    }, {
-      key: "elements",
-      get: function get() {
-        return this.menuElements;
-      }
-      /**
-       * The open state on the menu.
-       *
-       * @returns {boolean} - The open state.
-       */
-
-    }, {
-      key: "isOpen",
-      get: function get() {
-        return this.show;
-      }
-      /**
-       * Set the open state on the menu.
-       *
-       * @param {boolean} value - The open state.
-       */
-      ,
-      set: function set(value) {
-        isBoolean({
-          value: value
-        });
-        this.show = value;
+        return true;
       }
     }]);
 
@@ -1232,28 +1632,6 @@ var AccessibleMenu = (function () {
        */
 
     }, {
-      key: "focus",
-
-      /**
-       * Focuses the menu item's link and set proper tabIndex.
-       */
-      value: function focus() {
-        if (this.elements.parentMenu.currentEvent !== "mouse") {
-          this.dom.link.focus();
-        }
-      }
-      /**
-       * Blurs the menu item's link and set proper tabIndex.
-       */
-
-    }, {
-      key: "blur",
-      value: function blur() {
-        if (this.elements.parentMenu.currentEvent !== "mouse") {
-          this.dom.link.blur();
-        }
-      }
-    }, {
       key: "dom",
       get: function get() {
         return this.domElements;
@@ -1279,6 +1657,33 @@ var AccessibleMenu = (function () {
       key: "isSubmenuItem",
       get: function get() {
         return this.isController;
+      }
+      /**
+       * Focuses the menu item's link and set proper tabIndex.
+       */
+
+    }, {
+      key: "focus",
+      value: function focus() {
+        if (this.elements.parentMenu.currentEvent !== "mouse") {
+          this.dom.link.focus();
+        }
+      }
+      /**
+       * Blurs the menu item's link and set proper tabIndex.
+       */
+
+    }, {
+      key: "blur",
+      value: function blur() {
+        if (this.elements.parentMenu.currentEvent !== "mouse") {
+          this.dom.link.blur();
+        }
+      }
+    }, {
+      key: baseMenuToggleType,
+      get: function get() {
+        return true;
       }
     }]);
 
@@ -1499,8 +1904,444 @@ var AccessibleMenu = (function () {
        */
 
     }, {
-      key: "setDOMElementType",
+      key: "dom",
+      get: function get() {
+        return this.domElements;
+      }
+      /**
+       * The CSS selectors available to the menu.
+       *
+       * @returns {object} - The selectors.
+       */
 
+    }, {
+      key: "selectors",
+      get: function get() {
+        return this.domSelectors;
+      }
+      /**
+       * The elements within the menu.
+       *
+       * @returns {object} - The elements.
+       */
+
+    }, {
+      key: "elements",
+      get: function get() {
+        return this.menuElements;
+      }
+      /**
+       * The class(es) to apply when the menu is "open".
+       *
+       * This functions differently for root vs. submenus.
+       * Submenus will always inherit their root menu's open class(es).
+       *
+       * @returns {string|string[]} - The class(es).
+       */
+
+    }, {
+      key: "openClass",
+      get: function get() {
+        return this.isTopLevel ? this.submenuOpenClass : this.elements.rootMenu.openClass;
+      }
+      /**
+       * The class(es) to apply when the menu is "closed".
+       *
+       * This functions differently for root vs. submenus.
+       * Submenus will always inherit their root menu's close class(es).
+       *
+       * @returns {string|string[]} - The class(es).
+       */
+      ,
+      set:
+      /**
+       * Set the class to apply when the menu is "open".
+       *
+       * @param {string} value - The class.
+       */
+      function set(value) {
+        isValidClassList({
+          openClass: value
+        });
+        this.submenuOpenClass = value;
+      }
+      /**
+       * Set the class to apply when the menu is "closed".
+       *
+       * @param {string} value - The class.
+       */
+
+    }, {
+      key: "closeClass",
+      get: function get() {
+        return this.isTopLevel ? this.submenuCloseClass : this.elements.rootMenu.closeClass;
+      }
+      /**
+       * A flag marking the root menu.
+       *
+       * @returns {boolean} - The top-level flag.
+       */
+      ,
+      set: function set(value) {
+        isValidClassList({
+          closeClass: value
+        });
+        this.submenuCloseClass = value;
+      }
+      /**
+       * Set the index currently selected menu item in the menu.
+       *
+       * @param {number} value - The index.
+       */
+
+    }, {
+      key: "isTopLevel",
+      get: function get() {
+        return this.root;
+      }
+      /**
+       * The index of the currently selected menu item in the menu.
+       *
+       * @returns {number} - The index.
+       */
+
+    }, {
+      key: "currentChild",
+      get: function get() {
+        return this.focussedChild;
+      }
+      /**
+       * The current state of the menu's focus.
+       *
+       * @returns {string} - The state.
+       */
+      ,
+      set: function set(value) {
+        isNumber({
+          value: value
+        });
+        this.focussedChild = value;
+      }
+      /**
+       * Set the state of the menu's focus.
+       *
+       * @param {string} value - The state.
+       */
+
+    }, {
+      key: "focusState",
+      get: function get() {
+        return this.state;
+      }
+      /**
+       * This last event triggered on the menu.
+       *
+       * @returns {string} - The event type.
+       */
+      ,
+      set: function set(value) {
+        isValidState({
+          value: value
+        });
+        this.state = value;
+      }
+      /**
+       * Set the last event triggered on the menu.
+       *
+       * @param {string} value - The event type.
+       */
+
+    }, {
+      key: "currentEvent",
+      get: function get() {
+        return this.event;
+      }
+      /**
+       * The currently selected menu item.
+       *
+       * @returns {BaseMenuItem} - The menu item.
+       */
+      ,
+      set: function set(value) {
+        isValidEvent({
+          value: value
+        });
+        this.event = value;
+      }
+      /**
+       * Set the flag to allow hover events on the menu.
+       *
+       * @param {boolean} value - The hoverable flag.
+       */
+
+    }, {
+      key: "currentMenuItem",
+      get: function get() {
+        return this.elements.menuItems[this.currentChild];
+      }
+      /**
+       * A flag to allow hover events on the menu.
+       *
+       * This functions differently for root vs. submenus.
+       * Submenus will always inherit their root menu's hoverability.
+       *
+       * @returns {boolean} - The hoverable flag.
+       */
+
+    }, {
+      key: "isHoverable",
+      get: function get() {
+        return this.isTopLevel ? this.hoverable : this.elements.rootMenu.isHoverable;
+      }
+      /**
+       * The delay time (in miliseconds) used for mouseout events to take place.
+       *
+       * This functions differently for root vs. submenus.
+       * Submenus will always inherit their root menu's hover delay.
+       *
+       * @returns {number} - The delay time.
+       */
+      ,
+      set: function set(value) {
+        isBoolean({
+          value: value
+        });
+        this.hoverable = value;
+      }
+      /**
+       * Set the delay time (in miliseconds) used for mouseout events to take place.
+       *
+       * @param {number} value - The delay time.
+       */
+
+    }, {
+      key: "hoverDelay",
+      get: function get() {
+        return this.isTopLevel ? this.delay : this.elements.rootMenu.hoverDelay;
+      },
+      set: function set(value) {
+        isNumber({
+          value: value
+        });
+        this.delay = value;
+      }
+      /**
+       * The CSS selectors available to the menu.
+       *
+       * @returns {object} - The selectors.
+       */
+
+    }, {
+      key: "selectors",
+      get: function get() {
+        return this.domSelectors;
+      }
+      /**
+       * The elements within the menu.
+       *
+       * @returns {object} - The elements.
+       */
+
+    }, {
+      key: "elements",
+      get: function get() {
+        return this.menuElements;
+      }
+      /**
+       * The class(es) to apply when the menu is "open".
+       *
+       * This functions differently for root vs. submenus.
+       * Submenus will always inherit their root menu's open class(es).
+       *
+       * @returns {string|string[]} - The class(es).
+       */
+
+    }, {
+      key: "openClass",
+      get: function get() {
+        return this.isTopLevel ? this.submenuOpenClass : this.elements.rootMenu.openClass;
+      }
+      /**
+       * The class(es) to apply when the menu is "closed".
+       *
+       * This functions differently for root vs. submenus.
+       * Submenus will always inherit their root menu's close class(es).
+       *
+       * @returns {string|string[]} - The class(es).
+       */
+      ,
+      set:
+      /**
+       * Set the class to apply when the menu is "open".
+       *
+       * @param {string} value - The class.
+       */
+      function set(value) {
+        isValidClassList({
+          openClass: value
+        });
+        this.submenuOpenClass = value;
+      }
+      /**
+       * Set the class to apply when the menu is "closed".
+       *
+       * @param {string} value - The class.
+       */
+
+    }, {
+      key: "closeClass",
+      get: function get() {
+        return this.isTopLevel ? this.submenuCloseClass : this.elements.rootMenu.closeClass;
+      }
+      /**
+       * A flag marking the root menu.
+       *
+       * @returns {boolean} - The top-level flag.
+       */
+      ,
+      set: function set(value) {
+        isValidClassList({
+          closeClass: value
+        });
+        this.submenuCloseClass = value;
+      }
+      /**
+       * Set the index currently selected menu item in the menu.
+       *
+       * @param {number} value - The index.
+       */
+
+    }, {
+      key: "isTopLevel",
+      get: function get() {
+        return this.root;
+      }
+      /**
+       * The index of the currently selected menu item in the menu.
+       *
+       * @returns {number} - The index.
+       */
+
+    }, {
+      key: "currentChild",
+      get: function get() {
+        return this.focussedChild;
+      }
+      /**
+       * The current state of the menu's focus.
+       *
+       * @returns {string} - The state.
+       */
+      ,
+      set: function set(value) {
+        isNumber({
+          value: value
+        });
+        this.focussedChild = value;
+      }
+      /**
+       * Set the state of the menu's focus.
+       *
+       * @param {string} value - The state.
+       */
+
+    }, {
+      key: "focusState",
+      get: function get() {
+        return this.state;
+      }
+      /**
+       * This last event triggered on the menu.
+       *
+       * @returns {string} - The event type.
+       */
+      ,
+      set: function set(value) {
+        isValidState({
+          value: value
+        });
+        this.state = value;
+      }
+      /**
+       * Set the last event triggered on the menu.
+       *
+       * @param {string} value - The event type.
+       */
+
+    }, {
+      key: "currentEvent",
+      get: function get() {
+        return this.event;
+      }
+      /**
+       * The currently selected menu item.
+       *
+       * @returns {BaseMenuItem} - The menu item.
+       */
+      ,
+      set: function set(value) {
+        isValidEvent({
+          value: value
+        });
+        this.event = value;
+      }
+      /**
+       * Set the flag to allow hover events on the menu.
+       *
+       * @param {boolean} value - The hoverable flag.
+       */
+
+    }, {
+      key: "currentMenuItem",
+      get: function get() {
+        return this.elements.menuItems[this.currentChild];
+      }
+      /**
+       * A flag to allow hover events on the menu.
+       *
+       * This functions differently for root vs. submenus.
+       * Submenus will always inherit their root menu's hoverability.
+       *
+       * @returns {boolean} - The hoverable flag.
+       */
+
+    }, {
+      key: "isHoverable",
+      get: function get() {
+        return this.isTopLevel ? this.hoverable : this.elements.rootMenu.isHoverable;
+      }
+      /**
+       * The delay time (in miliseconds) used for mouseout events to take place.
+       *
+       * This functions differently for root vs. submenus.
+       * Submenus will always inherit their root menu's hover delay.
+       *
+       * @returns {number} - The delay time.
+       */
+      ,
+      set: function set(value) {
+        isBoolean({
+          value: value
+        });
+        this.hoverable = value;
+      }
+      /**
+       * Set the delay time (in miliseconds) used for mouseout events to take place.
+       *
+       * @param {number} value - The delay time.
+       */
+
+    }, {
+      key: "hoverDelay",
+      get: function get() {
+        return this.isTopLevel ? this.delay : this.elements.rootMenu.hoverDelay;
+      },
+      set: function set(value) {
+        isNumber({
+          value: value
+        });
+        this.delay = value;
+      }
       /**
        * Sets DOM elements within the menu.
        *
@@ -1508,6 +2349,9 @@ var AccessibleMenu = (function () {
        * @param {HTMLElement} base        - The element used as the base for the querySelect.
        * @param {Function}    filter      - A filter to use to narrow down the DOM elements selected.
        */
+
+    }, {
+      key: "setDOMElementType",
       value: function setDOMElementType(elementType, base, filter) {
         if (typeof this.selectors[elementType] === "string") {
           if (base) isHTMLElement({
@@ -2036,226 +2880,9 @@ var AccessibleMenu = (function () {
         });
       }
     }, {
-      key: "dom",
+      key: baseMenuType,
       get: function get() {
-        return this.domElements;
-      }
-      /**
-       * The CSS selectors available to the menu.
-       *
-       * @returns {object} - The selectors.
-       */
-
-    }, {
-      key: "selectors",
-      get: function get() {
-        return this.domSelectors;
-      }
-      /**
-       * The elements within the menu.
-       *
-       * @returns {object} - The elements.
-       */
-
-    }, {
-      key: "elements",
-      get: function get() {
-        return this.menuElements;
-      }
-      /**
-       * The class(es) to apply when the menu is "open".
-       *
-       * This functions differently for root vs. submenus.
-       * Submenus will always inherit their root menu's open class(es).
-       *
-       * @returns {string|string[]} - The class(es).
-       */
-
-    }, {
-      key: "openClass",
-      get: function get() {
-        return this.isTopLevel ? this.submenuOpenClass : this.elements.rootMenu.openClass;
-      }
-      /**
-       * The class(es) to apply when the menu is "closed".
-       *
-       * This functions differently for root vs. submenus.
-       * Submenus will always inherit their root menu's close class(es).
-       *
-       * @returns {string|string[]} - The class(es).
-       */
-      ,
-
-      /**
-       * Set the class to apply when the menu is "open".
-       *
-       * @param {string} value - The class.
-       */
-      set: function set(value) {
-        isValidClassList({
-          openClass: value
-        });
-        this.submenuOpenClass = value;
-      }
-      /**
-       * Set the class to apply when the menu is "closed".
-       *
-       * @param {string} value - The class.
-       */
-
-    }, {
-      key: "closeClass",
-      get: function get() {
-        return this.isTopLevel ? this.submenuCloseClass : this.elements.rootMenu.closeClass;
-      }
-      /**
-       * A flag marking the root menu.
-       *
-       * @returns {boolean} - The top-level flag.
-       */
-      ,
-      set: function set(value) {
-        isValidClassList({
-          closeClass: value
-        });
-        this.submenuCloseClass = value;
-      }
-      /**
-       * Set the index currently selected menu item in the menu.
-       *
-       * @param {number} value - The index.
-       */
-
-    }, {
-      key: "isTopLevel",
-      get: function get() {
-        return this.root;
-      }
-      /**
-       * The index of the currently selected menu item in the menu.
-       *
-       * @returns {number} - The index.
-       */
-
-    }, {
-      key: "currentChild",
-      get: function get() {
-        return this.focussedChild;
-      }
-      /**
-       * The current state of the menu's focus.
-       *
-       * @returns {string} - The state.
-       */
-      ,
-      set: function set(value) {
-        isNumber({
-          value: value
-        });
-        this.focussedChild = value;
-      }
-      /**
-       * Set the state of the menu's focus.
-       *
-       * @param {string} value - The state.
-       */
-
-    }, {
-      key: "focusState",
-      get: function get() {
-        return this.state;
-      }
-      /**
-       * This last event triggered on the menu.
-       *
-       * @returns {string} - The event type.
-       */
-      ,
-      set: function set(value) {
-        isValidState({
-          value: value
-        });
-        this.state = value;
-      }
-      /**
-       * Set the last event triggered on the menu.
-       *
-       * @param {string} value - The event type.
-       */
-
-    }, {
-      key: "currentEvent",
-      get: function get() {
-        return this.event;
-      }
-      /**
-       * The currently selected menu item.
-       *
-       * @returns {BaseMenuItem} - The menu item.
-       */
-      ,
-      set: function set(value) {
-        isValidEvent({
-          value: value
-        });
-        this.event = value;
-      }
-      /**
-       * Set the flag to allow hover events on the menu.
-       *
-       * @param {boolean} value - The hoverable flag.
-       */
-
-    }, {
-      key: "currentMenuItem",
-      get: function get() {
-        return this.elements.menuItems[this.currentChild];
-      }
-      /**
-       * A flag to allow hover events on the menu.
-       *
-       * This functions differently for root vs. submenus.
-       * Submenus will always inherit their root menu's hoverability.
-       *
-       * @returns {boolean} - The hoverable flag.
-       */
-
-    }, {
-      key: "isHoverable",
-      get: function get() {
-        return this.isTopLevel ? this.hoverable : this.elements.rootMenu.isHoverable;
-      }
-      /**
-       * The delay time (in miliseconds) used for mouseout events to take place.
-       *
-       * This functions differently for root vs. submenus.
-       * Submenus will always inherit their root menu's hover delay.
-       *
-       * @returns {number} - The delay time.
-       */
-      ,
-      set: function set(value) {
-        isBoolean({
-          value: value
-        });
-        this.hoverable = value;
-      }
-      /**
-       * Set the delay time (in miliseconds) used for mouseout events to take place.
-       *
-       * @param {number} value - The delay time.
-       */
-
-    }, {
-      key: "hoverDelay",
-      get: function get() {
-        return this.isTopLevel ? this.delay : this.elements.rootMenu.hoverDelay;
-      },
-      set: function set(value) {
-        isNumber({
-          value: value
-        });
-        this.delay = value;
+        return true;
       }
     }]);
 
