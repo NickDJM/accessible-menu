@@ -164,6 +164,23 @@ var AccessibleMenu = (function () {
     };
   }
 
+  (function () {
+    if (typeof window.CustomEvent === "function") return false;
+
+    function CustomEvent(event, params) {
+      params = params || {
+        bubbles: false,
+        cancelable: false,
+        detail: null
+      };
+      var evt = document.createEvent('CustomEvent');
+      evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
+      return evt;
+    }
+
+    window.CustomEvent = CustomEvent;
+  })();
+
   function _typeof(obj) {
     "@babel/helpers - typeof";
 
@@ -947,13 +964,98 @@ var AccessibleMenu = (function () {
        */
 
     }, {
-      key: "expand",
+      key: "dom",
+      get: function get() {
+        return this.domElements;
+      }
+      /**
+       * The elements within the toggle.
+       *
+       * @returns {object} - The elements.
+       */
 
+    }, {
+      key: "elements",
+      get: function get() {
+        return this.menuElements;
+      }
+      /**
+       * The open state on the menu.
+       *
+       * @returns {boolean} - The open state.
+       */
+
+    }, {
+      key: "isOpen",
+      get: function get() {
+        return this.show;
+      }
+      /**
+       * The class to apply when the controlled menu is "open".
+       *
+       * @returns {string} - The class.
+       */
+      ,
+      set:
+      /**
+       * Set the open state on the menu.
+       *
+       * @param {boolean} value - The open state.
+       */
+      function set(value) {
+        isBoolean({
+          value: value
+        });
+        this.show = value;
+      }
+      /**
+       * Set the class to apply when the controlled menu is "open".
+       *
+       * @param {string} value - The class.
+       */
+
+    }, {
+      key: "openClass",
+      get: function get() {
+        return this.controlledMenuOpenClass;
+      }
+      /**
+       * The class to apply when the controlled menu is "closed".
+       *
+       * @returns {string} - The class.
+       */
+      ,
+      set: function set(value) {
+        isValidClassList({
+          openClass: value
+        });
+        this.controlledMenuOpenClass = value;
+      }
+      /**
+       * Set the class to apply when the controlled menu is "closed".
+       *
+       * @param {string} value - The class.
+       */
+
+    }, {
+      key: "closeClass",
+      get: function get() {
+        return this.controlledMenuCloseClass;
+      },
+      set: function set(value) {
+        isValidClassList({
+          closeClass: value
+        });
+        this.controlledMenuCloseClass = value;
+      }
       /**
        * Expands the controlled menu.
        *
        * Alters ARIA attributes and classes.
        */
+
+    }, {
+      key: "expand",
       value: function expand() {
         var _this2 = this;
 
@@ -1111,91 +1213,6 @@ var AccessibleMenu = (function () {
           return toggle.close();
         });
       }
-    }, {
-      key: "dom",
-      get: function get() {
-        return this.domElements;
-      }
-      /**
-       * The elements within the toggle.
-       *
-       * @returns {object} - The elements.
-       */
-
-    }, {
-      key: "elements",
-      get: function get() {
-        return this.menuElements;
-      }
-      /**
-       * The open state on the menu.
-       *
-       * @returns {boolean} - The open state.
-       */
-
-    }, {
-      key: "isOpen",
-      get: function get() {
-        return this.show;
-      }
-      /**
-       * The class to apply when the controlled menu is "open".
-       *
-       * @returns {string} - The class.
-       */
-      ,
-
-      /**
-       * Set the open state on the menu.
-       *
-       * @param {boolean} value - The open state.
-       */
-      set: function set(value) {
-        isBoolean({
-          value: value
-        });
-        this.show = value;
-      }
-      /**
-       * Set the class to apply when the controlled menu is "open".
-       *
-       * @param {string} value - The class.
-       */
-
-    }, {
-      key: "openClass",
-      get: function get() {
-        return this.controlledMenuOpenClass;
-      }
-      /**
-       * The class to apply when the controlled menu is "closed".
-       *
-       * @returns {string} - The class.
-       */
-      ,
-      set: function set(value) {
-        isValidClassList({
-          openClass: value
-        });
-        this.controlledMenuOpenClass = value;
-      }
-      /**
-       * Set the class to apply when the controlled menu is "closed".
-       *
-       * @param {string} value - The class.
-       */
-
-    }, {
-      key: "closeClass",
-      get: function get() {
-        return this.controlledMenuCloseClass;
-      },
-      set: function set(value) {
-        isValidClassList({
-          closeClass: value
-        });
-        this.controlledMenuCloseClass = value;
-      }
     }]);
 
     return MenuToggle;
@@ -1288,36 +1305,6 @@ var AccessibleMenu = (function () {
        */
 
     }, {
-      key: "focus",
-
-      /**
-       * Focuses the menu item's link and set proper tabIndex.
-       */
-      value: function focus() {
-        if (this.elements.parentMenu.currentEvent !== "mouse") {
-          this.dom.link.focus();
-        }
-
-        if (this.isMenubar && this.elements.parentMenu.isTopLevel) {
-          this.dom.link.tabIndex = 0;
-        }
-      }
-      /**
-       * Blurs the menu item's link and set proper tabIndex.
-       */
-
-    }, {
-      key: "blur",
-      value: function blur() {
-        if (this.elements.parentMenu.currentEvent !== "mouse") {
-          this.dom.link.blur();
-        }
-
-        if (this.isMenubar && this.elements.parentMenu.isTopLevel) {
-          this.dom.link.tabIndex = -1;
-        }
-      }
-    }, {
       key: "dom",
       get: function get() {
         return this.domElements;
@@ -1343,6 +1330,36 @@ var AccessibleMenu = (function () {
       key: "isSubmenuItem",
       get: function get() {
         return this.isController;
+      }
+      /**
+       * Focuses the menu item's link and set proper tabIndex.
+       */
+
+    }, {
+      key: "focus",
+      value: function focus() {
+        if (this.elements.parentMenu.currentEvent !== "mouse") {
+          this.dom.link.focus();
+        }
+
+        if (this.isMenubar && this.elements.parentMenu.isTopLevel) {
+          this.dom.link.tabIndex = 0;
+        }
+      }
+      /**
+       * Blurs the menu item's link and set proper tabIndex.
+       */
+
+    }, {
+      key: "blur",
+      value: function blur() {
+        if (this.elements.parentMenu.currentEvent !== "mouse") {
+          this.dom.link.blur();
+        }
+
+        if (this.isMenubar && this.elements.parentMenu.isTopLevel) {
+          this.dom.link.tabIndex = -1;
+        }
       }
     }]);
 
@@ -1557,8 +1574,215 @@ var AccessibleMenu = (function () {
        */
 
     }, {
-      key: "setDOMElementType",
+      key: "dom",
+      get: function get() {
+        return this.domElements;
+      }
+      /**
+       * The CSS selectors available to the menu.
+       *
+       * @returns {object} - The selectors.
+       */
 
+    }, {
+      key: "selectors",
+      get: function get() {
+        return this.domSelectors;
+      }
+      /**
+       * The elements within the menu.
+       *
+       * @returns {object} - The elements.
+       */
+
+    }, {
+      key: "elements",
+      get: function get() {
+        return this.menuElements;
+      }
+      /**
+       * The class to apply when the menu is "open".
+       *
+       * @returns {string} - The class.
+       */
+
+    }, {
+      key: "openClass",
+      get: function get() {
+        return this.submenuOpenClass;
+      }
+      /**
+       * The class to apply when the menu is "closed".
+       *
+       * @returns {string} - The class.
+       */
+      ,
+      set:
+      /**
+       * Set the class to apply when the menu is "open".
+       *
+       * @param {string} value - The class.
+       */
+      function set(value) {
+        isValidClassList({
+          openClass: value
+        });
+        this.submenuOpenClass = value;
+      }
+      /**
+       * Set the class to apply when the menu is "closed".
+       *
+       * @param {string} value - The class.
+       */
+
+    }, {
+      key: "closeClass",
+      get: function get() {
+        return this.submenuCloseClass;
+      }
+      /**
+       * A flag marking the root menu.
+       *
+       * @returns {boolean} - The top-level flag.
+       */
+      ,
+      set: function set(value) {
+        isValidClassList({
+          closeClass: value
+        });
+        this.submenuCloseClass = value;
+      }
+      /**
+       * Set the index currently selected menu item in the menu.
+       *
+       * @param {number} value - The index.
+       */
+
+    }, {
+      key: "isTopLevel",
+      get: function get() {
+        return this.root;
+      }
+      /**
+       * The index of the currently selected menu item in the menu.
+       *
+       * @returns {number} - The index.
+       */
+
+    }, {
+      key: "currentChild",
+      get: function get() {
+        return this.focussedChild;
+      }
+      /**
+       * The current state of the menu's focus.
+       *
+       * @returns {string} - The state.
+       */
+      ,
+      set: function set(value) {
+        isNumber({
+          value: value
+        });
+        this.focussedChild = value;
+      }
+      /**
+       * Set the state of the menu's focus.
+       *
+       * @param {string} value - The state.
+       */
+
+    }, {
+      key: "focusState",
+      get: function get() {
+        return this.state;
+      }
+      /**
+       * This last event triggered on the menu.
+       *
+       * @returns {string} - The event type.
+       */
+      ,
+      set: function set(value) {
+        isValidState({
+          value: value
+        });
+        this.state = value;
+      }
+      /**
+       * Set the last event triggered on the menu.
+       *
+       * @param {string} value - The event type.
+       */
+
+    }, {
+      key: "currentEvent",
+      get: function get() {
+        return this.event;
+      }
+      /**
+       * The currently selected menu item.
+       *
+       * @returns {MenuItem} - The menu item.
+       */
+      ,
+      set: function set(value) {
+        isValidEvent({
+          value: value
+        });
+        this.event = value;
+      }
+      /**
+       * Set the flag to allow hover events on the menu.
+       *
+       * @param {boolean} value - The hoverable flag.
+       */
+
+    }, {
+      key: "currentMenuItem",
+      get: function get() {
+        return this.elements.menuItems[this.currentChild];
+      }
+      /**
+       * A flag to allow hover events on the menu.
+       *
+       * @returns {boolean} - The hoverable flag.
+       */
+
+    }, {
+      key: "isHoverable",
+      get: function get() {
+        return this.hoverable;
+      }
+      /**
+       * The delay time (in miliseconds) used for mouseout events to take place.
+       *
+       * @returns {number} - The delay time.
+       */
+      ,
+      set: function set(value) {
+        isBoolean({
+          value: value
+        });
+        this.hoverable = value;
+      }
+      /**
+       * Set the delay time (in miliseconds) used for mouseout events to take place.
+       *
+       * @param {number} value - The delay time.
+       */
+
+    }, {
+      key: "hoverDelay",
+      get: function get() {
+        return this.delay;
+      },
+      set: function set(value) {
+        isNumber({
+          value: value
+        });
+        this.delay = value;
+      }
       /**
        * Sets DOM elements within the menu.
        *
@@ -1566,6 +1790,9 @@ var AccessibleMenu = (function () {
        * @param {HTMLElement} base        - The element used as the base for the querySelect.
        * @param {Function}    filter      - A filter to use to narrow down the DOM elements selected.
        */
+
+    }, {
+      key: "setDOMElementType",
       value: function setDOMElementType(elementType, base, filter) {
         if (typeof this.selectors[elementType] === "string") {
           if (base) isHTMLElement({
@@ -2094,216 +2321,6 @@ var AccessibleMenu = (function () {
         this.elements.submenuToggles.forEach(function (toggle) {
           return toggle.close();
         });
-      }
-    }, {
-      key: "dom",
-      get: function get() {
-        return this.domElements;
-      }
-      /**
-       * The CSS selectors available to the menu.
-       *
-       * @returns {object} - The selectors.
-       */
-
-    }, {
-      key: "selectors",
-      get: function get() {
-        return this.domSelectors;
-      }
-      /**
-       * The elements within the menu.
-       *
-       * @returns {object} - The elements.
-       */
-
-    }, {
-      key: "elements",
-      get: function get() {
-        return this.menuElements;
-      }
-      /**
-       * The class to apply when the menu is "open".
-       *
-       * @returns {string} - The class.
-       */
-
-    }, {
-      key: "openClass",
-      get: function get() {
-        return this.submenuOpenClass;
-      }
-      /**
-       * The class to apply when the menu is "closed".
-       *
-       * @returns {string} - The class.
-       */
-      ,
-
-      /**
-       * Set the class to apply when the menu is "open".
-       *
-       * @param {string} value - The class.
-       */
-      set: function set(value) {
-        isValidClassList({
-          openClass: value
-        });
-        this.submenuOpenClass = value;
-      }
-      /**
-       * Set the class to apply when the menu is "closed".
-       *
-       * @param {string} value - The class.
-       */
-
-    }, {
-      key: "closeClass",
-      get: function get() {
-        return this.submenuCloseClass;
-      }
-      /**
-       * A flag marking the root menu.
-       *
-       * @returns {boolean} - The top-level flag.
-       */
-      ,
-      set: function set(value) {
-        isValidClassList({
-          closeClass: value
-        });
-        this.submenuCloseClass = value;
-      }
-      /**
-       * Set the index currently selected menu item in the menu.
-       *
-       * @param {number} value - The index.
-       */
-
-    }, {
-      key: "isTopLevel",
-      get: function get() {
-        return this.root;
-      }
-      /**
-       * The index of the currently selected menu item in the menu.
-       *
-       * @returns {number} - The index.
-       */
-
-    }, {
-      key: "currentChild",
-      get: function get() {
-        return this.focussedChild;
-      }
-      /**
-       * The current state of the menu's focus.
-       *
-       * @returns {string} - The state.
-       */
-      ,
-      set: function set(value) {
-        isNumber({
-          value: value
-        });
-        this.focussedChild = value;
-      }
-      /**
-       * Set the state of the menu's focus.
-       *
-       * @param {string} value - The state.
-       */
-
-    }, {
-      key: "focusState",
-      get: function get() {
-        return this.state;
-      }
-      /**
-       * This last event triggered on the menu.
-       *
-       * @returns {string} - The event type.
-       */
-      ,
-      set: function set(value) {
-        isValidState({
-          value: value
-        });
-        this.state = value;
-      }
-      /**
-       * Set the last event triggered on the menu.
-       *
-       * @param {string} value - The event type.
-       */
-
-    }, {
-      key: "currentEvent",
-      get: function get() {
-        return this.event;
-      }
-      /**
-       * The currently selected menu item.
-       *
-       * @returns {MenuItem} - The menu item.
-       */
-      ,
-      set: function set(value) {
-        isValidEvent({
-          value: value
-        });
-        this.event = value;
-      }
-      /**
-       * Set the flag to allow hover events on the menu.
-       *
-       * @param {boolean} value - The hoverable flag.
-       */
-
-    }, {
-      key: "currentMenuItem",
-      get: function get() {
-        return this.elements.menuItems[this.currentChild];
-      }
-      /**
-       * A flag to allow hover events on the menu.
-       *
-       * @returns {boolean} - The hoverable flag.
-       */
-
-    }, {
-      key: "isHoverable",
-      get: function get() {
-        return this.hoverable;
-      }
-      /**
-       * The delay time (in miliseconds) used for mouseout events to take place.
-       *
-       * @returns {number} - The delay time.
-       */
-      ,
-      set: function set(value) {
-        isBoolean({
-          value: value
-        });
-        this.hoverable = value;
-      }
-      /**
-       * Set the delay time (in miliseconds) used for mouseout events to take place.
-       *
-       * @param {number} value - The delay time.
-       */
-
-    }, {
-      key: "hoverDelay",
-      get: function get() {
-        return this.delay;
-      },
-      set: function set(value) {
-        isNumber({
-          value: value
-        });
-        this.delay = value;
       }
     }]);
 
