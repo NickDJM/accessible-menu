@@ -225,7 +225,12 @@ class Menubar extends BaseMenu {
             if (this.currentMenuItem.isSubmenuItem) {
               preventEvent(event);
               this.currentMenuItem.elements.toggle.open();
-              this.currentMenuItem.elements.childMenu.focusFirstChild();
+              // A timeout is needed here to fix a bug in safari 14.
+              // Safari tries to focus the menu's child before it renders the open menu.
+              // @todo: Figure out a better way to solve this issue.
+              setTimeout(() => {
+                this.currentMenuItem.elements.childMenu.focusFirstChild();
+              }, 1);
             }
           } else if (key === "ArrowUp") {
             // Hitting the Up Arrow:
@@ -233,7 +238,12 @@ class Menubar extends BaseMenu {
             if (this.currentMenuItem.isSubmenuItem) {
               preventEvent(event);
               this.currentMenuItem.elements.toggle.open();
-              this.currentMenuItem.elements.childMenu.focusLastChild();
+              // A timeout is needed here to fix a bug in safari 14.
+              // Safari tries to focus the menu's child before it renders the open menu.
+              // @todo: Figure out a better way to solve this issue.
+              setTimeout(() => {
+                this.currentMenuItem.elements.childMenu.focusLastChild();
+              }, 1);
             }
           } else if (key === "Home") {
             // Hitting Home:
