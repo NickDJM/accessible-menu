@@ -8,15 +8,14 @@ module.exports = {
     {
       name: "AccessibleMenu",
       file: "dist/accessibleMenu.js",
-      format: "iife"
+      format: "iife",
+      plugins: [resolve(), babel()],
     },
     {
       name: "AccessibleMenu",
       file: "dist/accessibleMenu.min.js",
-      format: "iife"
+      format: "iife",
+      plugins: [resolve(), babel(), terser()],
     }
   ],
-  plugins: [resolve(), babel(), terser({
-    include: [/^.+\.min\.js$/]
-  })]
 };
