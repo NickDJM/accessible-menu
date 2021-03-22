@@ -173,7 +173,10 @@ class Menubar extends BaseMenu {
             if (this.currentMenuItem.isSubmenuItem) {
               preventEvent(event);
               this.currentMenuItem.elements.toggle.open();
-              this.currentMenuItem.elements.childMenu.focusFirstChild();
+              // This ensures the the menu is _visually_ open before the child is focussed.
+              requestAnimationFrame(() => {
+                this.currentMenuItem.elements.childMenu.focusFirstChild();
+              });
             }
           } else if (key === "ArrowRight") {
             // Hitting the Right Arrow:
@@ -225,7 +228,10 @@ class Menubar extends BaseMenu {
             if (this.currentMenuItem.isSubmenuItem) {
               preventEvent(event);
               this.currentMenuItem.elements.toggle.open();
-              this.currentMenuItem.elements.childMenu.focusFirstChild();
+              // This ensures the the menu is _visually_ open before the child is focussed.
+              requestAnimationFrame(() => {
+                this.currentMenuItem.elements.childMenu.focusFirstChild();
+              });
             }
           } else if (key === "ArrowUp") {
             // Hitting the Up Arrow:
@@ -233,7 +239,10 @@ class Menubar extends BaseMenu {
             if (this.currentMenuItem.isSubmenuItem) {
               preventEvent(event);
               this.currentMenuItem.elements.toggle.open();
-              this.currentMenuItem.elements.childMenu.focusLastChild();
+              // This ensures the the menu is _visually_ open before the child is focussed.
+              requestAnimationFrame(() => {
+                this.currentMenuItem.elements.childMenu.focusLastChild();
+              });
             }
           } else if (key === "Home") {
             // Hitting Home:
@@ -273,7 +282,10 @@ class Menubar extends BaseMenu {
           if (this.currentMenuItem.isSubmenuItem) {
             preventEvent(event);
             this.currentMenuItem.elements.toggle.open();
-            this.currentMenuItem.elements.childMenu.focusFirstChild();
+            // This ensures the the menu is _visually_ open before the child is focussed.
+            requestAnimationFrame(() => {
+              this.currentMenuItem.elements.childMenu.focusFirstChild();
+            });
           }
         } else if (key === "Escape") {
           // Hitting Escape:
@@ -292,7 +304,10 @@ class Menubar extends BaseMenu {
           if (this.currentMenuItem.isSubmenuItem) {
             preventEvent(event);
             this.currentMenuItem.elements.toggle.open();
-            this.currentMenuItem.elements.childMenu.focusFirstChild();
+            // This ensures the the menu is _visually_ open before the child is focussed.
+            requestAnimationFrame(() => {
+              this.currentMenuItem.elements.childMenu.focusFirstChild();
+            });
           } else {
             preventEvent(event);
             this.elements.rootMenu.closeChildren();

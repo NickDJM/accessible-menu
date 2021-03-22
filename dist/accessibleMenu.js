@@ -256,7 +256,7 @@ var AccessibleMenu = (function () {
     if (typeof Proxy === "function") return true;
 
     try {
-      Date.prototype.toString.call(Reflect.construct(Date, [], function () {}));
+      Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {}));
       return true;
     } catch (e) {
       return false;
@@ -2516,9 +2516,12 @@ var AccessibleMenu = (function () {
                 if (_this2.currentMenuItem.isSubmenuItem) {
                   preventEvent(event);
 
-                  _this2.currentMenuItem.elements.toggle.open();
+                  _this2.currentMenuItem.elements.toggle.open(); // This ensures the the menu is _visually_ open before the child is focussed.
 
-                  _this2.currentMenuItem.elements.childMenu.focusFirstChild();
+
+                  requestAnimationFrame(function () {
+                    _this2.currentMenuItem.elements.childMenu.focusFirstChild();
+                  });
                 }
               } else if (key === "ArrowRight") {
                 // Hitting the Right Arrow:
@@ -2564,9 +2567,12 @@ var AccessibleMenu = (function () {
                 if (_this2.currentMenuItem.isSubmenuItem) {
                   preventEvent(event);
 
-                  _this2.currentMenuItem.elements.toggle.open();
+                  _this2.currentMenuItem.elements.toggle.open(); // This ensures the the menu is _visually_ open before the child is focussed.
 
-                  _this2.currentMenuItem.elements.childMenu.focusFirstChild();
+
+                  requestAnimationFrame(function () {
+                    _this2.currentMenuItem.elements.childMenu.focusFirstChild();
+                  });
                 }
               } else if (key === "ArrowUp") {
                 // Hitting the Up Arrow:
@@ -2574,9 +2580,12 @@ var AccessibleMenu = (function () {
                 if (_this2.currentMenuItem.isSubmenuItem) {
                   preventEvent(event);
 
-                  _this2.currentMenuItem.elements.toggle.open();
+                  _this2.currentMenuItem.elements.toggle.open(); // This ensures the the menu is _visually_ open before the child is focussed.
 
-                  _this2.currentMenuItem.elements.childMenu.focusLastChild();
+
+                  requestAnimationFrame(function () {
+                    _this2.currentMenuItem.elements.childMenu.focusLastChild();
+                  });
                 }
               } else if (key === "Home") {
                 // Hitting Home:
@@ -2617,9 +2626,12 @@ var AccessibleMenu = (function () {
               if (_this2.currentMenuItem.isSubmenuItem) {
                 preventEvent(event);
 
-                _this2.currentMenuItem.elements.toggle.open();
+                _this2.currentMenuItem.elements.toggle.open(); // This ensures the the menu is _visually_ open before the child is focussed.
 
-                _this2.currentMenuItem.elements.childMenu.focusFirstChild();
+
+                requestAnimationFrame(function () {
+                  _this2.currentMenuItem.elements.childMenu.focusFirstChild();
+                });
               }
             } else if (key === "Escape") {
               // Hitting Escape:
@@ -2640,9 +2652,12 @@ var AccessibleMenu = (function () {
               if (_this2.currentMenuItem.isSubmenuItem) {
                 preventEvent(event);
 
-                _this2.currentMenuItem.elements.toggle.open();
+                _this2.currentMenuItem.elements.toggle.open(); // This ensures the the menu is _visually_ open before the child is focussed.
 
-                _this2.currentMenuItem.elements.childMenu.focusFirstChild();
+
+                requestAnimationFrame(function () {
+                  _this2.currentMenuItem.elements.childMenu.focusFirstChild();
+                });
               } else {
                 preventEvent(event);
 
