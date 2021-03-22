@@ -1,9 +1,13 @@
 "use strict";
 
+var _menubar = _interopRequireDefault(require("../../src/menubar.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
 /**
  * Toggles the hover state of a menu and its submenus.
  *
- * @param {AccessibleMenu.Menubar} menu - The menu to toggle.
+ * @param {Menubar} menu - The menu to toggle.
  */
 function toggleHover(menu) {
   menu.elements.submenuToggles.forEach(function (toggle) {
@@ -19,12 +23,12 @@ Array.from(navs).forEach(function (nav) {
   var submenuItemSelector = "li.dropdown";
   var controllerElement = nav.id === "main-menu" ? nav.querySelector("button") : null;
   var containerElement = nav.id === "main-menu" ? nav : null;
-  menus.push(new AccessibleMenu.Menubar({
+  menus.push(new _menubar["default"]({
     menuElement: menuElement,
     submenuItemSelector: submenuItemSelector,
     controllerElement: controllerElement,
     containerElement: containerElement,
-    isHoverable: true
+    isHoverable: window.innerWidth >= 1070
   }));
 });
 window.addEventListener("resize", function () {
