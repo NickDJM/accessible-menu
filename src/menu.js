@@ -80,7 +80,7 @@ const validate = {
     if (!(menu instanceof Menu)) {
       throw new TypeError("parentMenu must be a Menu.");
     }
-  }
+  },
 };
 
 /**
@@ -112,7 +112,7 @@ class Menu {
     isTopLevel = true,
     controllerElement = null,
     containerElement = null,
-    parentMenu = null
+    parentMenu = null,
   }) {
     // Run validations.
     validate.menuElement(menuElement);
@@ -136,20 +136,20 @@ class Menu {
       ).filter(item => item.parentElement === menuElement),
       submenuItems: Array.from(
         menuElement.querySelectorAll(submenuItemSelector)
-      ).filter(item => item.parentElement === menuElement)
+      ).filter(item => item.parentElement === menuElement),
     };
     this.domSelectors = {
       "menu-items": menuItemSelector,
       "submenu-items": submenuItemSelector,
       "submenu-toggle": submenuToggleSelector,
-      submenu: submenuSelector
+      submenu: submenuSelector,
     };
     this.elements = {
       menuItems: [],
       menuToggles: [],
       controller: null,
       parentMenu: parentMenu,
-      rootMenu: isTopLevel ? this : null
+      rootMenu: isTopLevel ? this : null,
     };
     this.focussedChild = 0;
     this.focusState = "none";
@@ -183,7 +183,7 @@ class Menu {
           menuToggleElement: this.controllerElement,
           parentElement: this.containerElement,
           menu: this,
-          openClass: this.openClass
+          openClass: this.openClass,
         });
 
         this.elements.controller = toggle;
@@ -391,7 +391,7 @@ class Menu {
           submenuSelector: this.selector.submenu,
           openClass: this.openClass,
           isTopLevel: false,
-          parentMenu: this
+          parentMenu: this,
         });
 
         // Create the new MenuToggle.
@@ -400,7 +400,7 @@ class Menu {
           parentElement: element,
           menu: menu,
           openClass: this.openClass,
-          parentMenu: this
+          parentMenu: this,
         });
 
         // Add it to the list of submenu items.
@@ -413,7 +413,7 @@ class Menu {
           parentMenu: this,
           isSubmenuItem: true,
           childMenu: menu,
-          toggle
+          toggle,
         });
       } else {
         const link = element.querySelector("a");
@@ -422,7 +422,7 @@ class Menu {
         menuItem = new MenuItem({
           menuItemElement: element,
           menuLinkElement: link,
-          parentMenu: this
+          parentMenu: this,
         });
       }
 
@@ -522,7 +522,10 @@ class Menu {
             if (this.currentMenuItem.isSubmenuItem) {
               preventEvent(event);
               this.currentMenuItem.toggle.open();
-              this.currentMenuItem.childMenu.focusFirstChild();
+              // This ensures the the menu is _visually_ open before the child is focussed.
+              requestAnimationFrame(() => {
+                this.currentMenuItem.childMenu.focusFirstChild();
+              });
             }
           } else if (key === "ArrowUp") {
             // Hitting the Up Arrow:
@@ -530,7 +533,10 @@ class Menu {
             if (this.currentMenuItem.isSubmenuItem) {
               preventEvent(event);
               this.currentMenuItem.toggle.open();
-              this.currentMenuItem.childMenu.focusLastChild();
+              // This ensures the the menu is _visually_ open before the child is focussed.
+              requestAnimationFrame(() => {
+                this.currentMenuItem.childMenu.focusLastChild();
+              });
             }
           } else if (key === "Home") {
             // Hitting Home:

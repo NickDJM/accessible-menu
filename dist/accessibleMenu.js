@@ -9,7 +9,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 var AccessibleMenu = function () {
   'use strict'; // Custom validation for params.
 
-  var validate = {
+  var validate$3 = {
     event: function event(value) {
       if (!(value instanceof Event)) {
         throw new TypeError("event must be an event.");
@@ -31,7 +31,7 @@ var AccessibleMenu = function () {
 
   function keyPress(event) {
     // Run validation.
-    validate.keyboardEvent(event);
+    validate$3.keyboardEvent(event);
 
     try {
       // Use event.key or event.keyCode to support older browsers.
@@ -66,13 +66,13 @@ var AccessibleMenu = function () {
 
   function preventEvent(event) {
     // Run validation.
-    validate.event(event);
+    validate$3.event(event);
     event.preventDefault();
     event.stopPropagation();
   } // Basic validation for the class.
 
 
-  var validate$1 = {
+  var validate$2 = {
     menuToggleElement: function menuToggleElement(element) {
       // Ensure element is an HTML element.
       if (!(element instanceof HTMLElement)) {
@@ -117,9 +117,7 @@ var AccessibleMenu = function () {
    * A link or button that controls the visibility of a menu.
    */
 
-  var MenuToggle =
-  /*#__PURE__*/
-  function () {
+  var MenuToggle = /*#__PURE__*/function () {
     /**
      * {@inheritdoc}
      *
@@ -142,11 +140,11 @@ var AccessibleMenu = function () {
       _classCallCheck(this, MenuToggle);
 
       // Run validations.
-      validate$1.menuToggleElement(menuToggleElement);
-      validate$1.parentElement(parentElement);
-      validate$1.menu(menu);
-      validate$1.openClass(openClass);
-      validate$1.parentMenu(parentMenu);
+      validate$2.menuToggleElement(menuToggleElement);
+      validate$2.parentElement(parentElement);
+      validate$2.menu(menu);
+      validate$2.openClass(openClass);
+      validate$2.parentMenu(parentMenu);
       this.domElements = {
         toggle: menuToggleElement,
         parent: parentElement
@@ -193,11 +191,73 @@ var AccessibleMenu = function () {
        */
 
     }, {
-      key: "expand",
+      key: "element",
+      get: function get() {
+        return this.domElements.toggle;
+      }
+      /**
+       * The toggle's parent DOM element.
+       *
+       * @returns {HTMLElement} - The parent element.
+       */
 
+    }, {
+      key: "parentElement",
+      get: function get() {
+        return this.domElements.parent;
+      }
+      /**
+       * The menu controlled by the toggle.
+       *
+       * @returns {Menu} - The menu element.
+       */
+
+    }, {
+      key: "menu",
+      get: function get() {
+        return this.elements.menu;
+      }
+      /**
+       * The menu containing the toggle.
+       *
+       * @returns {Menu} - The menu element.
+       */
+
+    }, {
+      key: "parentMenu",
+      get: function get() {
+        return this.elements.parentMenu;
+      }
+      /**
+       * The open state on the menu.
+       *
+       * @returns {boolean} - The open state.
+       */
+
+    }, {
+      key: "isOpen",
+      get: function get() {
+        return this.show;
+      }
+      /**
+       * Set the open state on the menu.
+       *
+       * @param {boolean} value - The open state.
+       */
+      ,
+      set: function set(value) {
+        if (typeof value !== "boolean") {
+          throw new TypeError("Open state must be true or false.");
+        }
+
+        this.show = value;
+      }
       /**
        * Expands the submenu.
        */
+
+    }, {
+      key: "expand",
       value: function expand() {
         // Assign new WAI-ARIA/class values.
         this.element.setAttribute("aria-expanded", "true");
@@ -329,75 +389,13 @@ var AccessibleMenu = function () {
           _this2.toggle();
         });
       }
-    }, {
-      key: "element",
-      get: function get() {
-        return this.domElements.toggle;
-      }
-      /**
-       * The toggle's parent DOM element.
-       *
-       * @returns {HTMLElement} - The parent element.
-       */
-
-    }, {
-      key: "parentElement",
-      get: function get() {
-        return this.domElements.parent;
-      }
-      /**
-       * The menu controlled by the toggle.
-       *
-       * @returns {Menu} - The menu element.
-       */
-
-    }, {
-      key: "menu",
-      get: function get() {
-        return this.elements.menu;
-      }
-      /**
-       * The menu containing the toggle.
-       *
-       * @returns {Menu} - The menu element.
-       */
-
-    }, {
-      key: "parentMenu",
-      get: function get() {
-        return this.elements.parentMenu;
-      }
-      /**
-       * The open state on the menu.
-       *
-       * @returns {boolean} - The open state.
-       */
-
-    }, {
-      key: "isOpen",
-      get: function get() {
-        return this.show;
-      }
-      /**
-       * Set the open state on the menu.
-       *
-       * @param {boolean} value - The open state.
-       */
-      ,
-      set: function set(value) {
-        if (typeof value !== "boolean") {
-          throw new TypeError("Open state must be true or false.");
-        }
-
-        this.show = value;
-      }
     }]);
 
     return MenuToggle;
   }(); // Basic validation for the class.
 
 
-  var validate$2 = {
+  var validate$1 = {
     menuItemElement: function menuItemElement(element) {
       // Ensure element is an HTML element.
       if (!(element instanceof HTMLElement)) {
@@ -443,9 +441,7 @@ var AccessibleMenu = function () {
    * A basic navigation link contained inside of a Menu.
    */
 
-  var MenuItem =
-  /*#__PURE__*/
-  function () {
+  var MenuItem = /*#__PURE__*/function () {
     /**
      * {@inheritdoc}
      *
@@ -471,12 +467,12 @@ var AccessibleMenu = function () {
       _classCallCheck(this, MenuItem);
 
       // Run validations.
-      validate$2.menuItemElement(menuItemElement);
-      validate$2.menuLinkElement(menuLinkElement);
-      validate$2.parentMenu(parentMenu);
-      validate$2.isSubmenuItem(isSubmenuItem);
-      validate$2.childMenu(childMenu);
-      validate$2.toggle(toggle);
+      validate$1.menuItemElement(menuItemElement);
+      validate$1.menuLinkElement(menuLinkElement);
+      validate$1.parentMenu(parentMenu);
+      validate$1.isSubmenuItem(isSubmenuItem);
+      validate$1.childMenu(childMenu);
+      validate$1.toggle(toggle);
       this.domElements = {
         menuItem: menuItemElement,
         link: menuLinkElement
@@ -507,32 +503,6 @@ var AccessibleMenu = function () {
        * @returns {HTMLElement} - The menu item element.
        */
 
-    }, {
-      key: "focus",
-
-      /**
-       * Focuses the menu item's link and set proper tabIndex.
-       */
-      value: function focus() {
-        this.linkElement.focus();
-
-        if (this.parentMenu.isTopLevel) {
-          this.linkElement.tabIndex = 0;
-        }
-      }
-      /**
-       * Blurs the menu item's link and set proper tabIndex.
-       */
-
-    }, {
-      key: "blur",
-      value: function blur() {
-        this.linkElement.blur();
-
-        if (this.parentMenu.isTopLevel) {
-          this.linkElement.tabIndex = -1;
-        }
-      }
     }, {
       key: "element",
       get: function get() {
@@ -593,13 +563,39 @@ var AccessibleMenu = function () {
       get: function get() {
         return this.isController;
       }
+      /**
+       * Focuses the menu item's link and set proper tabIndex.
+       */
+
+    }, {
+      key: "focus",
+      value: function focus() {
+        this.linkElement.focus();
+
+        if (this.parentMenu.isTopLevel) {
+          this.linkElement.tabIndex = 0;
+        }
+      }
+      /**
+       * Blurs the menu item's link and set proper tabIndex.
+       */
+
+    }, {
+      key: "blur",
+      value: function blur() {
+        this.linkElement.blur();
+
+        if (this.parentMenu.isTopLevel) {
+          this.linkElement.tabIndex = -1;
+        }
+      }
     }]);
 
     return MenuItem;
   }(); // Basic validation for the class.
 
 
-  var validate$3 = {
+  var validate = {
     menuElement: function menuElement(element) {
       // Ensure element is an HTML element.
       if (!(element instanceof HTMLElement)) {
@@ -674,9 +670,7 @@ var AccessibleMenu = function () {
    * An accessible navigation element in the DOM.
    */
 
-  var Menu =
-  /*#__PURE__*/
-  function () {
+  var Menu = /*#__PURE__*/function () {
     /**
      * {@inheritdoc}
      *
@@ -715,13 +709,13 @@ var AccessibleMenu = function () {
       _classCallCheck(this, Menu);
 
       // Run validations.
-      validate$3.menuElement(menuElement);
-      validate$3.menuItemSelector(menuItemSelector);
-      validate$3.hasSubmenus(submenuItemSelector, submenuToggleSelector, submenuSelector);
-      validate$3.openClass(openClass);
-      validate$3.isTopLevel(isTopLevel);
-      validate$3.isDropdown(controllerElement, containerElement);
-      validate$3.parentMenu(parentMenu);
+      validate.menuElement(menuElement);
+      validate.menuItemSelector(menuItemSelector);
+      validate.hasSubmenus(submenuItemSelector, submenuToggleSelector, submenuSelector);
+      validate.openClass(openClass);
+      validate.isTopLevel(isTopLevel);
+      validate.isDropdown(controllerElement, containerElement);
+      validate.parentMenu(parentMenu);
       this.domElements = {
         menu: menuElement,
         controller: controllerElement,
@@ -792,13 +786,200 @@ var AccessibleMenu = function () {
        */
 
     }, {
-      key: "findRootMenu",
+      key: "element",
+      get: function get() {
+        return this.domElements.menu;
+      }
+      /**
+       * The menu's controller element in the DOM.
+       *
+       * @returns {HTMLElement|null} - The controller element.
+       */
 
+    }, {
+      key: "controllerElement",
+      get: function get() {
+        return this.domElements.controller;
+      }
+      /**
+       * The menu's container element in the DOM.
+       *
+       * @returns {HTMLElement|null} - The container element.
+       */
+
+    }, {
+      key: "containerElement",
+      get: function get() {
+        return this.domElements.container;
+      }
+      /**
+       * The menu item DOM elements contained in the menu.
+       *
+       * @returns {HTMLElement[]} - The menu items.
+       */
+
+    }, {
+      key: "menuItemElements",
+      get: function get() {
+        return this.domElements.menuItems;
+      }
+      /**
+       * The submenu item DOM elements contained in the menu.
+       *
+       * @returns {HTMLElement[]} - The submenu items.
+       */
+
+    }, {
+      key: "submenuItemElements",
+      get: function get() {
+        return this.domElements.submenuItems;
+      }
+      /**
+       * The menu items contained in the menu.
+       *
+       * @returns {MenuItem[]} - The menu items.
+       */
+
+    }, {
+      key: "menuItems",
+      get: function get() {
+        return this.elements.menuItems;
+      }
+      /**
+       * The menu toggles contained in the menu.
+       *
+       * @returns {MenuToggle[]} - The menu toggles.
+       */
+
+    }, {
+      key: "menuToggles",
+      get: function get() {
+        return this.elements.menuToggles;
+      }
+      /**
+       * The parent menu containing this menu.
+       *
+       * @returns {Menu|null} - The parent menu.
+       */
+
+    }, {
+      key: "parentMenu",
+      get: function get() {
+        return this.elements.parentMenu;
+      }
+      /**
+       * The root menu containing this menu.
+       *
+       * @returns {Menu|null} - The root menu.
+       */
+
+    }, {
+      key: "rootMenu",
+      get: function get() {
+        return this.elements.rootMenu;
+      }
+      /**
+       * The menu's controller toggle.
+       *
+       * @returns {MenuToggle} - The toggle.
+       */
+
+    }, {
+      key: "controller",
+      get: function get() {
+        return this.elements.controller;
+      }
+      /**
+       * The DOM Selectors for the menu.
+       *
+       * @returns {object} - The DOM Selectors.
+       */
+
+    }, {
+      key: "selector",
+      get: function get() {
+        return this.domSelectors;
+      }
+      /**
+       * The focus state of the menu.
+       *
+       * @returns {string} - The focus state (self, child, none).
+       */
+
+    }, {
+      key: "currentFocus",
+      get: function get() {
+        return this.focusState;
+      }
+      /**
+       * The class used for open submenus.
+       *
+       * @returns {string} - The open class.
+       */
+      ,
+      set:
+      /**
+       * Set the focus state of the menu.
+       *
+       * @param {string} value - The focus state (self, child, none).
+       */
+      function set(value) {
+        var states = ["self", "child", "none"];
+
+        if (!states.includes(value)) {
+          throw new Error("Focus state must be 'self', 'child', or 'none'.");
+        }
+
+        this.focusState = value;
+      }
+      /**
+       * Set the class used for open submenus.
+       *
+       * @param {string} value - The open class.
+       */
+
+    }, {
+      key: "openClass",
+      get: function get() {
+        return this.submenuOpenClass;
+      }
+      /**
+       * The currently focussed menu item.
+       *
+       * @returns {MenuItem} - The menu item.
+       */
+      ,
+      set: function set(value) {
+        if (typeof value !== "string") {
+          throw new TypeError("Class must be a string.");
+        }
+
+        this.submenuOpenClass = value;
+      }
       /**
        * Finds the root Menu element.
        *
        * @param {Menu} menu - The menu to check.
        */
+
+    }, {
+      key: "currentMenuItem",
+      get: function get() {
+        return this.menuItems[this.focussedChild];
+      }
+      /**
+       * A flag marking the root menu.
+       *
+       * @returns {boolean} - The top-level flag.
+       */
+
+    }, {
+      key: "isTopLevel",
+      get: function get() {
+        return this.root;
+      }
+    }, {
+      key: "findRootMenu",
       value: function findRootMenu(menu) {
         if (menu.isTopLevel) {
           this.elements.rootMenu = menu;
@@ -968,9 +1149,12 @@ var AccessibleMenu = function () {
                 if (_this5.currentMenuItem.isSubmenuItem) {
                   preventEvent(event);
 
-                  _this5.currentMenuItem.toggle.open();
+                  _this5.currentMenuItem.toggle.open(); // This ensures the the menu is _visually_ open before the child is focussed.
 
-                  _this5.currentMenuItem.childMenu.focusFirstChild();
+
+                  requestAnimationFrame(function () {
+                    _this5.currentMenuItem.childMenu.focusFirstChild();
+                  });
                 }
               } else if (key === "ArrowUp") {
                 // Hitting the Up Arrow:
@@ -978,9 +1162,12 @@ var AccessibleMenu = function () {
                 if (_this5.currentMenuItem.isSubmenuItem) {
                   preventEvent(event);
 
-                  _this5.currentMenuItem.toggle.open();
+                  _this5.currentMenuItem.toggle.open(); // This ensures the the menu is _visually_ open before the child is focussed.
 
-                  _this5.currentMenuItem.childMenu.focusLastChild();
+
+                  requestAnimationFrame(function () {
+                    _this5.currentMenuItem.childMenu.focusLastChild();
+                  });
                 }
               } else if (key === "Home") {
                 // Hitting Home:
@@ -1297,193 +1484,6 @@ var AccessibleMenu = function () {
         this.menuToggles.forEach(function (toggle) {
           return toggle.close();
         });
-      }
-    }, {
-      key: "element",
-      get: function get() {
-        return this.domElements.menu;
-      }
-      /**
-       * The menu's controller element in the DOM.
-       *
-       * @returns {HTMLElement|null} - The controller element.
-       */
-
-    }, {
-      key: "controllerElement",
-      get: function get() {
-        return this.domElements.controller;
-      }
-      /**
-       * The menu's container element in the DOM.
-       *
-       * @returns {HTMLElement|null} - The container element.
-       */
-
-    }, {
-      key: "containerElement",
-      get: function get() {
-        return this.domElements.container;
-      }
-      /**
-       * The menu item DOM elements contained in the menu.
-       *
-       * @returns {HTMLElement[]} - The menu items.
-       */
-
-    }, {
-      key: "menuItemElements",
-      get: function get() {
-        return this.domElements.menuItems;
-      }
-      /**
-       * The submenu item DOM elements contained in the menu.
-       *
-       * @returns {HTMLElement[]} - The submenu items.
-       */
-
-    }, {
-      key: "submenuItemElements",
-      get: function get() {
-        return this.domElements.submenuItems;
-      }
-      /**
-       * The menu items contained in the menu.
-       *
-       * @returns {MenuItem[]} - The menu items.
-       */
-
-    }, {
-      key: "menuItems",
-      get: function get() {
-        return this.elements.menuItems;
-      }
-      /**
-       * The menu toggles contained in the menu.
-       *
-       * @returns {MenuToggle[]} - The menu toggles.
-       */
-
-    }, {
-      key: "menuToggles",
-      get: function get() {
-        return this.elements.menuToggles;
-      }
-      /**
-       * The parent menu containing this menu.
-       *
-       * @returns {Menu|null} - The parent menu.
-       */
-
-    }, {
-      key: "parentMenu",
-      get: function get() {
-        return this.elements.parentMenu;
-      }
-      /**
-       * The root menu containing this menu.
-       *
-       * @returns {Menu|null} - The root menu.
-       */
-
-    }, {
-      key: "rootMenu",
-      get: function get() {
-        return this.elements.rootMenu;
-      }
-      /**
-       * The menu's controller toggle.
-       *
-       * @returns {MenuToggle} - The toggle.
-       */
-
-    }, {
-      key: "controller",
-      get: function get() {
-        return this.elements.controller;
-      }
-      /**
-       * The DOM Selectors for the menu.
-       *
-       * @returns {object} - The DOM Selectors.
-       */
-
-    }, {
-      key: "selector",
-      get: function get() {
-        return this.domSelectors;
-      }
-      /**
-       * The focus state of the menu.
-       *
-       * @returns {string} - The focus state (self, child, none).
-       */
-
-    }, {
-      key: "currentFocus",
-      get: function get() {
-        return this.focusState;
-      }
-      /**
-       * The class used for open submenus.
-       *
-       * @returns {string} - The open class.
-       */
-      ,
-
-      /**
-       * Set the focus state of the menu.
-       *
-       * @param {string} value - The focus state (self, child, none).
-       */
-      set: function set(value) {
-        var states = ["self", "child", "none"];
-
-        if (!states.includes(value)) {
-          throw new Error("Focus state must be 'self', 'child', or 'none'.");
-        }
-
-        this.focusState = value;
-      }
-      /**
-       * Set the class used for open submenus.
-       *
-       * @param {string} value - The open class.
-       */
-
-    }, {
-      key: "openClass",
-      get: function get() {
-        return this.submenuOpenClass;
-      }
-      /**
-       * The currently focussed menu item.
-       *
-       * @returns {MenuItem} - The menu item.
-       */
-      ,
-      set: function set(value) {
-        if (typeof value !== "string") {
-          throw new TypeError("Class must be a string.");
-        }
-
-        this.submenuOpenClass = value;
-      }
-    }, {
-      key: "currentMenuItem",
-      get: function get() {
-        return this.menuItems[this.focussedChild];
-      }
-      /**
-       * A flag marking the root menu.
-       *
-       * @returns {boolean} - The top-level flag.
-       */
-
-    }, {
-      key: "isTopLevel",
-      get: function get() {
-        return this.root;
       }
     }]);
 
