@@ -65,7 +65,7 @@ class BaseMenuToggle {
     this.dom.toggle.setAttribute("aria-expanded", "false");
 
     // If the toggle element is a button, there's no need to add a role.
-    if (!isTag("button", this.dom.toggle)) {
+    if (!isTag("button", { toggle: this.dom.toggle })) {
       this.dom.toggle.setAttribute("role", "button");
     }
 

@@ -1,16 +1,11 @@
-import { isEvent, isKeyboardEvent } from "./validate.js";
-
 /**
  * Retrieves the pressed key from an event.
  *
  * @param   {KeyboardEvent} event - The keyboard event.
  *
- * @returns {string} - The name of the key.
+ * @returns {string} - The name of the key or an empty string.
  */
 export function keyPress(event) {
-  // Run validation.
-  isKeyboardEvent(event);
-
   try {
     // Use event.key or event.keyCode to support older browsers.
     const key = event.key || event.keyCode;
@@ -28,7 +23,7 @@ export function keyPress(event) {
       Tab: key === "Tab" || key === 9,
     };
 
-    return Object.keys(keys).find(key => keys[key] === true);
+    return Object.keys(keys).find(key => keys[key] === true) || "";
   } catch (error) {
     // Return an empty string if something goes wrong.
     return "";
@@ -41,9 +36,6 @@ export function keyPress(event) {
  * @param {Event} event - The event.
  */
 export function preventEvent(event) {
-  // Run validation.
-  isEvent(event);
-
   event.preventDefault();
   event.stopPropagation();
 }
