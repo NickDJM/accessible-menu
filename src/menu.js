@@ -4,13 +4,13 @@ import { keyPress, preventEvent } from "./eventHandlers";
 
 // Basic validation for the class.
 const validate = {
-  menuElement: element => {
+  menuElement: (element) => {
     // Ensure element is an HTML element.
     if (!(element instanceof HTMLElement)) {
       throw new TypeError("menuElement must be an HTML Element.");
     }
   },
-  menuItemSelector: selector => {
+  menuItemSelector: (selector) => {
     // Ensure selector is a string.
     if (typeof selector !== "string") {
       throw new TypeError("menuItemSelector must be a CSS selector string.");
@@ -36,7 +36,7 @@ const validate = {
       throw new TypeError("submenuSelector must be a CSS selector string.");
     }
   },
-  openClass: value => {
+  openClass: (value) => {
     // Ensure value is a string.
     if (typeof value !== "string") {
       throw TypeError("openClass must be a string.");
@@ -48,7 +48,7 @@ const validate = {
       throw Error("openClass must be a valid CSS class.");
     }
   },
-  isTopLevel: flag => {
+  isTopLevel: (flag) => {
     // Ensure flag is a boolean.
     if (typeof flag !== "boolean") {
       throw new TypeError("isTopLevel must be true of false.");
@@ -72,7 +72,7 @@ const validate = {
       );
     }
   },
-  parentMenu: menu => {
+  parentMenu: (menu) => {
     // Menu can be null.
     if (menu === null) return;
 
@@ -133,10 +133,10 @@ class Menu {
       container: containerElement,
       menuItems: Array.from(
         menuElement.querySelectorAll(menuItemSelector)
-      ).filter(item => item.parentElement === menuElement),
+      ).filter((item) => item.parentElement === menuElement),
       submenuItems: Array.from(
         menuElement.querySelectorAll(submenuItemSelector)
-      ).filter(item => item.parentElement === menuElement),
+      ).filter((item) => item.parentElement === menuElement),
     };
     this.domSelectors = {
       "menu-items": menuItemSelector,
@@ -373,7 +373,7 @@ class Menu {
    * Creates and initializes all menu items.
    */
   createMenuItems() {
-    this.menuItemElements.forEach(element => {
+    this.menuItemElements.forEach((element) => {
       let menuItem;
 
       if (this.submenuItemElements.includes(element)) {
@@ -434,7 +434,7 @@ class Menu {
    * Sets up focusin/focusout handling.
    */
   handleFocus() {
-    this.menuItems.forEach(item => {
+    this.menuItems.forEach((item) => {
       // Properly enter menu on focus.
       item.linkElement.addEventListener("focusin", () => {
         if (this.currentFocus === "none") {
@@ -457,7 +457,7 @@ class Menu {
    * Sets up the hijacked keydown events.
    */
   handleKeydown() {
-    this.element.addEventListener("keydown", event => {
+    this.element.addEventListener("keydown", (event) => {
       const key = keyPress(event);
       const { altKey, crtlKey, metaKey } = event;
       const modifier = altKey || crtlKey || metaKey;
@@ -655,7 +655,7 @@ class Menu {
    * Handle click events required for proper menu usage.
    */
   handleClick() {
-    document.addEventListener("click", event => {
+    document.addEventListener("click", (event) => {
       if (
         !this.element.contains(event.target) &&
         this.element !== event.target
@@ -670,7 +670,7 @@ class Menu {
     });
 
     // Ensure proper menu focus is applied.
-    this.menuItems.forEach(menuItem => {
+    this.menuItems.forEach((menuItem) => {
       menuItem.linkElement.addEventListener("click", () => {
         this.focussedChild = this.menuItems.indexOf(menuItem);
       });
@@ -810,7 +810,7 @@ class Menu {
    * Close all submenu children.
    */
   closeChildren() {
-    this.menuToggles.forEach(toggle => toggle.close());
+    this.menuToggles.forEach((toggle) => toggle.close());
   }
 }
 

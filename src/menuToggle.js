@@ -3,25 +3,25 @@ import { preventEvent } from "./eventHandlers";
 
 // Basic validation for the class.
 const validate = {
-  menuToggleElement: element => {
+  menuToggleElement: (element) => {
     // Ensure element is an HTML element.
     if (!(element instanceof HTMLElement)) {
       throw new TypeError("menuToggleElement must be an HTML Element.");
     }
   },
-  parentElement: element => {
+  parentElement: (element) => {
     // Ensure element is an HTML element.
     if (!(element instanceof HTMLElement)) {
       throw new TypeError("parentElement must be an HTML Element.");
     }
   },
-  menu: menu => {
+  menu: (menu) => {
     // Ensure menu is an Menu element.
     if (!(menu instanceof Menu)) {
       throw new TypeError("menu must be a Menu.");
     }
   },
-  openClass: value => {
+  openClass: (value) => {
     // Ensure value is a string.
     if (typeof value !== "string") {
       throw TypeError("openClass must be a string.");
@@ -33,7 +33,7 @@ const validate = {
       throw Error("openClass must be a valid CSS class.");
     }
   },
-  parentMenu: menu => {
+  parentMenu: (menu) => {
     // Menu can be null.
     if (menu === null) return;
 
@@ -41,7 +41,7 @@ const validate = {
     if (!(menu instanceof Menu)) {
       throw new TypeError("parentMenu must be a Menu.");
     }
-  }
+  },
 };
 
 /**
@@ -63,7 +63,7 @@ class MenuToggle {
     parentElement,
     menu,
     openClass = "show",
-    parentMenu = null
+    parentMenu = null,
   }) {
     // Run validations.
     validate.menuToggleElement(menuToggleElement);
@@ -74,11 +74,11 @@ class MenuToggle {
 
     this.domElements = {
       toggle: menuToggleElement,
-      parent: parentElement
+      parent: parentElement,
     };
     this.elements = {
       menu: menu,
-      parentMenu: parentMenu
+      parentMenu: parentMenu,
     };
     this.openClass = openClass;
     this.show = false;
@@ -277,7 +277,7 @@ class MenuToggle {
    */
   closeSiblings() {
     try {
-      this.parentMenu.menuToggles.forEach(toggle => {
+      this.parentMenu.menuToggles.forEach((toggle) => {
         if (toggle !== this) toggle.close();
       });
     } catch (error) {
@@ -289,7 +289,7 @@ class MenuToggle {
    * Closes all child menus.
    */
   closeChildren() {
-    this.menu.menuToggles.forEach(toggle => toggle.close());
+    this.menu.menuToggles.forEach((toggle) => toggle.close());
   }
 
   /**
@@ -297,7 +297,7 @@ class MenuToggle {
    */
   handleClick() {
     // Handle toggling the menu on click.
-    this.element.addEventListener("click", event => {
+    this.element.addEventListener("click", (event) => {
       preventEvent(event);
 
       this.toggle();
