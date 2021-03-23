@@ -984,6 +984,47 @@ var AccessibleMenu = (function () {
     }
   }
 
+  /**
+   * Check to see if the provided values are valid hover types for a menu.
+   *
+   * The values must be provided inside of an object
+   * so the variable name can be retrieved in case of errors.
+   *
+   * Will return true is the check is successful.
+   *
+   * @param   {object} values - The value(s) to check.
+   *
+   * @returns {boolean} - The result of the check.
+   */
+  function isValidHoverType(values) {
+    try {
+      if (typeof values !== "object") {
+        const type = typeof values;
+
+        throw new TypeError(
+          `Values given to isValidHoverType() must be inside of an object. ${type} given.`
+        );
+      }
+
+      const validEvents = ["off", "on", "dynamic"];
+
+      for (const key in values) {
+        if (!validEvents.includes(values[key])) {
+          throw new TypeError(
+            `${key} must be one of the following values: ${validEvents.join(
+            ", "
+          )}. "${values[key]}" given.`
+          );
+        }
+      }
+
+      return true;
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
+  }
+
   /* eslint-disable jsdoc/no-undefined-types */
 
   /*
@@ -1475,7 +1516,7 @@ var AccessibleMenu = (function () {
      * @param {string|string[]|null} [param0.closeClass = "hide"]         - The class to apply when a menu is "closed".
      * @param {boolean}              [param0.isTopLevel = false]          - A flag to mark the root menu.
      * @param {BaseMenu|null}        [param0.parentMenu = null]           - The parent menu to this menu.
-     * @param {boolean}              [param0.isHoverable = false]         - A flag to allow hover events on the menu.
+     * @param {string}               [param0.hoverType = "off"]           - The type of hoverability a menu has.
      * @param {number}               [param0.hoverDelay = 250]            - The delay for closing menus if the menu is hoverable (in miliseconds).
      */
     constructor({
@@ -1491,7 +1532,7 @@ var AccessibleMenu = (function () {
       closeClass = "hide",
       isTopLevel = true,
       parentMenu = null,
-      isHoverable = false,
+      hoverType = "off",
       hoverDelay = 250,
     }) {
       // Run validations.
@@ -1546,7 +1587,7 @@ var AccessibleMenu = (function () {
       this.currentChild = 0;
       this.focusState = "none";
       this.currentEvent = "none";
-      this.isHoverable = isHoverable;
+      this.hoverType = hoverType;
       this.hoverDelay = hoverDelay;
 
       // Set default class types.
@@ -1688,17 +1729,15 @@ var AccessibleMenu = (function () {
     }
 
     /**
-     * A flag to allow hover events on the menu.
+     * The type of hoverability for the menu.
      *
      * This functions differently for root vs. submenus.
      * Submenus will always inherit their root menu's hoverability.
      *
-     * @returns {boolean} - The hoverable flag.
+     * @returns {string} - The hover type.
      */
-    get isHoverable() {
-      return this.isTopLevel
-        ? this.hoverable
-        : this.elements.rootMenu.isHoverable;
+    get hoverType() {
+      return this.isTopLevel ? this.hover : this.elements.rootMenu.hoverType;
     }
 
     /**
@@ -1769,14 +1808,14 @@ var AccessibleMenu = (function () {
     }
 
     /**
-     * Set the flag to allow hover events on the menu.
+     * Set the type of hoverability for the menu.
      *
-     * @param {boolean} value - The hoverable flag.
+     * @param {string} value - The hover type.
      */
-    set isHoverable(value) {
-      isBoolean({ value });
+    set hoverType(value) {
+      isValidHoverType({ value });
 
-      this.hoverable = value;
+      this.hover = value;
     }
 
     /**
@@ -1947,7 +1986,7 @@ var AccessibleMenu = (function () {
             closeClass: this.closeClass,
             isTopLevel: false,
             parentMenu: this,
-            isHoverable: this.isHoverable,
+            hoverType: this.hoverType,
             hoverDelay: this.hoverDelay,
           });
 
@@ -2079,18 +2118,31 @@ var AccessibleMenu = (function () {
     handleHover() {
       this.elements.submenuToggles.forEach(toggle => {
         toggle.dom.parent.addEventListener("mouseenter", () => {
-          if (this.isHoverable) {
+          if (this.hoverType === "on") {
             this.currentEvent = "mouse";
             toggle.open();
+          } else if (this.hoverType === "dynamic") {
+            const isOpen = this.elements.submenuToggles.some(
+              toggle => toggle.isOpen
+            );
+            if (!this.isTopLevel || isOpen) {
+              this.currentEvent = "mouse";
+              toggle.open();
+            }
           }
         });
 
         toggle.dom.parent.addEventListener("mouseleave", () => {
-          if (this.isHoverable) {
+          if (this.hoverType === "on") {
             setTimeout(() => {
               this.currentEvent = "mouse";
               toggle.close();
             }, this.hoverDelay);
+          } else if (this.hoverType === "dynamic") {
+            if (!this.isTopLevel) {
+              this.currentEvent = "mouse";
+              toggle.close();
+            }
           }
         });
       });
@@ -2417,7 +2469,7 @@ var AccessibleMenu = (function () {
      * @param {string}           [param0.closeClass = "hide"]         - The class to apply when a menu is "closed".
      * @param {boolean}          [param0.isTopLevel = false]          - A flag to mark the root menu.
      * @param {Menubar|null}     [param0.parentMenu = null]           - The parent menu to this menu.
-     * @param {boolean}          [param0.isHoverable = false]         - A flag to allow hover events on the menu.
+     * @param {string}           [param0.hoverType = "off"]           - The type of hoverability a menu has.
      * @param {number}           [param0.hoverDelay = 250]            - The delay for closing menus if the menu is hoverable (in miliseconds).
      */
     constructor({
@@ -2433,7 +2485,7 @@ var AccessibleMenu = (function () {
       closeClass = "hide",
       isTopLevel = true,
       parentMenu = null,
-      isHoverable = false,
+      hoverType = "off",
       hoverDelay = 250,
     }) {
       super({
@@ -2449,7 +2501,7 @@ var AccessibleMenu = (function () {
         closeClass,
         isTopLevel,
         parentMenu,
-        isHoverable,
+        hoverType,
         hoverDelay,
       });
 
@@ -2862,7 +2914,7 @@ var AccessibleMenu = (function () {
      * @param {string}              [param0.closeClass = "hide"]         - The class to apply when a menu is "closed".
      * @param {boolean}             [param0.isTopLevel = false]          - A flag to mark the root menu.
      * @param {DisclosureMenu|null} [param0.parentMenu = null]           - The parent menu to this menu.
-     * @param {boolean}             [param0.isHoverable = false]         - A flag to allow hover events on the menu.
+     * @param {string}              [param0.hoverType = "off"]           - The type of hoverability a menu has.
      * @param {number}              [param0.hoverDelay = 250]            - The delay for closing menus if the menu is hoverable (in miliseconds).
      */
     constructor({
@@ -2878,7 +2930,7 @@ var AccessibleMenu = (function () {
       closeClass = "hide",
       isTopLevel = true,
       parentMenu = null,
-      isHoverable = false,
+      hoverType = "off",
       hoverDelay = 250,
     }) {
       super({
@@ -2894,7 +2946,7 @@ var AccessibleMenu = (function () {
         closeClass,
         isTopLevel,
         parentMenu,
-        isHoverable,
+        hoverType,
         hoverDelay,
       });
 

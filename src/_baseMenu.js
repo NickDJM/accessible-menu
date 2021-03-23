@@ -11,6 +11,7 @@ import {
   isValidEvent,
   isEventSupported,
   isValidClassList,
+  isValidHoverType,
 } from "./validate.js";
 import { preventEvent, keyPress } from "./eventHandlers.js";
 
@@ -34,7 +35,7 @@ class BaseMenu {
    * @param {string|string[]|null} [param0.closeClass = "hide"]         - The class to apply when a menu is "closed".
    * @param {boolean}              [param0.isTopLevel = false]          - A flag to mark the root menu.
    * @param {BaseMenu|null}        [param0.parentMenu = null]           - The parent menu to this menu.
-   * @param {boolean}              [param0.isHoverable = false]         - A flag to allow hover events on the menu.
+   * @param {string}               [param0.hoverType = "off"]           - The type of hoverability a menu has.
    * @param {number}               [param0.hoverDelay = 250]            - The delay for closing menus if the menu is hoverable (in miliseconds).
    */
   constructor({
@@ -50,7 +51,7 @@ class BaseMenu {
     closeClass = "hide",
     isTopLevel = true,
     parentMenu = null,
-    isHoverable = false,
+    hoverType = "off",
     hoverDelay = 250,
   }) {
     // Run validations.
@@ -105,7 +106,7 @@ class BaseMenu {
     this.currentChild = 0;
     this.focusState = "none";
     this.currentEvent = "none";
-    this.isHoverable = isHoverable;
+    this.hoverType = hoverType;
     this.hoverDelay = hoverDelay;
 
     // Set default class types.
@@ -247,17 +248,15 @@ class BaseMenu {
   }
 
   /**
-   * A flag to allow hover events on the menu.
+   * The type of hoverability for the menu.
    *
    * This functions differently for root vs. submenus.
    * Submenus will always inherit their root menu's hoverability.
    *
-   * @returns {boolean} - The hoverable flag.
+   * @returns {string} - The hover type.
    */
-  get isHoverable() {
-    return this.isTopLevel
-      ? this.hoverable
-      : this.elements.rootMenu.isHoverable;
+  get hoverType() {
+    return this.isTopLevel ? this.hover : this.elements.rootMenu.hoverType;
   }
 
   /**
@@ -328,14 +327,14 @@ class BaseMenu {
   }
 
   /**
-   * Set the flag to allow hover events on the menu.
+   * Set the type of hoverability for the menu.
    *
-   * @param {boolean} value - The hoverable flag.
+   * @param {string} value - The hover type.
    */
-  set isHoverable(value) {
-    isBoolean({ value });
+  set hoverType(value) {
+    isValidHoverType({ value });
 
-    this.hoverable = value;
+    this.hover = value;
   }
 
   /**
@@ -506,7 +505,7 @@ class BaseMenu {
           closeClass: this.closeClass,
           isTopLevel: false,
           parentMenu: this,
-          isHoverable: this.isHoverable,
+          hoverType: this.hoverType,
           hoverDelay: this.hoverDelay,
         });
 
@@ -638,18 +637,31 @@ class BaseMenu {
   handleHover() {
     this.elements.submenuToggles.forEach(toggle => {
       toggle.dom.parent.addEventListener("mouseenter", () => {
-        if (this.isHoverable) {
+        if (this.hoverType === "on") {
           this.currentEvent = "mouse";
           toggle.open();
+        } else if (this.hoverType === "dynamic") {
+          const isOpen = this.elements.submenuToggles.some(
+            toggle => toggle.isOpen
+          );
+          if (!this.isTopLevel || isOpen) {
+            this.currentEvent = "mouse";
+            toggle.open();
+          }
         }
       });
 
       toggle.dom.parent.addEventListener("mouseleave", () => {
-        if (this.isHoverable) {
+        if (this.hoverType === "on") {
           setTimeout(() => {
             this.currentEvent = "mouse";
             toggle.close();
           }, this.hoverDelay);
+        } else if (this.hoverType === "dynamic") {
+          if (!this.isTopLevel) {
+            this.currentEvent = "mouse";
+            toggle.close();
+          }
         }
       });
     });

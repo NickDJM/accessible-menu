@@ -25,7 +25,7 @@ class Menubar extends BaseMenu {
    * @param {string}           [param0.closeClass = "hide"]         - The class to apply when a menu is "closed".
    * @param {boolean}          [param0.isTopLevel = false]          - A flag to mark the root menu.
    * @param {Menubar|null}     [param0.parentMenu = null]           - The parent menu to this menu.
-   * @param {boolean}          [param0.isHoverable = false]         - A flag to allow hover events on the menu.
+   * @param {string}           [param0.hoverType = "off"]           - The type of hoverability a menu has.
    * @param {number}           [param0.hoverDelay = 250]            - The delay for closing menus if the menu is hoverable (in miliseconds).
    */
   constructor({
@@ -41,7 +41,7 @@ class Menubar extends BaseMenu {
     closeClass = "hide",
     isTopLevel = true,
     parentMenu = null,
-    isHoverable = false,
+    hoverType = "off",
     hoverDelay = 250,
   }) {
     super({
@@ -57,7 +57,7 @@ class Menubar extends BaseMenu {
       closeClass,
       isTopLevel,
       parentMenu,
-      isHoverable,
+      hoverType,
       hoverDelay,
     });
 

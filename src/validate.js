@@ -511,3 +511,44 @@ export function isValidClassList(values) {
     return false;
   }
 }
+
+/**
+ * Check to see if the provided values are valid hover types for a menu.
+ *
+ * The values must be provided inside of an object
+ * so the variable name can be retrieved in case of errors.
+ *
+ * Will return true is the check is successful.
+ *
+ * @param   {object} values - The value(s) to check.
+ *
+ * @returns {boolean} - The result of the check.
+ */
+export function isValidHoverType(values) {
+  try {
+    if (typeof values !== "object") {
+      const type = typeof values;
+
+      throw new TypeError(
+        `Values given to isValidHoverType() must be inside of an object. ${type} given.`
+      );
+    }
+
+    const validEvents = ["off", "on", "dynamic"];
+
+    for (const key in values) {
+      if (!validEvents.includes(values[key])) {
+        throw new TypeError(
+          `${key} must be one of the following values: ${validEvents.join(
+            ", "
+          )}. "${values[key]}" given.`
+        );
+      }
+    }
+
+    return true;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+}
