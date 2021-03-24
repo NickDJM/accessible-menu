@@ -1,14 +1,15 @@
 /**
  * Toggles the hover state of a menu and its submenus.
  *
- * @param {AccessibleMenu.Menubar} menu - The menu to toggle.
+ * @param {AccessibleMenu.DisclosureMenu} menu - The menu to toggle.
+ * @param {string}                        type - The type of hover to toggle.
  */
-function toggleHover(menu) {
+function toggleHover(menu, type) {
   menu.elements.submenuToggles.forEach(toggle => {
-    toggle.elements.controlledMenu.isHoverable = !menu.isHoverable;
+    toggle.elements.controlledMenu.hoverType = type;
   });
 
-  menu.isHoverable = !menu.isHoverable;
+  menu.hoverType = type;
 }
 
 const navs = document.querySelectorAll("nav");
@@ -20,22 +21,21 @@ Array.from(navs).forEach(nav => {
   const controllerElement = nav.id === "main-menu" ? nav.querySelector("button") : null;
   const containerElement = nav.id === "main-menu" ? nav : null;
 
-  menus.push(new AccessibleMenu.Menubar({
+  menus.push(new AccessibleMenu.DisclosureMenu({
     menuElement,
     submenuItemSelector,
     controllerElement,
     containerElement,
     openClass: ["show", "open"],
-    closeClass: "",
-    isHoverable: true,
+    hoverType: window.innerWidth >= 1070 ? "dynamic" : "off",
   }));
 });
 
 window.addEventListener("resize", () => {
-  if (window.innerWidth >= 1070 && !menus[0].isHoverable) {
-    toggleHover(menus[0]);
-  } else if (window.innerWidth < 1070 && menus[0].isHoverable) {
-    toggleHover(menus[0]);
+  if (window.innerWidth >= 1070 && menus[0].hoverType === "off") {
+    toggleHover(menus[0], "dynamic");
+  } else if (window.innerWidth < 1070 && menus[0].hoverType === "dynamic") {
+    toggleHover(menus[0], "off");
   }
 });
 
