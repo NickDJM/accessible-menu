@@ -1,11 +1,11 @@
 // Custom validation for params.
 const validate = {
-  event: (value) => {
+  event: value => {
     if (!(value instanceof Event)) {
       throw new TypeError("event must be an event.");
     }
   },
-  keyboardEvent: (value) => {
+  keyboardEvent: value => {
     if (!(value instanceof KeyboardEvent)) {
       throw new TypeError("event must be a keyboard event.");
     }
@@ -40,7 +40,7 @@ export function keyPress(event) {
       Tab: key === "Tab" || key === 9,
     };
 
-    return Object.keys(keys).find((key) => keys[key] === true);
+    return Object.keys(keys).find(key => keys[key] === true);
   } catch (error) {
     // Return an empty string if something goes wrong.
     return "";

@@ -3,31 +3,31 @@ import MenuToggle from "./menuToggle";
 
 // Basic validation for the class.
 const validate = {
-  menuItemElement: (element) => {
+  menuItemElement: element => {
     // Ensure element is an HTML element.
     if (!(element instanceof HTMLElement)) {
       throw new TypeError("menuItemElement must be an HTML Element.");
     }
   },
-  menuLinkElement: (element) => {
+  menuLinkElement: element => {
     // Ensure element is an HTML element.
     if (!(element instanceof HTMLElement)) {
       throw new TypeError("menuLinkElement must be an HTML Element.");
     }
   },
-  parentMenu: (menu) => {
+  parentMenu: menu => {
     // Ensure menu is a Menu element.
     if (!(menu instanceof Menu)) {
       throw new TypeError("parentMenu must be a Menu.");
     }
   },
-  isSubmenuItem: (flag) => {
+  isSubmenuItem: flag => {
     // Ensure flag is a boolean.
     if (typeof flag !== "boolean") {
       throw new TypeError("isSubmenuItem must be true or false");
     }
   },
-  childMenu: (menu) => {
+  childMenu: menu => {
     // Menu can be null.
     if (menu === null) return;
 
@@ -36,7 +36,7 @@ const validate = {
       throw new TypeError("childMenu must be a Menu.");
     }
   },
-  toggle: (toggle) => {
+  toggle: toggle => {
     // Toggle can be null.
     if (toggle === null) return;
 
