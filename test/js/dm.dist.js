@@ -2,13 +2,14 @@
  * Toggles the hover state of a menu and its submenus.
  *
  * @param {AccessibleMenu.DisclosureMenu} menu - The menu to toggle.
+ * @param {string}                        type - The type of hover to toggle.
  */
-function toggleHover(menu) {
+function toggleHover(menu, type) {
   menu.elements.submenuToggles.forEach(toggle => {
-    toggle.elements.controlledMenu.isHoverable = !menu.isHoverable;
+    toggle.elements.controlledMenu.hoverType = type;
   });
 
-  menu.isHoverable = !menu.isHoverable;
+  menu.hoverType = type;
 }
 
 const navs = document.querySelectorAll("nav");
@@ -26,16 +27,15 @@ Array.from(navs).forEach(nav => {
     controllerElement,
     containerElement,
     openClass: ["show", "open"],
-    closeClass: "",
-    isHoverable: window.innerWidth >= 1070,
+    hoverType: window.innerWidth >= 1070 ? "dynamic" : "off",
   }));
 });
 
 window.addEventListener("resize", () => {
-  if (window.innerWidth >= 1070 && !menus[0].isHoverable) {
-    toggleHover(menus[0]);
-  } else if (window.innerWidth < 1070 && menus[0].isHoverable) {
-    toggleHover(menus[0]);
+  if (window.innerWidth >= 1070 && menus[0].hoverType === "off") {
+    toggleHover(menus[0], "dynamic");
+  } else if (window.innerWidth < 1070 && menus[0].hoverType === "dynamic") {
+    toggleHover(menus[0], "off");
   }
 });
 

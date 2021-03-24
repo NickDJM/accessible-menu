@@ -1,19 +1,16 @@
 "use strict";
 
-var _menubar = _interopRequireDefault(require("../../src/menubar.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 /**
  * Toggles the hover state of a menu and its submenus.
  *
- * @param {Menubar} menu - The menu to toggle.
+ * @param {AccessibleMenu.DisclosureMenu} menu - The menu to toggle.
+ * @param {string}                        type - The type of hover to toggle.
  */
-function toggleHover(menu) {
+function toggleHover(menu, type) {
   menu.elements.submenuToggles.forEach(function (toggle) {
-    toggle.elements.controlledMenu.isHoverable = !menu.isHoverable;
+    toggle.elements.controlledMenu.hoverType = type;
   });
-  menu.isHoverable = !menu.isHoverable;
+  menu.hoverType = type;
 }
 
 var navs = document.querySelectorAll("nav");
@@ -23,19 +20,20 @@ Array.from(navs).forEach(function (nav) {
   var submenuItemSelector = "li.dropdown";
   var controllerElement = nav.id === "main-menu" ? nav.querySelector("button") : null;
   var containerElement = nav.id === "main-menu" ? nav : null;
-  menus.push(new _menubar["default"]({
+  menus.push(new AccessibleMenu.DisclosureMenu({
     menuElement: menuElement,
     submenuItemSelector: submenuItemSelector,
     controllerElement: controllerElement,
     containerElement: containerElement,
-    isHoverable: window.innerWidth >= 1070
+    openClass: ["show", "open"],
+    hoverType: window.innerWidth >= 1070 ? "dynamic" : "off"
   }));
 });
 window.addEventListener("resize", function () {
-  if (window.innerWidth >= 1070 && !menus[0].isHoverable) {
-    toggleHover(menus[0]);
-  } else if (window.innerWidth < 1070 && menus[0].isHoverable) {
-    toggleHover(menus[0]);
+  if (window.innerWidth >= 1070 && menus[0].hoverType === "off") {
+    toggleHover(menus[0], "dynamic");
+  } else if (window.innerWidth < 1070 && menus[0].hoverType === "dynamic") {
+    toggleHover(menus[0], "off");
   }
 });
 document.addEventListener("accessibleMenuExpand", function (event) {
