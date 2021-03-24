@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.7](https://github.com/NickDJM/accessible-menu/compare/v1.0.6...v1.0.7) (2021-03-24)
+
+
+### Bug Fixes
+
+* **menu:** wait for menu to render before focussing child ([c5dae5d](https://github.com/NickDJM/accessible-menu/commit/c5dae5d59df145ca018128cf81fbd4a82493b8e3)), closes [#99](https://github.com/NickDJM/accessible-menu/issues/99)
+
+
+### Build System
+
+* update config for linting ([7259769](https://github.com/NickDJM/accessible-menu/commit/72597695911c1f58060800d3a809348ccceba38a))
+* **npm:** security updates for dev dependencies ([4153685](https://github.com/NickDJM/accessible-menu/commit/415368540edc33b54287473a3c7ba0e09b3e7219))
+
 ### [1.0.6](https://github.com/NickDJM/accessible-menu/compare/v1.0.5...v1.0.6) (2020-02-26)
 
 
