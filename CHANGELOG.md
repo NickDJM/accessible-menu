@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.2.0](https://github.com/NickDJM/accessible-menu/compare/v2.1.1...v2.2.0) (2021-03-24)
+
+
+### Features
+
+* **menu:** add expand/collapse events to MenuToggles ([b736c1a](https://github.com/NickDJM/accessible-menu/commit/b736c1adbc41d51f7c7b05e0c4fdc153c9b6444d)), closes [#90](https://github.com/NickDJM/accessible-menu/issues/90)
+
+
+### Bug Fixes
+
+* **event:** check if menu isHoverable before running event code ([638778d](https://github.com/NickDJM/accessible-menu/commit/638778de1016fe597dc6cdc958b0d74fabd0303a)), closes [#84](https://github.com/NickDJM/accessible-menu/issues/84)
+* **event:** properly pass event object to keydown and keyup events ([fc281bf](https://github.com/NickDJM/accessible-menu/commit/fc281bf81059e8dcd897d554a614bba3536d151b))
+* **menubar:** wait for menu to render before focussing child ([21f50ee](https://github.com/NickDJM/accessible-menu/commit/21f50ee0aa420500eaf43ef3f7761c8e080fd431)), closes [#99](https://github.com/NickDJM/accessible-menu/issues/99)
+* **polyfill:** add CustomEvent constructor polyfill for IE ([d08cb2d](https://github.com/NickDJM/accessible-menu/commit/d08cb2d7c35dbae4bdfab99f299f4baa8e217d0a)), closes [#97](https://github.com/NickDJM/accessible-menu/issues/97)
+
+
+### Documentation
+
+* mention new expand/collapse events in the toggle documentation ([f65ce32](https://github.com/NickDJM/accessible-menu/commit/f65ce32829cc00350c8ff7027863619ffc92887b))
+
+
+### Build System
+
+* **npm:** update dev dependencies to latest ([accc5ba](https://github.com/NickDJM/accessible-menu/commit/accc5ba143f01bfb37a06c67ecb6ac8925af4e3b))
+
 ### [2.1.1](https://github.com/NickDJM/accessible-menu/compare/v2.1.0...v2.1.1) (2020-11-05)
 
 
