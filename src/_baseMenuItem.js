@@ -85,18 +85,18 @@ class BaseMenuItem {
    * Focuses the menu item's link and set proper tabIndex.
    */
   focus() {
-    if (this.elements.parentMenu.currentEvent !== "mouse") {
-      this.dom.link.focus();
-    }
+    // if (this.elements.parentMenu.currentEvent !== "mouse") {
+    this.dom.link.focus();
+    // }
   }
 
   /**
    * Blurs the menu item's link and set proper tabIndex.
    */
   blur() {
-    if (this.elements.parentMenu.currentEvent !== "mouse") {
-      this.dom.link.blur();
-    }
+    // if (this.elements.parentMenu.currentEvent !== "mouse") {
+    this.dom.link.blur();
+    // }
   }
 }
 

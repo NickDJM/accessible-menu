@@ -728,9 +728,9 @@ class BaseMenu {
   focus() {
     this.focusState = "self";
 
-    if (this.currentEvent !== "mouse") {
-      this.dom.menu.focus();
-    }
+    // if (this.currentEvent !== "mouse") {
+    this.dom.menu.focus();
+    // }
   }
 
   /**
@@ -739,9 +739,9 @@ class BaseMenu {
   blur() {
     this.focusState = "none";
 
-    if (this.currentEvent !== "mouse") {
-      this.dom.menu.blur();
-    }
+    // if (this.currentEvent !== "mouse") {
+    this.dom.menu.blur();
+    // }
 
     if (this.isTopLevel && this.elements.controller) {
       this.elements.controller.close();
