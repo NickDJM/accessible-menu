@@ -641,10 +641,6 @@ class BaseMenu {
           this.currentEvent = "mouse";
           this.currentChild = index;
 
-          if (!this.isTopLevel) {
-            this.focusCurrentChild();
-          }
-
           if (menuItem.isSubmenuItem) {
             menuItem.elements.toggle.open();
           }
@@ -654,7 +650,8 @@ class BaseMenu {
           );
           this.currentChild = index;
 
-          if (!this.isTopLevel) {
+          if (!this.isTopLevel || this.focusState !== "none") {
+            this.currentEvent = "mouse";
             this.focusCurrentChild();
           }
 
@@ -666,22 +663,21 @@ class BaseMenu {
       });
 
       if (menuItem.isSubmenuItem) {
-        menuItem.elements.toggle.dom.parent.addEventListener(
-          "mouseleave",
-          () => {
-            if (this.hoverType === "on") {
+        menuItem.dom.item.addEventListener("mouseleave", () => {
+          if (this.hoverType === "on") {
+            setTimeout(() => {
+              this.currentEvent = "mouse";
+              menuItem.elements.toggle.close();
+            }, this.hoverDelay);
+          } else if (this.hoverType === "dynamic") {
+            if (!this.isTopLevel) {
               setTimeout(() => {
                 this.currentEvent = "mouse";
                 menuItem.elements.toggle.close();
               }, this.hoverDelay);
-            } else if (this.hoverType === "dynamic") {
-              if (!this.isTopLevel) {
-                this.currentEvent = "mouse";
-                menuItem.elements.toggle.close();
-              }
             }
           }
-        );
+        });
       }
     });
   }
@@ -728,9 +724,12 @@ class BaseMenu {
   focus() {
     this.focusState = "self";
 
-    // if (this.currentEvent !== "mouse") {
-    this.dom.menu.focus();
-    // }
+    if (
+      this.currentEvent === "keyboard" ||
+      (this.currentEvent === "mouse" && this.hoverType === "dynamic")
+    ) {
+      this.dom.menu.focus();
+    }
   }
 
   /**
@@ -739,9 +738,12 @@ class BaseMenu {
   blur() {
     this.focusState = "none";
 
-    // if (this.currentEvent !== "mouse") {
-    this.dom.menu.blur();
-    // }
+    if (
+      this.currentEvent === "keyboard" ||
+      (this.currentEvent === "mouse" && this.hoverType === "dynamic")
+    ) {
+      this.dom.menu.blur();
+    }
 
     if (this.isTopLevel && this.elements.controller) {
       this.elements.controller.close();
