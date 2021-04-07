@@ -179,6 +179,7 @@ class Menubar extends BaseMenu {
             // - Opens submenu and moves focus to first item in the submenu.
             if (this.currentMenuItem.isSubmenuItem) {
               preventEvent(event);
+              this.currentMenuItem.elements.childMenu.currentEvent = "keyboard";
               this.currentMenuItem.elements.toggle.open();
               // This ensures the the menu is _visually_ open before the child is focussed.
               requestAnimationFrame(() => {
@@ -202,6 +203,8 @@ class Menubar extends BaseMenu {
             // Open the newly focussed submenu if applicable.
             if (previousChildOpen) {
               if (this.currentMenuItem.isSubmenuItem) {
+                this.currentMenuItem.elements.childMenu.currentEvent =
+                  "keyboard";
                 this.currentMenuItem.elements.toggle.preview();
               } else {
                 this.closeChildren();
@@ -224,6 +227,8 @@ class Menubar extends BaseMenu {
             // Open the newly focussed submenu if applicable.
             if (previousChildOpen) {
               if (this.currentMenuItem.isSubmenuItem) {
+                this.currentMenuItem.elements.childMenu.currentEvent =
+                  "keyboard";
                 this.currentMenuItem.elements.toggle.preview();
               } else {
                 this.closeChildren();
@@ -234,6 +239,7 @@ class Menubar extends BaseMenu {
             // - Opens submenu and moves focus to first item in the submenu.
             if (this.currentMenuItem.isSubmenuItem) {
               preventEvent(event);
+              this.currentMenuItem.elements.childMenu.currentEvent = "keyboard";
               this.currentMenuItem.elements.toggle.open();
               // This ensures the the menu is _visually_ open before the child is focussed.
               requestAnimationFrame(() => {
@@ -245,6 +251,7 @@ class Menubar extends BaseMenu {
             // - Opens submenu and moves focus to last item in the submenu.
             if (this.currentMenuItem.isSubmenuItem) {
               preventEvent(event);
+              this.currentMenuItem.elements.childMenu.currentEvent = "keyboard";
               this.currentMenuItem.elements.toggle.open();
               // This ensures the the menu is _visually_ open before the child is focussed.
               requestAnimationFrame(() => {
@@ -288,6 +295,7 @@ class Menubar extends BaseMenu {
           // - Activates menu item, causing the link to be activated.
           if (this.currentMenuItem.isSubmenuItem) {
             preventEvent(event);
+            this.currentMenuItem.elements.childMenu.currentEvent = "keyboard";
             this.currentMenuItem.elements.toggle.open();
             // This ensures the the menu is _visually_ open before the child is focussed.
             requestAnimationFrame(() => {
@@ -310,6 +318,7 @@ class Menubar extends BaseMenu {
           //   - Opens submenu of newly focused menubar item, keeping focus on that parent menubar item.
           if (this.currentMenuItem.isSubmenuItem) {
             preventEvent(event);
+            this.currentMenuItem.elements.childMenu.currentEvent = "keyboard";
             this.currentMenuItem.elements.toggle.open();
             // This ensures the the menu is _visually_ open before the child is focussed.
             requestAnimationFrame(() => {
@@ -340,6 +349,8 @@ class Menubar extends BaseMenu {
               this.elements.rootMenu.focusPreviousChild();
 
               if (this.elements.rootMenu.currentMenuItem.isSubmenuItem) {
+                this.elements.rootMenu.currentMenuItem.elements.childMenu.currentEvent =
+                  "keyboard";
                 this.elements.rootMenu.currentMenuItem.elements.toggle.preview();
               }
             }
