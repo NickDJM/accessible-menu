@@ -635,35 +635,51 @@ class BaseMenu {
    * Handles hover events throughout the menu for proper use.
    */
   handleHover() {
-    this.elements.submenuToggles.forEach(toggle => {
-      toggle.dom.parent.addEventListener("mouseenter", () => {
+    this.elements.menuItems.forEach((menuItem, index) => {
+      menuItem.dom.link.addEventListener("mouseenter", () => {
         if (this.hoverType === "on") {
           this.currentEvent = "mouse";
-          toggle.open();
+          this.currentChild = index;
+
+          if (menuItem.isSubmenuItem) {
+            menuItem.elements.toggle.preview();
+          }
         } else if (this.hoverType === "dynamic") {
           const isOpen = this.elements.submenuToggles.some(
             toggle => toggle.isOpen
           );
-          if (!this.isTopLevel || isOpen) {
+          this.currentChild = index;
+
+          if (!this.isTopLevel || this.focusState !== "none") {
             this.currentEvent = "mouse";
-            toggle.open();
+            this.focusCurrentChild();
+          }
+
+          if (menuItem.isSubmenuItem && (!this.isTopLevel || isOpen)) {
+            this.currentEvent = "mouse";
+            menuItem.elements.toggle.preview();
           }
         }
       });
 
-      toggle.dom.parent.addEventListener("mouseleave", () => {
-        if (this.hoverType === "on") {
-          setTimeout(() => {
-            this.currentEvent = "mouse";
-            toggle.close();
-          }, this.hoverDelay);
-        } else if (this.hoverType === "dynamic") {
-          if (!this.isTopLevel) {
-            this.currentEvent = "mouse";
-            toggle.close();
+      if (menuItem.isSubmenuItem) {
+        menuItem.dom.item.addEventListener("mouseleave", () => {
+          if (this.hoverType === "on") {
+            setTimeout(() => {
+              this.currentEvent = "mouse";
+              menuItem.elements.toggle.close();
+            }, this.hoverDelay);
+          } else if (this.hoverType === "dynamic") {
+            if (!this.isTopLevel) {
+              setTimeout(() => {
+                this.currentEvent = "mouse";
+                menuItem.elements.toggle.close();
+                this.focusCurrentChild();
+              }, this.hoverDelay);
+            }
           }
-        }
-      });
+        });
+      }
     });
   }
 
@@ -709,7 +725,10 @@ class BaseMenu {
   focus() {
     this.focusState = "self";
 
-    if (this.currentEvent !== "mouse") {
+    if (
+      this.currentEvent === "keyboard" ||
+      (this.currentEvent === "mouse" && this.hoverType === "dynamic")
+    ) {
       this.dom.menu.focus();
     }
   }
@@ -720,7 +739,10 @@ class BaseMenu {
   blur() {
     this.focusState = "none";
 
-    if (this.currentEvent !== "mouse") {
+    if (
+      this.currentEvent === "keyboard" ||
+      (this.currentEvent === "mouse" && this.hoverType === "dynamic")
+    ) {
       this.dom.menu.blur();
     }
 

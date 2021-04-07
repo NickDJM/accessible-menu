@@ -82,19 +82,27 @@ class BaseMenuItem {
   }
 
   /**
-   * Focuses the menu item's link and set proper tabIndex.
+   * Focuses the menu item's link if triggering event is valid.
    */
   focus() {
-    if (this.elements.parentMenu.currentEvent !== "mouse") {
+    if (
+      this.elements.parentMenu.currentEvent === "keyboard" ||
+      (this.elements.parentMenu.currentEvent === "mouse" &&
+        this.elements.parentMenu.hoverType === "dynamic")
+    ) {
       this.dom.link.focus();
     }
   }
 
   /**
-   * Blurs the menu item's link and set proper tabIndex.
+   * Blurs the menu item's link if triggering event is valid.
    */
   blur() {
-    if (this.elements.parentMenu.currentEvent !== "mouse") {
+    if (
+      this.elements.parentMenu.currentEvent === "keyboard" ||
+      (this.elements.parentMenu.currentEvent === "mouse" &&
+        this.elements.parentMenu.hoverType === "dynamic")
+    ) {
       this.dom.link.blur();
     }
   }

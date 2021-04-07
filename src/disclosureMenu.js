@@ -181,6 +181,7 @@ class DisclosureMenu extends BaseMenu {
             this.currentMenuItem.isSubmenuItem &&
             this.currentMenuItem.elements.toggle.isOpen
           ) {
+            this.currentMenuItem.elements.childMenu.currentEvent = "keyboard";
             this.currentMenuItem.elements.childMenu.focusFirstChild();
           } else {
             this.focusNextChild();
