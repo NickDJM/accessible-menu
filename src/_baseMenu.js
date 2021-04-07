@@ -674,6 +674,7 @@ class BaseMenu {
               setTimeout(() => {
                 this.currentEvent = "mouse";
                 menuItem.elements.toggle.close();
+                this.focusCurrentChild();
               }, this.hoverDelay);
             }
           }
