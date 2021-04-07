@@ -642,7 +642,7 @@ class BaseMenu {
           this.currentChild = index;
 
           if (menuItem.isSubmenuItem) {
-            menuItem.elements.toggle.open();
+            menuItem.elements.toggle.preview();
           }
         } else if (this.hoverType === "dynamic") {
           const isOpen = this.elements.submenuToggles.some(
@@ -657,7 +657,7 @@ class BaseMenu {
 
           if (menuItem.isSubmenuItem && (!this.isTopLevel || isOpen)) {
             this.currentEvent = "mouse";
-            menuItem.elements.toggle.open();
+            menuItem.elements.toggle.preview();
           }
         }
       });
