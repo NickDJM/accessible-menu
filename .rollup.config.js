@@ -16,6 +16,6 @@ module.exports = {
       file: "dist/accessibleMenu.min.js",
       format: "iife",
       plugins: [resolve(), babel(), terser()],
-    }
+    },
   ],
 };

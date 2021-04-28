@@ -4,8 +4,8 @@ module.exports = {
   hooks: {
     "pre-commit": tasks([
       "echo committing as $(git config user.name)",
-      "npm run lint"
+      "npm run lint",
     ]),
-    "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-  }
+    "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+  },
 };

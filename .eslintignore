@@ -13,3 +13,6 @@ src/polyfills/*
 
 # Tests
 test/*
+
+# Do not ignore config files.
+!.*.js
