@@ -6,8 +6,9 @@
   "files": [
     "index.js",
     "dist/",
-    "src/eventHandlers.js",
+    "src/_baseTypes.js",
     "src/validate.js",
+    "src/eventHandlers.js",
     "src/_baseMenu.js",
     "src/_baseMenuItem.js",
     "src/_baseMenuToggle.js",
@@ -74,11 +75,6 @@
     "sass": "^1.29.0",
     "standard-version": "^9.0.0",
     "terser": "^5.6.1"
-  },
-  "config": {
-    "commitizen": {
-      "path": "cz-conventional-changelog"
-    }
   },
   "resolutions": {}
 }
