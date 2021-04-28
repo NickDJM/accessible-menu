@@ -2,4 +2,4 @@
 . "$(dirname "$0")/_/husky.sh"
 
 echo committing as $(git config user.name)
-npm run lint
+npx lint-staged
