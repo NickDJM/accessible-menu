@@ -8,8 +8,5 @@
 # Lock files.
 package-lock.json
 
-# Polyfills.
-src/polyfills/*
-
 # Do not ignore config files.
 !.*.js
