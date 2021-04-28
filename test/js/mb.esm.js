@@ -1,8 +1,10 @@
+import Menubar from "../../dist/menubar.esm.min.js";
+
 /**
  * Toggles the hover state of a menu and its submenus.
  *
- * @param {AccessibleMenu.Menubar} menu - The menu to toggle.
- * @param {string}                 type - The type of hover to toggle.
+ * @param {Menubar} menu - The menu to toggle.
+ * @param {string}  type - The type of hover to toggle.
  */
 function toggleHover(menu, type) {
   menu.elements.submenuToggles.forEach(toggle => {
