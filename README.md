@@ -63,7 +63,7 @@ To use **accessible-menu**, you first need to make sure your menu matches the fo
 
 Include **accessible-menu** through import or bundled library in your project:
 
-```jsx
+```js
 import AccessibleMenu from "accessible-menu";
 ```
 
@@ -77,7 +77,7 @@ Once you have **accessible-menu** loaded, declare a new menu object.
 
 `menuElement` is required for all menus, while `submenuItemSelector` is _only_ required if you have submenus/dropdowns.
 
-```jsx
+```js
 const menu = new AccessibleMenu.DisclosureMenu({
   menuElement: document.querySelector("#example-menu"),
   submenuItemSelector: "li.dropdown",
@@ -96,7 +96,7 @@ const menu = new AccessibleMenu.DisclosureMenu({
   - [Menubar](docs/classes/menubar.md)
   - [MenubarItem](docs/classes/menubarItem.md)
   - [MenubarToggle](docs/classes/menubarToggle.md)
-- [Basic examples](docs/basics/index.md)
+- [Basics](docs/basics/index.md)
   - [Single-level menu](docs/basics/single-level-menu.md)
   - [Single-level menu with toggle](docs/basics/single-level-menu-with-toggle.md)
   - [Two-level menu with toggle](docs/basics/two-level-menu-with-toggle.md)

@@ -1,20 +1,20 @@
 # Single-level menu
 
-A single-level menu is the most simple type of menu that can be used with accessible-menu.
+A single-level menu is the most basic type of menu that can be used with **accessible-menu**.
 
-A basic example of this kind of menu is as follows:
+An example of this kind of menu is as follows:
 
 ```html
 <nav id="main-nav" aria-label="Main">
-  <ul id="main-menu" class="menu">
-    <li class="menu-item">
-      <a href="..." class="menu-link">Link 1</a>
+  <ul id="main-menu">
+    <li>
+      <a href="/about">About</a>
     </li>
-    <li class="menu-item">
-      <a href="..." class="menu-link">Link 2</a>
+    <li>
+      <a href="/projects">Projects</a>
     </li>
-    <li class="menu-item">
-      <a href="..." class="menu-link">Link 3</a>
+    <li>
+      <a href="/contact">Contact me</a>
     </li>
   </ul>
 </nav>
@@ -23,21 +23,11 @@ A basic example of this kind of menu is as follows:
 Given the above structure, the parameters needed for an accessible menu are:
 
 - `menuElement`
-- `menuItemSelector`
-- `menuLinkSelector`
 
 Depending on what kind of menu you'd like to create you can either use [Menubar](../classes/Menubar.md) or [DisclosureMenu](../classes/DisclosureMenu.md).
 
-```jsx
-const menuElement = document.querySelector("#main-menu");
-const menuItemSelector = ".menu-item";
-const menuLinkSelector = ".menu-link";
-
+```js
 const menu = new AccessibleMenu.DisclosureMenu({
-  menuElement,
-  menuItemSelector,
-  menuLinkSelector,
+  menuElement: document.querySelector("#main-menu"),
 });
 ```
-
-**Please note:** all collapse/expand styles are expected to be handled by your own CSS.
