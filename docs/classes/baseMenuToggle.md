@@ -1,6 +1,8 @@
-# MenuToggle Class
+# BaseMenuToggle Class
 
 A link or button that controls the visibility of a menu.
+
+The BaseMenuToggle class holds all of the universal menu toggle properties and functions. It is not intended to be used by itself in the DOM-- use [DisclosureMenuToggle](disclosureMenuToggle.md) or [MenubarToggle](menubarToggle.md) instead.
 
 ## Parameters
 
@@ -32,6 +34,7 @@ All Parameters _must_ be contained in a single object.
 Set the open state on the menu.
 
 #### Parameters
+
 | Paramter | Description | Type | Required | Default Value |
 | --- | --- | --- | --- | --- |
 | value | The open state. | boolean | true | `undefined` |
@@ -41,6 +44,7 @@ Set the open state on the menu.
 Set the class to apply when the controlled menu is "open".
 
 #### Parameters
+
 | Paramter | Description | Type | Required | Default Value |
 | --- | --- | --- | --- | --- |
 | value | The class. | string | true | `undefined` |
@@ -50,10 +54,10 @@ Set the class to apply when the controlled menu is "open".
 Set the class to apply when the controlled menu is "closed".
 
 #### Parameters
+
 | Paramter | Description | Type | Required | Default Value |
 | --- | --- | --- | --- | --- |
 | value | The class. | string | true | `undefined` |
-
 
 ## Available methods
 
@@ -69,8 +73,8 @@ If they do not, the following steps take place:
 
 - Generate a random 10 character string,
 - Get the innerText of the toggle,
-- Set the toggle's ID to: `${toggle's inner text}-${the random string}-menu-button`
-- Set the menu's ID to: `${toggle's inner text}-${the random string}-menu`
+- Set the toggle's ID to: `${toggle-inner-text}-${the-random-string}-menu-button`
+- Set the menu's ID to: `${toggle-inner-text}-${the-random-string}-menu`
 
 Once the ID's have been generated, the menu's "aria-labelledby" is set to the toggle's ID, and the toggle's "aria-controls" is set to the menu's ID.
 
@@ -98,13 +102,11 @@ Sets the open state of the toggle to "true", runs the [expand](#expand) and [clo
 
 Will also set the controlled menu's focus state to "self" and the parent menu's focus state to "none".
 
-
 ### preview
 
 Sets the open state of the toggle to "true", runs the [expand](#expand) and [closeSiblings](#closeSiblings) methods.
 
 Will also set the controlled menu's focus state to "none" and the parent menu's focus state to "self".
-
 
 ### close
 
@@ -116,13 +118,32 @@ Will also set the parent menu's focus state to "self".
 
 Toggles between the [open](#open) and [close](#close) methods depending on the toggle's open state.
 
-
 ### closeSiblings
 
 Runs through all of the parent menu's submenu toggles and closes all of them (except for itself).
-
 
 ### closeChildren
 
 Runs through all of the controlled menu's submenu toggles and closes all of them.
 
+## Custom Events
+
+### Expand
+
+A custom event that is triggered when the toggle's `expand()` method is called.
+
+Passes the toggle (`this`) as a property in the `details` property of the event.
+
+| Name | Bubbles | Details |
+| --- | --- | --- |
+| accessibleMenuExpand | true | `{ toggle: this }` |
+
+### Collapse
+
+A custom event that is triggered when the toggle's `collapse()` method is called.
+
+Passes the toggle (`this`) as a property in the `details` property of the event.
+
+| Name | Bubbles | Details |
+| --- | --- | --- |
+| accessibleMenuCollapse | true | `{ toggle: this }` |

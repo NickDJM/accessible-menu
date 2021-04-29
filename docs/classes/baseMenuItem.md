@@ -1,6 +1,6 @@
-# MenuItem Class
+# BaseMenuItem Class
 
-The MenuItem class is used to hold some super basic functionality for menu items.
+The BaseMenuItem class holds all of the universal menu item properties and functions. It is not intended to be used by itself in the DOM-- use [DisclosureMenuItem](disclosureMenuItem.md) or [MenubarItem](menubarItem.md) instead.
 
 ## Parameters
 
@@ -13,7 +13,7 @@ All Parameters _must_ be contained in a single object.
 | parentMenu | The parent menu. | BaseMenu | true | `undefined` |
 | isSubmenuItem | A flag to mark if the menu item is controlling a submenu. | boolean | false | `false` |
 | childMenu | The child menu. | BaseMenu\|null | false | `null` |
-| toggle | The controller for the child menu. | MenuToggle\|null | false | `null` |
+| toggle | The controller for the child menu. | BaseMenuToggle\|null | false | `null` |
 
 ## Available getters
 
@@ -27,7 +27,7 @@ All Parameters _must_ be contained in a single object.
 
 ### initialize
 
-Initializes the menu item by checking to see if the parentMenu is a [Menubar](menubar.md). If it is, the role of the list item is set to "none, the role of the link is set to "menuitem", and the link is removed from the tab index.
+Placeholder method for subclasses.
 
 ### focus
 

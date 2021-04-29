@@ -20,7 +20,7 @@ All Parameters _must_ be contained in a single object.
 | closeClass | The class to apply when a menu is "closed". | string\|string[]\|null | false | `"hide"` |
 | isTopLevel | A flag to mark the root menu. | boolean | false | `false` |
 | parentMenu | The parent menu to this menu. | BaseMenu\|null | false | `null` |
-| isHoverable | A flag to allow hover events on the menu. | boolean | false | `false` |
+| hoverType | The type of hoverability a menu has. | string | false | `"off"` |
 | hoverDelay | The delay for closing menus if the menu is hoverable (in miliseconds). | number | false | `250` |
 
 ## Available Getters
@@ -30,78 +30,92 @@ All Parameters _must_ be contained in a single object.
 | dom | The DOM elements within the menu. | object |
 | selectors | The CSS selectors available to the menu. | object |
 | elements | The elements within the menu. | object |
-| openClass | The class to apply when the menu is "open". | string |
-| closeClass | The class to apply when the menu is "closed". | string |
+| openClass | <p>The class to apply when the menu is "open".</p><p>This functions differently for root vs. submenus. Submenus will always inherit their root menu's open class(es).</p> | string |
+| closeClass | <p>The class to apply when the menu is "closed".</p><p>This functions differently for root vs. submenus. Submenus will always inherit their root menu's close class(es).</p> | string |
 | isTopLevel | A flag marking the root menu. | boolean |
 | currentChild | The index of the currently selected menu item in the menu. | number |
 | focusState | The current state of the menu's focus. | string |
 | currentEvent | This last event triggered on the menu. | string |
-| currentMenuItem | The currently selected menu item. | MenuItem |
-| isHoverable | A flag to allow hover events on the menu. | boolean |
+| currentMenuItem | The currently selected menu item. | BaseMenuItem |
+| hoverType | The type of hoverability for the menu. | string |
 | hoverDelay | The delay time (in miliseconds) used for mouseout events to take place. | number |
 
 ## Available Setters
 
 ### openClass
+
 Set the class to apply when the menu is "open".
 
-#### Parameters
+#### openClass Parameters
+
 | Paramter | Description | Type | Required | Default Value |
 | --- | --- | --- | --- | --- |
 | value | The class. | string | true | `undefined` |
 
 ### closeClass
+
 Set the class to apply when the menu is "closed".
 
-#### Parameters
+#### closeClass Parameters
+
 | Paramter | Description | Type | Required | Default Value |
 | --- | --- | --- | --- | --- |
 | value | The class. | string | true | `undefined` |
 
 ### currentChild
+
 Set the index currently selected menu item in the menu.
 
-#### Parameters
+#### currentChild Parameters
+
 | Paramter | Description | Type | Required | Default Value |
 | --- | --- | --- | --- | --- |
 | value | The index. | number | true | `undefined` |
 
 ### focusState
+
 Set the state of the menu's focus.
 
 Available states are "none", "self", and "child".
 
 This is used for `keyup` and `keydown` events since some keybindings change depending on what level of menu the user is on.
 
-#### Parameters
+#### focusState Parameters
+
 | Paramter | Description | Type | Required | Default Value |
 | --- | --- | --- | --- | --- |
 | value | The state. | string | true | `undefined` |
 
 ### currentEvent
+
 Set the last event triggered on the menu.
 
 This is used mainly for controlling when the menu will take over forcing focus/blur on elements. When a mouse event is recorded, the menu will just let the browser control what is focussed and what isn't.
 
 Available events are "keyboard" and "mouse"
 
-#### Parameters
+#### currentEvent Parameters
+
 | Paramter | Description | Type | Required | Default Value |
 | --- | --- | --- | --- | --- |
 | value | The event type. | string | true | `undefined` |
 
-### isHoverable
-Set the flag to allow hover events on the menu.
+### hoverType
 
-#### Parameters
+Set the type of hoverability for the menu.
+
+#### hoverType Parameters
+
 | Paramter | Description | Type | Required | Default Value |
 | --- | --- | --- | --- | --- |
-| value | The hoverable flag. | boolean | true | `undefined` |
+| value | The hover type. | string | true | `undefined` |
 
 ### hoverDelay
+
 Set the delay time (in miliseconds) used for mouseout events to take place.
 
-#### Parameters
+#### hoverDelay Parameters
+
 | Paramter | Description | Type | Required | Default Value |
 | --- | --- | --- | --- | --- |
 | value | The delay time. | number | true | `undefined` |
@@ -109,14 +123,17 @@ Set the delay time (in miliseconds) used for mouseout events to take place.
 ## Available Methods
 
 ### initialize
+
 The initialize function will find the menu's [root menu](#findRootMenu), set up all of the [DOM elements](#setDOMElements) within itself, and create a [controller element](menuToggle.md) (if the information was provided, and the menu is the root menu).
 
 ### setDOMElementType
+
 Sets DOM elements within the menu.
 
 This will set the actual `domElement` property, so all existing items in a given `domElement` property will be removed when this is run.
 
-#### Parameters
+#### setDOMElementType Parameters
+
 | Paramter | Description | Type | Required | Default Value |
 | --- | --- | --- | --- | --- |
 | elementType | The type of element to populate. | string | true | `undefined` |
@@ -124,11 +141,13 @@ This will set the actual `domElement` property, so all existing items in a given
 | filter | A filter to use to narrow down the DOM elements selected. | Function | false | A filter to find direct children |
 
 ### addDOMElementType
+
 Adds an element to DOM elements within the menu.
 
 This is an additive function, so existing items in a given `domElement` property will not be touched.
 
-#### Parameters
+#### addDOMElementType Parameters
+
 | Paramter | Description | Type | Required | Default Value |
 | --- | --- | --- | --- | --- |
 | elementType | The type of element to populate. | string | true | `undefined` |
@@ -136,50 +155,80 @@ This is an additive function, so existing items in a given `domElement` property
 | filter | A filter to use to narrow down the DOM elements selected. | Function | false | A filter to find direct children |
 
 ### clearDOMElementType
+
 Clears DOM elements within the menu.
 
-#### Parameters
+#### clearDOMElementType Parameters
+
 | Paramter | Description | Type | Required | Default Value |
 | --- | --- | --- | --- | --- |
 | elementType | The type of element to clear. | string | true | `undefined` |
 
 ### setDOMElements
+
 Using [setDomElementType](#setDomElementType), [clearDOMElementType](#clearDOMElementType) and [addDOMElementType](#addDOMElementType), this function will query and set all of the required DOM elements within the menu.
 
 ### findRootMenu
+
 Finds the root menu element by cascading through all parent menu items.
 
-#### Parameters
+#### findRootMenu Parameters
+
 | Paramter | Description | Type | Required | Default Value |
 | --- | --- | --- | --- | --- |
 | menu | The menu to check. | BaseMenu | true | `undefined` |
 
 ### createChildElements
+
 Creates and initializes all menu items and submenus.
 
-#### Parameters
+#### createChildElements Parameters
+
 | Paramter | Description | Type | Required | Default Value |
 | --- | --- | --- | --- | --- |
 | MenuType | The menu type for created submenus. | object | false | `BaseMenu` |
 
 ### handleFocus
+
 Handles focus events throughout the menu for proper menu use.
 
 - Adds a `focus` listener to every menu item so when it gains focus, it will set the item's containing menu to a "self" focus state, any parent menu to a "child" focus state, and any child menu to a "none" focus state.
 
 ### handleClick
+
 Handles click events throughout the menu for proper use.
 
-- Adds a `click` listener to the document so if the user clicks outside of the menu when it is open, the menu will close.
-- Adds a `click` listener to every submenu toggle so when they are clicked they will properly toggle open/closed.
-- Adds a `click` listener to the menu's controller (if the menu is the root menu) so when it is clicked it will properly toggle open/closed.
+- Adds a `mouseup` listener to the document so if the user clicks outside of the menu when it is open, the menu will close.
+- Adds a `touchend` listener to every submenu toggle so when they are clicked they will properly toggle open/closed. If `touchend` is not supported, `mouseup` will be used instead.
+- Adds a `touchend` listener to the menu's controller (if the menu is the root menu) so when it is clicked it will properly toggle open/closed. If `touchend` is not supported, `mouseup` will be used instead.
 
 ### handleHover
+
 Handles hover events throughout the menu for proper use.
 
-- Adds a `mouseenter` and `mouseleave` listener to all submenu toggles to they properly toggle open/closed when hovered over.
+Adds `mouseenter` listeners to all menu items and `mouseleave` listeners to all submenu items which function differently depending on the menu's `hoverType`.
+
+#### Hover Type "on"
+
+- When a `mouseenter` event triggers on _any_ menu item the menu's `currentChild` value will change to that menu item.
+- When a `mouseenter` event triggers on a submenu item the `preview()` method for the submenu item's toggle will be called.
+- When a `mouseleave` event triggers on an open submenu item the `close()` method for the submenu item's toggle will be called after a delay set by the menu's `hoverDelay`.
+
+#### Hover Type "dynamic"
+
+- When a `mouseenter` event triggers on _any_ menu item the menu's `currentChild` value will change to that menu item.
+- When a `mouseenter` event triggers on _any_ menu item, _and_ the menu's `focusState` is not `"none"`, the menu item will be focused.
+- When a `mouseenter` event triggers on a submenu item, _and_ a submenu is already open, the `preview()` method for the submenu item's toggle will be called.
+- When a `mouseenter` event triggers on a submenu item, _and_ no submenu is open, no submenu-specific methods will be called.
+- When a `mouseleave` event triggers on an open submenu item that _is not_ a root-level submenu item the `close()` method for the submenu item's toggle will be called and the submenu item will be focused after a delay set by the menu's `hoverDelay`.
+- When a `mouseleave` event triggers on an open submenu item that _is_ a root-level submenu item no submenu-specific methods will be called.
+
+#### Hover Type "off"
+
+All `mouseenter` and `mouseleave` events are ignored.
 
 ### handleKeydown
+
 Handles keydown events throughout the menu for proper menu use.
 
 This method exists to assit the [handleKeyup](#handleKeyup) method.
@@ -188,55 +237,58 @@ This method exists to assit the [handleKeyup](#handleKeyup) method.
   - Blocks propagation on "Space", "Enter", and "Escape" keys.
 
 ### handleKeyup
+
 Handles keyup events throughout the menu for proper menu use.
 
 - Adds a `keyup` listener to the menu's controller (if the menu is the root menu).
   - Opens the menu when the user hits "Space" or "Enter".
 
 ### focus
+
 Sets the menu's focusState to "self" and focusses the menu if the triggering event was not a mouse event.
 
 ### blur
+
 Sets the menu's focusState to "none" and blurs the menu if the triggering event was not a mouse event.
 
 If the menu is the root menu and has a controller, it will also close the menu.
 
 ### focusFirstChild
+
 Focues the menu's first child.
 
 ### focusLastChild
+
 Focus the menu's last child.
 
 ### focusNextChild
+
 Focus the menu's next child.
 
-If the currently focussed child in the menu is the last child then this will focus the first child in the menu.
+If the currently focussed child in the menu is the last child this method will do nothing.
 
 ### focusPreviousChild
+
 Focus the menu's last child.
 
-If the currently focussed child in the menu is the first child then this will focus the last child in the menu.
+If the currently focussed child in the menu is the first child  this method will do nothing.
 
 ### focusCurrentChild
+
 Focus the menu's current child.
 
 ### blurCurrentChild
+
 Blurs the menu's current child.
 
-### focusNextChildWithCharacter
-Focus the menu's next child starting with a specific letter.
-
-#### Parameters
-| Paramter | Description | Type | Required | Default Value |
-| --- | --- | --- | --- | --- |
-| char | The character to look for. | string | true | `undefined` |
-
 ### focusController
+
 Focus the menu's controller.
 
 ### focusContainer
+
 Focus the menu's container.
 
 ### closeChildren
-Close all submenu children.
 
+Close all submenu children.

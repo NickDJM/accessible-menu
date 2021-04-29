@@ -22,7 +22,7 @@ All Parameters _must_ be contained in a single object.
 | closeClass | The class to apply when a menu is "closed". | string\|string[]\|null | false | `"hide"` |
 | isTopLevel | A flag to mark the root menu. | boolean | false | `false` |
 | parentMenu | The parent menu to this menu. | Menubar\|null | false | `null` |
-| isHoverable | A flag to allow hover events on the menu. | boolean | false | `false` |
+| hoverType | The type of hoverability a menu has. | string | false | `"off"` |
 | hoverDelay | The delay for closing menus if the menu is hoverable (in miliseconds). | number | false | `250` |
 
 ## Available Getters
@@ -38,11 +38,13 @@ See [BaseMenu](baseMenu.md#available-setters) for a list of inherited setters.
 See [BaseMenu](baseMenu.md#available-methods) for a list of inherited methods.
 
 ### Initialize
+
 The initialize function will run [BaseMenu's initialize](baseMenu.md#initialize), as well as sets up the [focus](baseMenu.md#handleFocus), [click](baseMenu.md#handleClick), [hover](baseMenu.md#handleHover), [keydown](#handleKeydown), and [keyup](#handleKeyup) events through the menu.
 
 This will also set the role of the menu element to "menubar", and ensure the first menu item is in the tab index.
 
 ### handleKeydown
+
 Handles keydown events throughout the menu for proper menu use.
 
 This method exists to assit the [handleKeyup](#handleKeyup) method.
@@ -53,6 +55,7 @@ This method exists to assit the [handleKeyup](#handleKeyup) method.
   - Completely closes the menu and moves focus out if the "Tab" key is pressed.
 
 ### handleKeyup
+
 Handles keyup events throughout the menu for proper menu use.
 
 Adds all `keyup` listeners listed in [BaseMenu](baseMenu.md#handleKeyup).
@@ -60,6 +63,7 @@ Adds all `keyup` listeners listed in [BaseMenu](baseMenu.md#handleKeyup).
 The following keybinding explanations are taken from the WAI ARIA Pracitices Navigation Menubar Example:
 
 #### Menubar
+
 | Key | Function |
 | --- | --- |
 | _Space_ or _Enter_ | Opens submenu and moves focus to first item in the submenu. |
@@ -72,6 +76,7 @@ The following keybinding explanations are taken from the WAI ARIA Pracitices Nav
 | _Character_ | <ul><li>Moves focus to next item in the menubar having a name that starts with the typed character.</li><li>If none of the items have a name starting with the typed character, focus does not move.</li></ul> |
 
 #### Submenu
+
 | Key | Function |
 | --- | --- |
 | _Space_ or _Enter_ | <ul><li>Activates menu item, causing the link to be activated.</li><li>NOTE: the links go to dummy pages; use the browser go-back function to return to this menubar example page.</li></ul> |
@@ -83,3 +88,25 @@ The following keybinding explanations are taken from the WAI ARIA Pracitices Nav
 | Home | Moves focus to the first item in the submenu. |
 | End | Moves focus to the last item in the submenu. |
 | _Character_ | <ul><li>Moves focus to the next item having a name that starts with the typed character.</li><li>If none of the items have a name starting with the typed character, focus does not move.</li></ul> |
+
+### focusNextChild
+
+Focus the menu's next child.
+
+If the currently focussed child in the menu is the last child then this will focus the first child in the menu.
+
+### focusPreviousChild
+
+Focus the menu's last child.
+
+If the currently focussed child in the menu is the first child then this will focus the last child in the menu.
+
+### focusNextChildWithCharacter
+
+Focus the menu's next child starting with a specific letter.
+
+#### focusNextChildWithCharacter Parameters
+
+| Paramter | Description | Type | Required | Default Value |
+| --- | --- | --- | --- | --- |
+| char | The character to look for. | string | true | `undefined` |

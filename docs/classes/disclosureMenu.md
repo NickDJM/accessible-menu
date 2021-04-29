@@ -22,7 +22,7 @@ All Parameters _must_ be contained in a single object.
 | closeClass | The class to apply when a menu is "closed". | string\|string[]\|null | false | `"hide"` |
 | isTopLevel | A flag to mark the root menu. | boolean | false | `false` |
 | parentMenu | The parent menu to this menu. | DisclosureMenu\|null | false | `null` |
-| isHoverable | A flag to allow hover events on the menu. | boolean | false | `false` |
+| hoverType | The type of hoverability a menu has. | string | false | `"off"` |
 | hoverDelay | The delay for closing menus if the menu is hoverable (in miliseconds). | number | false | `250` |
 
 ## Available Getters
@@ -38,9 +38,11 @@ See [BaseMenu](baseMenu.md#available-setters) for a list of inherited setters.
 See [BaseMenu](baseMenu.md#available-methods) for a list of inherited methods.
 
 ### Initialize
+
 The initialize function will run [BaseMenu's initialize](baseMenu.md#initialize), as well as sets up the [focus](baseMenu.md#handleFocus), [click](baseMenu.md#handleClick), [hover](baseMenu.md#handleHover), [keydown](#handleKeydown), and [keyup](#handleKeyup) events through the menu.
 
 ### handleKeydown
+
 Handles keydown events throughout the menu for proper menu use.
 
 This method exists to assit the [handleKeyup](#handleKeyup) method.
@@ -50,6 +52,7 @@ This method exists to assit the [handleKeyup](#handleKeyup) method.
   - Blocks propagation on the following keys: "ArrowUp", "ArrowRight", "ArrowDown", "ArrowLeft", "Home", "End", "Space", "Enter", and "Escape".
 
 ### handleKeyup
+
 Handles keyup events throughout the menu for proper menu use.
 
 - Adds all `keyup` listeners listed in [BaseMenu](baseMenu.md#handleKeyup).
@@ -65,13 +68,3 @@ The following keybinding explanations are taken from the WAI ARIA Pracitices Exa
 | _Up Arrow_ or _Left Arrow_ (Optional) | <ul><li>If focus is on a button, and it is not the first button, moves focus to the previous button.</li><li>If focus is on a link, and it is not the first link, moves focus to the previous link.</li></ul> |
 | _Home_ (Optional) | <ul><li>If focus is on a button, and it is not the first button, moves focus to the first button.</li><li>If focus is on a link, and it is not the first link, moves focus to the first link.</li></ul> |
 | _End_ (Optional) | <ul><li>If focus is on a button, and it is not the last button, moves focus to the last button.</li><li>If focus is on a link, and it is not the last link, moves focus to the last link.</li></ul> |
-
-### focusNextChild
-Focus the menu's next child.
-
-Unlike BaseMenu, if the currently focussed child in the menu is the last child this method will do nothing.
-
-### focusPreviousChild
-Focus the menu's last child.
-
-Unlike BaseMenu, if the currently focussed child in the menu is the first child  this method will do nothing.
