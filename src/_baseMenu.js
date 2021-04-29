@@ -565,25 +565,6 @@ class BaseMenu {
    * Handles click events throughout the menu for proper use.
    */
   handleClick() {
-    // Close the menu if a click event happens outside of it.
-    document.addEventListener("mouseup", event => {
-      if (this.focusState !== "none") {
-        this.currentEvent = "mouse";
-
-        if (
-          !this.dom.menu.contains(event.target) &&
-          !this.dom.menu !== event.target
-        ) {
-          this.closeChildren();
-          this.blur();
-
-          if (this.elements.controller) {
-            this.elements.controller.close();
-          }
-        }
-      }
-    });
-
     /**
      * Toggles a toggle element.
      *
@@ -603,6 +584,25 @@ class BaseMenu {
         toggle.elements.controlledMenu.focusState = "none";
       }
     }
+
+    // Close the menu if a click event happens outside of it.
+    document.addEventListener("mouseup", event => {
+      if (this.focusState !== "none") {
+        this.currentEvent = "mouse";
+
+        if (
+          !this.dom.menu.contains(event.target) &&
+          !this.dom.menu !== event.target
+        ) {
+          this.closeChildren();
+          this.blur();
+
+          if (this.elements.controller) {
+            this.elements.controller.close();
+          }
+        }
+      }
+    });
 
     // Toggle submenus when their controllers are clicked.
     this.elements.submenuToggles.forEach(toggle => {
