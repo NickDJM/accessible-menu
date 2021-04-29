@@ -1620,7 +1620,25 @@ var AccessibleMenu = (function () {
       value: function handleClick() {
         var _this4 = this;
 
-        // Close the menu if a click event happens outside of it.
+        /**
+         * Toggles a toggle element.
+         *
+         * @param {BaseMenu}       menu - This menu.
+         * @param {BaseMenuToggle} toggle - The menu toggle
+         * @param {Event}          event - A Javascript event.
+         */
+        function toggleToggle(menu, toggle, event) {
+          preventEvent(event);
+          menu.currentEvent = "mouse";
+          toggle.toggle();
+
+          if (toggle.isOpen) {
+            menu.focusState = "self";
+            toggle.elements.controlledMenu.focusState = "none";
+          }
+        } // Close the menu if a click event happens outside of it.
+
+
         document.addEventListener("mouseup", function (event) {
           if (_this4.focusState !== "none") {
             _this4.currentEvent = "mouse";
@@ -1635,26 +1653,7 @@ var AccessibleMenu = (function () {
               }
             }
           }
-        });
-        /**
-         * Toggles a toggle element.
-         *
-         * @param {BaseMenu}       menu - This menu.
-         * @param {BaseMenuToggle} toggle - The menu toggle
-         * @param {Event}          event - A Javascript event.
-         */
-
-        function toggleToggle(menu, toggle, event) {
-          preventEvent(event);
-          menu.currentEvent = "mouse";
-          toggle.toggle();
-
-          if (toggle.isOpen) {
-            menu.focusState = "self";
-            toggle.elements.controlledMenu.focusState = "none";
-          }
-        } // Toggle submenus when their controllers are clicked.
-
+        }); // Toggle submenus when their controllers are clicked.
 
         this.elements.submenuToggles.forEach(function (toggle) {
           if (isEventSupported("touchend", toggle.dom.toggle)) {
@@ -1842,24 +1841,20 @@ var AccessibleMenu = (function () {
     }, {
       key: "focusNextChild",
       value: function focusNextChild() {
-        if (this.currentChild === this.elements.menuItems.length - 1) {
-          this.focusFirstChild();
-        } else {
+        if (this.currentChild < this.elements.menuItems.length - 1) {
           this.blurCurrentChild();
           this.currentChild = this.currentChild + 1;
           this.focusCurrentChild();
         }
       }
       /**
-       * Focus the menu's last child.
+       * Focus the menu's previous child.
        */
 
     }, {
       key: "focusPreviousChild",
       value: function focusPreviousChild() {
-        if (this.currentChild === 0) {
-          this.focusLastChild();
-        } else {
+        if (this.currentChild > 0) {
           this.blurCurrentChild();
           this.currentChild = this.currentChild - 1;
           this.focusCurrentChild();
@@ -1885,33 +1880,6 @@ var AccessibleMenu = (function () {
       value: function blurCurrentChild() {
         if (this.currentChild !== -1) {
           this.currentMenuItem.blur();
-        }
-      }
-      /**
-       * Focus the menu's next child starting with a specific letter.
-       *
-       * @param {string} char - The character to look for.
-       */
-
-    }, {
-      key: "focusNextChildWithCharacter",
-      value: function focusNextChildWithCharacter(char) {
-        // Ensure the character is lowercase just to be safe.
-        var match = char.toLowerCase();
-        var index = this.currentChild + 1;
-        var found = false;
-
-        while (!found && index < this.elements.menuItems.length) {
-          // Ensure the text in the item is lowercase just to be safe.
-          var text = this.elements.menuItems[index].dom.item.innerText.toLowerCase(); // Focus the child if the text matches, otherwise move on.
-
-          if (text.startsWith(match)) {
-            found = true;
-            this.currentChild = index;
-            this.focusCurrentChild();
-          }
-
-          index++;
         }
       }
       /**
@@ -2591,6 +2559,65 @@ var AccessibleMenu = (function () {
           }
         });
       }
+      /**
+       * Focus the menu's next child.
+       */
+
+    }, {
+      key: "focusNextChild",
+      value: function focusNextChild() {
+        // If the current child is the last child of the menu, focus the menu's first child.
+        if (this.currentChild === this.elements.menuItems.length - 1) {
+          this.focusFirstChild();
+        } else {
+          this.blurCurrentChild();
+          this.currentChild = this.currentChild + 1;
+          this.focusCurrentChild();
+        }
+      }
+      /**
+       * Focus the menu's previous child.
+       */
+
+    }, {
+      key: "focusPreviousChild",
+      value: function focusPreviousChild() {
+        // If the current child is the first child of the menu, focus the menu's last child.
+        if (this.currentChild === 0) {
+          this.focusLastChild();
+        } else {
+          this.blurCurrentChild();
+          this.currentChild = this.currentChild - 1;
+          this.focusCurrentChild();
+        }
+      }
+      /**
+       * Focus the menu's next child starting with a specific letter.
+       *
+       * @param {string} char - The character to look for.
+       */
+
+    }, {
+      key: "focusNextChildWithCharacter",
+      value: function focusNextChildWithCharacter(char) {
+        // Ensure the character is lowercase just to be safe.
+        var match = char.toLowerCase();
+        var index = this.currentChild + 1;
+        var found = false;
+
+        while (!found && index < this.elements.menuItems.length) {
+          // Ensure the text in the item is lowercase just to be safe.
+          var text = this.elements.menuItems[index].dom.item.innerText.toLowerCase(); // Focus the child if the text matches, otherwise move on.
+
+          if (text.startsWith(match)) {
+            found = true;
+            this.currentChild = index;
+            this.focusCurrentChild();
+          }
+
+          index++;
+        }
+      }
     }]);
 
     return Menubar;
@@ -2985,32 +3012,6 @@ var AccessibleMenu = (function () {
             }
           }
         });
-      }
-      /**
-       * Focus the menu's next child.
-       */
-
-    }, {
-      key: "focusNextChild",
-      value: function focusNextChild() {
-        if (this.currentChild < this.elements.menuItems.length - 1) {
-          this.blurCurrentChild();
-          this.currentChild = this.currentChild + 1;
-          this.focusCurrentChild();
-        }
-      }
-      /**
-       * Focus the menu's last child.
-       */
-
-    }, {
-      key: "focusPreviousChild",
-      value: function focusPreviousChild() {
-        if (this.currentChild > 0) {
-          this.blurCurrentChild();
-          this.currentChild = this.currentChild - 1;
-          this.focusCurrentChild();
-        }
       }
     }]);
 
