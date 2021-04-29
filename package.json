@@ -25,7 +25,7 @@
     "commit": "npx git-cz",
     "lint": "npx eslint --ext .js --ignore-path .eslintignore .",
     "fix": "npm run lint -- --fix",
-    "prerelease": "npm run lint && npm run build",
+    "prerelease": "npm run fix && npm run build",
     "release": "git add dist/. && npx standard-version -a",
     "build:test": "npx sass test/scss:test/css",
     "build": "npx rollup --config .rollup.config.js"
