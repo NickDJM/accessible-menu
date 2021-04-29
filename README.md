@@ -12,9 +12,11 @@ The two supported menu types are:
 
 ## Browser Support
 
-| [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt="IE / Edge" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br>IE / Edge | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br>Firefox | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br>Chrome | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png" alt="Safari" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br>Safari | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari-ios/safari-ios_48x48.png" alt="iOS Safari" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br>iOS Safari | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/opera/opera_48x48.png" alt="Opera" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br>Opera |
-| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| IE11, Edge [\*](#internet-explorer-and-edge-support)                                                                                                                                                           | last 2 versions                                                                                                                                                                                                  | last 2 versions                                                                                                                                                                                              | last 2 versions                                                                                                                                                                                              | last 2 versions                                                                                                                                                                                                              | last 2 versions                                                                                                                                                                                          |
+| <img src="https://raw.githubusercontent.com/alrra/browser-logos/main/src/chrome/chrome.svg" role="presentation" width="32px" height="32px" /><br />Chrome | <img src="https://raw.githubusercontent.com/alrra/browser-logos/main/src/firefox/firefox.svg" role="presentation" width="32px" height="32px" /><br />Firefox | <img src="https://raw.githubusercontent.com/alrra/browser-logos/main/src/safari/safari_32x32.png" role="presentation" width="32px" height="32px" /><br />Safari  | <img src="https://raw.githubusercontent.com/alrra/browser-logos/main/src/edge/edge.svg" role="presentation" width="32px" height="32px" /><br />Edge | <img src="https://raw.githubusercontent.com/alrra/browser-logos/main/src/chromium/chromium.svg" role="presentation" width="32px" height="32px" /><br />Chromium | <img src="https://raw.githubusercontent.com/alrra/browser-logos/main/src/webkit/webkit.svg" role="presentation" width="32px" height="32px" /><br />Webkit |
+| --- | --- | --- | --- | --- | --- |
+| last 2 versions | last 2 versions | last 2 versions | last 2 versions | last 2 versions | last 2 versions |
+
+Found something that doesn't work the way it should in one of the listed browsers above? [Open an issue](https://github.com/NickDJM/accessible-menu/issues/new?assignees=&labels=bug&template=bug_report.md&title=Bug%3A+%5BBrief+Description%5D)!
 
 ## Installation
 
@@ -32,35 +34,34 @@ npm install accessible-menu
 For learning/prototyping purposes you can use the latest version with:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/accessible-menu/dist/accessibleMenu.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/accessible-menu/dist/accessible-menu.js"></script>
 ```
 
 For production environments, it is recommend to use a specific version to avoid unforseen breaking changes:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/accessible-menu@2.0.0/dist/accessibleMenu.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/accessible-menu@3.0.0/dist/accessible-menu.min.js"></script>
 ```
 
 ## Usage
 
-To use accessible-menu, you first need to ensure your menu follows a basic menu structure.
+To use **accessible-menu**, you first need to make sure your menu matches the following structure:
 
 ```html
-<ul>
-  <li><a>...</a></li>
+<ul id="example-menu">
+  <li><a href="/about">About</a></li>
   <li class="dropdown">
-    <button>☰</button>
+    <a href="#">Projects ▼</a>
     <ul>
-      <li><a>...</a></li>
-      ...
+      <li><a href="/projects/awesome">Awesome project</a></li>
+      <li><a href="/projects/not-so-awesome">Not-so-awesome project</a></li>
     </ul>
   </li>
-  <li><a>...</a></li>
-  ...
+  <li><a href="/contact">Contact me</a></li>
 </ul>
 ```
 
-include the root menu or bundled library in your project:
+Include **accessible-menu** through import or bundled library in your project:
 
 ```jsx
 import AccessibleMenu from "accessible-menu";
@@ -69,20 +70,17 @@ import AccessibleMenu from "accessible-menu";
 or
 
 ```html
-<script src="path/to/accessible-menu/dist/accessibleMenu.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/accessible-menu@3.0.0/dist/accessible-menu.min.js"></script>
 ```
 
-Once you have accessible-menu loaded, simply declare a new menu object.
+Once you have **accessible-menu** loaded, declare a new menu object.
+
+`menuElement` is required for all menus, while `submenuItemSelector` is _only_ required if you have submenus/dropdowns.
 
 ```jsx
 const menu = new AccessibleMenu.DisclosureMenu({
-  menuElement: menuDOMObject,
-  menuItemSelector: "li-css-selector",
-  menuLinkSelector: "li-css-selector",
-  submenuItemSelector: "li-with-dropdown-css-selector",
-  submenuToggleSelector: "dropdown-toggle-css-selector",
-  submenuSelector: "dropdown-menu-css-selector",
-  openClass: "class-to-open-menus",
+  menuElement: document.querySelector("#example-menu"),
+  submenuItemSelector: "li.dropdown",
 });
 ```
 
@@ -101,17 +99,11 @@ const menu = new AccessibleMenu.DisclosureMenu({
 
 ### Examples
 
-Looking for a working example of accessible-menu? Check out these jsfiddles:
+Looking for a working example of **accessible-menu**? Check out these jsfiddles:
 
 - [Custom implementation](https://jsfiddle.net/NickDJM/yokxg0vr/)
 - [Bootstrap 4](https://jsfiddle.net/NickDJM/ku28qd97/)
 - [TailwindCSS](https://jsfiddle.net/NickDJM/4rfsqw5z/)
-
-## Internet Explorer and Edge Support
-
-For both IE and older (non-chromium-based) versions of Edge support, you will either need to use the CDN option, or run your code through [Babel](https://babeljs.io/).
-
-If you are compiling your own code without the help of something like Babel + [core-js](https://www.npmjs.com/package/core-js), you will need polyfills for [`Array.from()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from), [`Array.prototype.includes()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/includes), [`Array.find()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find), [`String.prototype.startsWith()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/startsWith), and [`String.prototype.endsWith()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/endsWith) for IE11 support.
 
 ## Versioning
 
