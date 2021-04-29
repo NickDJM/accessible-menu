@@ -381,6 +381,62 @@ class Menubar extends BaseMenu {
       }
     });
   }
+
+  /**
+   * Focus the menu's next child.
+   */
+  focusNextChild() {
+    // If the current child is the last child of the menu, focus the menu's first child.
+    if (this.currentChild === this.elements.menuItems.length - 1) {
+      this.focusFirstChild();
+    } else {
+      this.blurCurrentChild();
+      this.currentChild = this.currentChild + 1;
+      this.focusCurrentChild();
+    }
+  }
+
+  /**
+   * Focus the menu's previous child.
+   */
+  focusPreviousChild() {
+    // If the current child is the first child of the menu, focus the menu's last child.
+    if (this.currentChild === 0) {
+      this.focusLastChild();
+    } else {
+      this.blurCurrentChild();
+      this.currentChild = this.currentChild - 1;
+      this.focusCurrentChild();
+    }
+  }
+
+  /**
+   * Focus the menu's next child starting with a specific letter.
+   *
+   * @param {string} char - The character to look for.
+   */
+  focusNextChildWithCharacter(char) {
+    // Ensure the character is lowercase just to be safe.
+    const match = char.toLowerCase();
+    let index = this.currentChild + 1;
+    let found = false;
+
+    while (!found && index < this.elements.menuItems.length) {
+      // Ensure the text in the item is lowercase just to be safe.
+      const text = this.elements.menuItems[
+        index
+      ].dom.item.innerText.toLowerCase();
+
+      // Focus the child if the text matches, otherwise move on.
+      if (text.startsWith(match)) {
+        found = true;
+        this.currentChild = index;
+        this.focusCurrentChild();
+      }
+
+      index++;
+    }
+  }
 }
 
 export default Menubar;

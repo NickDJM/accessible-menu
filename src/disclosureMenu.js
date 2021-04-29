@@ -208,28 +208,6 @@ class DisclosureMenu extends BaseMenu {
       }
     });
   }
-
-  /**
-   * Focus the menu's next child.
-   */
-  focusNextChild() {
-    if (this.currentChild < this.elements.menuItems.length - 1) {
-      this.blurCurrentChild();
-      this.currentChild = this.currentChild + 1;
-      this.focusCurrentChild();
-    }
-  }
-
-  /**
-   * Focus the menu's last child.
-   */
-  focusPreviousChild() {
-    if (this.currentChild > 0) {
-      this.blurCurrentChild();
-      this.currentChild = this.currentChild - 1;
-      this.focusCurrentChild();
-    }
-  }
 }
 
 export default DisclosureMenu;
