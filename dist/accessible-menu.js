@@ -1,36 +1,76 @@
 var AccessibleMenu = (function () {
   'use strict';
 
-  var baseMenuType = Symbol("BaseMenu");
-  var baseMenuToggleType = Symbol("BaseMenuToggle");
-
   function _typeof$6(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$6 = function _typeof(obj) { return typeof obj; }; } else { _typeof$6 = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$6(obj); }
+
   /**
-   * Checks to see if the provided elements are instances of HTMLElement.
+   * Check to see if the provided elements have a specific contructor.
    *
-   * The elements must be provided inside of an object
+   * The values must be provided inside of an object
    * so the variable name can be retrieved in case of errors.
+   *
+   * This is essentially just a wrapper function around checking instanceof with
+   * more descriptive error message to help debugging.
    *
    * Will return true is the check is successful.
    *
-   * @param   {object} elements - The element(s) to check.
+   * @param   {object} contructor - The constructor to check for.
+   * @param   {object} elements   - The element(s) to check.
+   *
+   * @returns {boolean} - The result of the check.
+   */
+  function isValidInstance(contructor, elements) {
+    try {
+      if (_typeof$6(elements) !== "object") {
+        var elementsType = _typeof$6(elements);
+
+        throw new TypeError("AccessibleMenu: Elements given to isValidInstance() must be inside of an object. ".concat(elementsType, " given."));
+      }
+
+      for (var key in elements) {
+        if (!(elements[key] instanceof contructor)) {
+          var elementType = _typeof$6(elements[key]);
+
+          throw new TypeError("AccessibleMenu: ".concat(key, " must be an instance of ").concat(contructor, ". ").concat(elementType, " given."));
+        }
+      }
+
+      return true;
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
+  }
+  /**
+   * Check to see if the provided values are of a specific type.
+   *
+   * The values must be provided inside of an object
+   * so the variable name can be retrieved in case of errors.
+   *
+   * This is essentially just a wrapper function around checking typeof with
+   * more descriptive error message to help debugging.
+   *
+   * Will return true is the check is successful.
+   *
+   * @param   {string} type   - The type to check for.
+   * @param   {object} values - The value(s) to check.
    *
    * @returns {boolean} - The result of the check.
    */
 
-  function isHTMLElement(elements) {
+  function isValidType(type, values) {
     try {
-      if (_typeof$6(elements) !== "object") {
-        var type = _typeof$6(elements);
+      if (_typeof$6(values) !== "object") {
+        var valuesType = _typeof$6(values);
 
-        throw new TypeError("Elements given to isHTMLElement() must be inside of an object. ".concat(type, " given."));
+        throw new TypeError("AccessibleMenu: Values given to isValidType() must be inside of an object. ".concat(valuesType, " given."));
       }
 
-      for (var key in elements) {
-        if (!(elements[key] instanceof HTMLElement)) {
-          var _type = _typeof$6(elements[key]);
+      for (var key in values) {
+        var valueType = _typeof$6(values[key]);
 
-          throw new TypeError("".concat(key, " must be an instance of HTMLElement. ").concat(_type, " given."));
+        if (valueType !== type) {
+          throw new TypeError("AccessibleMenu: ".concat(key, " must be a ").concat(type, ". ").concat(valueType, " given."));
         }
       }
 
@@ -58,14 +98,14 @@ var AccessibleMenu = (function () {
       if (_typeof$6(values) !== "object") {
         var type = _typeof$6(values);
 
-        throw new TypeError("Values given to isCSSSelector() must be inside of an object. ".concat(type, " given."));
+        throw new TypeError("AccessibleMenu: Values given to isCSSSelector() must be inside of an object. ".concat(type, " given."));
       }
 
       for (var key in values) {
         try {
           document.querySelector(values[key]);
         } catch (error) {
-          throw new TypeError("".concat(key, " must be a valid CSS selector. \"").concat(values[key], "\" given."));
+          throw new TypeError("AccessibleMenu: ".concat(key, " must be a valid CSS selector. \"").concat(values[key], "\" given."));
         }
       }
 
@@ -76,7 +116,7 @@ var AccessibleMenu = (function () {
     }
   }
   /**
-   * Checks to see if the provided values are booleans.
+   * Checks to see if the provided value is either a string or an array of strings.
    *
    * The values must be provided inside of an object
    * so the variable name can be retrieved in case of errors.
@@ -88,188 +128,36 @@ var AccessibleMenu = (function () {
    * @returns {boolean} - The result of the check.
    */
 
-  function isBoolean(values) {
+  function isValidClassList(values) {
     try {
       if (_typeof$6(values) !== "object") {
         var type = _typeof$6(values);
 
-        throw new TypeError("Values given to isBoolean() must be inside of an object. ".concat(type, " given."));
+        throw new TypeError("AccessibleMenu: Values given to isValidClassList() must be inside of an object. ".concat(type, " given."));
       }
+
+      var _loop = function _loop(key) {
+        var type = _typeof$6(values[key]);
+
+        if (type !== "string") {
+          if (Array.isArray(values[key])) {
+            values[key].forEach(function (value) {
+              if (typeof value !== "string") {
+                throw new TypeError("AccessibleMenu: ".concat(key, " must be a string or an array of strings. An array containing non-strings given."));
+              }
+            });
+          } else {
+            throw new TypeError("AccessibleMenu: ".concat(key, " must be a string or an array of strings. ").concat(type, " given."));
+          }
+        } else {
+          var obj = {};
+          obj[key] = values[key];
+          isCSSSelector(obj);
+        }
+      };
 
       for (var key in values) {
-        var _type2 = _typeof$6(values[key]);
-
-        if (_type2 !== "boolean") {
-          throw new TypeError("".concat(key, " must be a boolean. ").concat(_type2, " given."));
-        }
-      }
-
-      return true;
-    } catch (error) {
-      console.error(error);
-      return false;
-    }
-  }
-  /**
-   * Checks to see if the provided values are numbers.
-   *
-   * The values must be provided inside of an object
-   * so the variable name can be retrieved in case of errors.
-   *
-   * Will return true is the check is successful.
-   *
-   * @param   {object} values - The value(s) to check.
-   *
-   * @returns {boolean} - The result of the check.
-   */
-
-  function isNumber(values) {
-    try {
-      if (_typeof$6(values) !== "object") {
-        var type = _typeof$6(values);
-
-        throw new TypeError("Values given to isNumber() must be inside of an object. ".concat(type, " given."));
-      }
-
-      for (var key in values) {
-        var _type3 = _typeof$6(values[key]);
-
-        if (_type3 !== "number") {
-          throw new TypeError("".concat(key, " must be a number. ").concat(_type3, " given."));
-        }
-      }
-
-      return true;
-    } catch (error) {
-      console.error(error);
-      return false;
-    }
-  }
-  /**
-   * Checks to see if the provided values are strings.
-   *
-   * The values must be provided inside of an object
-   * so the variable name can be retrieved in case of errors.
-   *
-   * Will return true is the check is successful.
-   *
-   * @param   {object} values - The value(s) to check.
-   *
-   * @returns {boolean} - The result of the check.
-   */
-
-  function isString(values) {
-    try {
-      if (_typeof$6(values) !== "object") {
-        var type = _typeof$6(values);
-
-        throw new TypeError("Values given to isString() must be inside of an object. ".concat(type, " given."));
-      }
-
-      for (var key in values) {
-        var _type4 = _typeof$6(values[key]);
-
-        if (_type4 !== "string") {
-          throw new TypeError("".concat(key, " must be a string. ").concat(_type4, " given."));
-        }
-      }
-
-      return true;
-    } catch (error) {
-      console.error(error);
-      return false;
-    }
-  }
-  /**
-   * Checks to see if the provided elements are a menus.
-   *
-   * The elements must be provided inside of an object
-   * so the variable name can be retrieved in case of errors.
-   *
-   * Will return true is the check is successful.
-   *
-   * @param   {object} elements - The element(s) to check.
-   *
-   * @returns {boolean} - The result of the check.
-   */
-
-  function isMenu(elements) {
-    try {
-      if (_typeof$6(elements) !== "object") {
-        var type = _typeof$6(elements);
-
-        throw new TypeError("Elements given to isMenu() must be inside of an object. ".concat(type, " given."));
-      }
-
-      for (var key in elements) {
-        if (!elements[key][baseMenuType]) {
-          var _type7 = _typeof$6(elements[key]);
-
-          throw new TypeError("".concat(key, " must be an instance of BaseMenu. ").concat(_type7, " given."));
-        }
-      }
-
-      return true;
-    } catch (error) {
-      console.error(error);
-      return false;
-    }
-  }
-  /**
-   * Checks to see if the provided elements are using a specific tag.
-   *
-   * The elements must be provided inside of an object
-   * so the variable name can be retrieved in case of errors.
-   *
-   * @param   {string} tagName  - The name of the tag.
-   * @param   {object} elements - The element(s) to check.
-   *
-   * @returns {boolean} - The result of the check.
-   */
-
-  function isTag(tagName, elements) {
-    if (isString({
-      tagName: tagName
-    }) && isHTMLElement(elements)) {
-      var tag = tagName.toLowerCase();
-      var check = true;
-
-      for (var key in elements) {
-        if (elements[key].tagName.toLowerCase() !== tag) check = false;
-      }
-
-      return check;
-    } else {
-      return false;
-    }
-  }
-  /**
-   * Checks to see if the provided elements are a menu toggles.
-   *
-   * The elements must be provided inside of an object
-   * so the variable name can be retrieved in case of errors.
-   *
-   * Will return true is the check is successful.
-   *
-   * @param   {object} elements - The element(s) to check.
-   *
-   * @returns {boolean} - The result of the check.
-   */
-
-  function isMenuToggle(elements) {
-    try {
-      if (_typeof$6(elements) !== "object") {
-        var type = _typeof$6(elements);
-
-        throw new TypeError("Elements given to isMenuToggle() must be inside of an object. ".concat(type, " given."));
-      }
-
-      for (var key in elements) {
-        if (!elements[key][baseMenuToggleType]) {
-          var _type8 = _typeof$6(elements[key]);
-
-          throw new TypeError("".concat(key, " must be an instance of BaseMenuToggle. ").concat(_type8, " given."));
-        }
+        _loop(key);
       }
 
       return true;
@@ -296,14 +184,14 @@ var AccessibleMenu = (function () {
       if (_typeof$6(values) !== "object") {
         var type = _typeof$6(values);
 
-        throw new TypeError("Values given to isValidState() must be inside of an object. ".concat(type, " given."));
+        throw new TypeError("AccessibleMenu: Values given to isValidState() must be inside of an object. ".concat(type, " given."));
       }
 
       var validStates = ["none", "self", "child"];
 
       for (var key in values) {
         if (!validStates.includes(values[key])) {
-          throw new TypeError("".concat(key, " must be one of the following values: ").concat(validStates.join(", "), ". \"").concat(values[key], "\" given."));
+          throw new TypeError("AccessibleMenu: ".concat(key, " must be one of the following values: ").concat(validStates.join(", "), ". \"").concat(values[key], "\" given."));
         }
       }
 
@@ -331,76 +219,14 @@ var AccessibleMenu = (function () {
       if (_typeof$6(values) !== "object") {
         var type = _typeof$6(values);
 
-        throw new TypeError("Values given to isValidEvent() must be inside of an object. ".concat(type, " given."));
+        throw new TypeError("AccessibleMenu: Values given to isValidEvent() must be inside of an object. ".concat(type, " given."));
       }
 
       var validEvents = ["none", "mouse", "keyboard"];
 
       for (var key in values) {
         if (!validEvents.includes(values[key])) {
-          throw new TypeError("".concat(key, " must be one of the following values: ").concat(validEvents.join(", "), ". \"").concat(values[key], "\" given."));
-        }
-      }
-
-      return true;
-    } catch (error) {
-      console.error(error);
-      return false;
-    }
-  }
-  /**
-   * Checks to see if an event is supported by a node.
-   *
-   * @param   {string}      event   - The event type.
-   * @param   {HTMLElement} element - The element to check.
-   *
-   * @returns {boolean} - The result.
-   */
-
-  function isEventSupported(event, element) {
-    isString({
-      event: event
-    });
-    isHTMLElement({
-      element: element
-    });
-    var eventProp = "on".concat(event);
-    return typeof element[eventProp] !== "undefined";
-  }
-  /**
-   * Checks to see if the provided value is either a string or an array of strings.
-   *
-   * The values must be provided inside of an object
-   * so the variable name can be retrieved in case of errors.
-   *
-   * Will return true is the check is successful.
-   *
-   * @param   {object} values - The value(s) to check.
-   *
-   * @returns {boolean} - The result of the check.
-   */
-
-  function isValidClassList(values) {
-    try {
-      if (_typeof$6(values) !== "object") {
-        var type = _typeof$6(values);
-
-        throw new TypeError("Values given to isValidClassList() must be inside of an object. ".concat(type, " given."));
-      }
-
-      for (var key in values) {
-        var _type9 = _typeof$6(values[key]);
-
-        if (_type9 !== "string") {
-          if (Array.isArray(values[key])) {
-            values[key].forEach(function (value) {
-              isString({
-                classValue: value
-              });
-            });
-          } else {
-            throw new TypeError("".concat(key, " must be a string or an array of strings. ").concat(_type9, " given."));
-          }
+          throw new TypeError("AccessibleMenu: ".concat(key, " must be one of the following values: ").concat(validEvents.join(", "), ". \"").concat(values[key], "\" given."));
         }
       }
 
@@ -428,14 +254,14 @@ var AccessibleMenu = (function () {
       if (_typeof$6(values) !== "object") {
         var type = _typeof$6(values);
 
-        throw new TypeError("Values given to isValidHoverType() must be inside of an object. ".concat(type, " given."));
+        throw new TypeError("AccessibleMenu: Values given to isValidHoverType() must be inside of an object. ".concat(type, " given."));
       }
 
       var validEvents = ["off", "on", "dynamic"];
 
       for (var key in values) {
         if (!validEvents.includes(values[key])) {
-          throw new TypeError("".concat(key, " must be one of the following values: ").concat(validEvents.join(", "), ". \"").concat(values[key], "\" given."));
+          throw new TypeError("AccessibleMenu: ".concat(key, " must be one of the following values: ").concat(validEvents.join(", "), ". \"").concat(values[key], "\" given."));
         }
       }
 
@@ -444,6 +270,53 @@ var AccessibleMenu = (function () {
       console.error(error);
       return false;
     }
+  }
+  /**
+   * Checks to see if the provided elements are using a specific tag.
+   *
+   * The elements must be provided inside of an object
+   * so the variable name can be retrieved in case of errors.
+   *
+   * @param   {string} tagName  - The name of the tag.
+   * @param   {object} elements - The element(s) to check.
+   *
+   * @returns {boolean} - The result of the check.
+   */
+
+  function isTag(tagName, elements) {
+    if (isValidType("string", {
+      tagName: tagName
+    }) && isValidInstance(HTMLElement, elements)) {
+      var tag = tagName.toLowerCase();
+      var check = true;
+
+      for (var key in elements) {
+        if (elements[key].tagName.toLowerCase() !== tag) check = false;
+      }
+
+      return check;
+    } else {
+      return false;
+    }
+  }
+  /**
+   * Checks to see if an event is supported by a node.
+   *
+   * @param   {string}      event   - The event type.
+   * @param   {HTMLElement} element - The element to check.
+   *
+   * @returns {boolean} - The result.
+   */
+
+  function isEventSupported(event, element) {
+    isValidType("string", {
+      event: event
+    });
+    isValidInstance(HTMLElement, {
+      element: element
+    });
+    var eventProp = "on".concat(event);
+    return typeof element[eventProp] !== "undefined";
   }
 
   function _classCallCheck$8(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -473,23 +346,6 @@ var AccessibleMenu = (function () {
           parentMenu = _ref$parentMenu === void 0 ? null : _ref$parentMenu;
 
       _classCallCheck$8(this, BaseMenuToggle);
-
-      // Run validations.
-      isHTMLElement({
-        menuToggleElement: menuToggleElement,
-        parentElement: parentElement
-      });
-
-      if (parentMenu !== null) {
-        isMenu({
-          controlledMenu: controlledMenu,
-          parentMenu: parentMenu
-        });
-      } else {
-        isMenu({
-          controlledMenu: controlledMenu
-        });
-      }
 
       this.domElements = {
         toggle: menuToggleElement,
@@ -618,7 +474,7 @@ var AccessibleMenu = (function () {
        */
       ,
       set: function set(value) {
-        isBoolean({
+        isValidType("boolean", {
           value: value
         });
         this.show = value;
@@ -794,11 +650,6 @@ var AccessibleMenu = (function () {
           return toggle.close();
         });
       }
-    }, {
-      key: baseMenuToggleType,
-      get: function get() {
-        return true;
-      }
     }]);
 
     return BaseMenuToggle;
@@ -809,10 +660,12 @@ var AccessibleMenu = (function () {
   function _defineProperties$4(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
   function _createClass$4(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$4(Constructor.prototype, protoProps); if (staticProps) _defineProperties$4(Constructor, staticProps); return Constructor; }
+
+  /* eslint-disable jsdoc/no-undefined-types */
+
   /**
    * A basic navigation link contained inside of a Menu.
    */
-
   var BaseMenuItem = /*#__PURE__*/function () {
     /**
      * {@inheritdoc}
@@ -838,29 +691,6 @@ var AccessibleMenu = (function () {
 
       _classCallCheck$7(this, BaseMenuItem);
 
-      // Run validations.
-      isHTMLElement({
-        menuItemElement: menuItemElement,
-        menuLinkElement: menuLinkElement
-      });
-      isBoolean({
-        isSubmenuItem: isSubmenuItem
-      });
-
-      if (childMenu !== null) {
-        isMenu({
-          parentMenu: parentMenu,
-          childMenu: childMenu
-        });
-      } else {
-        isMenu({
-          parentMenu: parentMenu
-        });
-      }
-
-      if (toggle !== null) isMenuToggle({
-        toggle: toggle
-      });
       this.domElements = {
         item: menuItemElement,
         link: menuLinkElement
@@ -1055,41 +885,6 @@ var AccessibleMenu = (function () {
 
       _classCallCheck$6(this, BaseMenu);
 
-      // Run validations.
-      isBoolean({
-        isTopLevel: isTopLevel
-      });
-
-      if (submenuItemSelector !== "") {
-        isCSSSelector({
-          menuItemSelector: menuItemSelector,
-          menuLinkSelector: menuLinkSelector,
-          submenuItemSelector: submenuItemSelector,
-          submenuToggleSelector: submenuToggleSelector,
-          submenuSelector: submenuSelector
-        });
-      } else {
-        isCSSSelector({
-          menuItemSelector: menuItemSelector,
-          menuLinkSelector: menuLinkSelector
-        });
-      }
-
-      if (controllerElement !== null || containerElement !== null) {
-        isHTMLElement({
-          menuElement: menuElement,
-          controllerElement: controllerElement,
-          containerElement: containerElement
-        });
-      } else {
-        isHTMLElement({
-          menuElement: menuElement
-        });
-      }
-
-      if (parentMenu !== null) isMenu({
-        parentMenu: parentMenu
-      });
       this.domElements = {
         menu: menuElement,
         menuItems: [],
@@ -1113,14 +908,14 @@ var AccessibleMenu = (function () {
         parentMenu: parentMenu,
         rootMenu: isTopLevel ? this : null
       };
-      this.openClass = openClass || "";
-      this.closeClass = closeClass || "";
+      this.submenuOpenClass = openClass || "";
+      this.submenuCloseClass = closeClass || "";
       this.root = isTopLevel;
-      this.currentChild = 0;
-      this.focusState = "none";
-      this.currentEvent = "none";
-      this.hoverType = hoverType;
-      this.hoverDelay = hoverDelay; // Set default class types.
+      this.focussedChild = 0;
+      this.state = "none";
+      this.event = "none";
+      this.hover = hoverType;
+      this.delay = hoverDelay; // Set default class types.
 
       this.MenuType = BaseMenu;
       this.MenuItemType = BaseMenuItem;
@@ -1136,6 +931,10 @@ var AccessibleMenu = (function () {
     _createClass$3(BaseMenu, [{
       key: "initialize",
       value: function initialize() {
+        if (!this.validate()) {
+          throw new Error("AccesibleMenu: cannot initialize menu. See other error messaged for more information.");
+        }
+
         var MenuToggleType = this.MenuToggleType; // Get the root menu if it doesn't exist.
 
         if (this.elements.rootMenu === null) this.findRootMenu(this); // Set all of the DOM elements.
@@ -1278,7 +1077,7 @@ var AccessibleMenu = (function () {
        */
       ,
       set: function set(value) {
-        isNumber({
+        isValidType("number", {
           value: value
         });
         this.focussedChild = value;
@@ -1352,7 +1151,7 @@ var AccessibleMenu = (function () {
     }, {
       key: "hoverType",
       get: function get() {
-        return this.isTopLevel ? this.hover : this.elements.rootMenu.hoverType;
+        return this.root ? this.hover : this.elements.rootMenu.hoverType;
       }
       /**
        * The delay time (in miliseconds) used for mouseout events to take place.
@@ -1378,13 +1177,101 @@ var AccessibleMenu = (function () {
     }, {
       key: "hoverDelay",
       get: function get() {
-        return this.isTopLevel ? this.delay : this.elements.rootMenu.hoverDelay;
+        return this.root ? this.delay : this.elements.rootMenu.hoverDelay;
       },
       set: function set(value) {
-        isNumber({
+        isValidType("number", {
           value: value
         });
         this.delay = value;
+      }
+      /**
+       * Validates all aspects of the menu to ensure proper functionality.
+       *
+       * @returns {boolean} - The result of the validation.
+       */
+
+    }, {
+      key: "validate",
+      value: function validate() {
+        var domElements = this.domElements,
+            domSelectors = this.domSelectors,
+            menuElements = this.menuElements,
+            submenuOpenClass = this.submenuOpenClass,
+            submenuCloseClass = this.submenuCloseClass,
+            root = this.root,
+            hover = this.hover,
+            delay = this.delay;
+        var check = true;
+
+        if (domElements.container !== null || domElements.controller !== null) {
+          if (!isValidInstance(HTMLElement, {
+            menuElement: domElements.menu,
+            controllerElement: domElements.controller,
+            containerElement: domElements.container
+          })) {
+            check = false;
+          }
+        } else if (!isValidInstance(HTMLElement, {
+          menuElement: domElements.menu
+        })) {
+          check = false;
+        }
+
+        if (domSelectors.submenuItems !== "") {
+          if (!isCSSSelector({
+            menuItemSelector: domSelectors.menuItems,
+            menuLinkSelector: domSelectors.menuLinks,
+            submenuItemSelector: domSelectors.submenuItems,
+            submenuToggleSelector: domSelectors.submenuToggles,
+            submenuSelector: domSelectors.submenus
+          })) {
+            check = false;
+          }
+        } else if (!isCSSSelector({
+          menuItemSelector: domSelectors.menuItems,
+          menuLinkSelector: domSelectors.menuLinks
+        })) {
+          check = false;
+        }
+
+        if (submenuOpenClass !== "" && !isValidClassList({
+          submenuOpenClass: submenuOpenClass
+        })) {
+          check = false;
+        }
+
+        if (submenuCloseClass !== "" && !isValidClassList({
+          submenuCloseClass: submenuCloseClass
+        })) {
+          check = false;
+        }
+
+        if (!isValidType("boolean", {
+          isTopLevel: root
+        })) {
+          check = false;
+        }
+
+        if (menuElements.parentMenu !== null && !isValidInstance(BaseMenu, {
+          parentMenu: menuElements.parentMenu
+        })) {
+          check = false;
+        }
+
+        if (!isValidHoverType({
+          hoverType: hover
+        })) {
+          check = false;
+        }
+
+        if (!isValidType("number", {
+          hoverDelay: delay
+        })) {
+          check = false;
+        }
+
+        return check;
       }
       /**
        * Sets DOM elements within the menu.
@@ -1398,7 +1285,7 @@ var AccessibleMenu = (function () {
       key: "setDOMElementType",
       value: function setDOMElementType(elementType, base, filter) {
         if (typeof this.selectors[elementType] === "string") {
-          if (base) isHTMLElement({
+          if (base) isValidInstance(HTMLElement, {
             base: base
           });
           var baseElement = base || this.dom.menu;
@@ -1439,7 +1326,7 @@ var AccessibleMenu = (function () {
       key: "addDOMElementType",
       value: function addDOMElementType(elementType, base, filter) {
         if (typeof this.selectors[elementType] === "string") {
-          if (base) isHTMLElement({
+          if (base) isValidInstance(HTMLElement, {
             base: base
           });
           var baseElement = base || this.dom.menu;
@@ -1923,11 +1810,6 @@ var AccessibleMenu = (function () {
           return toggle.close();
         });
       }
-    }, {
-      key: baseMenuType,
-      get: function get() {
-        return true;
-      }
     }]);
 
     return BaseMenu;
@@ -2242,15 +2124,19 @@ var AccessibleMenu = (function () {
     _createClass$1(Menubar, [{
       key: "initialize",
       value: function initialize() {
-        _get$1(_getPrototypeOf$3(Menubar.prototype), "initialize", this).call(this);
+        try {
+          _get$1(_getPrototypeOf$3(Menubar.prototype), "initialize", this).call(this);
 
-        this.dom.menu.setAttribute("role", "menubar");
-        this.handleFocus();
-        this.handleClick();
-        this.handleHover();
-        this.handleKeydown();
-        this.handleKeyup();
-        this.elements.menuItems[0].dom.link.tabIndex = 0;
+          this.dom.menu.setAttribute("role", "menubar");
+          this.handleFocus();
+          this.handleClick();
+          this.handleHover();
+          this.handleKeydown();
+          this.handleKeyup();
+          this.elements.menuItems[0].dom.link.tabIndex = 0;
+        } catch (error) {
+          console.error(error);
+        }
       }
       /**
        * Handles keydown events throughout the menu for proper menu use.
@@ -2885,13 +2771,17 @@ var AccessibleMenu = (function () {
     _createClass(DisclosureMenu, [{
       key: "initialize",
       value: function initialize() {
-        _get(_getPrototypeOf(DisclosureMenu.prototype), "initialize", this).call(this);
+        try {
+          _get(_getPrototypeOf(DisclosureMenu.prototype), "initialize", this).call(this);
 
-        this.handleFocus();
-        this.handleClick();
-        this.handleHover();
-        this.handleKeydown();
-        this.handleKeyup();
+          this.handleFocus();
+          this.handleClick();
+          this.handleHover();
+          this.handleKeydown();
+          this.handleKeyup();
+        } catch (error) {
+          console.error(error);
+        }
       }
       /**
        * Handles keydown events throughout the menu for proper menu use.
