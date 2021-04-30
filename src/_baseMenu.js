@@ -1,17 +1,14 @@
-import { baseMenuType } from "./_baseTypes.js";
 import BaseMenuToggle from "./_baseMenuToggle.js";
 import BaseMenuItem from "./_baseMenuItem.js";
 import {
-  isHTMLElement,
+  isValidInstance,
+  isValidType,
   isCSSSelector,
-  isBoolean,
-  isMenu,
-  isNumber,
+  isValidClassList,
   isValidState,
   isValidEvent,
-  isEventSupported,
-  isValidClassList,
   isValidHoverType,
+  isEventSupported,
 } from "./validate.js";
 import { preventEvent, keyPress } from "./eventHandlers.js";
 
@@ -55,7 +52,7 @@ class BaseMenu {
     hoverDelay = 250,
   }) {
     // Run validations.
-    isBoolean({ isTopLevel });
+    isValidType("boolean", { isTopLevel });
 
     if (submenuItemSelector !== "") {
       isCSSSelector({
@@ -70,12 +67,14 @@ class BaseMenu {
     }
 
     if (controllerElement !== null || containerElement !== null) {
-      isHTMLElement({ menuElement, controllerElement, containerElement });
+      isValidInstance(HTMLElement, {
+        menuElement,
+        controllerElement,
+        containerElement,
+      });
     } else {
-      isHTMLElement({ menuElement });
+      isValidInstance(HTMLElement, { menuElement });
     }
-
-    if (parentMenu !== null) isMenu({ parentMenu });
 
     this.domElements = {
       menu: menuElement,
@@ -299,7 +298,7 @@ class BaseMenu {
    * @param {number} value - The index.
    */
   set currentChild(value) {
-    isNumber({ value });
+    isValidType("number", { value });
 
     this.focussedChild = value;
   }
@@ -343,7 +342,7 @@ class BaseMenu {
    * @param {number} value - The delay time.
    */
   set hoverDelay(value) {
-    isNumber({ value });
+    isValidType("number", { value });
 
     this.delay = value;
   }
@@ -357,7 +356,7 @@ class BaseMenu {
    */
   setDOMElementType(elementType, base, filter) {
     if (typeof this.selectors[elementType] === "string") {
-      if (base) isHTMLElement({ base });
+      if (base) isValidInstance(HTMLElement, { base });
 
       const baseElement = base || this.dom.menu;
       const baseFilter = item => item.parentElement === baseElement;
@@ -393,7 +392,7 @@ class BaseMenu {
    */
   addDOMElementType(elementType, base, filter) {
     if (typeof this.selectors[elementType] === "string") {
-      if (base) isHTMLElement({ base });
+      if (base) isValidInstance(HTMLElement, { base });
 
       const baseElement = base || this.dom.menu;
       const baseFilter = item => item.parentElement === baseElement;
@@ -840,10 +839,6 @@ class BaseMenu {
    */
   closeChildren() {
     this.elements.submenuToggles.forEach(toggle => toggle.close());
-  }
-
-  get [baseMenuType]() {
-    return true;
   }
 }
 

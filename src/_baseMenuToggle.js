@@ -1,7 +1,6 @@
 /* eslint-disable jsdoc/no-undefined-types */
 
-import { baseMenuToggleType } from "./_baseTypes.js";
-import { isHTMLElement, isMenu, isTag, isBoolean } from "./validate.js";
+import { isTag, isValidType } from "./validate.js";
 
 /*
  * A link or button that controls the visibility of a Menu.
@@ -22,15 +21,6 @@ class BaseMenuToggle {
     controlledMenu,
     parentMenu = null,
   }) {
-    // Run validations.
-    isHTMLElement({ menuToggleElement, parentElement });
-
-    if (parentMenu !== null) {
-      isMenu({ controlledMenu, parentMenu });
-    } else {
-      isMenu({ controlledMenu });
-    }
-
     this.domElements = {
       toggle: menuToggleElement,
       parent: parentElement,
@@ -165,7 +155,7 @@ class BaseMenuToggle {
    * @param {boolean} value - The open state.
    */
   set isOpen(value) {
-    isBoolean({ value });
+    isValidType("boolean", { value });
 
     this.show = value;
   }
@@ -323,10 +313,6 @@ class BaseMenuToggle {
     this.elements.controlledMenu.elements.submenuToggles.forEach(toggle =>
       toggle.close()
     );
-  }
-
-  get [baseMenuToggleType]() {
-    return true;
   }
 }
 

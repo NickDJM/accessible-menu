@@ -6,7 +6,6 @@
   "files": [
     "index.js",
     "dist/",
-    "src/_baseTypes.js",
     "src/validate.js",
     "src/eventHandlers.js",
     "src/_baseMenu.js",

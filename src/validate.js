@@ -1,33 +1,76 @@
-import { baseMenuType, baseMenuToggleType } from "./_baseTypes.js";
-
 /**
- * Checks to see if the provided elements are instances of HTMLElement.
+ * Check to see if the provided elements have a specific contructor.
  *
- * The elements must be provided inside of an object
+ * The values must be provided inside of an object
  * so the variable name can be retrieved in case of errors.
+ *
+ * This is essentially just a wrapper function around checking instanceof with
+ * more descriptive error message to help debugging.
  *
  * Will return true is the check is successful.
  *
- * @param   {object} elements - The element(s) to check.
+ * @param   {object} contructor - The constructor to check for.
+ * @param   {object} elements   - The element(s) to check.
  *
  * @returns {boolean} - The result of the check.
  */
-export function isHTMLElement(elements) {
+export function isValidInstance(contructor, elements) {
   try {
     if (typeof elements !== "object") {
-      const type = typeof elements;
+      const elementsType = typeof elements;
 
       throw new TypeError(
-        `Elements given to isHTMLElement() must be inside of an object. ${type} given.`
+        `Elements given to isValidInstance() must be inside of an object. ${elementsType} given.`
       );
     }
 
     for (const key in elements) {
-      if (!(elements[key] instanceof HTMLElement)) {
-        const type = typeof elements[key];
+      if (!(elements[key] instanceof contructor)) {
+        const elementType = typeof elements[key];
         throw new TypeError(
-          `${key} must be an instance of HTMLElement. ${type} given.`
+          `${key} must be an instance of ${contructor}. ${elementType} given.`
         );
+      }
+    }
+
+    return true;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+}
+
+/**
+ * Check to see if the provided values are of a specific type.
+ *
+ * The values must be provided inside of an object
+ * so the variable name can be retrieved in case of errors.
+ *
+ * This is essentially just a wrapper function around checking typeof with
+ * more descriptive error message to help debugging.
+ *
+ * Will return true is the check is successful.
+ *
+ * @param   {string} type   - The type to check for.
+ * @param   {object} values - The value(s) to check.
+ *
+ * @returns {boolean} - The result of the check.
+ */
+export function isValidType(type, values) {
+  try {
+    if (typeof values !== "object") {
+      const valuesType = typeof values;
+
+      throw new TypeError(
+        `Values given to isValidType() must be inside of an object. ${valuesType} given.`
+      );
+    }
+
+    for (const key in values) {
+      const valueType = typeof values[key];
+
+      if (valueType !== type) {
+        throw new TypeError(`${key} must be a ${type}. ${valueType} given.`);
       }
     }
 
@@ -78,7 +121,7 @@ export function isCSSSelector(values) {
 }
 
 /**
- * Checks to see if the provided values are booleans.
+ * Checks to see if the provided value is either a string or an array of strings.
  *
  * The values must be provided inside of an object
  * so the variable name can be retrieved in case of errors.
@@ -89,87 +132,13 @@ export function isCSSSelector(values) {
  *
  * @returns {boolean} - The result of the check.
  */
-export function isBoolean(values) {
+export function isValidClassList(values) {
   try {
     if (typeof values !== "object") {
       const type = typeof values;
 
       throw new TypeError(
-        `Values given to isBoolean() must be inside of an object. ${type} given.`
-      );
-    }
-
-    for (const key in values) {
-      const type = typeof values[key];
-
-      if (type !== "boolean") {
-        throw new TypeError(`${key} must be a boolean. ${type} given.`);
-      }
-    }
-
-    return true;
-  } catch (error) {
-    console.error(error);
-    return false;
-  }
-}
-
-/**
- * Checks to see if the provided values are numbers.
- *
- * The values must be provided inside of an object
- * so the variable name can be retrieved in case of errors.
- *
- * Will return true is the check is successful.
- *
- * @param   {object} values - The value(s) to check.
- *
- * @returns {boolean} - The result of the check.
- */
-export function isNumber(values) {
-  try {
-    if (typeof values !== "object") {
-      const type = typeof values;
-
-      throw new TypeError(
-        `Values given to isNumber() must be inside of an object. ${type} given.`
-      );
-    }
-
-    for (const key in values) {
-      const type = typeof values[key];
-
-      if (type !== "number") {
-        throw new TypeError(`${key} must be a number. ${type} given.`);
-      }
-    }
-
-    return true;
-  } catch (error) {
-    console.error(error);
-    return false;
-  }
-}
-
-/**
- * Checks to see if the provided values are strings.
- *
- * The values must be provided inside of an object
- * so the variable name can be retrieved in case of errors.
- *
- * Will return true is the check is successful.
- *
- * @param   {object} values - The value(s) to check.
- *
- * @returns {boolean} - The result of the check.
- */
-export function isString(values) {
-  try {
-    if (typeof values !== "object") {
-      const type = typeof values;
-
-      throw new TypeError(
-        `Values given to isString() must be inside of an object. ${type} given.`
+        `Values given to isValidClassList() must be inside of an object. ${type} given.`
       );
     }
 
@@ -177,187 +146,15 @@ export function isString(values) {
       const type = typeof values[key];
 
       if (type !== "string") {
-        throw new TypeError(`${key} must be a string. ${type} given.`);
-      }
-    }
-
-    return true;
-  } catch (error) {
-    console.error(error);
-    return false;
-  }
-}
-
-/**
- * Checks to see if the provided elements are instances of Event.
- *
- * The elements must be provided inside of an object
- * so the variable name can be retrieved in case of errors.
- *
- * Will return true is the check is successful.
- *
- * @param   {object} elements - The element(s) to check.
- *
- * @returns {boolean} - The result of the check.
- */
-export function isEvent(elements) {
-  try {
-    if (typeof elements !== "object") {
-      const type = typeof elements;
-
-      throw new TypeError(
-        `Elements given to isEvent() must be inside of an object. ${type} given.`
-      );
-    }
-
-    for (const key in elements) {
-      if (!(elements[key] instanceof Event)) {
-        const type = typeof elements[key];
-        throw new TypeError(
-          `${key} must be an instance of Event. ${type} given.`
-        );
-      }
-    }
-
-    return true;
-  } catch (error) {
-    console.error(error);
-    return false;
-  }
-}
-
-/**
- * Checks to see if the provided elements are instances of KeyboardEvent.
- *
- * The elements must be provided inside of an object
- * so the variable name can be retrieved in case of errors.
- *
- * Will return true is the check is successful.
- *
- * @param   {object} elements - The element(s) to check.
- *
- * @returns {boolean} - The result of the check.
- */
-export function isKeyboardEvent(elements) {
-  try {
-    if (typeof elements !== "object") {
-      const type = typeof elements;
-
-      throw new TypeError(
-        `Elements given to isKeyboardEvent() must be inside of an object. ${type} given.`
-      );
-    }
-
-    for (const key in elements) {
-      if (!(elements[key] instanceof KeyboardEvent)) {
-        const type = typeof elements[key];
-        throw new TypeError(
-          `${key} must be an instance of KeyboardEvent. ${type} given.`
-        );
-      }
-    }
-
-    return true;
-  } catch (error) {
-    console.error(error);
-    return false;
-  }
-}
-
-/**
- * Checks to see if the provided elements are a menus.
- *
- * The elements must be provided inside of an object
- * so the variable name can be retrieved in case of errors.
- *
- * Will return true is the check is successful.
- *
- * @param   {object} elements - The element(s) to check.
- *
- * @returns {boolean} - The result of the check.
- */
-export function isMenu(elements) {
-  try {
-    if (typeof elements !== "object") {
-      const type = typeof elements;
-
-      throw new TypeError(
-        `Elements given to isMenu() must be inside of an object. ${type} given.`
-      );
-    }
-
-    for (const key in elements) {
-      if (!elements[key][baseMenuType]) {
-        const type = typeof elements[key];
-
-        throw new TypeError(
-          `${key} must be an instance of BaseMenu. ${type} given.`
-        );
-      }
-    }
-
-    return true;
-  } catch (error) {
-    console.error(error);
-    return false;
-  }
-}
-
-/**
- * Checks to see if the provided elements are using a specific tag.
- *
- * The elements must be provided inside of an object
- * so the variable name can be retrieved in case of errors.
- *
- * @param   {string} tagName  - The name of the tag.
- * @param   {object} elements - The element(s) to check.
- *
- * @returns {boolean} - The result of the check.
- */
-export function isTag(tagName, elements) {
-  if (isString({ tagName }) && isHTMLElement(elements)) {
-    const tag = tagName.toLowerCase();
-    let check = true;
-
-    for (const key in elements) {
-      if (elements[key].tagName.toLowerCase() !== tag) check = false;
-    }
-
-    return check;
-  } else {
-    return false;
-  }
-}
-
-/**
- * Checks to see if the provided elements are a menu toggles.
- *
- * The elements must be provided inside of an object
- * so the variable name can be retrieved in case of errors.
- *
- * Will return true is the check is successful.
- *
- * @param   {object} elements - The element(s) to check.
- *
- * @returns {boolean} - The result of the check.
- */
-export function isMenuToggle(elements) {
-  try {
-    if (typeof elements !== "object") {
-      const type = typeof elements;
-
-      throw new TypeError(
-        `Elements given to isMenuToggle() must be inside of an object. ${type} given.`
-      );
-    }
-
-    for (const key in elements) {
-      if (!elements[key][baseMenuToggleType]) {
-        const type = typeof elements[key];
-
-        throw new TypeError(
-          `${key} must be an instance of BaseMenuToggle. ${type} given.`
-        );
+        if (Array.isArray(values[key])) {
+          values[key].forEach(value => {
+            isValidType("string", { classValue: value });
+          });
+        } else {
+          throw new TypeError(
+            `${key} must be a string or an array of strings. ${type} given.`
+          );
+        }
       }
     }
 
@@ -451,68 +248,6 @@ export function isValidEvent(values) {
 }
 
 /**
- * Checks to see if an event is supported by a node.
- *
- * @param   {string}      event   - The event type.
- * @param   {HTMLElement} element - The element to check.
- *
- * @returns {boolean} - The result.
- */
-export function isEventSupported(event, element) {
-  isString({ event });
-  isHTMLElement({ element });
-
-  const eventProp = `on${event}`;
-
-  return typeof element[eventProp] !== "undefined";
-}
-
-/**
- * Checks to see if the provided value is either a string or an array of strings.
- *
- * The values must be provided inside of an object
- * so the variable name can be retrieved in case of errors.
- *
- * Will return true is the check is successful.
- *
- * @param   {object} values - The value(s) to check.
- *
- * @returns {boolean} - The result of the check.
- */
-export function isValidClassList(values) {
-  try {
-    if (typeof values !== "object") {
-      const type = typeof values;
-
-      throw new TypeError(
-        `Values given to isValidClassList() must be inside of an object. ${type} given.`
-      );
-    }
-
-    for (const key in values) {
-      const type = typeof values[key];
-
-      if (type !== "string") {
-        if (Array.isArray(values[key])) {
-          values[key].forEach(value => {
-            isString({ classValue: value });
-          });
-        } else {
-          throw new TypeError(
-            `${key} must be a string or an array of strings. ${type} given.`
-          );
-        }
-      }
-    }
-
-    return true;
-  } catch (error) {
-    console.error(error);
-    return false;
-  }
-}
-
-/**
  * Check to see if the provided values are valid hover types for a menu.
  *
  * The values must be provided inside of an object
@@ -551,4 +286,50 @@ export function isValidHoverType(values) {
     console.error(error);
     return false;
   }
+}
+
+/**
+ * Checks to see if the provided elements are using a specific tag.
+ *
+ * The elements must be provided inside of an object
+ * so the variable name can be retrieved in case of errors.
+ *
+ * @param   {string} tagName  - The name of the tag.
+ * @param   {object} elements - The element(s) to check.
+ *
+ * @returns {boolean} - The result of the check.
+ */
+export function isTag(tagName, elements) {
+  if (
+    isValidType("string", { tagName }) &&
+    isValidInstance(HTMLElement, elements)
+  ) {
+    const tag = tagName.toLowerCase();
+    let check = true;
+
+    for (const key in elements) {
+      if (elements[key].tagName.toLowerCase() !== tag) check = false;
+    }
+
+    return check;
+  } else {
+    return false;
+  }
+}
+
+/**
+ * Checks to see if an event is supported by a node.
+ *
+ * @param   {string}      event   - The event type.
+ * @param   {HTMLElement} element - The element to check.
+ *
+ * @returns {boolean} - The result.
+ */
+export function isEventSupported(event, element) {
+  isValidType("string", { event });
+  isValidInstance(HTMLElement, { element });
+
+  const eventProp = `on${event}`;
+
+  return typeof element[eventProp] !== "undefined";
 }

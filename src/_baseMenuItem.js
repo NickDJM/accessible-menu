@@ -1,7 +1,5 @@
 /* eslint-disable jsdoc/no-undefined-types */
 
-import { isHTMLElement, isBoolean, isMenu, isMenuToggle } from "./validate.js";
-
 /**
  * A basic navigation link contained inside of a Menu.
  */
@@ -25,18 +23,6 @@ class BaseMenuItem {
     childMenu = null,
     toggle = null,
   }) {
-    // Run validations.
-    isHTMLElement({ menuItemElement, menuLinkElement });
-    isBoolean({ isSubmenuItem });
-
-    if (childMenu !== null) {
-      isMenu({ parentMenu, childMenu });
-    } else {
-      isMenu({ parentMenu });
-    }
-
-    if (toggle !== null) isMenuToggle({ toggle });
-
     this.domElements = {
       item: menuItemElement,
       link: menuLinkElement,
