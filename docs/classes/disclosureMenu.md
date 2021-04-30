@@ -41,6 +41,8 @@ See [BaseMenu](baseMenu.md#available-methods) for a list of inherited methods.
 
 The initialize function will run [BaseMenu's initialize](baseMenu.md#initialize), as well as sets up the [focus](baseMenu.md#handleFocus), [click](baseMenu.md#handleClick), [hover](baseMenu.md#handleHover), [keydown](#handleKeydown), and [keyup](#handleKeyup) events through the menu.
 
+Initalize will catch any validation errors thrown by the BaseMenu's initialize method.
+
 ### handleKeydown
 
 Handles keydown events throughout the menu for proper menu use.

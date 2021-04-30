@@ -51,31 +51,6 @@ class BaseMenu {
     hoverType = "off",
     hoverDelay = 250,
   }) {
-    // Run validations.
-    isValidType("boolean", { isTopLevel });
-
-    if (submenuItemSelector !== "") {
-      isCSSSelector({
-        menuItemSelector,
-        menuLinkSelector,
-        submenuItemSelector,
-        submenuToggleSelector,
-        submenuSelector,
-      });
-    } else {
-      isCSSSelector({ menuItemSelector, menuLinkSelector });
-    }
-
-    if (controllerElement !== null || containerElement !== null) {
-      isValidInstance(HTMLElement, {
-        menuElement,
-        controllerElement,
-        containerElement,
-      });
-    } else {
-      isValidInstance(HTMLElement, { menuElement });
-    }
-
     this.domElements = {
       menu: menuElement,
       menuItems: [],
@@ -99,14 +74,14 @@ class BaseMenu {
       parentMenu,
       rootMenu: isTopLevel ? this : null,
     };
-    this.openClass = openClass || "";
-    this.closeClass = closeClass || "";
+    this.submenuOpenClass = openClass || "";
+    this.submenuCloseClass = closeClass || "";
     this.root = isTopLevel;
-    this.currentChild = 0;
-    this.focusState = "none";
-    this.currentEvent = "none";
-    this.hoverType = hoverType;
-    this.hoverDelay = hoverDelay;
+    this.focussedChild = 0;
+    this.state = "none";
+    this.event = "none";
+    this.hover = hoverType;
+    this.delay = hoverDelay;
 
     // Set default class types.
     this.MenuType = BaseMenu;
@@ -120,6 +95,12 @@ class BaseMenu {
    * This will also initialize all menu items and sub menus.
    */
   initialize() {
+    if (!this.validate()) {
+      throw new Error(
+        "AccesibleMenu: cannot initialize menu. See other error messaged for more information."
+      );
+    }
+
     const { MenuToggleType } = this;
 
     // Get the root menu if it doesn't exist.
@@ -255,7 +236,7 @@ class BaseMenu {
    * @returns {string} - The hover type.
    */
   get hoverType() {
-    return this.isTopLevel ? this.hover : this.elements.rootMenu.hoverType;
+    return this.root ? this.hover : this.elements.rootMenu.hoverType;
   }
 
   /**
@@ -267,7 +248,7 @@ class BaseMenu {
    * @returns {number} - The delay time.
    */
   get hoverDelay() {
-    return this.isTopLevel ? this.delay : this.elements.rootMenu.hoverDelay;
+    return this.root ? this.delay : this.elements.rootMenu.hoverDelay;
   }
 
   /**
@@ -345,6 +326,94 @@ class BaseMenu {
     isValidType("number", { value });
 
     this.delay = value;
+  }
+
+  /**
+   * Validates all aspects of the menu to ensure proper functionality.
+   *
+   * @returns {boolean} - The result of the validation.
+   */
+  validate() {
+    const {
+      domElements,
+      domSelectors,
+      menuElements,
+      submenuOpenClass,
+      submenuCloseClass,
+      root,
+      hover,
+      delay,
+    } = this;
+
+    let check = true;
+
+    if (domElements.container !== null || domElements.controller !== null) {
+      if (
+        !isValidInstance(HTMLElement, {
+          menuElement: domElements.menu,
+          controllerElement: domElements.controller,
+          containerElement: domElements.container,
+        })
+      ) {
+        check = false;
+      }
+    } else if (
+      !isValidInstance(HTMLElement, {
+        menuElement: domElements.menu,
+      })
+    ) {
+      check = false;
+    }
+
+    if (domSelectors.submenuItems !== "") {
+      if (
+        !isCSSSelector({
+          menuItemSelector: domSelectors.menuItems,
+          menuLinkSelector: domSelectors.menuLinks,
+          submenuItemSelector: domSelectors.submenuItems,
+          submenuToggleSelector: domSelectors.submenuToggles,
+          submenuSelector: domSelectors.submenus,
+        })
+      ) {
+        check = false;
+      }
+    } else if (
+      !isCSSSelector({
+        menuItemSelector: domSelectors.menuItems,
+        menuLinkSelector: domSelectors.menuLinks,
+      })
+    ) {
+      check = false;
+    }
+
+    if (submenuOpenClass !== "" && !isValidClassList({ submenuOpenClass })) {
+      check = false;
+    }
+
+    if (submenuCloseClass !== "" && !isValidClassList({ submenuCloseClass })) {
+      check = false;
+    }
+
+    if (!isValidType("boolean", { isTopLevel: root })) {
+      check = false;
+    }
+
+    if (
+      menuElements.parentMenu !== null &&
+      !isValidInstance(BaseMenu, { parentMenu: menuElements.parentMenu })
+    ) {
+      check = false;
+    }
+
+    if (!isValidHoverType({ hoverType: hover })) {
+      check = false;
+    }
+
+    if (!isValidType("number", { hoverDelay: delay })) {
+      check = false;
+    }
+
+    return check;
   }
 
   /**

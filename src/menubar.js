@@ -74,17 +74,21 @@ class Menubar extends BaseMenu {
    * This will also initialize all menu items and sub menus.
    */
   initialize() {
-    super.initialize();
+    try {
+      super.initialize();
 
-    this.dom.menu.setAttribute("role", "menubar");
+      this.dom.menu.setAttribute("role", "menubar");
 
-    this.handleFocus();
-    this.handleClick();
-    this.handleHover();
-    this.handleKeydown();
-    this.handleKeyup();
+      this.handleFocus();
+      this.handleClick();
+      this.handleHover();
+      this.handleKeydown();
+      this.handleKeyup();
 
-    this.elements.menuItems[0].dom.link.tabIndex = 0;
+      this.elements.menuItems[0].dom.link.tabIndex = 0;
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   /**

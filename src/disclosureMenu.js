@@ -77,13 +77,17 @@ class DisclosureMenu extends BaseMenu {
    * This will also initialize all menu items and sub menus.
    */
   initialize() {
-    super.initialize();
+    try {
+      super.initialize();
 
-    this.handleFocus();
-    this.handleClick();
-    this.handleHover();
-    this.handleKeydown();
-    this.handleKeyup();
+      this.handleFocus();
+      this.handleClick();
+      this.handleHover();
+      this.handleKeydown();
+      this.handleKeyup();
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   /**

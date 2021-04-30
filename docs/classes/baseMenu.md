@@ -126,6 +126,14 @@ Set the delay time (in miliseconds) used for mouseout events to take place.
 
 The initialize function will find the menu's [root menu](#findRootMenu), set up all of the [DOM elements](#setDOMElements) within itself, and create a [controller element](menuToggle.md) (if the information was provided, and the menu is the root menu).
 
+Initialize also [validates](#validate) the menu's parameters before executing and will throw an uncaught error if the menu is invalid.
+
+### validate
+
+Validates all parameters given to the menu upon creation.
+
+This is used during initalization to make sure all provided values are valid.
+
 ### setDOMElementType
 
 Sets DOM elements within the menu.

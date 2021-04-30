@@ -20,7 +20,7 @@ export function isValidInstance(contructor, elements) {
       const elementsType = typeof elements;
 
       throw new TypeError(
-        `Elements given to isValidInstance() must be inside of an object. ${elementsType} given.`
+        `AccessibleMenu: Elements given to isValidInstance() must be inside of an object. ${elementsType} given.`
       );
     }
 
@@ -28,7 +28,7 @@ export function isValidInstance(contructor, elements) {
       if (!(elements[key] instanceof contructor)) {
         const elementType = typeof elements[key];
         throw new TypeError(
-          `${key} must be an instance of ${contructor}. ${elementType} given.`
+          `AccessibleMenu: ${key} must be an instance of ${contructor}. ${elementType} given.`
         );
       }
     }
@@ -62,7 +62,7 @@ export function isValidType(type, values) {
       const valuesType = typeof values;
 
       throw new TypeError(
-        `Values given to isValidType() must be inside of an object. ${valuesType} given.`
+        `AccessibleMenu: Values given to isValidType() must be inside of an object. ${valuesType} given.`
       );
     }
 
@@ -70,7 +70,9 @@ export function isValidType(type, values) {
       const valueType = typeof values[key];
 
       if (valueType !== type) {
-        throw new TypeError(`${key} must be a ${type}. ${valueType} given.`);
+        throw new TypeError(
+          `AccessibleMenu: ${key} must be a ${type}. ${valueType} given.`
+        );
       }
     }
 
@@ -99,7 +101,7 @@ export function isCSSSelector(values) {
       const type = typeof values;
 
       throw new TypeError(
-        `Values given to isCSSSelector() must be inside of an object. ${type} given.`
+        `AccessibleMenu: Values given to isCSSSelector() must be inside of an object. ${type} given.`
       );
     }
 
@@ -108,7 +110,7 @@ export function isCSSSelector(values) {
         document.querySelector(values[key]);
       } catch (error) {
         throw new TypeError(
-          `${key} must be a valid CSS selector. "${values[key]}" given.`
+          `AccessibleMenu: ${key} must be a valid CSS selector. "${values[key]}" given.`
         );
       }
     }
@@ -138,7 +140,7 @@ export function isValidClassList(values) {
       const type = typeof values;
 
       throw new TypeError(
-        `Values given to isValidClassList() must be inside of an object. ${type} given.`
+        `AccessibleMenu: Values given to isValidClassList() must be inside of an object. ${type} given.`
       );
     }
 
@@ -150,15 +152,20 @@ export function isValidClassList(values) {
           values[key].forEach(value => {
             if (typeof value !== "string") {
               throw new TypeError(
-                `${key} must be a string or an array of strings. An array containing non-strings given.`
+                `AccessibleMenu: ${key} must be a string or an array of strings. An array containing non-strings given.`
               );
             }
           });
         } else {
           throw new TypeError(
-            `${key} must be a string or an array of strings. ${type} given.`
+            `AccessibleMenu: ${key} must be a string or an array of strings. ${type} given.`
           );
         }
+      } else {
+        const obj = {};
+        obj[key] = values[key];
+
+        isCSSSelector(obj);
       }
     }
 
@@ -187,7 +194,7 @@ export function isValidState(values) {
       const type = typeof values;
 
       throw new TypeError(
-        `Values given to isValidState() must be inside of an object. ${type} given.`
+        `AccessibleMenu: Values given to isValidState() must be inside of an object. ${type} given.`
       );
     }
 
@@ -196,7 +203,7 @@ export function isValidState(values) {
     for (const key in values) {
       if (!validStates.includes(values[key])) {
         throw new TypeError(
-          `${key} must be one of the following values: ${validStates.join(
+          `AccessibleMenu: ${key} must be one of the following values: ${validStates.join(
             ", "
           )}. "${values[key]}" given.`
         );
@@ -228,7 +235,7 @@ export function isValidEvent(values) {
       const type = typeof values;
 
       throw new TypeError(
-        `Values given to isValidEvent() must be inside of an object. ${type} given.`
+        `AccessibleMenu: Values given to isValidEvent() must be inside of an object. ${type} given.`
       );
     }
 
@@ -237,7 +244,7 @@ export function isValidEvent(values) {
     for (const key in values) {
       if (!validEvents.includes(values[key])) {
         throw new TypeError(
-          `${key} must be one of the following values: ${validEvents.join(
+          `AccessibleMenu: ${key} must be one of the following values: ${validEvents.join(
             ", "
           )}. "${values[key]}" given.`
         );
@@ -269,7 +276,7 @@ export function isValidHoverType(values) {
       const type = typeof values;
 
       throw new TypeError(
-        `Values given to isValidHoverType() must be inside of an object. ${type} given.`
+        `AccessibleMenu: Values given to isValidHoverType() must be inside of an object. ${type} given.`
       );
     }
 
@@ -278,7 +285,7 @@ export function isValidHoverType(values) {
     for (const key in values) {
       if (!validEvents.includes(values[key])) {
         throw new TypeError(
-          `${key} must be one of the following values: ${validEvents.join(
+          `AccessibleMenu: ${key} must be one of the following values: ${validEvents.join(
             ", "
           )}. "${values[key]}" given.`
         );

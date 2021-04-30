@@ -43,6 +43,8 @@ The initialize function will run [BaseMenu's initialize](baseMenu.md#initialize)
 
 This will also set the role of the menu element to "menubar", and ensure the first menu item is in the tab index.
 
+Initalize will catch any validation errors thrown by the BaseMenu's initialize method.
+
 ### handleKeydown
 
 Handles keydown events throughout the menu for proper menu use.
