@@ -148,7 +148,11 @@ export function isValidClassList(values) {
       if (type !== "string") {
         if (Array.isArray(values[key])) {
           values[key].forEach(value => {
-            isValidType("string", { classValue: value });
+            if (typeof value !== "string") {
+              throw new TypeError(
+                `${key} must be a string or an array of strings. An array containing non-strings given.`
+              );
+            }
           });
         } else {
           throw new TypeError(
