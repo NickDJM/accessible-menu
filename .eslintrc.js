@@ -4,12 +4,8 @@ module.exports = {
     browser: true,
     es6: true,
   },
-  extends: [
-    "standard",
-    "plugin:jsdoc/recommended",
-    "plugin:prettier/recommended",
-  ],
-  plugins: ["prettier", "jsdoc"],
+  extends: ["standard", "plugin:jsdoc/recommended", "prettier"],
+  plugins: ["jsdoc"],
   globals: {
     Atomics: "readonly",
     SharedArrayBuffer: "readonly",
@@ -19,7 +15,6 @@ module.exports = {
     sourceType: "module",
   },
   rules: {
-    "prettier/prettier": "error",
     "no-console": [
       "warn",
       {

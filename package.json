@@ -19,15 +19,15 @@
     "src/menubarToggle.js"
   ],
   "scripts": {
-    "preinstall": "npx npm-force-resolutions || true",
     "prepare": "husky install",
-    "commit": "npx git-cz",
-    "lint": "npx eslint --ext .js --ignore-path .eslintignore .",
-    "fix": "npm run lint -- --fix",
-    "prerelease": "npm run fix && npm run build",
-    "release": "git add dist/. && npx standard-version -a",
-    "build:test": "npx sass test/scss:test/css",
-    "build": "npx rollup --config .rollup.config.js"
+    "commit": "git-cz",
+    "lint": "npm run eslint && npm run prettier",
+    "eslint": "eslint --ext .js --fix .",
+    "prettier": "prettier '**/*.js' --write --ignore-path .eslintignore",
+    "prerelease": "npm run lint && npm run build",
+    "release": "git add dist/. && standard-version -a",
+    "build:test": "sass test/scss:test/css",
+    "build": "rollup --config .rollup.config.js"
   },
   "repository": {
     "type": "git",
@@ -64,7 +64,6 @@
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jsdoc": "^32.3.0",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-prettier": "^3.1.3",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^5.0.0",
     "husky": "^6.0.0",
@@ -75,6 +74,5 @@
     "sass": "^1.29.0",
     "standard-version": "^9.0.0",
     "terser": "^5.6.1"
-  },
-  "resolutions": {}
+  }
 }
