@@ -7,7 +7,7 @@ import DisclosureMenu from "../../dist/disclosure-menu.esm.min.js";
  * @param {string}         type - The type of hover to toggle.
  */
 function toggleHover(menu, type) {
-  menu.elements.submenuToggles.forEach(toggle => {
+  menu.elements.submenuToggles.forEach((toggle) => {
     toggle.elements.controlledMenu.hoverType = type;
   });
 
@@ -17,7 +17,7 @@ function toggleHover(menu, type) {
 const navs = document.querySelectorAll("nav");
 const menus = [];
 
-Array.from(navs).forEach(nav => {
+Array.from(navs).forEach((nav) => {
   const menuElement = nav.querySelector("ul");
   const submenuItemSelector = "li.dropdown";
   const controllerElement =
@@ -44,10 +44,10 @@ window.addEventListener("resize", () => {
   }
 });
 
-document.addEventListener("accessibleMenuExpand", event => {
+document.addEventListener("accessibleMenuExpand", (event) => {
   console.log(event);
 });
 
-document.addEventListener("accessibleMenuCollapse", event => {
+document.addEventListener("accessibleMenuCollapse", (event) => {
   console.log(event);
 });

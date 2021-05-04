@@ -97,7 +97,7 @@ class Menubar extends BaseMenu {
   handleKeydown() {
     super.handleKeydown();
 
-    this.dom.menu.addEventListener("keydown", event => {
+    this.dom.menu.addEventListener("keydown", (event) => {
       this.currentEvent = "keyboard";
 
       const key = keyPress(event);
@@ -163,7 +163,7 @@ class Menubar extends BaseMenu {
   handleKeyup() {
     super.handleKeyup();
 
-    this.dom.menu.addEventListener("keyup", event => {
+    this.dom.menu.addEventListener("keyup", (event) => {
       this.currentEvent = "keyboard";
 
       const key = keyPress(event);
@@ -276,7 +276,7 @@ class Menubar extends BaseMenu {
             // Hitting Escape:
             // - Closes menu.
             const hasOpenChild = this.elements.submenuToggles.some(
-              toggle => toggle.isOpen
+              (toggle) => toggle.isOpen
             );
 
             if (hasOpenChild) {

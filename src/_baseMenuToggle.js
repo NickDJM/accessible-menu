@@ -115,7 +115,7 @@ class BaseMenuToggle {
       if (typeof closeClass === "string") {
         this.elements.controlledMenu.dom.menu.classList.add(closeClass);
       } else if (Array.isArray(closeClass)) {
-        closeClass.forEach(value => {
+        closeClass.forEach((value) => {
           this.elements.controlledMenu.dom.menu.classList.add(value);
         });
       }
@@ -175,7 +175,7 @@ class BaseMenuToggle {
       if (typeof openClass === "string") {
         this.elements.controlledMenu.dom.menu.classList.add(openClass);
       } else if (Array.isArray(openClass)) {
-        openClass.forEach(value => {
+        openClass.forEach((value) => {
           this.elements.controlledMenu.dom.menu.classList.add(value);
         });
       }
@@ -186,7 +186,7 @@ class BaseMenuToggle {
       if (typeof closeClass === "string") {
         this.elements.controlledMenu.dom.menu.classList.remove(closeClass);
       } else if (Array.isArray(closeClass)) {
-        closeClass.forEach(value => {
+        closeClass.forEach((value) => {
           this.elements.controlledMenu.dom.menu.classList.remove(value);
         });
       }
@@ -210,7 +210,7 @@ class BaseMenuToggle {
       if (typeof closeClass === "string") {
         this.elements.controlledMenu.dom.menu.classList.add(closeClass);
       } else if (Array.isArray(closeClass)) {
-        closeClass.forEach(value => {
+        closeClass.forEach((value) => {
           this.elements.controlledMenu.dom.menu.classList.add(value);
         });
       }
@@ -221,7 +221,7 @@ class BaseMenuToggle {
       if (typeof openClass === "string") {
         this.elements.controlledMenu.dom.menu.classList.remove(openClass);
       } else if (Array.isArray(openClass)) {
-        openClass.forEach(value => {
+        openClass.forEach((value) => {
           this.elements.controlledMenu.dom.menu.classList.remove(value);
         });
       }
@@ -300,7 +300,7 @@ class BaseMenuToggle {
    */
   closeSiblings() {
     if (this.elements.parentMenu) {
-      this.elements.parentMenu.elements.submenuToggles.forEach(toggle => {
+      this.elements.parentMenu.elements.submenuToggles.forEach((toggle) => {
         if (toggle !== this) toggle.close();
       });
     }
@@ -310,7 +310,7 @@ class BaseMenuToggle {
    * Closes all child menus.
    */
   closeChildren() {
-    this.elements.controlledMenu.elements.submenuToggles.forEach(toggle =>
+    this.elements.controlledMenu.elements.submenuToggles.forEach((toggle) =>
       toggle.close()
     );
   }

@@ -428,20 +428,20 @@ class BaseMenu {
       if (base) isValidInstance(HTMLElement, { base });
 
       const baseElement = base || this.dom.menu;
-      const baseFilter = item => item.parentElement === baseElement;
+      const baseFilter = (item) => item.parentElement === baseElement;
       const selector = this.selectors[elementType];
       const domElements = Array.from(baseElement.querySelectorAll(selector));
 
       if (typeof filter !== "undefined") {
         if (typeof filter === "function") {
-          this.domElements[elementType] = domElements.filter(item =>
+          this.domElements[elementType] = domElements.filter((item) =>
             filter(item)
           );
         } else {
           this.domElements[elementType] = domElements;
         }
       } else {
-        this.domElements[elementType] = domElements.filter(item =>
+        this.domElements[elementType] = domElements.filter((item) =>
           baseFilter(item)
         );
       }
@@ -464,7 +464,7 @@ class BaseMenu {
       if (base) isValidInstance(HTMLElement, { base });
 
       const baseElement = base || this.dom.menu;
-      const baseFilter = item => item.parentElement === baseElement;
+      const baseFilter = (item) => item.parentElement === baseElement;
       const selector = this.selectors[elementType];
       const domElements = Array.from(baseElement.querySelectorAll(selector));
 
@@ -472,7 +472,7 @@ class BaseMenu {
         if (typeof filter === "function") {
           this.domElements[elementType] = [
             ...this.domElements[elementType],
-            ...domElements.filter(item => filter(item)),
+            ...domElements.filter((item) => filter(item)),
           ];
         } else {
           this.domElements[elementType] = [
@@ -483,7 +483,7 @@ class BaseMenu {
       } else {
         this.domElements[elementType] = [
           ...this.domElements[elementType],
-          ...domElements.filter(item => baseFilter(item)),
+          ...domElements.filter((item) => baseFilter(item)),
         ];
       }
     } else {
@@ -524,7 +524,7 @@ class BaseMenu {
       this.clearDOMElementType("submenuToggles");
       this.clearDOMElementType("submenus");
 
-      this.dom.submenuItems.forEach(item => {
+      this.dom.submenuItems.forEach((item) => {
         this.addDOMElementType("submenuToggles", item);
         this.addDOMElementType("submenus", item);
       });
@@ -552,7 +552,7 @@ class BaseMenu {
   createChildElements() {
     const { MenuType, MenuItemType, MenuToggleType } = this;
 
-    this.dom.menuItems.forEach(element => {
+    this.dom.menuItems.forEach((element) => {
       let menuItem;
 
       if (this.dom.submenuItems.includes(element)) {
@@ -654,7 +654,7 @@ class BaseMenu {
     }
 
     // Close the menu if a click event happens outside of it.
-    document.addEventListener("mouseup", event => {
+    document.addEventListener("mouseup", (event) => {
       if (this.focusState !== "none") {
         this.currentEvent = "mouse";
 
@@ -673,13 +673,13 @@ class BaseMenu {
     });
 
     // Toggle submenus when their controllers are clicked.
-    this.elements.submenuToggles.forEach(toggle => {
+    this.elements.submenuToggles.forEach((toggle) => {
       if (isEventSupported("touchend", toggle.dom.toggle)) {
-        toggle.dom.toggle.ontouchend = event => {
+        toggle.dom.toggle.ontouchend = (event) => {
           toggleToggle(this, toggle, event);
         };
       } else {
-        toggle.dom.toggle.onmouseup = event => {
+        toggle.dom.toggle.onmouseup = (event) => {
           toggleToggle(this, toggle, event);
         };
       }
@@ -688,11 +688,11 @@ class BaseMenu {
     // Open the this menu if it's controller is clicked.
     if (this.isTopLevel && this.elements.controller) {
       if (isEventSupported("touchend", this.elements.controller.dom.toggle)) {
-        this.elements.controller.dom.toggle.ontouchend = event => {
+        this.elements.controller.dom.toggle.ontouchend = (event) => {
           toggleToggle(this, this.elements.controller, event);
         };
       } else {
-        this.elements.controller.dom.toggle.onmouseup = event => {
+        this.elements.controller.dom.toggle.onmouseup = (event) => {
           toggleToggle(this, this.elements.controller, event);
         };
       }
@@ -714,7 +714,7 @@ class BaseMenu {
           }
         } else if (this.hoverType === "dynamic") {
           const isOpen = this.elements.submenuToggles.some(
-            toggle => toggle.isOpen
+            (toggle) => toggle.isOpen
           );
           this.currentChild = index;
 
@@ -756,15 +756,18 @@ class BaseMenu {
    */
   handleKeydown() {
     if (this.isTopLevel && this.elements.controller) {
-      this.elements.controller.dom.toggle.addEventListener("keydown", event => {
-        this.currentEvent = "keyboard";
+      this.elements.controller.dom.toggle.addEventListener(
+        "keydown",
+        (event) => {
+          this.currentEvent = "keyboard";
 
-        const key = keyPress(event);
+          const key = keyPress(event);
 
-        if (key === "Space" || key === "Enter") {
-          preventEvent(event);
+          if (key === "Space" || key === "Enter") {
+            preventEvent(event);
+          }
         }
-      });
+      );
     }
   }
 
@@ -773,7 +776,7 @@ class BaseMenu {
    */
   handleKeyup() {
     if (this.isTopLevel && this.elements.controller) {
-      this.elements.controller.dom.toggle.addEventListener("keyup", event => {
+      this.elements.controller.dom.toggle.addEventListener("keyup", (event) => {
         this.currentEvent = "keyboard";
 
         const key = keyPress(event);
@@ -907,7 +910,7 @@ class BaseMenu {
    * Close all submenu children.
    */
   closeChildren() {
-    this.elements.submenuToggles.forEach(toggle => toggle.close());
+    this.elements.submenuToggles.forEach((toggle) => toggle.close());
   }
 }
 

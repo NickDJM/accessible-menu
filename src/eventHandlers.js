@@ -23,7 +23,7 @@ export function keyPress(event) {
       Tab: key === "Tab" || key === 9,
     };
 
-    return Object.keys(keys).find(key => keys[key] === true) || "";
+    return Object.keys(keys).find((key) => keys[key] === true) || "";
   } catch (error) {
     // Return an empty string if something goes wrong.
     return "";
