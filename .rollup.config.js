@@ -3,7 +3,7 @@ import { terser } from "rollup-plugin-terser";
 
 export default [
   {
-    input: "./index.js",
+    input: "./rollup.js",
     plugins: [babel({ babelHelpers: "inline" })],
     output: [
       {
