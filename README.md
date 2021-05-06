@@ -84,6 +84,54 @@ const menu = new AccessibleMenu.DisclosureMenu({
 });
 ```
 
+### Only need one type of menu class?
+
+Bundled versions of each menu are provided in the dist and individual exports are provided in the index.
+
+There are also compiled ES Module versions if you don't want to use an iife!
+
+#### DisclosureMenu usage
+
+```js
+import { DisclosureMenu } from "accessible-menu";
+```
+
+or
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/accessible-menu@3.0.0/dist/disclosure-menu.min.js"></script>
+```
+
+then
+
+```js
+const menu = new DisclosureMenu({
+  menuElement: document.querySelector("#example-menu"),
+  submenuItemSelector: "li.dropdown",
+});
+```
+
+#### Menubar usage
+
+```js
+import { Menubar } from "accessible-menu";
+```
+
+or
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/accessible-menu@3.0.0/dist/menubar.min.js"></script>
+```
+
+then
+
+```js
+const menu = new Menubar({
+  menuElement: document.querySelector("#example-menu"),
+  submenuItemSelector: "li.dropdown",
+});
+```
+
 ### Documentation
 
 - [Classes](docs/classes/index.md)
