@@ -29,7 +29,7 @@ All Parameters _must_ be contained in a single object.
 
 Set the open state on the menu.
 
-#### Parameters
+#### isOpen Parameters
 
 | Paramter | Description | Type | Required | Default Value |
 | --- | --- | --- | --- | --- |
