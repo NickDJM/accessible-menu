@@ -6,17 +6,7 @@
   "files": [
     "index.js",
     "dist/",
-    "src/validate.js",
-    "src/eventHandlers.js",
-    "src/_baseMenu.js",
-    "src/_baseMenuItem.js",
-    "src/_baseMenuToggle.js",
-    "src/disclosureMenu.js",
-    "src/disclosureMenuItem.js",
-    "src/disclosureMenuToggle.js",
-    "src/menubar.js",
-    "src/menubarItem.js",
-    "src/menubarToggle.js"
+    "src/"
   ],
   "scripts": {
     "prepare": "husky install",
