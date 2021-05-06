@@ -13,8 +13,6 @@ All Parameters _must_ be contained in a single object.
 | menuToggleElement | The toggle element in the DOM. | HTMLElement | true | `undefined` |
 | parentElement | The element containing the controlled menu. | HTMLElement | true | `undefined` |
 | controlledMenu | The menu controlled by this toggle. | Menubar | true | `undefined` |
-| openClass | The class to apply when the controlled menu is "open". | string\|string[]\|null | false | `"show"` |
-| closeClass | The class to apply when the controlled menu is "closed". | string\|string[]\|null | false | `"hide"` |
 | parentMenu | The menu containing this toggle. | Menubar\|null | false | `null` |
 
 ## Available getters

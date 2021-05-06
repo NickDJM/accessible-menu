@@ -21,16 +21,12 @@ class DisclosureMenuToggle extends BaseMenuToggle {
     menuToggleElement,
     parentElement,
     controlledMenu,
-    openClass = "show",
-    closeClass = "hide",
     parentMenu = null,
   }) {
     super({
       menuToggleElement,
       parentElement,
       controlledMenu,
-      openClass,
-      closeClass,
       parentMenu,
     });
 

@@ -13,8 +13,6 @@ All Parameters _must_ be contained in a single object.
 | menuToggleElement | The toggle element in the DOM. | HTMLElement | true | `undefined` |
 | parentElement | The element containing the controlled menu. | HTMLElement | true | `undefined` |
 | controlledMenu | The menu controlled by this toggle. | BaseMenu | true | `undefined` |
-| openClass | The class to apply when the controlled menu is "open". | string\|string[]\|null | false | `"show"` |
-| closeClass | The class to apply when the controlled menu is "closed". | string\|string[]\|null | false | `"hide"` |
 | parentMenu | The menu containing this toggle. | BaseMenu\|null | false | `null` |
 
 ## Available getters
@@ -24,8 +22,6 @@ All Parameters _must_ be contained in a single object.
 | dom | The DOM elements within the toggle. | object |
 | elements | The elements within the toggle. | object |
 | isOpen | The open state on the menu. | boolean |
-| openClass | The class to apply when the controlled menu is "open". | string |
-| closeClass | The class to apply when the controlled menu is "closed". | string |
 
 ## Available setters
 
@@ -38,26 +34,6 @@ Set the open state on the menu.
 | Paramter | Description | Type | Required | Default Value |
 | --- | --- | --- | --- | --- |
 | value | The open state. | boolean | true | `undefined` |
-
-### openClass
-
-Set the class to apply when the controlled menu is "open".
-
-#### Parameters
-
-| Paramter | Description | Type | Required | Default Value |
-| --- | --- | --- | --- | --- |
-| value | The class. | string | true | `undefined` |
-
-### closeClass
-
-Set the class to apply when the controlled menu is "closed".
-
-#### Parameters
-
-| Paramter | Description | Type | Required | Default Value |
-| --- | --- | --- | --- | --- |
-| value | The class. | string | true | `undefined` |
 
 ## Available methods
 
