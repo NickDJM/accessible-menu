@@ -16,6 +16,7 @@ All Parameters _must_ be contained in a single object.
 | isSubmenuItem | A flag to mark if the menu item is controlling a submenu. | boolean | false | `false` |
 | childMenu | The child menu. | Menubar\|null | false | `null` |
 | toggle | The controller for the child menu. | MenubarToggle\|null | false | `null` |
+| initialize | A flag to initialize the menu item immediately upon creation. | boolean | false | `true` |
 
 ## Available getters
 
@@ -27,7 +28,9 @@ See [BaseMenuItem](baseMenuItem.md#available-methods) for a list of inherited me
 
 ### initialize
 
-The initialize function will run [BaseMenuItem's initialize](baseMenuItem.md#initialize), as well as sets up the proper roles and tabindexes for Menubars.
+Initialize will be called immediately upon creation unless `initialize: false` is passed as a parameter to the menu item.
+
+The initialize function will run [BaseMenuItem's initialize method](baseMenuItem.md#initialize), as well as sets up the proper roles and tabindexes for Menubars.
 
 The menu item itself will be given a `role` of `"none"` and the item's link will be given a `role` of `"menuitem"` as well as having it's tabindex set to `-1`.
 

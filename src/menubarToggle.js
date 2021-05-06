@@ -14,12 +14,14 @@ class MenubarToggle extends BaseMenuToggle {
    * @param {HTMLElement}          param0.parentElement         - The element containing the controlled menu.
    * @param {Menubar}              param0.controlledMenu        - The menu controlled by this toggle.
    * @param {Menubar|null}         [param0.parentMenu = null]   - The menu containing this toggle.
+   * @param {boolean}              [param0.initialize = true]   - A flag to initialize the menu toggle immediately upon creation.
    */
   constructor({
     menuToggleElement,
     parentElement,
     controlledMenu,
     parentMenu = null,
+    initialize = true,
   }) {
     super({
       menuToggleElement,
@@ -28,7 +30,9 @@ class MenubarToggle extends BaseMenuToggle {
       parentMenu,
     });
 
-    this.initialize();
+    if (initialize) {
+      this.initialize();
+    }
   }
 }
 

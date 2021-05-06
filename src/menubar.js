@@ -27,6 +27,7 @@ class Menubar extends BaseMenu {
    * @param {Menubar|null}     [param0.parentMenu = null]           - The parent menu to this menu.
    * @param {string}           [param0.hoverType = "off"]           - The type of hoverability a menu has.
    * @param {number}           [param0.hoverDelay = 250]            - The delay for closing menus if the menu is hoverable (in miliseconds).
+   * @param {boolean}          [param0.initialize = true]           - A flag to initialize the menu immediately upon creation.
    */
   constructor({
     menuElement,
@@ -43,6 +44,7 @@ class Menubar extends BaseMenu {
     parentMenu = null,
     hoverType = "off",
     hoverDelay = 250,
+    initialize = true,
   }) {
     super({
       menuElement,
@@ -65,7 +67,9 @@ class Menubar extends BaseMenu {
     this.MenuItemType = MenubarItem;
     this.MenuToggleType = MenubarToggle;
 
-    this.initialize();
+    if (initialize) {
+      this.initialize();
+    }
   }
 
   /**

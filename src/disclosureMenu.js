@@ -27,6 +27,7 @@ class DisclosureMenu extends BaseMenu {
    * @param {DisclosureMenu|null} [param0.parentMenu = null]           - The parent menu to this menu.
    * @param {string}              [param0.hoverType = "off"]           - The type of hoverability a menu has.
    * @param {number}              [param0.hoverDelay = 250]            - The delay for closing menus if the menu is hoverable (in miliseconds).
+   * @param {boolean}             [param0.initialize = true]           - A flag to initialize the menu immediately upon creation.
    */
   constructor({
     menuElement,
@@ -43,6 +44,7 @@ class DisclosureMenu extends BaseMenu {
     parentMenu = null,
     hoverType = "off",
     hoverDelay = 250,
+    initialize = true,
   }) {
     super({
       menuElement,
@@ -68,7 +70,9 @@ class DisclosureMenu extends BaseMenu {
 
     this.currentChild = -1;
 
-    this.initialize();
+    if (initialize) {
+      this.initialize();
+    }
   }
 
   /**

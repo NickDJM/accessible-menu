@@ -24,6 +24,7 @@ All Parameters _must_ be contained in a single object.
 | parentMenu | The parent menu to this menu. | DisclosureMenu\|null | false | `null` |
 | hoverType | The type of hoverability a menu has. | string | false | `"off"` |
 | hoverDelay | The delay for closing menus if the menu is hoverable (in miliseconds). | number | false | `250` |
+| initialize | A flag to initialize the menu immediately upon creation. | boolean | false | `true` |
 
 ## Available Getters
 
@@ -39,7 +40,9 @@ See [BaseMenu](baseMenu.md#available-methods) for a list of inherited methods.
 
 ### Initialize
 
-The initialize function will run [BaseMenu's initialize](baseMenu.md#initialize), as well as sets up the [focus](baseMenu.md#handleFocus), [click](baseMenu.md#handleClick), [hover](baseMenu.md#handleHover), [keydown](#handleKeydown), and [keyup](#handleKeyup) events through the menu.
+Initialize will be called immediately upon creation unless `initialize: false` is passed as a parameter to the menu.
+
+The initialize function will run [BaseMenu's initialize method](baseMenu.md#initialize), as well as sets up the [focus](baseMenu.md#handleFocus), [click](baseMenu.md#handleClick), [hover](baseMenu.md#handleHover), [keydown](#handleKeydown), and [keyup](#handleKeyup) events through the menu.
 
 Initalize will catch any validation errors thrown by the BaseMenu's initialize method.
 

@@ -16,6 +16,7 @@ class DisclosureMenuItem extends BaseMenuItem {
    * @param {boolean}                   [param0.isSubmenuItem = false] - A flag to mark if the menu item is controlling a submenu.
    * @param {DisclosureMenu|null}       [param0.childMenu = null]      - The child menu.
    * @param {DisclosureMenuToggle|null} [param0.toggle = null]         - The controller for the child menu.
+   * @param {boolean}                   [param0.initialize = true]     - A flag to initialize the menu item immediately upon creation.
    */
   constructor({
     menuItemElement,
@@ -24,6 +25,7 @@ class DisclosureMenuItem extends BaseMenuItem {
     isSubmenuItem = false,
     childMenu = null,
     toggle = null,
+    initialize = true,
   }) {
     super({
       menuItemElement,
@@ -34,7 +36,9 @@ class DisclosureMenuItem extends BaseMenuItem {
       toggle,
     });
 
-    this.initialize();
+    if (initialize) {
+      this.initialize();
+    }
   }
 }
 
