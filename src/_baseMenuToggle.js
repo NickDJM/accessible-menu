@@ -48,8 +48,6 @@ class BaseMenuToggle {
    * handling click events, and adding new keydown events.
    */
   initialize() {
-    const { closeClass } = this.elements.controlledMenu;
-
     // Add WAI-ARIA properties.
     this.dom.toggle.setAttribute("aria-haspopup", "true");
     this.dom.toggle.setAttribute("aria-expanded", "false");
@@ -110,16 +108,8 @@ class BaseMenuToggle {
       this.elements.controlledMenu.dom.menu.id
     );
 
-    // Add closed class.
-    if (closeClass !== "") {
-      if (typeof closeClass === "string") {
-        this.elements.controlledMenu.dom.menu.classList.add(closeClass);
-      } else if (Array.isArray(closeClass)) {
-        closeClass.forEach((value) => {
-          this.elements.controlledMenu.dom.menu.classList.add(value);
-        });
-      }
-    }
+    // Make sure the menu is collapsed on initialization, but do not emit the collapse event.
+    this.collapse(false);
   }
 
   /**
@@ -164,8 +154,10 @@ class BaseMenuToggle {
    * Expands the controlled menu.
    *
    * Alters ARIA attributes and classes.
+   *
+   * @param {boolean} [emit = true] - A toggle to emit the expand event once expanded.
    */
-  expand() {
+  expand(emit = true) {
     const { closeClass, openClass } = this.elements.controlledMenu;
 
     this.dom.toggle.setAttribute("aria-expanded", "true");
@@ -192,15 +184,19 @@ class BaseMenuToggle {
       }
     }
 
-    this.dom.toggle.dispatchEvent(this.expandEvent);
+    if (emit) {
+      this.dom.toggle.dispatchEvent(this.expandEvent);
+    }
   }
 
   /**
    * Collapses the controlled menu.
    *
    * Alters ARIA attributes and classes.
+   *
+   * @param {boolean} [emit = true] - A toggle to emit the collapse event once collapsed.
    */
-  collapse() {
+  collapse(emit = true) {
     const { closeClass, openClass } = this.elements.controlledMenu;
 
     this.dom.toggle.setAttribute("aria-expanded", "false");
@@ -227,7 +223,9 @@ class BaseMenuToggle {
       }
     }
 
-    this.dom.toggle.dispatchEvent(this.collapseEvent);
+    if (emit) {
+      this.dom.toggle.dispatchEvent(this.collapseEvent);
+    }
   }
 
   /**

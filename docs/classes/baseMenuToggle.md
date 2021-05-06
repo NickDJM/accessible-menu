@@ -78,7 +78,7 @@ If they do not, the following steps take place:
 
 Once the ID's have been generated, the menu's "aria-labelledby" is set to the toggle's ID, and the toggle's "aria-controls" is set to the menu's ID.
 
-Finally, the closed class is applied to the toggle's parent menu item.
+Finally, the collapse method is called to make sure the submenu is closed.
 
 ### expand
 
@@ -86,7 +86,13 @@ Expands the controlled menu.
 
 Sets the toggle's "aria-expanded" to "true", adds the open class to the toggle's parent menu item and controlled menu, and removed the closed class from the toggle's parent menu item and controlled menu.
 
-This will also emit a custom event called `accessibleMenuExpand` which bubbles and contains the toggle object in `event.detail`.
+If `emit` is set to `true`, this will also emit a custom event called `accessibleMenuExpand` which bubbles and contains the toggle object in `event.detail`.
+
+#### exapand Parameters
+
+| Paramter | Description | Type | Required | Default Value |
+| --- | --- | --- | --- | --- |
+| emit | A toggle to emit the expand event once expanded. | boolean | false | `true` |
 
 ### collapse
 
@@ -94,7 +100,13 @@ Collapses the controlled menu.
 
 Sets the toggle's "aria-expanded" to "false", adds the closed class to the toggle's parent menu item and controlled menu, and removed the open class from the toggle's parent menu item and controlled menu.
 
-This will also emit a custom event called `accessibleMenuCollapse` which bubbles and contains the toggle object in `event.detail`.
+If `emit` is set to `true`, this will also emit a custom event called `accessibleMenuCollapse` which bubbles and contains the toggle object in `event.detail`.
+
+#### collapse Parameters
+
+| Paramter | Description | Type | Required | Default Value |
+| --- | --- | --- | --- | --- |
+| emit | A toggle to emit the collapse event once collapsed. | boolean | false | `true` |
 
 ### open
 
