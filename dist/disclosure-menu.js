@@ -2099,6 +2099,7 @@ var DisclosureMenu = (function () {
      * @param {DisclosureMenu|null} [param0.parentMenu = null]           - The parent menu to this menu.
      * @param {string}              [param0.hoverType = "off"]           - The type of hoverability a menu has.
      * @param {number}              [param0.hoverDelay = 250]            - The delay for closing menus if the menu is hoverable (in miliseconds).
+     * @param {boolean}             [param0.optionalKeySupport = false]  - A flag to add optional keyboard support (Arrow keys, Home, and End) to the menu.
      * @param {boolean}             [param0.initialize = true]           - A flag to initialize the menu immediately upon creation.
      */
     function DisclosureMenu(_ref) {
@@ -2131,6 +2132,8 @@ var DisclosureMenu = (function () {
           hoverType = _ref$hoverType === void 0 ? "off" : _ref$hoverType,
           _ref$hoverDelay = _ref.hoverDelay,
           hoverDelay = _ref$hoverDelay === void 0 ? 250 : _ref$hoverDelay,
+          _ref$optionalKeySuppo = _ref.optionalKeySupport,
+          optionalKeySupport = _ref$optionalKeySuppo === void 0 ? false : _ref$optionalKeySuppo,
           _ref$initialize = _ref.initialize,
           initialize = _ref$initialize === void 0 ? true : _ref$initialize;
 
@@ -2157,6 +2160,7 @@ var DisclosureMenu = (function () {
       _this.MenuItemType = DisclosureMenuItem;
       _this.MenuToggleType = DisclosureMenuToggle;
       _this.currentChild = -1;
+      _this.optionalKeySupport = optionalKeySupport;
 
       if (initialize) {
         _this.initialize();
@@ -2202,13 +2206,16 @@ var DisclosureMenu = (function () {
           var key = keyPress(event); // Prevent default event actions if we're handling the keyup event.
 
           if (_this2.focusState === "self") {
-            var keys = ["ArrowUp", "ArrowRight", "ArrowDown", "ArrowLeft", "Home", "End"];
             var submenuKeys = ["Space", "Enter"];
             var controllerKeys = ["Escape"];
             var parentKeys = ["Escape"];
 
-            if (keys.includes(key)) {
-              preventEvent(event);
+            if (_this2.optionalKeySupport) {
+              var keys = ["ArrowUp", "ArrowRight", "ArrowDown", "ArrowLeft", "Home", "End"];
+
+              if (keys.includes(key)) {
+                preventEvent(event);
+              }
             } else if (_this2.currentMenuItem.isSubmenuItem && submenuKeys.includes(key)) {
               preventEvent(event);
             } else if (_this2.elements.controller && controllerKeys.includes(key)) {
@@ -2267,41 +2274,43 @@ var DisclosureMenu = (function () {
 
                 _this3.focusController();
               }
-            } else if (key === "ArrowDown" || key === "ArrowRight") {
-              // Hitting the Down or Right Arrow:
-              // - If focus is on a button and its dropdown is collapsed, and it is not the last button, moves focus to the next button.
-              // - If focus is on a button and its dropdown is expanded, moves focus to the first link in the dropdown.
-              // - If focus is on a link, and it is not the last link, moves focus to the next link.
-              preventEvent(event);
+            } else if (_this3.optionalKeySupport) {
+              if (key === "ArrowDown" || key === "ArrowRight") {
+                // Hitting the Down or Right Arrow:
+                // - If focus is on a button and its dropdown is collapsed, and it is not the last button, moves focus to the next button.
+                // - If focus is on a button and its dropdown is expanded, moves focus to the first link in the dropdown.
+                // - If focus is on a link, and it is not the last link, moves focus to the next link.
+                preventEvent(event);
 
-              if (_this3.currentMenuItem.isSubmenuItem && _this3.currentMenuItem.elements.toggle.isOpen) {
-                _this3.currentMenuItem.elements.childMenu.currentEvent = "keyboard";
+                if (_this3.currentMenuItem.isSubmenuItem && _this3.currentMenuItem.elements.toggle.isOpen) {
+                  _this3.currentMenuItem.elements.childMenu.currentEvent = "keyboard";
 
-                _this3.currentMenuItem.elements.childMenu.focusFirstChild();
-              } else {
-                _this3.focusNextChild();
+                  _this3.currentMenuItem.elements.childMenu.focusFirstChild();
+                } else {
+                  _this3.focusNextChild();
+                }
+              } else if (key === "ArrowUp" || key === "ArrowLeft") {
+                // Hitting the Up or Left Arrow:
+                // - If focus is on a button, and it is not the first button, moves focus to the previous button.
+                // - If focus is on a link, and it is not the first link, moves focus to the previous link.
+                preventEvent(event);
+
+                _this3.focusPreviousChild();
+              } else if (key === "Home") {
+                // Hitting Home:
+                // - If focus is on a button, and it is not the first button, moves focus to the first button.
+                // - If focus is on a link, and it is not the first link, moves focus to the first link.
+                preventEvent(event);
+
+                _this3.focusFirstChild();
+              } else if (key === "End") {
+                // Hitting End:
+                // - If focus is on a button, and it is not the last button, moves focus to the last button.
+                // - If focus is on a link, and it is not the last link, moves focus to the last link.
+                preventEvent(event);
+
+                _this3.focusLastChild();
               }
-            } else if (key === "ArrowUp" || key === "ArrowLeft") {
-              // Hitting the Up or Left Arrow:
-              // - If focus is on a button, and it is not the first button, moves focus to the previous button.
-              // - If focus is on a link, and it is not the first link, moves focus to the previous link.
-              preventEvent(event);
-
-              _this3.focusPreviousChild();
-            } else if (key === "Home") {
-              // Hitting Home:
-              // - If focus is on a button, and it is not the first button, moves focus to the first button.
-              // - If focus is on a link, and it is not the first link, moves focus to the first link.
-              preventEvent(event);
-
-              _this3.focusFirstChild();
-            } else if (key === "End") {
-              // Hitting End:
-              // - If focus is on a button, and it is not the last button, moves focus to the last button.
-              // - If focus is on a link, and it is not the last link, moves focus to the last link.
-              preventEvent(event);
-
-              _this3.focusLastChild();
             }
           }
         });
