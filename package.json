@@ -31,7 +31,9 @@
     "aria",
     "a11y",
     "nav",
-    "navigation"
+    "navigation",
+    "menubar",
+    "disclosure menu"
   ],
   "author": "Nick Milton",
   "license": "ISC",
