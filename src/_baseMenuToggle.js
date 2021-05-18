@@ -9,11 +9,11 @@ class BaseMenuToggle {
   /**
    * {@inheritdoc}
    *
-   * @param {object}               param0                       - The menu toggle object.
-   * @param {HTMLElement}          param0.menuToggleElement     - The toggle element in the DOM.
-   * @param {HTMLElement}          param0.parentElement         - The element containing the controlled menu.
-   * @param {BaseMenu}             param0.controlledMenu        - The menu controlled by this toggle.
-   * @param {BaseMenu|null}        [param0.parentMenu = null]   - The menu containing this toggle.
+   * @param {object}        param0                     - The menu toggle object.
+   * @param {HTMLElement}   param0.menuToggleElement   - The toggle element in the DOM.
+   * @param {HTMLElement}   param0.parentElement       - The element containing the controlled menu.
+   * @param {BaseMenu}      param0.controlledMenu      - The menu controlled by this toggle.
+   * @param {BaseMenu|null} [param0.parentMenu = null] - The menu containing this toggle.
    */
   constructor({
     menuToggleElement,

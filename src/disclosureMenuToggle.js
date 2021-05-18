@@ -9,12 +9,12 @@ class DisclosureMenuToggle extends BaseMenuToggle {
   /**
    * {@inheritdoc}
    *
-   * @param {object}               param0                       - The menu toggle object.
-   * @param {HTMLElement}          param0.menuToggleElement     - The toggle element in the DOM.
-   * @param {HTMLElement}          param0.parentElement         - The element containing the controlled menu.
-   * @param {DisclosureMenu}       param0.controlledMenu        - The menu controlled by this toggle.
-   * @param {DisclosureMenu|null}  [param0.parentMenu = null]   - The menu containing this toggle.
-   * @param {boolean}              [param0.initialize = true]   - A flag to initialize the menu toggle immediately upon creation.
+   * @param {object}              param0                     - The menu toggle object.
+   * @param {HTMLElement}         param0.menuToggleElement   - The toggle element in the DOM.
+   * @param {HTMLElement}         param0.parentElement       - The element containing the controlled menu.
+   * @param {DisclosureMenu}      param0.controlledMenu      - The menu controlled by this toggle.
+   * @param {DisclosureMenu|null} [param0.parentMenu = null] - The menu containing this toggle.
+   * @param {boolean}             [param0.initialize = true] - A flag to initialize the menu toggle immediately upon creation.
    */
   constructor({
     menuToggleElement,
