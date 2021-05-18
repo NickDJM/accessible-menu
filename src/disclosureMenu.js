@@ -27,6 +27,7 @@ class DisclosureMenu extends BaseMenu {
    * @param {DisclosureMenu|null} [param0.parentMenu = null]           - The parent menu to this menu.
    * @param {string}              [param0.hoverType = "off"]           - The type of hoverability a menu has.
    * @param {number}              [param0.hoverDelay = 250]            - The delay for closing menus if the menu is hoverable (in miliseconds).
+   * @param {boolean}             [param0.optionalKeySupport = false]  - A flag to add optional keyboard support (Arrow keys, Home, and End) to the menu.
    * @param {boolean}             [param0.initialize = true]           - A flag to initialize the menu immediately upon creation.
    */
   constructor({
@@ -44,6 +45,7 @@ class DisclosureMenu extends BaseMenu {
     parentMenu = null,
     hoverType = "off",
     hoverDelay = 250,
+    optionalKeySupport = false,
     initialize = true,
   }) {
     super({
@@ -69,6 +71,7 @@ class DisclosureMenu extends BaseMenu {
     this.MenuToggleType = DisclosureMenuToggle;
 
     this.currentChild = -1;
+    this.optionalKeySupport = optionalKeySupport;
 
     if (initialize) {
       this.initialize();
@@ -107,20 +110,22 @@ class DisclosureMenu extends BaseMenu {
 
       // Prevent default event actions if we're handling the keyup event.
       if (this.focusState === "self") {
-        const keys = [
-          "ArrowUp",
-          "ArrowRight",
-          "ArrowDown",
-          "ArrowLeft",
-          "Home",
-          "End",
-        ];
         const submenuKeys = ["Space", "Enter"];
         const controllerKeys = ["Escape"];
         const parentKeys = ["Escape"];
 
-        if (keys.includes(key)) {
-          preventEvent(event);
+        if (this.optionalKeySupport) {
+          const keys = [
+            "ArrowUp",
+            "ArrowRight",
+            "ArrowDown",
+            "ArrowLeft",
+            "Home",
+            "End",
+          ];
+          if (keys.includes(key)) {
+            preventEvent(event);
+          }
         } else if (
           this.currentMenuItem.isSubmenuItem &&
           submenuKeys.includes(key)
@@ -178,40 +183,42 @@ class DisclosureMenu extends BaseMenu {
             this.elements.controller.close();
             this.focusController();
           }
-        } else if (key === "ArrowDown" || key === "ArrowRight") {
-          // Hitting the Down or Right Arrow:
-          // - If focus is on a button and its dropdown is collapsed, and it is not the last button, moves focus to the next button.
-          // - If focus is on a button and its dropdown is expanded, moves focus to the first link in the dropdown.
-          // - If focus is on a link, and it is not the last link, moves focus to the next link.
-          preventEvent(event);
+        } else if (this.optionalKeySupport) {
+          if (key === "ArrowDown" || key === "ArrowRight") {
+            // Hitting the Down or Right Arrow:
+            // - If focus is on a button and its dropdown is collapsed, and it is not the last button, moves focus to the next button.
+            // - If focus is on a button and its dropdown is expanded, moves focus to the first link in the dropdown.
+            // - If focus is on a link, and it is not the last link, moves focus to the next link.
+            preventEvent(event);
 
-          if (
-            this.currentMenuItem.isSubmenuItem &&
-            this.currentMenuItem.elements.toggle.isOpen
-          ) {
-            this.currentMenuItem.elements.childMenu.currentEvent = "keyboard";
-            this.currentMenuItem.elements.childMenu.focusFirstChild();
-          } else {
-            this.focusNextChild();
+            if (
+              this.currentMenuItem.isSubmenuItem &&
+              this.currentMenuItem.elements.toggle.isOpen
+            ) {
+              this.currentMenuItem.elements.childMenu.currentEvent = "keyboard";
+              this.currentMenuItem.elements.childMenu.focusFirstChild();
+            } else {
+              this.focusNextChild();
+            }
+          } else if (key === "ArrowUp" || key === "ArrowLeft") {
+            // Hitting the Up or Left Arrow:
+            // - If focus is on a button, and it is not the first button, moves focus to the previous button.
+            // - If focus is on a link, and it is not the first link, moves focus to the previous link.
+            preventEvent(event);
+            this.focusPreviousChild();
+          } else if (key === "Home") {
+            // Hitting Home:
+            // - If focus is on a button, and it is not the first button, moves focus to the first button.
+            // - If focus is on a link, and it is not the first link, moves focus to the first link.
+            preventEvent(event);
+            this.focusFirstChild();
+          } else if (key === "End") {
+            // Hitting End:
+            // - If focus is on a button, and it is not the last button, moves focus to the last button.
+            // - If focus is on a link, and it is not the last link, moves focus to the last link.
+            preventEvent(event);
+            this.focusLastChild();
           }
-        } else if (key === "ArrowUp" || key === "ArrowLeft") {
-          // Hitting the Up or Left Arrow:
-          // - If focus is on a button, and it is not the first button, moves focus to the previous button.
-          // - If focus is on a link, and it is not the first link, moves focus to the previous link.
-          preventEvent(event);
-          this.focusPreviousChild();
-        } else if (key === "Home") {
-          // Hitting Home:
-          // - If focus is on a button, and it is not the first button, moves focus to the first button.
-          // - If focus is on a link, and it is not the first link, moves focus to the first link.
-          preventEvent(event);
-          this.focusFirstChild();
-        } else if (key === "End") {
-          // Hitting End:
-          // - If focus is on a button, and it is not the last button, moves focus to the last button.
-          // - If focus is on a link, and it is not the last link, moves focus to the last link.
-          preventEvent(event);
-          this.focusLastChild();
         }
       }
     });

@@ -24,6 +24,7 @@ All Parameters _must_ be contained in a single object.
 | parentMenu | The parent menu to this menu. | DisclosureMenu\|null | false | `null` |
 | hoverType | The type of hoverability a menu has. | string | false | `"off"` |
 | hoverDelay | The delay for closing menus if the menu is hoverable (in miliseconds). | number | false | `250` |
+| optionalKeySupport | A flag to add optional keyboard support (Arrow keys, Home, and End) to the menu. | boolean | false | `false` |
 | initialize | A flag to initialize the menu immediately upon creation. | boolean | false | `true` |
 
 ## Available Getters
@@ -54,7 +55,8 @@ This method exists to assit the [handleKeyup](#handleKeyup) method.
 
 - Adds all `keydown` listeners listed in [BaseMenu](baseMenu.md#handleKeydown).
 - Adds a `keydown` listener to the menu/all submenus.
-  - Blocks propagation on the following keys: "ArrowUp", "ArrowRight", "ArrowDown", "ArrowLeft", "Home", "End", "Space", "Enter", and "Escape".
+  - Blocks propagation on the following keys: "Space", "Enter", and "Escape".
+  - _If_ `optionalKeySupport` is `true`, blocks propagation on the following keys: "ArrowUp", "ArrowRight", "ArrowDown", "ArrowLeft", "Home", and "End".
 
 ### handleKeyup
 
@@ -69,7 +71,7 @@ The following keybinding explanations are taken from the WAI ARIA Pracitices Exa
 | _Tab_ or _Shift + Tab_ | Move keyboard focus among top-level buttons, and if a dropdown is open, into and through links in the dropdown. |
 | _Space_ or _Enter_ | <ul><li>If focus is on a disclosure button, activates the button, which toggles the visibility of the dropdown.</li><li>If focus is on a link:<ul><li>If any link has aria-current set, removes it.</li><li>Sets aria-current="page" on the focused link.</li><li>Activates the focused link.</li></ul></li></ul> |
 | _Escape_ | If a dropdown is open, closes it and sets focus on the button that controls that dropdown. |
-| _Down Arrow_ or _Right Arrow_ (Optional) | <ul><li>If focus is on a button and its dropdown is collapsed, and it is not the last button, moves focus to the next button.</li><li>if focus is on a button and its dropdown is expanded, moves focus to the first link in the dropdown.</li><li>If focus is on a link, and it is not the last link, moves focus to the next link.</li></ul> |
-| _Up Arrow_ or _Left Arrow_ (Optional) | <ul><li>If focus is on a button, and it is not the first button, moves focus to the previous button.</li><li>If focus is on a link, and it is not the first link, moves focus to the previous link.</li></ul> |
-| _Home_ (Optional) | <ul><li>If focus is on a button, and it is not the first button, moves focus to the first button.</li><li>If focus is on a link, and it is not the first link, moves focus to the first link.</li></ul> |
-| _End_ (Optional) | <ul><li>If focus is on a button, and it is not the last button, moves focus to the last button.</li><li>If focus is on a link, and it is not the last link, moves focus to the last link.</li></ul> |
+| _Down Arrow_ or _Right Arrow_ (Optional based on `optionalKeySupport`) | <ul><li>If focus is on a button and its dropdown is collapsed, and it is not the last button, moves focus to the next button.</li><li>if focus is on a button and its dropdown is expanded, moves focus to the first link in the dropdown.</li><li>If focus is on a link, and it is not the last link, moves focus to the next link.</li></ul> |
+| _Up Arrow_ or _Left Arrow_ (Optional based on `optionalKeySupport`) | <ul><li>If focus is on a button, and it is not the first button, moves focus to the previous button.</li><li>If focus is on a link, and it is not the first link, moves focus to the previous link.</li></ul> |
+| _Home_ (Optional based on `optionalKeySupport`) | <ul><li>If focus is on a button, and it is not the first button, moves focus to the first button.</li><li>If focus is on a link, and it is not the first link, moves focus to the first link.</li></ul> |
+| _End_ (Optional based on `optionalKeySupport`) | <ul><li>If focus is on a button, and it is not the last button, moves focus to the last button.</li><li>If focus is on a link, and it is not the last link, moves focus to the last link.</li></ul> |
