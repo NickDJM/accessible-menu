@@ -1,6 +1,7 @@
 import BaseMenu from "./_baseMenu.js";
 import TreeviewItem from "./treeviewItem.js";
 import TreeviewToggle from "./treeviewToggle.js";
+import { keyPress, preventEvent } from "./eventHandlers.js";
 
 /**
  * An accessible treeview navigation in the DOM.
@@ -82,12 +83,216 @@ class Treeview extends BaseMenu {
     try {
       super.initialize();
 
+      if (this.isTopLevel) {
+        this.dom.menu.setAttribute("role", "tree");
+      } else {
+        this.dom.menu.setAttribute("role", "group");
+      }
+
       this.handleFocus();
       this.handleClick();
       this.handleHover();
+      this.handleKeydown();
+      this.handleKeyup();
+
+      this.elements.menuItems[0].dom.link.tabIndex = 0;
     } catch (error) {
       console.error(error);
     }
+  }
+
+  /**
+   * Handles keydown events throughout the menu for proper menu use.
+   */
+  handleKeydown() {
+    super.handleKeydown();
+
+    this.dom.menu.addEventListener("keydown", (event) => {
+      this.currentEvent = "keyboard";
+
+      const key = keyPress(event);
+
+      if (key === "Tab") {
+        // Hitting Tab:
+        // - Moves focus out of the menu.
+        if (this.elements.rootMenu.focusState !== "none") {
+          this.elements.rootMenu.blur();
+        } else {
+          this.elements.rootMenu.focus();
+        }
+      }
+
+      if (this.focusState === "self") {
+        const keys = [
+          "Space",
+          "ArrowUp",
+          "ArrowDown",
+          "ArrowLeft",
+          "Asterisk",
+          "Home",
+          "End",
+        ];
+        const submenuKeys = ["Enter", "ArrowRight"];
+        const controllerKeys = ["Escape"];
+
+        if (keys.includes(key)) {
+          preventEvent(event);
+        } else if (
+          this.currentMenuItem.isSubmenuItem &&
+          submenuKeys.includes(key)
+        ) {
+          preventEvent(event);
+        } else if (this.elements.controller && controllerKeys.includes(key)) {
+          preventEvent(event);
+        }
+      }
+    });
+  }
+
+  /**
+   * Handles keyup events throughout the menu for proper menu use.
+   */
+  handleKeyup() {
+    super.handleKeyup();
+
+    this.dom.menu.addEventListener("keyup", (event) => {
+      this.currentEvent = "keyboard";
+
+      const key = keyPress(event);
+
+      if (this.focusState === "self") {
+        if (key === "Enter" || key === "Space") {
+          // Hitting Space or Enter:
+          // - Performs the default action (e.g. onclick event) for the focused node.
+          // - If focus is on a closed node, opens the node; focus does not move.
+          preventEvent(event);
+
+          if (this.currentMenuItem.isSubmenuItem) {
+            if (this.currentMenuItem.elements.toggle.isOpen) {
+              this.currentMenuItem.elements.toggle.close();
+            } else {
+              this.currentMenuItem.elements.toggle.preview();
+            }
+          } else {
+            this.currentMenuItem.dom.link.click();
+          }
+        } else if (key === "ArrowDown") {
+          // Hitting the Down Arrow:
+          // - Moves focus to the next node that is focusable without opening or closing a node.
+          // - If focus is on the last node, does nothing.
+          preventEvent(event);
+
+          if (
+            this.currentMenuItem.isSubmenuItem &&
+            this.currentMenuItem.elements.toggle.isOpen
+          ) {
+            this.currentMenuItem.elements.childMenu.currentEvent = this.currentEvent;
+            this.currentMenuItem.elements.childMenu.focusFirstChild();
+          } else if (
+            !this.isTopLevel &&
+            this.currentChild === this.elements.menuItems.length - 1
+          ) {
+            this.elements.parentMenu.currentEvent = this.currentEvent;
+            this.elements.parentMenu.focusNextChild();
+          } else {
+            this.focusNextChild();
+          }
+        } else if (key === "ArrowUp") {
+          // Hitting the Up Arrow:
+          // - Moves focus to the previous node that is focusable without opening or closing a node.
+          // - If focus is on the first node, does nothing.
+          preventEvent(event);
+
+          const previousMenuItem = this.elements.menuItems[
+            this.currentChild - 1
+          ];
+
+          if (
+            previousMenuItem &&
+            previousMenuItem.isSubmenuItem &&
+            previousMenuItem.elements.toggle.isOpen
+          ) {
+            this.currentChild = this.currentChild - 1;
+            this.currentMenuItem.elements.childMenu.currentEvent = this.currentEvent;
+            this.currentMenuItem.elements.childMenu.focusLastChild();
+          } else if (!this.isTopLevel && this.currentChild === 0) {
+            this.elements.parentMenu.currentEvent = this.currentEvent;
+            this.elements.parentMenu.focusCurrentChild();
+          } else {
+            this.focusPreviousChild();
+          }
+        } else if (key === "ArrowRight") {
+          // Hitting the Right Arrow:
+          // - When focus is on a closed node, opens the node; focus does not move.
+          // - When focus is on a open node, moves focus to the first child node.
+          // - When focus is on an end node, does nothing.
+          if (this.currentMenuItem.isSubmenuItem) {
+            preventEvent(event);
+
+            if (this.currentMenuItem.elements.toggle.isOpen) {
+              this.currentMenuItem.elements.childMenu.currentEvent = this.currentEvent;
+              this.currentMenuItem.elements.childMenu.focusFirstChild();
+            } else {
+              this.currentMenuItem.elements.toggle.preview();
+            }
+          }
+        } else if (key === "ArrowLeft") {
+          // Hitting the Left Arrow:
+          // - When focus is on an open node, closes the node.
+          // - When focus is on a child node that is also either an end node or a closed node, moves focus to its parent node.
+          // - When focus is on a root node that is also either an end node or a closed node, does nothing.
+          preventEvent(event);
+
+          if (
+            this.currentMenuItem.isSubmenuItem &&
+            this.currentMenuItem.elements.toggle.isOpen
+          ) {
+            this.currentMenuItem.elements.toggle.close();
+          } else if (!this.isTopLevel) {
+            this.elements.parentMenu.currentEvent = this.currentEvent;
+            this.elements.parentMenu.focusCurrentChild();
+          }
+        } else if (key === "Home") {
+          // Hitting Home:
+          // - Moves focus to first node without opening or closing a node.
+          this.elements.rootMenu.focusFirstChild();
+        } else if (key === "End") {
+          // Hitting End:
+          // - Moves focus to the last node that can be focused without expanding any nodes that are closed.
+          this.elements.rootMenu.focusLastNode();
+        } else if (key === "Asterisk") {
+          // Hitting Asterisk:
+          // - Expands all closed sibling nodes that are at the same level as the focused node.
+          // - Focus does not move.
+          this.openChildren();
+        }
+      }
+    });
+  }
+
+  /**
+   * Focus the menu's last node of the entire expanded menu.
+   *
+   * This includes all _open_ child menu items.
+   */
+  focusLastNode() {
+    const numberOfItems = this.elements.menuItems.length - 1;
+    const lastChild = this.elements.menuItems[numberOfItems];
+
+    if (lastChild.isSubmenuItem && lastChild.elements.toggle.isOpen) {
+      this.currentChild = numberOfItems;
+      lastChild.elements.childMenu.currentEvent = this.currentEvent;
+      lastChild.elements.childMenu.focusLastNode();
+    } else {
+      this.focusLastChild();
+    }
+  }
+
+  /**
+   * Open all submenu children.
+   */
+  openChildren() {
+    this.elements.submenuToggles.forEach((toggle) => toggle.preview());
   }
 }
 

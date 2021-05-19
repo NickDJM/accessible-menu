@@ -40,6 +40,35 @@ class TreeviewItem extends BaseMenuItem {
       this.initialize();
     }
   }
+
+  /**
+   * Initialize the menu item by setting its role and tab index.
+   */
+  initialize() {
+    super.initialize();
+
+    this.dom.item.setAttribute("role", "none");
+    this.dom.link.setAttribute("role", "treeitem");
+    this.dom.link.tabIndex = -1;
+  }
+
+  /**
+   * Focuses the menu item's link and set proper tabIndex.
+   */
+  focus() {
+    super.focus();
+
+    this.dom.link.tabIndex = 0;
+  }
+
+  /**
+   * Blurs the menu item's link and set proper tabIndex.
+   */
+  blur() {
+    super.blur();
+
+    this.dom.link.tabIndex = -1;
+  }
 }
 
 export default TreeviewItem;

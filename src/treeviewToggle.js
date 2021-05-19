@@ -34,6 +34,57 @@ class TreeviewNavigationToggle extends BaseMenuToggle {
       this.initialize();
     }
   }
+
+  /**
+   * Opens the controlled menu.
+   */
+  open() {
+    this.isOpen = true;
+
+    // Expand the controlled menu.
+    this.expand();
+
+    // Set proper focus states to parent & child.
+    if (this.elements.parentMenu) this.elements.parentMenu.focusState = "child";
+    this.elements.controlledMenu.focusState = "self";
+  }
+
+  /**
+   * Opens the controlled menu without the current focus entering it.
+   */
+  preview() {
+    this.isOpen = true;
+
+    // Expand the controlled menu.
+    this.expand();
+
+    // Set proper focus states to parent & child.
+    if (this.elements.parentMenu) {
+      this.elements.parentMenu.focusState = "self";
+    }
+
+    this.elements.controlledMenu.focusState = "none";
+  }
+
+  /**
+   * Closes the controlled menu.
+   */
+  close() {
+    if (this.isOpen) {
+      this.isOpen = false;
+
+      // Close the controlled menu.
+      this.collapse();
+
+      // Set proper focus states to parent & child.
+      this.elements.controlledMenu.currentChild = 0;
+      this.elements.controlledMenu.blur();
+
+      if (this.elements.parentMenu) {
+        this.elements.parentMenu.focusState = "self";
+      }
+    }
+  }
 }
 
 export default TreeviewNavigationToggle;
