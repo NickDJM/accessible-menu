@@ -42,7 +42,7 @@ class MenubarItem extends BaseMenuItem {
   }
 
   /**
-   * Initialize the menu item by setting its tab index.
+   * Initialize the menu item by setting its role and tab index.
    */
   initialize() {
     super.initialize();
