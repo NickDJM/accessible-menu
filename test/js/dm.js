@@ -32,6 +32,7 @@ Array.from(navs).forEach((nav) => {
       containerElement,
       openClass: ["show", "open"],
       hoverType: window.innerWidth >= 1070 ? "dynamic" : "off",
+      optionalKeySupport: true,
     })
   );
 });

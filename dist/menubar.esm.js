@@ -502,11 +502,11 @@ var BaseMenuToggle = /*#__PURE__*/function () {
   /**
    * {@inheritdoc}
    *
-   * @param {object}               param0                       - The menu toggle object.
-   * @param {HTMLElement}          param0.menuToggleElement     - The toggle element in the DOM.
-   * @param {HTMLElement}          param0.parentElement         - The element containing the controlled menu.
-   * @param {BaseMenu}             param0.controlledMenu        - The menu controlled by this toggle.
-   * @param {BaseMenu|null}        [param0.parentMenu = null]   - The menu containing this toggle.
+   * @param {object}        param0                     - The menu toggle object.
+   * @param {HTMLElement}   param0.menuToggleElement   - The toggle element in the DOM.
+   * @param {HTMLElement}   param0.parentElement       - The element containing the controlled menu.
+   * @param {BaseMenu}      param0.controlledMenu      - The menu controlled by this toggle.
+   * @param {BaseMenu|null} [param0.parentMenu = null] - The menu containing this toggle.
    */
   function BaseMenuToggle(_ref) {
     var menuToggleElement = _ref.menuToggleElement,
@@ -2071,12 +2071,12 @@ var MenubarToggle = /*#__PURE__*/function (_BaseMenuToggle) {
   /**
    * {@inheritdoc}
    *
-   * @param {object}               param0                       - The menu toggle object.
-   * @param {HTMLElement}          param0.menuToggleElement     - The toggle element in the DOM.
-   * @param {HTMLElement}          param0.parentElement         - The element containing the controlled menu.
-   * @param {Menubar}              param0.controlledMenu        - The menu controlled by this toggle.
-   * @param {Menubar|null}         [param0.parentMenu = null]   - The menu containing this toggle.
-   * @param {boolean}              [param0.initialize = true]   - A flag to initialize the menu toggle immediately upon creation.
+   * @param {object}       param0                     - The menu toggle object.
+   * @param {HTMLElement}  param0.menuToggleElement   - The toggle element in the DOM.
+   * @param {HTMLElement}  param0.parentElement       - The element containing the controlled menu.
+   * @param {Menubar}      param0.controlledMenu      - The menu controlled by this toggle.
+   * @param {Menubar|null} [param0.parentMenu = null] - The menu containing this toggle.
+   * @param {boolean}      [param0.initialize = true] - A flag to initialize the menu toggle immediately upon creation.
    */
   function MenubarToggle(_ref) {
     var _this;

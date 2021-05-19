@@ -505,11 +505,11 @@ var DisclosureMenu = (function () {
     /**
      * {@inheritdoc}
      *
-     * @param {object}               param0                       - The menu toggle object.
-     * @param {HTMLElement}          param0.menuToggleElement     - The toggle element in the DOM.
-     * @param {HTMLElement}          param0.parentElement         - The element containing the controlled menu.
-     * @param {BaseMenu}             param0.controlledMenu        - The menu controlled by this toggle.
-     * @param {BaseMenu|null}        [param0.parentMenu = null]   - The menu containing this toggle.
+     * @param {object}        param0                     - The menu toggle object.
+     * @param {HTMLElement}   param0.menuToggleElement   - The toggle element in the DOM.
+     * @param {HTMLElement}   param0.parentElement       - The element containing the controlled menu.
+     * @param {BaseMenu}      param0.controlledMenu      - The menu controlled by this toggle.
+     * @param {BaseMenu|null} [param0.parentMenu = null] - The menu containing this toggle.
      */
     function BaseMenuToggle(_ref) {
       var menuToggleElement = _ref.menuToggleElement,
@@ -2033,12 +2033,12 @@ var DisclosureMenu = (function () {
     /**
      * {@inheritdoc}
      *
-     * @param {object}               param0                       - The menu toggle object.
-     * @param {HTMLElement}          param0.menuToggleElement     - The toggle element in the DOM.
-     * @param {HTMLElement}          param0.parentElement         - The element containing the controlled menu.
-     * @param {DisclosureMenu}       param0.controlledMenu        - The menu controlled by this toggle.
-     * @param {DisclosureMenu|null}  [param0.parentMenu = null]   - The menu containing this toggle.
-     * @param {boolean}              [param0.initialize = true]   - A flag to initialize the menu toggle immediately upon creation.
+     * @param {object}              param0                     - The menu toggle object.
+     * @param {HTMLElement}         param0.menuToggleElement   - The toggle element in the DOM.
+     * @param {HTMLElement}         param0.parentElement       - The element containing the controlled menu.
+     * @param {DisclosureMenu}      param0.controlledMenu      - The menu controlled by this toggle.
+     * @param {DisclosureMenu|null} [param0.parentMenu = null] - The menu containing this toggle.
+     * @param {boolean}             [param0.initialize = true] - A flag to initialize the menu toggle immediately upon creation.
      */
     function DisclosureMenuToggle(_ref) {
       var _this;
@@ -2169,13 +2169,39 @@ var DisclosureMenu = (function () {
       return _this;
     }
     /**
-     * Initializes the menu.
+     * A flag to add optional keyboard support (Arrow keys, Home, and End) to the menu.
      *
-     * This will also initialize all menu items and sub menus.
+     * This functions differently for root vs. submenus.
+     * Submenus will always inherit their root menu's optionalKeySupport.
+     *
+     * @returns {boolean} - The flag.
      */
 
 
     _createClass(DisclosureMenu, [{
+      key: "optionalKeySupport",
+      get: function get() {
+        return this.isTopLevel ? this.optionalSupport : this.elements.rootMenu.optionalKeySupport;
+      }
+      /**
+       * Set the flag to add optional keyboard support (Arrow keys, Home, and End) to the menu.
+       *
+       * @param {boolean} value - The flag.
+       */
+      ,
+      set: function set(value) {
+        isValidType("boolean", {
+          optionalKeySupport: value
+        });
+        this.optionalSupport = value;
+      }
+      /**
+       * Initializes the menu.
+       *
+       * This will also initialize all menu items and sub menus.
+       */
+
+    }, {
       key: "initialize",
       value: function initialize() {
         try {
