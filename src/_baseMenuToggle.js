@@ -268,7 +268,7 @@ class BaseMenuToggle {
     if (this.isOpen) {
       this.isOpen = false;
 
-      // Close the controlled menu and close all siblings.
+      // Close the controlled menu and close all children.
       this.collapse();
       this.closeChildren();
 
