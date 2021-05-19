@@ -321,9 +321,9 @@ var AccessibleMenu = (function () {
 
   function _classCallCheck$b(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-  function _defineProperties$6(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+  function _defineProperties$8(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-  function _createClass$6(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$6(Constructor.prototype, protoProps); if (staticProps) _defineProperties$6(Constructor, staticProps); return Constructor; }
+  function _createClass$8(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$8(Constructor.prototype, protoProps); if (staticProps) _defineProperties$8(Constructor, staticProps); return Constructor; }
   /*
    * A link or button that controls the visibility of a Menu.
    */
@@ -376,7 +376,7 @@ var AccessibleMenu = (function () {
      */
 
 
-    _createClass$6(BaseMenuToggle, [{
+    _createClass$8(BaseMenuToggle, [{
       key: "initialize",
       value: function initialize() {
         // Add WAI-ARIA properties.
@@ -597,7 +597,7 @@ var AccessibleMenu = (function () {
       key: "close",
       value: function close() {
         if (this.isOpen) {
-          this.isOpen = false; // Close the controlled menu and close all siblings.
+          this.isOpen = false; // Close the controlled menu and close all children.
 
           this.collapse();
           this.closeChildren(); // Set proper focus states to parent & child.
@@ -656,9 +656,9 @@ var AccessibleMenu = (function () {
 
   function _classCallCheck$a(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-  function _defineProperties$5(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+  function _defineProperties$7(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-  function _createClass$5(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$5(Constructor.prototype, protoProps); if (staticProps) _defineProperties$5(Constructor, staticProps); return Constructor; }
+  function _createClass$7(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$7(Constructor.prototype, protoProps); if (staticProps) _defineProperties$7(Constructor, staticProps); return Constructor; }
 
   /* eslint-disable jsdoc/no-undefined-types */
 
@@ -706,7 +706,7 @@ var AccessibleMenu = (function () {
      */
 
 
-    _createClass$5(BaseMenuItem, [{
+    _createClass$7(BaseMenuItem, [{
       key: "initialize",
       value: function initialize() {}
       /**
@@ -791,7 +791,8 @@ var AccessibleMenu = (function () {
         Home: key === "Home" || key === 36,
         End: key === "End" || key === 35,
         Character: !!key.match(/^[a-zA-Z]{1}$/),
-        Tab: key === "Tab" || key === 9
+        Tab: key === "Tab" || key === 9,
+        Asterisk: key === "*" || key === 56
       };
       return Object.keys(keys).find(function (key) {
         return keys[key] === true;
@@ -826,9 +827,9 @@ var AccessibleMenu = (function () {
 
   function _classCallCheck$9(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-  function _defineProperties$4(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+  function _defineProperties$6(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-  function _createClass$4(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$4(Constructor.prototype, protoProps); if (staticProps) _defineProperties$4(Constructor, staticProps); return Constructor; }
+  function _createClass$6(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$6(Constructor.prototype, protoProps); if (staticProps) _defineProperties$6(Constructor, staticProps); return Constructor; }
   /**
    * An accessible navigation element in the DOM.
    */
@@ -927,7 +928,7 @@ var AccessibleMenu = (function () {
      */
 
 
-    _createClass$4(BaseMenu, [{
+    _createClass$6(BaseMenu, [{
       key: "initialize",
       value: function initialize() {
         if (!this.validate()) {
@@ -1958,13 +1959,13 @@ var AccessibleMenu = (function () {
 
   function _classCallCheck$6(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-  function _defineProperties$3(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+  function _defineProperties$5(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-  function _createClass$3(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$3(Constructor.prototype, protoProps); if (staticProps) _defineProperties$3(Constructor, staticProps); return Constructor; }
+  function _createClass$5(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$5(Constructor.prototype, protoProps); if (staticProps) _defineProperties$5(Constructor, staticProps); return Constructor; }
 
-  function _get$3(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get$3 = Reflect.get; } else { _get$3 = function _get(target, property, receiver) { var base = _superPropBase$3(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get$3(target, property, receiver || target); }
+  function _get$4(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get$4 = Reflect.get; } else { _get$4 = function _get(target, property, receiver) { var base = _superPropBase$4(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get$4(target, property, receiver || target); }
 
-  function _superPropBase$3(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf$6(object); if (object === null) break; } return object; }
+  function _superPropBase$4(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf$6(object); if (object === null) break; } return object; }
 
   function _inherits$6(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$6(subClass, superClass); }
 
@@ -2087,7 +2088,7 @@ var AccessibleMenu = (function () {
      */
 
 
-    _createClass$3(DisclosureMenu, [{
+    _createClass$5(DisclosureMenu, [{
       key: "optionalKeySupport",
       get: function get() {
         return this.isTopLevel ? this.optionalSupport : this.elements.rootMenu.optionalKeySupport;
@@ -2114,7 +2115,7 @@ var AccessibleMenu = (function () {
       key: "initialize",
       value: function initialize() {
         try {
-          _get$3(_getPrototypeOf$6(DisclosureMenu.prototype), "initialize", this).call(this);
+          _get$4(_getPrototypeOf$6(DisclosureMenu.prototype), "initialize", this).call(this);
 
           this.handleFocus();
           this.handleClick();
@@ -2134,7 +2135,7 @@ var AccessibleMenu = (function () {
       value: function handleKeydown() {
         var _this2 = this;
 
-        _get$3(_getPrototypeOf$6(DisclosureMenu.prototype), "handleKeydown", this).call(this);
+        _get$4(_getPrototypeOf$6(DisclosureMenu.prototype), "handleKeydown", this).call(this);
 
         this.dom.menu.addEventListener("keydown", function (event) {
           _this2.currentEvent = "keyboard";
@@ -2170,7 +2171,7 @@ var AccessibleMenu = (function () {
       value: function handleKeyup() {
         var _this3 = this;
 
-        _get$3(_getPrototypeOf$6(DisclosureMenu.prototype), "handleKeyup", this).call(this);
+        _get$4(_getPrototypeOf$6(DisclosureMenu.prototype), "handleKeyup", this).call(this);
 
         this.dom.menu.addEventListener("keyup", function (event) {
           _this3.currentEvent = "keyboard";
@@ -2259,13 +2260,13 @@ var AccessibleMenu = (function () {
 
   function _classCallCheck$5(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-  function _defineProperties$2(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+  function _defineProperties$4(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-  function _createClass$2(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$2(Constructor.prototype, protoProps); if (staticProps) _defineProperties$2(Constructor, staticProps); return Constructor; }
+  function _createClass$4(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$4(Constructor.prototype, protoProps); if (staticProps) _defineProperties$4(Constructor, staticProps); return Constructor; }
 
-  function _get$2(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get$2 = Reflect.get; } else { _get$2 = function _get(target, property, receiver) { var base = _superPropBase$2(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get$2(target, property, receiver || target); }
+  function _get$3(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get$3 = Reflect.get; } else { _get$3 = function _get(target, property, receiver) { var base = _superPropBase$3(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get$3(target, property, receiver || target); }
 
-  function _superPropBase$2(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf$5(object); if (object === null) break; } return object; }
+  function _superPropBase$3(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf$5(object); if (object === null) break; } return object; }
 
   function _inherits$5(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$5(subClass, superClass); }
 
@@ -2334,14 +2335,14 @@ var AccessibleMenu = (function () {
       return _this;
     }
     /**
-     * Initialize the menu item by setting its tab index.
+     * Initialize the menu item by setting its role and tab index.
      */
 
 
-    _createClass$2(MenubarItem, [{
+    _createClass$4(MenubarItem, [{
       key: "initialize",
       value: function initialize() {
-        _get$2(_getPrototypeOf$5(MenubarItem.prototype), "initialize", this).call(this);
+        _get$3(_getPrototypeOf$5(MenubarItem.prototype), "initialize", this).call(this);
 
         this.dom.item.setAttribute("role", "none");
         this.dom.link.setAttribute("role", "menuitem");
@@ -2354,7 +2355,7 @@ var AccessibleMenu = (function () {
     }, {
       key: "focus",
       value: function focus() {
-        _get$2(_getPrototypeOf$5(MenubarItem.prototype), "focus", this).call(this);
+        _get$3(_getPrototypeOf$5(MenubarItem.prototype), "focus", this).call(this);
 
         if (this.elements.parentMenu.isTopLevel) {
           this.dom.link.tabIndex = 0;
@@ -2367,7 +2368,7 @@ var AccessibleMenu = (function () {
     }, {
       key: "blur",
       value: function blur() {
-        _get$2(_getPrototypeOf$5(MenubarItem.prototype), "blur", this).call(this);
+        _get$3(_getPrototypeOf$5(MenubarItem.prototype), "blur", this).call(this);
 
         if (this.elements.parentMenu.isTopLevel) {
           this.dom.link.tabIndex = -1;
@@ -2448,13 +2449,13 @@ var AccessibleMenu = (function () {
 
   function _classCallCheck$3(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-  function _defineProperties$1(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+  function _defineProperties$3(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-  function _createClass$1(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$1(Constructor.prototype, protoProps); if (staticProps) _defineProperties$1(Constructor, staticProps); return Constructor; }
+  function _createClass$3(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$3(Constructor.prototype, protoProps); if (staticProps) _defineProperties$3(Constructor, staticProps); return Constructor; }
 
-  function _get$1(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get$1 = Reflect.get; } else { _get$1 = function _get(target, property, receiver) { var base = _superPropBase$1(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get$1(target, property, receiver || target); }
+  function _get$2(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get$2 = Reflect.get; } else { _get$2 = function _get(target, property, receiver) { var base = _superPropBase$2(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get$2(target, property, receiver || target); }
 
-  function _superPropBase$1(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf$3(object); if (object === null) break; } return object; }
+  function _superPropBase$2(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf$3(object); if (object === null) break; } return object; }
 
   function _inherits$3(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$3(subClass, superClass); }
 
@@ -2568,11 +2569,11 @@ var AccessibleMenu = (function () {
      */
 
 
-    _createClass$1(Menubar, [{
+    _createClass$3(Menubar, [{
       key: "initialize",
       value: function initialize() {
         try {
-          _get$1(_getPrototypeOf$3(Menubar.prototype), "initialize", this).call(this);
+          _get$2(_getPrototypeOf$3(Menubar.prototype), "initialize", this).call(this);
 
           this.dom.menu.setAttribute("role", "menubar");
           this.handleFocus();
@@ -2594,7 +2595,7 @@ var AccessibleMenu = (function () {
       value: function handleKeydown() {
         var _this2 = this;
 
-        _get$1(_getPrototypeOf$3(Menubar.prototype), "handleKeydown", this).call(this);
+        _get$2(_getPrototypeOf$3(Menubar.prototype), "handleKeydown", this).call(this);
 
         this.dom.menu.addEventListener("keydown", function (event) {
           _this2.currentEvent = "keyboard";
@@ -2650,7 +2651,7 @@ var AccessibleMenu = (function () {
       value: function handleKeyup() {
         var _this3 = this;
 
-        _get$1(_getPrototypeOf$3(Menubar.prototype), "handleKeyup", this).call(this);
+        _get$2(_getPrototypeOf$3(Menubar.prototype), "handleKeyup", this).call(this);
 
         this.dom.menu.addEventListener("keyup", function (event) {
           _this3.currentEvent = "keyboard";
@@ -2960,6 +2961,14 @@ var AccessibleMenu = (function () {
 
   function _classCallCheck$2(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+  function _defineProperties$2(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+  function _createClass$2(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$2(Constructor.prototype, protoProps); if (staticProps) _defineProperties$2(Constructor, staticProps); return Constructor; }
+
+  function _get$1(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get$1 = Reflect.get; } else { _get$1 = function _get(target, property, receiver) { var base = _superPropBase$1(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get$1(target, property, receiver || target); }
+
+  function _superPropBase$1(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf$2(object); if (object === null) break; } return object; }
+
   function _inherits$2(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$2(subClass, superClass); }
 
   function _setPrototypeOf$2(o, p) { _setPrototypeOf$2 = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$2(o, p); }
@@ -3026,6 +3035,43 @@ var AccessibleMenu = (function () {
 
       return _this;
     }
+    /**
+     * Initialize the menu item by setting its role and tab index.
+     */
+
+
+    _createClass$2(TreeviewItem, [{
+      key: "initialize",
+      value: function initialize() {
+        _get$1(_getPrototypeOf$2(TreeviewItem.prototype), "initialize", this).call(this);
+
+        this.dom.item.setAttribute("role", "none");
+        this.dom.link.setAttribute("role", "treeitem");
+        this.dom.link.tabIndex = -1;
+      }
+      /**
+       * Focuses the menu item's link and set proper tabIndex.
+       */
+
+    }, {
+      key: "focus",
+      value: function focus() {
+        _get$1(_getPrototypeOf$2(TreeviewItem.prototype), "focus", this).call(this);
+
+        this.dom.link.tabIndex = 0;
+      }
+      /**
+       * Blurs the menu item's link and set proper tabIndex.
+       */
+
+    }, {
+      key: "blur",
+      value: function blur() {
+        _get$1(_getPrototypeOf$2(TreeviewItem.prototype), "blur", this).call(this);
+
+        this.dom.link.tabIndex = -1;
+      }
+    }]);
 
     return TreeviewItem;
   }(BaseMenuItem);
@@ -3033,6 +3079,10 @@ var AccessibleMenu = (function () {
   function _typeof$1(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$1 = function _typeof(obj) { return typeof obj; }; } else { _typeof$1 = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$1(obj); }
 
   function _classCallCheck$1(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+  function _defineProperties$1(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+  function _createClass$1(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$1(Constructor.prototype, protoProps); if (staticProps) _defineProperties$1(Constructor, staticProps); return Constructor; }
 
   function _inherits$1(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$1(subClass, superClass); }
 
@@ -3092,6 +3142,59 @@ var AccessibleMenu = (function () {
 
       return _this;
     }
+    /**
+     * Opens the controlled menu.
+     */
+
+
+    _createClass$1(TreeviewNavigationToggle, [{
+      key: "open",
+      value: function open() {
+        this.isOpen = true; // Expand the controlled menu.
+
+        this.expand(); // Set proper focus states to parent & child.
+
+        if (this.elements.parentMenu) this.elements.parentMenu.focusState = "child";
+        this.elements.controlledMenu.focusState = "self";
+      }
+      /**
+       * Opens the controlled menu without the current focus entering it.
+       */
+
+    }, {
+      key: "preview",
+      value: function preview() {
+        this.isOpen = true; // Expand the controlled menu.
+
+        this.expand(); // Set proper focus states to parent & child.
+
+        if (this.elements.parentMenu) {
+          this.elements.parentMenu.focusState = "self";
+        }
+
+        this.elements.controlledMenu.focusState = "none";
+      }
+      /**
+       * Closes the controlled menu.
+       */
+
+    }, {
+      key: "close",
+      value: function close() {
+        if (this.isOpen) {
+          this.isOpen = false; // Close the controlled menu.
+
+          this.collapse(); // Set proper focus states to parent & child.
+
+          this.elements.controlledMenu.currentChild = 0;
+          this.elements.controlledMenu.blur();
+
+          if (this.elements.parentMenu) {
+            this.elements.parentMenu.focusState = "self";
+          }
+        }
+      }
+    }]);
 
     return TreeviewNavigationToggle;
   }(BaseMenuToggle);
@@ -3228,12 +3331,206 @@ var AccessibleMenu = (function () {
         try {
           _get(_getPrototypeOf(Treeview.prototype), "initialize", this).call(this);
 
+          if (this.isTopLevel) {
+            this.dom.menu.setAttribute("role", "tree");
+          } else {
+            this.dom.menu.setAttribute("role", "group");
+          }
+
           this.handleFocus();
           this.handleClick();
           this.handleHover();
+          this.handleKeydown();
+          this.handleKeyup();
+          this.elements.menuItems[0].dom.link.tabIndex = 0;
         } catch (error) {
           console.error(error);
         }
+      }
+      /**
+       * Handles keydown events throughout the menu for proper menu use.
+       */
+
+    }, {
+      key: "handleKeydown",
+      value: function handleKeydown() {
+        var _this2 = this;
+
+        _get(_getPrototypeOf(Treeview.prototype), "handleKeydown", this).call(this);
+
+        this.dom.menu.addEventListener("keydown", function (event) {
+          _this2.currentEvent = "keyboard";
+          var key = keyPress(event);
+
+          if (key === "Tab") {
+            // Hitting Tab:
+            // - Moves focus out of the menu.
+            if (_this2.elements.rootMenu.focusState !== "none") {
+              _this2.elements.rootMenu.blur();
+            } else {
+              _this2.elements.rootMenu.focus();
+            }
+          }
+
+          if (_this2.focusState === "self") {
+            var keys = ["Space", "ArrowUp", "ArrowDown", "ArrowLeft", "Asterisk", "Home", "End"];
+            var submenuKeys = ["Enter", "ArrowRight"];
+            var controllerKeys = ["Escape"];
+
+            if (keys.includes(key)) {
+              preventEvent(event);
+            } else if (_this2.currentMenuItem.isSubmenuItem && submenuKeys.includes(key)) {
+              preventEvent(event);
+            } else if (_this2.elements.controller && controllerKeys.includes(key)) {
+              preventEvent(event);
+            }
+          }
+        });
+      }
+      /**
+       * Handles keyup events throughout the menu for proper menu use.
+       */
+
+    }, {
+      key: "handleKeyup",
+      value: function handleKeyup() {
+        var _this3 = this;
+
+        _get(_getPrototypeOf(Treeview.prototype), "handleKeyup", this).call(this);
+
+        this.dom.menu.addEventListener("keyup", function (event) {
+          _this3.currentEvent = "keyboard";
+          var key = keyPress(event);
+
+          if (_this3.focusState === "self") {
+            if (key === "Enter" || key === "Space") {
+              // Hitting Space or Enter:
+              // - Performs the default action (e.g. onclick event) for the focused node.
+              // - If focus is on a closed node, opens the node; focus does not move.
+              preventEvent(event);
+
+              if (_this3.currentMenuItem.isSubmenuItem) {
+                if (_this3.currentMenuItem.elements.toggle.isOpen) {
+                  _this3.currentMenuItem.elements.toggle.close();
+                } else {
+                  _this3.currentMenuItem.elements.toggle.preview();
+                }
+              } else {
+                _this3.currentMenuItem.dom.link.click();
+              }
+            } else if (key === "ArrowDown") {
+              // Hitting the Down Arrow:
+              // - Moves focus to the next node that is focusable without opening or closing a node.
+              // - If focus is on the last node, does nothing.
+              preventEvent(event);
+
+              if (_this3.currentMenuItem.isSubmenuItem && _this3.currentMenuItem.elements.toggle.isOpen) {
+                _this3.currentMenuItem.elements.childMenu.currentEvent = _this3.currentEvent;
+
+                _this3.currentMenuItem.elements.childMenu.focusFirstChild();
+              } else if (!_this3.isTopLevel && _this3.currentChild === _this3.elements.menuItems.length - 1) {
+                _this3.elements.parentMenu.currentEvent = _this3.currentEvent;
+
+                _this3.elements.parentMenu.focusNextChild();
+              } else {
+                _this3.focusNextChild();
+              }
+            } else if (key === "ArrowUp") {
+              // Hitting the Up Arrow:
+              // - Moves focus to the previous node that is focusable without opening or closing a node.
+              // - If focus is on the first node, does nothing.
+              preventEvent(event);
+              var previousMenuItem = _this3.elements.menuItems[_this3.currentChild - 1];
+
+              if (previousMenuItem && previousMenuItem.isSubmenuItem && previousMenuItem.elements.toggle.isOpen) {
+                _this3.currentChild = _this3.currentChild - 1;
+                _this3.currentMenuItem.elements.childMenu.currentEvent = _this3.currentEvent;
+
+                _this3.currentMenuItem.elements.childMenu.focusLastChild();
+              } else if (!_this3.isTopLevel && _this3.currentChild === 0) {
+                _this3.elements.parentMenu.currentEvent = _this3.currentEvent;
+
+                _this3.elements.parentMenu.focusCurrentChild();
+              } else {
+                _this3.focusPreviousChild();
+              }
+            } else if (key === "ArrowRight") {
+              // Hitting the Right Arrow:
+              // - When focus is on a closed node, opens the node; focus does not move.
+              // - When focus is on a open node, moves focus to the first child node.
+              // - When focus is on an end node, does nothing.
+              if (_this3.currentMenuItem.isSubmenuItem) {
+                preventEvent(event);
+
+                if (_this3.currentMenuItem.elements.toggle.isOpen) {
+                  _this3.currentMenuItem.elements.childMenu.currentEvent = _this3.currentEvent;
+
+                  _this3.currentMenuItem.elements.childMenu.focusFirstChild();
+                } else {
+                  _this3.currentMenuItem.elements.toggle.preview();
+                }
+              }
+            } else if (key === "ArrowLeft") {
+              // Hitting the Left Arrow:
+              // - When focus is on an open node, closes the node.
+              // - When focus is on a child node that is also either an end node or a closed node, moves focus to its parent node.
+              // - When focus is on a root node that is also either an end node or a closed node, does nothing.
+              preventEvent(event);
+
+              if (_this3.currentMenuItem.isSubmenuItem && _this3.currentMenuItem.elements.toggle.isOpen) {
+                _this3.currentMenuItem.elements.toggle.close();
+              } else if (!_this3.isTopLevel) {
+                _this3.elements.parentMenu.currentEvent = _this3.currentEvent;
+
+                _this3.elements.parentMenu.focusCurrentChild();
+              }
+            } else if (key === "Home") {
+              // Hitting Home:
+              // - Moves focus to first node without opening or closing a node.
+              _this3.elements.rootMenu.focusFirstChild();
+            } else if (key === "End") {
+              // Hitting End:
+              // - Moves focus to the last node that can be focused without expanding any nodes that are closed.
+              _this3.elements.rootMenu.focusLastNode();
+            } else if (key === "Asterisk") {
+              // Hitting Asterisk:
+              // - Expands all closed sibling nodes that are at the same level as the focused node.
+              // - Focus does not move.
+              _this3.openChildren();
+            }
+          }
+        });
+      }
+      /**
+       * Focus the menu's last node of the entire expanded menu.
+       *
+       * This includes all _open_ child menu items.
+       */
+
+    }, {
+      key: "focusLastNode",
+      value: function focusLastNode() {
+        var numberOfItems = this.elements.menuItems.length - 1;
+        var lastChild = this.elements.menuItems[numberOfItems];
+
+        if (lastChild.isSubmenuItem && lastChild.elements.toggle.isOpen) {
+          this.currentChild = numberOfItems;
+          lastChild.elements.childMenu.currentEvent = this.currentEvent;
+          lastChild.elements.childMenu.focusLastNode();
+        } else {
+          this.focusLastChild();
+        }
+      }
+      /**
+       * Open all submenu children.
+       */
+
+    }, {
+      key: "openChildren",
+      value: function openChildren() {
+        this.elements.submenuToggles.forEach(function (toggle) {
+          return toggle.preview();
+        });
       }
     }]);
 

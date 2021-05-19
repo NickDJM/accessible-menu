@@ -770,7 +770,7 @@ var Menubar = (function () {
       key: "close",
       value: function close() {
         if (this.isOpen) {
-          this.isOpen = false; // Close the controlled menu and close all siblings.
+          this.isOpen = false; // Close the controlled menu and close all children.
 
           this.collapse();
           this.closeChildren(); // Set proper focus states to parent & child.
@@ -958,7 +958,8 @@ var Menubar = (function () {
         Home: key === "Home" || key === 36,
         End: key === "End" || key === 35,
         Character: !!key.match(/^[a-zA-Z]{1}$/),
-        Tab: key === "Tab" || key === 9
+        Tab: key === "Tab" || key === 9,
+        Asterisk: key === "*" || key === 56
       };
       return Object.keys(keys).find(function (key) {
         return keys[key] === true;
@@ -2018,7 +2019,7 @@ var Menubar = (function () {
       return _this;
     }
     /**
-     * Initialize the menu item by setting its tab index.
+     * Initialize the menu item by setting its role and tab index.
      */
 
 
