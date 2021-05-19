@@ -1,19 +1,5 @@
 import Treeview from "../../src/treeview.js";
 
-/**
- * Toggles the hover state of a menu and its submenus.
- *
- * @param {Treeview} menu - The menu to toggle.
- * @param {string}   type - The type of hover to toggle.
- */
-function toggleHover(menu, type) {
-  menu.elements.submenuToggles.forEach((toggle) => {
-    toggle.elements.controlledMenu.hoverType = type;
-  });
-
-  menu.hoverType = type;
-}
-
 const navs = document.querySelectorAll("nav");
 const menus = [];
 
@@ -31,17 +17,9 @@ Array.from(navs).forEach((nav) => {
       controllerElement,
       containerElement,
       openClass: ["show", "open"],
-      hoverType: window.innerWidth >= 1070 ? "dynamic" : "off",
+      hoverType: "off",
     })
   );
-});
-
-window.addEventListener("resize", () => {
-  if (window.innerWidth >= 1070 && menus[0].hoverType === "off") {
-    toggleHover(menus[0], "dynamic");
-  } else if (window.innerWidth < 1070 && menus[0].hoverType === "on") {
-    toggleHover(menus[0], "off");
-  }
 });
 
 document.addEventListener("accessibleMenuExpand", (event) => {

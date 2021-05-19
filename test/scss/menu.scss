@@ -1,123 +1,42 @@
-$white: #fff;
-$black: #000;
+@use "mixins" as *;
 
-$gray-100: #e9eaea;
-$gray-200: #d4d5d6;
-$gray-300: #bebfc1;
-$gray-400: #a9aaad;
-$gray-500: #939598;
-$gray-600: #76777a;
-$gray-700: #58595b;
-$gray-800: #3b3c3d;
-$gray-900: #1d1e1e;
+@forward "global";
 
-* {
-  box-sizing: content-box;
+li {
+  &.dropdown > a::after {
+    content: "▼";
+    margin-left: 0.5rem;
+    display: inline-block;
+  }
 
-  &:focus {
-    outline: 2px dashed $black !important;
-    outline-offset: -2px !important;
-    box-shadow: 0 0 0 2px $white inset !important;
+  a {
+    justify-content: space-between;
   }
 }
 
-html {
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 1rem;
-}
-
-.visually-hidden {
-  position: absolute !important;
-  width: 1px !important;
-  height: 1px !important;
-  padding: 0 !important;
-  margin: -1px !important;
-  overflow: hidden !important;
-  clip: rect(0, 0, 0, 0) !important;
-  white-space: nowrap !important;
-  border: 0 !important;
-}
-
-nav {
-  background-color: $gray-200;
-  color: $black;
-
-  > ul {
-    display: none;
-    flex-direction: column;
-
-    &.show {
-      display: flex;
-    }
-
-    @media screen and (min-width: 1070px) {
-      display: flex;
-      flex-direction: row;
-    }
-  }
-
-  > button {
-    display: block;
-    border: 0;
-    background-color: $gray-200;
-    padding: 0.5rem 2rem;
-    font-size: 1.5rem;
-    margin-left: auto;
-
-    @media screen and (min-width: 1070px) {
-      display: none;
-    }
+@include media-desktop() {
+  nav > ul {
+    flex-direction: row;
   }
 
   ul {
-    list-style: none;
-    background-color: $gray-200;
-    color: $black;
-    margin: 0;
-    padding: 0;
-
     &.dropdown {
-      display: none;
-      flex-direction: column;
+      position: absolute;
+      top: 100%;
+      left: 0;
 
-      &.show {
-        display: flex;
+      ul {
+        top: 0;
+        left: 100%;
       }
 
-      @media screen and (min-width: 1070px) {
-        position: absolute;
-        top: 100%;
-        left: 0;
-
-        ul {
-          top: 0;
-          left: 100%;
+      li {
+        a {
+          padding-left: 2rem;
         }
-      }
-    }
 
-    li {
-      position: relative;
-      margin: 0;
-      padding: 0;
-
-      &.dropdown > a::after {
-        content: "▼";
-        margin-left: 0.5rem;
-        display: inline-block;
-      }
-
-      a {
-        display: flex;
-        justify-content: space-between;
-        margin: 0;
-        padding: 1rem 2rem;
-        color: $black;
-        text-decoration: none;
-
-        &:hover,
-        &:focus {
-          background-color: $gray-300;
+        li a {
+          padding-left: 2rem;
         }
       }
     }

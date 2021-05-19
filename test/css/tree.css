@@ -88,35 +88,22 @@ nav ul li li li a {
     display: flex;
   }
 }
-li.dropdown > a::after {
-  content: "▼";
-  margin-left: 0.5rem;
-  display: inline-block;
+main {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
 }
-li a {
-  justify-content: space-between;
+
+li.dropdown > a::before {
+  content: "▼";
+  margin-right: 0.5rem;
+  display: inline-block;
 }
 
 @media screen and (min-width: 1070px) {
-  nav > ul {
-    flex-direction: row;
-  }
-
-  ul.dropdown {
-    position: absolute;
-    top: 100%;
-    left: 0;
-  }
-  ul.dropdown ul {
-    top: 0;
-    left: 100%;
-  }
-  ul.dropdown li a {
-    padding-left: 2rem;
-  }
-  ul.dropdown li li a {
-    padding-left: 2rem;
+  main {
+    grid-template-columns: 1fr 4fr;
   }
 }
 
-/*# sourceMappingURL=menu.css.map */
+/*# sourceMappingURL=tree.css.map */
