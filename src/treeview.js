@@ -81,6 +81,10 @@ class Treeview extends BaseMenu {
   initialize() {
     try {
       super.initialize();
+
+      this.handleFocus();
+      this.handleClick();
+      this.handleHover();
     } catch (error) {
       console.error(error);
     }

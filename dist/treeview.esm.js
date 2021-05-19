@@ -2173,6 +2173,10 @@ var Treeview = /*#__PURE__*/function (_BaseMenu) {
     value: function initialize() {
       try {
         _get(_getPrototypeOf(Treeview.prototype), "initialize", this).call(this);
+
+        this.handleFocus();
+        this.handleClick();
+        this.handleHover();
       } catch (error) {
         console.error(error);
       }
