@@ -85,4 +85,36 @@ export default [
       },
     ],
   },
+  {
+    input: "./src/treeview.js",
+    plugins: [babel({ babelHelpers: "bundled" })],
+    output: [
+      {
+        name: "Treeview",
+        format: "iife",
+        sourcemap: true,
+        file: "dist/treeview.js",
+      },
+      {
+        name: "Treeview",
+        format: "iife",
+        sourcemap: true,
+        file: "dist/treeview.min.js",
+        plugins: [terser()],
+      },
+      {
+        name: "Treeview",
+        format: "esm",
+        sourcemap: true,
+        file: "dist/treeview.esm.js",
+      },
+      {
+        name: "Treeview",
+        format: "esm",
+        sourcemap: true,
+        file: "dist/treeview.esm.min.js",
+        plugins: [terser()],
+      },
+    ],
+  },
 ];
