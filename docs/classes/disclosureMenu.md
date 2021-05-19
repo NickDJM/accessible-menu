@@ -31,9 +31,23 @@ All Parameters _must_ be contained in a single object.
 
 See [BaseMenu](baseMenu.md#available-getters) for a list of inherited getters.
 
+| Getter |  Description | Type |
+| --- | --- | --- |
+| optionalKeySupport | <p>A flag to add optional keyboard support (Arrow keys, Home, and End) to the menu.</p><p>This functions differently for root vs. submenus. Submenus will always inherit their root menu's optionalKeySupport.</p> | boolean |
+
 ## Available Setters
 
 See [BaseMenu](baseMenu.md#available-setters) for a list of inherited setters.
+
+### optionalKeySupport
+
+Set the flag to add optional keyboard support (Arrow keys, Home, and End) to the menu.
+
+#### optionalKeySupport Parameters
+
+| Paramter | Description | Type | Required | Default Value |
+| --- | --- | --- | --- | --- |
+| value | The flag. | boolean | true | `undefined` |
 
 ## Available Methods
 

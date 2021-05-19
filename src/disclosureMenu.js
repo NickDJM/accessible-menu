@@ -2,6 +2,7 @@ import BaseMenu from "./_baseMenu.js";
 import DisclosureMenuItem from "./disclosureMenuItem.js";
 import DisclosureMenuToggle from "./disclosureMenuToggle.js";
 import { preventEvent, keyPress } from "./eventHandlers.js";
+import { isValidType } from "./validate.js";
 
 /**
  * An accessible disclosure menu in the DOM.
@@ -76,6 +77,31 @@ class DisclosureMenu extends BaseMenu {
     if (initialize) {
       this.initialize();
     }
+  }
+
+  /**
+   * A flag to add optional keyboard support (Arrow keys, Home, and End) to the menu.
+   *
+   * This functions differently for root vs. submenus.
+   * Submenus will always inherit their root menu's optionalKeySupport.
+   *
+   * @returns {boolean} - The flag.
+   */
+  get optionalKeySupport() {
+    return this.isTopLevel
+      ? this.optionalSupport
+      : this.elements.rootMenu.optionalKeySupport;
+  }
+
+  /**
+   * Set the flag to add optional keyboard support (Arrow keys, Home, and End) to the menu.
+   *
+   * @param {boolean} value - The flag.
+   */
+  set optionalKeySupport(value) {
+    isValidType("boolean", { optionalKeySupport: value });
+
+    this.optionalSupport = value;
   }
 
   /**
