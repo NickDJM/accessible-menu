@@ -252,6 +252,29 @@ class BaseMenu {
   }
 
   /**
+   * A flag to check if the menu's focus methods should _actually_ move the focus in the DOM.
+   *
+   * Will return false unless any of the following criteria are met:
+   * - The menu's currentEvent is "keyboard".
+   * - The menu's currentEvent is "mouse" _and_ the menu's hoverType is "dynamic".
+   *
+   * @returns {boolean} - The flag.
+   */
+  get shouldFocus() {
+    let check = false;
+
+    if (this.currentEvent === "keyboard") {
+      check = true;
+    }
+
+    if (this.currentEvent === "mouse" && this.hoverType === "dynamic") {
+      check = true;
+    }
+
+    return check;
+  }
+
+  /**
    * Set the class to apply when the menu is "open".
    *
    * @param {string} value - The class.
@@ -805,10 +828,7 @@ class BaseMenu {
   focus() {
     this.focusState = "self";
 
-    if (
-      this.currentEvent === "keyboard" ||
-      (this.currentEvent === "mouse" && this.hoverType === "dynamic")
-    ) {
+    if (this.shouldFocus) {
       this.dom.menu.focus();
     }
   }
@@ -819,15 +839,17 @@ class BaseMenu {
   blur() {
     this.focusState = "none";
 
-    if (
-      this.currentEvent === "keyboard" ||
-      (this.currentEvent === "mouse" && this.hoverType === "dynamic")
-    ) {
+    if (this.shouldFocus) {
       this.dom.menu.blur();
     }
+  }
 
-    if (this.isTopLevel && this.elements.controller) {
-      this.elements.controller.close();
+  /**
+   * Focus the menu's current child.
+   */
+  focusCurrentChild() {
+    if (this.currentChild !== -1) {
+      this.currentMenuItem.focus();
     }
   }
 
@@ -872,15 +894,6 @@ class BaseMenu {
   }
 
   /**
-   * Focus the menu's current child.
-   */
-  focusCurrentChild() {
-    if (this.currentChild !== -1) {
-      this.currentMenuItem.focus();
-    }
-  }
-
-  /**
    * Blurs the menu's current child.
    */
   blurCurrentChild() {
@@ -894,7 +907,7 @@ class BaseMenu {
    */
   focusController() {
     if (this.dom.controller) {
-      if (this.currentEvent !== "mouse") {
+      if (this.shouldFocus) {
         this.dom.controller.focus();
       }
 
@@ -907,7 +920,7 @@ class BaseMenu {
    */
   focusContainer() {
     if (this.dom.container) {
-      if (this.currentEvent !== "mouse") {
+      if (this.shouldFocus) {
         this.dom.container.focus();
       }
 
