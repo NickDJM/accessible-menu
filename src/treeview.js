@@ -268,6 +268,7 @@ class Treeview extends BaseMenu {
             this.currentMenuItem.elements.childMenu.currentEvent = this.currentEvent;
             this.currentMenuItem.elements.childMenu.focusLastChild();
           } else if (!this.isTopLevel && this.currentChild === 0) {
+            this.elements.parentMenu.blurCurrentChild();
             this.elements.parentMenu.currentEvent = this.currentEvent;
             this.elements.parentMenu.focusCurrentChild();
           } else {
@@ -301,6 +302,7 @@ class Treeview extends BaseMenu {
           ) {
             this.currentMenuItem.elements.toggle.close();
           } else if (!this.isTopLevel) {
+            this.elements.parentMenu.blurCurrentChild();
             this.elements.parentMenu.currentEvent = this.currentEvent;
             this.elements.parentMenu.focusCurrentChild();
           }
