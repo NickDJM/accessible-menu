@@ -86,6 +86,7 @@ class Treeview extends BaseMenu {
 
       if (this.isTopLevel) {
         this.dom.menu.setAttribute("role", "tree");
+        this.elements.menuItems[0].dom.link.tabIndex = 0;
       } else {
         this.dom.menu.setAttribute("role", "group");
       }
@@ -95,8 +96,6 @@ class Treeview extends BaseMenu {
       this.handleHover();
       this.handleKeydown();
       this.handleKeyup();
-
-      this.elements.menuItems[0].dom.link.tabIndex = 0;
     } catch (error) {
       console.error(error);
     }
