@@ -237,12 +237,14 @@ class Treeview extends BaseMenu {
             this.currentMenuItem.isSubmenuItem &&
             this.currentMenuItem.elements.toggle.isOpen
           ) {
+            this.blurCurrentChild();
             this.currentMenuItem.elements.childMenu.currentEvent = this.currentEvent;
             this.currentMenuItem.elements.childMenu.focusFirstChild();
           } else if (
             !this.isTopLevel &&
             this.currentChild === this.elements.menuItems.length - 1
           ) {
+            this.blurCurrentChild();
             this.elements.parentMenu.currentEvent = this.currentEvent;
             this.elements.parentMenu.focusNextChild();
           } else {
@@ -263,11 +265,12 @@ class Treeview extends BaseMenu {
             previousMenuItem.isSubmenuItem &&
             previousMenuItem.elements.toggle.isOpen
           ) {
+            this.blurCurrentChild();
             this.currentChild = this.currentChild - 1;
             this.currentMenuItem.elements.childMenu.currentEvent = this.currentEvent;
             this.currentMenuItem.elements.childMenu.focusLastChild();
           } else if (!this.isTopLevel && this.currentChild === 0) {
-            this.elements.parentMenu.blurCurrentChild();
+            this.blurCurrentChild();
             this.elements.parentMenu.currentEvent = this.currentEvent;
             this.elements.parentMenu.focusCurrentChild();
           } else {
@@ -282,6 +285,7 @@ class Treeview extends BaseMenu {
             preventEvent(event);
 
             if (this.currentMenuItem.elements.toggle.isOpen) {
+              this.blurCurrentChild();
               this.currentMenuItem.elements.childMenu.currentEvent = this.currentEvent;
               this.currentMenuItem.elements.childMenu.focusFirstChild();
             } else {
@@ -299,24 +303,30 @@ class Treeview extends BaseMenu {
             this.currentMenuItem.isSubmenuItem &&
             this.currentMenuItem.elements.toggle.isOpen
           ) {
+            this.currentMenuItem.elements.childMenu.blurCurrentChild();
             this.currentMenuItem.elements.toggle.close();
           } else if (!this.isTopLevel) {
-            this.elements.parentMenu.blurCurrentChild();
+            this.blurCurrentChild();
             this.elements.parentMenu.currentEvent = this.currentEvent;
             this.elements.parentMenu.focusCurrentChild();
           }
         } else if (key === "Home") {
           // Hitting Home:
           // - Moves focus to first node without opening or closing a node.
+          preventEvent(event);
+          this.blurCurrentChild();
           this.elements.rootMenu.focusFirstChild();
         } else if (key === "End") {
           // Hitting End:
           // - Moves focus to the last node that can be focused without expanding any nodes that are closed.
+          preventEvent(event);
+          this.blurCurrentChild();
           this.elements.rootMenu.focusLastNode();
         } else if (key === "Asterisk") {
           // Hitting Asterisk:
           // - Expands all closed sibling nodes that are at the same level as the focused node.
           // - Focus does not move.
+          preventEvent(event);
           this.openChildren();
         }
       }
