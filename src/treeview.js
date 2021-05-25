@@ -2,6 +2,7 @@ import BaseMenu from "./_baseMenu.js";
 import TreeviewItem from "./treeviewItem.js";
 import TreeviewToggle from "./treeviewToggle.js";
 import { keyPress, preventEvent } from "./eventHandlers.js";
+import { isEventSupported } from "./validate.js";
 
 /**
  * An accessible treeview navigation in the DOM.
@@ -98,6 +99,57 @@ class Treeview extends BaseMenu {
       this.elements.menuItems[0].dom.link.tabIndex = 0;
     } catch (error) {
       console.error(error);
+    }
+  }
+
+  /**
+   * Handles click events throughout the menu for proper use.
+   */
+  handleClick() {
+    /**
+     * Toggles a toggle element.
+     *
+     * @param {Treeview}       menu   - This menu.
+     * @param {TreeviewToggle} toggle - The menu toggle
+     * @param {Event}          event  - A Javascript event.
+     */
+    function toggleToggle(menu, toggle, event) {
+      preventEvent(event);
+
+      menu.currentEvent = "mouse";
+
+      toggle.toggle();
+
+      if (toggle.isOpen) {
+        menu.focusState = "self";
+        toggle.elements.controlledMenu.focusState = "none";
+      }
+    }
+
+    // Toggle submenus when their controllers are clicked.
+    this.elements.submenuToggles.forEach((toggle) => {
+      if (isEventSupported("touchend", toggle.dom.toggle)) {
+        toggle.dom.toggle.ontouchend = (event) => {
+          toggleToggle(this, toggle, event);
+        };
+      } else {
+        toggle.dom.toggle.onmouseup = (event) => {
+          toggleToggle(this, toggle, event);
+        };
+      }
+    });
+
+    // Open the this menu if it's controller is clicked.
+    if (this.isTopLevel && this.elements.controller) {
+      if (isEventSupported("touchend", this.elements.controller.dom.toggle)) {
+        this.elements.controller.dom.toggle.ontouchend = (event) => {
+          toggleToggle(this, this.elements.controller, event);
+        };
+      } else {
+        this.elements.controller.dom.toggle.onmouseup = (event) => {
+          toggleToggle(this, this.elements.controller, event);
+        };
+      }
     }
   }
 
