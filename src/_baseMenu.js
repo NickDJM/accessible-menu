@@ -276,12 +276,21 @@ class BaseMenu {
   /**
    * Set the index currently selected menu item in the menu.
    *
+   * - Attempting to set a value < -1 will set the currentChild to -1.
+   * - Attempting to set a value >= the number of menu items will set the currentChild to the number of menu items - 1.
+   *
    * @param {number} value - The index.
    */
   set currentChild(value) {
     isValidType("number", { value });
 
-    this.focussedChild = value;
+    if (value < -1) {
+      this.focussedChild = -1;
+    } else if (value >= this.elements.menuItems.length) {
+      this.focussedChild = this.elements.menuItems.length - 1;
+    } else {
+      this.focussedChild = value;
+    }
   }
 
   /**

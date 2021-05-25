@@ -66,6 +66,9 @@ Set the class to apply when the menu is "closed".
 
 Set the index currently selected menu item in the menu.
 
+- Attempting to set a value less than -1 will set the `currentChild` to -1.
+- Attempting to set a value greater than or equal to the number of menu items will set the `currentChild` to the number of menu items - 1.
+
 #### currentChild Parameters
 
 | Paramter | Description | Type | Required | Default Value |
