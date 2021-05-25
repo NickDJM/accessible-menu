@@ -71,11 +71,7 @@ class BaseMenuItem {
    * Focuses the menu item's link if triggering event is valid.
    */
   focus() {
-    if (
-      this.elements.parentMenu.currentEvent === "keyboard" ||
-      (this.elements.parentMenu.currentEvent === "mouse" &&
-        this.elements.parentMenu.hoverType === "dynamic")
-    ) {
+    if (this.elements.parentMenu.shouldFocus) {
       this.dom.link.focus();
     }
   }
@@ -84,11 +80,7 @@ class BaseMenuItem {
    * Blurs the menu item's link if triggering event is valid.
    */
   blur() {
-    if (
-      this.elements.parentMenu.currentEvent === "keyboard" ||
-      (this.elements.parentMenu.currentEvent === "mouse" &&
-        this.elements.parentMenu.hoverType === "dynamic")
-    ) {
+    if (this.elements.parentMenu.shouldFocus) {
       this.dom.link.blur();
     }
   }

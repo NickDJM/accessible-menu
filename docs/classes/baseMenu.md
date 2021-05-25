@@ -39,6 +39,7 @@ All Parameters _must_ be contained in a single object.
 | currentMenuItem | The currently selected menu item. | BaseMenuItem |
 | hoverType | The type of hoverability for the menu. | string |
 | hoverDelay | The delay time (in miliseconds) used for mouseout events to take place. | number |
+| shouldFocus | <p>A flag to check if the menu's focus methods should _actually_ move the focus in the DOM.</p><p>Will return false unless any of the following criteria are met:</p><ul><li>The menu's `currentEvent` is `"keyboard"`.</li><li>The menu's `currentEvent` is `"mouse"` _and_ the menu's `hoverType` is `"dynamic"`.</li></ul> | boolean |
 
 ## Available Setters
 
@@ -65,6 +66,9 @@ Set the class to apply when the menu is "closed".
 ### currentChild
 
 Set the index currently selected menu item in the menu.
+
+- Attempting to set a value less than -1 will set the `currentChild` to -1.
+- Attempting to set a value greater than or equal to the number of menu items will set the `currentChild` to the number of menu items - 1.
 
 #### currentChild Parameters
 
