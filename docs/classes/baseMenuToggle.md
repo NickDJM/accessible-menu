@@ -88,7 +88,7 @@ If `emit` is set to `true`, this will also emit a custom event called `accessibl
 
 Sets the open state of the toggle to "true", runs the [expand](#expand) and [closeSiblings](#closeSiblings) methods.
 
-Will also set the controlled menu's focus state to "self" and the parent menu's focus state to "none".
+Will also set the controlled menu's focus state to "self" and the parent menu's focus state to "child".
 
 ### preview
 
