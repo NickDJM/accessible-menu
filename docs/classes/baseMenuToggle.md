@@ -100,7 +100,7 @@ Will also set the controlled menu's focus state to "none" and the parent menu's 
 
 Sets the open state of the toggle to "false", runs the [collapse](#collapse) and [closeChildren](#closeChildren) methods, blurs the controlled menu and sets it's current child index to 0.
 
-Will also set the parent menu's focus state to "self".
+Will also set the controlled menu's focus state of "none" and the parent menu's focus state to "self".
 
 ### toggle
 
