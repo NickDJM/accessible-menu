@@ -193,6 +193,8 @@ class Menubar extends BaseMenu {
               requestAnimationFrame(() => {
                 this.currentMenuItem.elements.childMenu.focusFirstChild();
               });
+            } else {
+              this.currentMenuItem.dom.link.click();
             }
           } else if (key === "ArrowRight") {
             // Hitting the Right Arrow:
