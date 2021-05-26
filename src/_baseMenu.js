@@ -854,21 +854,28 @@ class BaseMenu {
   }
 
   /**
+   * Focuses the menu's child at a given index.
+   *
+   * @param {number} index - The index of the child to focus.
+   */
+  focusChild(index) {
+    this.blurCurrentChild();
+    this.currentChild = index;
+    this.focusCurrentChild();
+  }
+
+  /**
    * Focues the menu's first child.
    */
   focusFirstChild() {
-    this.blurCurrentChild();
-    this.currentChild = 0;
-    this.focusCurrentChild();
+    this.focusChild(0);
   }
 
   /**
    * Focus the menu's last child.
    */
   focusLastChild() {
-    this.blurCurrentChild();
-    this.currentChild = this.elements.menuItems.length - 1;
-    this.focusCurrentChild();
+    this.focusChild(this.elements.menuItems.length - 1);
   }
 
   /**
@@ -876,8 +883,8 @@ class BaseMenu {
    */
   focusNextChild() {
     if (this.currentChild < this.elements.menuItems.length - 1) {
-      this.blurCurrentChild();
-      this.currentChild = this.currentChild + 1;
+      this.focusChild(this.currentChild + 1);
+    } else {
       this.focusCurrentChild();
     }
   }
@@ -887,8 +894,8 @@ class BaseMenu {
    */
   focusPreviousChild() {
     if (this.currentChild > 0) {
-      this.blurCurrentChild();
-      this.currentChild = this.currentChild - 1;
+      this.focusChild(this.currentChild - 1);
+    } else {
       this.focusCurrentChild();
     }
   }

@@ -265,6 +265,20 @@ Sets the menu's focusState to "none" and blurs the menu if the triggering event 
 
 If the menu is the root menu and has a controller, it will also close the menu.
 
+### focusCurrentChild
+
+Focus the menu's current child.
+
+### focusChild
+
+Focuses the menu's child at a given index.
+
+#### focusChild Parameters
+
+| Paramter | Description | Type | Required | Default Value |
+| --- | --- | --- | --- | --- |
+| index | The index of the child to focus. | number | true | `undefined` |
+
 ### focusFirstChild
 
 Focues the menu's first child.
@@ -284,10 +298,6 @@ If the currently focussed child in the menu is the last child this method will d
 Focus the menu's last child.
 
 If the currently focussed child in the menu is the first child  this method will do nothing.
-
-### focusCurrentChild
-
-Focus the menu's current child.
 
 ### blurCurrentChild
 
