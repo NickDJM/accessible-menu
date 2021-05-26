@@ -939,6 +939,21 @@ var BaseMenuItem = /*#__PURE__*/function () {
         this.dom.link.blur();
       }
     }
+    /**
+     * Blurs the menu item's siblings.
+     */
+
+  }, {
+    key: "blurSiblings",
+    value: function blurSiblings() {
+      var _this = this;
+
+      this.elements.parentMenu.elements.menuItems.forEach(function (menuItem) {
+        if (menuItem !== _this) {
+          menuItem.blur();
+        }
+      });
+    }
   }]);
 
   return BaseMenuItem;
@@ -1712,9 +1727,9 @@ var BaseMenu = /*#__PURE__*/function () {
       /**
        * Toggles a toggle element.
        *
-       * @param {BaseMenu}       menu - This menu.
+       * @param {BaseMenu}       menu   - This menu.
        * @param {BaseMenuToggle} toggle - The menu toggle
-       * @param {Event}          event - A Javascript event.
+       * @param {Event}          event  - A Javascript event.
        */
 
       function toggleToggle(menu, toggle, event) {
@@ -1747,6 +1762,7 @@ var BaseMenu = /*#__PURE__*/function () {
         if (item.isSubmenuItem) {
           item.elements.toggle.dom.toggle["on".concat(eventType)] = function (event) {
             _this4.currentEvent = "mouse";
+            item.blurSiblings();
 
             _this4.focusChild(index);
 
@@ -1755,6 +1771,7 @@ var BaseMenu = /*#__PURE__*/function () {
         } else {
           item.dom.link.addEventListener(eventType, function () {
             _this4.currentEvent = "mouse";
+            item.blurSiblings();
 
             _this4.focusChild(index);
           });
@@ -1917,9 +1934,12 @@ var BaseMenu = /*#__PURE__*/function () {
   }, {
     key: "focusChild",
     value: function focusChild(index) {
+      console.log("Current child: ".concat(this.currentChild));
+      console.log("Focusing child: ".concat(index));
       this.blurCurrentChild();
       this.currentChild = index;
       this.focusCurrentChild();
+      console.log("Current child is now: ".concat(this.currentChild));
     }
     /**
      * Focues the menu's first child.

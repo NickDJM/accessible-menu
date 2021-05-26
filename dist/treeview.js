@@ -942,6 +942,21 @@ var Treeview = (function () {
           this.dom.link.blur();
         }
       }
+      /**
+       * Blurs the menu item's siblings.
+       */
+
+    }, {
+      key: "blurSiblings",
+      value: function blurSiblings() {
+        var _this = this;
+
+        this.elements.parentMenu.elements.menuItems.forEach(function (menuItem) {
+          if (menuItem !== _this) {
+            menuItem.blur();
+          }
+        });
+      }
     }]);
 
     return BaseMenuItem;
@@ -1715,9 +1730,9 @@ var Treeview = (function () {
         /**
          * Toggles a toggle element.
          *
-         * @param {BaseMenu}       menu - This menu.
+         * @param {BaseMenu}       menu   - This menu.
          * @param {BaseMenuToggle} toggle - The menu toggle
-         * @param {Event}          event - A Javascript event.
+         * @param {Event}          event  - A Javascript event.
          */
 
         function toggleToggle(menu, toggle, event) {
@@ -1750,6 +1765,7 @@ var Treeview = (function () {
           if (item.isSubmenuItem) {
             item.elements.toggle.dom.toggle["on".concat(eventType)] = function (event) {
               _this4.currentEvent = "mouse";
+              item.blurSiblings();
 
               _this4.focusChild(index);
 
@@ -1758,6 +1774,7 @@ var Treeview = (function () {
           } else {
             item.dom.link.addEventListener(eventType, function () {
               _this4.currentEvent = "mouse";
+              item.blurSiblings();
 
               _this4.focusChild(index);
             });
@@ -1920,9 +1937,12 @@ var Treeview = (function () {
     }, {
       key: "focusChild",
       value: function focusChild(index) {
+        console.log("Current child: ".concat(this.currentChild));
+        console.log("Focusing child: ".concat(index));
         this.blurCurrentChild();
         this.currentChild = index;
         this.focusCurrentChild();
+        console.log("Current child is now: ".concat(this.currentChild));
       }
       /**
        * Focues the menu's first child.
@@ -2361,6 +2381,8 @@ var Treeview = (function () {
       value: function handleClick() {
         var _this2 = this;
 
+        // Use touchend over mouseup when supported.
+        var eventType = isEventSupported("touchend", this.dom.menu) ? "touchend" : "mouseup";
         /**
          * Toggles a toggle element.
          *
@@ -2368,40 +2390,41 @@ var Treeview = (function () {
          * @param {TreeviewToggle} toggle - The menu toggle
          * @param {Event}          event  - A Javascript event.
          */
+
         function toggleToggle(menu, toggle, event) {
           preventEvent(event);
-          menu.currentEvent = "mouse";
           toggle.toggle();
 
           if (toggle.isOpen) {
             menu.focusState = "self";
             toggle.elements.controlledMenu.focusState = "none";
           }
-        } // Toggle submenus when their controllers are clicked.
+        }
 
+        this.elements.menuItems.forEach(function (item, index) {
+          if (item.isSubmenuItem) {
+            item.elements.toggle.dom.toggle["on".concat(eventType)] = function (event) {
+              _this2.currentEvent = "mouse";
+              toggleToggle(_this2, item.elements.toggle, event);
+              item.blurSiblings();
 
-        this.elements.submenuToggles.forEach(function (toggle) {
-          if (isEventSupported("touchend", toggle.dom.toggle)) {
-            toggle.dom.toggle.ontouchend = function (event) {
-              toggleToggle(_this2, toggle, event);
+              _this2.focusChild(index);
             };
           } else {
-            toggle.dom.toggle.onmouseup = function (event) {
-              toggleToggle(_this2, toggle, event);
-            };
+            item.dom.link.addEventListener(eventType, function () {
+              _this2.currentEvent = "mouse";
+              item.blurSiblings();
+
+              _this2.focusChild(index);
+            });
           }
         }); // Open the this menu if it's controller is clicked.
 
         if (this.isTopLevel && this.elements.controller) {
-          if (isEventSupported("touchend", this.elements.controller.dom.toggle)) {
-            this.elements.controller.dom.toggle.ontouchend = function (event) {
-              toggleToggle(_this2, _this2.elements.controller, event);
-            };
-          } else {
-            this.elements.controller.dom.toggle.onmouseup = function (event) {
-              toggleToggle(_this2, _this2.elements.controller, event);
-            };
-          }
+          this.elements.controller.dom.toggle["on".concat(eventType)] = function (event) {
+            _this2.currentEvent = "mouse";
+            toggleToggle(_this2, _this2.elements.controller, event);
+          };
         }
       }
       /**

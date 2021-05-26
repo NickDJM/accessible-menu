@@ -133,11 +133,13 @@ class Treeview extends BaseMenu {
         item.elements.toggle.dom.toggle[`on${eventType}`] = (event) => {
           this.currentEvent = "mouse";
           toggleToggle(this, item.elements.toggle, event);
+          item.blurSiblings();
           this.focusChild(index);
         };
       } else {
         item.dom.link.addEventListener(eventType, () => {
           this.currentEvent = "mouse";
+          item.blurSiblings();
           this.focusChild(index);
         });
       }
