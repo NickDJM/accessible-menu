@@ -679,9 +679,9 @@ class BaseMenu {
     /**
      * Toggles a toggle element.
      *
-     * @param {BaseMenu}       menu - This menu.
+     * @param {BaseMenu}       menu   - This menu.
      * @param {BaseMenuToggle} toggle - The menu toggle
-     * @param {Event}          event - A Javascript event.
+     * @param {Event}          event  - A Javascript event.
      */
     function toggleToggle(menu, toggle, event) {
       preventEvent(event);
@@ -865,9 +865,12 @@ class BaseMenu {
    * @param {number} index - The index of the child to focus.
    */
   focusChild(index) {
+    console.log(`Current child: ${this.currentChild}`);
+    console.log(`Focusing child: ${index}`);
     this.blurCurrentChild();
     this.currentChild = index;
     this.focusCurrentChild();
+    console.log(`Current child is now: ${this.currentChild}`);
   }
 
   /**
