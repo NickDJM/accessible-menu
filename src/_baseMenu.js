@@ -717,12 +717,14 @@ class BaseMenu {
       if (item.isSubmenuItem) {
         item.elements.toggle.dom.toggle[`on${eventType}`] = (event) => {
           this.currentEvent = "mouse";
+          item.blurSiblings();
           this.focusChild(index);
           toggleToggle(this, item.elements.toggle, event);
         };
       } else {
         item.dom.link.addEventListener(eventType, () => {
           this.currentEvent = "mouse";
+          item.blurSiblings();
           this.focusChild(index);
         });
       }
