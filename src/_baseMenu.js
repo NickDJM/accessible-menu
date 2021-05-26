@@ -335,6 +335,12 @@ class BaseMenu {
   set currentEvent(value) {
     isValidEvent({ value });
 
+    if (this.elements.submenuToggles.length > 0) {
+      this.elements.submenuToggles.forEach((submenuToggle) => {
+        submenuToggle.elements.controlledMenu.currentEvent = value;
+      });
+    }
+
     this.event = value;
   }
 
@@ -665,6 +671,11 @@ class BaseMenu {
    * Handles click events throughout the menu for proper use.
    */
   handleClick() {
+    // Use touchend over mouseup when supported.
+    const eventType = isEventSupported("touchend", this.dom.menu)
+      ? "touchend"
+      : "mouseup";
+
     /**
      * Toggles a toggle element.
      *
@@ -675,8 +686,6 @@ class BaseMenu {
     function toggleToggle(menu, toggle, event) {
       preventEvent(event);
 
-      menu.currentEvent = "mouse";
-
       toggle.toggle();
 
       if (toggle.isOpen) {
@@ -686,7 +695,7 @@ class BaseMenu {
     }
 
     // Close the menu if a click event happens outside of it.
-    document.addEventListener("mouseup", (event) => {
+    document.addEventListener(eventType, (event) => {
       if (this.focusState !== "none") {
         this.currentEvent = "mouse";
 
@@ -704,30 +713,27 @@ class BaseMenu {
       }
     });
 
-    // Toggle submenus when their controllers are clicked.
-    this.elements.submenuToggles.forEach((toggle) => {
-      if (isEventSupported("touchend", toggle.dom.toggle)) {
-        toggle.dom.toggle.ontouchend = (event) => {
-          toggleToggle(this, toggle, event);
+    this.elements.menuItems.forEach((item, index) => {
+      if (item.isSubmenuItem) {
+        item.elements.toggle.dom.toggle[`on${eventType}`] = (event) => {
+          this.currentEvent = "mouse";
+          this.focusChild(index);
+          toggleToggle(this, item.elements.toggle, event);
         };
       } else {
-        toggle.dom.toggle.onmouseup = (event) => {
-          toggleToggle(this, toggle, event);
-        };
+        item.dom.link.addEventListener(eventType, () => {
+          this.currentEvent = "mouse";
+          this.focusChild(index);
+        });
       }
     });
 
     // Open the this menu if it's controller is clicked.
     if (this.isTopLevel && this.elements.controller) {
-      if (isEventSupported("touchend", this.elements.controller.dom.toggle)) {
-        this.elements.controller.dom.toggle.ontouchend = (event) => {
-          toggleToggle(this, this.elements.controller, event);
-        };
-      } else {
-        this.elements.controller.dom.toggle.onmouseup = (event) => {
-          toggleToggle(this, this.elements.controller, event);
-        };
-      }
+      this.elements.controller.dom.toggle[`on${eventType}`] = (event) => {
+        this.currentEvent = "mouse";
+        toggleToggle(this, this.elements.controller, event);
+      };
     }
   }
 
@@ -854,21 +860,28 @@ class BaseMenu {
   }
 
   /**
+   * Focuses the menu's child at a given index.
+   *
+   * @param {number} index - The index of the child to focus.
+   */
+  focusChild(index) {
+    this.blurCurrentChild();
+    this.currentChild = index;
+    this.focusCurrentChild();
+  }
+
+  /**
    * Focues the menu's first child.
    */
   focusFirstChild() {
-    this.blurCurrentChild();
-    this.currentChild = 0;
-    this.focusCurrentChild();
+    this.focusChild(0);
   }
 
   /**
    * Focus the menu's last child.
    */
   focusLastChild() {
-    this.blurCurrentChild();
-    this.currentChild = this.elements.menuItems.length - 1;
-    this.focusCurrentChild();
+    this.focusChild(this.elements.menuItems.length - 1);
   }
 
   /**
@@ -876,8 +889,8 @@ class BaseMenu {
    */
   focusNextChild() {
     if (this.currentChild < this.elements.menuItems.length - 1) {
-      this.blurCurrentChild();
-      this.currentChild = this.currentChild + 1;
+      this.focusChild(this.currentChild + 1);
+    } else {
       this.focusCurrentChild();
     }
   }
@@ -887,8 +900,8 @@ class BaseMenu {
    */
   focusPreviousChild() {
     if (this.currentChild > 0) {
-      this.blurCurrentChild();
-      this.currentChild = this.currentChild - 1;
+      this.focusChild(this.currentChild - 1);
+    } else {
       this.focusCurrentChild();
     }
   }

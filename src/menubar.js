@@ -400,9 +400,7 @@ class Menubar extends BaseMenu {
     if (this.currentChild === this.elements.menuItems.length - 1) {
       this.focusFirstChild();
     } else {
-      this.blurCurrentChild();
-      this.currentChild = this.currentChild + 1;
-      this.focusCurrentChild();
+      this.focusChild(this.currentChild + 1);
     }
   }
 
@@ -414,9 +412,7 @@ class Menubar extends BaseMenu {
     if (this.currentChild === 0) {
       this.focusLastChild();
     } else {
-      this.blurCurrentChild();
-      this.currentChild = this.currentChild - 1;
-      this.focusCurrentChild();
+      this.focusChild(this.currentChild - 1);
     }
   }
 
@@ -440,8 +436,7 @@ class Menubar extends BaseMenu {
       // Focus the child if the text matches, otherwise move on.
       if (text.startsWith(match)) {
         found = true;
-        this.currentChild = index;
-        this.focusCurrentChild();
+        this.focusChild(index);
       }
 
       index++;
