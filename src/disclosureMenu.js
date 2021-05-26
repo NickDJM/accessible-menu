@@ -200,6 +200,7 @@ class DisclosureMenu extends BaseMenu {
             this.closeChildren();
           } else if (this.elements.parentMenu) {
             preventEvent(event);
+            this.elements.parentMenu.currentEvent = this.currentEvent;
             this.elements.parentMenu.closeChildren();
             this.elements.parentMenu.focusCurrentChild();
           } else if (

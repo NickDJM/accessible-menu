@@ -335,6 +335,12 @@ class BaseMenu {
   set currentEvent(value) {
     isValidEvent({ value });
 
+    if (this.elements.submenuToggles.length > 0) {
+      this.elements.submenuToggles.forEach((submenuToggle) => {
+        submenuToggle.elements.controlledMenu.currentEvent = value;
+      });
+    }
+
     this.event = value;
   }
 
