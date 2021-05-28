@@ -32,4 +32,4 @@ See [BaseMenuToggle](baseMenuToggle.md#available-methods) for a list of inherite
 
 Initialize will be called immediately upon creation unless `initialize: false` is passed as a parameter to the menu toggle.
 
-The initialize function will run [BaseMenuToggles's initialize method](baseMenuToggle.md#initialize).
+The initialize method will run [BaseMenuToggles's initialize method](baseMenuToggle.md#initialize).

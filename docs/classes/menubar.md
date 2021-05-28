@@ -42,11 +42,21 @@ See [BaseMenu](baseMenu.md#available-methods) for a list of inherited methods.
 
 Initialize will be called immediately upon creation unless `initialize: false` is passed as a parameter to the menu.
 
-The initialize function will run [BaseMenu's initialize method](baseMenu.md#initialize), as well as sets up the [focus](baseMenu.md#handleFocus), [click](baseMenu.md#handleClick), [hover](baseMenu.md#handleHover), [keydown](#handleKeydown), and [keyup](#handleKeyup) events through the menu.
+The initialize function will run [BaseMenu's initialize method](baseMenu.md#initialize), as well as sets up the [focus](baseMenu.md#handleFocus), [click](#handleClick), [hover](baseMenu.md#handleHover), [keydown](#handleKeydown), and [keyup](#handleKeyup) events through the menu.
 
 This will also set the role of the menu element to "menubar", and ensure the first menu item is in the tab index.
 
 Initalize will catch any validation errors thrown by the BaseMenu's initialize method.
+
+### handleClick
+
+Handles click events throughout the menu for proper use.
+
+Depending on what is supported either `touchstart` and `touchend` or `mousedown` and `mouseup` will be used for all "click" event handling.
+
+- Adds all event listeners listed in [BaseMenu](baseMenu.md#handleClick).
+
+- Adds a `touchend`/`mouseup` listener to the document so if the user clicks outside of the menu when it is open, the menu will close.
 
 ### handleKeydown
 

@@ -212,9 +212,12 @@ Handles focus events throughout the menu for proper menu use.
 
 Handles click events throughout the menu for proper use.
 
-- Adds a `mouseup` listener to the document so if the user clicks outside of the menu when it is open, the menu will close.
-- Adds a `touchend` listener to every submenu toggle so when they are clicked they will properly toggle open/closed. If `touchend` is not supported, `mouseup` will be used instead.
-- Adds a `touchend` listener to the menu's controller (if the menu is the root menu) so when it is clicked it will properly toggle open/closed. If `touchend` is not supported, `mouseup` will be used instead.
+Depending on what is supported either `touchstart` and `touchend` or `mousedown` and `mouseup` will be used for all "click" event handling.
+
+- Adds a `touchend`/`mouseup` listener to the document so if the user clicks outside of the menu when it is open, the menu will close.
+- Adds a `touchstart`/`mousedown` listener to every menu item that will blur all menu items in the entire menu structure (starting at the root menu) and then properly focus the clicked item.
+- Adds a `touchend`/`mouseup` listener to every submenu item that will properly toggle the submenu open/closed.
+- Adds a `touchend`/`mouseup` listener to the menu's controller (if the menu is the root menu) so when it is clicked it will properly toggle open/closed.
 
 ### handleHover
 
@@ -316,3 +319,7 @@ Focus the menu's container.
 ### closeChildren
 
 Close all submenu children.
+
+### blurChildren
+
+Blurs all children and submenu's children.
