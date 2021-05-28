@@ -105,8 +105,11 @@ class Treeview extends BaseMenu {
    * Handles click events throughout the menu for proper use.
    */
   handleClick() {
-    // Use touchend over mouseup when supported.
-    const eventType = isEventSupported("touchend", this.dom.menu)
+    // Use touch over mouse events when supported.
+    const startEventType = isEventSupported("touchstart", this.dom.menu)
+      ? "touchstart"
+      : "mousedown";
+    const endEventType = isEventSupported("touchend", this.dom.menu)
       ? "touchend"
       : "mouseup";
 
@@ -129,17 +132,20 @@ class Treeview extends BaseMenu {
     }
 
     this.elements.menuItems.forEach((item, index) => {
+      item.dom.link.addEventListener(startEventType, () => {
+        this.currentEvent = "mouse";
+        this.elements.rootMenu.blurChildren();
+        this.focusChild(index);
+      });
+
       if (item.isSubmenuItem) {
-        item.elements.toggle.dom.toggle[`on${eventType}`] = (event) => {
+        item.elements.toggle.dom.toggle[`on${endEventType}`] = (event) => {
           this.currentEvent = "mouse";
           toggleToggle(this, item.elements.toggle, event);
-          item.blurSiblings();
-          this.focusChild(index);
         };
       } else {
-        item.dom.link.addEventListener(eventType, () => {
+        item.dom.link.addEventListener(endEventType, () => {
           this.currentEvent = "mouse";
-          item.blurSiblings();
           this.focusChild(index);
         });
       }
@@ -147,7 +153,7 @@ class Treeview extends BaseMenu {
 
     // Open the this menu if it's controller is clicked.
     if (this.isTopLevel && this.elements.controller) {
-      this.elements.controller.dom.toggle[`on${eventType}`] = (event) => {
+      this.elements.controller.dom.toggle[`on${endEventType}`] = (event) => {
         this.currentEvent = "mouse";
         toggleToggle(this, this.elements.controller, event);
       };
@@ -357,6 +363,19 @@ class Treeview extends BaseMenu {
    */
   openChildren() {
     this.elements.submenuToggles.forEach((toggle) => toggle.preview());
+  }
+
+  /**
+   * Blurs all children and submenu's children.
+   */
+  blurChildren() {
+    this.elements.menuItems.forEach((menuItem) => {
+      menuItem.blur();
+
+      if (menuItem.isSubmenuItem) {
+        menuItem.elements.childMenu.blurChildren();
+      }
+    });
   }
 }
 

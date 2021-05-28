@@ -939,21 +939,6 @@ var BaseMenuItem = /*#__PURE__*/function () {
         this.dom.link.blur();
       }
     }
-    /**
-     * Blurs the menu item's siblings.
-     */
-
-  }, {
-    key: "blurSiblings",
-    value: function blurSiblings() {
-      var _this = this;
-
-      this.elements.parentMenu.elements.menuItems.forEach(function (menuItem) {
-        if (menuItem !== _this) {
-          menuItem.blur();
-        }
-      });
-    }
   }]);
 
   return BaseMenuItem;
@@ -1722,8 +1707,9 @@ var BaseMenu = /*#__PURE__*/function () {
     value: function handleClick() {
       var _this4 = this;
 
-      // Use touchend over mouseup when supported.
-      var eventType = isEventSupported("touchend", this.dom.menu) ? "touchend" : "mouseup";
+      // Use touch over mouse events when supported.
+      var startEventType = isEventSupported("touchstart", this.dom.menu) ? "touchstart" : "mousedown";
+      var endEventType = isEventSupported("touchend", this.dom.menu) ? "touchend" : "mouseup";
       /**
        * Toggles a toggle element.
        *
@@ -1743,7 +1729,7 @@ var BaseMenu = /*#__PURE__*/function () {
       } // Close the menu if a click event happens outside of it.
 
 
-      document.addEventListener(eventType, function (event) {
+      document.addEventListener(endEventType, function (event) {
         if (_this4.focusState !== "none") {
           _this4.currentEvent = "mouse";
 
@@ -1759,17 +1745,19 @@ var BaseMenu = /*#__PURE__*/function () {
         }
       });
       this.elements.menuItems.forEach(function (item, index) {
+        item.dom.link.addEventListener(startEventType, function () {
+          _this4.currentEvent = "mouse";
+
+          _this4.focusChild(index);
+        });
+
         if (item.isSubmenuItem) {
-          item.elements.toggle.dom.toggle["on".concat(eventType)] = function (event) {
+          item.elements.toggle.dom.toggle["on".concat(endEventType)] = function (event) {
             _this4.currentEvent = "mouse";
-            item.blurSiblings();
-
-            _this4.focusChild(index);
-
             toggleToggle(_this4, item.elements.toggle, event);
           };
         } else {
-          item.dom.link.addEventListener(eventType, function () {
+          item.dom.link.addEventListener(endEventType, function () {
             _this4.currentEvent = "mouse";
             item.blurSiblings();
 
@@ -1779,7 +1767,7 @@ var BaseMenu = /*#__PURE__*/function () {
       }); // Open the this menu if it's controller is clicked.
 
       if (this.isTopLevel && this.elements.controller) {
-        this.elements.controller.dom.toggle["on".concat(eventType)] = function (event) {
+        this.elements.controller.dom.toggle["on".concat(endEventType)] = function (event) {
           _this4.currentEvent = "mouse";
           toggleToggle(_this4, _this4.elements.controller, event);
         };

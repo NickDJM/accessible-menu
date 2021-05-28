@@ -671,8 +671,11 @@ class BaseMenu {
    * Handles click events throughout the menu for proper use.
    */
   handleClick() {
-    // Use touchend over mouseup when supported.
-    const eventType = isEventSupported("touchend", this.dom.menu)
+    // Use touch over mouse events when supported.
+    const startEventType = isEventSupported("touchstart", this.dom.menu)
+      ? "touchstart"
+      : "mousedown";
+    const endEventType = isEventSupported("touchend", this.dom.menu)
       ? "touchend"
       : "mouseup";
 
@@ -695,7 +698,7 @@ class BaseMenu {
     }
 
     // Close the menu if a click event happens outside of it.
-    document.addEventListener(eventType, (event) => {
+    document.addEventListener(endEventType, (event) => {
       if (this.focusState !== "none") {
         this.currentEvent = "mouse";
 
@@ -714,15 +717,18 @@ class BaseMenu {
     });
 
     this.elements.menuItems.forEach((item, index) => {
+      item.dom.link.addEventListener(startEventType, () => {
+        this.currentEvent = "mouse";
+        this.focusChild(index);
+      });
+
       if (item.isSubmenuItem) {
-        item.elements.toggle.dom.toggle[`on${eventType}`] = (event) => {
+        item.elements.toggle.dom.toggle[`on${endEventType}`] = (event) => {
           this.currentEvent = "mouse";
-          item.blurSiblings();
-          this.focusChild(index);
           toggleToggle(this, item.elements.toggle, event);
         };
       } else {
-        item.dom.link.addEventListener(eventType, () => {
+        item.dom.link.addEventListener(endEventType, () => {
           this.currentEvent = "mouse";
           item.blurSiblings();
           this.focusChild(index);
@@ -732,7 +738,7 @@ class BaseMenu {
 
     // Open the this menu if it's controller is clicked.
     if (this.isTopLevel && this.elements.controller) {
-      this.elements.controller.dom.toggle[`on${eventType}`] = (event) => {
+      this.elements.controller.dom.toggle[`on${endEventType}`] = (event) => {
         this.currentEvent = "mouse";
         toggleToggle(this, this.elements.controller, event);
       };
