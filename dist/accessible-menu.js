@@ -1065,6 +1065,10 @@ var AccessibleMenu = (function () {
        * - Attempting to set a value < -1 will set the currentChild to -1.
        * - Attempting to set a value >= the number of menu items will set the currentChild to the number of menu items - 1.
        *
+       * If the current menu has a parent menu _and_ the menu's current event is "mouse",
+       * The parent menu will have it's current child updated as well to help with transitioning
+       * between mouse and keyboard naviation.
+       *
        * @param {number} value - The index.
        */
 
@@ -1101,6 +1105,24 @@ var AccessibleMenu = (function () {
           this.focussedChild = this.elements.menuItems.length - 1;
         } else {
           this.focussedChild = value;
+        } // Update the parent menu's current child to make sure clicks don't interfere with keyboard navigation.
+
+
+        if (this.currentEvent === "mouse" && this.elements.parentMenu) {
+          var index = 0;
+          var found = false;
+
+          while (!found && index < this.elements.parentMenu.elements.menuItems.length) {
+            var menuItem = this.elements.parentMenu.elements.menuItems[index];
+
+            if (menuItem.isSubmenuItem && menuItem.elements.toggle.elements.controlledMenu === this) {
+              found = true;
+              this.elements.parentMenu.currentEvent = this.currentEvent;
+              this.elements.parentMenu.currentChild = index;
+            }
+
+            index++;
+          }
         }
       }
       /**
@@ -1775,12 +1797,9 @@ var AccessibleMenu = (function () {
     }, {
       key: "focusChild",
       value: function focusChild(index) {
-        console.log("Current child: ".concat(this.currentChild));
-        console.log("Focusing child: ".concat(index));
         this.blurCurrentChild();
         this.currentChild = index;
         this.focusCurrentChild();
-        console.log("Current child is now: ".concat(this.currentChild));
       }
       /**
        * Focues the menu's first child.

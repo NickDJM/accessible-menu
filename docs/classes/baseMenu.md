@@ -70,6 +70,8 @@ Set the index currently selected menu item in the menu.
 - Attempting to set a value less than -1 will set the `currentChild` to -1.
 - Attempting to set a value greater than or equal to the number of menu items will set the `currentChild` to the number of menu items - 1.
 
+If the current menu has a parent menu _and_ the menu's current event is "mouse", The parent menu will have it's current child updated as well to help with transitioning between mouse and keyboard naviation.
+
 #### currentChild Parameters
 
 | Paramter | Description | Type | Required | Default Value |
