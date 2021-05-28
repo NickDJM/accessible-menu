@@ -2,7 +2,6 @@ import BaseMenu from "./_baseMenu.js";
 import TreeviewItem from "./treeviewItem.js";
 import TreeviewToggle from "./treeviewToggle.js";
 import { keyPress, preventEvent } from "./eventHandlers.js";
-import { isEventSupported } from "./validate.js";
 
 /**
  * An accessible treeview navigation in the DOM.
@@ -98,65 +97,6 @@ class Treeview extends BaseMenu {
       this.handleKeyup();
     } catch (error) {
       console.error(error);
-    }
-  }
-
-  /**
-   * Handles click events throughout the menu for proper use.
-   */
-  handleClick() {
-    // Use touch over mouse events when supported.
-    const startEventType = isEventSupported("touchstart", this.dom.menu)
-      ? "touchstart"
-      : "mousedown";
-    const endEventType = isEventSupported("touchend", this.dom.menu)
-      ? "touchend"
-      : "mouseup";
-
-    /**
-     * Toggles a toggle element.
-     *
-     * @param {Treeview}       menu   - This menu.
-     * @param {TreeviewToggle} toggle - The menu toggle
-     * @param {Event}          event  - A Javascript event.
-     */
-    function toggleToggle(menu, toggle, event) {
-      preventEvent(event);
-
-      toggle.toggle();
-
-      if (toggle.isOpen) {
-        menu.focusState = "self";
-        toggle.elements.controlledMenu.focusState = "none";
-      }
-    }
-
-    this.elements.menuItems.forEach((item, index) => {
-      item.dom.link.addEventListener(startEventType, () => {
-        this.currentEvent = "mouse";
-        this.elements.rootMenu.blurChildren();
-        this.focusChild(index);
-      });
-
-      if (item.isSubmenuItem) {
-        item.elements.toggle.dom.toggle[`on${endEventType}`] = (event) => {
-          this.currentEvent = "mouse";
-          toggleToggle(this, item.elements.toggle, event);
-        };
-      } else {
-        item.dom.link.addEventListener(endEventType, () => {
-          this.currentEvent = "mouse";
-          this.focusChild(index);
-        });
-      }
-    });
-
-    // Open the this menu if it's controller is clicked.
-    if (this.isTopLevel && this.elements.controller) {
-      this.elements.controller.dom.toggle[`on${endEventType}`] = (event) => {
-        this.currentEvent = "mouse";
-        toggleToggle(this, this.elements.controller, event);
-      };
     }
   }
 
@@ -363,19 +303,6 @@ class Treeview extends BaseMenu {
    */
   openChildren() {
     this.elements.submenuToggles.forEach((toggle) => toggle.preview());
-  }
-
-  /**
-   * Blurs all children and submenu's children.
-   */
-  blurChildren() {
-    this.elements.menuItems.forEach((menuItem) => {
-      menuItem.blur();
-
-      if (menuItem.isSubmenuItem) {
-        menuItem.elements.childMenu.blurChildren();
-      }
-    });
   }
 }
 

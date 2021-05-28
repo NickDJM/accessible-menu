@@ -232,9 +232,6 @@ class BaseMenuToggle {
    * Opens the controlled menu.
    */
   open() {
-    // Close all siblings.
-    this.closeSiblings();
-
     // Set proper focus states to parent & child.
     if (this.elements.parentMenu) {
       this.elements.parentMenu.focusState = "child";
@@ -253,9 +250,6 @@ class BaseMenuToggle {
    * Opens the controlled menu without the current focus entering it.
    */
   preview() {
-    // Close all siblings.
-    this.closeSiblings();
-
     // Set proper focus states to parent & child.
     if (this.elements.parentMenu) {
       this.elements.parentMenu.focusState = "self";
@@ -275,9 +269,6 @@ class BaseMenuToggle {
    */
   close() {
     if (this.isOpen) {
-      // Close all children.
-      this.closeChildren();
-
       // Reset controlled menu.
       this.elements.controlledMenu.currentChild = 0;
       this.elements.controlledMenu.blur();

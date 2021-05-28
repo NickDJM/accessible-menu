@@ -726,42 +726,20 @@ class BaseMenu {
       }
     }
 
-    // Close the menu if a click event happens outside of it.
-    document.addEventListener(endEventType, (event) => {
-      if (this.focusState !== "none") {
-        this.currentEvent = "mouse";
-
-        if (
-          !this.dom.menu.contains(event.target) &&
-          !this.dom.menu !== event.target
-        ) {
-          this.closeChildren();
-          this.blur();
-
-          if (this.elements.controller) {
-            this.elements.controller.close();
-          }
-        }
-      }
-    });
-
     this.elements.menuItems.forEach((item, index) => {
+      // Properly focus the current menu item.
       item.dom.link.addEventListener(startEventType, () => {
         this.currentEvent = "mouse";
+        this.elements.rootMenu.blurChildren();
         this.focusChild(index);
       });
 
+      // Properly toggle submenus open and closed.
       if (item.isSubmenuItem) {
         item.elements.toggle.dom.toggle[`on${endEventType}`] = (event) => {
           this.currentEvent = "mouse";
           toggleToggle(this, item.elements.toggle, event);
         };
-      } else {
-        item.dom.link.addEventListener(endEventType, () => {
-          this.currentEvent = "mouse";
-          item.blurSiblings();
-          this.focusChild(index);
-        });
       }
     });
 
@@ -983,6 +961,19 @@ class BaseMenu {
    */
   closeChildren() {
     this.elements.submenuToggles.forEach((toggle) => toggle.close());
+  }
+
+  /**
+   * Blurs all children and submenu's children.
+   */
+  blurChildren() {
+    this.elements.menuItems.forEach((menuItem) => {
+      menuItem.blur();
+
+      if (menuItem.isSubmenuItem) {
+        menuItem.elements.childMenu.blurChildren();
+      }
+    });
   }
 }
 

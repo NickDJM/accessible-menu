@@ -2,7 +2,7 @@ import BaseMenu from "./_baseMenu.js";
 import DisclosureMenuItem from "./disclosureMenuItem.js";
 import DisclosureMenuToggle from "./disclosureMenuToggle.js";
 import { preventEvent, keyPress } from "./eventHandlers.js";
-import { isValidType } from "./validate.js";
+import { isValidType, isEventSupported } from "./validate.js";
 
 /**
  * An accessible disclosure menu in the DOM.
@@ -121,6 +121,37 @@ class DisclosureMenu extends BaseMenu {
     } catch (error) {
       console.error(error);
     }
+  }
+
+  /**
+   * Handles click events throughout the menu for proper use.
+   */
+  handleClick() {
+    super.handleClick();
+
+    // Use touch over mouse events when supported.
+    const endEventType = isEventSupported("touchend", this.dom.menu)
+      ? "touchend"
+      : "mouseup";
+
+    // Close the menu if a click event happens outside of it.
+    document.addEventListener(endEventType, (event) => {
+      if (this.focusState !== "none") {
+        this.currentEvent = "mouse";
+
+        if (
+          !this.dom.menu.contains(event.target) &&
+          !this.dom.menu !== event.target
+        ) {
+          this.closeChildren();
+          this.blur();
+
+          if (this.elements.controller) {
+            this.elements.controller.close();
+          }
+        }
+      }
+    });
   }
 
   /**
