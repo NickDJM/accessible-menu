@@ -38,6 +38,14 @@ html {
   border: 0 !important;
 }
 
+header {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 100;
+}
+
 nav {
   background-color: $gray-200;
   color: $black;
