@@ -818,17 +818,17 @@ var AccessibleMenu = (function () {
     event.stopPropagation();
   }
 
-  function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+  function _toConsumableArray$1(arr) { return _arrayWithoutHoles$1(arr) || _iterableToArray$1(arr) || _unsupportedIterableToArray$1(arr) || _nonIterableSpread$1(); }
 
-  function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+  function _nonIterableSpread$1() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
-  function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+  function _unsupportedIterableToArray$1(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$1(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$1(o, minLen); }
 
-  function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+  function _iterableToArray$1(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
 
-  function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+  function _arrayWithoutHoles$1(arr) { if (Array.isArray(arr)) return _arrayLikeToArray$1(arr); }
 
-  function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+  function _arrayLikeToArray$1(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
   function _classCallCheck$9(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -1409,14 +1409,14 @@ var AccessibleMenu = (function () {
 
           if (typeof filter !== "undefined") {
             if (typeof filter === "function") {
-              this.domElements[elementType] = [].concat(_toConsumableArray(this.domElements[elementType]), _toConsumableArray(domElements.filter(function (item) {
+              this.domElements[elementType] = [].concat(_toConsumableArray$1(this.domElements[elementType]), _toConsumableArray$1(domElements.filter(function (item) {
                 return filter(item);
               })));
             } else {
-              this.domElements[elementType] = [].concat(_toConsumableArray(this.domElements[elementType]), _toConsumableArray(domElements));
+              this.domElements[elementType] = [].concat(_toConsumableArray$1(this.domElements[elementType]), _toConsumableArray$1(domElements));
             }
           } else {
-            this.domElements[elementType] = [].concat(_toConsumableArray(this.domElements[elementType]), _toConsumableArray(domElements.filter(function (item) {
+            this.domElements[elementType] = [].concat(_toConsumableArray$1(this.domElements[elementType]), _toConsumableArray$1(domElements.filter(function (item) {
               return baseFilter(item);
             })));
           }
@@ -3375,6 +3375,18 @@ var AccessibleMenu = (function () {
 
   function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+  function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+  function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+  function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+  function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+  function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+  function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
   function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
   function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -3576,7 +3588,15 @@ var AccessibleMenu = (function () {
           _this3.currentEvent = "keyboard";
           var key = keyPress(event);
 
-          if (_this3.focusState === "self") {
+          if (key === "Character") {
+            // Hitting Character:
+            // - Focus moves to the next node with a name that starts with the typed character.
+            // - Search wraps to first node if a matching name is not found among the nodes that follow the focused node.
+            // - Search ignores nodes that are descendants of closed nodes.
+            preventEvent(event);
+
+            _this3.focusNextNodeWithCharacter(event.key);
+          } else if (_this3.focusState === "self") {
             if (key === "Enter" || key === "Space") {
               // Hitting Space or Enter:
               // - Performs the default action (e.g. onclick event) for the focused node.
@@ -3727,6 +3747,62 @@ var AccessibleMenu = (function () {
         this.elements.submenuToggles.forEach(function (toggle) {
           return toggle.preview();
         });
+      }
+      /**
+       * Focus the menu's next node starting with a specific letter.
+       *
+       * Wraps to the first node if no match is found after the current node.
+       *
+       * This includes all _open_ child menu items.
+       *
+       * @param {string} char - The character to look for.
+       */
+
+    }, {
+      key: "focusNextNodeWithCharacter",
+      value: function focusNextNodeWithCharacter(char) {
+        /**
+         * Gets all the menu's items and submenu's items.
+         *
+         * @param {Treeview} menu - The menu.
+         *
+         * @returns {TreeviewItem[]} - The menu items.
+         */
+        function getOpenMenuItems(menu) {
+          var menuItems = [];
+          menu.elements.menuItems.forEach(function (menuItem) {
+            menuItems.push(menuItem);
+
+            if (menuItem.isSubmenuItem && menuItem.elements.toggle.isOpen) {
+              menuItems = [].concat(_toConsumableArray(menuItems), _toConsumableArray(getOpenMenuItems(menuItem.elements.toggle.elements.controlledMenu)));
+            }
+          });
+          return menuItems;
+        } // Ensure the character is lowercase just to be safe.
+
+
+        var match = char.toLowerCase(); // Sort the menu items so the child _after_ the current child is first to be searched.
+
+        var menuItems = getOpenMenuItems(this.elements.rootMenu);
+        var currentItem = menuItems.indexOf(this.currentMenuItem) + 1;
+        var sortedMenuItems = [].concat(_toConsumableArray(menuItems.slice(currentItem)), _toConsumableArray(menuItems.slice(0, currentItem)));
+        var ctr = 0;
+        var found = false;
+
+        while (!found && ctr < sortedMenuItems.length) {
+          // Ensure the text in the item is lowercase just to be safe.
+          var text = sortedMenuItems[ctr].dom.item.innerText.toLowerCase(); // Focus the child if the text matches, otherwise move on.
+
+          if (text.startsWith(match)) {
+            found = true;
+            var menu = sortedMenuItems[ctr].elements.parentMenu;
+            var index = menu.elements.menuItems.indexOf(sortedMenuItems[ctr]);
+            this.elements.rootMenu.blurChildren();
+            menu.focusChild(index);
+          }
+
+          ctr++;
+        }
       }
     }]);
 

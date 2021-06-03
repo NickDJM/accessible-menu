@@ -2362,7 +2362,15 @@ var Treeview = (function () {
           _this3.currentEvent = "keyboard";
           var key = keyPress(event);
 
-          if (_this3.focusState === "self") {
+          if (key === "Character") {
+            // Hitting Character:
+            // - Focus moves to the next node with a name that starts with the typed character.
+            // - Search wraps to first node if a matching name is not found among the nodes that follow the focused node.
+            // - Search ignores nodes that are descendants of closed nodes.
+            preventEvent(event);
+
+            _this3.focusNextNodeWithCharacter(event.key);
+          } else if (_this3.focusState === "self") {
             if (key === "Enter" || key === "Space") {
               // Hitting Space or Enter:
               // - Performs the default action (e.g. onclick event) for the focused node.
@@ -2513,6 +2521,62 @@ var Treeview = (function () {
         this.elements.submenuToggles.forEach(function (toggle) {
           return toggle.preview();
         });
+      }
+      /**
+       * Focus the menu's next node starting with a specific letter.
+       *
+       * Wraps to the first node if no match is found after the current node.
+       *
+       * This includes all _open_ child menu items.
+       *
+       * @param {string} char - The character to look for.
+       */
+
+    }, {
+      key: "focusNextNodeWithCharacter",
+      value: function focusNextNodeWithCharacter(char) {
+        /**
+         * Gets all the menu's items and submenu's items.
+         *
+         * @param {Treeview} menu - The menu.
+         *
+         * @returns {TreeviewItem[]} - The menu items.
+         */
+        function getOpenMenuItems(menu) {
+          var menuItems = [];
+          menu.elements.menuItems.forEach(function (menuItem) {
+            menuItems.push(menuItem);
+
+            if (menuItem.isSubmenuItem && menuItem.elements.toggle.isOpen) {
+              menuItems = [].concat(_toConsumableArray(menuItems), _toConsumableArray(getOpenMenuItems(menuItem.elements.toggle.elements.controlledMenu)));
+            }
+          });
+          return menuItems;
+        } // Ensure the character is lowercase just to be safe.
+
+
+        var match = char.toLowerCase(); // Sort the menu items so the child _after_ the current child is first to be searched.
+
+        var menuItems = getOpenMenuItems(this.elements.rootMenu);
+        var currentItem = menuItems.indexOf(this.currentMenuItem) + 1;
+        var sortedMenuItems = [].concat(_toConsumableArray(menuItems.slice(currentItem)), _toConsumableArray(menuItems.slice(0, currentItem)));
+        var ctr = 0;
+        var found = false;
+
+        while (!found && ctr < sortedMenuItems.length) {
+          // Ensure the text in the item is lowercase just to be safe.
+          var text = sortedMenuItems[ctr].dom.item.innerText.toLowerCase(); // Focus the child if the text matches, otherwise move on.
+
+          if (text.startsWith(match)) {
+            found = true;
+            var menu = sortedMenuItems[ctr].elements.parentMenu;
+            var index = menu.elements.menuItems.indexOf(sortedMenuItems[ctr]);
+            this.elements.rootMenu.blurChildren();
+            menu.focusChild(index);
+          }
+
+          ctr++;
+        }
       }
     }]);
 
