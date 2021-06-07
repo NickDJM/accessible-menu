@@ -3,9 +3,10 @@
  *
  * @param {AccessibleMenu.Menubar} menu - The menu to toggle.
  */
- function toggleHover(menu) {
-  menu.elements.submenuToggles.forEach(toggle => {
-    toggle.elements.controlledMenu.isHoverable = !toggle.elements.controlledMenu.isHoverable;
+function toggleHover(menu) {
+  menu.elements.submenuToggles.forEach((toggle) => {
+    toggle.elements.controlledMenu.isHoverable =
+      !toggle.elements.controlledMenu.isHoverable;
   });
 
   menu.isHoverable = !menu.isHoverable;
@@ -14,20 +15,23 @@
 const navs = document.querySelectorAll("nav");
 const menus = [];
 
-Array.from(navs).forEach(nav => {
+Array.from(navs).forEach((nav) => {
   const menuElement = nav.querySelector("ul");
   const submenuItemSelector = "li.dropdown";
-  const controllerElement = nav.id === "main-menu" ? nav.querySelector("button") : null;
+  const controllerElement =
+    nav.id === "main-menu" ? nav.querySelector("button") : null;
   const containerElement = nav.id === "main-menu" ? nav : null;
 
-  menus.push(new AccessibleMenu.Menubar({
-    menuElement,
-    submenuItemSelector,
-    controllerElement,
-    containerElement,
-    openClass: ["show", "open"],
-    isHoverable: window.innerWidth >= 1070,
-  }));
+  menus.push(
+    new AccessibleMenu.Menubar({
+      menuElement,
+      submenuItemSelector,
+      controllerElement,
+      containerElement,
+      openClass: ["show", "open"],
+      isHoverable: window.innerWidth >= 1070,
+    })
+  );
 });
 
 window.addEventListener("resize", () => {
@@ -38,10 +42,10 @@ window.addEventListener("resize", () => {
   }
 });
 
-document.addEventListener("accessibleMenuExpand", event => {
+document.addEventListener("accessibleMenuExpand", (event) => {
   console.log(event);
 });
 
-document.addEventListener("accessibleMenuCollapse", event => {
+document.addEventListener("accessibleMenuCollapse", (event) => {
   console.log(event);
 });

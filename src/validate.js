@@ -463,7 +463,7 @@ export function isValidClassList(value) {
 
           if (typeof value[key] !== "string") {
             if (Array.isArray(value[key])) {
-              value[key].forEach(item => {
+              value[key].forEach((item) => {
                 isString(item);
               });
             } else {

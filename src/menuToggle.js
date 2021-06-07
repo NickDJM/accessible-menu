@@ -133,7 +133,7 @@ class MenuToggle {
       if (typeof this.closeClass === "string") {
         this.elements.controlledMenu.dom.menu.classList.add(this.closeClass);
       } else if (Array.isArray(this.closeClass)) {
-        this.closeClass.forEach(value => {
+        this.closeClass.forEach((value) => {
           this.elements.controlledMenu.dom.menu.classList.add(value);
         });
       }
@@ -231,7 +231,7 @@ class MenuToggle {
       if (typeof this.openClass === "string") {
         this.elements.controlledMenu.dom.menu.classList.add(this.openClass);
       } else if (Array.isArray(this.openClass)) {
-        this.openClass.forEach(value => {
+        this.openClass.forEach((value) => {
           this.elements.controlledMenu.dom.menu.classList.add(value);
         });
       }
@@ -242,7 +242,7 @@ class MenuToggle {
       if (typeof this.closeClass === "string") {
         this.elements.controlledMenu.dom.menu.classList.remove(this.closeClass);
       } else if (Array.isArray(this.closeClass)) {
-        this.closeClass.forEach(value => {
+        this.closeClass.forEach((value) => {
           this.elements.controlledMenu.dom.menu.classList.remove(value);
         });
       }
@@ -264,7 +264,7 @@ class MenuToggle {
       if (typeof this.closeClass === "string") {
         this.elements.controlledMenu.dom.menu.classList.add(this.closeClass);
       } else if (Array.isArray(this.closeClass)) {
-        this.closeClass.forEach(value => {
+        this.closeClass.forEach((value) => {
           this.elements.controlledMenu.dom.menu.classList.add(value);
         });
       }
@@ -275,7 +275,7 @@ class MenuToggle {
       if (typeof this.openClass === "string") {
         this.elements.controlledMenu.dom.menu.classList.remove(this.openClass);
       } else if (Array.isArray(this.openClass)) {
-        this.openClass.forEach(value => {
+        this.openClass.forEach((value) => {
           this.elements.controlledMenu.dom.menu.classList.remove(value);
         });
       }
@@ -354,7 +354,7 @@ class MenuToggle {
    */
   closeSiblings() {
     if (this.elements.parentMenu) {
-      this.elements.parentMenu.elements.submenuToggles.forEach(toggle => {
+      this.elements.parentMenu.elements.submenuToggles.forEach((toggle) => {
         if (toggle !== this) toggle.close();
       });
     }
@@ -364,7 +364,7 @@ class MenuToggle {
    * Closes all child menus.
    */
   closeChildren() {
-    this.elements.controlledMenu.elements.submenuToggles.forEach(toggle =>
+    this.elements.controlledMenu.elements.submenuToggles.forEach((toggle) =>
       toggle.close()
     );
   }

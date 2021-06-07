@@ -84,7 +84,7 @@ class DisclosureMenu extends BaseMenu {
   handleKeydown() {
     super.handleKeydown();
 
-    this.dom.menu.addEventListener("keydown", event => {
+    this.dom.menu.addEventListener("keydown", (event) => {
       this.currentEvent = "keyboard";
 
       const key = keyPress(event);
@@ -125,7 +125,7 @@ class DisclosureMenu extends BaseMenu {
   handleKeyup() {
     super.handleKeyup();
 
-    this.dom.menu.addEventListener("keyup", event => {
+    this.dom.menu.addEventListener("keyup", (event) => {
       this.currentEvent = "keyboard";
 
       const key = keyPress(event);
@@ -144,7 +144,7 @@ class DisclosureMenu extends BaseMenu {
           // - If a dropdown is open, closes it.
           // - If was within the closed dropdown, sets focus on the button that controls that dropdown.
           const hasOpenChild = this.elements.submenuToggles.some(
-            toggle => toggle.isOpen
+            (toggle) => toggle.isOpen
           );
 
           if (hasOpenChild) {
