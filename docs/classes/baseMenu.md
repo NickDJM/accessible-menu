@@ -39,7 +39,7 @@ All Parameters _must_ be contained in a single object.
 | currentMenuItem | The currently selected menu item. | BaseMenuItem |
 | hoverType | The type of hoverability for the menu. | string |
 | hoverDelay | The delay time (in miliseconds) used for mouseout events to take place. | number |
-| shouldFocus | <p>A flag to check if the menu's focus methods should _actually_ move the focus in the DOM.</p><p>Will return false unless any of the following criteria are met:</p><ul><li>The menu's `currentEvent` is `"keyboard"`.</li><li>The menu's `currentEvent` is `"mouse"` _and_ the menu's `hoverType` is `"dynamic"`.</li></ul> | boolean |
+| shouldFocus | <p>A flag to check if the menu's focus methods should _actually_ move the focus in the DOM.</p><p>Will return false unless any of the following criteria are met:</p><ul><li>The menu's `currentEvent` is `"keyboard"`.</li><li>The menu's `currentEvent` is `"character"`.</li><li>The menu's `currentEvent` is `"mouse"` _and_ the menu's `hoverType` is `"dynamic"`.</li></ul> | boolean |
 
 ## Available Setters
 
@@ -98,7 +98,7 @@ Set the last event triggered on the menu.
 
 This is used mainly for controlling when the menu will take over forcing focus/blur on elements. When a mouse event is recorded, the menu will just let the browser control what is focussed and what isn't.
 
-Available events are "keyboard" and "mouse"
+Available events are "keyboard", "mouse", and "character".
 
 #### currentEvent Parameters
 

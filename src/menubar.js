@@ -211,6 +211,7 @@ class Menubar extends BaseMenu {
         // - Moves focus to next item in the menubar having a name that starts with the typed character.
         // - If none of the items have a name starting with the typed character, focus does not move.
         preventEvent(event);
+        this.elements.rootMenu.currentEvent = "character";
         this.focusNextChildWithCharacter(event.key);
       } else if (this.isTopLevel) {
         if (this.focusState === "self") {

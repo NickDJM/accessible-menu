@@ -256,6 +256,7 @@ class BaseMenu {
    *
    * Will return false unless any of the following criteria are met:
    * - The menu's currentEvent is "keyboard".
+   * - The menu's currentEvent is "character".
    * - The menu's currentEvent is "mouse" _and_ the menu's hoverType is "dynamic".
    *
    * @returns {boolean} - The flag.
@@ -263,7 +264,7 @@ class BaseMenu {
   get shouldFocus() {
     let check = false;
 
-    if (this.currentEvent === "keyboard") {
+    if (this.currentEvent === "keyboard" || this.currentEvent === "character") {
       check = true;
     }
 

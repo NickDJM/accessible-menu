@@ -165,6 +165,7 @@ class Treeview extends BaseMenu {
         // - Search wraps to first node if a matching name is not found among the nodes that follow the focused node.
         // - Search ignores nodes that are descendants of closed nodes.
         preventEvent(event);
+        this.elements.rootMenu.currentEvent = "character";
         this.focusNextNodeWithCharacter(event.key);
       } else if (this.focusState === "self") {
         if (key === "Enter" || key === "Space") {
