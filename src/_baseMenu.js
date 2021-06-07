@@ -335,20 +335,20 @@ class BaseMenu {
       if (base) isHTMLElement({ base });
 
       const baseElement = base || this.dom.menu;
-      const baseFilter = item => item.parentElement === baseElement;
+      const baseFilter = (item) => item.parentElement === baseElement;
       const selector = this.selectors[elementType];
       const domElements = Array.from(baseElement.querySelectorAll(selector));
 
       if (typeof filter !== "undefined") {
         if (typeof filter === "function") {
-          this.domElements[elementType] = domElements.filter(item =>
+          this.domElements[elementType] = domElements.filter((item) =>
             filter(item)
           );
         } else {
           this.domElements[elementType] = domElements;
         }
       } else {
-        this.domElements[elementType] = domElements.filter(item =>
+        this.domElements[elementType] = domElements.filter((item) =>
           baseFilter(item)
         );
       }
@@ -371,7 +371,7 @@ class BaseMenu {
       if (base) isHTMLElement({ base });
 
       const baseElement = base || this.dom.menu;
-      const baseFilter = item => item.parentElement === baseElement;
+      const baseFilter = (item) => item.parentElement === baseElement;
       const selector = this.selectors[elementType];
       const domElements = Array.from(baseElement.querySelectorAll(selector));
 
@@ -379,7 +379,7 @@ class BaseMenu {
         if (typeof filter === "function") {
           this.domElements[elementType] = [
             ...this.domElements[elementType],
-            ...domElements.filter(item => filter(item)),
+            ...domElements.filter((item) => filter(item)),
           ];
         } else {
           this.domElements[elementType] = [
@@ -390,7 +390,7 @@ class BaseMenu {
       } else {
         this.domElements[elementType] = [
           ...this.domElements[elementType],
-          ...domElements.filter(item => baseFilter(item)),
+          ...domElements.filter((item) => baseFilter(item)),
         ];
       }
     } else {
@@ -431,7 +431,7 @@ class BaseMenu {
       this.clearDOMElementType("submenuToggles");
       this.clearDOMElementType("submenus");
 
-      this.dom.submenuItems.forEach(item => {
+      this.dom.submenuItems.forEach((item) => {
         this.addDOMElementType("submenuToggles", item);
         this.addDOMElementType("submenus", item);
       });
@@ -459,7 +459,7 @@ class BaseMenu {
    * @param {object} MenuType - The menu type for created submenus.
    */
   createChildElements(MenuType = BaseMenu) {
-    this.dom.menuItems.forEach(element => {
+    this.dom.menuItems.forEach((element) => {
       let menuItem;
 
       if (this.dom.submenuItems.includes(element)) {
@@ -553,9 +553,9 @@ class BaseMenu {
     /**
      * Toggles a toggle element.
      *
-     * @param {BaseMenu}       menu   - This menu.
-     * @param {BaseMenuToggle} toggle - The menu toggle
-     * @param {Event}          event  - A Javascript event.
+     * @param {BaseMenu}   menu   - This menu.
+     * @param {MenuToggle} toggle - The menu toggle
+     * @param {Event}      event  - A Javascript event.
      */
     function toggleToggle(menu, toggle, event) {
       preventEvent(event);
@@ -569,7 +569,7 @@ class BaseMenu {
     }
 
     // Close the menu if a click event happens outside of it.
-    document.addEventListener(endEventType, event => {
+    document.addEventListener(endEventType, (event) => {
       if (this.focusState !== "none") {
         this.currentEvent = "mouse";
 
@@ -597,7 +597,7 @@ class BaseMenu {
 
       // Properly toggle submenus open and closed.
       if (item.isSubmenuItem) {
-        item.elements.toggle.dom.toggle[`on${endEventType}`] = event => {
+        item.elements.toggle.dom.toggle[`on${endEventType}`] = (event) => {
           this.currentEvent = "mouse";
           toggleToggle(this, item.elements.toggle, event);
         };
@@ -606,7 +606,7 @@ class BaseMenu {
 
     // Open the this menu if it's controller is clicked.
     if (this.isTopLevel && this.elements.controller) {
-      this.elements.controller.dom.toggle[`on${endEventType}`] = event => {
+      this.elements.controller.dom.toggle[`on${endEventType}`] = (event) => {
         this.currentEvent = "mouse";
         toggleToggle(this, this.elements.controller, event);
       };
@@ -617,7 +617,7 @@ class BaseMenu {
    * Handles hover events throughout the menu for proper use.
    */
   handleHover() {
-    this.elements.submenuToggles.forEach(toggle => {
+    this.elements.submenuToggles.forEach((toggle) => {
       toggle.dom.parent.addEventListener("mouseenter", () => {
         if (this.isHoverable) {
           this.currentEvent = "mouse";
@@ -641,15 +641,18 @@ class BaseMenu {
    */
   handleKeydown() {
     if (this.isTopLevel && this.elements.controller) {
-      this.elements.controller.dom.toggle.addEventListener("keydown", event => {
-        this.currentEvent = "keyboard";
+      this.elements.controller.dom.toggle.addEventListener(
+        "keydown",
+        (event) => {
+          this.currentEvent = "keyboard";
 
-        const key = keyPress(event);
+          const key = keyPress(event);
 
-        if (key === "Space" || key === "Enter") {
-          preventEvent(event);
+          if (key === "Space" || key === "Enter") {
+            preventEvent(event);
+          }
         }
-      });
+      );
     }
   }
 
@@ -658,7 +661,7 @@ class BaseMenu {
    */
   handleKeyup() {
     if (this.isTopLevel && this.elements.controller) {
-      this.elements.controller.dom.toggle.addEventListener("keyup", event => {
+      this.elements.controller.dom.toggle.addEventListener("keyup", (event) => {
         this.currentEvent = "keyboard";
 
         const key = keyPress(event);
@@ -773,9 +776,8 @@ class BaseMenu {
 
     while (!found && index < this.elements.menuItems.length) {
       // Ensure the text in the item is lowercase just to be safe.
-      const text = this.elements.menuItems[
-        index
-      ].dom.item.innerText.toLowerCase();
+      const text =
+        this.elements.menuItems[index].dom.item.innerText.toLowerCase();
 
       // Focus the child if the text matches, otherwise move on.
       if (text.startsWith(match)) {
@@ -818,14 +820,14 @@ class BaseMenu {
    * Close all submenu children.
    */
   closeChildren() {
-    this.elements.submenuToggles.forEach(toggle => toggle.close());
+    this.elements.submenuToggles.forEach((toggle) => toggle.close());
   }
 
   /**
    * Blurs all children and submenu's children.
    */
   blurChildren() {
-    this.elements.menuItems.forEach(menuItem => {
+    this.elements.menuItems.forEach((menuItem) => {
       menuItem.blur();
 
       if (menuItem.isSubmenuItem) {
