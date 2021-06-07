@@ -312,37 +312,52 @@ class BaseMenu {
   set currentChild(value) {
     isValidType("number", { value });
 
-    if (value < -1) {
-      this.focussedChild = -1;
-    } else if (value >= this.elements.menuItems.length) {
-      this.focussedChild = this.elements.menuItems.length - 1;
-    } else {
-      this.focussedChild = value;
+    /**
+     * Update the parent menu's current child to make sure clicks
+     * and other jumps don't interfere with keyboard navigation.
+     *
+     * @param {BaseMenu} menu - The initial menu.
+     */
+    function setParentChild(menu) {
+      const updateEvents = ["mouse", "character"];
+
+      if (
+        updateEvents.includes(menu.currentEvent) &&
+        menu.elements.parentMenu
+      ) {
+        let index = 0;
+        let found = false;
+
+        while (
+          !found &&
+          index < menu.elements.parentMenu.elements.menuItems.length
+        ) {
+          const menuItem = menu.elements.parentMenu.elements.menuItems[index];
+
+          if (
+            menuItem.isSubmenuItem &&
+            menuItem.elements.toggle.elements.controlledMenu === menu
+          ) {
+            found = true;
+
+            menu.elements.parentMenu.currentEvent = menu.currentEvent;
+            menu.elements.parentMenu.currentChild = index;
+          }
+
+          index++;
+        }
+      }
     }
 
-    // Update the parent menu's current child to make sure clicks don't interfere with keyboard navigation.
-    if (this.currentEvent === "mouse" && this.elements.parentMenu) {
-      let index = 0;
-      let found = false;
-
-      while (
-        !found &&
-        index < this.elements.parentMenu.elements.menuItems.length
-      ) {
-        const menuItem = this.elements.parentMenu.elements.menuItems[index];
-
-        if (
-          menuItem.isSubmenuItem &&
-          menuItem.elements.toggle.elements.controlledMenu === this
-        ) {
-          found = true;
-
-          this.elements.parentMenu.currentEvent = this.currentEvent;
-          this.elements.parentMenu.currentChild = index;
-        }
-
-        index++;
-      }
+    if (value < -1) {
+      this.focussedChild = -1;
+      setParentChild(this);
+    } else if (value >= this.elements.menuItems.length) {
+      this.focussedChild = this.elements.menuItems.length - 1;
+      setParentChild(this);
+    } else {
+      this.focussedChild = value;
+      setParentChild(this);
     }
   }
 
