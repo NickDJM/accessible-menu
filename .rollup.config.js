@@ -1,21 +1,23 @@
-import babel from "rollup-plugin-babel";
+import { babel } from "@rollup/plugin-babel";
 import resolve from "@rollup/plugin-node-resolve";
 import { terser } from "rollup-plugin-terser";
 
 module.exports = {
-  input: "./src/rollup.js",
+  input: "./rollup.js",
+  plugins: [babel({ babelHelpers: "inline" }), resolve()],
   output: [
     {
       name: "AccessibleMenu",
-      file: "dist/accessibleMenu.js",
       format: "iife",
-      plugins: [resolve(), babel()],
+      sourcemap: true,
+      file: "dist/accessibleMenu.js",
     },
     {
       name: "AccessibleMenu",
-      file: "dist/accessibleMenu.min.js",
       format: "iife",
-      plugins: [resolve(), babel(), terser()],
-    }
+      sourcemap: true,
+      file: "dist/accessibleMenu.min.js",
+      plugins: [terser()],
+    },
   ],
 };
