@@ -86,3 +86,17 @@ This includes all _open_ child menu items.
 ### openChildren
 
 Open all submenu children.
+
+### focusNextNodeWithCharacter
+
+Focus the menu's next node starting with a specific letter.
+
+Wraps to the first node if no match is found after the current node.
+
+This includes all _open_ child menu items.
+
+#### focusNextNodeWithCharacter Parameters
+
+| Paramter | Description | Type | Required | Default Value |
+| --- | --- | --- | --- | --- |
+| char | The character to look for. | string | true | `undefined` |
