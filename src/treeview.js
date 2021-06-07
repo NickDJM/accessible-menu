@@ -226,6 +226,7 @@ class Treeview extends BaseMenu {
             this.currentMenuItem.elements.childMenu.currentEvent = this.currentEvent;
             this.currentMenuItem.elements.childMenu.focusLastChild();
           } else if (!this.isTopLevel && this.currentChild === 0) {
+            this.blurCurrentChild();
             this.elements.parentMenu.currentEvent = this.currentEvent;
             this.elements.parentMenu.focusCurrentChild();
           } else {
