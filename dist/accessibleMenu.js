@@ -1706,8 +1706,34 @@ var AccessibleMenu = (function () {
      * Handles click events throughout the menu for proper use.
      */
     handleClick() {
+      // Use touch over mouse events when supported.
+      const startEventType = isEventSupported("touchstart", this.dom.menu)
+        ? "touchstart"
+        : "mousedown";
+      const endEventType = isEventSupported("touchend", this.dom.menu)
+        ? "touchend"
+        : "mouseup";
+
+      /**
+       * Toggles a toggle element.
+       *
+       * @param {BaseMenu}       menu   - This menu.
+       * @param {BaseMenuToggle} toggle - The menu toggle
+       * @param {Event}          event  - A Javascript event.
+       */
+      function toggleToggle(menu, toggle, event) {
+        preventEvent(event);
+
+        toggle.toggle();
+
+        if (toggle.isOpen) {
+          menu.focusState = "self";
+          toggle.elements.controlledMenu.focusState = "none";
+        }
+      }
+
       // Close the menu if a click event happens outside of it.
-      document.addEventListener("mouseup", event => {
+      document.addEventListener(endEventType, event => {
         if (this.focusState !== "none") {
           this.currentEvent = "mouse";
 
@@ -1725,50 +1751,29 @@ var AccessibleMenu = (function () {
         }
       });
 
-      /**
-       * Toggles a toggle element.
-       *
-       * @param {BaseMenu} menu - This menu.
-       * @param {MenuToggle} toggle - The menu toggle
-       * @param {Event} event - A Javascript event.
-       */
-      function toggleToggle(menu, toggle, event) {
-        preventEvent(event);
+      this.elements.menuItems.forEach((item, index) => {
+        // Properly focus the current menu item.
+        item.dom.link.addEventListener(startEventType, () => {
+          this.currentEvent = "mouse";
+          this.elements.rootMenu.blurChildren();
+          this.focusChild(index);
+        });
 
-        menu.currentEvent = "mouse";
-
-        toggle.toggle();
-
-        if (toggle.isOpen) {
-          menu.focusState = "self";
-          toggle.elements.controlledMenu.focusState = "none";
-        }
-      }
-
-      // Toggle submenus when their controllers are clicked.
-      this.elements.submenuToggles.forEach(toggle => {
-        if (isEventSupported("touchend", toggle.dom.toggle)) {
-          toggle.dom.toggle.ontouchend = event => {
-            toggleToggle(this, toggle, event);
-          };
-        } else {
-          toggle.dom.toggle.onmouseup = event => {
-            toggleToggle(this, toggle, event);
+        // Properly toggle submenus open and closed.
+        if (item.isSubmenuItem) {
+          item.elements.toggle.dom.toggle[`on${endEventType}`] = event => {
+            this.currentEvent = "mouse";
+            toggleToggle(this, item.elements.toggle, event);
           };
         }
       });
 
       // Open the this menu if it's controller is clicked.
       if (this.isTopLevel && this.elements.controller) {
-        if (isEventSupported("touchend", this.elements.controller.dom.toggle)) {
-          this.elements.controller.dom.toggle.ontouchend = event => {
-            toggleToggle(this, this.elements.controller, event);
-          };
-        } else {
-          this.elements.controller.dom.toggle.onmouseup = event => {
-            toggleToggle(this, this.elements.controller, event);
-          };
-        }
+        this.elements.controller.dom.toggle[`on${endEventType}`] = event => {
+          this.currentEvent = "mouse";
+          toggleToggle(this, this.elements.controller, event);
+        };
       }
     }
 
@@ -1978,6 +1983,19 @@ var AccessibleMenu = (function () {
      */
     closeChildren() {
       this.elements.submenuToggles.forEach(toggle => toggle.close());
+    }
+
+    /**
+     * Blurs all children and submenu's children.
+     */
+    blurChildren() {
+      this.elements.menuItems.forEach(menuItem => {
+        menuItem.blur();
+
+        if (menuItem.isSubmenuItem) {
+          menuItem.elements.childMenu.blurChildren();
+        }
+      });
     }
   }
 
