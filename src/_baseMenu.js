@@ -283,7 +283,9 @@ class BaseMenu {
   set openClass(value) {
     isValidClassList({ openClass: value });
 
-    this.submenuOpenClass = value;
+    if (this.submenuOpenClass !== value) {
+      this.submenuOpenClass = value;
+    }
   }
 
   /**
@@ -294,7 +296,9 @@ class BaseMenu {
   set closeClass(value) {
     isValidClassList({ closeClass: value });
 
-    this.submenuCloseClass = value;
+    if (this.submenuCloseClass !== value) {
+      this.submenuCloseClass = value;
+    }
   }
 
   /**
@@ -355,7 +359,7 @@ class BaseMenu {
     } else if (value >= this.elements.menuItems.length) {
       this.focussedChild = this.elements.menuItems.length - 1;
       setParentChild(this);
-    } else {
+    } else if (this.focusChild !== value) {
       this.focussedChild = value;
       setParentChild(this);
     }
@@ -369,7 +373,9 @@ class BaseMenu {
   set focusState(value) {
     isValidState({ value });
 
-    this.state = value;
+    if (this.state !== value) {
+      this.state = value;
+    }
   }
 
   /**
@@ -380,13 +386,15 @@ class BaseMenu {
   set currentEvent(value) {
     isValidEvent({ value });
 
-    if (this.elements.submenuToggles.length > 0) {
-      this.elements.submenuToggles.forEach((submenuToggle) => {
-        submenuToggle.elements.controlledMenu.currentEvent = value;
-      });
-    }
+    if (this.event !== value) {
+      this.event = value;
 
-    this.event = value;
+      if (this.elements.submenuToggles.length > 0) {
+        this.elements.submenuToggles.forEach((submenuToggle) => {
+          submenuToggle.elements.controlledMenu.currentEvent = value;
+        });
+      }
+    }
   }
 
   /**
@@ -397,7 +405,9 @@ class BaseMenu {
   set hoverType(value) {
     isValidHoverType({ value });
 
-    this.hover = value;
+    if (this.hover !== value) {
+      this.hover = value;
+    }
   }
 
   /**
@@ -408,7 +418,9 @@ class BaseMenu {
   set hoverDelay(value) {
     isValidType("number", { value });
 
-    this.delay = value;
+    if (this.delay !== value) {
+      this.delay = value;
+    }
   }
 
   /**
