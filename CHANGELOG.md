@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.3.0](https://github.com/NickDJM/accessible-menu/compare/v2.2.0...v2.3.0) (2021-06-07)
+
+
+### Features
+
+* **menu:** allow Menubar and DisclosureMenu to be imported individually ([b168dd3](https://github.com/NickDJM/accessible-menu/commit/b168dd3ce6666141b8a83ad8ecb6cf9c733ebedd))
+
+
+### Bug Fixes
+
+* **compile:** properly run code through babel ([e5bac70](https://github.com/NickDJM/accessible-menu/commit/e5bac70642b92f893692da2b71c60afc1e6a573f))
+* **menu:** rewrite click events to resolve unresponiveness issue ([12598fc](https://github.com/NickDJM/accessible-menu/commit/12598fcb11c36623ab61109cff5d5f8e2b492271)), closes [#109](https://github.com/NickDJM/accessible-menu/issues/109)
+
+
+### Build System
+
+* overhaul build and development config ([be89706](https://github.com/NickDJM/accessible-menu/commit/be89706a7c01eb508074c42c223a18be1d7014dd))
+
+
+### Documentation
+
+* **readme:** update browser support icons and info ([b3cbdd5](https://github.com/NickDJM/accessible-menu/commit/b3cbdd570d3f2aa3013bb0936f42953ce1b428ab))
+* correct function comments ([f4264b7](https://github.com/NickDJM/accessible-menu/commit/f4264b7f43e6642d65f22900db311db16976578a))
+
 ## [2.2.0](https://github.com/NickDJM/accessible-menu/compare/v2.1.1...v2.2.0) (2021-03-24)
 
 
