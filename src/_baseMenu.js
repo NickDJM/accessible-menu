@@ -256,6 +256,7 @@ class BaseMenu {
    *
    * Will return false unless any of the following criteria are met:
    * - The menu's currentEvent is "keyboard".
+   * - The menu's currentEvent is "character".
    * - The menu's currentEvent is "mouse" _and_ the menu's hoverType is "dynamic".
    *
    * @returns {boolean} - The flag.
@@ -263,7 +264,7 @@ class BaseMenu {
   get shouldFocus() {
     let check = false;
 
-    if (this.currentEvent === "keyboard") {
+    if (this.currentEvent === "keyboard" || this.currentEvent === "character") {
       check = true;
     }
 
@@ -282,7 +283,9 @@ class BaseMenu {
   set openClass(value) {
     isValidClassList({ openClass: value });
 
-    this.submenuOpenClass = value;
+    if (this.submenuOpenClass !== value) {
+      this.submenuOpenClass = value;
+    }
   }
 
   /**
@@ -293,7 +296,9 @@ class BaseMenu {
   set closeClass(value) {
     isValidClassList({ closeClass: value });
 
-    this.submenuCloseClass = value;
+    if (this.submenuCloseClass !== value) {
+      this.submenuCloseClass = value;
+    }
   }
 
   /**
@@ -302,17 +307,61 @@ class BaseMenu {
    * - Attempting to set a value < -1 will set the currentChild to -1.
    * - Attempting to set a value >= the number of menu items will set the currentChild to the number of menu items - 1.
    *
+   * If the current menu has a parent menu _and_ the menu's current event is "mouse",
+   * The parent menu will have it's current child updated as well to help with transitioning
+   * between mouse and keyboard naviation.
+   *
    * @param {number} value - The index.
    */
   set currentChild(value) {
     isValidType("number", { value });
 
+    /**
+     * Update the parent menu's current child to make sure clicks
+     * and other jumps don't interfere with keyboard navigation.
+     *
+     * @param {BaseMenu} menu - The initial menu.
+     */
+    function setParentChild(menu) {
+      const updateEvents = ["mouse", "character"];
+
+      if (
+        updateEvents.includes(menu.currentEvent) &&
+        menu.elements.parentMenu
+      ) {
+        let index = 0;
+        let found = false;
+
+        while (
+          !found &&
+          index < menu.elements.parentMenu.elements.menuItems.length
+        ) {
+          const menuItem = menu.elements.parentMenu.elements.menuItems[index];
+
+          if (
+            menuItem.isSubmenuItem &&
+            menuItem.elements.toggle.elements.controlledMenu === menu
+          ) {
+            found = true;
+
+            menu.elements.parentMenu.currentEvent = menu.currentEvent;
+            menu.elements.parentMenu.currentChild = index;
+          }
+
+          index++;
+        }
+      }
+    }
+
     if (value < -1) {
       this.focussedChild = -1;
+      setParentChild(this);
     } else if (value >= this.elements.menuItems.length) {
       this.focussedChild = this.elements.menuItems.length - 1;
-    } else {
+      setParentChild(this);
+    } else if (this.focusChild !== value) {
       this.focussedChild = value;
+      setParentChild(this);
     }
   }
 
@@ -324,7 +373,9 @@ class BaseMenu {
   set focusState(value) {
     isValidState({ value });
 
-    this.state = value;
+    if (this.state !== value) {
+      this.state = value;
+    }
   }
 
   /**
@@ -335,13 +386,15 @@ class BaseMenu {
   set currentEvent(value) {
     isValidEvent({ value });
 
-    if (this.elements.submenuToggles.length > 0) {
-      this.elements.submenuToggles.forEach((submenuToggle) => {
-        submenuToggle.elements.controlledMenu.currentEvent = value;
-      });
-    }
+    if (this.event !== value) {
+      this.event = value;
 
-    this.event = value;
+      if (this.elements.submenuToggles.length > 0) {
+        this.elements.submenuToggles.forEach((submenuToggle) => {
+          submenuToggle.elements.controlledMenu.currentEvent = value;
+        });
+      }
+    }
   }
 
   /**
@@ -352,7 +405,9 @@ class BaseMenu {
   set hoverType(value) {
     isValidHoverType({ value });
 
-    this.hover = value;
+    if (this.hover !== value) {
+      this.hover = value;
+    }
   }
 
   /**
@@ -363,7 +418,9 @@ class BaseMenu {
   set hoverDelay(value) {
     isValidType("number", { value });
 
-    this.delay = value;
+    if (this.delay !== value) {
+      this.delay = value;
+    }
   }
 
   /**
@@ -671,17 +728,20 @@ class BaseMenu {
    * Handles click events throughout the menu for proper use.
    */
   handleClick() {
-    // Use touchend over mouseup when supported.
-    const eventType = isEventSupported("touchend", this.dom.menu)
+    // Use touch over mouse events when supported.
+    const startEventType = isEventSupported("touchstart", this.dom.menu)
+      ? "touchstart"
+      : "mousedown";
+    const endEventType = isEventSupported("touchend", this.dom.menu)
       ? "touchend"
       : "mouseup";
 
     /**
      * Toggles a toggle element.
      *
-     * @param {BaseMenu}       menu - This menu.
+     * @param {BaseMenu}       menu   - This menu.
      * @param {BaseMenuToggle} toggle - The menu toggle
-     * @param {Event}          event - A Javascript event.
+     * @param {Event}          event  - A Javascript event.
      */
     function toggleToggle(menu, toggle, event) {
       preventEvent(event);
@@ -694,45 +754,26 @@ class BaseMenu {
       }
     }
 
-    // Close the menu if a click event happens outside of it.
-    document.addEventListener(eventType, (event) => {
-      if (this.focusState !== "none") {
-        this.currentEvent = "mouse";
-
-        if (
-          !this.dom.menu.contains(event.target) &&
-          !this.dom.menu !== event.target
-        ) {
-          this.closeChildren();
-          this.blur();
-
-          if (this.elements.controller) {
-            this.elements.controller.close();
-          }
-        }
-      }
-    });
-
     this.elements.menuItems.forEach((item, index) => {
+      // Properly focus the current menu item.
+      item.dom.link.addEventListener(startEventType, () => {
+        this.currentEvent = "mouse";
+        this.elements.rootMenu.blurChildren();
+        this.focusChild(index);
+      });
+
+      // Properly toggle submenus open and closed.
       if (item.isSubmenuItem) {
-        item.elements.toggle.dom.toggle[`on${eventType}`] = (event) => {
+        item.elements.toggle.dom.toggle[`on${endEventType}`] = (event) => {
           this.currentEvent = "mouse";
-          item.blurSiblings();
-          this.focusChild(index);
           toggleToggle(this, item.elements.toggle, event);
         };
-      } else {
-        item.dom.link.addEventListener(eventType, () => {
-          this.currentEvent = "mouse";
-          item.blurSiblings();
-          this.focusChild(index);
-        });
       }
     });
 
     // Open the this menu if it's controller is clicked.
     if (this.isTopLevel && this.elements.controller) {
-      this.elements.controller.dom.toggle[`on${eventType}`] = (event) => {
+      this.elements.controller.dom.toggle[`on${endEventType}`] = (event) => {
         this.currentEvent = "mouse";
         toggleToggle(this, this.elements.controller, event);
       };
@@ -948,6 +989,19 @@ class BaseMenu {
    */
   closeChildren() {
     this.elements.submenuToggles.forEach((toggle) => toggle.close());
+  }
+
+  /**
+   * Blurs all children and submenu's children.
+   */
+  blurChildren() {
+    this.elements.menuItems.forEach((menuItem) => {
+      menuItem.blur();
+
+      if (menuItem.isSubmenuItem) {
+        menuItem.elements.childMenu.blurChildren();
+      }
+    });
   }
 }
 

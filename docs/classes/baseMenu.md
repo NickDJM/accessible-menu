@@ -39,7 +39,7 @@ All Parameters _must_ be contained in a single object.
 | currentMenuItem | The currently selected menu item. | BaseMenuItem |
 | hoverType | The type of hoverability for the menu. | string |
 | hoverDelay | The delay time (in miliseconds) used for mouseout events to take place. | number |
-| shouldFocus | <p>A flag to check if the menu's focus methods should _actually_ move the focus in the DOM.</p><p>Will return false unless any of the following criteria are met:</p><ul><li>The menu's `currentEvent` is `"keyboard"`.</li><li>The menu's `currentEvent` is `"mouse"` _and_ the menu's `hoverType` is `"dynamic"`.</li></ul> | boolean |
+| shouldFocus | <p>A flag to check if the menu's focus methods should _actually_ move the focus in the DOM.</p><p>Will return false unless any of the following criteria are met:</p><ul><li>The menu's `currentEvent` is `"keyboard"`.</li><li>The menu's `currentEvent` is `"character"`.</li><li>The menu's `currentEvent` is `"mouse"` _and_ the menu's `hoverType` is `"dynamic"`.</li></ul> | boolean |
 
 ## Available Setters
 
@@ -70,6 +70,8 @@ Set the index currently selected menu item in the menu.
 - Attempting to set a value less than -1 will set the `currentChild` to -1.
 - Attempting to set a value greater than or equal to the number of menu items will set the `currentChild` to the number of menu items - 1.
 
+If the current menu has a parent menu _and_ the menu's current event is "mouse", The parent menu will have it's current child updated as well to help with transitioning between mouse and keyboard naviation.
+
 #### currentChild Parameters
 
 | Paramter | Description | Type | Required | Default Value |
@@ -96,7 +98,7 @@ Set the last event triggered on the menu.
 
 This is used mainly for controlling when the menu will take over forcing focus/blur on elements. When a mouse event is recorded, the menu will just let the browser control what is focussed and what isn't.
 
-Available events are "keyboard" and "mouse"
+Available events are "keyboard", "mouse", and "character".
 
 #### currentEvent Parameters
 
@@ -210,9 +212,12 @@ Handles focus events throughout the menu for proper menu use.
 
 Handles click events throughout the menu for proper use.
 
-- Adds a `mouseup` listener to the document so if the user clicks outside of the menu when it is open, the menu will close.
-- Adds a `touchend` listener to every submenu toggle so when they are clicked they will properly toggle open/closed. If `touchend` is not supported, `mouseup` will be used instead.
-- Adds a `touchend` listener to the menu's controller (if the menu is the root menu) so when it is clicked it will properly toggle open/closed. If `touchend` is not supported, `mouseup` will be used instead.
+Depending on what is supported either `touchstart` and `touchend` or `mousedown` and `mouseup` will be used for all "click" event handling.
+
+- Adds a `touchend`/`mouseup` listener to the document so if the user clicks outside of the menu when it is open, the menu will close.
+- Adds a `touchstart`/`mousedown` listener to every menu item that will blur all menu items in the entire menu structure (starting at the root menu) and then properly focus the clicked item.
+- Adds a `touchend`/`mouseup` listener to every submenu item that will properly toggle the submenu open/closed.
+- Adds a `touchend`/`mouseup` listener to the menu's controller (if the menu is the root menu) so when it is clicked it will properly toggle open/closed.
 
 ### handleHover
 
@@ -314,3 +319,7 @@ Focus the menu's container.
 ### closeChildren
 
 Close all submenu children.
+
+### blurChildren
+
+Blurs all children and submenu's children.

@@ -34,6 +34,38 @@ class DisclosureMenuToggle extends BaseMenuToggle {
       this.initialize();
     }
   }
+
+  /**
+   * Opens the controlled menu.
+   */
+  open() {
+    // Close all siblings.
+    this.closeSiblings();
+
+    super.open();
+  }
+
+  /**
+   * Opens the controlled menu without the current focus entering it.
+   */
+  preview() {
+    // Close all siblings.
+    this.closeSiblings();
+
+    super.preview();
+  }
+
+  /**
+   * Closes the controlled menu.
+   */
+  close() {
+    if (this.isOpen) {
+      // Close all children.
+      this.closeChildren();
+    }
+
+    super.close();
+  }
 }
 
 export default DisclosureMenuToggle;

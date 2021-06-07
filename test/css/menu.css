@@ -36,12 +36,6 @@ nav > ul {
 nav > ul.show {
   display: flex;
 }
-@media screen and (min-width: 1070px) {
-  nav > ul {
-    display: flex;
-    flex-direction: row;
-  }
-}
 nav > button {
   display: block;
   border: 0;
@@ -49,11 +43,6 @@ nav > button {
   padding: 0.5rem 2rem;
   font-size: 1.5rem;
   margin-left: auto;
-}
-@media screen and (min-width: 1070px) {
-  nav > button {
-    display: none;
-  }
 }
 nav ul {
   list-style: none;
@@ -69,30 +58,13 @@ nav ul.dropdown {
 nav ul.dropdown.show {
   display: flex;
 }
-@media screen and (min-width: 1070px) {
-  nav ul.dropdown {
-    position: absolute;
-    top: 100%;
-    left: 0;
-  }
-  nav ul.dropdown ul {
-    top: 0;
-    left: 100%;
-  }
-}
 nav ul li {
   position: relative;
   margin: 0;
   padding: 0;
 }
-nav ul li.dropdown > a::after {
-  content: "▼";
-  margin-left: 0.5rem;
-  display: inline-block;
-}
 nav ul li a {
   display: flex;
-  justify-content: space-between;
   margin: 0;
   padding: 1rem 2rem;
   color: #000;
@@ -100,6 +72,51 @@ nav ul li a {
 }
 nav ul li a:hover, nav ul li a:focus {
   background-color: #bebfc1;
+}
+nav ul li li a {
+  padding-left: 3.5rem;
+}
+nav ul li li li a {
+  padding-left: 5rem;
+}
+
+@media screen and (min-width: 1070px) {
+  nav > button {
+    display: none;
+  }
+  nav > ul {
+    display: flex;
+  }
+}
+li.dropdown > a::after {
+  content: "▼";
+  margin-left: 0.5rem;
+  display: inline-block;
+}
+li a {
+  justify-content: space-between;
+}
+
+@media screen and (min-width: 1070px) {
+  nav > ul {
+    flex-direction: row;
+  }
+
+  ul.dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+  }
+  ul.dropdown ul {
+    top: 0;
+    left: 100%;
+  }
+  ul.dropdown li a {
+    padding-left: 2rem;
+  }
+  ul.dropdown li li a {
+    padding-left: 2rem;
+  }
 }
 
 /*# sourceMappingURL=menu.css.map */

@@ -1,8 +1,9 @@
 module.exports = {
   globals: {
+    AccessibleMenu: true,
     DisclosureMenu: true,
     Menubar: true,
-    AccessibleMenu: true,
+    Treeview: true,
   },
   rules: {
     "no-console": 0,

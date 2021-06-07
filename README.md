@@ -5,10 +5,11 @@
 
 A JavaScript library to help you generate WCAG accessible menus in the DOM.
 
-The two supported menu types are:
+The supported menu types are:
 
-- [Navigation Menubar](https://www.w3.org/TR/wai-aria-practices-1.2/examples/menubar/menubar-1/menubar-1.html), and
 - [Disclosure Navigation Menus](https://www.w3.org/TR/wai-aria-practices-1.2/examples/disclosure/disclosure-navigation.html)
+- [Navigation Menubar](https://www.w3.org/TR/wai-aria-practices-1.2/examples/menubar/menubar-1/menubar-1.html), and
+- [Navigation Treeview](https://www.w3.org/TR/wai-aria-practices-1.2/examples/treeview/treeview-2/treeview-2a.html)
 
 ## Browser Support
 
@@ -132,6 +133,27 @@ const menu = new Menubar({
 });
 ```
 
+#### Treeview usage
+
+```js
+import { Treeview } from "accessible-menu";
+```
+
+or
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/accessible-menu@3.0.0/dist/navigationTreeview.min.js"></script>
+```
+
+then
+
+```js
+const menu = new Treeview({
+  menuElement: document.querySelector("#example-menu"),
+  submenuItemSelector: "li.dropdown",
+});
+```
+
 ### Documentation
 
 - [Classes](docs/classes/index.md)
@@ -144,6 +166,9 @@ const menu = new Menubar({
   - [Menubar](docs/classes/menubar.md)
   - [MenubarItem](docs/classes/menubarItem.md)
   - [MenubarToggle](docs/classes/menubarToggle.md)
+  - [Treeview](docs/classes/navigationTreeview.md)
+  - [TreeviewItem](docs/classes/navigationTreeviewItem.md)
+  - [TreeviewToggle](docs/classes/navigationTreeviewToggle.md)
 - [Basics](docs/basics/index.md)
   - [Single-level menu](docs/basics/single-level-menu.md)
   - [Single-level menu with toggle](docs/basics/single-level-menu-with-toggle.md)

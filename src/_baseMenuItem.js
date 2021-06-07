@@ -84,17 +84,6 @@ class BaseMenuItem {
       this.dom.link.blur();
     }
   }
-
-  /**
-   * Blurs the menu item's siblings.
-   */
-  blurSiblings() {
-    this.elements.parentMenu.elements.menuItems.forEach((menuItem) => {
-      if (menuItem !== this) {
-        menuItem.blur();
-      }
-    });
-  }
 }
 
 export default BaseMenuItem;

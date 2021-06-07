@@ -239,7 +239,7 @@ export function isValidEvent(values) {
       );
     }
 
-    const validEvents = ["none", "mouse", "keyboard"];
+    const validEvents = ["none", "mouse", "keyboard", "character"];
 
     for (const key in values) {
       if (!validEvents.includes(values[key])) {

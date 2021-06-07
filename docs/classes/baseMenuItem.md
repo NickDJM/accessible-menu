@@ -38,7 +38,3 @@ Will also set the link's tabindex to "0" is the parentMenu is a Menubar.
 ### blur
 
 Blurs the menu's link if the triggering event wasn't a mouse event.
-
-### blurSiblings
-
-Blurs the menu item's siblings.

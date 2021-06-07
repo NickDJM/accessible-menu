@@ -1,7 +1,9 @@
-import Menubar from "./src/menubar.js";
 import DisclosureMenu from "./src/disclosureMenu.js";
+import Menubar from "./src/menubar.js";
+import Treeview from "./src/treeview.js";
 
 export default {
-  Menubar,
   DisclosureMenu,
+  Menubar,
+  Treeview,
 };
