@@ -11,5 +11,8 @@ package-lock.json
 # Polyfills.
 src/polyfills/*
 
-# Tests
-test/*
+# Ignore compiled IE test files.
+test/js/ie/*
+
+# Do not ignore config files.
+!.*.js
