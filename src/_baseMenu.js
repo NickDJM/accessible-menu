@@ -592,7 +592,8 @@ class BaseMenu {
       item.dom.link.addEventListener(startEventType, () => {
         this.currentEvent = "mouse";
         this.elements.rootMenu.blurChildren();
-        this.focusChild(index);
+        this.currentChild = index;
+        this.focusCurrentChild();
       });
 
       // Properly toggle submenus open and closed.
