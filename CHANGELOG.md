@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.3.1](https://github.com/NickDJM/accessible-menu/compare/v2.3.0...v2.3.1) (2021-06-10)
+
+
+### Bug Fixes
+
+* **dist:** correct order of declarations ([d030e81](https://github.com/NickDJM/accessible-menu/commit/d030e812b6cc8fa4835948e81828b90ca56774ed))
+* **menu:** correct focus methods ([243ee95](https://github.com/NickDJM/accessible-menu/commit/243ee95ae28dd4faf6fed4c7d1cdec96f8175ab6))
+
 ## [2.3.0](https://github.com/NickDJM/accessible-menu/compare/v2.2.0...v2.3.0) (2021-06-07)
 
 
