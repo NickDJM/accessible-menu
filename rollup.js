@@ -4,10 +4,10 @@ import "./src/polyfills/array.find.polyfill";
 import "./src/polyfills/string.startsWith.polyfill";
 import "./src/polyfills/string.endsWith.polyfill";
 import "./src/polyfills/customEvent.polyfill";
-import DisclosureMenu from "./src/disclosureMenu";
 import Menubar from "./src/menubar";
+import DisclosureMenu from "./src/disclosureMenu";
 
 export default {
-  DisclosureMenu,
   Menubar,
+  DisclosureMenu,
 };
