@@ -10,4 +10,5 @@ module.exports = {
   htmlWhitespaceSensitivity: "css",
   vueIndentScriptAndStyle: false,
   endOfLine: "lf",
+  printWidth: 80,
 };
