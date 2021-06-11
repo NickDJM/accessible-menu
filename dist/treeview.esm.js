@@ -154,7 +154,7 @@ function _arrayWithoutHoles(arr) {
 }
 
 function _iterableToArray(iter) {
-  if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);
+  if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
 }
 
 function _unsupportedIterableToArray(o, minLen) {
@@ -397,7 +397,7 @@ function isValidEvent(values) {
       throw new TypeError("AccessibleMenu: Values given to isValidEvent() must be inside of an object. ".concat(type, " given."));
     }
 
-    var validEvents = ["none", "mouse", "keyboard"];
+    var validEvents = ["none", "mouse", "keyboard", "character"];
 
     for (var key in values) {
       if (!validEvents.includes(values[key])) {
@@ -959,7 +959,7 @@ function keyPress(event) {
       ArrowLeft: key === "ArrowLeft" || key === "Left" || key === 37,
       Home: key === "Home" || key === 36,
       End: key === "End" || key === 35,
-      Character: !!key.match(/^[a-zA-Z]{1}$/),
+      Character: isNaN(key) && !!key.match(/^[a-zA-Z]{1}$/),
       Tab: key === "Tab" || key === 9,
       Asterisk: key === "*" || key === 56
     };
@@ -1175,7 +1175,10 @@ var BaseMenu = /*#__PURE__*/function () {
       isValidClassList({
         openClass: value
       });
-      this.submenuOpenClass = value;
+
+      if (this.submenuOpenClass !== value) {
+        this.submenuOpenClass = value;
+      }
     }
     /**
      * Set the class to apply when the menu is "closed".
@@ -1198,7 +1201,10 @@ var BaseMenu = /*#__PURE__*/function () {
       isValidClassList({
         closeClass: value
       });
-      this.submenuCloseClass = value;
+
+      if (this.submenuCloseClass !== value) {
+        this.submenuCloseClass = value;
+      }
     }
     /**
      * Set the index currently selected menu item in the menu.
@@ -1239,31 +1245,43 @@ var BaseMenu = /*#__PURE__*/function () {
       isValidType("number", {
         value: value
       });
+      /**
+       * Update the parent menu's current child to make sure clicks
+       * and other jumps don't interfere with keyboard navigation.
+       *
+       * @param {BaseMenu} menu - The initial menu.
+       */
+
+      function setParentChild(menu) {
+        var updateEvents = ["mouse", "character"];
+
+        if (updateEvents.includes(menu.currentEvent) && menu.elements.parentMenu) {
+          var index = 0;
+          var found = false;
+
+          while (!found && index < menu.elements.parentMenu.elements.menuItems.length) {
+            var menuItem = menu.elements.parentMenu.elements.menuItems[index];
+
+            if (menuItem.isSubmenuItem && menuItem.elements.toggle.elements.controlledMenu === menu) {
+              found = true;
+              menu.elements.parentMenu.currentEvent = menu.currentEvent;
+              menu.elements.parentMenu.currentChild = index;
+            }
+
+            index++;
+          }
+        }
+      }
 
       if (value < -1) {
         this.focussedChild = -1;
+        setParentChild(this);
       } else if (value >= this.elements.menuItems.length) {
         this.focussedChild = this.elements.menuItems.length - 1;
-      } else {
+        setParentChild(this);
+      } else if (this.focusChild !== value) {
         this.focussedChild = value;
-      } // Update the parent menu's current child to make sure clicks don't interfere with keyboard navigation.
-
-
-      if (this.currentEvent === "mouse" && this.elements.parentMenu) {
-        var index = 0;
-        var found = false;
-
-        while (!found && index < this.elements.parentMenu.elements.menuItems.length) {
-          var menuItem = this.elements.parentMenu.elements.menuItems[index];
-
-          if (menuItem.isSubmenuItem && menuItem.elements.toggle.elements.controlledMenu === this) {
-            found = true;
-            this.elements.parentMenu.currentEvent = this.currentEvent;
-            this.elements.parentMenu.currentChild = index;
-          }
-
-          index++;
-        }
+        setParentChild(this);
       }
     }
     /**
@@ -1287,7 +1305,10 @@ var BaseMenu = /*#__PURE__*/function () {
       isValidState({
         value: value
       });
-      this.state = value;
+
+      if (this.state !== value) {
+        this.state = value;
+      }
     }
     /**
      * Set the last event triggered on the menu.
@@ -1311,13 +1332,15 @@ var BaseMenu = /*#__PURE__*/function () {
         value: value
       });
 
-      if (this.elements.submenuToggles.length > 0) {
-        this.elements.submenuToggles.forEach(function (submenuToggle) {
-          submenuToggle.elements.controlledMenu.currentEvent = value;
-        });
-      }
+      if (this.event !== value) {
+        this.event = value;
 
-      this.event = value;
+        if (this.elements.submenuToggles.length > 0) {
+          this.elements.submenuToggles.forEach(function (submenuToggle) {
+            submenuToggle.elements.controlledMenu.currentEvent = value;
+          });
+        }
+      }
     }
     /**
      * Set the type of hoverability for the menu.
@@ -1357,7 +1380,10 @@ var BaseMenu = /*#__PURE__*/function () {
       isValidHoverType({
         value: value
       });
-      this.hover = value;
+
+      if (this.hover !== value) {
+        this.hover = value;
+      }
     }
     /**
      * Set the delay time (in miliseconds) used for mouseout events to take place.
@@ -1375,6 +1401,7 @@ var BaseMenu = /*#__PURE__*/function () {
      *
      * Will return false unless any of the following criteria are met:
      * - The menu's currentEvent is "keyboard".
+     * - The menu's currentEvent is "character".
      * - The menu's currentEvent is "mouse" _and_ the menu's hoverType is "dynamic".
      *
      * @returns {boolean} - The flag.
@@ -1384,7 +1411,10 @@ var BaseMenu = /*#__PURE__*/function () {
       isValidType("number", {
         value: value
       });
-      this.delay = value;
+
+      if (this.delay !== value) {
+        this.delay = value;
+      }
     }
     /**
      * Validates all aspects of the menu to ensure proper functionality.
@@ -1397,7 +1427,7 @@ var BaseMenu = /*#__PURE__*/function () {
     get: function get() {
       var check = false;
 
-      if (this.currentEvent === "keyboard") {
+      if (this.currentEvent === "keyboard" || this.currentEvent === "character") {
         check = true;
       }
 
@@ -2365,6 +2395,7 @@ var Treeview = /*#__PURE__*/function (_BaseMenu) {
           // - Search wraps to first node if a matching name is not found among the nodes that follow the focused node.
           // - Search ignores nodes that are descendants of closed nodes.
           preventEvent(event);
+          _this3.elements.rootMenu.currentEvent = "character";
 
           _this3.focusNextNodeWithCharacter(event.key);
         } else if (_this3.focusState === "self") {
@@ -2419,6 +2450,8 @@ var Treeview = /*#__PURE__*/function (_BaseMenu) {
 
               _this3.currentMenuItem.elements.childMenu.focusLastChild();
             } else if (!_this3.isTopLevel && _this3.currentChild === 0) {
+              _this3.blurCurrentChild();
+
               _this3.elements.parentMenu.currentEvent = _this3.currentEvent;
 
               _this3.elements.parentMenu.focusCurrentChild();
