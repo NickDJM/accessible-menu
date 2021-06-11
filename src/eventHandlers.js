@@ -19,7 +19,7 @@ export function keyPress(event) {
       ArrowLeft: key === "ArrowLeft" || key === "Left" || key === 37,
       Home: key === "Home" || key === 36,
       End: key === "End" || key === 35,
-      Character: !!key.match(/^[a-zA-Z]{1}$/),
+      Character: isNaN(key) && !!key.match(/^[a-zA-Z]{1}$/),
       Tab: key === "Tab" || key === 9,
       Asterisk: key === "*" || key === 56,
     };
