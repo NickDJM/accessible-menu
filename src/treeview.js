@@ -194,7 +194,8 @@ class Treeview extends BaseMenu {
             this.currentMenuItem.elements.toggle.isOpen
           ) {
             this.blurCurrentChild();
-            this.currentMenuItem.elements.childMenu.currentEvent = this.currentEvent;
+            this.currentMenuItem.elements.childMenu.currentEvent =
+              this.currentEvent;
             this.currentMenuItem.elements.childMenu.focusFirstChild();
           } else if (
             !this.isTopLevel &&
@@ -212,9 +213,8 @@ class Treeview extends BaseMenu {
           // - If focus is on the first node, does nothing.
           preventEvent(event);
 
-          const previousMenuItem = this.elements.menuItems[
-            this.currentChild - 1
-          ];
+          const previousMenuItem =
+            this.elements.menuItems[this.currentChild - 1];
 
           if (
             previousMenuItem &&
@@ -223,7 +223,8 @@ class Treeview extends BaseMenu {
           ) {
             this.blurCurrentChild();
             this.currentChild = this.currentChild - 1;
-            this.currentMenuItem.elements.childMenu.currentEvent = this.currentEvent;
+            this.currentMenuItem.elements.childMenu.currentEvent =
+              this.currentEvent;
             this.currentMenuItem.elements.childMenu.focusLastChild();
           } else if (!this.isTopLevel && this.currentChild === 0) {
             this.blurCurrentChild();
@@ -242,7 +243,8 @@ class Treeview extends BaseMenu {
 
             if (this.currentMenuItem.elements.toggle.isOpen) {
               this.blurCurrentChild();
-              this.currentMenuItem.elements.childMenu.currentEvent = this.currentEvent;
+              this.currentMenuItem.elements.childMenu.currentEvent =
+                this.currentEvent;
               this.currentMenuItem.elements.childMenu.focusFirstChild();
             } else {
               this.currentMenuItem.elements.toggle.preview();

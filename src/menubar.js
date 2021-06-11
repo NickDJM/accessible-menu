@@ -462,9 +462,8 @@ class Menubar extends BaseMenu {
 
     while (!found && index < this.elements.menuItems.length) {
       // Ensure the text in the item is lowercase just to be safe.
-      const text = this.elements.menuItems[
-        index
-      ].dom.item.innerText.toLowerCase();
+      const text =
+        this.elements.menuItems[index].dom.item.innerText.toLowerCase();
 
       // Focus the child if the text matches, otherwise move on.
       if (text.startsWith(match)) {
