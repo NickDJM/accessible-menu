@@ -14,7 +14,7 @@
     "lint": "npm run eslint && npm run prettier",
     "eslint": "eslint --ext .js --fix .",
     "prettier": "prettier '**/*.js' --write --ignore-path .eslintignore",
-    "prerelease": "npm run lint && npm run build",
+    "prerelease": "npm run lint && npm run build && npm test",
     "release": "git add dist/. && standard-version -a",
     "build:test": "sass test/scss:test/css",
     "build": "rollup --config .rollup.config.js",
