@@ -28,7 +28,7 @@ export function isValidInstance(contructor, elements) {
       if (!(elements[key] instanceof contructor)) {
         const elementType = typeof elements[key];
         throw new TypeError(
-          `AccessibleMenu: ${key} must be an instance of ${contructor}. ${elementType} given.`
+          `AccessibleMenu: ${key} must be an instance of ${contructor.name}. ${elementType} given.`
         );
       }
     }
