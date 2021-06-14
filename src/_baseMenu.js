@@ -116,8 +116,6 @@ class BaseMenu {
           menuToggleElement: this.dom.controller,
           parentElement: this.dom.container,
           controlledMenu: this,
-          openClass: this.openClass,
-          closeClass: this.closeClass,
         });
 
         this.menuElements.controller = toggle;
