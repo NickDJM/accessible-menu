@@ -16,6 +16,9 @@ test("Testing a string as a CSS selector returns true", () => {
 
 // Invalid values that are _not_ CSS selectors.
 test("Testing a number as a CSS selector returns false", () => {
+  // Mock console.error.
+  console.error = jest.fn();
+
   // Declare selector.
   const selector = 123;
 
@@ -24,6 +27,9 @@ test("Testing a number as a CSS selector returns false", () => {
 
 // Invalid values.
 test("Testing a string, _not_ in an object, as a CSS selector returns false", () => {
+  // Mock console.error.
+  console.error = jest.fn();
+
   // Declare selector.
   const selector = "div";
 
