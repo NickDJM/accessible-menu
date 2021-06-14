@@ -136,7 +136,7 @@ export function isCSSSelector(values) {
  */
 export function isValidClassList(values) {
   try {
-    if (typeof values !== "object") {
+    if (typeof values !== "object" || Array.isArray(values)) {
       const type = typeof values;
 
       throw new TypeError(
@@ -337,10 +337,14 @@ export function isTag(tagName, elements) {
  * @returns {boolean} - The result.
  */
 export function isEventSupported(event, element) {
-  isValidType("string", { event });
-  isValidInstance(HTMLElement, { element });
+  if (
+    isValidType("string", { event }) &&
+    isValidInstance(HTMLElement, { element })
+  ) {
+    const eventProp = `on${event}`;
 
-  const eventProp = `on${event}`;
-
-  return typeof element[eventProp] !== "undefined";
+    return typeof element[eventProp] !== "undefined";
+  } else {
+    return false;
+  }
 }
