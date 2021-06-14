@@ -1,5 +1,5 @@
 /**
- * Test the isValidType function in validate.js to make sure the expected values are returned.
+ * Test the isValidType() function in validate.js to make sure the expected values are returned.
  */
 
 import { isValidType } from "../../src/validate";

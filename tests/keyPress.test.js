@@ -1,5 +1,5 @@
 /**
- * Test the keyPress function in eventHandler.js to make sure the expected values are returned.
+ * Test the keyPress() function in eventHandler.js to make sure the expected values are returned.
  */
 
 import { keyPress } from "../src/eventHandlers.js";
