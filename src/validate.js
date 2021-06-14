@@ -136,7 +136,7 @@ export function isCSSSelector(values) {
  */
 export function isValidClassList(values) {
   try {
-    if (typeof values !== "object") {
+    if (typeof values !== "object" || Array.isArray(values)) {
       const type = typeof values;
 
       throw new TypeError(
