@@ -14,10 +14,11 @@
     "lint": "npm run eslint && npm run prettier",
     "eslint": "eslint --ext .js --fix .",
     "prettier": "prettier '**/*.js' --write --ignore-path .eslintignore",
-    "prerelease": "npm run lint && npm run build",
+    "prerelease": "npm run lint && npm run build && npm test",
     "release": "git add dist/. && standard-version -a",
     "build:test": "sass test/scss:test/css",
-    "build": "rollup --config .rollup.config.js"
+    "build": "rollup --config .rollup.config.js",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -59,6 +60,7 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^5.0.0",
     "husky": "^6.0.0",
+    "jest": "^27.0.4",
     "lint-staged": "^10.5.4",
     "prettier": "^2.1.2",
     "rollup": "^2.33.1",

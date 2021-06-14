@@ -280,12 +280,12 @@ export function isValidHoverType(values) {
       );
     }
 
-    const validEvents = ["off", "on", "dynamic"];
+    const validTypes = ["off", "on", "dynamic"];
 
     for (const key in values) {
-      if (!validEvents.includes(values[key])) {
+      if (!validTypes.includes(values[key])) {
         throw new TypeError(
-          `AccessibleMenu: ${key} must be one of the following values: ${validEvents.join(
+          `AccessibleMenu: ${key} must be one of the following values: ${validTypes.join(
             ", "
           )}. "${values[key]}" given.`
         );
