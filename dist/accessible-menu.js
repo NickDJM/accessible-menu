@@ -31,7 +31,7 @@ var AccessibleMenu = (function () {
         if (!(elements[key] instanceof contructor)) {
           var elementType = _typeof$9(elements[key]);
 
-          throw new TypeError("AccessibleMenu: ".concat(key, " must be an instance of ").concat(contructor, ". ").concat(elementType, " given."));
+          throw new TypeError("AccessibleMenu: ".concat(key, " must be an instance of ").concat(contructor.name, ". ").concat(elementType, " given."));
         }
       }
 
@@ -130,7 +130,7 @@ var AccessibleMenu = (function () {
 
   function isValidClassList(values) {
     try {
-      if (_typeof$9(values) !== "object") {
+      if (_typeof$9(values) !== "object" || Array.isArray(values)) {
         var type = _typeof$9(values);
 
         throw new TypeError("AccessibleMenu: Values given to isValidClassList() must be inside of an object. ".concat(type, " given."));
@@ -257,11 +257,11 @@ var AccessibleMenu = (function () {
         throw new TypeError("AccessibleMenu: Values given to isValidHoverType() must be inside of an object. ".concat(type, " given."));
       }
 
-      var validEvents = ["off", "on", "dynamic"];
+      var validTypes = ["off", "on", "dynamic"];
 
       for (var key in values) {
-        if (!validEvents.includes(values[key])) {
-          throw new TypeError("AccessibleMenu: ".concat(key, " must be one of the following values: ").concat(validEvents.join(", "), ". \"").concat(values[key], "\" given."));
+        if (!validTypes.includes(values[key])) {
+          throw new TypeError("AccessibleMenu: ".concat(key, " must be one of the following values: ").concat(validTypes.join(", "), ". \"").concat(values[key], "\" given."));
         }
       }
 
@@ -309,14 +309,16 @@ var AccessibleMenu = (function () {
    */
 
   function isEventSupported(event, element) {
-    isValidType("string", {
+    if (isValidType("string", {
       event: event
-    });
-    isValidInstance(HTMLElement, {
+    }) && isValidInstance(HTMLElement, {
       element: element
-    });
-    var eventProp = "on".concat(event);
-    return typeof element[eventProp] !== "undefined";
+    })) {
+      var eventProp = "on".concat(event);
+      return typeof element[eventProp] !== "undefined";
+    } else {
+      return false;
+    }
   }
 
   function _classCallCheck$b(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -952,9 +954,7 @@ var AccessibleMenu = (function () {
             var toggle = new MenuToggleType({
               menuToggleElement: this.dom.controller,
               parentElement: this.dom.container,
-              controlledMenu: this,
-              openClass: this.openClass,
-              closeClass: this.closeClass
+              controlledMenu: this
             });
             this.menuElements.controller = toggle;
           }
