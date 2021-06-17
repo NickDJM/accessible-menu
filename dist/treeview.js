@@ -1489,13 +1489,13 @@ var Treeview = (function () {
         }
 
         if (submenuOpenClass !== "" && !isValidClassList({
-          submenuOpenClass: submenuOpenClass
+          openClass: submenuOpenClass
         })) {
           check = false;
         }
 
         if (submenuCloseClass !== "" && !isValidClassList({
-          submenuCloseClass: submenuCloseClass
+          closeClass: submenuCloseClass
         })) {
           check = false;
         }

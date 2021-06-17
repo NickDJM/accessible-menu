@@ -479,11 +479,17 @@ class BaseMenu {
       check = false;
     }
 
-    if (submenuOpenClass !== "" && !isValidClassList({ submenuOpenClass })) {
+    if (
+      submenuOpenClass !== "" &&
+      !isValidClassList({ openClass: submenuOpenClass })
+    ) {
       check = false;
     }
 
-    if (submenuCloseClass !== "" && !isValidClassList({ submenuCloseClass })) {
+    if (
+      submenuCloseClass !== "" &&
+      !isValidClassList({ closeClass: submenuCloseClass })
+    ) {
       check = false;
     }
 
