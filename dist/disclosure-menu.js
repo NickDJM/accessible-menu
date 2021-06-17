@@ -281,6 +281,10 @@ var DisclosureMenu = (function () {
 
       for (var key in values) {
         try {
+          if (values[key] === null) {
+            throw new Error();
+          }
+
           document.querySelector(values[key]);
         } catch (error) {
           throw new TypeError("AccessibleMenu: ".concat(key, " must be a valid CSS selector. \"").concat(values[key], "\" given."));

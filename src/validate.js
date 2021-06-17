@@ -107,6 +107,10 @@ export function isCSSSelector(values) {
 
     for (const key in values) {
       try {
+        if (values[key] === null) {
+          throw new Error();
+        }
+
         document.querySelector(values[key]);
       } catch (error) {
         throw new TypeError(
