@@ -4,29 +4,22 @@
 
 import { isValidEvent } from "../../src/validate";
 
-// Valid event options.
-const validEvents = ["none", "mouse", "keyboard", "character"];
-
-// Valid events.
-test.each(validEvents)(
-  "Checking if '%s' is a valid event returns true",
-  (event) => {
-    expect(isValidEvent({ event })).toBe(true);
-  }
-);
-
-// Usupported event.
-test("Checking if an unsupported event is valid returns false", () => {
+describe("isValidEvent", () => {
   // Mock console.error.
   console.error = jest.fn();
 
-  expect(isValidEvent({ event: "unsupported" })).toBe(false);
-});
+  // Valid event options.
+  const validEvents = ["none", "mouse", "keyboard", "character"];
 
-// Invalid event.
-test("Checking is a supported event, _not_ in an object, is valid returns false", () => {
-  // Mock console.error.
-  console.error = jest.fn();
+  test.each(validEvents)("returns true if '%s' is passed", (event) => {
+    expect(isValidEvent({ event })).toBeTrue();
+  });
 
-  expect(isValidEvent("none")).toBe(false);
+  test("returns false if an unsupported event is passed", () => {
+    expect(isValidEvent({ event: "unsupported" })).toBeFalse();
+  });
+
+  test("returns false if a supported event, _not_ in an object, is passed", () => {
+    expect(isValidEvent("none")).toBeFalse();
+  });
 });

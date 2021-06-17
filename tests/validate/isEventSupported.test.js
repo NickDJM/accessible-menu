@@ -6,17 +6,7 @@
 
 import { isEventSupported } from "../../src/validate";
 
-// Supported event.
-test("Checking if a <button> supports 'mouseup' returns true", () => {
-  // Declare element.
-  document.body.innerHTML = "<button></button>";
-  const element = document.querySelector("button");
-
-  expect(isEventSupported("mouseup", element)).toBe(true);
-});
-
-// Unsupported event.
-test("Checking if a <button> supports 'unsupportedEvent' returns false", () => {
+describe("isEventSupported", () => {
   // Mock console.error.
   console.error = jest.fn();
 
@@ -24,33 +14,23 @@ test("Checking if a <button> supports 'unsupportedEvent' returns false", () => {
   document.body.innerHTML = "<button></button>";
   const element = document.querySelector("button");
 
-  expect(isEventSupported("unsupportedEvent", element)).toBe(false);
-});
+  test("returns true when checking for 'mouseup' on a <button>", () => {
+    expect(isEventSupported("mouseup", element)).toBeTrue();
+  });
 
-// Invalid event.
-test("Checking if a <button> supports a number as an event returns false", () => {
-  // Mock console.error.
-  console.error = jest.fn();
+  test("returns false when checking for an unsupported event on a <button>", () => {
+    expect(isEventSupported("unsupportedEvent", element)).toBeFalse();
+  });
 
-  // Declare element.
-  document.body.innerHTML = "<button></button>";
-  const element = document.querySelector("button");
+  test("returns false when checking for an invalid event on a <button>", () => {
+    expect(isEventSupported(123, element)).toBeFalse();
+  });
 
-  expect(isEventSupported(123, element)).toBe(false);
-});
+  test("returns false when checking for 'mouseup' on a non-HTMLElement", () => {
+    expect(isEventSupported("mouseup", "button")).toBeFalse();
+  });
 
-// Invalid element.
-test("Checking if a non-HTMLElement supports 'mouseup' returns false", () => {
-  // Mock console.error.
-  console.error = jest.fn();
-
-  expect(isEventSupported("mouseup", "button")).toBe(false);
-});
-
-// Invalid event/element.
-test("Checking if a non-HTMLElement supports a number as an event returns false", () => {
-  // Mock console.error.
-  console.error = jest.fn();
-
-  expect(isEventSupported(123, "button")).toBe(false);
+  test("returns false when checking for an invalid event on a non-HTMLElement", () => {
+    expect(isEventSupported(123, "button")).toBeFalse();
+  });
 });

@@ -6,65 +6,38 @@
 
 import { isValidClassList } from "../../src/validate";
 
-// Valid values that are classes.
-test("Testing a single string as a class list returns true", () => {
-  // Declare classes.
-  const classes = "class";
-
-  expect(isValidClassList({ classes })).toBe(true);
-});
-test("Testing an array of strings as a class list returns true", () => {
-  // Declare classes.
-  const classes = ["class", "other-class"];
-
-  expect(isValidClassList({ classes })).toBe(true);
-});
-
-// Valid values that are _not_ classes.
-test("Testing a single number as a class list returns false", () => {
+describe("isValidClassList", () => {
   // Mock console.error.
   console.error = jest.fn();
 
-  // Declare classes.
-  const classes = 123;
+  const singleClass = "class";
+  const multipleClasses = ["class", "other-class"];
 
-  expect(isValidClassList({ classes })).toBe(false);
-});
-test("Testing an array of numbers as a class list returns false", () => {
-  // Mock console.error.
-  console.error = jest.fn();
+  test("returns true when passed a single string", () => {
+    expect(isValidClassList({ singleClass })).toBeTrue();
+  });
 
-  // Declare classes.
-  const classes = [123, 321];
+  test("returns true when passed an array of strings", () => {
+    expect(isValidClassList({ multipleClasses })).toBeTrue();
+  });
 
-  expect(isValidClassList({ classes })).toBe(false);
-});
-test("Testing an array of strings and numbers as a class list returns false", () => {
-  // Mock console.error.
-  console.error = jest.fn();
+  test("returns false when passed a single number", () => {
+    expect(isValidClassList({ classes: 123 })).toBeFalse();
+  });
 
-  // Declare classes.
-  const classes = ["class", 123];
+  test("returns false when passed an array of numbers", () => {
+    expect(isValidClassList({ classes: [123, 321] })).toBeFalse();
+  });
 
-  expect(isValidClassList({ classes })).toBe(false);
-});
+  test("returns false when passed an array of strings and numbers", () => {
+    expect(isValidClassList({ classes: ["class", 123] })).toBeFalse();
+  });
 
-// Invalid values.
-test("Testing a string, _not_ contained in an object, as a class list returns false", () => {
-  // Mock console.error.
-  console.error = jest.fn();
+  test("returns false when passed a string that is _not_ contained in an object", () => {
+    expect(isValidClassList(singleClass)).toBeFalse();
+  });
 
-  // Declare classes.
-  const classes = "class";
-
-  expect(isValidClassList(classes)).toBe(false);
-});
-test("Testing an array of strings, _not_ contained in an object, as a class list returns false", () => {
-  // Mock console.error.
-  console.error = jest.fn();
-
-  // Declare classes.
-  const classes = ["class", "other-class"];
-
-  expect(isValidClassList(classes)).toBe(false);
+  test("returns false when passed an array of strings that is _not_ contained in an object", () => {
+    expect(isValidClassList(multipleClasses)).toBeFalse();
+  });
 });

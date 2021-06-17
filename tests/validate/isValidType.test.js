@@ -4,54 +4,30 @@
 
 import { isValidType } from "../../src/validate";
 
-// Type/element match.
-test("Testing a string as a string returns true", () => {
-  // Declare string.
-  const string = "A string.";
-
-  expect(isValidType("string", { string })).toBe(true);
-});
-
-// Type/element mismatch.
-test("Testing a string as a number returns false", () => {
+describe("isValidType", () => {
   // Mock console.error.
   console.error = jest.fn();
 
   // Declare string.
   const string = "A string.";
 
-  expect(isValidType("number", { string })).toBe(false);
-});
+  test("returns true when checking if a string is a string", () => {
+    expect(isValidType("string", { string })).toBeTrue();
+  });
 
-// Invalid type.
-test("Testing a string as an invalid type returns false", () => {
-  // Mock console.error.
-  console.error = jest.fn();
+  test("returns false when checking if a string is a number", () => {
+    expect(isValidType("number", { string })).toBeFalse();
+  });
 
-  // Declare string.
-  const string = "A string.";
+  test("returns false when checking if a string is an invalid type", () => {
+    expect(isValidType(123, { string })).toBeFalse();
+  });
 
-  expect(isValidType(123, { string })).toBe(false);
-});
+  test("returns false when checking if a string, _not_ contained in an object, is a string", () => {
+    expect(isValidType("string", string)).toBeFalse();
+  });
 
-// Invalid element.
-test("Testing a string, _not_ contained in an object, as a string returns false", () => {
-  // Mock console.error.
-  console.error = jest.fn();
-
-  // Declare string.
-  const string = "A string.";
-
-  expect(isValidType("string", string)).toBe(false);
-});
-
-// Invalid
-test("Testing a string, _not_ contained in an object, as an invalid trype returns false", () => {
-  // Mock console.error.
-  console.error = jest.fn();
-
-  // Declare string.
-  const string = "A string.";
-
-  expect(isValidType(123, string)).toBe(false);
+  test("returns false when checking if a string, _not_ contained in an object, is an invalid trype", () => {
+    expect(isValidType(123, string)).toBeFalse();
+  });
 });

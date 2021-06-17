@@ -4,29 +4,22 @@
 
 import { isValidHoverType } from "../../src/validate";
 
-// Valid hover type options.
-const validTypes = ["off", "on", "dynamic"];
-
-// Valid hover types.
-test.each(validTypes)(
-  "Checking if '%s' is a valid hover type returns true",
-  (type) => {
-    expect(isValidHoverType({ type })).toBe(true);
-  }
-);
-
-// Usupported hover type.
-test("Checking if an unsupported hover type is valid returns false", () => {
+describe("isValidHoverType", () => {
   // Mock console.error.
   console.error = jest.fn();
 
-  expect(isValidHoverType({ type: "unsupported" })).toBe(false);
-});
+  // Valid hover type options.
+  const validTypes = ["off", "on", "dynamic"];
 
-// Invalid hover type.
-test("Checking is a supported hover type, _not_ in an object, is valid returns false", () => {
-  // Mock console.error.
-  console.error = jest.fn();
+  test.each(validTypes)("returns true if '%s' is passed", (type) => {
+    expect(isValidHoverType({ type })).toBeTrue();
+  });
 
-  expect(isValidHoverType("none")).toBe(false);
+  test("returns false if an unsupported hover type is passed", () => {
+    expect(isValidHoverType({ type: "unsupported" })).toBeFalse();
+  });
+
+  test("returns false is a supported hover type, _not_ in an object, is passed", () => {
+    expect(isValidHoverType("none")).toBeFalse();
+  });
 });
