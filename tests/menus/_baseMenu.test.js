@@ -7,6 +7,16 @@
 import BaseMenu from "../../src/_baseMenu";
 import { oneLevelMenu } from "../test-menus";
 
+/**
+ * Initializes a BaseMenu and it's children since the menu will not auto-initialize.
+ *
+ * @param {BaseMenu} menu - The menu to initialize.
+ */
+function initializeMenu(menu) {
+  menu.initialize();
+  menu.elements.menuItems.forEach((menuItem) => menuItem.initialize());
+}
+
 describe("BaseMenu single-level menu sanity check", () => {
   // Mock console.error.
   console.error = jest.fn((error) => {
@@ -24,8 +34,7 @@ describe("BaseMenu single-level menu sanity check", () => {
 
   test("initializes", () => {
     expect(() => {
-      menu.initialize();
-      menu.elements.menuItems.forEach((menuItem) => menuItem.initialize());
+      initializeMenu(menu);
     }).not.toThrow(Error);
   });
 
@@ -129,5 +138,48 @@ describe("BaseMenu single-level menu sanity check", () => {
 
   test("should not focus", () => {
     expect(menu.shouldFocus).toBeFalse();
+  });
+});
+
+describe("BaseMenu initialization tests", () => {
+  // Mock console.error.
+  console.error = jest.fn((error) => {
+    throw new Error(error.message);
+  });
+
+  // Set up the DOM.
+  document.body.innerHTML = oneLevelMenu;
+  const menuElement = document.querySelector("#menu-0");
+
+  test("won't initialize if nothing is passed", () => {
+    expect(() => {
+      initializeMenu(new BaseMenu());
+    }).toThrow("Cannot read property 'menuElement' of undefined");
+  });
+
+  test("won't initialize if no menuElement is passed", () => {
+    expect(() => {
+      initializeMenu(new BaseMenu({}));
+    }).toThrow(
+      "AccessibleMenu: menuElement must be an instance of HTMLElement. undefined given."
+    );
+  });
+
+  test("won't initialize if menuElement is a non-HTMLElement", () => {
+    expect(() => {
+      initializeMenu(new BaseMenu({ menuElement: "menu" }));
+    }).toThrow(
+      "AccessibleMenu: menuElement must be an instance of HTMLElement. string given."
+    );
+    expect(() => {
+      initializeMenu(new BaseMenu({ menuElement: 123 }));
+    }).toThrow(
+      "AccessibleMenu: menuElement must be an instance of HTMLElement. number given."
+    );
+    expect(() => {
+      initializeMenu(new BaseMenu({ menuElement: {} }));
+    }).toThrow(
+      "AccessibleMenu: menuElement must be an instance of HTMLElement. object given."
+    );
   });
 });
