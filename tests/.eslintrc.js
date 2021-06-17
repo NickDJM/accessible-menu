@@ -3,6 +3,7 @@ module.exports = {
     test: true,
     expect: true,
     jest: true,
+    describe: true,
   },
   rules: {
     "jsdoc/check-tag-names": 0,
