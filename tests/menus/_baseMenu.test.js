@@ -4,7 +4,7 @@
  * @jest-environment jsdom
  */
 
-import TestBaseMenu from "../_testBaseMenu";
+import BaseMenu from "../../src/_baseMenu";
 import { oneLevelMenu } from "../test-menus";
 
 describe("BaseMenu single-level menu sanity check", () => {
@@ -15,45 +15,18 @@ describe("BaseMenu single-level menu sanity check", () => {
 
   // Set up the DOM.
   document.body.innerHTML = oneLevelMenu;
-
   const menuElement = document.querySelector("#menu-0");
 
-  test("initializes when menuElement is passed", () => {
-    expect(() => {
-      /* eslint-disable-next-line no-new */
-      new TestBaseMenu({
-        menuElement,
-      });
-    }).not.toThrow(Error);
-  });
-
-  test("fails to initialize if a non-HTMLElement menuElement is passed", () => {
-    expect(() => {
-      /* eslint-disable-next-line no-new */
-      new TestBaseMenu({
-        menuElement: "menu",
-      });
-    }).toThrow(Error);
-  });
-
-  test("fails to initialize if no menuElement is passed", () => {
-    expect(() => {
-      /* eslint-disable-next-line no-new */
-      new TestBaseMenu({
-        notMenuElement: menuElement,
-      });
-    }).toThrow(Error);
-  });
-
-  test("fails to initialize if nothing is passed", () => {
-    expect(() => {
-      /* eslint-disable-next-line no-new */
-      new TestBaseMenu();
-    }).toThrow(Error);
-  });
-
-  const menu = new TestBaseMenu({
+  // Declare the menu.
+  const menu = new BaseMenu({
     menuElement,
+  });
+
+  test("initializes", () => {
+    expect(() => {
+      menu.initialize();
+      menu.elements.menuItems.forEach((menuItem) => menuItem.initialize());
+    }).not.toThrow(Error);
   });
 
   describe("has correct dom selectors", () => {
@@ -104,7 +77,7 @@ describe("BaseMenu single-level menu sanity check", () => {
     });
     test("menuItems", () => {
       const isCorrectMenuItemClass = (element) =>
-        element.constructor.name === "TestBaseMenuItem";
+        element.constructor.name === "BaseMenuItem";
       expect(menu.elements.menuItems).toSatisfyAll(isCorrectMenuItemClass);
     });
     test("parentMenu", () => {

@@ -15,10 +15,9 @@ describe("Treeview single-level menu sanity check", () => {
 
   // Set up the DOM.
   document.body.innerHTML = oneLevelMenu;
-
   const menuElement = document.querySelector("#menu-0");
 
-  test("initializes when menuElement is passed", () => {
+  test("initializes", () => {
     expect(() => {
       /* eslint-disable-next-line no-new */
       new Treeview({
@@ -27,31 +26,7 @@ describe("Treeview single-level menu sanity check", () => {
     }).not.toThrow(Error);
   });
 
-  test("fails to initialize if a non-HTMLElement menuElement is passed", () => {
-    expect(() => {
-      /* eslint-disable-next-line no-new */
-      new Treeview({
-        menuElement: "menu",
-      });
-    }).toThrow(Error);
-  });
-
-  test("fails to initialize if no menuElement is passed", () => {
-    expect(() => {
-      /* eslint-disable-next-line no-new */
-      new Treeview({
-        notMenuElement: menuElement,
-      });
-    }).toThrow(Error);
-  });
-
-  test("fails to initialize if nothing is passed", () => {
-    expect(() => {
-      /* eslint-disable-next-line no-new */
-      new Treeview();
-    }).toThrow(Error);
-  });
-
+  // Declare the menu.
   const menu = new Treeview({
     menuElement,
   });
