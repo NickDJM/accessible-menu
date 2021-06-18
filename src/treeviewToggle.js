@@ -5,7 +5,7 @@ import BaseMenuToggle from "./_baseMenuToggle.js";
 /*
  * A link or button that controls the visibility of a TreeviewNavigation.
  */
-class TreeviewNavigationToggle extends BaseMenuToggle {
+class TreeviewToggle extends BaseMenuToggle {
   /**
    * {@inheritdoc}
    *
@@ -36,4 +36,4 @@ class TreeviewNavigationToggle extends BaseMenuToggle {
   }
 }
 
-export default TreeviewNavigationToggle;
+export default TreeviewToggle;

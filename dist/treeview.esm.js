@@ -2170,10 +2170,10 @@ var TreeviewItem = /*#__PURE__*/function (_BaseMenuItem) {
  * A link or button that controls the visibility of a TreeviewNavigation.
  */
 
-var TreeviewNavigationToggle = /*#__PURE__*/function (_BaseMenuToggle) {
-  _inherits(TreeviewNavigationToggle, _BaseMenuToggle);
+var TreeviewToggle = /*#__PURE__*/function (_BaseMenuToggle) {
+  _inherits(TreeviewToggle, _BaseMenuToggle);
 
-  var _super = _createSuper(TreeviewNavigationToggle);
+  var _super = _createSuper(TreeviewToggle);
 
   /**
    * {@inheritdoc}
@@ -2185,7 +2185,7 @@ var TreeviewNavigationToggle = /*#__PURE__*/function (_BaseMenuToggle) {
    * @param {TreeviewNavigation|null} [param0.parentMenu = null] - The menu containing this toggle.
    * @param {boolean}                 [param0.initialize = true] - A flag to initialize the menu toggle immediately upon creation.
    */
-  function TreeviewNavigationToggle(_ref) {
+  function TreeviewToggle(_ref) {
     var _this;
 
     var menuToggleElement = _ref.menuToggleElement,
@@ -2196,7 +2196,7 @@ var TreeviewNavigationToggle = /*#__PURE__*/function (_BaseMenuToggle) {
         _ref$initialize = _ref.initialize,
         initialize = _ref$initialize === void 0 ? true : _ref$initialize;
 
-    _classCallCheck(this, TreeviewNavigationToggle);
+    _classCallCheck(this, TreeviewToggle);
 
     _this = _super.call(this, {
       menuToggleElement: menuToggleElement,
@@ -2212,7 +2212,7 @@ var TreeviewNavigationToggle = /*#__PURE__*/function (_BaseMenuToggle) {
     return _this;
   }
 
-  return TreeviewNavigationToggle;
+  return TreeviewToggle;
 }(BaseMenuToggle);
 
 /**
@@ -2301,7 +2301,7 @@ var Treeview = /*#__PURE__*/function (_BaseMenu) {
 
     _this.MenuType = Treeview;
     _this.MenuItemType = TreeviewItem;
-    _this.MenuToggleType = TreeviewNavigationToggle;
+    _this.MenuToggleType = TreeviewToggle;
 
     if (initialize) {
       _this.initialize();

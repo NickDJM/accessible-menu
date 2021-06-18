@@ -3363,10 +3363,10 @@ var AccessibleMenu = (function () {
    * A link or button that controls the visibility of a TreeviewNavigation.
    */
 
-  var TreeviewNavigationToggle = /*#__PURE__*/function (_BaseMenuToggle) {
-    _inherits$1(TreeviewNavigationToggle, _BaseMenuToggle);
+  var TreeviewToggle = /*#__PURE__*/function (_BaseMenuToggle) {
+    _inherits$1(TreeviewToggle, _BaseMenuToggle);
 
-    var _super = _createSuper$1(TreeviewNavigationToggle);
+    var _super = _createSuper$1(TreeviewToggle);
 
     /**
      * {@inheritdoc}
@@ -3378,7 +3378,7 @@ var AccessibleMenu = (function () {
      * @param {TreeviewNavigation|null} [param0.parentMenu = null] - The menu containing this toggle.
      * @param {boolean}                 [param0.initialize = true] - A flag to initialize the menu toggle immediately upon creation.
      */
-    function TreeviewNavigationToggle(_ref) {
+    function TreeviewToggle(_ref) {
       var _this;
 
       var menuToggleElement = _ref.menuToggleElement,
@@ -3389,7 +3389,7 @@ var AccessibleMenu = (function () {
           _ref$initialize = _ref.initialize,
           initialize = _ref$initialize === void 0 ? true : _ref$initialize;
 
-      _classCallCheck$1(this, TreeviewNavigationToggle);
+      _classCallCheck$1(this, TreeviewToggle);
 
       _this = _super.call(this, {
         menuToggleElement: menuToggleElement,
@@ -3405,7 +3405,7 @@ var AccessibleMenu = (function () {
       return _this;
     }
 
-    return TreeviewNavigationToggle;
+    return TreeviewToggle;
   }(BaseMenuToggle);
 
   function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -3531,7 +3531,7 @@ var AccessibleMenu = (function () {
 
       _this.MenuType = Treeview;
       _this.MenuItemType = TreeviewItem;
-      _this.MenuToggleType = TreeviewNavigationToggle;
+      _this.MenuToggleType = TreeviewToggle;
 
       if (initialize) {
         _this.initialize();
