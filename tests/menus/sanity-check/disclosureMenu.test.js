@@ -1,13 +1,13 @@
 /**
- * Test the Menubar class.
+ * Test the DisclosureMenu class to make sure it "just works".
  *
  * @jest-environment jsdom
  */
 
-import { Menubar } from "../../index";
-import { oneLevelMenu } from "../test-menus";
+import { DisclosureMenu } from "../../../index";
+import { oneLevelMenu, twoLevelMenu } from "../../test-menus";
 
-describe("Menubar single-level menu sanity check", () => {
+describe("DisclosureMenu single-level menu sanity check", () => {
   // Mock console.error.
   console.error = jest.fn((error) => {
     throw new Error(error.message);
@@ -19,15 +19,15 @@ describe("Menubar single-level menu sanity check", () => {
 
   test("initializes", () => {
     expect(() => {
-      /* eslint-disable-next-line no-new */
-      new Menubar({
+      /* eslint-disable no-new */
+      new DisclosureMenu({
         menuElement,
       });
     }).not.toThrow(Error);
   });
 
   // Declare the menu.
-  const menu = new Menubar({
+  const menu = new DisclosureMenu({
     menuElement,
   });
 
@@ -75,11 +75,9 @@ describe("Menubar single-level menu sanity check", () => {
       expect(menu.elements.controller).toBe(null);
     });
     test("menuItems", () => {
-      expect(menu.elements.menuItems).toBeArrayOfSize(5);
-    });
-    test("menuItems", () => {
       const isCorrectMenuItemClass = (element) =>
-        element.constructor.name === "MenubarItem";
+        element.constructor.name === "DisclosureMenuItem";
+      expect(menu.elements.menuItems).toBeArrayOfSize(5);
       expect(menu.elements.menuItems).toSatisfyAll(isCorrectMenuItemClass);
     });
     test("parentMenu", () => {
@@ -106,7 +104,7 @@ describe("Menubar single-level menu sanity check", () => {
   });
 
   test("has correct current child", () => {
-    expect(menu.currentChild).toBe(0);
+    expect(menu.currentChild).toBe(-1);
   });
 
   test("focus state is set to none", () => {
@@ -117,8 +115,8 @@ describe("Menubar single-level menu sanity check", () => {
     expect(menu.currentEvent).toBe("none");
   });
 
-  test("current menu item is undefined", () => {
-    expect(menu.currentMenuItem).toBe(menu.elements.menuItems[0]);
+  test("current menu item is correct", () => {
+    expect(menu.currentMenuItem).toBeNil();
   });
 
   test("hover type is set to off", () => {

@@ -1,13 +1,13 @@
 /**
- * Test the DisclosureMenu class.
+ * Test the Menubar class to make sure it "just works".
  *
  * @jest-environment jsdom
  */
 
-import { DisclosureMenu } from "../../index";
-import { oneLevelMenu } from "../test-menus";
+import { Menubar } from "../../../index";
+import { oneLevelMenu, twoLevelMenu } from "../../test-menus";
 
-describe("DisclosureMenu single-level menu sanity check", () => {
+describe("Menubar single-level menu sanity check", () => {
   // Mock console.error.
   console.error = jest.fn((error) => {
     throw new Error(error.message);
@@ -19,15 +19,15 @@ describe("DisclosureMenu single-level menu sanity check", () => {
 
   test("initializes", () => {
     expect(() => {
-      /* eslint-disable-next-line no-new */
-      new DisclosureMenu({
+      /* eslint-disable no-new */
+      new Menubar({
         menuElement,
       });
     }).not.toThrow(Error);
   });
 
   // Declare the menu.
-  const menu = new DisclosureMenu({
+  const menu = new Menubar({
     menuElement,
   });
 
@@ -75,11 +75,9 @@ describe("DisclosureMenu single-level menu sanity check", () => {
       expect(menu.elements.controller).toBe(null);
     });
     test("menuItems", () => {
-      expect(menu.elements.menuItems).toBeArrayOfSize(5);
-    });
-    test("menuItems", () => {
       const isCorrectMenuItemClass = (element) =>
-        element.constructor.name === "DisclosureMenuItem";
+        element.constructor.name === "MenubarItem";
+      expect(menu.elements.menuItems).toBeArrayOfSize(5);
       expect(menu.elements.menuItems).toSatisfyAll(isCorrectMenuItemClass);
     });
     test("parentMenu", () => {
@@ -106,7 +104,7 @@ describe("DisclosureMenu single-level menu sanity check", () => {
   });
 
   test("has correct current child", () => {
-    expect(menu.currentChild).toBe(-1);
+    expect(menu.currentChild).toBe(0);
   });
 
   test("focus state is set to none", () => {
@@ -117,8 +115,8 @@ describe("DisclosureMenu single-level menu sanity check", () => {
     expect(menu.currentEvent).toBe("none");
   });
 
-  test("current menu item is undefined", () => {
-    expect(menu.currentMenuItem).toBeNil();
+  test("current menu item is correct", () => {
+    expect(menu.currentMenuItem).toBe(menu.elements.menuItems[0]);
   });
 
   test("hover type is set to off", () => {
@@ -131,27 +129,5 @@ describe("DisclosureMenu single-level menu sanity check", () => {
 
   test("should not focus", () => {
     expect(menu.shouldFocus).toBeFalse();
-  });
-});
-
-describe("DisclosureMenu initialization tests", () => {
-  // Mock console.error.
-  console.error = jest.fn((error) => {
-    throw new Error(error.message);
-  });
-
-  // Set up the DOM.
-  document.body.innerHTML = oneLevelMenu;
-
-  test("won't initialize if optionalKeySupport is not a boolean", () => {
-    expect(() => {
-      /* eslint-disable-next-line no-new */
-      new DisclosureMenu({
-        menuElement: document.querySelector("#menu-0"),
-        optionalKeySupport: "true",
-      });
-    }).toThrow(
-      "AccessibleMenu: optionalKeySupport must be a boolean. string given."
-    );
   });
 });

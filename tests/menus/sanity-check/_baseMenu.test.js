@@ -1,13 +1,13 @@
 /**
- * Test the Treeview class.
+ * Test the TestBaseMenu class to make sure it "just works".
  *
  * @jest-environment jsdom
  */
 
-import { Treeview } from "../../index";
-import { oneLevelMenu } from "../test-menus";
+import { TestBaseMenu } from "../../_testBaseMenu";
+import { oneLevelMenu, twoLevelMenu } from "../../test-menus";
 
-describe("Treeview single-level menu sanity check", () => {
+describe("BaseMenu single-level menu sanity check", () => {
   // Mock console.error.
   console.error = jest.fn((error) => {
     throw new Error(error.message);
@@ -19,15 +19,15 @@ describe("Treeview single-level menu sanity check", () => {
 
   test("initializes", () => {
     expect(() => {
-      /* eslint-disable-next-line no-new */
-      new Treeview({
+      /* eslint-disable no-new */
+      new TestBaseMenu({
         menuElement,
       });
     }).not.toThrow(Error);
   });
 
   // Declare the menu.
-  const menu = new Treeview({
+  const menu = new TestBaseMenu({
     menuElement,
   });
 
@@ -75,11 +75,9 @@ describe("Treeview single-level menu sanity check", () => {
       expect(menu.elements.controller).toBe(null);
     });
     test("menuItems", () => {
-      expect(menu.elements.menuItems).toBeArrayOfSize(5);
-    });
-    test("menuItems", () => {
       const isCorrectMenuItemClass = (element) =>
-        element.constructor.name === "TreeviewItem";
+        element.constructor.name === "TestBaseMenuItem";
+      expect(menu.elements.menuItems).toBeArrayOfSize(5);
       expect(menu.elements.menuItems).toSatisfyAll(isCorrectMenuItemClass);
     });
     test("parentMenu", () => {
@@ -117,7 +115,7 @@ describe("Treeview single-level menu sanity check", () => {
     expect(menu.currentEvent).toBe("none");
   });
 
-  test("current menu item is undefined", () => {
+  test("current menu item is correct", () => {
     expect(menu.currentMenuItem).toBe(menu.elements.menuItems[0]);
   });
 
