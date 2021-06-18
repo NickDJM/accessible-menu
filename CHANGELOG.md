@@ -2,6 +2,107 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0-alpha.0](https://github.com/NickDJM/accessible-menu/compare/v2.2.0...v3.0.0-alpha.0) (2021-06-18)
+
+
+### ⚠ BREAKING CHANGES
+
+* **disclosuremenu:** Users expecting the default handling of the option keys will now need to set
+optionalKeySupport to true
+* **validation:** merge isHTMLELement, isEvent, isKeyboardEvent, isMenu, and isMenuToggle into
+isValidInstance and merge isBoolean, isString, and isNumber into isValidType
+* **focus:** custom menus extending BaseMenu and relying on the menubar's focus functionality
+will need to extend Menubar.
+* **dist:** Removing all polyfills and reference to IE in the compiler will break all menus
+when displayed in IE
+* **menus:** if any existing implementation relies on sub-menus and toggles to _not_ inherit the root's properties, this will cause major functionality issues.
+* Changing both the file and class names for MenuItem and MenuToggle will break
+anything relying on those classes.
+
+* refactor(generation): set menu and children element classes during contruction
+
+* feat(menus): add specific menu item and toggle classes for each menu type
+
+* refactor(imports): add .js extention to ensure browser module support
+
+* test(functional): add browser module testing for available menu types
+
+* chore: add compiled code
+
+* test: update tests for hovering and events
+
+### Features
+
+* **disclosure:** add getter/setter for optionalKeySupport ([f6ef2d4](https://github.com/NickDJM/accessible-menu/commit/f6ef2d4b58a11d319eeef3c54755d4f070b868d6))
+* **disclosuremenu:** add the ability to toggle optional keyboard support ([18c0fa7](https://github.com/NickDJM/accessible-menu/commit/18c0fa7be7a4b2162e86e4bbb4ce6bd4cd53787d)), closes [#104](https://github.com/NickDJM/accessible-menu/issues/104)
+* **dist:** add full esm support and kill IE support ([8610728](https://github.com/NickDJM/accessible-menu/commit/86107282e3d2c109c35dc93ba5e46d3a9768dc1a))
+* **hover:** change isHoverable to hoverType to handle dynamic hovers ([2cf40aa](https://github.com/NickDJM/accessible-menu/commit/2cf40aae3acf15e31f0b91a7e9b13e3c1f920250)), closes [#100](https://github.com/NickDJM/accessible-menu/issues/100)
+* **initialization:** add a flag to allow/disallow auto initialization for subclass menus ([0fc701f](https://github.com/NickDJM/accessible-menu/commit/0fc701ff950699037b0f555f9188484e19fa6b29))
+* **menu:** add new method to focus a child of a given index ([cea3352](https://github.com/NickDJM/accessible-menu/commit/cea3352089b8372929d37a527eb723b44f883921))
+* **menu:** add shoudlFocus getter to control moving focus in the DOM ([68ca8a6](https://github.com/NickDJM/accessible-menu/commit/68ca8a620cf62390ae462c6213e823b191831d41))
+* **menu:** have focus follow hover when hover is set to dynamic ([a2e7e1a](https://github.com/NickDJM/accessible-menu/commit/a2e7e1aa7dd4735a67e16f9e56d24bcf1d1b7afa)), closes [#100](https://github.com/NickDJM/accessible-menu/issues/100)
+* **subclass:** add Treeview subclass ([e25c93f](https://github.com/NickDJM/accessible-menu/commit/e25c93f5442bb514ebf7a46d281793f245c904c2)), closes [#105](https://github.com/NickDJM/accessible-menu/issues/105)
+* **toggle:** allow expand and collapse methods to be silent ([8282e93](https://github.com/NickDJM/accessible-menu/commit/8282e93e914de811c336b770895cb58d45980ade))
+* implement browser module support ([0bab26c](https://github.com/NickDJM/accessible-menu/commit/0bab26c8a24fb36c1228cacb547d58a95fd0643b))
+
+
+### Bug Fixes
+
+* **event:** make sure key is not a number before using .match() ([d8b0f02](https://github.com/NickDJM/accessible-menu/commit/d8b0f021d098796cd70a60f7327bbb9ae4cefef9))
+* **menu:** add basic error prevention when setting the currentChild ([ce1b431](https://github.com/NickDJM/accessible-menu/commit/ce1b4315c4b5011c6e0d9f77a2f29a757810010c))
+* **menu:** add blurSiblings method to menu items to fix click issues ([5b1f7f2](https://github.com/NickDJM/accessible-menu/commit/5b1f7f2f8d3b7a38285e5e0e787f15b18e356308))
+* **menu:** ensure proper event type is set for menus ([a4f7505](https://github.com/NickDJM/accessible-menu/commit/a4f7505ac14cf80f01221343f89dc545ddd9232d))
+* **menu:** manually trigger click action on space/enter ([559afc8](https://github.com/NickDJM/accessible-menu/commit/559afc8941bdfcbe600ef209dc516a3880eac8a2))
+* **module:** resolve circular dependencies ([5278b1e](https://github.com/NickDJM/accessible-menu/commit/5278b1ed1d3432bb2833279c5104f57a7962bfc3)), closes [#95](https://github.com/NickDJM/accessible-menu/issues/95)
+* **treeview:** correct toggle class name ([e96ffaa](https://github.com/NickDJM/accessible-menu/commit/e96ffaab3e1760eaf2311e73fe7b073cb1bcb19a))
+* **validation:** ensure error message only use constructor's name ([80ccdcc](https://github.com/NickDJM/accessible-menu/commit/80ccdcce8f317b7b04298b64b95ec89d2add748f))
+* **validation:** fail isCSSSelector is null is passed ([15c34a3](https://github.com/NickDJM/accessible-menu/commit/15c34a38c57dcb927bb4957f576f9cd5d2771cf0))
+* **validation:** make isEventSupported return false if either checks fail ([ecd9f88](https://github.com/NickDJM/accessible-menu/commit/ecd9f884a847aa334faa0521ef6b330bd6b780f7))
+* **validation:** make isValidClassList fail if array is passed instead of object ([c401b70](https://github.com/NickDJM/accessible-menu/commit/c401b704f1fa3975cbe67d3719ae07fe61302325))
+
+
+### Performance Improvements
+
+* **menu:** clean up handeClick for all menus ([6bdfdd0](https://github.com/NickDJM/accessible-menu/commit/6bdfdd0811ba37df0680f066133a85ccdda2a924))
+* **validation:** reduce validation functions into instance or type validation ([42bf94e](https://github.com/NickDJM/accessible-menu/commit/42bf94ec8fe00732c31dbd164c8c28ce4d0125fc))
+
+
+### Build System
+
+* **lint:** pass ignore file to prettier during lint-staged ([1cdfbd8](https://github.com/NickDJM/accessible-menu/commit/1cdfbd8bcaab44ad7f1de400fd736b80d2f6e8a4))
+* **npm:** package entire src directory ([02bca65](https://github.com/NickDJM/accessible-menu/commit/02bca656d55e5dcf159cb6524699f1808f6bb5b0))
+* use specific rollup file to allow multiple exports on index ([82a3f48](https://github.com/NickDJM/accessible-menu/commit/82a3f4840a0e570afea169e700bd3f5ebd927df5))
+* **editor:** add specific editor config ([fd44608](https://github.com/NickDJM/accessible-menu/commit/fd4460827bc5b5dfd0beb953f06dbfb0b9c8bbf7))
+* **lint:** use prettier as a stand-alone formatter ([aedffb1](https://github.com/NickDJM/accessible-menu/commit/aedffb1ab6652c4916cebb5a4607fc84a6739662))
+* **npm:** add lint-staged for faster commits ([1874fb3](https://github.com/NickDJM/accessible-menu/commit/1874fb306e6c3c36831e9bedf3c45d6132abdfa3))
+* **npm:** add new files to packaged files ([135d7b2](https://github.com/NickDJM/accessible-menu/commit/135d7b2900909f5b644ee6260b2726ebccb905e9))
+* **npm:** cleanup package and add files ([9ec6ca6](https://github.com/NickDJM/accessible-menu/commit/9ec6ca6157e1e2e46a4dd9ad0f53fc01263799e3))
+* **npm:** rename test build command ([8bd9706](https://github.com/NickDJM/accessible-menu/commit/8bd9706b3cac11958462023c09ae22d073103320))
+* **npm:** upgrade husky to 6.0 ([ab7579a](https://github.com/NickDJM/accessible-menu/commit/ab7579ab0416ef2366a823e011275ff66fefaf72))
+* **prettier:** specifically set the prettier options that are cared about ([4f7c5af](https://github.com/NickDJM/accessible-menu/commit/4f7c5af5195daeac4ad6ee2bd778590df3c5622d))
+
+
+### Documentation
+
+* **classes:** correct error in focus state for closing toggles ([93cc9ca](https://github.com/NickDJM/accessible-menu/commit/93cc9caf99c9ce9d18c21bcf0c6c740a690d00a3))
+* add information about dist directory and what is provided ([0865987](https://github.com/NickDJM/accessible-menu/commit/086598757fa3e87031e8f987cfc62b795569be26))
+* minor corrections to comments ([9964af8](https://github.com/NickDJM/accessible-menu/commit/9964af8a9c7e942c5965f7cbbe6ce72368a22157))
+* remove reference to open/close classes for menu toggles ([247dff2](https://github.com/NickDJM/accessible-menu/commit/247dff2a3de007cbd8698a3d84b46e53828e0744))
+* **basics:** update basic exmaples to reflect changes ([3a01856](https://github.com/NickDJM/accessible-menu/commit/3a018561506df22976e8e889015559ac690b027b))
+* **classes:** update all class documentation to reflect changes made ([b5f06d4](https://github.com/NickDJM/accessible-menu/commit/b5f06d4b0bf9cb4dcc79ed8fbd4eed1fcdf7c584))
+* **readme:** update general information ([ef079f1](https://github.com/NickDJM/accessible-menu/commit/ef079f13901fbfeb189c5a9ed440104b8913eee8))
+
+
+### Code Refactoring
+
+* **focus:** move focus methods for menubar into the menubar subclass ([38230a8](https://github.com/NickDJM/accessible-menu/commit/38230a8f14f52d01b8e321c1d8cf85960d36b058))
+* **menu:** make sure all parameters are valid before initialization ([ae694c7](https://github.com/NickDJM/accessible-menu/commit/ae694c7604fca9bd5c8cc6fe9bd92ab7c2af867e))
+* **menus:** use root props for sub-menus and toggles ([4aea368](https://github.com/NickDJM/accessible-menu/commit/4aea3687d38cd549a3a32aab2037e675a86ffe43)), closes [#86](https://github.com/NickDJM/accessible-menu/issues/86)
+* **toggle:** rearrange actions in open, preview, and close to make more sense ([f26e120](https://github.com/NickDJM/accessible-menu/commit/f26e120df0b51088da8f60c332209381875d28f1))
+* **validation:** make classlist validation more useful ([f8edd77](https://github.com/NickDJM/accessible-menu/commit/f8edd7778273ac24cd98f3c82f155bc7a9b2dfdd))
+* **validation:** rework validation to be more descriptive and helpful ([7456490](https://github.com/NickDJM/accessible-menu/commit/7456490057009ab15fef6dd94fa89fd127a6fd16))
+* **validation:** use proper name for open/close class validation ([6d5073c](https://github.com/NickDJM/accessible-menu/commit/6d5073c8a52e08358fdac4f804432d3c248e71d2))
+
 ## [2.2.0](https://github.com/NickDJM/accessible-menu/compare/v2.1.1...v2.2.0) (2021-03-24)
 
 
