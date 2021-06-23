@@ -39,8 +39,6 @@ class BaseMenuToggle {
       bubbles: true,
       detail: { toggle: this },
     });
-
-    this.initialize();
   }
 
   /**
