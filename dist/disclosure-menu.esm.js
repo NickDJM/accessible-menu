@@ -544,7 +544,6 @@ var BaseMenuToggle = /*#__PURE__*/function () {
         toggle: this
       }
     });
-    this.initialize();
   }
   /**
    * Initialize the toggle by ensuring WAI-ARIA values are set,
@@ -655,8 +654,6 @@ var BaseMenuToggle = /*#__PURE__*/function () {
   }, {
     key: "expand",
     value: function expand() {
-      var _this = this;
-
       var emit = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
       var _this$elements$contro = this.elements.controlledMenu,
           closeClass = _this$elements$contro.closeClass,
@@ -666,10 +663,10 @@ var BaseMenuToggle = /*#__PURE__*/function () {
       if (openClass !== "") {
         if (typeof openClass === "string") {
           this.elements.controlledMenu.dom.menu.classList.add(openClass);
-        } else if (Array.isArray(openClass)) {
-          openClass.forEach(function (value) {
-            _this.elements.controlledMenu.dom.menu.classList.add(value);
-          });
+        } else {
+          var _this$elements$contro2;
+
+          (_this$elements$contro2 = this.elements.controlledMenu.dom.menu.classList).add.apply(_this$elements$contro2, _toConsumableArray(openClass));
         }
       } // Remove the close class.
 
@@ -677,10 +674,10 @@ var BaseMenuToggle = /*#__PURE__*/function () {
       if (closeClass !== "") {
         if (typeof closeClass === "string") {
           this.elements.controlledMenu.dom.menu.classList.remove(closeClass);
-        } else if (Array.isArray(closeClass)) {
-          closeClass.forEach(function (value) {
-            _this.elements.controlledMenu.dom.menu.classList.remove(value);
-          });
+        } else {
+          var _this$elements$contro3;
+
+          (_this$elements$contro3 = this.elements.controlledMenu.dom.menu.classList).remove.apply(_this$elements$contro3, _toConsumableArray(closeClass));
         }
       }
 
@@ -699,21 +696,19 @@ var BaseMenuToggle = /*#__PURE__*/function () {
   }, {
     key: "collapse",
     value: function collapse() {
-      var _this2 = this;
-
       var emit = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
-      var _this$elements$contro2 = this.elements.controlledMenu,
-          closeClass = _this$elements$contro2.closeClass,
-          openClass = _this$elements$contro2.openClass;
+      var _this$elements$contro4 = this.elements.controlledMenu,
+          closeClass = _this$elements$contro4.closeClass,
+          openClass = _this$elements$contro4.openClass;
       this.dom.toggle.setAttribute("aria-expanded", "false"); // Add the close class
 
       if (closeClass !== "") {
         if (typeof closeClass === "string") {
           this.elements.controlledMenu.dom.menu.classList.add(closeClass);
-        } else if (Array.isArray(closeClass)) {
-          closeClass.forEach(function (value) {
-            _this2.elements.controlledMenu.dom.menu.classList.add(value);
-          });
+        } else {
+          var _this$elements$contro5;
+
+          (_this$elements$contro5 = this.elements.controlledMenu.dom.menu.classList).add.apply(_this$elements$contro5, _toConsumableArray(closeClass));
         }
       } // Remove the open class.
 
@@ -721,10 +716,10 @@ var BaseMenuToggle = /*#__PURE__*/function () {
       if (openClass !== "") {
         if (typeof openClass === "string") {
           this.elements.controlledMenu.dom.menu.classList.remove(openClass);
-        } else if (Array.isArray(openClass)) {
-          openClass.forEach(function (value) {
-            _this2.elements.controlledMenu.dom.menu.classList.remove(value);
-          });
+        } else {
+          var _this$elements$contro6;
+
+          (_this$elements$contro6 = this.elements.controlledMenu.dom.menu.classList).remove.apply(_this$elements$contro6, _toConsumableArray(openClass));
         }
       }
 
@@ -811,11 +806,11 @@ var BaseMenuToggle = /*#__PURE__*/function () {
   }, {
     key: "closeSiblings",
     value: function closeSiblings() {
-      var _this3 = this;
+      var _this = this;
 
       if (this.elements.parentMenu) {
         this.elements.parentMenu.elements.submenuToggles.forEach(function (toggle) {
-          if (toggle !== _this3) toggle.close();
+          if (toggle !== _this) toggle.close();
         });
       }
     }

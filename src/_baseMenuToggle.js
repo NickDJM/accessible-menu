@@ -164,10 +164,8 @@ class BaseMenuToggle {
     if (openClass !== "") {
       if (typeof openClass === "string") {
         this.elements.controlledMenu.dom.menu.classList.add(openClass);
-      } else if (Array.isArray(openClass)) {
-        openClass.forEach((value) => {
-          this.elements.controlledMenu.dom.menu.classList.add(value);
-        });
+      } else {
+        this.elements.controlledMenu.dom.menu.classList.add(...openClass);
       }
     }
 
@@ -175,10 +173,8 @@ class BaseMenuToggle {
     if (closeClass !== "") {
       if (typeof closeClass === "string") {
         this.elements.controlledMenu.dom.menu.classList.remove(closeClass);
-      } else if (Array.isArray(closeClass)) {
-        closeClass.forEach((value) => {
-          this.elements.controlledMenu.dom.menu.classList.remove(value);
-        });
+      } else {
+        this.elements.controlledMenu.dom.menu.classList.remove(...closeClass);
       }
     }
 
@@ -203,10 +199,8 @@ class BaseMenuToggle {
     if (closeClass !== "") {
       if (typeof closeClass === "string") {
         this.elements.controlledMenu.dom.menu.classList.add(closeClass);
-      } else if (Array.isArray(closeClass)) {
-        closeClass.forEach((value) => {
-          this.elements.controlledMenu.dom.menu.classList.add(value);
-        });
+      } else {
+        this.elements.controlledMenu.dom.menu.classList.add(...closeClass);
       }
     }
 
@@ -214,10 +208,8 @@ class BaseMenuToggle {
     if (openClass !== "") {
       if (typeof openClass === "string") {
         this.elements.controlledMenu.dom.menu.classList.remove(openClass);
-      } else if (Array.isArray(openClass)) {
-        openClass.forEach((value) => {
-          this.elements.controlledMenu.dom.menu.classList.remove(value);
-        });
+      } else {
+        this.elements.controlledMenu.dom.menu.classList.remove(...openClass);
       }
     }
 

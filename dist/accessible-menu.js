@@ -325,6 +325,18 @@ var AccessibleMenu = (function () {
     }
   }
 
+  function _toConsumableArray$2(arr) { return _arrayWithoutHoles$2(arr) || _iterableToArray$2(arr) || _unsupportedIterableToArray$2(arr) || _nonIterableSpread$2(); }
+
+  function _nonIterableSpread$2() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+  function _unsupportedIterableToArray$2(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$2(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$2(o, minLen); }
+
+  function _iterableToArray$2(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+  function _arrayWithoutHoles$2(arr) { if (Array.isArray(arr)) return _arrayLikeToArray$2(arr); }
+
+  function _arrayLikeToArray$2(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
   function _classCallCheck$b(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
   function _defineProperties$9(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -374,7 +386,6 @@ var AccessibleMenu = (function () {
           toggle: this
         }
       });
-      this.initialize();
     }
     /**
      * Initialize the toggle by ensuring WAI-ARIA values are set,
@@ -485,8 +496,6 @@ var AccessibleMenu = (function () {
     }, {
       key: "expand",
       value: function expand() {
-        var _this = this;
-
         var emit = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
         var _this$elements$contro = this.elements.controlledMenu,
             closeClass = _this$elements$contro.closeClass,
@@ -496,10 +505,10 @@ var AccessibleMenu = (function () {
         if (openClass !== "") {
           if (typeof openClass === "string") {
             this.elements.controlledMenu.dom.menu.classList.add(openClass);
-          } else if (Array.isArray(openClass)) {
-            openClass.forEach(function (value) {
-              _this.elements.controlledMenu.dom.menu.classList.add(value);
-            });
+          } else {
+            var _this$elements$contro2;
+
+            (_this$elements$contro2 = this.elements.controlledMenu.dom.menu.classList).add.apply(_this$elements$contro2, _toConsumableArray$2(openClass));
           }
         } // Remove the close class.
 
@@ -507,10 +516,10 @@ var AccessibleMenu = (function () {
         if (closeClass !== "") {
           if (typeof closeClass === "string") {
             this.elements.controlledMenu.dom.menu.classList.remove(closeClass);
-          } else if (Array.isArray(closeClass)) {
-            closeClass.forEach(function (value) {
-              _this.elements.controlledMenu.dom.menu.classList.remove(value);
-            });
+          } else {
+            var _this$elements$contro3;
+
+            (_this$elements$contro3 = this.elements.controlledMenu.dom.menu.classList).remove.apply(_this$elements$contro3, _toConsumableArray$2(closeClass));
           }
         }
 
@@ -529,21 +538,19 @@ var AccessibleMenu = (function () {
     }, {
       key: "collapse",
       value: function collapse() {
-        var _this2 = this;
-
         var emit = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
-        var _this$elements$contro2 = this.elements.controlledMenu,
-            closeClass = _this$elements$contro2.closeClass,
-            openClass = _this$elements$contro2.openClass;
+        var _this$elements$contro4 = this.elements.controlledMenu,
+            closeClass = _this$elements$contro4.closeClass,
+            openClass = _this$elements$contro4.openClass;
         this.dom.toggle.setAttribute("aria-expanded", "false"); // Add the close class
 
         if (closeClass !== "") {
           if (typeof closeClass === "string") {
             this.elements.controlledMenu.dom.menu.classList.add(closeClass);
-          } else if (Array.isArray(closeClass)) {
-            closeClass.forEach(function (value) {
-              _this2.elements.controlledMenu.dom.menu.classList.add(value);
-            });
+          } else {
+            var _this$elements$contro5;
+
+            (_this$elements$contro5 = this.elements.controlledMenu.dom.menu.classList).add.apply(_this$elements$contro5, _toConsumableArray$2(closeClass));
           }
         } // Remove the open class.
 
@@ -551,10 +558,10 @@ var AccessibleMenu = (function () {
         if (openClass !== "") {
           if (typeof openClass === "string") {
             this.elements.controlledMenu.dom.menu.classList.remove(openClass);
-          } else if (Array.isArray(openClass)) {
-            openClass.forEach(function (value) {
-              _this2.elements.controlledMenu.dom.menu.classList.remove(value);
-            });
+          } else {
+            var _this$elements$contro6;
+
+            (_this$elements$contro6 = this.elements.controlledMenu.dom.menu.classList).remove.apply(_this$elements$contro6, _toConsumableArray$2(openClass));
           }
         }
 
@@ -641,11 +648,11 @@ var AccessibleMenu = (function () {
     }, {
       key: "closeSiblings",
       value: function closeSiblings() {
-        var _this3 = this;
+        var _this = this;
 
         if (this.elements.parentMenu) {
           this.elements.parentMenu.elements.submenuToggles.forEach(function (toggle) {
-            if (toggle !== _this3) toggle.close();
+            if (toggle !== _this) toggle.close();
           });
         }
       }
