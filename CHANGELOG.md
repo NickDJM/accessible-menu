@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0-alpha.1](https://github.com/NickDJM/accessible-menu/compare/v3.0.0-alpha.0...v3.0.0-alpha.1) (2021-06-23)
+
+
+### Bug Fixes
+
+* **toggle:** remove immediate initialization from _baseMenuToggle ([d3fae61](https://github.com/NickDJM/accessible-menu/commit/d3fae61cb68b9d47d6c27bde69133234548ce3b4))
+
+
+### Performance Improvements
+
+* **toggle:** simplify adding and removing of classes ([5d21677](https://github.com/NickDJM/accessible-menu/commit/5d2167706b6543fd8a97ebbd88a1bc0fe476e647)), closes [#113](https://github.com/NickDJM/accessible-menu/issues/113)
+
 ## [3.0.0-alpha.0](https://github.com/NickDJM/accessible-menu/compare/v2.2.0...v3.0.0-alpha.0) (2021-06-18)
 
 

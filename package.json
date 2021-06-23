@@ -1,6 +1,6 @@
 {
   "name": "accessible-menu",
-  "version": "3.0.0-alpha.0",
+  "version": "3.0.0-alpha.1",
   "description": "A JavaScript library to help you generate WCAG accessible menus in the DOM.",
   "main": "index.js",
   "files": [
