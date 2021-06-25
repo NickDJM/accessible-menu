@@ -2,8 +2,11 @@
 .DS_Store
 
 # Auto-generated directories.
-**/node_modules/*
-**/.sass-cache/*
+node_modules
+.sass-cache
+
+# Auto-generated documentation.
+docs/api
 
 # Lock files.
 package-lock.json
