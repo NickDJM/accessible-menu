@@ -5,8 +5,5 @@
 node_modules
 .sass-cache
 
-# Auto-generated documentation.
-docs/api
-
 # Lock files.
 package-lock.json
