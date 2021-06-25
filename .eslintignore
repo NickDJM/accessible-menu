@@ -6,7 +6,7 @@ node_modules/*
 dist/*
 
 # API Docs
-api/*
+docs/*
 
 # Lock files.
 package-lock.json
