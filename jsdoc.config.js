@@ -3,6 +3,6 @@ module.exports = {
     excludePattern: "",
   },
   opts: {
-    destination: "./docs",
+    destination: "./api",
   },
 };
