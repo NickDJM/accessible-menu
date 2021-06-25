@@ -7,11 +7,13 @@ import { isEventSupported } from "./validate.js";
 /**
  * An accessible menubar navigation in the DOM.
  *
- * See https://www.w3.org/TR/wai-aria-practices-1.2/examples/menubar/menubar-1/menubar-1.html
+ * See {@link https://www.w3.org/TR/wai-aria-practices-1.2/examples/menubar/menubar-1/menubar-1.html|Navigation Menubar Example}
+ *
+ * @augments BaseMenu
  */
 class Menubar extends BaseMenu {
   /**
-   * {@inheritdoc}
+   * @inheritdoc
    *
    * @param {object}           param0                               - The menu object.
    * @param {HTMLElement}      param0.menuElement                   - The menu element in the DOM.

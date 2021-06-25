@@ -7,11 +7,13 @@ import { isValidType, isEventSupported } from "./validate.js";
 /**
  * An accessible disclosure menu in the DOM.
  *
- * See https://www.w3.org/TR/wai-aria-practices-1.2/examples/disclosure/disclosure-navigation.html
+ * See {@link https://www.w3.org/TR/wai-aria-practices-1.2/examples/disclosure/disclosure-navigation.html|Example Disclosure for Navigation Menus}
+ *
+ * @augments BaseMenu
  */
 class DisclosureMenu extends BaseMenu {
   /**
-   * {@inheritdoc}
+   * @inheritdoc
    *
    * @param {object}              param0                               - The menu object.
    * @param {HTMLElement}         param0.menuElement                   - The menu element in the DOM.

@@ -2,12 +2,14 @@
 
 import BaseMenuToggle from "./_baseMenuToggle.js";
 
-/*
+/**
  * A link or button that controls the visibility of a DisclosureMenu.
+ *
+ * @augments BaseMenuToggle
  */
 class DisclosureMenuToggle extends BaseMenuToggle {
   /**
-   * {@inheritdoc}
+   * @inheritdoc
    *
    * @param {object}              param0                     - The menu toggle object.
    * @param {HTMLElement}         param0.menuToggleElement   - The toggle element in the DOM.

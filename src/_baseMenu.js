@@ -17,7 +17,7 @@ import { preventEvent, keyPress } from "./eventHandlers.js";
  */
 class BaseMenu {
   /**
-   * {@inheritdoc}
+   * @inheritdoc
    *
    * @param {object}               param0                               - The menu object.
    * @param {HTMLElement}          param0.menuElement                   - The menu element in the DOM.

@@ -5,7 +5,7 @@
  */
 class BaseMenuItem {
   /**
-   * {@inheritdoc}
+   * @inheritdoc
    *
    * @param {object}              param0                         - The menu item object.
    * @param {HTMLElement}         param0.menuItemElement         - The menu item in the DOM.

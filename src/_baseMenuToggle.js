@@ -2,12 +2,12 @@
 
 import { isTag, isValidType } from "./validate.js";
 
-/*
+/**
  * A link or button that controls the visibility of a Menu.
  */
 class BaseMenuToggle {
   /**
-   * {@inheritdoc}
+   * @inheritdoc
    *
    * @param {object}        param0                     - The menu toggle object.
    * @param {HTMLElement}   param0.menuToggleElement   - The toggle element in the DOM.

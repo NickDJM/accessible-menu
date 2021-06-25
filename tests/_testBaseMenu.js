@@ -4,10 +4,12 @@ import BaseMenuToggle from "../src/_baseMenuToggle.js";
 
 /**
  * A BaseMenuItem clone that auto-initializes for the purposes of testing.
+ *
+ * @augments BaseMenuItem
  */
 export class TestBaseMenuItem extends BaseMenuItem {
   /**
-   * {@inheritdoc}
+   * @inheritdoc
    *
    * @param {object}                  param0                         - The menu item object.
    * @param {HTMLElement}             param0.menuItemElement         - The menu item in the DOM.
@@ -40,10 +42,12 @@ export class TestBaseMenuItem extends BaseMenuItem {
 
 /**
  * A BaseMenuToggle clone that auto-initializes for the purposes of testing.
+ *
+ * @augments BaseMenuToggle
  */
 export class TestBaseMenuToggle extends BaseMenuToggle {
   /**
-   * {@inheritdoc}
+   * @inheritdoc
    *
    * @param {object}            param0                     - The menu toggle object.
    * @param {HTMLElement}       param0.menuToggleElement   - The toggle element in the DOM.
@@ -70,10 +74,12 @@ export class TestBaseMenuToggle extends BaseMenuToggle {
 
 /**
  * A BaseMenu clone that auto-initializes for the purposes of testing.
+ *
+ * @augments BaseMenu
  */
 export class TestBaseMenu extends BaseMenu {
   /**
-   * {@inheritdoc}
+   * @inheritdoc
    *
    * @param {object}            param0                               - The menu object.
    * @param {HTMLElement}       param0.menuElement                   - The menu element in the DOM.

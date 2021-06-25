@@ -6,12 +6,13 @@ import { keyPress, preventEvent } from "./eventHandlers.js";
 /**
  * An accessible treeview navigation in the DOM.
  *
- * See https://www.w3.org/TR/wai-aria-practices-1.2/examples/treeview/treeview-2/treeview-2a.html
- * or https://www.w3.org/TR/wai-aria-practices-1.2/examples/treeview/treeview-2/treeview-2b.html
+ * See {@link https://www.w3.org/TR/wai-aria-practices-1.2/examples/treeview/treeview-2/treeview-2a.html|Navigation Treeview Example Using Computed Properties}
+ *
+ * @augments BaseMenu
  */
 class Treeview extends BaseMenu {
   /**
-   * {@inheritdoc}
+   * @inheritdoc
    *
    * @param {object}           param0                               - The menu object.
    * @param {HTMLElement}      param0.menuElement                   - The menu element in the DOM.

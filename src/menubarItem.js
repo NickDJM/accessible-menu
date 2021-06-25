@@ -4,10 +4,12 @@ import BaseMenuItem from "./_baseMenuItem.js";
 
 /**
  * A basic navigation link contained inside of a Menubar.
+ *
+ * @augments BaseMenuItem
  */
 class MenubarItem extends BaseMenuItem {
   /**
-   * {@inheritdoc}
+   * @inheritdoc
    *
    * @param {object}             param0                         - The menu item object.
    * @param {HTMLElement}        param0.menuItemElement         - The menu item in the DOM.
