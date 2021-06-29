@@ -172,7 +172,7 @@ const menu = new Treeview({
 - Helpers
   - [Validation functions](docs/validate.md)
   - [Event handler functions](docs/eventHandlers.md)
-- [Basics](docs/basics/index.md)
+- Basics
   - [Single-level menu](docs/basics/single-level-menu.md)
   - [Single-level menu with toggle](docs/basics/single-level-menu-with-toggle.md)
   - [Two-level menu with toggle](docs/basics/two-level-menu-with-toggle.md)
