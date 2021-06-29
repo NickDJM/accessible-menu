@@ -169,6 +169,9 @@ const menu = new Treeview({
   - [Treeview](docs/classes/Treeview.md)
   - [TreeviewItem](docs/classes/TreeviewItem.md)
   - [TreeviewToggle](docs/classes/TreeviewToggle.md)
+- Helpers
+  - [Validation functions](docs/validate.md)
+  - [Event handler functions](docs/eventHandlers.md)
 - [Basics](docs/basics/index.md)
   - [Single-level menu](docs/basics/single-level-menu.md)
   - [Single-level menu with toggle](docs/basics/single-level-menu-with-toggle.md)
