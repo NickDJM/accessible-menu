@@ -9,11 +9,11 @@ class BaseMenuToggle {
   /**
    * @inheritdoc
    *
-   * @param {object}        param0                     - The menu toggle object.
-   * @param {HTMLElement}   param0.menuToggleElement   - The toggle element in the DOM.
-   * @param {HTMLElement}   param0.parentElement       - The element containing the controlled menu.
-   * @param {BaseMenu}      param0.controlledMenu      - The menu controlled by this toggle.
-   * @param {BaseMenu|null} [param0.parentMenu = null] - The menu containing this toggle.
+   * @param {object}        options                     - The options for generating the menu toggle.
+   * @param {HTMLElement}   options.menuToggleElement   - The toggle element in the DOM.
+   * @param {HTMLElement}   options.parentElement       - The element containing the controlled menu.
+   * @param {BaseMenu}      options.controlledMenu      - The menu controlled by this toggle.
+   * @param {BaseMenu|null} [options.parentMenu = null] - The menu containing this toggle.
    */
   constructor({
     menuToggleElement,
@@ -113,7 +113,7 @@ class BaseMenuToggle {
   /**
    * The DOM elements within the toggle.
    *
-   * @returns {object} - The DOM elements.
+   * @type {object.<HTMLElement>}
    */
   get dom() {
     return this.domElements;
@@ -122,7 +122,7 @@ class BaseMenuToggle {
   /**
    * The elements within the toggle.
    *
-   * @returns {object} - The elements.
+   * @type {object.<BaseMenu>}
    */
   get elements() {
     return this.menuElements;
@@ -131,17 +131,12 @@ class BaseMenuToggle {
   /**
    * The open state on the menu.
    *
-   * @returns {boolean} - The open state.
+   * @type {boolean}
    */
   get isOpen() {
     return this.show;
   }
 
-  /**
-   * Set the open state on the menu.
-   *
-   * @param {boolean} value - The open state.
-   */
   set isOpen(value) {
     isValidType("boolean", { value });
 

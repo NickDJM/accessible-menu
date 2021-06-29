@@ -1,4 +1,5 @@
-<a name="BaseMenuItem"></a>
+
+    <a name="BaseMenuItem"></a>
 
 ## BaseMenuItem
 A basic navigation link contained inside of a Menu.
@@ -6,49 +7,46 @@ A basic navigation link contained inside of a Menu.
 **Kind**: global class  
 
 * [BaseMenuItem](#BaseMenuItem)
-    * [new BaseMenuItem(param0)](#new_BaseMenuItem_new)
-    * [.dom](#BaseMenuItem+dom) ⇒ <code>object</code>
-    * [.elements](#BaseMenuItem+elements) ⇒ <code>object</code>
-    * [.isSubmenuItem](#BaseMenuItem+isSubmenuItem) ⇒ <code>boolean</code>
+    * [new BaseMenuItem(options)](#new_BaseMenuItem_new)
+    * [.dom](#BaseMenuItem+dom) : <code>object.&lt;HTMLElement&gt;</code>
+    * [.elements](#BaseMenuItem+elements) : <code>object.&lt;BaseMenu, BaseMenuToggle&gt;</code>
+    * [.isSubmenuItem](#BaseMenuItem+isSubmenuItem) : <code>boolean</code>
     * [.initialize()](#BaseMenuItem+initialize)
     * [.focus()](#BaseMenuItem+focus)
     * [.blur()](#BaseMenuItem+blur)
 
 <a name="new_BaseMenuItem_new"></a>
 
-### new BaseMenuItem(param0)
+### new BaseMenuItem(options)
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| param0 | <code>object</code> |  | The menu item object. |
-| param0.menuItemElement | <code>HTMLElement</code> |  | The menu item in the DOM. |
-| param0.menuLinkElement | <code>HTMLElement</code> |  | The menu item's link in the DOM. |
-| param0.parentMenu | [<code>BaseMenu</code>](#BaseMenu) |  | The parent menu. |
-| [param0.isSubmenuItem] | <code>boolean</code> | <code>false</code> | A flag to mark if the menu item is controlling a submenu. |
-| [param0.childMenu] | [<code>BaseMenu</code>](#BaseMenu) \| <code>null</code> | <code></code> | The child menu. |
-| [param0.toggle] | [<code>BaseMenuToggle</code>](#BaseMenuToggle) \| <code>null</code> | <code></code> | The controller for the child menu. |
+| options | <code>object</code> |  | The options for generating the menu item. |
+| options.menuItemElement | <code>HTMLElement</code> |  | The menu item in the DOM. |
+| options.menuLinkElement | <code>HTMLElement</code> |  | The menu item's link in the DOM. |
+| options.parentMenu | [<code>BaseMenu</code>](#BaseMenu) |  | The parent menu. |
+| [options.isSubmenuItem] | <code>boolean</code> | <code>false</code> | A flag to mark if the menu item is controlling a submenu. |
+| [options.childMenu] | [<code>BaseMenu</code>](#BaseMenu) | <code></code> | The child menu. |
+| [options.toggle] | [<code>BaseMenuToggle</code>](#BaseMenuToggle) | <code></code> | The controller for the child menu. |
 
 <a name="BaseMenuItem+dom"></a>
 
-### baseMenuItem.dom ⇒ <code>object</code>
+### baseMenuItem.dom : <code>object.&lt;HTMLElement&gt;</code>
 The DOM elements within the menu item.
 
 **Kind**: instance property of [<code>BaseMenuItem</code>](#BaseMenuItem)  
-**Returns**: <code>object</code> - - The DOM elements.  
 <a name="BaseMenuItem+elements"></a>
 
-### baseMenuItem.elements ⇒ <code>object</code>
+### baseMenuItem.elements : <code>object.&lt;BaseMenu, BaseMenuToggle&gt;</code>
 The elements within the menu item.
 
 **Kind**: instance property of [<code>BaseMenuItem</code>](#BaseMenuItem)  
-**Returns**: <code>object</code> - - The elements.  
 <a name="BaseMenuItem+isSubmenuItem"></a>
 
-### baseMenuItem.isSubmenuItem ⇒ <code>boolean</code>
+### baseMenuItem.isSubmenuItem : <code>boolean</code>
 A flag marking a submenu item.
 
 **Kind**: instance property of [<code>BaseMenuItem</code>](#BaseMenuItem)  
-**Returns**: <code>boolean</code> - - The submenu flag.  
 <a name="BaseMenuItem+initialize"></a>
 
 ### baseMenuItem.initialize()
@@ -67,3 +65,4 @@ Focuses the menu item's link if triggering event is valid.
 Blurs the menu item's link if triggering event is valid.
 
 **Kind**: instance method of [<code>BaseMenuItem</code>](#BaseMenuItem)  
+  

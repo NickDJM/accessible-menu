@@ -11,14 +11,14 @@ class DisclosureMenuItem extends BaseMenuItem {
   /**
    * @inheritdoc
    *
-   * @param {object}                    param0                         - The menu item object.
-   * @param {HTMLElement}               param0.menuItemElement         - The menu item in the DOM.
-   * @param {HTMLElement}               param0.menuLinkElement         - The menu item's link in the DOM.
-   * @param {DisclosureMenu}            param0.parentMenu              - The parent menu.
-   * @param {boolean}                   [param0.isSubmenuItem = false] - A flag to mark if the menu item is controlling a submenu.
-   * @param {DisclosureMenu|null}       [param0.childMenu = null]      - The child menu.
-   * @param {DisclosureMenuToggle|null} [param0.toggle = null]         - The controller for the child menu.
-   * @param {boolean}                   [param0.initialize = true]     - A flag to initialize the menu item immediately upon creation.
+   * @param {object}                    options                         - The options for generating the menu item.
+   * @param {HTMLElement}               options.menuItemElement         - The menu item in the DOM.
+   * @param {HTMLElement}               options.menuLinkElement         - The menu item's link in the DOM.
+   * @param {DisclosureMenu}            options.parentMenu              - The parent menu.
+   * @param {boolean}                   [options.isSubmenuItem = false] - A flag to mark if the menu item is controlling a submenu.
+   * @param {DisclosureMenu|null}       [options.childMenu = null]      - The child menu.
+   * @param {DisclosureMenuToggle|null} [options.toggle = null]         - The controller for the child menu.
+   * @param {boolean}                   [options.initialize = true]     - A flag to initialize the menu item immediately upon creation.
    */
   constructor({
     menuItemElement,

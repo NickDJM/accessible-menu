@@ -91,7 +91,7 @@ export function isValidType(type, values) {
  *
  * Will return true is the check is successful.
  *
- * @param   {object} values - The value(s) to check.
+ * @param   {object.<string>} values - The value(s) to check.
  *
  * @returns {boolean} - The result of the check.
  */
@@ -134,7 +134,7 @@ export function isCSSSelector(values) {
  *
  * Will return true is the check is successful.
  *
- * @param   {object} values - The value(s) to check.
+ * @param   {object.<string,string[]>} values - The value(s) to check.
  *
  * @returns {boolean} - The result of the check.
  */
@@ -188,7 +188,7 @@ export function isValidClassList(values) {
  *
  * Will return true is the check is successful.
  *
- * @param   {object} values - The value(s) to check.
+ * @param   {object.<string>} values - The value(s) to check.
  *
  * @returns {boolean} - The result of the check.
  */
@@ -229,7 +229,7 @@ export function isValidState(values) {
  *
  * Will return true is the check is successful.
  *
- * @param   {object} values - The value(s) to check.
+ * @param   {object.<string>} values - The value(s) to check.
  *
  * @returns {boolean} - The result of the check.
  */
@@ -270,7 +270,7 @@ export function isValidEvent(values) {
  *
  * Will return true is the check is successful.
  *
- * @param   {object} values - The value(s) to check.
+ * @param   {object.<string>} values - The value(s) to check.
  *
  * @returns {boolean} - The result of the check.
  */
@@ -309,8 +309,8 @@ export function isValidHoverType(values) {
  * The elements must be provided inside of an object
  * so the variable name can be retrieved in case of errors.
  *
- * @param   {string} tagName  - The name of the tag.
- * @param   {object} elements - The element(s) to check.
+ * @param   {string}                tagName  - The name of the tag.
+ * @param   {object.<HTMLEelement>} elements - The element(s) to check.
  *
  * @returns {boolean} - The result of the check.
  */

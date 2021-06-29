@@ -1,4 +1,5 @@
-<a name="DisclosureMenu"></a>
+
+    <a name="DisclosureMenu"></a>
 
 ## DisclosureMenu ⇐ [<code>BaseMenu</code>](#BaseMenu)
 An accessible disclosure menu in the DOM.
@@ -9,22 +10,21 @@ See [Example Disclosure for Navigation Menus](https://www.w3.org/TR/wai-aria-pra
 **Extends**: [<code>BaseMenu</code>](#BaseMenu)  
 
 * [DisclosureMenu](#DisclosureMenu) ⇐ [<code>BaseMenu</code>](#BaseMenu)
-    * [new DisclosureMenu(param0)](#new_DisclosureMenu_new)
-    * [.optionalKeySupport](#DisclosureMenu+optionalKeySupport) ⇒ <code>boolean</code>
-    * [.optionalKeySupport](#DisclosureMenu+optionalKeySupport)
-    * [.dom](#BaseMenu+dom) ⇒ <code>object</code>
-    * [.selectors](#BaseMenu+selectors) ⇒ <code>object</code>
-    * [.elements](#BaseMenu+elements) ⇒ <code>object</code>
-    * [.openClass](#BaseMenu+openClass) ⇒ <code>string</code> \| <code>Array.&lt;string&gt;</code>
-    * [.closeClass](#BaseMenu+closeClass) ⇒ <code>string</code> \| <code>Array.&lt;string&gt;</code>
-    * [.isTopLevel](#BaseMenu+isTopLevel) ⇒ <code>boolean</code>
-    * [.currentChild](#BaseMenu+currentChild) ⇒ <code>number</code>
-    * [.focusState](#BaseMenu+focusState) ⇒ <code>string</code>
-    * [.currentEvent](#BaseMenu+currentEvent) ⇒ <code>string</code>
-    * [.currentMenuItem](#BaseMenu+currentMenuItem) ⇒ [<code>BaseMenuItem</code>](#BaseMenuItem)
-    * [.hoverType](#BaseMenu+hoverType) ⇒ <code>string</code>
-    * [.hoverDelay](#BaseMenu+hoverDelay) ⇒ <code>number</code>
-    * [.shouldFocus](#BaseMenu+shouldFocus) ⇒ <code>boolean</code>
+    * [new DisclosureMenu(options)](#new_DisclosureMenu_new)
+    * [.optionalKeySupport](#DisclosureMenu+optionalKeySupport) : <code>boolean</code>
+    * [.dom](#BaseMenu+dom) : <code>object.&lt;HTMLElement, Array.&lt;HTMLElement&gt;&gt;</code>
+    * [.selectors](#BaseMenu+selectors) : <code>object.&lt;string&gt;</code>
+    * [.elements](#BaseMenu+elements) : <code>object.&lt;BaseMenu, BaseMenuToggle, Array.&lt;BaseMenuItem&gt;, Array.&lt;BaseMenuToggle&gt;&gt;</code>
+    * [.openClass](#BaseMenu+openClass) : <code>string</code> \| <code>Array.&lt;string&gt;</code>
+    * [.closeClass](#BaseMenu+closeClass) : <code>string</code> \| <code>Array.&lt;string&gt;</code>
+    * [.isTopLevel](#BaseMenu+isTopLevel) : <code>boolean</code>
+    * [.currentChild](#BaseMenu+currentChild) : <code>number</code>
+    * [.focusState](#BaseMenu+focusState) : <code>string</code>
+    * [.currentEvent](#BaseMenu+currentEvent) : <code>string</code>
+    * [.currentMenuItem](#BaseMenu+currentMenuItem) : [<code>BaseMenuItem</code>](#BaseMenuItem)
+    * [.hoverType](#BaseMenu+hoverType) : <code>string</code>
+    * [.hoverDelay](#BaseMenu+hoverDelay) : <code>number</code>
+    * [.shouldFocus](#BaseMenu+shouldFocus) : <code>boolean</code>
     * [.initialize()](#DisclosureMenu+initialize)
     * [.handleClick()](#DisclosureMenu+handleClick)
     * [.handleKeydown()](#DisclosureMenu+handleKeydown)
@@ -54,76 +54,61 @@ See [Example Disclosure for Navigation Menus](https://www.w3.org/TR/wai-aria-pra
 
 <a name="new_DisclosureMenu_new"></a>
 
-### new DisclosureMenu(param0)
+### new DisclosureMenu(options)
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| param0 | <code>object</code> |  | The menu object. |
-| param0.menuElement | <code>HTMLElement</code> |  | The menu element in the DOM. |
-| [param0.menuItemSelector] | <code>string</code> | <code>&quot;\&quot;li\&quot;&quot;</code> | The CSS selector string for menu items. |
-| [param0.menuLinkSelector] | <code>string</code> | <code>&quot;\&quot;a\&quot;&quot;</code> | The CSS selector string for menu links. |
-| [param0.submenuItemSelector] | <code>string</code> | <code>&quot;\&quot;\&quot;&quot;</code> | The CSS selector string for menu items containing submenus. |
-| [param0.submenuToggleSelector] | <code>string</code> | <code>&quot;\&quot;a\&quot;&quot;</code> | The CSS selector string for submenu toggle buttons/links. |
-| [param0.submenuSelector] | <code>string</code> | <code>&quot;\&quot;ul\&quot;&quot;</code> | The CSS selector string for submenus. |
-| [param0.controllerElement] | <code>HTMLElement</code> \| <code>null</code> | <code></code> | The element controlling the menu in the DOM. |
-| [param0.containerElement] | <code>HTMLElement</code> \| <code>null</code> | <code></code> | The element containing the menu in the DOM. |
-| [param0.openClass] | <code>string</code> | <code>&quot;\&quot;show\&quot;&quot;</code> | The class to apply when a menu is "open". |
-| [param0.closeClass] | <code>string</code> | <code>&quot;\&quot;hide\&quot;&quot;</code> | The class to apply when a menu is "closed". |
-| [param0.isTopLevel] | <code>boolean</code> | <code>false</code> | A flag to mark the root menu. |
-| [param0.parentMenu] | [<code>DisclosureMenu</code>](#DisclosureMenu) \| <code>null</code> | <code></code> | The parent menu to this menu. |
-| [param0.hoverType] | <code>string</code> | <code>&quot;\&quot;off\&quot;&quot;</code> | The type of hoverability a menu has. |
-| [param0.hoverDelay] | <code>number</code> | <code>250</code> | The delay for closing menus if the menu is hoverable (in miliseconds). |
-| [param0.optionalKeySupport] | <code>boolean</code> | <code>false</code> | A flag to add optional keyboard support (Arrow keys, Home, and End) to the menu. |
-| [param0.initialize] | <code>boolean</code> | <code>true</code> | A flag to initialize the menu immediately upon creation. |
+| options | <code>object</code> |  | The options for generating the menu. |
+| options.menuElement | <code>HTMLElement</code> |  | The menu element in the DOM. |
+| [options.menuItemSelector] | <code>string</code> | <code>&quot;li&quot;</code> | The CSS selector string for menu items. |
+| [options.menuLinkSelector] | <code>string</code> | <code>&quot;a&quot;</code> | The CSS selector string for menu links. |
+| [options.submenuItemSelector] | <code>string</code> |  | The CSS selector string for menu items containing submenus. |
+| [options.submenuToggleSelector] | <code>string</code> | <code>&quot;a&quot;</code> | The CSS selector string for submenu toggle buttons/links. |
+| [options.submenuSelector] | <code>string</code> | <code>&quot;ul&quot;</code> | The CSS selector string for submenus. |
+| [options.controllerElement] | <code>HTMLElement</code> \| <code>null</code> | <code></code> | The element controlling the menu in the DOM. |
+| [options.containerElement] | <code>HTMLElement</code> \| <code>null</code> | <code></code> | The element containing the menu in the DOM. |
+| [options.openClass] | <code>string</code> \| <code>Array.&lt;string&gt;</code> \| <code>null</code> | <code>&quot;show&quot;</code> | The class to apply when a menu is "open". |
+| [options.closeClass] | <code>string</code> \| <code>Array.&lt;string&gt;</code> \| <code>null</code> | <code>&quot;hide&quot;</code> | The class to apply when a menu is "closed". |
+| [options.isTopLevel] | <code>boolean</code> | <code>false</code> | A flag to mark the root menu. |
+| [options.parentMenu] | [<code>DisclosureMenu</code>](#DisclosureMenu) \| <code>null</code> | <code></code> | The parent menu to this menu. |
+| [options.hoverType] | <code>string</code> | <code>&quot;off&quot;</code> | The type of hoverability a menu has. |
+| [options.hoverDelay] | <code>number</code> | <code>250</code> | The delay for closing menus if the menu is hoverable (in miliseconds). |
+| [options.optionalKeySupport] | <code>boolean</code> | <code>false</code> | A flag to add optional keyboard support (Arrow keys, Home, and End) to the menu. |
+| [options.initialize] | <code>boolean</code> | <code>true</code> | A flag to initialize the menu immediately upon creation. |
 
 <a name="DisclosureMenu+optionalKeySupport"></a>
 
-### disclosureMenu.optionalKeySupport ⇒ <code>boolean</code>
+### disclosureMenu.optionalKeySupport : <code>boolean</code>
 A flag to add optional keyboard support (Arrow keys, Home, and End) to the menu.
 
 This functions differently for root vs. submenus.
 Submenus will always inherit their root menu's optionalKeySupport.
 
 **Kind**: instance property of [<code>DisclosureMenu</code>](#DisclosureMenu)  
-**Returns**: <code>boolean</code> - - The flag.  
-<a name="DisclosureMenu+optionalKeySupport"></a>
-
-### disclosureMenu.optionalKeySupport
-Set the flag to add optional keyboard support (Arrow keys, Home, and End) to the menu.
-
-**Kind**: instance property of [<code>DisclosureMenu</code>](#DisclosureMenu)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| value | <code>boolean</code> | The flag. |
-
 <a name="BaseMenu+dom"></a>
 
-### disclosureMenu.dom ⇒ <code>object</code>
+### disclosureMenu.dom : <code>object.&lt;HTMLElement, Array.&lt;HTMLElement&gt;&gt;</code>
 The DOM elements within the menu.
 
 **Kind**: instance property of [<code>DisclosureMenu</code>](#DisclosureMenu)  
 **Overrides**: [<code>dom</code>](#BaseMenu+dom)  
-**Returns**: <code>object</code> - - The DOM elements.  
 <a name="BaseMenu+selectors"></a>
 
-### disclosureMenu.selectors ⇒ <code>object</code>
+### disclosureMenu.selectors : <code>object.&lt;string&gt;</code>
 The CSS selectors available to the menu.
 
 **Kind**: instance property of [<code>DisclosureMenu</code>](#DisclosureMenu)  
 **Overrides**: [<code>selectors</code>](#BaseMenu+selectors)  
-**Returns**: <code>object</code> - - The selectors.  
 <a name="BaseMenu+elements"></a>
 
-### disclosureMenu.elements ⇒ <code>object</code>
+### disclosureMenu.elements : <code>object.&lt;BaseMenu, BaseMenuToggle, Array.&lt;BaseMenuItem&gt;, Array.&lt;BaseMenuToggle&gt;&gt;</code>
 The elements within the menu.
 
 **Kind**: instance property of [<code>DisclosureMenu</code>](#DisclosureMenu)  
 **Overrides**: [<code>elements</code>](#BaseMenu+elements)  
-**Returns**: <code>object</code> - - The elements.  
 <a name="BaseMenu+openClass"></a>
 
-### disclosureMenu.openClass ⇒ <code>string</code> \| <code>Array.&lt;string&gt;</code>
+### disclosureMenu.openClass : <code>string</code> \| <code>Array.&lt;string&gt;</code>
 The class(es) to apply when the menu is "open".
 
 This functions differently for root vs. submenus.
@@ -131,10 +116,9 @@ Submenus will always inherit their root menu's open class(es).
 
 **Kind**: instance property of [<code>DisclosureMenu</code>](#DisclosureMenu)  
 **Overrides**: [<code>openClass</code>](#BaseMenu+openClass)  
-**Returns**: <code>string</code> \| <code>Array.&lt;string&gt;</code> - - The class(es).  
 <a name="BaseMenu+closeClass"></a>
 
-### disclosureMenu.closeClass ⇒ <code>string</code> \| <code>Array.&lt;string&gt;</code>
+### disclosureMenu.closeClass : <code>string</code> \| <code>Array.&lt;string&gt;</code>
 The class(es) to apply when the menu is "closed".
 
 This functions differently for root vs. submenus.
@@ -142,50 +126,51 @@ Submenus will always inherit their root menu's close class(es).
 
 **Kind**: instance property of [<code>DisclosureMenu</code>](#DisclosureMenu)  
 **Overrides**: [<code>closeClass</code>](#BaseMenu+closeClass)  
-**Returns**: <code>string</code> \| <code>Array.&lt;string&gt;</code> - - The class(es).  
 <a name="BaseMenu+isTopLevel"></a>
 
-### disclosureMenu.isTopLevel ⇒ <code>boolean</code>
+### disclosureMenu.isTopLevel : <code>boolean</code>
 A flag marking the root menu.
 
 **Kind**: instance property of [<code>DisclosureMenu</code>](#DisclosureMenu)  
 **Overrides**: [<code>isTopLevel</code>](#BaseMenu+isTopLevel)  
-**Returns**: <code>boolean</code> - - The top-level flag.  
 <a name="BaseMenu+currentChild"></a>
 
-### disclosureMenu.currentChild ⇒ <code>number</code>
+### disclosureMenu.currentChild : <code>number</code>
 The index of the currently selected menu item in the menu.
+
+- Attempting to set a value < -1 will set the currentChild to -1.
+- Attempting to set a value >= the number of menu items will set the currentChild to the number of menu items - 1.
+
+If the current menu has a parent menu _and_ the menu's current event is "mouse",
+The parent menu will have it's current child updated as well to help with transitioning
+between mouse and keyboard naviation.
 
 **Kind**: instance property of [<code>DisclosureMenu</code>](#DisclosureMenu)  
 **Overrides**: [<code>currentChild</code>](#BaseMenu+currentChild)  
-**Returns**: <code>number</code> - - The index.  
 <a name="BaseMenu+focusState"></a>
 
-### disclosureMenu.focusState ⇒ <code>string</code>
+### disclosureMenu.focusState : <code>string</code>
 The current state of the menu's focus.
 
 **Kind**: instance property of [<code>DisclosureMenu</code>](#DisclosureMenu)  
 **Overrides**: [<code>focusState</code>](#BaseMenu+focusState)  
-**Returns**: <code>string</code> - - The state.  
 <a name="BaseMenu+currentEvent"></a>
 
-### disclosureMenu.currentEvent ⇒ <code>string</code>
+### disclosureMenu.currentEvent : <code>string</code>
 This last event triggered on the menu.
 
 **Kind**: instance property of [<code>DisclosureMenu</code>](#DisclosureMenu)  
 **Overrides**: [<code>currentEvent</code>](#BaseMenu+currentEvent)  
-**Returns**: <code>string</code> - - The event type.  
 <a name="BaseMenu+currentMenuItem"></a>
 
-### disclosureMenu.currentMenuItem ⇒ [<code>BaseMenuItem</code>](#BaseMenuItem)
+### disclosureMenu.currentMenuItem : [<code>BaseMenuItem</code>](#BaseMenuItem)
 The currently selected menu item.
 
 **Kind**: instance property of [<code>DisclosureMenu</code>](#DisclosureMenu)  
 **Overrides**: [<code>currentMenuItem</code>](#BaseMenu+currentMenuItem)  
-**Returns**: [<code>BaseMenuItem</code>](#BaseMenuItem) - - The menu item.  
 <a name="BaseMenu+hoverType"></a>
 
-### disclosureMenu.hoverType ⇒ <code>string</code>
+### disclosureMenu.hoverType : <code>string</code>
 The type of hoverability for the menu.
 
 This functions differently for root vs. submenus.
@@ -193,10 +178,9 @@ Submenus will always inherit their root menu's hoverability.
 
 **Kind**: instance property of [<code>DisclosureMenu</code>](#DisclosureMenu)  
 **Overrides**: [<code>hoverType</code>](#BaseMenu+hoverType)  
-**Returns**: <code>string</code> - - The hover type.  
 <a name="BaseMenu+hoverDelay"></a>
 
-### disclosureMenu.hoverDelay ⇒ <code>number</code>
+### disclosureMenu.hoverDelay : <code>number</code>
 The delay time (in miliseconds) used for mouseout events to take place.
 
 This functions differently for root vs. submenus.
@@ -204,10 +188,9 @@ Submenus will always inherit their root menu's hover delay.
 
 **Kind**: instance property of [<code>DisclosureMenu</code>](#DisclosureMenu)  
 **Overrides**: [<code>hoverDelay</code>](#BaseMenu+hoverDelay)  
-**Returns**: <code>number</code> - - The delay time.  
 <a name="BaseMenu+shouldFocus"></a>
 
-### disclosureMenu.shouldFocus ⇒ <code>boolean</code>
+### disclosureMenu.shouldFocus : <code>boolean</code>
 A flag to check if the menu's focus methods should _actually_ move the focus in the DOM.
 
 Will return false unless any of the following criteria are met:
@@ -217,7 +200,6 @@ Will return false unless any of the following criteria are met:
 
 **Kind**: instance property of [<code>DisclosureMenu</code>](#DisclosureMenu)  
 **Overrides**: [<code>shouldFocus</code>](#BaseMenu+shouldFocus)  
-**Returns**: <code>boolean</code> - - The flag.  
 <a name="DisclosureMenu+initialize"></a>
 
 ### disclosureMenu.initialize()
@@ -432,3 +414,4 @@ Blurs all children and submenu's children.
 
 **Kind**: instance method of [<code>DisclosureMenu</code>](#DisclosureMenu)  
 **Overrides**: [<code>blurChildren</code>](#BaseMenu+blurChildren)  
+  

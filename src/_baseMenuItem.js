@@ -7,13 +7,13 @@ class BaseMenuItem {
   /**
    * @inheritdoc
    *
-   * @param {object}              param0                         - The menu item object.
-   * @param {HTMLElement}         param0.menuItemElement         - The menu item in the DOM.
-   * @param {HTMLElement}         param0.menuLinkElement         - The menu item's link in the DOM.
-   * @param {BaseMenu}            param0.parentMenu              - The parent menu.
-   * @param {boolean}             [param0.isSubmenuItem = false] - A flag to mark if the menu item is controlling a submenu.
-   * @param {BaseMenu|null}       [param0.childMenu = null]      - The child menu.
-   * @param {BaseMenuToggle|null} [param0.toggle = null]         - The controller for the child menu.
+   * @param {object}          options                         - The options for generating the menu item.
+   * @param {HTMLElement}     options.menuItemElement         - The menu item in the DOM.
+   * @param {HTMLElement}     options.menuLinkElement         - The menu item's link in the DOM.
+   * @param {BaseMenu}        options.parentMenu              - The parent menu.
+   * @param {boolean}         [options.isSubmenuItem = false] - A flag to mark if the menu item is controlling a submenu.
+   * @param {?BaseMenu}       [options.childMenu = null]      - The child menu.
+   * @param {?BaseMenuToggle} [options.toggle = null]         - The controller for the child menu.
    */
   constructor({
     menuItemElement,
@@ -43,7 +43,7 @@ class BaseMenuItem {
   /**
    * The DOM elements within the menu item.
    *
-   * @returns {object} - The DOM elements.
+   * @type {object.<HTMLElement>}
    */
   get dom() {
     return this.domElements;
@@ -52,7 +52,7 @@ class BaseMenuItem {
   /**
    * The elements within the menu item.
    *
-   * @returns {object} - The elements.
+   * @type {object.<BaseMenu,BaseMenuToggle>}
    */
   get elements() {
     return this.menuElements;
@@ -61,7 +61,7 @@ class BaseMenuItem {
   /**
    * A flag marking a submenu item.
    *
-   * @returns {boolean} - The submenu flag.
+   * @type {boolean}
    */
   get isSubmenuItem() {
     return this.isController;

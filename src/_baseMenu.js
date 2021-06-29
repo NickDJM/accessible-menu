@@ -19,21 +19,21 @@ class BaseMenu {
   /**
    * @inheritdoc
    *
-   * @param {object}               param0                               - The menu object.
-   * @param {HTMLElement}          param0.menuElement                   - The menu element in the DOM.
-   * @param {string}               [param0.menuItemSelector = "li"]     - The CSS selector string for menu items.
-   * @param {string}               [param0.menuLinkSelector = "a"]      - The CSS selector string for menu links.
-   * @param {string}               [param0.submenuItemSelector = ""]    - The CSS selector string for menu items containing submenus.
-   * @param {string}               [param0.submenuToggleSelector = "a"] - The CSS selector string for submenu toggle buttons/links.
-   * @param {string}               [param0.submenuSelector = "ul"]      - The CSS selector string for submenus.
-   * @param {HTMLElement|null}     [param0.controllerElement = null]    - The element controlling the menu in the DOM.
-   * @param {HTMLElement|null}     [param0.containerElement = null]     - The element containing the menu in the DOM.
-   * @param {string|string[]|null} [param0.openClass = "show"]          - The class to apply when a menu is "open".
-   * @param {string|string[]|null} [param0.closeClass = "hide"]         - The class to apply when a menu is "closed".
-   * @param {boolean}              [param0.isTopLevel = false]          - A flag to mark the root menu.
-   * @param {BaseMenu|null}        [param0.parentMenu = null]           - The parent menu to this menu.
-   * @param {string}               [param0.hoverType = "off"]           - The type of hoverability a menu has.
-   * @param {number}               [param0.hoverDelay = 250]            - The delay for closing menus if the menu is hoverable (in miliseconds).
+   * @param {object}                 options                             - The options for generating the menu.
+   * @param {HTMLElement}            options.menuElement                 - The menu element in the DOM.
+   * @param {string}                 [options.menuItemSelector = li]     - The CSS selector string for menu items.
+   * @param {string}                 [options.menuLinkSelector = a]      - The CSS selector string for menu links.
+   * @param {string}                 [options.submenuItemSelector]       - The CSS selector string for menu items containing submenus.
+   * @param {string}                 [options.submenuToggleSelector = a] - The CSS selector string for submenu toggle buttons/links.
+   * @param {string}                 [options.submenuSelector = ul]      - The CSS selector string for submenus.
+   * @param {?HTMLElement}           [options.controllerElement = null]  - The element controlling the menu in the DOM.
+   * @param {?HTMLElement}           [options.containerElement = null]   - The element containing the menu in the DOM.
+   * @param {?(string|string[])}     [options.openClass = show]          - The class to apply when a menu is "open".
+   * @param {?(string|string[])}     [options.closeClass = hide]         - The class to apply when a menu is "closed".
+   * @param {boolean}                [options.isTopLevel = false]        - A flag to mark the root menu.
+   * @param {?BaseMenu}              [options.parentMenu = null]         - The parent menu to this menu.
+   * @param {string}                 [options.hoverType = off]           - The type of hoverability a menu has.
+   * @param {number}                 [options.hoverDelay = 250]          - The delay for closing menus if the menu is hoverable (in miliseconds).
    */
   constructor({
     menuElement,
@@ -93,6 +93,8 @@ class BaseMenu {
    * Initializes the menu.
    *
    * This will also initialize all menu items and sub menus.
+   *
+   * @throws {Error} Will throw an Error if the validate method returns `false`.
    */
   initialize() {
     if (!this.validate()) {
@@ -128,7 +130,7 @@ class BaseMenu {
   /**
    * The DOM elements within the menu.
    *
-   * @returns {object} - The DOM elements.
+   * @type {object.<HTMLElement,HTMLElement[]>}
    */
   get dom() {
     return this.domElements;
@@ -137,7 +139,7 @@ class BaseMenu {
   /**
    * The CSS selectors available to the menu.
    *
-   * @returns {object} - The selectors.
+   * @type {object.<string>}
    */
   get selectors() {
     return this.domSelectors;
@@ -146,7 +148,7 @@ class BaseMenu {
   /**
    * The elements within the menu.
    *
-   * @returns {object} - The elements.
+   * @type {object.<BaseMenu,BaseMenuToggle,BaseMenuItem[],BaseMenuToggle[]>} - The elements.
    */
   get elements() {
     return this.menuElements;
@@ -158,7 +160,7 @@ class BaseMenu {
    * This functions differently for root vs. submenus.
    * Submenus will always inherit their root menu's open class(es).
    *
-   * @returns {string|string[]} - The class(es).
+   * @type {string|string[]}
    */
   get openClass() {
     return this.isTopLevel
@@ -172,7 +174,7 @@ class BaseMenu {
    * This functions differently for root vs. submenus.
    * Submenus will always inherit their root menu's close class(es).
    *
-   * @returns {string|string[]} - The class(es).
+   * @type {string|string[]}
    */
   get closeClass() {
     return this.isTopLevel
@@ -183,7 +185,7 @@ class BaseMenu {
   /**
    * A flag marking the root menu.
    *
-   * @returns {boolean} - The top-level flag.
+   * @type {boolean}
    */
   get isTopLevel() {
     return this.root;
@@ -192,7 +194,14 @@ class BaseMenu {
   /**
    * The index of the currently selected menu item in the menu.
    *
-   * @returns {number} - The index.
+   * - Attempting to set a value < -1 will set the currentChild to -1.
+   * - Attempting to set a value >= the number of menu items will set the currentChild to the number of menu items - 1.
+   *
+   * If the current menu has a parent menu _and_ the menu's current event is "mouse",
+   * The parent menu will have it's current child updated as well to help with transitioning
+   * between mouse and keyboard naviation.
+   *
+   * @type {number}
    */
   get currentChild() {
     return this.focussedChild;
@@ -201,7 +210,7 @@ class BaseMenu {
   /**
    * The current state of the menu's focus.
    *
-   * @returns {string} - The state.
+   * @type {string}
    */
   get focusState() {
     return this.state;
@@ -210,7 +219,7 @@ class BaseMenu {
   /**
    * This last event triggered on the menu.
    *
-   * @returns {string} - The event type.
+   * @type {string}
    */
   get currentEvent() {
     return this.event;
@@ -219,7 +228,7 @@ class BaseMenu {
   /**
    * The currently selected menu item.
    *
-   * @returns {BaseMenuItem} - The menu item.
+   * @type {BaseMenuItem}
    */
   get currentMenuItem() {
     return this.elements.menuItems[this.currentChild];
@@ -231,7 +240,7 @@ class BaseMenu {
    * This functions differently for root vs. submenus.
    * Submenus will always inherit their root menu's hoverability.
    *
-   * @returns {string} - The hover type.
+   * @type {string}
    */
   get hoverType() {
     return this.root ? this.hover : this.elements.rootMenu.hoverType;
@@ -243,7 +252,7 @@ class BaseMenu {
    * This functions differently for root vs. submenus.
    * Submenus will always inherit their root menu's hover delay.
    *
-   * @returns {number} - The delay time.
+   * @type {number}
    */
   get hoverDelay() {
     return this.root ? this.delay : this.elements.rootMenu.hoverDelay;
@@ -257,7 +266,7 @@ class BaseMenu {
    * - The menu's currentEvent is "character".
    * - The menu's currentEvent is "mouse" _and_ the menu's hoverType is "dynamic".
    *
-   * @returns {boolean} - The flag.
+   * @type {boolean}
    */
   get shouldFocus() {
     let check = false;
@@ -273,11 +282,6 @@ class BaseMenu {
     return check;
   }
 
-  /**
-   * Set the class to apply when the menu is "open".
-   *
-   * @param {string} value - The class.
-   */
   set openClass(value) {
     isValidClassList({ openClass: value });
 
@@ -286,11 +290,6 @@ class BaseMenu {
     }
   }
 
-  /**
-   * Set the class to apply when the menu is "closed".
-   *
-   * @param {string} value - The class.
-   */
   set closeClass(value) {
     isValidClassList({ closeClass: value });
 
@@ -299,18 +298,6 @@ class BaseMenu {
     }
   }
 
-  /**
-   * Set the index currently selected menu item in the menu.
-   *
-   * - Attempting to set a value < -1 will set the currentChild to -1.
-   * - Attempting to set a value >= the number of menu items will set the currentChild to the number of menu items - 1.
-   *
-   * If the current menu has a parent menu _and_ the menu's current event is "mouse",
-   * The parent menu will have it's current child updated as well to help with transitioning
-   * between mouse and keyboard naviation.
-   *
-   * @param {number} value - The index.
-   */
   set currentChild(value) {
     isValidType("number", { value });
 
@@ -363,11 +350,6 @@ class BaseMenu {
     }
   }
 
-  /**
-   * Set the state of the menu's focus.
-   *
-   * @param {string} value - The state.
-   */
   set focusState(value) {
     isValidState({ value });
 
@@ -376,11 +358,6 @@ class BaseMenu {
     }
   }
 
-  /**
-   * Set the last event triggered on the menu.
-   *
-   * @param {string} value - The event type.
-   */
   set currentEvent(value) {
     isValidEvent({ value });
 
@@ -395,11 +372,6 @@ class BaseMenu {
     }
   }
 
-  /**
-   * Set the type of hoverability for the menu.
-   *
-   * @param {string} value - The hover type.
-   */
   set hoverType(value) {
     isValidHoverType({ value });
 
@@ -408,11 +380,6 @@ class BaseMenu {
     }
   }
 
-  /**
-   * Set the delay time (in miliseconds) used for mouseout events to take place.
-   *
-   * @param {number} value - The delay time.
-   */
   set hoverDelay(value) {
     isValidType("number", { value });
 

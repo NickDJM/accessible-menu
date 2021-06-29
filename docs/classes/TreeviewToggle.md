@@ -1,4 +1,5 @@
-<a name="TreeviewToggle"></a>
+
+    <a name="TreeviewToggle"></a>
 
 ## TreeviewToggle ⇐ [<code>BaseMenuToggle</code>](#BaseMenuToggle)
 A link or button that controls the visibility of a TreeviewNavigation.
@@ -7,10 +8,10 @@ A link or button that controls the visibility of a TreeviewNavigation.
 **Extends**: [<code>BaseMenuToggle</code>](#BaseMenuToggle)  
 
 * [TreeviewToggle](#TreeviewToggle) ⇐ [<code>BaseMenuToggle</code>](#BaseMenuToggle)
-    * [new TreeviewToggle(param0)](#new_TreeviewToggle_new)
-    * [.dom](#BaseMenuToggle+dom) ⇒ <code>object</code>
-    * [.elements](#BaseMenuToggle+elements) ⇒ <code>object</code>
-    * [.isOpen](#BaseMenuToggle+isOpen) ⇒ <code>boolean</code>
+    * [new TreeviewToggle(options)](#new_TreeviewToggle_new)
+    * [.dom](#BaseMenuToggle+dom) : <code>object.&lt;HTMLElement&gt;</code>
+    * [.elements](#BaseMenuToggle+elements) : [<code>object.&lt;BaseMenu&gt;</code>](#BaseMenu)
+    * [.isOpen](#BaseMenuToggle+isOpen) : <code>boolean</code>
     * [.initialize()](#BaseMenuToggle+initialize)
     * [.expand([emit])](#BaseMenuToggle+expand)
     * [.collapse([emit])](#BaseMenuToggle+collapse)
@@ -23,41 +24,38 @@ A link or button that controls the visibility of a TreeviewNavigation.
 
 <a name="new_TreeviewToggle_new"></a>
 
-### new TreeviewToggle(param0)
+### new TreeviewToggle(options)
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| param0 | <code>object</code> |  | The menu toggle object. |
-| param0.menuToggleElement | <code>HTMLElement</code> |  | The toggle element in the DOM. |
-| param0.parentElement | <code>HTMLElement</code> |  | The element containing the controlled menu. |
-| param0.controlledMenu | <code>TreeviewNavigation</code> |  | The menu controlled by this toggle. |
-| [param0.parentMenu] | <code>TreeviewNavigation</code> \| <code>null</code> | <code></code> | The menu containing this toggle. |
-| [param0.initialize] | <code>boolean</code> | <code>true</code> | A flag to initialize the menu toggle immediately upon creation. |
+| options | <code>object</code> |  | The options for generating the menu toggle. |
+| options.menuToggleElement | <code>HTMLElement</code> |  | The toggle element in the DOM. |
+| options.parentElement | <code>HTMLElement</code> |  | The element containing the controlled menu. |
+| options.controlledMenu | <code>TreeviewNavigation</code> |  | The menu controlled by this toggle. |
+| [options.parentMenu] | <code>TreeviewNavigation</code> \| <code>null</code> | <code></code> | The menu containing this toggle. |
+| [options.initialize] | <code>boolean</code> | <code>true</code> | A flag to initialize the menu toggle immediately upon creation. |
 
 <a name="BaseMenuToggle+dom"></a>
 
-### treeviewToggle.dom ⇒ <code>object</code>
+### treeviewToggle.dom : <code>object.&lt;HTMLElement&gt;</code>
 The DOM elements within the toggle.
 
 **Kind**: instance property of [<code>TreeviewToggle</code>](#TreeviewToggle)  
 **Overrides**: [<code>dom</code>](#BaseMenuToggle+dom)  
-**Returns**: <code>object</code> - - The DOM elements.  
 <a name="BaseMenuToggle+elements"></a>
 
-### treeviewToggle.elements ⇒ <code>object</code>
+### treeviewToggle.elements : [<code>object.&lt;BaseMenu&gt;</code>](#BaseMenu)
 The elements within the toggle.
 
 **Kind**: instance property of [<code>TreeviewToggle</code>](#TreeviewToggle)  
 **Overrides**: [<code>elements</code>](#BaseMenuToggle+elements)  
-**Returns**: <code>object</code> - - The elements.  
 <a name="BaseMenuToggle+isOpen"></a>
 
-### treeviewToggle.isOpen ⇒ <code>boolean</code>
+### treeviewToggle.isOpen : <code>boolean</code>
 The open state on the menu.
 
 **Kind**: instance property of [<code>TreeviewToggle</code>](#TreeviewToggle)  
 **Overrides**: [<code>isOpen</code>](#BaseMenuToggle+isOpen)  
-**Returns**: <code>boolean</code> - - The open state.  
 <a name="BaseMenuToggle+initialize"></a>
 
 ### treeviewToggle.initialize()
@@ -136,3 +134,4 @@ Closes all child menus.
 
 **Kind**: instance method of [<code>TreeviewToggle</code>](#TreeviewToggle)  
 **Overrides**: [<code>closeChildren</code>](#BaseMenuToggle+closeChildren)  
+  

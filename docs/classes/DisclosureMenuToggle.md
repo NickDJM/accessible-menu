@@ -1,4 +1,5 @@
-<a name="DisclosureMenuToggle"></a>
+
+    <a name="DisclosureMenuToggle"></a>
 
 ## DisclosureMenuToggle ⇐ [<code>BaseMenuToggle</code>](#BaseMenuToggle)
 A link or button that controls the visibility of a DisclosureMenu.
@@ -7,10 +8,10 @@ A link or button that controls the visibility of a DisclosureMenu.
 **Extends**: [<code>BaseMenuToggle</code>](#BaseMenuToggle)  
 
 * [DisclosureMenuToggle](#DisclosureMenuToggle) ⇐ [<code>BaseMenuToggle</code>](#BaseMenuToggle)
-    * [new DisclosureMenuToggle(param0)](#new_DisclosureMenuToggle_new)
-    * [.dom](#BaseMenuToggle+dom) ⇒ <code>object</code>
-    * [.elements](#BaseMenuToggle+elements) ⇒ <code>object</code>
-    * [.isOpen](#BaseMenuToggle+isOpen) ⇒ <code>boolean</code>
+    * [new DisclosureMenuToggle(options)](#new_DisclosureMenuToggle_new)
+    * [.dom](#BaseMenuToggle+dom) : <code>object.&lt;HTMLElement&gt;</code>
+    * [.elements](#BaseMenuToggle+elements) : [<code>object.&lt;BaseMenu&gt;</code>](#BaseMenu)
+    * [.isOpen](#BaseMenuToggle+isOpen) : <code>boolean</code>
     * [.open()](#DisclosureMenuToggle+open)
     * [.preview()](#DisclosureMenuToggle+preview)
     * [.close()](#DisclosureMenuToggle+close)
@@ -23,41 +24,38 @@ A link or button that controls the visibility of a DisclosureMenu.
 
 <a name="new_DisclosureMenuToggle_new"></a>
 
-### new DisclosureMenuToggle(param0)
+### new DisclosureMenuToggle(options)
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| param0 | <code>object</code> |  | The menu toggle object. |
-| param0.menuToggleElement | <code>HTMLElement</code> |  | The toggle element in the DOM. |
-| param0.parentElement | <code>HTMLElement</code> |  | The element containing the controlled menu. |
-| param0.controlledMenu | [<code>DisclosureMenu</code>](#DisclosureMenu) |  | The menu controlled by this toggle. |
-| [param0.parentMenu] | [<code>DisclosureMenu</code>](#DisclosureMenu) \| <code>null</code> | <code></code> | The menu containing this toggle. |
-| [param0.initialize] | <code>boolean</code> | <code>true</code> | A flag to initialize the menu toggle immediately upon creation. |
+| options | <code>object</code> |  | The options for generating the menu toggle. |
+| options.menuToggleElement | <code>HTMLElement</code> |  | The toggle element in the DOM. |
+| options.parentElement | <code>HTMLElement</code> |  | The element containing the controlled menu. |
+| options.controlledMenu | [<code>DisclosureMenu</code>](#DisclosureMenu) |  | The menu controlled by this toggle. |
+| [options.parentMenu] | [<code>DisclosureMenu</code>](#DisclosureMenu) \| <code>null</code> | <code></code> | The menu containing this toggle. |
+| [options.initialize] | <code>boolean</code> | <code>true</code> | A flag to initialize the menu toggle immediately upon creation. |
 
 <a name="BaseMenuToggle+dom"></a>
 
-### disclosureMenuToggle.dom ⇒ <code>object</code>
+### disclosureMenuToggle.dom : <code>object.&lt;HTMLElement&gt;</code>
 The DOM elements within the toggle.
 
 **Kind**: instance property of [<code>DisclosureMenuToggle</code>](#DisclosureMenuToggle)  
 **Overrides**: [<code>dom</code>](#BaseMenuToggle+dom)  
-**Returns**: <code>object</code> - - The DOM elements.  
 <a name="BaseMenuToggle+elements"></a>
 
-### disclosureMenuToggle.elements ⇒ <code>object</code>
+### disclosureMenuToggle.elements : [<code>object.&lt;BaseMenu&gt;</code>](#BaseMenu)
 The elements within the toggle.
 
 **Kind**: instance property of [<code>DisclosureMenuToggle</code>](#DisclosureMenuToggle)  
 **Overrides**: [<code>elements</code>](#BaseMenuToggle+elements)  
-**Returns**: <code>object</code> - - The elements.  
 <a name="BaseMenuToggle+isOpen"></a>
 
-### disclosureMenuToggle.isOpen ⇒ <code>boolean</code>
+### disclosureMenuToggle.isOpen : <code>boolean</code>
 The open state on the menu.
 
 **Kind**: instance property of [<code>DisclosureMenuToggle</code>](#DisclosureMenuToggle)  
 **Overrides**: [<code>isOpen</code>](#BaseMenuToggle+isOpen)  
-**Returns**: <code>boolean</code> - - The open state.  
 <a name="DisclosureMenuToggle+open"></a>
 
 ### disclosureMenuToggle.open()
@@ -136,3 +134,4 @@ Closes all child menus.
 
 **Kind**: instance method of [<code>DisclosureMenuToggle</code>](#DisclosureMenuToggle)  
 **Overrides**: [<code>closeChildren</code>](#BaseMenuToggle+closeChildren)  
+  

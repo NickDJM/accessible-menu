@@ -263,7 +263,7 @@ function isValidType(type, values) {
  *
  * Will return true is the check is successful.
  *
- * @param   {object} values - The value(s) to check.
+ * @param   {object.<string>} values - The value(s) to check.
  *
  * @returns {boolean} - The result of the check.
  */
@@ -302,7 +302,7 @@ function isCSSSelector(values) {
  *
  * Will return true is the check is successful.
  *
- * @param   {object} values - The value(s) to check.
+ * @param   {object.<string,string[]>} values - The value(s) to check.
  *
  * @returns {boolean} - The result of the check.
  */
@@ -353,7 +353,7 @@ function isValidClassList(values) {
  *
  * Will return true is the check is successful.
  *
- * @param   {object} values - The value(s) to check.
+ * @param   {object.<string>} values - The value(s) to check.
  *
  * @returns {boolean} - The result of the check.
  */
@@ -388,7 +388,7 @@ function isValidState(values) {
  *
  * Will return true is the check is successful.
  *
- * @param   {object} values - The value(s) to check.
+ * @param   {object.<string>} values - The value(s) to check.
  *
  * @returns {boolean} - The result of the check.
  */
@@ -423,7 +423,7 @@ function isValidEvent(values) {
  *
  * Will return true is the check is successful.
  *
- * @param   {object} values - The value(s) to check.
+ * @param   {object.<string>} values - The value(s) to check.
  *
  * @returns {boolean} - The result of the check.
  */
@@ -456,8 +456,8 @@ function isValidHoverType(values) {
  * The elements must be provided inside of an object
  * so the variable name can be retrieved in case of errors.
  *
- * @param   {string} tagName  - The name of the tag.
- * @param   {object} elements - The element(s) to check.
+ * @param   {string}                tagName  - The name of the tag.
+ * @param   {object.<HTMLEelement>} elements - The element(s) to check.
  *
  * @returns {boolean} - The result of the check.
  */
@@ -500,19 +500,19 @@ function isEventSupported(event, element) {
   }
 }
 
-/*
+/**
  * A link or button that controls the visibility of a Menu.
  */
 
 var BaseMenuToggle = /*#__PURE__*/function () {
   /**
-   * {@inheritdoc}
+   * @inheritdoc
    *
-   * @param {object}        param0                     - The menu toggle object.
-   * @param {HTMLElement}   param0.menuToggleElement   - The toggle element in the DOM.
-   * @param {HTMLElement}   param0.parentElement       - The element containing the controlled menu.
-   * @param {BaseMenu}      param0.controlledMenu      - The menu controlled by this toggle.
-   * @param {BaseMenu|null} [param0.parentMenu = null] - The menu containing this toggle.
+   * @param {object}        options                     - The options for generating the menu toggle.
+   * @param {HTMLElement}   options.menuToggleElement   - The toggle element in the DOM.
+   * @param {HTMLElement}   options.parentElement       - The element containing the controlled menu.
+   * @param {BaseMenu}      options.controlledMenu      - The menu controlled by this toggle.
+   * @param {BaseMenu|null} [options.parentMenu = null] - The menu containing this toggle.
    */
   function BaseMenuToggle(_ref) {
     var menuToggleElement = _ref.menuToggleElement,
@@ -601,7 +601,7 @@ var BaseMenuToggle = /*#__PURE__*/function () {
     /**
      * The DOM elements within the toggle.
      *
-     * @returns {object} - The DOM elements.
+     * @type {object.<HTMLElement>}
      */
 
   }, {
@@ -612,7 +612,7 @@ var BaseMenuToggle = /*#__PURE__*/function () {
     /**
      * The elements within the toggle.
      *
-     * @returns {object} - The elements.
+     * @type {object.<BaseMenu>}
      */
 
   }, {
@@ -623,20 +623,14 @@ var BaseMenuToggle = /*#__PURE__*/function () {
     /**
      * The open state on the menu.
      *
-     * @returns {boolean} - The open state.
+     * @type {boolean}
      */
 
   }, {
     key: "isOpen",
     get: function get() {
       return this.show;
-    }
-    /**
-     * Set the open state on the menu.
-     *
-     * @param {boolean} value - The open state.
-     */
-    ,
+    },
     set: function set(value) {
       isValidType("boolean", {
         value: value
@@ -837,15 +831,15 @@ var BaseMenuToggle = /*#__PURE__*/function () {
  */
 var BaseMenuItem = /*#__PURE__*/function () {
   /**
-   * {@inheritdoc}
+   * @inheritdoc
    *
-   * @param {object}              param0                         - The menu item object.
-   * @param {HTMLElement}         param0.menuItemElement         - The menu item in the DOM.
-   * @param {HTMLElement}         param0.menuLinkElement         - The menu item's link in the DOM.
-   * @param {BaseMenu}            param0.parentMenu              - The parent menu.
-   * @param {boolean}             [param0.isSubmenuItem = false] - A flag to mark if the menu item is controlling a submenu.
-   * @param {BaseMenu|null}       [param0.childMenu = null]      - The child menu.
-   * @param {BaseMenuToggle|null} [param0.toggle = null]         - The controller for the child menu.
+   * @param {object}          options                         - The options for generating the menu item.
+   * @param {HTMLElement}     options.menuItemElement         - The menu item in the DOM.
+   * @param {HTMLElement}     options.menuLinkElement         - The menu item's link in the DOM.
+   * @param {BaseMenu}        options.parentMenu              - The parent menu.
+   * @param {boolean}         [options.isSubmenuItem = false] - A flag to mark if the menu item is controlling a submenu.
+   * @param {?BaseMenu}       [options.childMenu = null]      - The child menu.
+   * @param {?BaseMenuToggle} [options.toggle = null]         - The controller for the child menu.
    */
   function BaseMenuItem(_ref) {
     var menuItemElement = _ref.menuItemElement,
@@ -882,7 +876,7 @@ var BaseMenuItem = /*#__PURE__*/function () {
     /**
      * The DOM elements within the menu item.
      *
-     * @returns {object} - The DOM elements.
+     * @type {object.<HTMLElement>}
      */
 
   }, {
@@ -893,7 +887,7 @@ var BaseMenuItem = /*#__PURE__*/function () {
     /**
      * The elements within the menu item.
      *
-     * @returns {object} - The elements.
+     * @type {object.<BaseMenu,BaseMenuToggle>}
      */
 
   }, {
@@ -904,7 +898,7 @@ var BaseMenuItem = /*#__PURE__*/function () {
     /**
      * A flag marking a submenu item.
      *
-     * @returns {boolean} - The submenu flag.
+     * @type {boolean}
      */
 
   }, {
@@ -989,23 +983,23 @@ function preventEvent(event) {
 
 var BaseMenu = /*#__PURE__*/function () {
   /**
-   * {@inheritdoc}
+   * @inheritdoc
    *
-   * @param {object}               param0                               - The menu object.
-   * @param {HTMLElement}          param0.menuElement                   - The menu element in the DOM.
-   * @param {string}               [param0.menuItemSelector = "li"]     - The CSS selector string for menu items.
-   * @param {string}               [param0.menuLinkSelector = "a"]      - The CSS selector string for menu links.
-   * @param {string}               [param0.submenuItemSelector = ""]    - The CSS selector string for menu items containing submenus.
-   * @param {string}               [param0.submenuToggleSelector = "a"] - The CSS selector string for submenu toggle buttons/links.
-   * @param {string}               [param0.submenuSelector = "ul"]      - The CSS selector string for submenus.
-   * @param {HTMLElement|null}     [param0.controllerElement = null]    - The element controlling the menu in the DOM.
-   * @param {HTMLElement|null}     [param0.containerElement = null]     - The element containing the menu in the DOM.
-   * @param {string|string[]|null} [param0.openClass = "show"]          - The class to apply when a menu is "open".
-   * @param {string|string[]|null} [param0.closeClass = "hide"]         - The class to apply when a menu is "closed".
-   * @param {boolean}              [param0.isTopLevel = false]          - A flag to mark the root menu.
-   * @param {BaseMenu|null}        [param0.parentMenu = null]           - The parent menu to this menu.
-   * @param {string}               [param0.hoverType = "off"]           - The type of hoverability a menu has.
-   * @param {number}               [param0.hoverDelay = 250]            - The delay for closing menus if the menu is hoverable (in miliseconds).
+   * @param {object}                 options                             - The options for generating the menu.
+   * @param {HTMLElement}            options.menuElement                 - The menu element in the DOM.
+   * @param {string}                 [options.menuItemSelector = li]     - The CSS selector string for menu items.
+   * @param {string}                 [options.menuLinkSelector = a]      - The CSS selector string for menu links.
+   * @param {string}                 [options.submenuItemSelector]       - The CSS selector string for menu items containing submenus.
+   * @param {string}                 [options.submenuToggleSelector = a] - The CSS selector string for submenu toggle buttons/links.
+   * @param {string}                 [options.submenuSelector = ul]      - The CSS selector string for submenus.
+   * @param {?HTMLElement}           [options.controllerElement = null]  - The element controlling the menu in the DOM.
+   * @param {?HTMLElement}           [options.containerElement = null]   - The element containing the menu in the DOM.
+   * @param {?(string|string[])}     [options.openClass = show]          - The class to apply when a menu is "open".
+   * @param {?(string|string[])}     [options.closeClass = hide]         - The class to apply when a menu is "closed".
+   * @param {boolean}                [options.isTopLevel = false]        - A flag to mark the root menu.
+   * @param {?BaseMenu}              [options.parentMenu = null]         - The parent menu to this menu.
+   * @param {string}                 [options.hoverType = off]           - The type of hoverability a menu has.
+   * @param {number}                 [options.hoverDelay = 250]          - The delay for closing menus if the menu is hoverable (in miliseconds).
    */
   function BaseMenu(_ref) {
     var menuElement = _ref.menuElement,
@@ -1078,6 +1072,8 @@ var BaseMenu = /*#__PURE__*/function () {
    * Initializes the menu.
    *
    * This will also initialize all menu items and sub menus.
+   *
+   * @throws {Error} Will throw an Error if the validate method returns `false`.
    */
 
 
@@ -1111,7 +1107,7 @@ var BaseMenu = /*#__PURE__*/function () {
     /**
      * The DOM elements within the menu.
      *
-     * @returns {object} - The DOM elements.
+     * @type {object.<HTMLElement,HTMLElement[]>}
      */
 
   }, {
@@ -1122,7 +1118,7 @@ var BaseMenu = /*#__PURE__*/function () {
     /**
      * The CSS selectors available to the menu.
      *
-     * @returns {object} - The selectors.
+     * @type {object.<string>}
      */
 
   }, {
@@ -1133,7 +1129,7 @@ var BaseMenu = /*#__PURE__*/function () {
     /**
      * The elements within the menu.
      *
-     * @returns {object} - The elements.
+     * @type {object.<BaseMenu,BaseMenuToggle,BaseMenuItem[],BaseMenuToggle[]>} - The elements.
      */
 
   }, {
@@ -1147,7 +1143,7 @@ var BaseMenu = /*#__PURE__*/function () {
      * This functions differently for root vs. submenus.
      * Submenus will always inherit their root menu's open class(es).
      *
-     * @returns {string|string[]} - The class(es).
+     * @type {string|string[]}
      */
 
   }, {
@@ -1161,16 +1157,10 @@ var BaseMenu = /*#__PURE__*/function () {
      * This functions differently for root vs. submenus.
      * Submenus will always inherit their root menu's close class(es).
      *
-     * @returns {string|string[]} - The class(es).
+     * @type {string|string[]}
      */
     ,
-    set:
-    /**
-     * Set the class to apply when the menu is "open".
-     *
-     * @param {string} value - The class.
-     */
-    function set(value) {
+    set: function set(value) {
       isValidClassList({
         openClass: value
       });
@@ -1179,12 +1169,6 @@ var BaseMenu = /*#__PURE__*/function () {
         this.submenuOpenClass = value;
       }
     }
-    /**
-     * Set the class to apply when the menu is "closed".
-     *
-     * @param {string} value - The class.
-     */
-
   }, {
     key: "closeClass",
     get: function get() {
@@ -1193,7 +1177,7 @@ var BaseMenu = /*#__PURE__*/function () {
     /**
      * A flag marking the root menu.
      *
-     * @returns {boolean} - The top-level flag.
+     * @type {boolean}
      */
     ,
     set: function set(value) {
@@ -1205,19 +1189,6 @@ var BaseMenu = /*#__PURE__*/function () {
         this.submenuCloseClass = value;
       }
     }
-    /**
-     * Set the index currently selected menu item in the menu.
-     *
-     * - Attempting to set a value < -1 will set the currentChild to -1.
-     * - Attempting to set a value >= the number of menu items will set the currentChild to the number of menu items - 1.
-     *
-     * If the current menu has a parent menu _and_ the menu's current event is "mouse",
-     * The parent menu will have it's current child updated as well to help with transitioning
-     * between mouse and keyboard naviation.
-     *
-     * @param {number} value - The index.
-     */
-
   }, {
     key: "isTopLevel",
     get: function get() {
@@ -1226,7 +1197,14 @@ var BaseMenu = /*#__PURE__*/function () {
     /**
      * The index of the currently selected menu item in the menu.
      *
-     * @returns {number} - The index.
+     * - Attempting to set a value < -1 will set the currentChild to -1.
+     * - Attempting to set a value >= the number of menu items will set the currentChild to the number of menu items - 1.
+     *
+     * If the current menu has a parent menu _and_ the menu's current event is "mouse",
+     * The parent menu will have it's current child updated as well to help with transitioning
+     * between mouse and keyboard naviation.
+     *
+     * @type {number}
      */
 
   }, {
@@ -1237,7 +1215,7 @@ var BaseMenu = /*#__PURE__*/function () {
     /**
      * The current state of the menu's focus.
      *
-     * @returns {string} - The state.
+     * @type {string}
      */
     ,
     set: function set(value) {
@@ -1283,12 +1261,6 @@ var BaseMenu = /*#__PURE__*/function () {
         setParentChild(this);
       }
     }
-    /**
-     * Set the state of the menu's focus.
-     *
-     * @param {string} value - The state.
-     */
-
   }, {
     key: "focusState",
     get: function get() {
@@ -1297,7 +1269,7 @@ var BaseMenu = /*#__PURE__*/function () {
     /**
      * This last event triggered on the menu.
      *
-     * @returns {string} - The event type.
+     * @type {string}
      */
     ,
     set: function set(value) {
@@ -1309,12 +1281,6 @@ var BaseMenu = /*#__PURE__*/function () {
         this.state = value;
       }
     }
-    /**
-     * Set the last event triggered on the menu.
-     *
-     * @param {string} value - The event type.
-     */
-
   }, {
     key: "currentEvent",
     get: function get() {
@@ -1323,7 +1289,7 @@ var BaseMenu = /*#__PURE__*/function () {
     /**
      * The currently selected menu item.
      *
-     * @returns {BaseMenuItem} - The menu item.
+     * @type {BaseMenuItem}
      */
     ,
     set: function set(value) {
@@ -1341,12 +1307,6 @@ var BaseMenu = /*#__PURE__*/function () {
         }
       }
     }
-    /**
-     * Set the type of hoverability for the menu.
-     *
-     * @param {string} value - The hover type.
-     */
-
   }, {
     key: "currentMenuItem",
     get: function get() {
@@ -1358,7 +1318,7 @@ var BaseMenu = /*#__PURE__*/function () {
      * This functions differently for root vs. submenus.
      * Submenus will always inherit their root menu's hoverability.
      *
-     * @returns {string} - The hover type.
+     * @type {string}
      */
 
   }, {
@@ -1372,7 +1332,7 @@ var BaseMenu = /*#__PURE__*/function () {
      * This functions differently for root vs. submenus.
      * Submenus will always inherit their root menu's hover delay.
      *
-     * @returns {number} - The delay time.
+     * @type {number}
      */
     ,
     set: function set(value) {
@@ -1384,12 +1344,6 @@ var BaseMenu = /*#__PURE__*/function () {
         this.hover = value;
       }
     }
-    /**
-     * Set the delay time (in miliseconds) used for mouseout events to take place.
-     *
-     * @param {number} value - The delay time.
-     */
-
   }, {
     key: "hoverDelay",
     get: function get() {
@@ -1403,7 +1357,7 @@ var BaseMenu = /*#__PURE__*/function () {
      * - The menu's currentEvent is "character".
      * - The menu's currentEvent is "mouse" _and_ the menu's hoverType is "dynamic".
      *
-     * @returns {boolean} - The flag.
+     * @type {boolean}
      */
     ,
     set: function set(value) {
@@ -2069,6 +2023,8 @@ var BaseMenu = /*#__PURE__*/function () {
 
 /**
  * A basic navigation link contained inside of a DisclosureMenu.
+ *
+ * @augments BaseMenuItem
  */
 
 var DisclosureMenuItem = /*#__PURE__*/function (_BaseMenuItem) {
@@ -2077,16 +2033,16 @@ var DisclosureMenuItem = /*#__PURE__*/function (_BaseMenuItem) {
   var _super = _createSuper(DisclosureMenuItem);
 
   /**
-   * {@inheritdoc}
+   * @inheritdoc
    *
-   * @param {object}                    param0                         - The menu item object.
-   * @param {HTMLElement}               param0.menuItemElement         - The menu item in the DOM.
-   * @param {HTMLElement}               param0.menuLinkElement         - The menu item's link in the DOM.
-   * @param {DisclosureMenu}            param0.parentMenu              - The parent menu.
-   * @param {boolean}                   [param0.isSubmenuItem = false] - A flag to mark if the menu item is controlling a submenu.
-   * @param {DisclosureMenu|null}       [param0.childMenu = null]      - The child menu.
-   * @param {DisclosureMenuToggle|null} [param0.toggle = null]         - The controller for the child menu.
-   * @param {boolean}                   [param0.initialize = true]     - A flag to initialize the menu item immediately upon creation.
+   * @param {object}                    options                         - The options for generating the menu item.
+   * @param {HTMLElement}               options.menuItemElement         - The menu item in the DOM.
+   * @param {HTMLElement}               options.menuLinkElement         - The menu item's link in the DOM.
+   * @param {DisclosureMenu}            options.parentMenu              - The parent menu.
+   * @param {boolean}                   [options.isSubmenuItem = false] - A flag to mark if the menu item is controlling a submenu.
+   * @param {DisclosureMenu|null}       [options.childMenu = null]      - The child menu.
+   * @param {DisclosureMenuToggle|null} [options.toggle = null]         - The controller for the child menu.
+   * @param {boolean}                   [options.initialize = true]     - A flag to initialize the menu item immediately upon creation.
    */
   function DisclosureMenuItem(_ref) {
     var _this;
@@ -2124,8 +2080,10 @@ var DisclosureMenuItem = /*#__PURE__*/function (_BaseMenuItem) {
   return DisclosureMenuItem;
 }(BaseMenuItem);
 
-/*
+/**
  * A link or button that controls the visibility of a DisclosureMenu.
+ *
+ * @augments BaseMenuToggle
  */
 
 var DisclosureMenuToggle = /*#__PURE__*/function (_BaseMenuToggle) {
@@ -2134,14 +2092,14 @@ var DisclosureMenuToggle = /*#__PURE__*/function (_BaseMenuToggle) {
   var _super = _createSuper(DisclosureMenuToggle);
 
   /**
-   * {@inheritdoc}
+   * @inheritdoc
    *
-   * @param {object}              param0                     - The menu toggle object.
-   * @param {HTMLElement}         param0.menuToggleElement   - The toggle element in the DOM.
-   * @param {HTMLElement}         param0.parentElement       - The element containing the controlled menu.
-   * @param {DisclosureMenu}      param0.controlledMenu      - The menu controlled by this toggle.
-   * @param {DisclosureMenu|null} [param0.parentMenu = null] - The menu containing this toggle.
-   * @param {boolean}             [param0.initialize = true] - A flag to initialize the menu toggle immediately upon creation.
+   * @param {object}              options                     - The options for generating the menu toggle.
+   * @param {HTMLElement}         options.menuToggleElement   - The toggle element in the DOM.
+   * @param {HTMLElement}         options.parentElement       - The element containing the controlled menu.
+   * @param {DisclosureMenu}      options.controlledMenu      - The menu controlled by this toggle.
+   * @param {DisclosureMenu|null} [options.parentMenu = null] - The menu containing this toggle.
+   * @param {boolean}             [options.initialize = true] - A flag to initialize the menu toggle immediately upon creation.
    */
   function DisclosureMenuToggle(_ref) {
     var _this;
@@ -2216,7 +2174,9 @@ var DisclosureMenuToggle = /*#__PURE__*/function (_BaseMenuToggle) {
 /**
  * An accessible disclosure menu in the DOM.
  *
- * See https://www.w3.org/TR/wai-aria-practices-1.2/examples/disclosure/disclosure-navigation.html
+ * See {@link https://www.w3.org/TR/wai-aria-practices-1.2/examples/disclosure/disclosure-navigation.html|Example Disclosure for Navigation Menus}
+ *
+ * @augments BaseMenu
  */
 
 var DisclosureMenu = /*#__PURE__*/function (_BaseMenu) {
@@ -2225,25 +2185,25 @@ var DisclosureMenu = /*#__PURE__*/function (_BaseMenu) {
   var _super = _createSuper(DisclosureMenu);
 
   /**
-   * {@inheritdoc}
+   * @inheritdoc
    *
-   * @param {object}              param0                               - The menu object.
-   * @param {HTMLElement}         param0.menuElement                   - The menu element in the DOM.
-   * @param {string}              [param0.menuItemSelector = "li"]     - The CSS selector string for menu items.
-   * @param {string}              [param0.menuLinkSelector = "a"]      - The CSS selector string for menu links.
-   * @param {string}              [param0.submenuItemSelector = ""]    - The CSS selector string for menu items containing submenus.
-   * @param {string}              [param0.submenuToggleSelector = "a"] - The CSS selector string for submenu toggle buttons/links.
-   * @param {string}              [param0.submenuSelector = "ul"]      - The CSS selector string for submenus.
-   * @param {HTMLElement|null}    [param0.controllerElement = null]    - The element controlling the menu in the DOM.
-   * @param {HTMLElement|null}    [param0.containerElement = null]     - The element containing the menu in the DOM.
-   * @param {string}              [param0.openClass = "show"]          - The class to apply when a menu is "open".
-   * @param {string}              [param0.closeClass = "hide"]         - The class to apply when a menu is "closed".
-   * @param {boolean}             [param0.isTopLevel = false]          - A flag to mark the root menu.
-   * @param {DisclosureMenu|null} [param0.parentMenu = null]           - The parent menu to this menu.
-   * @param {string}              [param0.hoverType = "off"]           - The type of hoverability a menu has.
-   * @param {number}              [param0.hoverDelay = 250]            - The delay for closing menus if the menu is hoverable (in miliseconds).
-   * @param {boolean}             [param0.optionalKeySupport = false]  - A flag to add optional keyboard support (Arrow keys, Home, and End) to the menu.
-   * @param {boolean}             [param0.initialize = true]           - A flag to initialize the menu immediately upon creation.
+   * @param {object}                 options                              - The options for generating the menu.
+   * @param {HTMLElement}            options.menuElement                  - The menu element in the DOM.
+   * @param {string}                 [options.menuItemSelector = li]      - The CSS selector string for menu items.
+   * @param {string}                 [options.menuLinkSelector = a]       - The CSS selector string for menu links.
+   * @param {string}                 [options.submenuItemSelector]        - The CSS selector string for menu items containing submenus.
+   * @param {string}                 [options.submenuToggleSelector = a]  - The CSS selector string for submenu toggle buttons/links.
+   * @param {string}                 [options.submenuSelector = ul]       - The CSS selector string for submenus.
+   * @param {(HTMLElement|null)}     [options.controllerElement = null]   - The element controlling the menu in the DOM.
+   * @param {(HTMLElement|null)}     [options.containerElement = null]    - The element containing the menu in the DOM.
+   * @param {(string|string[]|null)} [options.openClass = show]           - The class to apply when a menu is "open".
+   * @param {(string|string[]|null)} [options.closeClass = hide]          - The class to apply when a menu is "closed".
+   * @param {boolean}                [options.isTopLevel = false]         - A flag to mark the root menu.
+   * @param {(DisclosureMenu|null)}  [options.parentMenu = null]          - The parent menu to this menu.
+   * @param {string}                 [options.hoverType = off]            - The type of hoverability a menu has.
+   * @param {number}                 [options.hoverDelay = 250]           - The delay for closing menus if the menu is hoverable (in miliseconds).
+   * @param {boolean}                [options.optionalKeySupport = false] - A flag to add optional keyboard support (Arrow keys, Home, and End) to the menu.
+   * @param {boolean}                [options.initialize = true]          - A flag to initialize the menu immediately upon creation.
    */
   function DisclosureMenu(_ref) {
     var _this;
@@ -2317,7 +2277,7 @@ var DisclosureMenu = /*#__PURE__*/function (_BaseMenu) {
    * This functions differently for root vs. submenus.
    * Submenus will always inherit their root menu's optionalKeySupport.
    *
-   * @returns {boolean} - The flag.
+   * @type {boolean}
    */
 
 
@@ -2325,13 +2285,7 @@ var DisclosureMenu = /*#__PURE__*/function (_BaseMenu) {
     key: "optionalKeySupport",
     get: function get() {
       return this.isTopLevel ? this.optionalSupport : this.elements.rootMenu.optionalKeySupport;
-    }
-    /**
-     * Set the flag to add optional keyboard support (Arrow keys, Home, and End) to the menu.
-     *
-     * @param {boolean} value - The flag.
-     */
-    ,
+    },
     set: function set(value) {
       isValidType("boolean", {
         optionalKeySupport: value

@@ -1,4 +1,5 @@
-<a name="DisclosureMenuItem"></a>
+
+    <a name="DisclosureMenuItem"></a>
 
 ## DisclosureMenuItem ⇐ [<code>BaseMenuItem</code>](#BaseMenuItem)
 A basic navigation link contained inside of a DisclosureMenu.
@@ -7,53 +8,50 @@ A basic navigation link contained inside of a DisclosureMenu.
 **Extends**: [<code>BaseMenuItem</code>](#BaseMenuItem)  
 
 * [DisclosureMenuItem](#DisclosureMenuItem) ⇐ [<code>BaseMenuItem</code>](#BaseMenuItem)
-    * [new DisclosureMenuItem(param0)](#new_DisclosureMenuItem_new)
-    * [.dom](#BaseMenuItem+dom) ⇒ <code>object</code>
-    * [.elements](#BaseMenuItem+elements) ⇒ <code>object</code>
-    * [.isSubmenuItem](#BaseMenuItem+isSubmenuItem) ⇒ <code>boolean</code>
+    * [new DisclosureMenuItem(options)](#new_DisclosureMenuItem_new)
+    * [.dom](#BaseMenuItem+dom) : <code>object.&lt;HTMLElement&gt;</code>
+    * [.elements](#BaseMenuItem+elements) : <code>object.&lt;BaseMenu, BaseMenuToggle&gt;</code>
+    * [.isSubmenuItem](#BaseMenuItem+isSubmenuItem) : <code>boolean</code>
     * [.initialize()](#BaseMenuItem+initialize)
     * [.focus()](#BaseMenuItem+focus)
     * [.blur()](#BaseMenuItem+blur)
 
 <a name="new_DisclosureMenuItem_new"></a>
 
-### new DisclosureMenuItem(param0)
+### new DisclosureMenuItem(options)
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| param0 | <code>object</code> |  | The menu item object. |
-| param0.menuItemElement | <code>HTMLElement</code> |  | The menu item in the DOM. |
-| param0.menuLinkElement | <code>HTMLElement</code> |  | The menu item's link in the DOM. |
-| param0.parentMenu | [<code>DisclosureMenu</code>](#DisclosureMenu) |  | The parent menu. |
-| [param0.isSubmenuItem] | <code>boolean</code> | <code>false</code> | A flag to mark if the menu item is controlling a submenu. |
-| [param0.childMenu] | [<code>DisclosureMenu</code>](#DisclosureMenu) \| <code>null</code> | <code></code> | The child menu. |
-| [param0.toggle] | [<code>DisclosureMenuToggle</code>](#DisclosureMenuToggle) \| <code>null</code> | <code></code> | The controller for the child menu. |
-| [param0.initialize] | <code>boolean</code> | <code>true</code> | A flag to initialize the menu item immediately upon creation. |
+| options | <code>object</code> |  | The options for generating the menu item. |
+| options.menuItemElement | <code>HTMLElement</code> |  | The menu item in the DOM. |
+| options.menuLinkElement | <code>HTMLElement</code> |  | The menu item's link in the DOM. |
+| options.parentMenu | [<code>DisclosureMenu</code>](#DisclosureMenu) |  | The parent menu. |
+| [options.isSubmenuItem] | <code>boolean</code> | <code>false</code> | A flag to mark if the menu item is controlling a submenu. |
+| [options.childMenu] | [<code>DisclosureMenu</code>](#DisclosureMenu) \| <code>null</code> | <code></code> | The child menu. |
+| [options.toggle] | [<code>DisclosureMenuToggle</code>](#DisclosureMenuToggle) \| <code>null</code> | <code></code> | The controller for the child menu. |
+| [options.initialize] | <code>boolean</code> | <code>true</code> | A flag to initialize the menu item immediately upon creation. |
 
 <a name="BaseMenuItem+dom"></a>
 
-### disclosureMenuItem.dom ⇒ <code>object</code>
+### disclosureMenuItem.dom : <code>object.&lt;HTMLElement&gt;</code>
 The DOM elements within the menu item.
 
 **Kind**: instance property of [<code>DisclosureMenuItem</code>](#DisclosureMenuItem)  
 **Overrides**: [<code>dom</code>](#BaseMenuItem+dom)  
-**Returns**: <code>object</code> - - The DOM elements.  
 <a name="BaseMenuItem+elements"></a>
 
-### disclosureMenuItem.elements ⇒ <code>object</code>
+### disclosureMenuItem.elements : <code>object.&lt;BaseMenu, BaseMenuToggle&gt;</code>
 The elements within the menu item.
 
 **Kind**: instance property of [<code>DisclosureMenuItem</code>](#DisclosureMenuItem)  
 **Overrides**: [<code>elements</code>](#BaseMenuItem+elements)  
-**Returns**: <code>object</code> - - The elements.  
 <a name="BaseMenuItem+isSubmenuItem"></a>
 
-### disclosureMenuItem.isSubmenuItem ⇒ <code>boolean</code>
+### disclosureMenuItem.isSubmenuItem : <code>boolean</code>
 A flag marking a submenu item.
 
 **Kind**: instance property of [<code>DisclosureMenuItem</code>](#DisclosureMenuItem)  
 **Overrides**: [<code>isSubmenuItem</code>](#BaseMenuItem+isSubmenuItem)  
-**Returns**: <code>boolean</code> - - The submenu flag.  
 <a name="BaseMenuItem+initialize"></a>
 
 ### disclosureMenuItem.initialize()
@@ -75,3 +73,4 @@ Blurs the menu item's link if triggering event is valid.
 
 **Kind**: instance method of [<code>DisclosureMenuItem</code>](#DisclosureMenuItem)  
 **Overrides**: [<code>blur</code>](#BaseMenuItem+blur)  
+  

@@ -1,4 +1,5 @@
-<a name="BaseMenu"></a>
+
+    <a name="BaseMenu"></a>
 
 ## BaseMenu
 An accessible navigation element in the DOM.
@@ -6,27 +7,20 @@ An accessible navigation element in the DOM.
 **Kind**: global class  
 
 * [BaseMenu](#BaseMenu)
-    * [new BaseMenu(param0)](#new_BaseMenu_new)
-    * [.dom](#BaseMenu+dom) ⇒ <code>object</code>
-    * [.selectors](#BaseMenu+selectors) ⇒ <code>object</code>
-    * [.elements](#BaseMenu+elements) ⇒ <code>object</code>
-    * [.openClass](#BaseMenu+openClass) ⇒ <code>string</code> \| <code>Array.&lt;string&gt;</code>
-    * [.closeClass](#BaseMenu+closeClass) ⇒ <code>string</code> \| <code>Array.&lt;string&gt;</code>
-    * [.isTopLevel](#BaseMenu+isTopLevel) ⇒ <code>boolean</code>
-    * [.currentChild](#BaseMenu+currentChild) ⇒ <code>number</code>
-    * [.focusState](#BaseMenu+focusState) ⇒ <code>string</code>
-    * [.currentEvent](#BaseMenu+currentEvent) ⇒ <code>string</code>
-    * [.currentMenuItem](#BaseMenu+currentMenuItem) ⇒ [<code>BaseMenuItem</code>](#BaseMenuItem)
-    * [.hoverType](#BaseMenu+hoverType) ⇒ <code>string</code>
-    * [.hoverDelay](#BaseMenu+hoverDelay) ⇒ <code>number</code>
-    * [.shouldFocus](#BaseMenu+shouldFocus) ⇒ <code>boolean</code>
-    * [.openClass](#BaseMenu+openClass)
-    * [.closeClass](#BaseMenu+closeClass)
-    * [.currentChild](#BaseMenu+currentChild)
-    * [.focusState](#BaseMenu+focusState)
-    * [.currentEvent](#BaseMenu+currentEvent)
-    * [.hoverType](#BaseMenu+hoverType)
-    * [.hoverDelay](#BaseMenu+hoverDelay)
+    * [new BaseMenu(options)](#new_BaseMenu_new)
+    * [.dom](#BaseMenu+dom) : <code>object.&lt;HTMLElement, Array.&lt;HTMLElement&gt;&gt;</code>
+    * [.selectors](#BaseMenu+selectors) : <code>object.&lt;string&gt;</code>
+    * [.elements](#BaseMenu+elements) : <code>object.&lt;BaseMenu, BaseMenuToggle, Array.&lt;BaseMenuItem&gt;, Array.&lt;BaseMenuToggle&gt;&gt;</code>
+    * [.openClass](#BaseMenu+openClass) : <code>string</code> \| <code>Array.&lt;string&gt;</code>
+    * [.closeClass](#BaseMenu+closeClass) : <code>string</code> \| <code>Array.&lt;string&gt;</code>
+    * [.isTopLevel](#BaseMenu+isTopLevel) : <code>boolean</code>
+    * [.currentChild](#BaseMenu+currentChild) : <code>number</code>
+    * [.focusState](#BaseMenu+focusState) : <code>string</code>
+    * [.currentEvent](#BaseMenu+currentEvent) : <code>string</code>
+    * [.currentMenuItem](#BaseMenu+currentMenuItem) : [<code>BaseMenuItem</code>](#BaseMenuItem)
+    * [.hoverType](#BaseMenu+hoverType) : <code>string</code>
+    * [.hoverDelay](#BaseMenu+hoverDelay) : <code>number</code>
+    * [.shouldFocus](#BaseMenu+shouldFocus) : <code>boolean</code>
     * [.initialize()](#BaseMenu+initialize)
     * [.validate()](#BaseMenu+validate) ⇒ <code>boolean</code>
     * [.setDOMElementType(elementType, base, filter)](#BaseMenu+setDOMElementType)
@@ -56,160 +50,72 @@ An accessible navigation element in the DOM.
 
 <a name="new_BaseMenu_new"></a>
 
-### new BaseMenu(param0)
+### new BaseMenu(options)
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| param0 | <code>object</code> |  | The menu object. |
-| param0.menuElement | <code>HTMLElement</code> |  | The menu element in the DOM. |
-| [param0.menuItemSelector] | <code>string</code> | <code>&quot;\&quot;li\&quot;&quot;</code> | The CSS selector string for menu items. |
-| [param0.menuLinkSelector] | <code>string</code> | <code>&quot;\&quot;a\&quot;&quot;</code> | The CSS selector string for menu links. |
-| [param0.submenuItemSelector] | <code>string</code> | <code>&quot;\&quot;\&quot;&quot;</code> | The CSS selector string for menu items containing submenus. |
-| [param0.submenuToggleSelector] | <code>string</code> | <code>&quot;\&quot;a\&quot;&quot;</code> | The CSS selector string for submenu toggle buttons/links. |
-| [param0.submenuSelector] | <code>string</code> | <code>&quot;\&quot;ul\&quot;&quot;</code> | The CSS selector string for submenus. |
-| [param0.controllerElement] | <code>HTMLElement</code> \| <code>null</code> | <code></code> | The element controlling the menu in the DOM. |
-| [param0.containerElement] | <code>HTMLElement</code> \| <code>null</code> | <code></code> | The element containing the menu in the DOM. |
-| [param0.openClass] | <code>string</code> \| <code>Array.&lt;string&gt;</code> \| <code>null</code> | <code>&quot;\&quot;show\&quot;&quot;</code> | The class to apply when a menu is "open". |
-| [param0.closeClass] | <code>string</code> \| <code>Array.&lt;string&gt;</code> \| <code>null</code> | <code>&quot;\&quot;hide\&quot;&quot;</code> | The class to apply when a menu is "closed". |
-| [param0.isTopLevel] | <code>boolean</code> | <code>false</code> | A flag to mark the root menu. |
-| [param0.parentMenu] | [<code>BaseMenu</code>](#BaseMenu) \| <code>null</code> | <code></code> | The parent menu to this menu. |
-| [param0.hoverType] | <code>string</code> | <code>&quot;\&quot;off\&quot;&quot;</code> | The type of hoverability a menu has. |
-| [param0.hoverDelay] | <code>number</code> | <code>250</code> | The delay for closing menus if the menu is hoverable (in miliseconds). |
+| options | <code>object</code> |  | The options for generating the menu. |
+| options.menuElement | <code>HTMLElement</code> |  | The menu element in the DOM. |
+| [options.menuItemSelector] | <code>string</code> | <code>&quot;li&quot;</code> | The CSS selector string for menu items. |
+| [options.menuLinkSelector] | <code>string</code> | <code>&quot;a&quot;</code> | The CSS selector string for menu links. |
+| [options.submenuItemSelector] | <code>string</code> |  | The CSS selector string for menu items containing submenus. |
+| [options.submenuToggleSelector] | <code>string</code> | <code>&quot;a&quot;</code> | The CSS selector string for submenu toggle buttons/links. |
+| [options.submenuSelector] | <code>string</code> | <code>&quot;ul&quot;</code> | The CSS selector string for submenus. |
+| [options.controllerElement] | <code>HTMLElement</code> | <code></code> | The element controlling the menu in the DOM. |
+| [options.containerElement] | <code>HTMLElement</code> | <code></code> | The element containing the menu in the DOM. |
+| [options.openClass] | <code>string</code> \| <code>Array.&lt;string&gt;</code> | <code>&quot;show&quot;</code> | The class to apply when a menu is "open". |
+| [options.closeClass] | <code>string</code> \| <code>Array.&lt;string&gt;</code> | <code>&quot;hide&quot;</code> | The class to apply when a menu is "closed". |
+| [options.isTopLevel] | <code>boolean</code> | <code>false</code> | A flag to mark the root menu. |
+| [options.parentMenu] | [<code>BaseMenu</code>](#BaseMenu) | <code></code> | The parent menu to this menu. |
+| [options.hoverType] | <code>string</code> | <code>&quot;off&quot;</code> | The type of hoverability a menu has. |
+| [options.hoverDelay] | <code>number</code> | <code>250</code> | The delay for closing menus if the menu is hoverable (in miliseconds). |
 
 <a name="BaseMenu+dom"></a>
 
-### baseMenu.dom ⇒ <code>object</code>
+### baseMenu.dom : <code>object.&lt;HTMLElement, Array.&lt;HTMLElement&gt;&gt;</code>
 The DOM elements within the menu.
 
 **Kind**: instance property of [<code>BaseMenu</code>](#BaseMenu)  
-**Returns**: <code>object</code> - - The DOM elements.  
 <a name="BaseMenu+selectors"></a>
 
-### baseMenu.selectors ⇒ <code>object</code>
+### baseMenu.selectors : <code>object.&lt;string&gt;</code>
 The CSS selectors available to the menu.
 
 **Kind**: instance property of [<code>BaseMenu</code>](#BaseMenu)  
-**Returns**: <code>object</code> - - The selectors.  
 <a name="BaseMenu+elements"></a>
 
-### baseMenu.elements ⇒ <code>object</code>
+### baseMenu.elements : <code>object.&lt;BaseMenu, BaseMenuToggle, Array.&lt;BaseMenuItem&gt;, Array.&lt;BaseMenuToggle&gt;&gt;</code>
 The elements within the menu.
 
 **Kind**: instance property of [<code>BaseMenu</code>](#BaseMenu)  
-**Returns**: <code>object</code> - - The elements.  
 <a name="BaseMenu+openClass"></a>
 
-### baseMenu.openClass ⇒ <code>string</code> \| <code>Array.&lt;string&gt;</code>
+### baseMenu.openClass : <code>string</code> \| <code>Array.&lt;string&gt;</code>
 The class(es) to apply when the menu is "open".
 
 This functions differently for root vs. submenus.
 Submenus will always inherit their root menu's open class(es).
 
 **Kind**: instance property of [<code>BaseMenu</code>](#BaseMenu)  
-**Returns**: <code>string</code> \| <code>Array.&lt;string&gt;</code> - - The class(es).  
 <a name="BaseMenu+closeClass"></a>
 
-### baseMenu.closeClass ⇒ <code>string</code> \| <code>Array.&lt;string&gt;</code>
+### baseMenu.closeClass : <code>string</code> \| <code>Array.&lt;string&gt;</code>
 The class(es) to apply when the menu is "closed".
 
 This functions differently for root vs. submenus.
 Submenus will always inherit their root menu's close class(es).
 
 **Kind**: instance property of [<code>BaseMenu</code>](#BaseMenu)  
-**Returns**: <code>string</code> \| <code>Array.&lt;string&gt;</code> - - The class(es).  
 <a name="BaseMenu+isTopLevel"></a>
 
-### baseMenu.isTopLevel ⇒ <code>boolean</code>
+### baseMenu.isTopLevel : <code>boolean</code>
 A flag marking the root menu.
 
 **Kind**: instance property of [<code>BaseMenu</code>](#BaseMenu)  
-**Returns**: <code>boolean</code> - - The top-level flag.  
 <a name="BaseMenu+currentChild"></a>
 
-### baseMenu.currentChild ⇒ <code>number</code>
+### baseMenu.currentChild : <code>number</code>
 The index of the currently selected menu item in the menu.
-
-**Kind**: instance property of [<code>BaseMenu</code>](#BaseMenu)  
-**Returns**: <code>number</code> - - The index.  
-<a name="BaseMenu+focusState"></a>
-
-### baseMenu.focusState ⇒ <code>string</code>
-The current state of the menu's focus.
-
-**Kind**: instance property of [<code>BaseMenu</code>](#BaseMenu)  
-**Returns**: <code>string</code> - - The state.  
-<a name="BaseMenu+currentEvent"></a>
-
-### baseMenu.currentEvent ⇒ <code>string</code>
-This last event triggered on the menu.
-
-**Kind**: instance property of [<code>BaseMenu</code>](#BaseMenu)  
-**Returns**: <code>string</code> - - The event type.  
-<a name="BaseMenu+currentMenuItem"></a>
-
-### baseMenu.currentMenuItem ⇒ [<code>BaseMenuItem</code>](#BaseMenuItem)
-The currently selected menu item.
-
-**Kind**: instance property of [<code>BaseMenu</code>](#BaseMenu)  
-**Returns**: [<code>BaseMenuItem</code>](#BaseMenuItem) - - The menu item.  
-<a name="BaseMenu+hoverType"></a>
-
-### baseMenu.hoverType ⇒ <code>string</code>
-The type of hoverability for the menu.
-
-This functions differently for root vs. submenus.
-Submenus will always inherit their root menu's hoverability.
-
-**Kind**: instance property of [<code>BaseMenu</code>](#BaseMenu)  
-**Returns**: <code>string</code> - - The hover type.  
-<a name="BaseMenu+hoverDelay"></a>
-
-### baseMenu.hoverDelay ⇒ <code>number</code>
-The delay time (in miliseconds) used for mouseout events to take place.
-
-This functions differently for root vs. submenus.
-Submenus will always inherit their root menu's hover delay.
-
-**Kind**: instance property of [<code>BaseMenu</code>](#BaseMenu)  
-**Returns**: <code>number</code> - - The delay time.  
-<a name="BaseMenu+shouldFocus"></a>
-
-### baseMenu.shouldFocus ⇒ <code>boolean</code>
-A flag to check if the menu's focus methods should _actually_ move the focus in the DOM.
-
-Will return false unless any of the following criteria are met:
-- The menu's currentEvent is "keyboard".
-- The menu's currentEvent is "character".
-- The menu's currentEvent is "mouse" _and_ the menu's hoverType is "dynamic".
-
-**Kind**: instance property of [<code>BaseMenu</code>](#BaseMenu)  
-**Returns**: <code>boolean</code> - - The flag.  
-<a name="BaseMenu+openClass"></a>
-
-### baseMenu.openClass
-Set the class to apply when the menu is "open".
-
-**Kind**: instance property of [<code>BaseMenu</code>](#BaseMenu)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| value | <code>string</code> | The class. |
-
-<a name="BaseMenu+closeClass"></a>
-
-### baseMenu.closeClass
-Set the class to apply when the menu is "closed".
-
-**Kind**: instance property of [<code>BaseMenu</code>](#BaseMenu)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| value | <code>string</code> | The class. |
-
-<a name="BaseMenu+currentChild"></a>
-
-### baseMenu.currentChild
-Set the index currently selected menu item in the menu.
 
 - Attempting to set a value < -1 will set the currentChild to -1.
 - Attempting to set a value >= the number of menu items will set the currentChild to the number of menu items - 1.
@@ -219,55 +125,53 @@ The parent menu will have it's current child updated as well to help with transi
 between mouse and keyboard naviation.
 
 **Kind**: instance property of [<code>BaseMenu</code>](#BaseMenu)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| value | <code>number</code> | The index. |
-
 <a name="BaseMenu+focusState"></a>
 
-### baseMenu.focusState
-Set the state of the menu's focus.
+### baseMenu.focusState : <code>string</code>
+The current state of the menu's focus.
 
 **Kind**: instance property of [<code>BaseMenu</code>](#BaseMenu)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| value | <code>string</code> | The state. |
-
 <a name="BaseMenu+currentEvent"></a>
 
-### baseMenu.currentEvent
-Set the last event triggered on the menu.
+### baseMenu.currentEvent : <code>string</code>
+This last event triggered on the menu.
 
 **Kind**: instance property of [<code>BaseMenu</code>](#BaseMenu)  
+<a name="BaseMenu+currentMenuItem"></a>
 
-| Param | Type | Description |
-| --- | --- | --- |
-| value | <code>string</code> | The event type. |
+### baseMenu.currentMenuItem : [<code>BaseMenuItem</code>](#BaseMenuItem)
+The currently selected menu item.
 
+**Kind**: instance property of [<code>BaseMenu</code>](#BaseMenu)  
 <a name="BaseMenu+hoverType"></a>
 
-### baseMenu.hoverType
-Set the type of hoverability for the menu.
+### baseMenu.hoverType : <code>string</code>
+The type of hoverability for the menu.
+
+This functions differently for root vs. submenus.
+Submenus will always inherit their root menu's hoverability.
 
 **Kind**: instance property of [<code>BaseMenu</code>](#BaseMenu)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| value | <code>string</code> | The hover type. |
-
 <a name="BaseMenu+hoverDelay"></a>
 
-### baseMenu.hoverDelay
-Set the delay time (in miliseconds) used for mouseout events to take place.
+### baseMenu.hoverDelay : <code>number</code>
+The delay time (in miliseconds) used for mouseout events to take place.
+
+This functions differently for root vs. submenus.
+Submenus will always inherit their root menu's hover delay.
 
 **Kind**: instance property of [<code>BaseMenu</code>](#BaseMenu)  
+<a name="BaseMenu+shouldFocus"></a>
 
-| Param | Type | Description |
-| --- | --- | --- |
-| value | <code>number</code> | The delay time. |
+### baseMenu.shouldFocus : <code>boolean</code>
+A flag to check if the menu's focus methods should _actually_ move the focus in the DOM.
 
+Will return false unless any of the following criteria are met:
+- The menu's currentEvent is "keyboard".
+- The menu's currentEvent is "character".
+- The menu's currentEvent is "mouse" _and_ the menu's hoverType is "dynamic".
+
+**Kind**: instance property of [<code>BaseMenu</code>](#BaseMenu)  
 <a name="BaseMenu+initialize"></a>
 
 ### baseMenu.initialize()
@@ -276,6 +180,10 @@ Initializes the menu.
 This will also initialize all menu items and sub menus.
 
 **Kind**: instance method of [<code>BaseMenu</code>](#BaseMenu)  
+**Throws**:
+
+- <code>Error</code> Will throw an Error if the validate method returns `false`.
+
 <a name="BaseMenu+validate"></a>
 
 ### baseMenu.validate() ⇒ <code>boolean</code>
@@ -456,3 +364,4 @@ Close all submenu children.
 Blurs all children and submenu's children.
 
 **Kind**: instance method of [<code>BaseMenu</code>](#BaseMenu)  
+  

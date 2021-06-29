@@ -1,4 +1,5 @@
-<a name="MenubarToggle"></a>
+
+    <a name="MenubarToggle"></a>
 
 ## MenubarToggle ⇐ [<code>BaseMenuToggle</code>](#BaseMenuToggle)
 A link or button that controls the visibility of a Menubar.
@@ -7,10 +8,10 @@ A link or button that controls the visibility of a Menubar.
 **Extends**: [<code>BaseMenuToggle</code>](#BaseMenuToggle)  
 
 * [MenubarToggle](#MenubarToggle) ⇐ [<code>BaseMenuToggle</code>](#BaseMenuToggle)
-    * [new MenubarToggle(param0)](#new_MenubarToggle_new)
-    * [.dom](#BaseMenuToggle+dom) ⇒ <code>object</code>
-    * [.elements](#BaseMenuToggle+elements) ⇒ <code>object</code>
-    * [.isOpen](#BaseMenuToggle+isOpen) ⇒ <code>boolean</code>
+    * [new MenubarToggle(options)](#new_MenubarToggle_new)
+    * [.dom](#BaseMenuToggle+dom) : <code>object.&lt;HTMLElement&gt;</code>
+    * [.elements](#BaseMenuToggle+elements) : [<code>object.&lt;BaseMenu&gt;</code>](#BaseMenu)
+    * [.isOpen](#BaseMenuToggle+isOpen) : <code>boolean</code>
     * [.open()](#MenubarToggle+open)
     * [.preview()](#MenubarToggle+preview)
     * [.close()](#MenubarToggle+close)
@@ -23,41 +24,38 @@ A link or button that controls the visibility of a Menubar.
 
 <a name="new_MenubarToggle_new"></a>
 
-### new MenubarToggle(param0)
+### new MenubarToggle(options)
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| param0 | <code>object</code> |  | The menu toggle object. |
-| param0.menuToggleElement | <code>HTMLElement</code> |  | The toggle element in the DOM. |
-| param0.parentElement | <code>HTMLElement</code> |  | The element containing the controlled menu. |
-| param0.controlledMenu | [<code>Menubar</code>](#Menubar) |  | The menu controlled by this toggle. |
-| [param0.parentMenu] | [<code>Menubar</code>](#Menubar) \| <code>null</code> | <code></code> | The menu containing this toggle. |
-| [param0.initialize] | <code>boolean</code> | <code>true</code> | A flag to initialize the menu toggle immediately upon creation. |
+| options | <code>object</code> |  | The options for generating the menu toggle. |
+| options.menuToggleElement | <code>HTMLElement</code> |  | The toggle element in the DOM. |
+| options.parentElement | <code>HTMLElement</code> |  | The element containing the controlled menu. |
+| options.controlledMenu | [<code>Menubar</code>](#Menubar) |  | The menu controlled by this toggle. |
+| [options.parentMenu] | [<code>Menubar</code>](#Menubar) \| <code>null</code> | <code></code> | The menu containing this toggle. |
+| [options.initialize] | <code>boolean</code> | <code>true</code> | A flag to initialize the menu toggle immediately upon creation. |
 
 <a name="BaseMenuToggle+dom"></a>
 
-### menubarToggle.dom ⇒ <code>object</code>
+### menubarToggle.dom : <code>object.&lt;HTMLElement&gt;</code>
 The DOM elements within the toggle.
 
 **Kind**: instance property of [<code>MenubarToggle</code>](#MenubarToggle)  
 **Overrides**: [<code>dom</code>](#BaseMenuToggle+dom)  
-**Returns**: <code>object</code> - - The DOM elements.  
 <a name="BaseMenuToggle+elements"></a>
 
-### menubarToggle.elements ⇒ <code>object</code>
+### menubarToggle.elements : [<code>object.&lt;BaseMenu&gt;</code>](#BaseMenu)
 The elements within the toggle.
 
 **Kind**: instance property of [<code>MenubarToggle</code>](#MenubarToggle)  
 **Overrides**: [<code>elements</code>](#BaseMenuToggle+elements)  
-**Returns**: <code>object</code> - - The elements.  
 <a name="BaseMenuToggle+isOpen"></a>
 
-### menubarToggle.isOpen ⇒ <code>boolean</code>
+### menubarToggle.isOpen : <code>boolean</code>
 The open state on the menu.
 
 **Kind**: instance property of [<code>MenubarToggle</code>](#MenubarToggle)  
 **Overrides**: [<code>isOpen</code>](#BaseMenuToggle+isOpen)  
-**Returns**: <code>boolean</code> - - The open state.  
 <a name="MenubarToggle+open"></a>
 
 ### menubarToggle.open()
@@ -136,3 +134,4 @@ Closes all child menus.
 
 **Kind**: instance method of [<code>MenubarToggle</code>](#MenubarToggle)  
 **Overrides**: [<code>closeChildren</code>](#BaseMenuToggle+closeChildren)  
+  

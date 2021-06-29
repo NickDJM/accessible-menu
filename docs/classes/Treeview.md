@@ -1,4 +1,5 @@
-<a name="Treeview"></a>
+
+    <a name="Treeview"></a>
 
 ## Treeview ⇐ [<code>BaseMenu</code>](#BaseMenu)
 An accessible treeview navigation in the DOM.
@@ -9,20 +10,20 @@ See [Navigation Treeview Example Using Computed Properties](https://www.w3.org/T
 **Extends**: [<code>BaseMenu</code>](#BaseMenu)  
 
 * [Treeview](#Treeview) ⇐ [<code>BaseMenu</code>](#BaseMenu)
-    * [new Treeview(param0)](#new_Treeview_new)
-    * [.dom](#BaseMenu+dom) ⇒ <code>object</code>
-    * [.selectors](#BaseMenu+selectors) ⇒ <code>object</code>
-    * [.elements](#BaseMenu+elements) ⇒ <code>object</code>
-    * [.openClass](#BaseMenu+openClass) ⇒ <code>string</code> \| <code>Array.&lt;string&gt;</code>
-    * [.closeClass](#BaseMenu+closeClass) ⇒ <code>string</code> \| <code>Array.&lt;string&gt;</code>
-    * [.isTopLevel](#BaseMenu+isTopLevel) ⇒ <code>boolean</code>
-    * [.currentChild](#BaseMenu+currentChild) ⇒ <code>number</code>
-    * [.focusState](#BaseMenu+focusState) ⇒ <code>string</code>
-    * [.currentEvent](#BaseMenu+currentEvent) ⇒ <code>string</code>
-    * [.currentMenuItem](#BaseMenu+currentMenuItem) ⇒ [<code>BaseMenuItem</code>](#BaseMenuItem)
-    * [.hoverType](#BaseMenu+hoverType) ⇒ <code>string</code>
-    * [.hoverDelay](#BaseMenu+hoverDelay) ⇒ <code>number</code>
-    * [.shouldFocus](#BaseMenu+shouldFocus) ⇒ <code>boolean</code>
+    * [new Treeview(options)](#new_Treeview_new)
+    * [.dom](#BaseMenu+dom) : <code>object.&lt;HTMLElement, Array.&lt;HTMLElement&gt;&gt;</code>
+    * [.selectors](#BaseMenu+selectors) : <code>object.&lt;string&gt;</code>
+    * [.elements](#BaseMenu+elements) : <code>object.&lt;BaseMenu, BaseMenuToggle, Array.&lt;BaseMenuItem&gt;, Array.&lt;BaseMenuToggle&gt;&gt;</code>
+    * [.openClass](#BaseMenu+openClass) : <code>string</code> \| <code>Array.&lt;string&gt;</code>
+    * [.closeClass](#BaseMenu+closeClass) : <code>string</code> \| <code>Array.&lt;string&gt;</code>
+    * [.isTopLevel](#BaseMenu+isTopLevel) : <code>boolean</code>
+    * [.currentChild](#BaseMenu+currentChild) : <code>number</code>
+    * [.focusState](#BaseMenu+focusState) : <code>string</code>
+    * [.currentEvent](#BaseMenu+currentEvent) : <code>string</code>
+    * [.currentMenuItem](#BaseMenu+currentMenuItem) : [<code>BaseMenuItem</code>](#BaseMenuItem)
+    * [.hoverType](#BaseMenu+hoverType) : <code>string</code>
+    * [.hoverDelay](#BaseMenu+hoverDelay) : <code>number</code>
+    * [.shouldFocus](#BaseMenu+shouldFocus) : <code>boolean</code>
     * [.initialize()](#Treeview+initialize)
     * [.handleKeydown()](#Treeview+handleKeydown)
     * [.handleKeyup()](#Treeview+handleKeyup)
@@ -55,54 +56,51 @@ See [Navigation Treeview Example Using Computed Properties](https://www.w3.org/T
 
 <a name="new_Treeview_new"></a>
 
-### new Treeview(param0)
+### new Treeview(options)
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| param0 | <code>object</code> |  | The menu object. |
-| param0.menuElement | <code>HTMLElement</code> |  | The menu element in the DOM. |
-| [param0.menuItemSelector] | <code>string</code> | <code>&quot;\&quot;li\&quot;&quot;</code> | The CSS selector string for menu items. |
-| [param0.menuLinkSelector] | <code>string</code> | <code>&quot;\&quot;a\&quot;&quot;</code> | The CSS selector string for menu links. |
-| [param0.submenuItemSelector] | <code>string</code> | <code>&quot;\&quot;\&quot;&quot;</code> | The CSS selector string for menu items containing submenus. |
-| [param0.submenuToggleSelector] | <code>string</code> | <code>&quot;\&quot;a\&quot;&quot;</code> | The CSS selector string for submenu toggle buttons/links. |
-| [param0.submenuSelector] | <code>string</code> | <code>&quot;\&quot;ul\&quot;&quot;</code> | The CSS selector string for submenus. |
-| [param0.controllerElement] | <code>HTMLElement</code> \| <code>null</code> | <code></code> | The element controlling the menu in the DOM. |
-| [param0.containerElement] | <code>HTMLElement</code> \| <code>null</code> | <code></code> | The element containing the menu in the DOM. |
-| [param0.openClass] | <code>string</code> | <code>&quot;\&quot;show\&quot;&quot;</code> | The class to apply when a menu is "open". |
-| [param0.closeClass] | <code>string</code> | <code>&quot;\&quot;hide\&quot;&quot;</code> | The class to apply when a menu is "closed". |
-| [param0.isTopLevel] | <code>boolean</code> | <code>false</code> | A flag to mark the root menu. |
-| [param0.parentMenu] | [<code>Treeview</code>](#Treeview) \| <code>null</code> | <code></code> | The parent menu to this menu. |
-| [param0.hoverType] | <code>string</code> | <code>&quot;\&quot;off\&quot;&quot;</code> | The type of hoverability a menu has. |
-| [param0.hoverDelay] | <code>number</code> | <code>250</code> | The delay for closing menus if the menu is hoverable (in miliseconds). |
-| [param0.initialize] | <code>boolean</code> | <code>true</code> | A flag to initialize the menu immediately upon creation. |
+| options | <code>object</code> |  | The options for generating the menu. |
+| options.menuElement | <code>HTMLElement</code> |  | The menu element in the DOM. |
+| [options.menuItemSelector] | <code>string</code> | <code>&quot;li&quot;</code> | The CSS selector string for menu items. |
+| [options.menuLinkSelector] | <code>string</code> | <code>&quot;a&quot;</code> | The CSS selector string for menu links. |
+| [options.submenuItemSelector] | <code>string</code> |  | The CSS selector string for menu items containing submenus. |
+| [options.submenuToggleSelector] | <code>string</code> | <code>&quot;a&quot;</code> | The CSS selector string for submenu toggle buttons/links. |
+| [options.submenuSelector] | <code>string</code> | <code>&quot;ul&quot;</code> | The CSS selector string for submenus. |
+| [options.controllerElement] | <code>HTMLElement</code> \| <code>null</code> | <code></code> | The element controlling the menu in the DOM. |
+| [options.containerElement] | <code>HTMLElement</code> \| <code>null</code> | <code></code> | The element containing the menu in the DOM. |
+| [options.openClass] | <code>string</code> \| <code>Array.&lt;string&gt;</code> \| <code>null</code> | <code>&quot;show&quot;</code> | The class to apply when a menu is "open". |
+| [options.closeClass] | <code>string</code> \| <code>Array.&lt;string&gt;</code> \| <code>null</code> | <code>&quot;hide&quot;</code> | The class to apply when a menu is "closed". |
+| [options.isTopLevel] | <code>boolean</code> | <code>false</code> | A flag to mark the root menu. |
+| [options.parentMenu] | [<code>Treeview</code>](#Treeview) \| <code>null</code> | <code></code> | The parent menu to this menu. |
+| [options.hoverType] | <code>string</code> | <code>&quot;off&quot;</code> | The type of hoverability a menu has. |
+| [options.hoverDelay] | <code>number</code> | <code>250</code> | The delay for closing menus if the menu is hoverable (in miliseconds). |
+| [options.initialize] | <code>boolean</code> | <code>true</code> | A flag to initialize the menu immediately upon creation. |
 
 <a name="BaseMenu+dom"></a>
 
-### treeview.dom ⇒ <code>object</code>
+### treeview.dom : <code>object.&lt;HTMLElement, Array.&lt;HTMLElement&gt;&gt;</code>
 The DOM elements within the menu.
 
 **Kind**: instance property of [<code>Treeview</code>](#Treeview)  
 **Overrides**: [<code>dom</code>](#BaseMenu+dom)  
-**Returns**: <code>object</code> - - The DOM elements.  
 <a name="BaseMenu+selectors"></a>
 
-### treeview.selectors ⇒ <code>object</code>
+### treeview.selectors : <code>object.&lt;string&gt;</code>
 The CSS selectors available to the menu.
 
 **Kind**: instance property of [<code>Treeview</code>](#Treeview)  
 **Overrides**: [<code>selectors</code>](#BaseMenu+selectors)  
-**Returns**: <code>object</code> - - The selectors.  
 <a name="BaseMenu+elements"></a>
 
-### treeview.elements ⇒ <code>object</code>
+### treeview.elements : <code>object.&lt;BaseMenu, BaseMenuToggle, Array.&lt;BaseMenuItem&gt;, Array.&lt;BaseMenuToggle&gt;&gt;</code>
 The elements within the menu.
 
 **Kind**: instance property of [<code>Treeview</code>](#Treeview)  
 **Overrides**: [<code>elements</code>](#BaseMenu+elements)  
-**Returns**: <code>object</code> - - The elements.  
 <a name="BaseMenu+openClass"></a>
 
-### treeview.openClass ⇒ <code>string</code> \| <code>Array.&lt;string&gt;</code>
+### treeview.openClass : <code>string</code> \| <code>Array.&lt;string&gt;</code>
 The class(es) to apply when the menu is "open".
 
 This functions differently for root vs. submenus.
@@ -110,10 +108,9 @@ Submenus will always inherit their root menu's open class(es).
 
 **Kind**: instance property of [<code>Treeview</code>](#Treeview)  
 **Overrides**: [<code>openClass</code>](#BaseMenu+openClass)  
-**Returns**: <code>string</code> \| <code>Array.&lt;string&gt;</code> - - The class(es).  
 <a name="BaseMenu+closeClass"></a>
 
-### treeview.closeClass ⇒ <code>string</code> \| <code>Array.&lt;string&gt;</code>
+### treeview.closeClass : <code>string</code> \| <code>Array.&lt;string&gt;</code>
 The class(es) to apply when the menu is "closed".
 
 This functions differently for root vs. submenus.
@@ -121,50 +118,51 @@ Submenus will always inherit their root menu's close class(es).
 
 **Kind**: instance property of [<code>Treeview</code>](#Treeview)  
 **Overrides**: [<code>closeClass</code>](#BaseMenu+closeClass)  
-**Returns**: <code>string</code> \| <code>Array.&lt;string&gt;</code> - - The class(es).  
 <a name="BaseMenu+isTopLevel"></a>
 
-### treeview.isTopLevel ⇒ <code>boolean</code>
+### treeview.isTopLevel : <code>boolean</code>
 A flag marking the root menu.
 
 **Kind**: instance property of [<code>Treeview</code>](#Treeview)  
 **Overrides**: [<code>isTopLevel</code>](#BaseMenu+isTopLevel)  
-**Returns**: <code>boolean</code> - - The top-level flag.  
 <a name="BaseMenu+currentChild"></a>
 
-### treeview.currentChild ⇒ <code>number</code>
+### treeview.currentChild : <code>number</code>
 The index of the currently selected menu item in the menu.
+
+- Attempting to set a value < -1 will set the currentChild to -1.
+- Attempting to set a value >= the number of menu items will set the currentChild to the number of menu items - 1.
+
+If the current menu has a parent menu _and_ the menu's current event is "mouse",
+The parent menu will have it's current child updated as well to help with transitioning
+between mouse and keyboard naviation.
 
 **Kind**: instance property of [<code>Treeview</code>](#Treeview)  
 **Overrides**: [<code>currentChild</code>](#BaseMenu+currentChild)  
-**Returns**: <code>number</code> - - The index.  
 <a name="BaseMenu+focusState"></a>
 
-### treeview.focusState ⇒ <code>string</code>
+### treeview.focusState : <code>string</code>
 The current state of the menu's focus.
 
 **Kind**: instance property of [<code>Treeview</code>](#Treeview)  
 **Overrides**: [<code>focusState</code>](#BaseMenu+focusState)  
-**Returns**: <code>string</code> - - The state.  
 <a name="BaseMenu+currentEvent"></a>
 
-### treeview.currentEvent ⇒ <code>string</code>
+### treeview.currentEvent : <code>string</code>
 This last event triggered on the menu.
 
 **Kind**: instance property of [<code>Treeview</code>](#Treeview)  
 **Overrides**: [<code>currentEvent</code>](#BaseMenu+currentEvent)  
-**Returns**: <code>string</code> - - The event type.  
 <a name="BaseMenu+currentMenuItem"></a>
 
-### treeview.currentMenuItem ⇒ [<code>BaseMenuItem</code>](#BaseMenuItem)
+### treeview.currentMenuItem : [<code>BaseMenuItem</code>](#BaseMenuItem)
 The currently selected menu item.
 
 **Kind**: instance property of [<code>Treeview</code>](#Treeview)  
 **Overrides**: [<code>currentMenuItem</code>](#BaseMenu+currentMenuItem)  
-**Returns**: [<code>BaseMenuItem</code>](#BaseMenuItem) - - The menu item.  
 <a name="BaseMenu+hoverType"></a>
 
-### treeview.hoverType ⇒ <code>string</code>
+### treeview.hoverType : <code>string</code>
 The type of hoverability for the menu.
 
 This functions differently for root vs. submenus.
@@ -172,10 +170,9 @@ Submenus will always inherit their root menu's hoverability.
 
 **Kind**: instance property of [<code>Treeview</code>](#Treeview)  
 **Overrides**: [<code>hoverType</code>](#BaseMenu+hoverType)  
-**Returns**: <code>string</code> - - The hover type.  
 <a name="BaseMenu+hoverDelay"></a>
 
-### treeview.hoverDelay ⇒ <code>number</code>
+### treeview.hoverDelay : <code>number</code>
 The delay time (in miliseconds) used for mouseout events to take place.
 
 This functions differently for root vs. submenus.
@@ -183,10 +180,9 @@ Submenus will always inherit their root menu's hover delay.
 
 **Kind**: instance property of [<code>Treeview</code>](#Treeview)  
 **Overrides**: [<code>hoverDelay</code>](#BaseMenu+hoverDelay)  
-**Returns**: <code>number</code> - - The delay time.  
 <a name="BaseMenu+shouldFocus"></a>
 
-### treeview.shouldFocus ⇒ <code>boolean</code>
+### treeview.shouldFocus : <code>boolean</code>
 A flag to check if the menu's focus methods should _actually_ move the focus in the DOM.
 
 Will return false unless any of the following criteria are met:
@@ -196,7 +192,6 @@ Will return false unless any of the following criteria are met:
 
 **Kind**: instance property of [<code>Treeview</code>](#Treeview)  
 **Overrides**: [<code>shouldFocus</code>](#BaseMenu+shouldFocus)  
-**Returns**: <code>boolean</code> - - The flag.  
 <a name="Treeview+initialize"></a>
 
 ### treeview.initialize()
@@ -440,3 +435,4 @@ Blurs all children and submenu's children.
 
 **Kind**: instance method of [<code>Treeview</code>](#Treeview)  
 **Overrides**: [<code>blurChildren</code>](#BaseMenu+blurChildren)  
+  
