@@ -501,7 +501,7 @@ function isEventSupported(event, element) {
 }
 
 /**
- * A link or button that controls the visibility of a [BaseMenu]{@link BaseMenu.md}.
+ * A link or button that controls the visibility of a {@link BaseMenu}.
  */
 
 var BaseMenuToggle = /*#__PURE__*/function () {
@@ -562,13 +562,16 @@ var BaseMenuToggle = /*#__PURE__*/function () {
     });
   }
   /**
-   * Initialize the toggle by ensuring WAI-ARIA values are set, handling click events, and adding new keydown events.
+   * Initializes the menu toggle.
    *
    * Initialize does a lot of setup on the menu toggle.
    *
-   * The most basic setup steps are to ensure that the toggle has `aria-haspopup` set to `"true"`, `aria-expanded` initially set to `"false"` and, if the toggle element is not a `<button>`, set the `role` to `"button"`.
+   * The most basic setup steps are to ensure that the toggle has `aria-haspopup`
+   * set to "true", `aria-expanded` initially set to "false" and, if the toggle
+   * element is not a `<button>`, set the `role` to "button".
    *
-   * The next step to the initialization is to ensure both the toggle and the menu it controlls have IDs.
+   * The next step to the initialization is to ensure both the toggle and the
+   * menu it controlls have IDs.
    *
    * If they do not, the following steps take place:
    * - Generate a random 10 character string,
@@ -576,7 +579,8 @@ var BaseMenuToggle = /*#__PURE__*/function () {
    * - Set the toggle's ID to: `${toggle-inner-text}-${the-random-string}-menu-button`
    * - Set the menu's ID to: `${toggle-inner-text}-${the-random-string}-menu`
    *
-   * Once the ID's have been generated, the menu's "aria-labelledby" is set to the toggle's ID, and the toggle's "aria-controls" is set to the menu's ID.
+   * Once the ID's have been generated, the menu's `aria-labelledby` is set to
+   * the toggle's ID, and the toggle's `aria-controls` is set to the menu's ID.
    *
    * Finally, the collapse method is called to make sure the submenu is closed.
    */
@@ -633,6 +637,8 @@ var BaseMenuToggle = /*#__PURE__*/function () {
      * The DOM elements within the toggle.
      *
      * @type {object.<HTMLElement>}
+     * @property {HTMLElement} toggle - The menu toggle.
+     * @property {HTMLElement} parent - The menu containing this toggle.
      */
 
   }, {
@@ -641,9 +647,11 @@ var BaseMenuToggle = /*#__PURE__*/function () {
       return this.domElements;
     }
     /**
-     * The elements within the toggle.
+     * The declared accessible-menu elements within the menu toggle.
      *
      * @type {object.<BaseMenu>}
+     * @property {BaseMenu} controlledMenu - The menu controlled by this toggle.
+     * @property {BaseMenu} parentMenu     - The menu containing this toggle.
      */
 
   }, {
@@ -671,9 +679,13 @@ var BaseMenuToggle = /*#__PURE__*/function () {
     /**
      * Expands the controlled menu.
      *
-     * Sets the toggle's `aria-expanded` to `"true"`, adds the open class to the toggle's parent menu item and controlled menu, and removed the closed class from the toggle's parent menu item and controlled menu.
+     * Sets the toggle's `aria-expanded` to "true", adds the
+     * {@link BaseMenu#openClass|open class} to the toggle's parent menu item
+     * and controlled menu, and removed the {@link BaseMenu#closeClass|closed class}
+     * from the toggle's parent menu item and controlled menu.
      *
-     * If `emit` is set to `true`, this will also emit a custom event called `accessibleMenuExpand` which bubbles and contains the toggle object in `event.detail`.
+     * If `emit` is set to `true`, this will also emit a custom event
+     * called {@link accessibleMenuExpand}
      *
      * @param {boolean} [emit = true] - A toggle to emit the expand event once expanded.
      * @fires accessibleMenuExpand
@@ -716,9 +728,13 @@ var BaseMenuToggle = /*#__PURE__*/function () {
     /**
      * Collapses the controlled menu.
      *
-     * Sets the toggle's `aria-expanded` to `"false"`, adds the closed class to the toggle's parent menu item and controlled menu, and removed the open class from the toggle's parent menu item and controlled menu.
+     * Sets the toggle's `aria-expanded` to "false", adds the
+     * {@link BaseMenu#closeClass|closed class} to the toggle's parent menu item
+     * and controlled menu, and removes the {@link BaseMenu#openClass|open class}
+     * from the toggle's parent menu item and controlled menu.
      *
-     * If `emit` is set to `true`, this will also emit a custom event called `accessibleMenuCollapse` which bubbles and contains the toggle object in `event.detail`.
+     * If `emit` is set to `true`, this will also emit a custom event
+     * called {@link accessibleMenuCollapse}
      *
      * @param {boolean} [emit = true] - A toggle to emit the collapse event once collapsed.
      * @fires accessibleMenuCollapse
@@ -761,8 +777,9 @@ var BaseMenuToggle = /*#__PURE__*/function () {
     /**
      * Opens the controlled menu.
      *
-     * Sets the controlled menu's focus state to `"self"` and the parent menu's focus state to `"child"`,
-     * calls {@link expand}, and sets {@link isOpen} to `true`.
+     * Sets the controlled menu's {@link BaseMenu#focusState|focus state} to "self"
+     * and the parent menu's focus state to "child", calls {@link BaseMenuToggle#expand|expand},
+     * and sets the {@link BaseMenuToggle#isOpen|isOpen} value to `true`.
      */
 
   }, {
@@ -782,7 +799,9 @@ var BaseMenuToggle = /*#__PURE__*/function () {
     /**
      * Opens the controlled menu without the current focus entering it.
      *
-     * Sets the controlled menu's focus state to `"self"` and the parent menu's focus state to `"child"`, and calls {@link expand}
+     * Sets the controlled menu's {@link BaseMenu#focusState|focus state} to "self"
+     * and the parent menu's focus state to "child",
+     * and calls {@link BaseMenuToggle#expand|expand}.
      */
 
   }, {
@@ -802,9 +821,11 @@ var BaseMenuToggle = /*#__PURE__*/function () {
     /**
      * Closes the controlled menu.
      *
-     * Sets the controlled menu's focus state to `"none"` and the parent menu's focus state to `"self"`,
-     * blurs the controlled menus and sets it's current child index to 0,
-     * calls {@link collapse}, and sets {@link isOpen} to `false`.
+     * Sets the controlled menu's {@link BaseMenu#focusState|focus state} to "none"
+     * and the parent menu's focus state to "self", blurs the controlled menu
+     * and sets it's {@link BaseMenu#currentChild|current child index} to 0,
+     * calls {@link BaseMenuToggle#collapse|collapse}, and sets
+     * the {@link BaseMenuToggle#isOpen|isOpen} value to `false`.
      */
 
   }, {
@@ -827,7 +848,7 @@ var BaseMenuToggle = /*#__PURE__*/function () {
       }
     }
     /**
-     * Toggles the open state of the controlled menu.
+     * Toggles the open state of the controlled menu between `true` and `false`.
      */
 
   }, {
@@ -873,7 +894,7 @@ var BaseMenuToggle = /*#__PURE__*/function () {
 /* eslint-disable jsdoc/no-undefined-types */
 
 /**
- * A basic navigation link contained inside of a [BaseMenu]{@link BaseMenu.md}.
+ * A basic navigation link contained inside of a {@link BaseMenu}.
  */
 var BaseMenuItem = /*#__PURE__*/function () {
   /**
@@ -923,6 +944,8 @@ var BaseMenuItem = /*#__PURE__*/function () {
      * The DOM elements within the menu item.
      *
      * @type {object.<HTMLElement>}
+     * @property {HTMLElement} item - The menu item.
+     * @property {HTMLElement} link - The menu item's link.
      */
 
   }, {
@@ -931,9 +954,12 @@ var BaseMenuItem = /*#__PURE__*/function () {
       return this.domElements;
     }
     /**
-     * The elements within the menu item.
+     * The declared accessible-menu elements within the menu item.
      *
      * @type {object.<BaseMenu,BaseMenuToggle>}
+     * @property {BaseMenu}        parentMenu - The menu containing this menu item.
+     * @property {?BaseMenu}       childMenu  - The menu contained within this menu item.
+     * @property {?BaseMenuToggle} toggle     - The menu toggle within this menu item that controls the `childMenu`.
      */
 
   }, {
@@ -953,7 +979,8 @@ var BaseMenuItem = /*#__PURE__*/function () {
       return this.isController;
     }
     /**
-     * Focuses the menu item's link if triggering event is valid.
+     * Focuses the menu item's link if the parent menu's
+     * {@link BaseMenu#shouldFocus|shouldFocus} value is `true`.
      */
 
   }, {
@@ -964,7 +991,8 @@ var BaseMenuItem = /*#__PURE__*/function () {
       }
     }
     /**
-     * Blurs the menu item's link if triggering event is valid.
+     * Blurs the menu item's link if the parent menu's
+     * {@link BaseMenu#shouldFocus|shouldFocus} value is `true`.
      */
 
   }, {
@@ -1026,8 +1054,10 @@ function preventEvent(event) {
 /**
  * An accessible navigation element in the DOM.
  *
- * This is intended to be used as a "base" to other menus and not to be used on it's own in the DOM.
- * Use a [DisclosureMenu]{@link DisclosureMenu.md}, [Menubar]{@link Menubar.md}, or [Treeview]{@link Treeview.md} instead.
+ * This is intended to be used as a "base" to other menus and not to be used on
+ * it's own in the DOM.
+ *
+ * Use a {@link DisclosureMenu}, {@link Menubar}, or {@link Treeview} instead.
  */
 
 var BaseMenu = /*#__PURE__*/function () {
@@ -1120,9 +1150,15 @@ var BaseMenu = /*#__PURE__*/function () {
   /**
    * Initializes the menu.
    *
-   * This will also initialize all menu items and sub menus.
+   * The following steps will be taken to initialize the menu:
+   * - {@link BaseMenu#validate|Validate} that the menu can initialize,
+   * - find the root menu of the menu tree if it isn't already set,
+   * - populate all DOM elements within the {@link BaseMenu#dom|dom},
+   * - if the current menu is the root menu _and_ has a controller, initialize
+   *   the controller, and
+   * - populate the menu elements within the {@link BaseMenu#elements|elements}
    *
-   * @throws {Error} Will throw an Error if the validate method returns `false`.
+   * @throws {Error} Will throw an Error if validate returns `false`.
    */
 
 
@@ -1157,6 +1193,13 @@ var BaseMenu = /*#__PURE__*/function () {
      * The DOM elements within the menu.
      *
      * @type {object.<HTMLElement,HTMLElement[]>}
+     * @property {HTMLElement}   menu           - The menu element.
+     * @property {HTMLElement[]} menuItems      - An array of menu items.
+     * @property {HTMLElement[]} submenuItems   - An array of menu items that also contain submenu elements.
+     * @property {HTMLElement[]} submenuToggles - An array of menu links that function as submenu toggles.
+     * @property {HTMLElement[]} submenus       - An array of submenu elements.
+     * @property {HTMLElement}   controller     - The toggle for this menu.
+     * @property {HTMLElement}   container      - The container for this menu.
      */
 
   }, {
@@ -1165,9 +1208,14 @@ var BaseMenu = /*#__PURE__*/function () {
       return this.domElements;
     }
     /**
-     * The CSS selectors available to the menu.
+     * The CSS selectors used by the menu to populate the {@link BaseMenu#dom|dom}.
      *
      * @type {object.<string>}
+     * @property {string} menuItems      - The CSS selector for menu items.
+     * @property {string} menuLinks      - The CSS selector for menu links.
+     * @property {string} submenuItems   - The CSS selector for menu items containing submenus.
+     * @property {string} submenuToggles - The CSS selector for menu links that function as submenu toggles.
+     * @property {string} submenus       - The CSS selector for for submenus.
      */
 
   }, {
@@ -1176,9 +1224,14 @@ var BaseMenu = /*#__PURE__*/function () {
       return this.domSelectors;
     }
     /**
-     * The elements within the menu.
+     * The declared accessible-menu elements within the menu.
      *
      * @type {object.<BaseMenu,BaseMenuToggle,BaseMenuItem[],BaseMenuToggle[]>}
+     * @property {BaseMenuItem[]}   menuItems      - An array of menu items.
+     * @property {BaseMenuToggle[]} submenuToggles - An array of menu toggles.
+     * @property {?BaseMenuToggle}  controller     - A menu toggle that controls this menu.
+     * @property {?BaseMenu}        parentMenu     - The parent menu.
+     * @property {?BaseMenu}        rootMenu       - The root menu of the menu tree.
      */
 
   }, {
@@ -1187,7 +1240,7 @@ var BaseMenu = /*#__PURE__*/function () {
       return this.menuElements;
     }
     /**
-     * The class(es) to apply when the menu is "open".
+     * The class(es) to apply when the menu is open.
      *
      * This functions differently for root vs. submenus.
      * Submenus will always inherit their root menu's open class(es).
@@ -1201,7 +1254,7 @@ var BaseMenu = /*#__PURE__*/function () {
       return this.isTopLevel ? this.submenuOpenClass : this.elements.rootMenu.openClass;
     }
     /**
-     * The class(es) to apply when the menu is "closed".
+     * The class(es) to apply when the menu is closed.
      *
      * This functions differently for root vs. submenus.
      * Submenus will always inherit their root menu's close class(es).
@@ -1244,13 +1297,15 @@ var BaseMenu = /*#__PURE__*/function () {
       return this.root;
     }
     /**
-     * The index of the currently selected menu item in the menu.
+     * The index of the currently selected {@link BaseMenuItem|menu item} in the menu.
      *
-     * - Attempting to set a value < -1 will set the `currentChild` to -1.
-     * - Attempting to set a value >= the number of menu items will set the `currentChild` to the number of menu items - 1.
+     * - Attempting to set a value less than -1 will set the current child to -1.
+     * - Attempting to set a value greater than or equal to the number of menu items
+     *   will set the current child to the index of the last menu item in the menu.
      *
-     * If the current menu has a parent menu _and_ the menu's current event is `"mouse"`,
-     * The parent menu will have it's current child updated as well to help with transitioning
+     * If the current menu has a parent menu _and_ the menu's
+     * {@link BaseMenu#currentEvent|current event} is "mouse", The parent menu
+     * will have it's current child updated as well to help with transitioning
      * between mouse and keyboard naviation.
      *
      * @type {number}
@@ -1401,10 +1456,11 @@ var BaseMenu = /*#__PURE__*/function () {
     /**
      * A flag to check if the menu's focus methods should _actually_ move the focus in the DOM.
      *
-     * Will return false unless any of the following criteria are met:
-     * - The menu's `currentEvent` is `"keyboard"`.
-     * - The menu's `currentEvent` is `"character"`.
-     * - The menu's `currentEvent` is `"mouse"` _and_ the menu's `hoverType` is `"dynamic"`.
+     * This will be `false` unless any of the following criteria are met:
+     * - The menu's {@link BaseMenu#currentEvent|current event} is "keyboard".
+     * - The menu's current event is "character".
+     * - The menu's current event is "mouse" _and_ the menu's
+     *   {@link BaseMenu#hoverType|hover type} is "dynamic".
      *
      * @type {boolean}
      */
@@ -1524,7 +1580,8 @@ var BaseMenu = /*#__PURE__*/function () {
     /**
      * Sets DOM elements within the menu.
      *
-     * This will set the actual `domElement` property, so all existing items in a given `domElement` property will be removed when this is run.
+     * This will set the actual `domElement` property, so all existing items in a
+     * given `domElement` property will be removed when this is run.
      *
      * @param {string}      elementType - The type of element to populate.
      * @param {HTMLElement} base        - The element used as the base for the querySelect.
@@ -1567,7 +1624,8 @@ var BaseMenu = /*#__PURE__*/function () {
     /**
      * Adds an element to DOM elements within the menu.
      *
-     * This is an additive function, so existing items in a given `domElement` property will not be touched.
+     * This is an additive function, so existing items in a given `domElement`
+     * property will not be touched.
      *
      * @param {string}      elementType - The type of element to populate.
      * @param {HTMLElement} base        - The element used as the base for the querySelect.
@@ -1629,7 +1687,9 @@ var BaseMenu = /*#__PURE__*/function () {
     /**
      * Sets all DOM elements within the menu.
      *
-     * Utiliizes {@link setDOMElementType}, {@link clearDOMElementType}, and {@link addDOMElementType}.
+     * Utiliizes {@link BaseMenu#setDOMElementType|setDOMElementType},
+     * {@link BaseMenu#clearDOMElementType|clearDOMElementType},
+     * and {@link BaseMenu#addDOMElementType|addDOMElementType}.
      */
 
   }, {
@@ -1737,7 +1797,10 @@ var BaseMenu = /*#__PURE__*/function () {
     /**
      * Handles focus events throughout the menu for proper menu use.
      *
-     * - Adds a `focus` listener to every menu item so when it gains focus, it will set the item's containing menu to a "self" focus state, any parent menu to a "child" focus state, and any child menu to a "none" focus state.
+     * - Adds a `focus` listener to every menu item so when it gains focus,
+     *   it will set the item's containing menu's {@link BaseMenu#focusState|focus state}
+     *   to "self", any parent menu's focus state to "child", and any
+     *   child menu's focus state to "none".
      */
 
   }, {
@@ -1757,12 +1820,19 @@ var BaseMenu = /*#__PURE__*/function () {
     /**
      * Handles click events throughout the menu for proper use.
      *
-     * Depending on what is supported either `touchstart` and `touchend` or `mousedown` and `mouseup` will be used for all "click" event handling.
+     * Depending on what is supported either `touchstart` and `touchend` or
+     * `mousedown` and `mouseup` will be used for all "click" event handling.
      *
-     * - Adds a `touchend`/`mouseup` listener to the document so if the user clicks outside of the menu when it is open, the menu will close.
-     * - Adds a `touchstart`/`mousedown` listener to every menu item that will blur all menu items in the entire menu structure (starting at the root menu) and then properly focus the clicked item.
-     * - Adds a `touchend`/`mouseup` listener to every submenu item that will properly toggle the submenu open/closed.
-     * - Adds a `touchend`/`mouseup` listener to the menu's controller (if the menu is the root menu) so when it is clicked it will properly toggle open/closed.
+     * - Adds a `touchend`/`mouseup` listener to the document so if the user clicks
+     *   outside of the menu when it is open, the menu will close.
+     * - Adds a `touchstart`/`mousedown` listener to every menu item that will blur
+     *   all menu items in the entire menu structure (starting at the root menu) and
+     *   then properly focus the clicked item.
+     * - Adds a `touchend`/`mouseup` listener to every submenu item that will properly
+     *   toggle the submenu open/closed.
+     * - Adds a `touchend`/`mouseup` listener to the menu's controller
+     *   (if the menu is the root menu) so when it is clicked it will properly
+     *   toggle open/closed.
      */
 
   }, {
@@ -1819,20 +1889,37 @@ var BaseMenu = /*#__PURE__*/function () {
     /**
      * Handles hover events throughout the menu for proper use.
      *
-     * Adds `mouseenter` listeners to all menu items and `mouseleave` listeners to all submenu items which function differently depending on the menu's {@link hoverType}.
+     * Adds `mouseenter` listeners to all menu items and `mouseleave` listeners
+     * to all submenu items which function differently depending on
+     * the menu's {@link BaseMenu#hoverType|hover type}.
      *
      * **Hover Type "on"**
-     * - When a `mouseenter` event triggers on any menu item the menu's {@link currentChild} value will change to that menu item.
-     * - When a `mouseenter` event triggers on a submenu item the `preview()` method for the submenu item's toggle will be called.
-     * - When a `mouseleave` event triggers on an open submenu item the `close()` method for the submenu item's toggle will be called after a delay set by the menu's {@link hoverDelay}.
+     * - When a `mouseenter` event triggers on any menu item the menu's
+     *   {@link BaseMenu#currentChild| current child} value will change to that
+     *   menu item.
+     * - When a `mouseenter` event triggers on a submenu item the
+     *   {@link BaseMenuToggle#preview|preview method} for the submenu item's
+     *   toggle will be called.
+     * - When a `mouseleave` event triggers on an open submenu item the
+     *   {@link BaseMenuToggle#close|close method} for the submenu item's toggle
+     *   will be called after a delay set by the menu's {@link BaseMenu#hoverDelay|hover delay}.
      *
      * **Hover Type "dynamic"**
-     * - When a `mouseenter` event triggers on any menu item the menu's {@link currentChild} value will change to that menu item.
-     * - When a `mouseenter` event triggers on any menu item, and the menu's {@link focusState} is not `"none"`, the menu item will be focused.
-     * - When a `mouseenter` event triggers on a submenu item, and a submenu is already open, the `preview()` method for the submenu item's toggle will be called.
-     * - When a `mouseenter` event triggers on a submenu item, and no submenu is open, no submenu-specific methods will be called.
-     * - When a `mouseleave` event triggers on an open submenu item that is not a root-level submenu item the `close()` method for the submenu item's toggle will be called and the submenu item will be focused after a delay set by the menu's {@link hoverDelay}.
-     * - When a `mouseleave` event triggers on an open submenu item that is a root-level submenu item no submenu-specific methods will be called.
+     * - When a `mouseenter` event triggers on any menu item the menu's
+     *   current child value will change to that menu item.
+     * - When a `mouseenter` event triggers on any menu item, and the menu's
+     *   {@link BaseMenu#focusState|focus state} is not "none", the menu item
+     *   will be focused.
+     * - When a `mouseenter` event triggers on a submenu item, and a submenu is
+     *   already open, the preview method for the submenu item's toggle will be called.
+     * - When a `mouseenter` event triggers on a submenu item, and no submenu is
+     *   open, no submenu-specific methods will be called.
+     * - When a `mouseleave` event triggers on an open submenu item that is not a
+     *   root-level submenu item the close method for the submenu item's toggle
+     *   will be called and the submenu item will be focused after a delay set by
+     *   the menu's hover delay.
+     * - When a `mouseleave` event triggers on an open submenu item that is a
+     *   root-level submenu item no submenu-specific methods will be called.
      *
      * **Hover Type "off"**
      * All `mouseenter` and `mouseleave` events are ignored.
@@ -1896,10 +1983,10 @@ var BaseMenu = /*#__PURE__*/function () {
     /**
      * Handles keydown events throughout the menu for proper menu use.
      *
-     * This method exists to assit the {@link handleKeyup} method.
+     * This method exists to assit the {@link BaseMenu#handleKeyup|handleKeyup method}.
      *
      * - Adds a `keydown` listener to the menu's controller (if the menu is the root menu).
-     *   - Blocks propagation on `Space`, `Enter`, and `Escape` keys.
+     *   - Blocks propagation on "Space", "Enter", and "Escape" keys.
      */
 
   }, {
@@ -1922,7 +2009,7 @@ var BaseMenu = /*#__PURE__*/function () {
      * Handles keyup events throughout the menu for proper menu use.
      *
      * - Adds a `keyup` listener to the menu's controller (if the menu is the root menu).
-     *   - Opens the menu when the user hits `Space` or `Enter`.
+     *   - Opens the menu when the user hits "Space" or "Enter".
      */
 
   }, {
@@ -1948,7 +2035,9 @@ var BaseMenu = /*#__PURE__*/function () {
     /**
      * Focus the menu.
      *
-     * Sets the menu's {@link focusState} to `"self"` and focusses the menu if the menu's {@link shouldFocus} vallue is `true`.
+     * Sets the menu's {@link BaseMenu#focusState|focus state} to "self" and
+     * focusses the menu if the menu's {@link BaseMenu#shouldFocus|shouldFocus}
+     * value is `true`.
      */
 
   }, {
@@ -1963,7 +2052,9 @@ var BaseMenu = /*#__PURE__*/function () {
     /**
      * Unfocus the menu.
      *
-     * Sets the menu's {@link focusState} to `"none"` and blurs the menu if the menu's {@link shouldFocus} vallue is `true`.
+     * Sets the menu's {@link BaseMenu#focusState|focus state} to "none"
+     * and blurs the menu if the menu's {@link BaseMenu#shouldFocus|shouldFocus}
+     * vallue is `true`.
      */
 
   }, {
@@ -2116,7 +2207,7 @@ var BaseMenu = /*#__PURE__*/function () {
 }();
 
 /**
- * A basic navigation link contained inside of a [Menubar]{@link Menubar.md}.
+ * A basic navigation link contained inside of a {@link Menubar}.
  *
  * @extends BaseMenuItem
  */
@@ -2216,7 +2307,7 @@ var MenubarItem = /*#__PURE__*/function (_BaseMenuItem) {
 }(BaseMenuItem);
 
 /**
- * A link or button that controls the visibility of a [Menubar]{@link Menubar.md}.
+ * A link or button that controls the visibility of a {@link Menubar}.
  *
  * @extends BaseMenuToggle
  */
@@ -2264,6 +2355,9 @@ var MenubarToggle = /*#__PURE__*/function (_BaseMenuToggle) {
   }
   /**
    * Opens the controlled menu.
+   *
+   * Calls the {@link MenubarToggle#closeSiblings| closeSiblings method}
+   * and _then_ {@link BaseMenuToggle#open|BaseMenuToggle's open method}.
    */
 
 
@@ -2277,6 +2371,9 @@ var MenubarToggle = /*#__PURE__*/function (_BaseMenuToggle) {
     }
     /**
      * Opens the controlled menu without the current focus entering it.
+     *
+     * Calls the {@link MenubarToggle#closeSiblings| closeSiblings method}
+     * and _then_ {@link BaseMenuToggle#preview|BaseMenuToggle's preview method}.
      */
 
   }, {
@@ -2289,6 +2386,9 @@ var MenubarToggle = /*#__PURE__*/function (_BaseMenuToggle) {
     }
     /**
      * Closes the controlled menu.
+     *
+     * Calls the {@link MenubarToggle#closeChildren| closeChildren method}
+     * and _then_ {@link BaseMenuToggle#close|BaseMenuToggle's close method}.
      */
 
   }, {
@@ -2403,7 +2503,18 @@ var Menubar = /*#__PURE__*/function (_BaseMenu) {
   /**
    * Initializes the menu.
    *
-   * This will also initialize all menu items and sub menus.
+   * Initialize will call the {@link BaseMenu#initialize|Base Menu's initialize method}
+   * as well as set up {@link Menubar#handleFocus|focus},
+   * {@link Menubar#handleClick|click},
+   * {@link Menubar#handleHover|hover},
+   * {@link Menubar#handleKeydown|keydown}, and
+   * {@link Menubar#handleKeyup|keyup} events for the menu.
+   *
+   * This will also set the menu's `role` to "menubar" and the first menu item's
+   * `tabIndex` to 0 in the DOM.
+   *
+   * If the Base Menu's initialize method throws an error,
+   * this will catch it and log it to the console.
    */
 
 
@@ -2426,6 +2537,14 @@ var Menubar = /*#__PURE__*/function (_BaseMenu) {
     }
     /**
      * Handles click events throughout the menu for proper use.
+     *
+     * Depending on what is supported either `touchstart` and `touchend` or
+     * `mousedown` and `mouseup` will be used for all "click" event handling.
+     *
+     * - Adds all event listeners listed in
+     *   {@link BaseMenu#handleClick|BaseMenu's handleClick method}, and
+     * - adds a `touchend`/`mouseup` listener to the `document` so if the user
+     *   clicks outside of the menu it will close if it is open.
      */
 
   }, {
