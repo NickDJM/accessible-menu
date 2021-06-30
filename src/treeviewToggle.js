@@ -3,7 +3,7 @@
 import BaseMenuToggle from "./_baseMenuToggle.js";
 
 /**
- * A link or button that controls the visibility of a [Treeview]{@link Treeview.md}.
+ * A link or button that controls the visibility of a {@link Treeview}.
  *
  * @extends BaseMenuToggle
  */

@@ -1,7 +1,7 @@
 /* eslint-disable jsdoc/no-undefined-types */
 
 /**
- * A basic navigation link contained inside of a [BaseMenu]{@link BaseMenu.md}.
+ * A basic navigation link contained inside of a {@link BaseMenu}.
  */
 class BaseMenuItem {
   /**
@@ -44,15 +44,20 @@ class BaseMenuItem {
    * The DOM elements within the menu item.
    *
    * @type {object.<HTMLElement>}
+   * @property {HTMLElement} item - The menu item.
+   * @property {HTMLElement} link - The menu item's link.
    */
   get dom() {
     return this.domElements;
   }
 
   /**
-   * The elements within the menu item.
+   * The declared accessible-menu elements within the menu item.
    *
    * @type {object.<BaseMenu,BaseMenuToggle>}
+   * @property {BaseMenu}        parentMenu - The menu containing this menu item.
+   * @property {?BaseMenu}       childMenu  - The menu contained within this menu item.
+   * @property {?BaseMenuToggle} toggle     - The menu toggle within this menu item that controls the `childMenu`.
    */
   get elements() {
     return this.menuElements;
@@ -68,7 +73,8 @@ class BaseMenuItem {
   }
 
   /**
-   * Focuses the menu item's link if triggering event is valid.
+   * Focuses the menu item's link if the parent menu's
+   * {@link BaseMenu#shouldFocus|shouldFocus} value is `true`.
    */
   focus() {
     if (this.elements.parentMenu.shouldFocus) {
@@ -77,7 +83,8 @@ class BaseMenuItem {
   }
 
   /**
-   * Blurs the menu item's link if triggering event is valid.
+   * Blurs the menu item's link if the parent menu's
+   * {@link BaseMenu#shouldFocus|shouldFocus} value is `true`.
    */
   blur() {
     if (this.elements.parentMenu.shouldFocus) {

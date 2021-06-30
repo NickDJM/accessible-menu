@@ -3,7 +3,7 @@
 import BaseMenuItem from "./_baseMenuItem.js";
 
 /**
- * A basic navigation link contained inside of a [Menubar]{@link Menubar.md}.
+ * A basic navigation link contained inside of a {@link Menubar}.
  *
  * @extends BaseMenuItem
  */

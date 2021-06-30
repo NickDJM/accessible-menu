@@ -82,7 +82,7 @@ class DisclosureMenu extends BaseMenu {
   }
 
   /**
-   * A flag to add optional keyboard support (Arrow keys, Home, and End) to the menu.
+   * A flag to add optional keyboard support (Arrow keys, "Home", and "End") to the menu.
    *
    * This functions differently for root vs. submenus.
    * Submenus will always inherit their root menu's optionalKeySupport.
@@ -104,7 +104,15 @@ class DisclosureMenu extends BaseMenu {
   /**
    * Initializes the menu.
    *
-   * This will also initialize all menu items and sub menus.
+   * Initialize will call the {@link BaseMenu#initialize|Base Menu's initialize method}
+   * as well as set up {@link DisclosureMenu#handleFocus|focus},
+   * {@link DisclosureMenu#handleClick|click},
+   * {@link DisclosureMenu#handleHover|hover},
+   * {@link DisclosureMenu#handleKeydown|keydown}, and
+   * {@link DisclosureMenu#handleKeyup|keyup} events for the menu.
+   *
+   * If the Base Menu's initialize method throws an error,
+   * this will catch it and log it to the console.
    */
   initialize() {
     try {
@@ -122,6 +130,15 @@ class DisclosureMenu extends BaseMenu {
 
   /**
    * Handles click events throughout the menu for proper use.
+   *
+   * Depending on what is supported either `touchstart` and `touchend` or
+   * `mousedown` and `mouseup` will be used for all "click" event handling.
+   *
+   * - Adds all event listeners listed in
+   *   {@link BaseMenu#handleClick|BaseMenu's handleClick method}, and
+   * - adds a `touchend`/`mouseup` listener to the `document` so if the user
+   *   clicks outside of the menu it will close if it is open.
+   *
    */
   handleClick() {
     super.handleClick();
@@ -153,6 +170,14 @@ class DisclosureMenu extends BaseMenu {
 
   /**
    * Handles keydown events throughout the menu for proper menu use.
+   *
+   * This method exists to assist the {@link DisclosureMenu#handleKeyup|handleKeyup method}.
+   * - Adds all `keydown` listeners from {@link BaseMenu#handleKeydown|BaseMenu's handleKeydown method}
+   * - Adds a `keydown` listener to the menu/all submenus.
+   *   - Blocks propagation on the following keys: "Space", "Enter", and "Escape".
+   *   - _If_ {@link DisclosureMenu#optionalKeySupport|optional keyboard support}
+   *     is enabled, blocks propagation on the following keys:
+   *     "ArrowUp", "ArrowRight", "ArrowDown", "ArrowLeft", "Home", and "End".
    */
   handleKeydown() {
     super.handleKeydown();
@@ -196,6 +221,22 @@ class DisclosureMenu extends BaseMenu {
 
   /**
    * Handles keyup events throughout the menu for proper menu use.
+   *
+   * Adds all `keyup` listeners from {@link BaseMenu#handleKeyup|BaseMenu's handleKeyup method}.
+   *
+   * Adds the following keybindings (explanations are taken from the
+   * {@link https://www.w3.org/TR/wai-aria-practices-1.2/examples/disclosure/disclosure-navigation.html#kbd_label|WAI ARIA Pracitices Example Disclosure for Navigation Menus}):
+   * | Key | Function |
+   * | --- | --- |
+   * | _Tab_ or _Shift + Tab_ | Move keyboard focus among top-level buttons, and if a dropdown is open, into and through links in the dropdown. |
+   * | _Space_ or _Enter_ | <ul><li>If focus is on a disclosure button, activates the button, which toggles the visibility of the dropdown.</li><li>If focus is on a link:<ul><li>If any link has aria-current set, removes it.</li><li>Sets aria-current="page" on the focused link.</li><li>Activates the focused link.</li></ul></li></ul> |
+   * | _Escape_ | If a dropdown is open, closes it and sets focus on the button that controls that dropdown. |
+   * | _Down Arrow_ or _Right Arrow_ (Optional}) | <ul><li>If focus is on a button and its dropdown is collapsed, and it is not the last button, moves focus to the next button.</li><li>if focus is on a button and its dropdown is expanded, moves focus to the first link in the dropdown.</li><li>If focus is on a link, and it is not the last link, moves focus to the next link.</li></ul> |
+   * | _Up Arrow_ or _Left Arrow_ (Optional}) | <ul><li>If focus is on a button, and it is not the first button, moves focus to the previous button.</li><li>If focus is on a link, and it is not the first link, moves focus to the previous link.</li></ul> |
+   * | _Home_ (Optional}) | <ul><li>If focus is on a button, and it is not the first button, moves focus to the first button.</li><li>If focus is on a link, and it is not the first link, moves focus to the first link.</li></ul> |
+   * | _End_ (Optional}) | <ul><li>If focus is on a button, and it is not the last button, moves focus to the last button.</li><li>If focus is on a link, and it is not the last link, moves focus to the last link.</li></ul> |
+   *
+   * The optional keybindings are controlled by the menu's {@link DisclosureMenu#optionalKeySupport|optionalKeySupport} value.
    */
   handleKeyup() {
     super.handleKeyup();

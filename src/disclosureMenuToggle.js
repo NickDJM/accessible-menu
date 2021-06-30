@@ -3,7 +3,7 @@
 import BaseMenuToggle from "./_baseMenuToggle.js";
 
 /**
- * A link or button that controls the visibility of a [DisclosureMenu]{@link DisclousreMenu.md}.
+ * A link or button that controls the visibility of a {@link DisclousreMenu}.
  *
  * @extends BaseMenuToggle
  */
@@ -39,6 +39,9 @@ class DisclosureMenuToggle extends BaseMenuToggle {
 
   /**
    * Opens the controlled menu.
+   *
+   * Calls the {@link DisclosureMenuToggle#closeSiblings| closeSiblings method}
+   * and _then_ {@link BaseMenuToggle#open|BaseMenuToggle's open method}.
    */
   open() {
     // Close all siblings.
@@ -49,6 +52,9 @@ class DisclosureMenuToggle extends BaseMenuToggle {
 
   /**
    * Opens the controlled menu without the current focus entering it.
+   *
+   * Calls the {@link DisclosureMenuToggle#closeSiblings| closeSiblings method}
+   * and _then_ {@link BaseMenuToggle#preview|BaseMenuToggle's preview method}.
    */
   preview() {
     // Close all siblings.
@@ -59,6 +65,9 @@ class DisclosureMenuToggle extends BaseMenuToggle {
 
   /**
    * Closes the controlled menu.
+   *
+   * Calls the {@link DisclosureMenuToggle#closeChildren| closeChildren method}
+   * and _then_ {@link BaseMenuToggle#close|BaseMenuToggle's close method}.
    */
   close() {
     if (this.isOpen) {

@@ -78,7 +78,20 @@ class Treeview extends BaseMenu {
   /**
    * Initializes the menu.
    *
-   * This will also initialize all menu items and sub menus.
+   * Initialize will call the {@link BaseMenu#initialize|Base Menu's initialize method}
+   * as well as set up {@link Treeview#handleFocus|focus},
+   * {@link Treeview#handleClick|click},
+   * {@link Treeview#handleHover|hover},
+   * {@link Treeview#handleKeydown|keydown}, and
+   * {@link Treeview#handleKeyup|keyup} events for the menu.
+   *
+   * If the menu is a root menu it's `role` will be set to "tree" and the first
+   * menu item's `tabIndex` will be set to 0 in the DOM.
+   *
+   * If the menu is _not_ a root menu it's `role` will be set to "group".
+   *
+   * If the Base Menu's initialize method throws an error,
+   * this will catch it and log it to the console.
    */
   initialize() {
     try {

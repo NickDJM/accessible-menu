@@ -78,7 +78,18 @@ class Menubar extends BaseMenu {
   /**
    * Initializes the menu.
    *
-   * This will also initialize all menu items and sub menus.
+   * Initialize will call the {@link BaseMenu#initialize|Base Menu's initialize method}
+   * as well as set up {@link Menubar#handleFocus|focus},
+   * {@link Menubar#handleClick|click},
+   * {@link Menubar#handleHover|hover},
+   * {@link Menubar#handleKeydown|keydown}, and
+   * {@link Menubar#handleKeyup|keyup} events for the menu.
+   *
+   * This will also set the menu's `role` to "menubar" and the first menu item's
+   * `tabIndex` to 0 in the DOM.
+   *
+   * If the Base Menu's initialize method throws an error,
+   * this will catch it and log it to the console.
    */
   initialize() {
     try {
@@ -100,6 +111,14 @@ class Menubar extends BaseMenu {
 
   /**
    * Handles click events throughout the menu for proper use.
+   *
+   * Depending on what is supported either `touchstart` and `touchend` or
+   * `mousedown` and `mouseup` will be used for all "click" event handling.
+   *
+   * - Adds all event listeners listed in
+   *   {@link BaseMenu#handleClick|BaseMenu's handleClick method}, and
+   * - adds a `touchend`/`mouseup` listener to the `document` so if the user
+   *   clicks outside of the menu it will close if it is open.
    */
   handleClick() {
     super.handleClick();
