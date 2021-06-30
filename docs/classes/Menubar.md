@@ -340,12 +340,12 @@ Handles hover events throughout the menu for proper use.
 
 Adds `mouseenter` listeners to all menu items and `mouseleave` listeners to all submenu items which function differently depending on the menu's [hoverType](hoverType).
 
-*Hover Type "on"*
+**Hover Type "on"**
 - When a `mouseenter` event triggers on any menu item the menu's [currentChild](currentChild) value will change to that menu item.
 - When a `mouseenter` event triggers on a submenu item the `preview()` method for the submenu item's toggle will be called.
 - When a `mouseleave` event triggers on an open submenu item the `close()` method for the submenu item's toggle will be called after a delay set by the menu's [hoverDelay](hoverDelay).
 
-*Hover Type "dynamic"*
+**Hover Type "dynamic"**
 - When a `mouseenter` event triggers on any menu item the menu's [currentChild](currentChild) value will change to that menu item.
 - When a `mouseenter` event triggers on any menu item, and the menu's [focusState](focusState) is not `"none"`, the menu item will be focused.
 - When a `mouseenter` event triggers on a submenu item, and a submenu is already open, the `preview()` method for the submenu item's toggle will be called.
@@ -353,7 +353,7 @@ Adds `mouseenter` listeners to all menu items and `mouseleave` listeners to all 
 - When a `mouseleave` event triggers on an open submenu item that is not a root-level submenu item the `close()` method for the submenu item's toggle will be called and the submenu item will be focused after a delay set by the menu's [hoverDelay](hoverDelay).
 - When a `mouseleave` event triggers on an open submenu item that is a root-level submenu item no submenu-specific methods will be called.
 
-*Hover Type "off"*
+**Hover Type "off"**
 All `mouseenter` and `mouseleave` events are ignored.
 
 **Kind**: instance method of [<code>Menubar</code>](#Menubar)  
