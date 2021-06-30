@@ -501,7 +501,7 @@ function isEventSupported(event, element) {
 }
 
 /**
- * A link or button that controls the visibility of a Menu.
+ * A link or button that controls the visibility of a [BaseMenu]{@link BaseMenu.md}.
  */
 
 var BaseMenuToggle = /*#__PURE__*/function () {
@@ -827,7 +827,7 @@ var BaseMenuToggle = /*#__PURE__*/function () {
 /* eslint-disable jsdoc/no-undefined-types */
 
 /**
- * A basic navigation link contained inside of a Menu.
+ * A basic navigation link contained inside of a [BaseMenu]{@link BaseMenu.md}.
  */
 var BaseMenuItem = /*#__PURE__*/function () {
   /**
@@ -979,6 +979,9 @@ function preventEvent(event) {
 
 /**
  * An accessible navigation element in the DOM.
+ *
+ * This is intended to be used as a "base" to other menus and not to be used on it's own in the DOM.
+ * Use a [DisclosureMenu]{@link DisclosureMenu.md}, [Menubar]{@link Menubar.md}, or [Treeview]{@link Treeview.md} instead.
  */
 
 var BaseMenu = /*#__PURE__*/function () {
@@ -1129,7 +1132,7 @@ var BaseMenu = /*#__PURE__*/function () {
     /**
      * The elements within the menu.
      *
-     * @type {object.<BaseMenu,BaseMenuToggle,BaseMenuItem[],BaseMenuToggle[]>} - The elements.
+     * @type {object.<BaseMenu,BaseMenuToggle,BaseMenuItem[],BaseMenuToggle[]>}
      */
 
   }, {
@@ -1197,10 +1200,10 @@ var BaseMenu = /*#__PURE__*/function () {
     /**
      * The index of the currently selected menu item in the menu.
      *
-     * - Attempting to set a value < -1 will set the currentChild to -1.
-     * - Attempting to set a value >= the number of menu items will set the currentChild to the number of menu items - 1.
+     * - Attempting to set a value < -1 will set the `currentChild` to -1.
+     * - Attempting to set a value >= the number of menu items will set the `currentChild` to the number of menu items - 1.
      *
-     * If the current menu has a parent menu _and_ the menu's current event is "mouse",
+     * If the current menu has a parent menu _and_ the menu's current event is `"mouse"`,
      * The parent menu will have it's current child updated as well to help with transitioning
      * between mouse and keyboard naviation.
      *
@@ -1353,9 +1356,9 @@ var BaseMenu = /*#__PURE__*/function () {
      * A flag to check if the menu's focus methods should _actually_ move the focus in the DOM.
      *
      * Will return false unless any of the following criteria are met:
-     * - The menu's currentEvent is "keyboard".
-     * - The menu's currentEvent is "character".
-     * - The menu's currentEvent is "mouse" _and_ the menu's hoverType is "dynamic".
+     * - The menu's `currentEvent` is `"keyboard"`.
+     * - The menu's `currentEvent` is `"character"`.
+     * - The menu's `currentEvent` is `"mouse"` _and_ the menu's `hoverType` is `"dynamic"`.
      *
      * @type {boolean}
      */
@@ -2022,7 +2025,7 @@ var BaseMenu = /*#__PURE__*/function () {
 }();
 
 /**
- * A basic navigation link contained inside of a DisclosureMenu.
+ * A basic navigation link contained inside of a [DisclosureMenu]{@link DisclousreMenu.md}.
  *
  * @augments BaseMenuItem
  */
@@ -2081,7 +2084,7 @@ var DisclosureMenuItem = /*#__PURE__*/function (_BaseMenuItem) {
 }(BaseMenuItem);
 
 /**
- * A link or button that controls the visibility of a DisclosureMenu.
+ * A link or button that controls the visibility of a [DisclosureMenu]{@link DisclousreMenu.md}.
  *
  * @augments BaseMenuToggle
  */

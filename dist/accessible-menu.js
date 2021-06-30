@@ -343,7 +343,7 @@ var AccessibleMenu = (function () {
 
   function _createClass$9(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$9(Constructor.prototype, protoProps); if (staticProps) _defineProperties$9(Constructor, staticProps); return Constructor; }
   /**
-   * A link or button that controls the visibility of a Menu.
+   * A link or button that controls the visibility of a [BaseMenu]{@link BaseMenu.md}.
    */
 
   var BaseMenuToggle = /*#__PURE__*/function () {
@@ -675,7 +675,7 @@ var AccessibleMenu = (function () {
   /* eslint-disable jsdoc/no-undefined-types */
 
   /**
-   * A basic navigation link contained inside of a Menu.
+   * A basic navigation link contained inside of a [BaseMenu]{@link BaseMenu.md}.
    */
   var BaseMenuItem = /*#__PURE__*/function () {
     /**
@@ -844,6 +844,9 @@ var AccessibleMenu = (function () {
   function _createClass$7(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$7(Constructor.prototype, protoProps); if (staticProps) _defineProperties$7(Constructor, staticProps); return Constructor; }
   /**
    * An accessible navigation element in the DOM.
+   *
+   * This is intended to be used as a "base" to other menus and not to be used on it's own in the DOM.
+   * Use a [DisclosureMenu]{@link DisclosureMenu.md}, [Menubar]{@link Menubar.md}, or [Treeview]{@link Treeview.md} instead.
    */
 
   var BaseMenu = /*#__PURE__*/function () {
@@ -994,7 +997,7 @@ var AccessibleMenu = (function () {
       /**
        * The elements within the menu.
        *
-       * @type {object.<BaseMenu,BaseMenuToggle,BaseMenuItem[],BaseMenuToggle[]>} - The elements.
+       * @type {object.<BaseMenu,BaseMenuToggle,BaseMenuItem[],BaseMenuToggle[]>}
        */
 
     }, {
@@ -1062,10 +1065,10 @@ var AccessibleMenu = (function () {
       /**
        * The index of the currently selected menu item in the menu.
        *
-       * - Attempting to set a value < -1 will set the currentChild to -1.
-       * - Attempting to set a value >= the number of menu items will set the currentChild to the number of menu items - 1.
+       * - Attempting to set a value < -1 will set the `currentChild` to -1.
+       * - Attempting to set a value >= the number of menu items will set the `currentChild` to the number of menu items - 1.
        *
-       * If the current menu has a parent menu _and_ the menu's current event is "mouse",
+       * If the current menu has a parent menu _and_ the menu's current event is `"mouse"`,
        * The parent menu will have it's current child updated as well to help with transitioning
        * between mouse and keyboard naviation.
        *
@@ -1218,9 +1221,9 @@ var AccessibleMenu = (function () {
        * A flag to check if the menu's focus methods should _actually_ move the focus in the DOM.
        *
        * Will return false unless any of the following criteria are met:
-       * - The menu's currentEvent is "keyboard".
-       * - The menu's currentEvent is "character".
-       * - The menu's currentEvent is "mouse" _and_ the menu's hoverType is "dynamic".
+       * - The menu's `currentEvent` is `"keyboard"`.
+       * - The menu's `currentEvent` is `"character"`.
+       * - The menu's `currentEvent` is `"mouse"` _and_ the menu's `hoverType` is `"dynamic"`.
        *
        * @type {boolean}
        */
@@ -1904,7 +1907,7 @@ var AccessibleMenu = (function () {
 
   function _getPrototypeOf$8(o) { _getPrototypeOf$8 = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$8(o); }
   /**
-   * A basic navigation link contained inside of a DisclosureMenu.
+   * A basic navigation link contained inside of a [DisclosureMenu]{@link DisclousreMenu.md}.
    *
    * @augments BaseMenuItem
    */
@@ -1988,7 +1991,7 @@ var AccessibleMenu = (function () {
 
   function _getPrototypeOf$7(o) { _getPrototypeOf$7 = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$7(o); }
   /**
-   * A link or button that controls the visibility of a DisclosureMenu.
+   * A link or button that controls the visibility of a [DisclosureMenu]{@link DisclousreMenu.md}.
    *
    * @augments BaseMenuToggle
    */
@@ -2433,7 +2436,7 @@ var AccessibleMenu = (function () {
 
   function _getPrototypeOf$5(o) { _getPrototypeOf$5 = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$5(o); }
   /**
-   * A basic navigation link contained inside of a Menubar.
+   * A basic navigation link contained inside of a [Menubar]{@link Menubar.md}.
    *
    * @augments BaseMenuItem
    */
@@ -2558,7 +2561,7 @@ var AccessibleMenu = (function () {
 
   function _getPrototypeOf$4(o) { _getPrototypeOf$4 = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$4(o); }
   /**
-   * A link or button that controls the visibility of a Menubar.
+   * A link or button that controls the visibility of a [Menubar]{@link Menubar.md}.
    *
    * @augments BaseMenuToggle
    */
@@ -3216,7 +3219,7 @@ var AccessibleMenu = (function () {
 
   function _getPrototypeOf$2(o) { _getPrototypeOf$2 = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$2(o); }
   /**
-   * A basic navigation link contained inside of a Treeview.
+   * A basic navigation link contained inside of a [Treeview]{@link Treeview.md}.
    *
    * @augments BaseMenuItem
    */
@@ -3329,7 +3332,7 @@ var AccessibleMenu = (function () {
 
   function _getPrototypeOf$1(o) { _getPrototypeOf$1 = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$1(o); }
   /**
-   * A link or button that controls the visibility of a TreeviewNavigation.
+   * A link or button that controls the visibility of a [Treeview]{@link Treeview.md}.
    *
    * @augments BaseMenuToggle
    */
