@@ -1,8 +1,7 @@
-
-    <a name="BaseMenuItem"></a>
+<a name="BaseMenuItem"></a>
 
 ## BaseMenuItem
-A basic navigation link contained inside of a Menu.
+A basic navigation link contained inside of a [BaseMenu](BaseMenu.md).
 
 **Kind**: global class  
 
@@ -65,4 +64,3 @@ Focuses the menu item's link if triggering event is valid.
 Blurs the menu item's link if triggering event is valid.
 
 **Kind**: instance method of [<code>BaseMenuItem</code>](#BaseMenuItem)  
-  

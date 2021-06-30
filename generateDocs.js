@@ -33,11 +33,7 @@ const classNames = templateData.reduce((classNames, identifier) => {
 
 /* create a documentation file for each class */
 for (const className of classNames) {
-  const template = `
-    {{#class name="${className}"}}
-    {{>docs}}
-    {{/class}}
-  `;
+  const template = `{{#class name="${className}"}}{{>docs}}{{/class}}`;
   const output = jsdoc2md.renderSync({
     data: templateData,
     template: template,

@@ -1,5 +1,4 @@
-
-    <a name="DisclosureMenu"></a>
+<a name="DisclosureMenu"></a>
 
 ## DisclosureMenu ⇐ [<code>BaseMenu</code>](#BaseMenu)
 An accessible disclosure menu in the DOM.
@@ -138,10 +137,10 @@ A flag marking the root menu.
 ### disclosureMenu.currentChild : <code>number</code>
 The index of the currently selected menu item in the menu.
 
-- Attempting to set a value < -1 will set the currentChild to -1.
-- Attempting to set a value >= the number of menu items will set the currentChild to the number of menu items - 1.
+- Attempting to set a value < -1 will set the `currentChild` to -1.
+- Attempting to set a value >= the number of menu items will set the `currentChild` to the number of menu items - 1.
 
-If the current menu has a parent menu _and_ the menu's current event is "mouse",
+If the current menu has a parent menu _and_ the menu's current event is `"mouse"`,
 The parent menu will have it's current child updated as well to help with transitioning
 between mouse and keyboard naviation.
 
@@ -194,9 +193,9 @@ Submenus will always inherit their root menu's hover delay.
 A flag to check if the menu's focus methods should _actually_ move the focus in the DOM.
 
 Will return false unless any of the following criteria are met:
-- The menu's currentEvent is "keyboard".
-- The menu's currentEvent is "character".
-- The menu's currentEvent is "mouse" _and_ the menu's hoverType is "dynamic".
+- The menu's `currentEvent` is `"keyboard"`.
+- The menu's `currentEvent` is `"character"`.
+- The menu's `currentEvent` is `"mouse"` _and_ the menu's `hoverType` is `"dynamic"`.
 
 **Kind**: instance property of [<code>DisclosureMenu</code>](#DisclosureMenu)  
 **Overrides**: [<code>shouldFocus</code>](#BaseMenu+shouldFocus)  
@@ -414,4 +413,3 @@ Blurs all children and submenu's children.
 
 **Kind**: instance method of [<code>DisclosureMenu</code>](#DisclosureMenu)  
 **Overrides**: [<code>blurChildren</code>](#BaseMenu+blurChildren)  
-  

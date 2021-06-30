@@ -1,7 +1,7 @@
 /* eslint-disable jsdoc/no-undefined-types */
 
 /**
- * A basic navigation link contained inside of a Menu.
+ * A basic navigation link contained inside of a [BaseMenu]{@link BaseMenu.md}.
  */
 class BaseMenuItem {
   /**

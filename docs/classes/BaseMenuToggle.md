@@ -1,8 +1,7 @@
-
-    <a name="BaseMenuToggle"></a>
+<a name="BaseMenuToggle"></a>
 
 ## BaseMenuToggle
-A link or button that controls the visibility of a Menu.
+A link or button that controls the visibility of a [BaseMenu](BaseMenu.md).
 
 **Kind**: global class  
 
@@ -120,4 +119,3 @@ Closes all sibling menus.
 Closes all child menus.
 
 **Kind**: instance method of [<code>BaseMenuToggle</code>](#BaseMenuToggle)  
-  

@@ -1,8 +1,7 @@
-
-    <a name="MenubarToggle"></a>
+<a name="MenubarToggle"></a>
 
 ## MenubarToggle ⇐ [<code>BaseMenuToggle</code>](#BaseMenuToggle)
-A link or button that controls the visibility of a Menubar.
+A link or button that controls the visibility of a [Menubar](Menubar.md).
 
 **Kind**: global class  
 **Extends**: [<code>BaseMenuToggle</code>](#BaseMenuToggle)  
@@ -134,4 +133,3 @@ Closes all child menus.
 
 **Kind**: instance method of [<code>MenubarToggle</code>](#MenubarToggle)  
 **Overrides**: [<code>closeChildren</code>](#BaseMenuToggle+closeChildren)  
-  

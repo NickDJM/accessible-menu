@@ -1,8 +1,7 @@
-
-    <a name="DisclosureMenuToggle"></a>
+<a name="DisclosureMenuToggle"></a>
 
 ## DisclosureMenuToggle ⇐ [<code>BaseMenuToggle</code>](#BaseMenuToggle)
-A link or button that controls the visibility of a DisclosureMenu.
+A link or button that controls the visibility of a [DisclosureMenu](DisclousreMenu.md).
 
 **Kind**: global class  
 **Extends**: [<code>BaseMenuToggle</code>](#BaseMenuToggle)  
@@ -134,4 +133,3 @@ Closes all child menus.
 
 **Kind**: instance method of [<code>DisclosureMenuToggle</code>](#DisclosureMenuToggle)  
 **Overrides**: [<code>closeChildren</code>](#BaseMenuToggle+closeChildren)  
-  

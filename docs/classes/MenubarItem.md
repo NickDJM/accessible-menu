@@ -1,8 +1,7 @@
-
-    <a name="MenubarItem"></a>
+<a name="MenubarItem"></a>
 
 ## MenubarItem ⇐ [<code>BaseMenuItem</code>](#BaseMenuItem)
-A basic navigation link contained inside of a Menubar.
+A basic navigation link contained inside of a [Menubar](Menubar.md).
 
 **Kind**: global class  
 **Extends**: [<code>BaseMenuItem</code>](#BaseMenuItem)  
@@ -73,4 +72,3 @@ Blurs the menu item's link and set proper tabIndex.
 
 **Kind**: instance method of [<code>MenubarItem</code>](#MenubarItem)  
 **Overrides**: [<code>blur</code>](#BaseMenuItem+blur)  
-  

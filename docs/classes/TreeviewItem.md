@@ -1,8 +1,7 @@
-
-    <a name="TreeviewItem"></a>
+<a name="TreeviewItem"></a>
 
 ## TreeviewItem ⇐ [<code>BaseMenuItem</code>](#BaseMenuItem)
-A basic navigation link contained inside of a Treeview.
+A basic navigation link contained inside of a [Treeview](Treeview.md).
 
 **Kind**: global class  
 **Extends**: [<code>BaseMenuItem</code>](#BaseMenuItem)  
@@ -73,4 +72,3 @@ Blurs the menu item's link and set proper tabIndex.
 
 **Kind**: instance method of [<code>TreeviewItem</code>](#TreeviewItem)  
 **Overrides**: [<code>blur</code>](#BaseMenuItem+blur)  
-  

@@ -3,7 +3,7 @@
 import { isTag, isValidType } from "./validate.js";
 
 /**
- * A link or button that controls the visibility of a Menu.
+ * A link or button that controls the visibility of a [BaseMenu]{@link BaseMenu.md}.
  */
 class BaseMenuToggle {
   /**

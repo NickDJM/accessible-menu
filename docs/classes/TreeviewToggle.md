@@ -1,8 +1,7 @@
-
-    <a name="TreeviewToggle"></a>
+<a name="TreeviewToggle"></a>
 
 ## TreeviewToggle ⇐ [<code>BaseMenuToggle</code>](#BaseMenuToggle)
-A link or button that controls the visibility of a TreeviewNavigation.
+A link or button that controls the visibility of a [Treeview](Treeview.md).
 
 **Kind**: global class  
 **Extends**: [<code>BaseMenuToggle</code>](#BaseMenuToggle)  
@@ -134,4 +133,3 @@ Closes all child menus.
 
 **Kind**: instance method of [<code>TreeviewToggle</code>](#TreeviewToggle)  
 **Overrides**: [<code>closeChildren</code>](#BaseMenuToggle+closeChildren)  
-  

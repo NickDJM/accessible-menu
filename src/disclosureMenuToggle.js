@@ -3,7 +3,7 @@
 import BaseMenuToggle from "./_baseMenuToggle.js";
 
 /**
- * A link or button that controls the visibility of a DisclosureMenu.
+ * A link or button that controls the visibility of a [DisclosureMenu]{@link DisclousreMenu.md}.
  *
  * @augments BaseMenuToggle
  */

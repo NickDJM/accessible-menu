@@ -1,8 +1,7 @@
-
-    <a name="DisclosureMenuItem"></a>
+<a name="DisclosureMenuItem"></a>
 
 ## DisclosureMenuItem ⇐ [<code>BaseMenuItem</code>](#BaseMenuItem)
-A basic navigation link contained inside of a DisclosureMenu.
+A basic navigation link contained inside of a [DisclosureMenu](DisclousreMenu.md).
 
 **Kind**: global class  
 **Extends**: [<code>BaseMenuItem</code>](#BaseMenuItem)  
@@ -73,4 +72,3 @@ Blurs the menu item's link if triggering event is valid.
 
 **Kind**: instance method of [<code>DisclosureMenuItem</code>](#DisclosureMenuItem)  
 **Overrides**: [<code>blur</code>](#BaseMenuItem+blur)  
-  
