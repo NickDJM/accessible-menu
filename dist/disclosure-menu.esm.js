@@ -532,12 +532,28 @@ var BaseMenuToggle = /*#__PURE__*/function () {
       parentMenu: parentMenu
     };
     this.isOpen = false;
+    /**
+     * Expand event.
+     *
+     * @event accessibleMenuExpand
+     * @type {CustomEvent}
+     * @property {object<BaseMenuToggle>} details - The details object containing the BaseMenuToggle itself.
+     */
+
     this.expandEvent = new CustomEvent("accessibleMenuExpand", {
       bubbles: true,
       detail: {
         toggle: this
       }
     });
+    /**
+     * Collapse event.
+     *
+     * @event accessibleMenuCollapse
+     * @type {CustomEvent}
+     * @property {object<BaseMenuToggle>} details - The details object containing the BaseMenuToggle itself.
+     */
+
     this.collapseEvent = new CustomEvent("accessibleMenuCollapse", {
       bubbles: true,
       detail: {
@@ -660,6 +676,7 @@ var BaseMenuToggle = /*#__PURE__*/function () {
      * If `emit` is set to `true`, this will also emit a custom event called `accessibleMenuExpand` which bubbles and contains the toggle object in `event.detail`.
      *
      * @param {boolean} [emit = true] - A toggle to emit the expand event once expanded.
+     * @fires accessibleMenuExpand
      */
 
   }, {
@@ -704,6 +721,7 @@ var BaseMenuToggle = /*#__PURE__*/function () {
      * If `emit` is set to `true`, this will also emit a custom event called `accessibleMenuCollapse` which bubbles and contains the toggle object in `event.detail`.
      *
      * @param {boolean} [emit = true] - A toggle to emit the collapse event once collapsed.
+     * @fires accessibleMenuCollapse
      */
 
   }, {
@@ -1803,12 +1821,12 @@ var BaseMenu = /*#__PURE__*/function () {
      *
      * Adds `mouseenter` listeners to all menu items and `mouseleave` listeners to all submenu items which function differently depending on the menu's {@link hoverType}.
      *
-     * *Hover Type "on"*
+     * **Hover Type "on"**
      * - When a `mouseenter` event triggers on any menu item the menu's {@link currentChild} value will change to that menu item.
      * - When a `mouseenter` event triggers on a submenu item the `preview()` method for the submenu item's toggle will be called.
      * - When a `mouseleave` event triggers on an open submenu item the `close()` method for the submenu item's toggle will be called after a delay set by the menu's {@link hoverDelay}.
      *
-     * *Hover Type "dynamic"*
+     * **Hover Type "dynamic"**
      * - When a `mouseenter` event triggers on any menu item the menu's {@link currentChild} value will change to that menu item.
      * - When a `mouseenter` event triggers on any menu item, and the menu's {@link focusState} is not `"none"`, the menu item will be focused.
      * - When a `mouseenter` event triggers on a submenu item, and a submenu is already open, the `preview()` method for the submenu item's toggle will be called.
@@ -1816,7 +1834,7 @@ var BaseMenu = /*#__PURE__*/function () {
      * - When a `mouseleave` event triggers on an open submenu item that is not a root-level submenu item the `close()` method for the submenu item's toggle will be called and the submenu item will be focused after a delay set by the menu's {@link hoverDelay}.
      * - When a `mouseleave` event triggers on an open submenu item that is a root-level submenu item no submenu-specific methods will be called.
      *
-     * *Hover Type "off"*
+     * **Hover Type "off"**
      * All `mouseenter` and `mouseleave` events are ignored.
      */
 
@@ -2100,7 +2118,7 @@ var BaseMenu = /*#__PURE__*/function () {
 /**
  * A basic navigation link contained inside of a [DisclosureMenu]{@link DisclousreMenu.md}.
  *
- * @augments BaseMenuItem
+ * @extends BaseMenuItem
  */
 
 var DisclosureMenuItem = /*#__PURE__*/function (_BaseMenuItem) {
@@ -2159,7 +2177,7 @@ var DisclosureMenuItem = /*#__PURE__*/function (_BaseMenuItem) {
 /**
  * A link or button that controls the visibility of a [DisclosureMenu]{@link DisclousreMenu.md}.
  *
- * @augments BaseMenuToggle
+ * @extends BaseMenuToggle
  */
 
 var DisclosureMenuToggle = /*#__PURE__*/function (_BaseMenuToggle) {
@@ -2252,7 +2270,7 @@ var DisclosureMenuToggle = /*#__PURE__*/function (_BaseMenuToggle) {
  *
  * See {@link https://www.w3.org/TR/wai-aria-practices-1.2/examples/disclosure/disclosure-navigation.html|Example Disclosure for Navigation Menus}
  *
- * @augments BaseMenu
+ * @extends BaseMenu
  */
 
 var DisclosureMenu = /*#__PURE__*/function (_BaseMenu) {

@@ -31,10 +31,24 @@ class BaseMenuToggle {
     };
     this.isOpen = false;
 
+    /**
+     * Expand event.
+     *
+     * @event accessibleMenuExpand
+     * @type {CustomEvent}
+     * @property {object<BaseMenuToggle>} details - The details object containing the BaseMenuToggle itself.
+     */
     this.expandEvent = new CustomEvent("accessibleMenuExpand", {
       bubbles: true,
       detail: { toggle: this },
     });
+    /**
+     * Collapse event.
+     *
+     * @event accessibleMenuCollapse
+     * @type {CustomEvent}
+     * @property {object<BaseMenuToggle>} details - The details object containing the BaseMenuToggle itself.
+     */
     this.collapseEvent = new CustomEvent("accessibleMenuCollapse", {
       bubbles: true,
       detail: { toggle: this },
@@ -166,6 +180,7 @@ class BaseMenuToggle {
    * If `emit` is set to `true`, this will also emit a custom event called `accessibleMenuExpand` which bubbles and contains the toggle object in `event.detail`.
    *
    * @param {boolean} [emit = true] - A toggle to emit the expand event once expanded.
+   * @fires accessibleMenuExpand
    */
   expand(emit = true) {
     const { closeClass, openClass } = this.elements.controlledMenu;
@@ -203,6 +218,7 @@ class BaseMenuToggle {
    * If `emit` is set to `true`, this will also emit a custom event called `accessibleMenuCollapse` which bubbles and contains the toggle object in `event.detail`.
    *
    * @param {boolean} [emit = true] - A toggle to emit the collapse event once collapsed.
+   * @fires accessibleMenuCollapse
    */
   collapse(emit = true) {
     const { closeClass, openClass } = this.elements.controlledMenu;

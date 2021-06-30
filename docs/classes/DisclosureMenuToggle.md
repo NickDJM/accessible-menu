@@ -110,6 +110,7 @@ If `emit` is set to `true`, this will also emit a custom event called `accessibl
 
 **Kind**: instance method of [<code>DisclosureMenuToggle</code>](#DisclosureMenuToggle)  
 **Overrides**: [<code>expand</code>](#BaseMenuToggle+expand)  
+**Emits**: [<code>accessibleMenuExpand</code>](#event_accessibleMenuExpand)  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -126,6 +127,7 @@ If `emit` is set to `true`, this will also emit a custom event called `accessibl
 
 **Kind**: instance method of [<code>DisclosureMenuToggle</code>](#DisclosureMenuToggle)  
 **Overrides**: [<code>collapse</code>](#BaseMenuToggle+collapse)  
+**Emits**: [<code>accessibleMenuCollapse</code>](#event_accessibleMenuCollapse)  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |

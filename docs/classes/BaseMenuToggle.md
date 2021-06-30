@@ -82,6 +82,7 @@ Sets the toggle's `aria-expanded` to `"true"`, adds the open class to the toggle
 If `emit` is set to `true`, this will also emit a custom event called `accessibleMenuExpand` which bubbles and contains the toggle object in `event.detail`.
 
 **Kind**: instance method of [<code>BaseMenuToggle</code>](#BaseMenuToggle)  
+**Emits**: [<code>accessibleMenuExpand</code>](#event_accessibleMenuExpand)  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -97,6 +98,7 @@ Sets the toggle's `aria-expanded` to `"false"`, adds the closed class to the tog
 If `emit` is set to `true`, this will also emit a custom event called `accessibleMenuCollapse` which bubbles and contains the toggle object in `event.detail`.
 
 **Kind**: instance method of [<code>BaseMenuToggle</code>](#BaseMenuToggle)  
+**Emits**: [<code>accessibleMenuCollapse</code>](#event_accessibleMenuCollapse)  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
