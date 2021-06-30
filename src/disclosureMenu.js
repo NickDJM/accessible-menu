@@ -9,7 +9,7 @@ import { isValidType, isEventSupported } from "./validate.js";
  *
  * See {@link https://www.w3.org/TR/wai-aria-practices-1.2/examples/disclosure/disclosure-navigation.html|Example Disclosure for Navigation Menus}
  *
- * @augments BaseMenu
+ * @extends BaseMenu
  */
 class DisclosureMenu extends BaseMenu {
   /**

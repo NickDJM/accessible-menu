@@ -5,7 +5,7 @@ import BaseMenuItem from "./_baseMenuItem.js";
 /**
  * A basic navigation link contained inside of a [Treeview]{@link Treeview.md}.
  *
- * @augments BaseMenuItem
+ * @extends BaseMenuItem
  */
 class TreeviewItem extends BaseMenuItem {
   /**

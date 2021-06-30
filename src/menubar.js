@@ -9,7 +9,7 @@ import { isEventSupported } from "./validate.js";
  *
  * See {@link https://www.w3.org/TR/wai-aria-practices-1.2/examples/menubar/menubar-1/menubar-1.html|Navigation Menubar Example}
  *
- * @augments BaseMenu
+ * @extends BaseMenu
  */
 class Menubar extends BaseMenu {
   /**

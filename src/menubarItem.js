@@ -5,7 +5,7 @@ import BaseMenuItem from "./_baseMenuItem.js";
 /**
  * A basic navigation link contained inside of a [Menubar]{@link Menubar.md}.
  *
- * @augments BaseMenuItem
+ * @extends BaseMenuItem
  */
 class MenubarItem extends BaseMenuItem {
   /**

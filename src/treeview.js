@@ -8,7 +8,7 @@ import { keyPress, preventEvent } from "./eventHandlers.js";
  *
  * See {@link https://www.w3.org/TR/wai-aria-practices-1.2/examples/treeview/treeview-2/treeview-2a.html|Navigation Treeview Example Using Computed Properties}
  *
- * @augments BaseMenu
+ * @extends BaseMenu
  */
 class Treeview extends BaseMenu {
   /**

@@ -5,7 +5,7 @@ import BaseMenuToggle from "./_baseMenuToggle.js";
 /**
  * A link or button that controls the visibility of a [Menubar]{@link Menubar.md}.
  *
- * @augments BaseMenuToggle
+ * @extends BaseMenuToggle
  */
 class MenubarToggle extends BaseMenuToggle {
   /**
