@@ -156,22 +156,7 @@ const menu = new Treeview({
 
 ### Documentation
 
-- Classes
-  - [BaseMenu](docs/classes/BaseMenu.md)
-  - [BaseMenuItem](docs/classes/BaseMenuItem.md)
-  - [BaseMenuToggle](docs/classes/BaseMenuToggle.md)
-  - [DisclosureMenu](docs/classes/DisclosureMenu.md)
-  - [DisclosureMenuItem](docs/classes/DisclosureMenuItem.md)
-  - [DisclosureMenuToggle](docs/classes/DisclosureMenuToggle.md)
-  - [Menubar](docs/classes/Menubar.md)
-  - [MenubarItem](docs/classes/MenubarItem.md)
-  - [MenubarToggle](docs/classes/MenubarToggle.md)
-  - [Treeview](docs/classes/Treeview.md)
-  - [TreeviewItem](docs/classes/TreeviewItem.md)
-  - [TreeviewToggle](docs/classes/TreeviewToggle.md)
-- Helpers
-  - [Validation functions](docs/validate.md)
-  - [Event handler functions](docs/eventHandlers.md)
+- [API Documentation](https://accessible-menu.netlify.app/)
 - Basics
   - [Single-level menu](docs/basics/single-level-menu.md)
   - [Single-level menu with toggle](docs/basics/single-level-menu-with-toggle.md)
