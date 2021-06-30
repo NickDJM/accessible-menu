@@ -7,3 +7,6 @@ node_modules
 
 # Lock files.
 package-lock.json
+
+# Auto generated docs
+docs/dist
