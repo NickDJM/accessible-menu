@@ -257,6 +257,8 @@ Validates all aspects of the menu to ensure proper functionality.
 ### menubar.setDOMElementType(elementType, base, filter)
 Sets DOM elements within the menu.
 
+This will set the actual `domElement` property, so all existing items in a given `domElement` property will be removed when this is run.
+
 **Kind**: instance method of [<code>Menubar</code>](#Menubar)  
 **Overrides**: [<code>setDOMElementType</code>](#BaseMenu+setDOMElementType)  
 
@@ -270,6 +272,8 @@ Sets DOM elements within the menu.
 
 ### menubar.addDOMElementType(elementType, base, filter)
 Adds an element to DOM elements within the menu.
+
+This is an additive function, so existing items in a given `domElement` property will not be touched.
 
 **Kind**: instance method of [<code>Menubar</code>](#Menubar)  
 **Overrides**: [<code>addDOMElementType</code>](#BaseMenu+addDOMElementType)  
@@ -297,6 +301,8 @@ Clears DOM elements within the menu.
 ### menubar.setDOMElements()
 Sets all DOM elements within the menu.
 
+Utiliizes [setDOMElementType](setDOMElementType), [clearDOMElementType](clearDOMElementType), and [addDOMElementType](addDOMElementType).
+
 **Kind**: instance method of [<code>Menubar</code>](#Menubar)  
 **Overrides**: [<code>setDOMElements</code>](#BaseMenu+setDOMElements)  
 <a name="BaseMenu+findRootMenu"></a>
@@ -323,12 +329,32 @@ Creates and initializes all menu items and submenus.
 ### menubar.handleFocus()
 Handles focus events throughout the menu for proper menu use.
 
+- Adds a `focus` listener to every menu item so when it gains focus, it will set the item's containing menu to a "self" focus state, any parent menu to a "child" focus state, and any child menu to a "none" focus state.
+
 **Kind**: instance method of [<code>Menubar</code>](#Menubar)  
 **Overrides**: [<code>handleFocus</code>](#BaseMenu+handleFocus)  
 <a name="BaseMenu+handleHover"></a>
 
 ### menubar.handleHover()
 Handles hover events throughout the menu for proper use.
+
+Adds `mouseenter` listeners to all menu items and `mouseleave` listeners to all submenu items which function differently depending on the menu's [hoverType](hoverType).
+
+*Hover Type "on"*
+- When a `mouseenter` event triggers on any menu item the menu's [currentChild](currentChild) value will change to that menu item.
+- When a `mouseenter` event triggers on a submenu item the `preview()` method for the submenu item's toggle will be called.
+- When a `mouseleave` event triggers on an open submenu item the `close()` method for the submenu item's toggle will be called after a delay set by the menu's [hoverDelay](hoverDelay).
+
+*Hover Type "dynamic"*
+- When a `mouseenter` event triggers on any menu item the menu's [currentChild](currentChild) value will change to that menu item.
+- When a `mouseenter` event triggers on any menu item, and the menu's [focusState](focusState) is not `"none"`, the menu item will be focused.
+- When a `mouseenter` event triggers on a submenu item, and a submenu is already open, the `preview()` method for the submenu item's toggle will be called.
+- When a `mouseenter` event triggers on a submenu item, and no submenu is open, no submenu-specific methods will be called.
+- When a `mouseleave` event triggers on an open submenu item that is not a root-level submenu item the `close()` method for the submenu item's toggle will be called and the submenu item will be focused after a delay set by the menu's [hoverDelay](hoverDelay).
+- When a `mouseleave` event triggers on an open submenu item that is a root-level submenu item no submenu-specific methods will be called.
+
+*Hover Type "off"*
+All `mouseenter` and `mouseleave` events are ignored.
 
 **Kind**: instance method of [<code>Menubar</code>](#Menubar)  
 **Overrides**: [<code>handleHover</code>](#BaseMenu+handleHover)  
@@ -337,12 +363,16 @@ Handles hover events throughout the menu for proper use.
 ### menubar.focus()
 Focus the menu.
 
+Sets the menu's [focusState](focusState) to `"self"` and focusses the menu if the menu's [shouldFocus](shouldFocus) vallue is `true`.
+
 **Kind**: instance method of [<code>Menubar</code>](#Menubar)  
 **Overrides**: [<code>focus</code>](#BaseMenu+focus)  
 <a name="BaseMenu+blur"></a>
 
 ### menubar.blur()
 Unfocus the menu.
+
+Sets the menu's [focusState](focusState) to `"none"` and blurs the menu if the menu's [shouldFocus](shouldFocus) vallue is `true`.
 
 **Kind**: instance method of [<code>Menubar</code>](#Menubar)  
 **Overrides**: [<code>blur</code>](#BaseMenu+blur)  

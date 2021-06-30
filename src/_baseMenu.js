@@ -488,6 +488,8 @@ class BaseMenu {
   /**
    * Sets DOM elements within the menu.
    *
+   * This will set the actual `domElement` property, so all existing items in a given `domElement` property will be removed when this is run.
+   *
    * @param {string}      elementType - The type of element to populate.
    * @param {HTMLElement} base        - The element used as the base for the querySelect.
    * @param {Function}    filter      - A filter to use to narrow down the DOM elements selected.
@@ -523,6 +525,8 @@ class BaseMenu {
 
   /**
    * Adds an element to DOM elements within the menu.
+   *
+   * This is an additive function, so existing items in a given `domElement` property will not be touched.
    *
    * @param {string}      elementType - The type of element to populate.
    * @param {HTMLElement} base        - The element used as the base for the querySelect.
@@ -583,6 +587,8 @@ class BaseMenu {
 
   /**
    * Sets all DOM elements within the menu.
+   *
+   * Utiliizes {@link setDOMElementType}, {@link clearDOMElementType}, and {@link addDOMElementType}.
    */
   setDOMElements() {
     this.setDOMElementType("menuItems");
@@ -683,6 +689,8 @@ class BaseMenu {
 
   /**
    * Handles focus events throughout the menu for proper menu use.
+   *
+   * - Adds a `focus` listener to every menu item so when it gains focus, it will set the item's containing menu to a "self" focus state, any parent menu to a "child" focus state, and any child menu to a "none" focus state.
    */
   handleFocus() {
     this.elements.menuItems.forEach((menuItem, index) => {
@@ -700,6 +708,13 @@ class BaseMenu {
 
   /**
    * Handles click events throughout the menu for proper use.
+   *
+   * Depending on what is supported either `touchstart` and `touchend` or `mousedown` and `mouseup` will be used for all "click" event handling.
+   *
+   * - Adds a `touchend`/`mouseup` listener to the document so if the user clicks outside of the menu when it is open, the menu will close.
+   * - Adds a `touchstart`/`mousedown` listener to every menu item that will blur all menu items in the entire menu structure (starting at the root menu) and then properly focus the clicked item.
+   * - Adds a `touchend`/`mouseup` listener to every submenu item that will properly toggle the submenu open/closed.
+   * - Adds a `touchend`/`mouseup` listener to the menu's controller (if the menu is the root menu) so when it is clicked it will properly toggle open/closed.
    */
   handleClick() {
     // Use touch over mouse events when supported.
@@ -756,6 +771,24 @@ class BaseMenu {
 
   /**
    * Handles hover events throughout the menu for proper use.
+   *
+   * Adds `mouseenter` listeners to all menu items and `mouseleave` listeners to all submenu items which function differently depending on the menu's {@link hoverType}.
+   *
+   * *Hover Type "on"*
+   * - When a `mouseenter` event triggers on any menu item the menu's {@link currentChild} value will change to that menu item.
+   * - When a `mouseenter` event triggers on a submenu item the `preview()` method for the submenu item's toggle will be called.
+   * - When a `mouseleave` event triggers on an open submenu item the `close()` method for the submenu item's toggle will be called after a delay set by the menu's {@link hoverDelay}.
+   *
+   * *Hover Type "dynamic"*
+   * - When a `mouseenter` event triggers on any menu item the menu's {@link currentChild} value will change to that menu item.
+   * - When a `mouseenter` event triggers on any menu item, and the menu's {@link focusState} is not `"none"`, the menu item will be focused.
+   * - When a `mouseenter` event triggers on a submenu item, and a submenu is already open, the `preview()` method for the submenu item's toggle will be called.
+   * - When a `mouseenter` event triggers on a submenu item, and no submenu is open, no submenu-specific methods will be called.
+   * - When a `mouseleave` event triggers on an open submenu item that is not a root-level submenu item the `close()` method for the submenu item's toggle will be called and the submenu item will be focused after a delay set by the menu's {@link hoverDelay}.
+   * - When a `mouseleave` event triggers on an open submenu item that is a root-level submenu item no submenu-specific methods will be called.
+   *
+   * *Hover Type "off"*
+   * All `mouseenter` and `mouseleave` events are ignored.
    */
   handleHover() {
     this.elements.menuItems.forEach((menuItem, index) => {
@@ -808,6 +841,11 @@ class BaseMenu {
 
   /**
    * Handles keydown events throughout the menu for proper menu use.
+   *
+   * This method exists to assit the {@link handleKeyup} method.
+   *
+   * - Adds a `keydown` listener to the menu's controller (if the menu is the root menu).
+   *   - Blocks propagation on `Space`, `Enter`, and `Escape` keys.
    */
   handleKeydown() {
     if (this.isTopLevel && this.elements.controller) {
@@ -828,6 +866,9 @@ class BaseMenu {
 
   /**
    * Handles keyup events throughout the menu for proper menu use.
+   *
+   * - Adds a `keyup` listener to the menu's controller (if the menu is the root menu).
+   *   - Opens the menu when the user hits `Space` or `Enter`.
    */
   handleKeyup() {
     if (this.isTopLevel && this.elements.controller) {
@@ -847,6 +888,8 @@ class BaseMenu {
 
   /**
    * Focus the menu.
+   *
+   * Sets the menu's {@link focusState} to `"self"` and focusses the menu if the menu's {@link shouldFocus} vallue is `true`.
    */
   focus() {
     this.focusState = "self";
@@ -858,6 +901,8 @@ class BaseMenu {
 
   /**
    * Unfocus the menu.
+   *
+   * Sets the menu's {@link focusState} to `"none"` and blurs the menu if the menu's {@link shouldFocus} vallue is `true`.
    */
   blur() {
     this.focusState = "none";

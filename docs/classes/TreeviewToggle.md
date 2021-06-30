@@ -58,8 +58,23 @@ The open state on the menu.
 <a name="BaseMenuToggle+initialize"></a>
 
 ### treeviewToggle.initialize()
-Initialize the toggle by ensuring WAI-ARIA values are set,
-handling click events, and adding new keydown events.
+Initialize the toggle by ensuring WAI-ARIA values are set, handling click events, and adding new keydown events.
+
+Initialize does a lot of setup on the menu toggle.
+
+The most basic setup steps are to ensure that the toggle has `aria-haspopup` set to `"true"`, `aria-expanded` initially set to `"false"` and, if the toggle element is not a `<button>`, set the `role` to `"button"`.
+
+The next step to the initialization is to ensure both the toggle and the menu it controlls have IDs.
+
+If they do not, the following steps take place:
+- Generate a random 10 character string,
+- Get the innerText of the toggle,
+- Set the toggle's ID to: `${toggle-inner-text}-${the-random-string}-menu-button`
+- Set the menu's ID to: `${toggle-inner-text}-${the-random-string}-menu`
+
+Once the ID's have been generated, the menu's "aria-labelledby" is set to the toggle's ID, and the toggle's "aria-controls" is set to the menu's ID.
+
+Finally, the collapse method is called to make sure the submenu is closed.
 
 **Kind**: instance method of [<code>TreeviewToggle</code>](#TreeviewToggle)  
 **Overrides**: [<code>initialize</code>](#BaseMenuToggle+initialize)  
@@ -68,7 +83,9 @@ handling click events, and adding new keydown events.
 ### treeviewToggle.expand([emit])
 Expands the controlled menu.
 
-Alters ARIA attributes and classes.
+Sets the toggle's `aria-expanded` to `"true"`, adds the open class to the toggle's parent menu item and controlled menu, and removed the closed class from the toggle's parent menu item and controlled menu.
+
+If `emit` is set to `true`, this will also emit a custom event called `accessibleMenuExpand` which bubbles and contains the toggle object in `event.detail`.
 
 **Kind**: instance method of [<code>TreeviewToggle</code>](#TreeviewToggle)  
 **Overrides**: [<code>expand</code>](#BaseMenuToggle+expand)  
@@ -82,7 +99,9 @@ Alters ARIA attributes and classes.
 ### treeviewToggle.collapse([emit])
 Collapses the controlled menu.
 
-Alters ARIA attributes and classes.
+Sets the toggle's `aria-expanded` to `"false"`, adds the closed class to the toggle's parent menu item and controlled menu, and removed the open class from the toggle's parent menu item and controlled menu.
+
+If `emit` is set to `true`, this will also emit a custom event called `accessibleMenuCollapse` which bubbles and contains the toggle object in `event.detail`.
 
 **Kind**: instance method of [<code>TreeviewToggle</code>](#TreeviewToggle)  
 **Overrides**: [<code>collapse</code>](#BaseMenuToggle+collapse)  
@@ -96,6 +115,9 @@ Alters ARIA attributes and classes.
 ### treeviewToggle.open()
 Opens the controlled menu.
 
+Sets the controlled menu's focus state to `"self"` and the parent menu's focus state to `"child"`,
+calls [expand](expand), and sets [isOpen](isOpen) to `true`.
+
 **Kind**: instance method of [<code>TreeviewToggle</code>](#TreeviewToggle)  
 **Overrides**: [<code>open</code>](#BaseMenuToggle+open)  
 <a name="BaseMenuToggle+preview"></a>
@@ -103,12 +125,18 @@ Opens the controlled menu.
 ### treeviewToggle.preview()
 Opens the controlled menu without the current focus entering it.
 
+Sets the controlled menu's focus state to `"self"` and the parent menu's focus state to `"child"`, and calls [expand](expand)
+
 **Kind**: instance method of [<code>TreeviewToggle</code>](#TreeviewToggle)  
 **Overrides**: [<code>preview</code>](#BaseMenuToggle+preview)  
 <a name="BaseMenuToggle+close"></a>
 
 ### treeviewToggle.close()
 Closes the controlled menu.
+
+Sets the controlled menu's focus state to `"none"` and the parent menu's focus state to `"self"`,
+blurs the controlled menus and sets it's current child index to 0,
+calls [collapse](collapse), and sets [isOpen](isOpen) to `false`.
 
 **Kind**: instance method of [<code>TreeviewToggle</code>](#TreeviewToggle)  
 **Overrides**: [<code>close</code>](#BaseMenuToggle+close)  

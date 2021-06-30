@@ -79,8 +79,23 @@ Closes the controlled menu.
 <a name="BaseMenuToggle+initialize"></a>
 
 ### disclosureMenuToggle.initialize()
-Initialize the toggle by ensuring WAI-ARIA values are set,
-handling click events, and adding new keydown events.
+Initialize the toggle by ensuring WAI-ARIA values are set, handling click events, and adding new keydown events.
+
+Initialize does a lot of setup on the menu toggle.
+
+The most basic setup steps are to ensure that the toggle has `aria-haspopup` set to `"true"`, `aria-expanded` initially set to `"false"` and, if the toggle element is not a `<button>`, set the `role` to `"button"`.
+
+The next step to the initialization is to ensure both the toggle and the menu it controlls have IDs.
+
+If they do not, the following steps take place:
+- Generate a random 10 character string,
+- Get the innerText of the toggle,
+- Set the toggle's ID to: `${toggle-inner-text}-${the-random-string}-menu-button`
+- Set the menu's ID to: `${toggle-inner-text}-${the-random-string}-menu`
+
+Once the ID's have been generated, the menu's "aria-labelledby" is set to the toggle's ID, and the toggle's "aria-controls" is set to the menu's ID.
+
+Finally, the collapse method is called to make sure the submenu is closed.
 
 **Kind**: instance method of [<code>DisclosureMenuToggle</code>](#DisclosureMenuToggle)  
 **Overrides**: [<code>initialize</code>](#BaseMenuToggle+initialize)  
@@ -89,7 +104,9 @@ handling click events, and adding new keydown events.
 ### disclosureMenuToggle.expand([emit])
 Expands the controlled menu.
 
-Alters ARIA attributes and classes.
+Sets the toggle's `aria-expanded` to `"true"`, adds the open class to the toggle's parent menu item and controlled menu, and removed the closed class from the toggle's parent menu item and controlled menu.
+
+If `emit` is set to `true`, this will also emit a custom event called `accessibleMenuExpand` which bubbles and contains the toggle object in `event.detail`.
 
 **Kind**: instance method of [<code>DisclosureMenuToggle</code>](#DisclosureMenuToggle)  
 **Overrides**: [<code>expand</code>](#BaseMenuToggle+expand)  
@@ -103,7 +120,9 @@ Alters ARIA attributes and classes.
 ### disclosureMenuToggle.collapse([emit])
 Collapses the controlled menu.
 
-Alters ARIA attributes and classes.
+Sets the toggle's `aria-expanded` to `"false"`, adds the closed class to the toggle's parent menu item and controlled menu, and removed the open class from the toggle's parent menu item and controlled menu.
+
+If `emit` is set to `true`, this will also emit a custom event called `accessibleMenuCollapse` which bubbles and contains the toggle object in `event.detail`.
 
 **Kind**: instance method of [<code>DisclosureMenuToggle</code>](#DisclosureMenuToggle)  
 **Overrides**: [<code>collapse</code>](#BaseMenuToggle+collapse)  

@@ -388,8 +388,23 @@ var AccessibleMenu = (function () {
       });
     }
     /**
-     * Initialize the toggle by ensuring WAI-ARIA values are set,
-     * handling click events, and adding new keydown events.
+     * Initialize the toggle by ensuring WAI-ARIA values are set, handling click events, and adding new keydown events.
+     *
+     * Initialize does a lot of setup on the menu toggle.
+     *
+     * The most basic setup steps are to ensure that the toggle has `aria-haspopup` set to `"true"`, `aria-expanded` initially set to `"false"` and, if the toggle element is not a `<button>`, set the `role` to `"button"`.
+     *
+     * The next step to the initialization is to ensure both the toggle and the menu it controlls have IDs.
+     *
+     * If they do not, the following steps take place:
+     * - Generate a random 10 character string,
+     * - Get the innerText of the toggle,
+     * - Set the toggle's ID to: `${toggle-inner-text}-${the-random-string}-menu-button`
+     * - Set the menu's ID to: `${toggle-inner-text}-${the-random-string}-menu`
+     *
+     * Once the ID's have been generated, the menu's "aria-labelledby" is set to the toggle's ID, and the toggle's "aria-controls" is set to the menu's ID.
+     *
+     * Finally, the collapse method is called to make sure the submenu is closed.
      */
 
 
@@ -482,7 +497,9 @@ var AccessibleMenu = (function () {
       /**
        * Expands the controlled menu.
        *
-       * Alters ARIA attributes and classes.
+       * Sets the toggle's `aria-expanded` to `"true"`, adds the open class to the toggle's parent menu item and controlled menu, and removed the closed class from the toggle's parent menu item and controlled menu.
+       *
+       * If `emit` is set to `true`, this will also emit a custom event called `accessibleMenuExpand` which bubbles and contains the toggle object in `event.detail`.
        *
        * @param {boolean} [emit = true] - A toggle to emit the expand event once expanded.
        */
@@ -524,7 +541,9 @@ var AccessibleMenu = (function () {
       /**
        * Collapses the controlled menu.
        *
-       * Alters ARIA attributes and classes.
+       * Sets the toggle's `aria-expanded` to `"false"`, adds the closed class to the toggle's parent menu item and controlled menu, and removed the open class from the toggle's parent menu item and controlled menu.
+       *
+       * If `emit` is set to `true`, this will also emit a custom event called `accessibleMenuCollapse` which bubbles and contains the toggle object in `event.detail`.
        *
        * @param {boolean} [emit = true] - A toggle to emit the collapse event once collapsed.
        */
@@ -565,6 +584,9 @@ var AccessibleMenu = (function () {
       }
       /**
        * Opens the controlled menu.
+       *
+       * Sets the controlled menu's focus state to `"self"` and the parent menu's focus state to `"child"`,
+       * calls {@link expand}, and sets {@link isOpen} to `true`.
        */
 
     }, {
@@ -583,6 +605,8 @@ var AccessibleMenu = (function () {
       }
       /**
        * Opens the controlled menu without the current focus entering it.
+       *
+       * Sets the controlled menu's focus state to `"self"` and the parent menu's focus state to `"child"`, and calls {@link expand}
        */
 
     }, {
@@ -601,6 +625,10 @@ var AccessibleMenu = (function () {
       }
       /**
        * Closes the controlled menu.
+       *
+       * Sets the controlled menu's focus state to `"none"` and the parent menu's focus state to `"self"`,
+       * blurs the controlled menus and sets it's current child index to 0,
+       * calls {@link collapse}, and sets {@link isOpen} to `false`.
        */
 
     }, {
@@ -1343,6 +1371,8 @@ var AccessibleMenu = (function () {
       /**
        * Sets DOM elements within the menu.
        *
+       * This will set the actual `domElement` property, so all existing items in a given `domElement` property will be removed when this is run.
+       *
        * @param {string}      elementType - The type of element to populate.
        * @param {HTMLElement} base        - The element used as the base for the querySelect.
        * @param {Function}    filter      - A filter to use to narrow down the DOM elements selected.
@@ -1383,6 +1413,8 @@ var AccessibleMenu = (function () {
       }
       /**
        * Adds an element to DOM elements within the menu.
+       *
+       * This is an additive function, so existing items in a given `domElement` property will not be touched.
        *
        * @param {string}      elementType - The type of element to populate.
        * @param {HTMLElement} base        - The element used as the base for the querySelect.
@@ -1443,6 +1475,8 @@ var AccessibleMenu = (function () {
       }
       /**
        * Sets all DOM elements within the menu.
+       *
+       * Utiliizes {@link setDOMElementType}, {@link clearDOMElementType}, and {@link addDOMElementType}.
        */
 
     }, {
@@ -1549,6 +1583,8 @@ var AccessibleMenu = (function () {
       }
       /**
        * Handles focus events throughout the menu for proper menu use.
+       *
+       * - Adds a `focus` listener to every menu item so when it gains focus, it will set the item's containing menu to a "self" focus state, any parent menu to a "child" focus state, and any child menu to a "none" focus state.
        */
 
     }, {
@@ -1567,6 +1603,13 @@ var AccessibleMenu = (function () {
       }
       /**
        * Handles click events throughout the menu for proper use.
+       *
+       * Depending on what is supported either `touchstart` and `touchend` or `mousedown` and `mouseup` will be used for all "click" event handling.
+       *
+       * - Adds a `touchend`/`mouseup` listener to the document so if the user clicks outside of the menu when it is open, the menu will close.
+       * - Adds a `touchstart`/`mousedown` listener to every menu item that will blur all menu items in the entire menu structure (starting at the root menu) and then properly focus the clicked item.
+       * - Adds a `touchend`/`mouseup` listener to every submenu item that will properly toggle the submenu open/closed.
+       * - Adds a `touchend`/`mouseup` listener to the menu's controller (if the menu is the root menu) so when it is clicked it will properly toggle open/closed.
        */
 
     }, {
@@ -1622,6 +1665,24 @@ var AccessibleMenu = (function () {
       }
       /**
        * Handles hover events throughout the menu for proper use.
+       *
+       * Adds `mouseenter` listeners to all menu items and `mouseleave` listeners to all submenu items which function differently depending on the menu's {@link hoverType}.
+       *
+       * *Hover Type "on"*
+       * - When a `mouseenter` event triggers on any menu item the menu's {@link currentChild} value will change to that menu item.
+       * - When a `mouseenter` event triggers on a submenu item the `preview()` method for the submenu item's toggle will be called.
+       * - When a `mouseleave` event triggers on an open submenu item the `close()` method for the submenu item's toggle will be called after a delay set by the menu's {@link hoverDelay}.
+       *
+       * *Hover Type "dynamic"*
+       * - When a `mouseenter` event triggers on any menu item the menu's {@link currentChild} value will change to that menu item.
+       * - When a `mouseenter` event triggers on any menu item, and the menu's {@link focusState} is not `"none"`, the menu item will be focused.
+       * - When a `mouseenter` event triggers on a submenu item, and a submenu is already open, the `preview()` method for the submenu item's toggle will be called.
+       * - When a `mouseenter` event triggers on a submenu item, and no submenu is open, no submenu-specific methods will be called.
+       * - When a `mouseleave` event triggers on an open submenu item that is not a root-level submenu item the `close()` method for the submenu item's toggle will be called and the submenu item will be focused after a delay set by the menu's {@link hoverDelay}.
+       * - When a `mouseleave` event triggers on an open submenu item that is a root-level submenu item no submenu-specific methods will be called.
+       *
+       * *Hover Type "off"*
+       * All `mouseenter` and `mouseleave` events are ignored.
        */
 
     }, {
@@ -1681,6 +1742,11 @@ var AccessibleMenu = (function () {
       }
       /**
        * Handles keydown events throughout the menu for proper menu use.
+       *
+       * This method exists to assit the {@link handleKeyup} method.
+       *
+       * - Adds a `keydown` listener to the menu's controller (if the menu is the root menu).
+       *   - Blocks propagation on `Space`, `Enter`, and `Escape` keys.
        */
 
     }, {
@@ -1701,6 +1767,9 @@ var AccessibleMenu = (function () {
       }
       /**
        * Handles keyup events throughout the menu for proper menu use.
+       *
+       * - Adds a `keyup` listener to the menu's controller (if the menu is the root menu).
+       *   - Opens the menu when the user hits `Space` or `Enter`.
        */
 
     }, {
@@ -1725,6 +1794,8 @@ var AccessibleMenu = (function () {
       }
       /**
        * Focus the menu.
+       *
+       * Sets the menu's {@link focusState} to `"self"` and focusses the menu if the menu's {@link shouldFocus} vallue is `true`.
        */
 
     }, {
@@ -1738,6 +1809,8 @@ var AccessibleMenu = (function () {
       }
       /**
        * Unfocus the menu.
+       *
+       * Sets the menu's {@link focusState} to `"none"` and blurs the menu if the menu's {@link shouldFocus} vallue is `true`.
        */
 
     }, {
