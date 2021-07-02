@@ -2421,14 +2421,14 @@ var AccessibleMenu = (function () {
       /**
        * Initializes the menu.
        *
-       * Initialize will call the {@link BaseMenu#initialize|Base Menu's initialize method}
+       * Initialize will call the {@link BaseMenu#initialize|BaseMenu's initialize method}
        * as well as set up {@link DisclosureMenu#handleFocus|focus},
        * {@link DisclosureMenu#handleClick|click},
        * {@link DisclosureMenu#handleHover|hover},
        * {@link DisclosureMenu#handleKeydown|keydown}, and
        * {@link DisclosureMenu#handleKeyup|keyup} events for the menu.
        *
-       * If the Base Menu's initialize method throws an error,
+       * If the BaseMenu's initialize method throws an error,
        * this will catch it and log it to the console.
        */
 
@@ -2537,6 +2537,7 @@ var AccessibleMenu = (function () {
        *
        * Adds the following keybindings (explanations are taken from the
        * {@link https://www.w3.org/TR/wai-aria-practices-1.2/examples/disclosure/disclosure-navigation.html#kbd_label|WAI ARIA Pracitices Example Disclosure for Navigation Menus}):
+       *
        * | Key | Function |
        * | --- | --- |
        * | _Tab_ or _Shift + Tab_ | Move keyboard focus among top-level buttons, and if a dropdown is open, into and through links in the dropdown. |
@@ -2723,7 +2724,12 @@ var AccessibleMenu = (function () {
       return _this;
     }
     /**
-     * Initialize the menu item by setting its role and tab index.
+     * Initialize the menu item.
+     *
+     * Initialize will call the {@link BaseMenuItem#initialize|BaseMenuItem's initialize method}
+     * as well as set the menu item's `role` to "none",
+     * the menu link's `role` to "menuitem", and
+     * the menu link's `tabIndex` to -1 in the DOM.
      */
 
 
@@ -2737,7 +2743,12 @@ var AccessibleMenu = (function () {
         this.dom.link.tabIndex = -1;
       }
       /**
-       * Focuses the menu item's link and set proper tabIndex.
+       * Focuses the menu item's link if the parent menu's
+       * {@link Menubar#shouldFocus|shouldFocus} value is `true`.
+       *
+       * This will call the {@link BaseMenuItem#focus|BaseMenuItem's focus method}
+       * as well as set the menu link's `tabIndex` to 0 if the parent menu
+       * is the root menu.
        */
 
     }, {
@@ -2750,7 +2761,12 @@ var AccessibleMenu = (function () {
         }
       }
       /**
-       * Blurs the menu item's link and set proper tabIndex.
+       * Blurs the menu item's link if the parent menu's
+       * {@link Menubar#shouldFocus|shouldFocus} value is `true`.
+       *
+       * This will call the {@link BaseMenuItem#blur|BaseMenuItem's blur method}
+       * as well as set the menu link's `tabIndex` to -1 if the parent menu
+       * is the root menu.
        */
 
     }, {
@@ -3014,7 +3030,7 @@ var AccessibleMenu = (function () {
     /**
      * Initializes the menu.
      *
-     * Initialize will call the {@link BaseMenu#initialize|Base Menu's initialize method}
+     * Initialize will call the {@link BaseMenu#initialize|BaseMenu's initialize method}
      * as well as set up {@link Menubar#handleFocus|focus},
      * {@link Menubar#handleClick|click},
      * {@link Menubar#handleHover|hover},
@@ -3024,7 +3040,7 @@ var AccessibleMenu = (function () {
      * This will also set the menu's `role` to "menubar" and the first menu item's
      * `tabIndex` to 0 in the DOM.
      *
-     * If the Base Menu's initialize method throws an error,
+     * If the BaseMenu's initialize method throws an error,
      * this will catch it and log it to the console.
      */
 
@@ -3086,6 +3102,14 @@ var AccessibleMenu = (function () {
       }
       /**
        * Handles keydown events throughout the menu for proper menu use.
+       *
+       * This method exists to assist the {@link Menubar#handleKeyup|handleKeyup method}.
+       * - Adds all `keydown` listeners from {@link BaseMenu#handleKeydown|BaseMenu's handleKeydown method}
+       * - Adds a `keydown` listener to the menu/all submenus.
+       *   - Blocks propagation on the following keys: "ArrowUp", "ArrowRight",
+       *     "ArrowDown", "ArrowLeft", "Home", "End", "Space", "Enter", "Escape",
+       *     and "A" through "Z".
+       *   - Completely closes the menu and moves focus out if the "Tab" key is pressed.
        */
 
     }, {
@@ -3142,6 +3166,38 @@ var AccessibleMenu = (function () {
       }
       /**
        * Handles keyup events throughout the menu for proper menu use.
+       *
+       * Adds all `keyup` listeners from {@link BaseMenu#handleKeyup|BaseMenu's handleKeyup method}.
+       *
+       * Adds the following keybindings (explanations are taken from the
+       * {@link https://www.w3.org/TR/2019/WD-wai-aria-practices-1.2-20191218/examples/menubar/menubar-1/menubar-1.html#kbd_label|Navigation Menubar Example}):
+       *
+       * **Menubar**
+       *
+       * | Key | Function |
+       * | --- | --- |
+       * | _Space_ or _Enter_ | Opens submenu and moves focus to first item in the submenu. |
+       * | _Right Arrow_ | <ul><li>Moves focus to the next item in the menubar.</li><li>If focus is on the last item, moves focus to the first item.</li></ul> |
+       * | _Left Arrow_ | <ul><li>Moves focus to the previous item in the menubar.</li><li>If focus is on the first item, moves focus to the last item.</li></ul> |
+       * | _Down Arrow_ | Opens submenu and moves focus to first item in the submenu. |
+       * | _Up Arrow_ | Opens submenu and moves focus to last item in the submenu. |
+       * | _Home_ | Moves focus to first item in the menubar. |
+       * | _End_ | Moves focus to last item in the menubar. |
+       * | _Character_ | <ul><li>Moves focus to next item in the menubar having a name that starts with the typed character.</li><li>If none of the items have a name starting with the typed character, focus does not move.</li></ul> |
+       *
+       * **Submenu**
+       *
+       * | Key | Function |
+       * | --- | --- |
+       * | _Space_ or _Enter_ | <ul><li>Activates menu item, causing the link to be activated.</li><li>NOTE: the links go to dummy pages; use the browser go-back function to return to this menubar example page.</li></ul> |
+       * | _Escape_ | <ul><li>Closes submenu.</li><li>Moves focus to parent menubar item.</li></ul> |
+       * | _Right Arrow_ | <ul><li>If focus is on an item with a submenu, opens the submenu and places focus on the first item.</li><li>If focus is on an item that does not have a submenu:<ul><li>Closes submenu.</li><li>Moves focus to next item in the menubar.</li><li>Opens submenu of newly focused menubar item, keeping focus on that parent menubar item.</li></ul></li></ul> |
+       * | _Left Arrow_ | <ul><li>Closes submenu and moves focus to parent menu item.</li><li>If parent menu item is in the menubar, also:<ul><li>moves focus to previous item in the menubar.</li><li>Opens submenu of newly focused menubar item, keeping focus on that parent menubar item.</li></ul></li></ul> |
+       * | _Down Arrow_ | <ul><li>Moves focus to the next item in the submenu.</li><li>If focus is on the last item, moves focus to the first item.</li></ul> |
+       * | _Up Arrow_ | <ul><li>Moves focus to previous item in the submenu.</li><li>If focus is on the first item, moves focus to the last item.</li></ul> |
+       * | Home | Moves focus to the first item in the submenu. |
+       * | End | Moves focus to the last item in the submenu. |
+       * | _Character_ | <ul><li>Moves focus to the next item having a name that starts with the typed character.</li><li>If none of the items have a name starting with the typed character, focus does not move.</li></ul> |
        */
 
     }, {
@@ -3396,6 +3452,9 @@ var AccessibleMenu = (function () {
       }
       /**
        * Focus the menu's next child.
+       *
+       * If the currently focussed child in the menu is the last child then this will
+       * focus the first child in the menu.
        */
 
     }, {
@@ -3410,6 +3469,9 @@ var AccessibleMenu = (function () {
       }
       /**
        * Focus the menu's previous child.
+       *
+       * If the currently focussed child in the menu is the first child then this will
+       * focus the last child in the menu.
        */
 
     }, {
@@ -3534,7 +3596,12 @@ var AccessibleMenu = (function () {
       return _this;
     }
     /**
-     * Initialize the menu item by setting its role and tab index.
+     * Initialize the menu item.
+     *
+     * Initialize will call the {@link BaseMenuItem#initialize|BaseMenuItem's initialize method}
+     * as well as set the menu item's `role` to "none",
+     * the menu link's `role` to "treeitem", and
+     * the menu link's `tabIndex` to -1 in the DOM.
      */
 
 
@@ -3548,7 +3615,11 @@ var AccessibleMenu = (function () {
         this.dom.link.tabIndex = -1;
       }
       /**
-       * Focuses the menu item's link and set proper tabIndex.
+       * Focuses the menu item's link if the parent menu's
+       * {@link Menubar#shouldFocus|shouldFocus} value is `true`.
+       *
+       * This will call the {@link BaseMenuItem#focus|BaseMenuItem's focus method}
+       * as well as set the menu link's `tabIndex` to 0.
        */
 
     }, {
@@ -3559,7 +3630,11 @@ var AccessibleMenu = (function () {
         this.dom.link.tabIndex = 0;
       }
       /**
-       * Blurs the menu item's link and set proper tabIndex.
+       * Blurs the menu item's link if the parent menu's
+       * {@link Menubar#shouldFocus|shouldFocus} value is `true`.
+       *
+       * This will call the {@link BaseMenuItem#blur|BaseMenuItem's blur method}
+       * as well as set the menu link's `tabIndex` to -1.
        */
 
     }, {
@@ -3777,7 +3852,7 @@ var AccessibleMenu = (function () {
     /**
      * Initializes the menu.
      *
-     * Initialize will call the {@link BaseMenu#initialize|Base Menu's initialize method}
+     * Initialize will call the {@link BaseMenu#initialize|BaseMenu's initialize method}
      * as well as set up {@link Treeview#handleFocus|focus},
      * {@link Treeview#handleClick|click},
      * {@link Treeview#handleHover|hover},
@@ -3789,7 +3864,7 @@ var AccessibleMenu = (function () {
      *
      * If the menu is _not_ a root menu it's `role` will be set to "group".
      *
-     * If the Base Menu's initialize method throws an error,
+     * If the BaseMenu's initialize method throws an error,
      * this will catch it and log it to the console.
      */
 
@@ -3818,6 +3893,14 @@ var AccessibleMenu = (function () {
       }
       /**
        * Handles keydown events throughout the menu for proper menu use.
+       *
+       * This method exists to assist the {@link Treeview#handleKeyup|handleKeyup method}.
+       * - Adds all `keydown` listeners from {@link BaseMenu#handleKeydown|BaseMenu's handleKeydown method}
+       * - Adds a `keydown` listener to the menu/all submenus.
+       *   - Blocks propagation on the following keys: "ArrowUp", "ArrowRight",
+       *     "ArrowDown", "ArrowLeft", "Home", "End", "Space", "Enter", "Escape",
+       *     "*" (asterisk), and "A" through "Z".
+       *   - Moves focus out if the "Tab" key is pressed.
        */
 
     }, {
@@ -3858,6 +3941,23 @@ var AccessibleMenu = (function () {
       }
       /**
        * Handles keyup events throughout the menu for proper menu use.
+       *
+       * Adds all `keyup` listeners from {@link BaseMenu#handleKeyup|BaseMenu's handleKeyup method}.
+       *
+       * Adds the following keybindings (explanations are taken from the
+       * {@link https://www.w3.org/TR/2019/WD-wai-aria-practices-1.2-20191218/examples/treeview/treeview-2/treeview-2a.html#kbd_label|Navigation Treeview Example Using Computed Properties}):
+       *
+       * | Key | Function |
+       * | --- | --- |
+       * | _Enter_ or _Space_ | Performs the default action (e.g. onclick event) for the focused node. |
+       * | _Down arrow_ | <ul><li>Moves focus to the next node that is focusable without opening or closing a node.</li><li>If focus is on the last node, does nothing.</li></ul> |
+       * | _Up arrow_ | <ul><li>Moves focus to the previous node that is focusable without opening or closing a node.</li><li>If focus is on the first node, does nothing.</li></ul> |
+       * | _Right arrow_ | <ul><li>When focus is on a closed node, opens the node; focus does not move.</li><li>When focus is on a open node, moves focus to the first child node.</li><li>When focus is on an end node, does nothing.</li></ul> |
+       * | _Left arrow_ | <ul><li>When focus is on an open node, closes the node.</li><li>When focus is on a child node that is also either an end node or a closed node, moves focus to its parent node.</li><li>When focus is on a root node that is also either an end node or a closed node, does nothing.</li></ul> |
+       * | _Home_ | Moves focus to first node without opening or closing a node. |
+       * | _End_ | Moves focus to the last node that can be focused without expanding any nodes that are closed. |
+       * | _a-z_, _A-Z_ | <ul><li>Focus moves to the next node with a name that starts with the typed character.</li><li>Search wraps to first node if a matching name is not found among the nodes that follow the focused node.</li><li>Search ignores nodes that are descendants of closed nodes.</li></ul> |
+       * | _* (asterisk)_ | <ul><li>Expands all closed sibling nodes that are at the same level as the focused node.</li><li>Focus does not move.</li></ul> |
        */
 
     }, {
@@ -4037,9 +4137,9 @@ var AccessibleMenu = (function () {
       /**
        * Focus the menu's next node starting with a specific letter.
        *
-       * Wraps to the first node if no match is found after the current node.
-       *
        * This includes all _open_ child menu items.
+       *
+       * Wraps to the first node if no match is found after the current node.
        *
        * @param {string} char - The character to look for.
        */

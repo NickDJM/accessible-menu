@@ -2265,7 +2265,12 @@ var Menubar = (function () {
       return _this;
     }
     /**
-     * Initialize the menu item by setting its role and tab index.
+     * Initialize the menu item.
+     *
+     * Initialize will call the {@link BaseMenuItem#initialize|BaseMenuItem's initialize method}
+     * as well as set the menu item's `role` to "none",
+     * the menu link's `role` to "menuitem", and
+     * the menu link's `tabIndex` to -1 in the DOM.
      */
 
 
@@ -2279,7 +2284,12 @@ var Menubar = (function () {
         this.dom.link.tabIndex = -1;
       }
       /**
-       * Focuses the menu item's link and set proper tabIndex.
+       * Focuses the menu item's link if the parent menu's
+       * {@link Menubar#shouldFocus|shouldFocus} value is `true`.
+       *
+       * This will call the {@link BaseMenuItem#focus|BaseMenuItem's focus method}
+       * as well as set the menu link's `tabIndex` to 0 if the parent menu
+       * is the root menu.
        */
 
     }, {
@@ -2292,7 +2302,12 @@ var Menubar = (function () {
         }
       }
       /**
-       * Blurs the menu item's link and set proper tabIndex.
+       * Blurs the menu item's link if the parent menu's
+       * {@link Menubar#shouldFocus|shouldFocus} value is `true`.
+       *
+       * This will call the {@link BaseMenuItem#blur|BaseMenuItem's blur method}
+       * as well as set the menu link's `tabIndex` to -1 if the parent menu
+       * is the root menu.
        */
 
     }, {
@@ -2506,7 +2521,7 @@ var Menubar = (function () {
     /**
      * Initializes the menu.
      *
-     * Initialize will call the {@link BaseMenu#initialize|Base Menu's initialize method}
+     * Initialize will call the {@link BaseMenu#initialize|BaseMenu's initialize method}
      * as well as set up {@link Menubar#handleFocus|focus},
      * {@link Menubar#handleClick|click},
      * {@link Menubar#handleHover|hover},
@@ -2516,7 +2531,7 @@ var Menubar = (function () {
      * This will also set the menu's `role` to "menubar" and the first menu item's
      * `tabIndex` to 0 in the DOM.
      *
-     * If the Base Menu's initialize method throws an error,
+     * If the BaseMenu's initialize method throws an error,
      * this will catch it and log it to the console.
      */
 
@@ -2578,6 +2593,14 @@ var Menubar = (function () {
       }
       /**
        * Handles keydown events throughout the menu for proper menu use.
+       *
+       * This method exists to assist the {@link Menubar#handleKeyup|handleKeyup method}.
+       * - Adds all `keydown` listeners from {@link BaseMenu#handleKeydown|BaseMenu's handleKeydown method}
+       * - Adds a `keydown` listener to the menu/all submenus.
+       *   - Blocks propagation on the following keys: "ArrowUp", "ArrowRight",
+       *     "ArrowDown", "ArrowLeft", "Home", "End", "Space", "Enter", "Escape",
+       *     and "A" through "Z".
+       *   - Completely closes the menu and moves focus out if the "Tab" key is pressed.
        */
 
     }, {
@@ -2634,6 +2657,38 @@ var Menubar = (function () {
       }
       /**
        * Handles keyup events throughout the menu for proper menu use.
+       *
+       * Adds all `keyup` listeners from {@link BaseMenu#handleKeyup|BaseMenu's handleKeyup method}.
+       *
+       * Adds the following keybindings (explanations are taken from the
+       * {@link https://www.w3.org/TR/2019/WD-wai-aria-practices-1.2-20191218/examples/menubar/menubar-1/menubar-1.html#kbd_label|Navigation Menubar Example}):
+       *
+       * **Menubar**
+       *
+       * | Key | Function |
+       * | --- | --- |
+       * | _Space_ or _Enter_ | Opens submenu and moves focus to first item in the submenu. |
+       * | _Right Arrow_ | <ul><li>Moves focus to the next item in the menubar.</li><li>If focus is on the last item, moves focus to the first item.</li></ul> |
+       * | _Left Arrow_ | <ul><li>Moves focus to the previous item in the menubar.</li><li>If focus is on the first item, moves focus to the last item.</li></ul> |
+       * | _Down Arrow_ | Opens submenu and moves focus to first item in the submenu. |
+       * | _Up Arrow_ | Opens submenu and moves focus to last item in the submenu. |
+       * | _Home_ | Moves focus to first item in the menubar. |
+       * | _End_ | Moves focus to last item in the menubar. |
+       * | _Character_ | <ul><li>Moves focus to next item in the menubar having a name that starts with the typed character.</li><li>If none of the items have a name starting with the typed character, focus does not move.</li></ul> |
+       *
+       * **Submenu**
+       *
+       * | Key | Function |
+       * | --- | --- |
+       * | _Space_ or _Enter_ | <ul><li>Activates menu item, causing the link to be activated.</li><li>NOTE: the links go to dummy pages; use the browser go-back function to return to this menubar example page.</li></ul> |
+       * | _Escape_ | <ul><li>Closes submenu.</li><li>Moves focus to parent menubar item.</li></ul> |
+       * | _Right Arrow_ | <ul><li>If focus is on an item with a submenu, opens the submenu and places focus on the first item.</li><li>If focus is on an item that does not have a submenu:<ul><li>Closes submenu.</li><li>Moves focus to next item in the menubar.</li><li>Opens submenu of newly focused menubar item, keeping focus on that parent menubar item.</li></ul></li></ul> |
+       * | _Left Arrow_ | <ul><li>Closes submenu and moves focus to parent menu item.</li><li>If parent menu item is in the menubar, also:<ul><li>moves focus to previous item in the menubar.</li><li>Opens submenu of newly focused menubar item, keeping focus on that parent menubar item.</li></ul></li></ul> |
+       * | _Down Arrow_ | <ul><li>Moves focus to the next item in the submenu.</li><li>If focus is on the last item, moves focus to the first item.</li></ul> |
+       * | _Up Arrow_ | <ul><li>Moves focus to previous item in the submenu.</li><li>If focus is on the first item, moves focus to the last item.</li></ul> |
+       * | Home | Moves focus to the first item in the submenu. |
+       * | End | Moves focus to the last item in the submenu. |
+       * | _Character_ | <ul><li>Moves focus to the next item having a name that starts with the typed character.</li><li>If none of the items have a name starting with the typed character, focus does not move.</li></ul> |
        */
 
     }, {
@@ -2888,6 +2943,9 @@ var Menubar = (function () {
       }
       /**
        * Focus the menu's next child.
+       *
+       * If the currently focussed child in the menu is the last child then this will
+       * focus the first child in the menu.
        */
 
     }, {
@@ -2902,6 +2960,9 @@ var Menubar = (function () {
       }
       /**
        * Focus the menu's previous child.
+       *
+       * If the currently focussed child in the menu is the first child then this will
+       * focus the last child in the menu.
        */
 
     }, {
