@@ -88,7 +88,7 @@ var AccessibleMenu = (function () {
    *
    * Will return true is the check is successful.
    *
-   * @param   {object} values - The value(s) to check.
+   * @param   {object.<string>} values - The value(s) to check.
    *
    * @returns {boolean} - The result of the check.
    */
@@ -127,7 +127,7 @@ var AccessibleMenu = (function () {
    *
    * Will return true is the check is successful.
    *
-   * @param   {object} values - The value(s) to check.
+   * @param   {object.<string,string[]>} values - The value(s) to check.
    *
    * @returns {boolean} - The result of the check.
    */
@@ -178,7 +178,7 @@ var AccessibleMenu = (function () {
    *
    * Will return true is the check is successful.
    *
-   * @param   {object} values - The value(s) to check.
+   * @param   {object.<string>} values - The value(s) to check.
    *
    * @returns {boolean} - The result of the check.
    */
@@ -213,7 +213,7 @@ var AccessibleMenu = (function () {
    *
    * Will return true is the check is successful.
    *
-   * @param   {object} values - The value(s) to check.
+   * @param   {object.<string>} values - The value(s) to check.
    *
    * @returns {boolean} - The result of the check.
    */
@@ -248,7 +248,7 @@ var AccessibleMenu = (function () {
    *
    * Will return true is the check is successful.
    *
-   * @param   {object} values - The value(s) to check.
+   * @param   {object.<string>} values - The value(s) to check.
    *
    * @returns {boolean} - The result of the check.
    */
@@ -281,8 +281,8 @@ var AccessibleMenu = (function () {
    * The elements must be provided inside of an object
    * so the variable name can be retrieved in case of errors.
    *
-   * @param   {string} tagName  - The name of the tag.
-   * @param   {object} elements - The element(s) to check.
+   * @param   {string}               tagName  - The name of the tag.
+   * @param   {object.<HTMLElement>} elements - The element(s) to check.
    *
    * @returns {boolean} - The result of the check.
    */
@@ -342,19 +342,19 @@ var AccessibleMenu = (function () {
   function _defineProperties$9(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
   function _createClass$9(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$9(Constructor.prototype, protoProps); if (staticProps) _defineProperties$9(Constructor, staticProps); return Constructor; }
-  /*
-   * A link or button that controls the visibility of a Menu.
+  /**
+   * A link or button that controls the visibility of a {@link BaseMenu}.
    */
 
   var BaseMenuToggle = /*#__PURE__*/function () {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      *
-     * @param {object}        param0                     - The menu toggle object.
-     * @param {HTMLElement}   param0.menuToggleElement   - The toggle element in the DOM.
-     * @param {HTMLElement}   param0.parentElement       - The element containing the controlled menu.
-     * @param {BaseMenu}      param0.controlledMenu      - The menu controlled by this toggle.
-     * @param {BaseMenu|null} [param0.parentMenu = null] - The menu containing this toggle.
+     * @param {object}        options                     - The options for generating the menu toggle.
+     * @param {HTMLElement}   options.menuToggleElement   - The toggle element in the DOM.
+     * @param {HTMLElement}   options.parentElement       - The element containing the controlled menu.
+     * @param {BaseMenu}      options.controlledMenu      - The menu controlled by this toggle.
+     * @param {BaseMenu|null} [options.parentMenu = null] - The menu containing this toggle.
      */
     function BaseMenuToggle(_ref) {
       var menuToggleElement = _ref.menuToggleElement,
@@ -374,12 +374,28 @@ var AccessibleMenu = (function () {
         parentMenu: parentMenu
       };
       this.isOpen = false;
+      /**
+       * Expand event.
+       *
+       * @event accessibleMenuExpand
+       * @type {CustomEvent}
+       * @property {object<BaseMenuToggle>} details - The details object containing the BaseMenuToggle itself.
+       */
+
       this.expandEvent = new CustomEvent("accessibleMenuExpand", {
         bubbles: true,
         detail: {
           toggle: this
         }
       });
+      /**
+       * Collapse event.
+       *
+       * @event accessibleMenuCollapse
+       * @type {CustomEvent}
+       * @property {object<BaseMenuToggle>} details - The details object containing the BaseMenuToggle itself.
+       */
+
       this.collapseEvent = new CustomEvent("accessibleMenuCollapse", {
         bubbles: true,
         detail: {
@@ -388,8 +404,27 @@ var AccessibleMenu = (function () {
       });
     }
     /**
-     * Initialize the toggle by ensuring WAI-ARIA values are set,
-     * handling click events, and adding new keydown events.
+     * Initializes the menu toggle.
+     *
+     * Initialize does a lot of setup on the menu toggle.
+     *
+     * The most basic setup steps are to ensure that the toggle has `aria-haspopup`
+     * set to "true", `aria-expanded` initially set to "false" and, if the toggle
+     * element is not a `<button>`, set the `role` to "button".
+     *
+     * The next step to the initialization is to ensure both the toggle and the
+     * menu it controlls have IDs.
+     *
+     * If they do not, the following steps take place:
+     * - Generate a random 10 character string,
+     * - Get the innerText of the toggle,
+     * - Set the toggle's ID to: `${toggle-inner-text}-${the-random-string}-menu-button`
+     * - Set the menu's ID to: `${toggle-inner-text}-${the-random-string}-menu`
+     *
+     * Once the ID's have been generated, the menu's `aria-labelledby` is set to
+     * the toggle's ID, and the toggle's `aria-controls` is set to the menu's ID.
+     *
+     * Finally, the collapse method is called to make sure the submenu is closed.
      */
 
 
@@ -443,7 +478,9 @@ var AccessibleMenu = (function () {
       /**
        * The DOM elements within the toggle.
        *
-       * @returns {object} - The DOM elements.
+       * @type {object.<HTMLElement>}
+       * @property {HTMLElement} toggle - The menu toggle.
+       * @property {HTMLElement} parent - The menu containing this toggle.
        */
 
     }, {
@@ -452,9 +489,11 @@ var AccessibleMenu = (function () {
         return this.domElements;
       }
       /**
-       * The elements within the toggle.
+       * The declared accessible-menu elements within the menu toggle.
        *
-       * @returns {object} - The elements.
+       * @type {object.<BaseMenu>}
+       * @property {BaseMenu} controlledMenu - The menu controlled by this toggle.
+       * @property {BaseMenu} parentMenu     - The menu containing this toggle.
        */
 
     }, {
@@ -465,20 +504,14 @@ var AccessibleMenu = (function () {
       /**
        * The open state on the menu.
        *
-       * @returns {boolean} - The open state.
+       * @type {boolean}
        */
 
     }, {
       key: "isOpen",
       get: function get() {
         return this.show;
-      }
-      /**
-       * Set the open state on the menu.
-       *
-       * @param {boolean} value - The open state.
-       */
-      ,
+      },
       set: function set(value) {
         isValidType("boolean", {
           value: value
@@ -488,9 +521,16 @@ var AccessibleMenu = (function () {
       /**
        * Expands the controlled menu.
        *
-       * Alters ARIA attributes and classes.
+       * Sets the toggle's `aria-expanded` to "true", adds the
+       * {@link BaseMenu#openClass|open class} to the toggle's parent menu item
+       * and controlled menu, and removed the {@link BaseMenu#closeClass|closed class}
+       * from the toggle's parent menu item and controlled menu.
+       *
+       * If `emit` is set to `true`, this will also emit a custom event
+       * called {@link accessibleMenuExpand}
        *
        * @param {boolean} [emit = true] - A toggle to emit the expand event once expanded.
+       * @fires accessibleMenuExpand
        */
 
     }, {
@@ -530,9 +570,16 @@ var AccessibleMenu = (function () {
       /**
        * Collapses the controlled menu.
        *
-       * Alters ARIA attributes and classes.
+       * Sets the toggle's `aria-expanded` to "false", adds the
+       * {@link BaseMenu#closeClass|closed class} to the toggle's parent menu item
+       * and controlled menu, and removes the {@link BaseMenu#openClass|open class}
+       * from the toggle's parent menu item and controlled menu.
+       *
+       * If `emit` is set to `true`, this will also emit a custom event
+       * called {@link accessibleMenuCollapse}
        *
        * @param {boolean} [emit = true] - A toggle to emit the collapse event once collapsed.
+       * @fires accessibleMenuCollapse
        */
 
     }, {
@@ -571,6 +618,10 @@ var AccessibleMenu = (function () {
       }
       /**
        * Opens the controlled menu.
+       *
+       * Sets the controlled menu's {@link BaseMenu#focusState|focus state} to "self"
+       * and the parent menu's focus state to "child", calls {@link BaseMenuToggle#expand|expand},
+       * and sets the {@link BaseMenuToggle#isOpen|isOpen} value to `true`.
        */
 
     }, {
@@ -589,6 +640,10 @@ var AccessibleMenu = (function () {
       }
       /**
        * Opens the controlled menu without the current focus entering it.
+       *
+       * Sets the controlled menu's {@link BaseMenu#focusState|focus state} to "self"
+       * and the parent menu's focus state to "child",
+       * and calls {@link BaseMenuToggle#expand|expand}.
        */
 
     }, {
@@ -607,6 +662,12 @@ var AccessibleMenu = (function () {
       }
       /**
        * Closes the controlled menu.
+       *
+       * Sets the controlled menu's {@link BaseMenu#focusState|focus state} to "none"
+       * and the parent menu's focus state to "self", blurs the controlled menu
+       * and sets it's {@link BaseMenu#currentChild|current child index} to 0,
+       * calls {@link BaseMenuToggle#collapse|collapse}, and sets
+       * the {@link BaseMenuToggle#isOpen|isOpen} value to `false`.
        */
 
     }, {
@@ -629,7 +690,7 @@ var AccessibleMenu = (function () {
         }
       }
       /**
-       * Toggles the open state of the controlled menu.
+       * Toggles the open state of the controlled menu between `true` and `false`.
        */
 
     }, {
@@ -681,19 +742,19 @@ var AccessibleMenu = (function () {
   /* eslint-disable jsdoc/no-undefined-types */
 
   /**
-   * A basic navigation link contained inside of a Menu.
+   * A basic navigation link contained inside of a {@link BaseMenu}.
    */
   var BaseMenuItem = /*#__PURE__*/function () {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      *
-     * @param {object}              param0                         - The menu item object.
-     * @param {HTMLElement}         param0.menuItemElement         - The menu item in the DOM.
-     * @param {HTMLElement}         param0.menuLinkElement         - The menu item's link in the DOM.
-     * @param {BaseMenu}            param0.parentMenu              - The parent menu.
-     * @param {boolean}             [param0.isSubmenuItem = false] - A flag to mark if the menu item is controlling a submenu.
-     * @param {BaseMenu|null}       [param0.childMenu = null]      - The child menu.
-     * @param {BaseMenuToggle|null} [param0.toggle = null]         - The controller for the child menu.
+     * @param {object}          options                         - The options for generating the menu item.
+     * @param {HTMLElement}     options.menuItemElement         - The menu item in the DOM.
+     * @param {HTMLElement}     options.menuLinkElement         - The menu item's link in the DOM.
+     * @param {BaseMenu}        options.parentMenu              - The parent menu.
+     * @param {boolean}         [options.isSubmenuItem = false] - A flag to mark if the menu item is controlling a submenu.
+     * @param {?BaseMenu}       [options.childMenu = null]      - The child menu.
+     * @param {?BaseMenuToggle} [options.toggle = null]         - The controller for the child menu.
      */
     function BaseMenuItem(_ref) {
       var menuItemElement = _ref.menuItemElement,
@@ -730,7 +791,9 @@ var AccessibleMenu = (function () {
       /**
        * The DOM elements within the menu item.
        *
-       * @returns {object} - The DOM elements.
+       * @type {object.<HTMLElement>}
+       * @property {HTMLElement} item - The menu item.
+       * @property {HTMLElement} link - The menu item's link.
        */
 
     }, {
@@ -739,9 +802,12 @@ var AccessibleMenu = (function () {
         return this.domElements;
       }
       /**
-       * The elements within the menu item.
+       * The declared accessible-menu elements within the menu item.
        *
-       * @returns {object} - The elements.
+       * @type {object.<BaseMenu,BaseMenuToggle>}
+       * @property {BaseMenu}        parentMenu - The menu containing this menu item.
+       * @property {?BaseMenu}       childMenu  - The menu contained within this menu item.
+       * @property {?BaseMenuToggle} toggle     - The menu toggle within this menu item that controls the `childMenu`.
        */
 
     }, {
@@ -752,7 +818,7 @@ var AccessibleMenu = (function () {
       /**
        * A flag marking a submenu item.
        *
-       * @returns {boolean} - The submenu flag.
+       * @type {boolean}
        */
 
     }, {
@@ -761,7 +827,8 @@ var AccessibleMenu = (function () {
         return this.isController;
       }
       /**
-       * Focuses the menu item's link if triggering event is valid.
+       * Focuses the menu item's link if the parent menu's
+       * {@link BaseMenu#shouldFocus|shouldFocus} value is `true`.
        */
 
     }, {
@@ -772,7 +839,8 @@ var AccessibleMenu = (function () {
         }
       }
       /**
-       * Blurs the menu item's link if triggering event is valid.
+       * Blurs the menu item's link if the parent menu's
+       * {@link BaseMenu#shouldFocus|shouldFocus} value is `true`.
        */
 
     }, {
@@ -850,27 +918,32 @@ var AccessibleMenu = (function () {
   function _createClass$7(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$7(Constructor.prototype, protoProps); if (staticProps) _defineProperties$7(Constructor, staticProps); return Constructor; }
   /**
    * An accessible navigation element in the DOM.
+   *
+   * This is intended to be used as a "base" to other menus and not to be used on
+   * it's own in the DOM.
+   *
+   * Use a {@link DisclosureMenu}, {@link Menubar}, or {@link Treeview} instead.
    */
 
   var BaseMenu = /*#__PURE__*/function () {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      *
-     * @param {object}               param0                               - The menu object.
-     * @param {HTMLElement}          param0.menuElement                   - The menu element in the DOM.
-     * @param {string}               [param0.menuItemSelector = "li"]     - The CSS selector string for menu items.
-     * @param {string}               [param0.menuLinkSelector = "a"]      - The CSS selector string for menu links.
-     * @param {string}               [param0.submenuItemSelector = ""]    - The CSS selector string for menu items containing submenus.
-     * @param {string}               [param0.submenuToggleSelector = "a"] - The CSS selector string for submenu toggle buttons/links.
-     * @param {string}               [param0.submenuSelector = "ul"]      - The CSS selector string for submenus.
-     * @param {HTMLElement|null}     [param0.controllerElement = null]    - The element controlling the menu in the DOM.
-     * @param {HTMLElement|null}     [param0.containerElement = null]     - The element containing the menu in the DOM.
-     * @param {string|string[]|null} [param0.openClass = "show"]          - The class to apply when a menu is "open".
-     * @param {string|string[]|null} [param0.closeClass = "hide"]         - The class to apply when a menu is "closed".
-     * @param {boolean}              [param0.isTopLevel = false]          - A flag to mark the root menu.
-     * @param {BaseMenu|null}        [param0.parentMenu = null]           - The parent menu to this menu.
-     * @param {string}               [param0.hoverType = "off"]           - The type of hoverability a menu has.
-     * @param {number}               [param0.hoverDelay = 250]            - The delay for closing menus if the menu is hoverable (in miliseconds).
+     * @param {object}                 options                             - The options for generating the menu.
+     * @param {HTMLElement}            options.menuElement                 - The menu element in the DOM.
+     * @param {string}                 [options.menuItemSelector = li]     - The CSS selector string for menu items.
+     * @param {string}                 [options.menuLinkSelector = a]      - The CSS selector string for menu links.
+     * @param {string}                 [options.submenuItemSelector]       - The CSS selector string for menu items containing submenus.
+     * @param {string}                 [options.submenuToggleSelector = a] - The CSS selector string for submenu toggle buttons/links.
+     * @param {string}                 [options.submenuSelector = ul]      - The CSS selector string for submenus.
+     * @param {?HTMLElement}           [options.controllerElement = null]  - The element controlling the menu in the DOM.
+     * @param {?HTMLElement}           [options.containerElement = null]   - The element containing the menu in the DOM.
+     * @param {?(string|string[])}     [options.openClass = show]          - The class to apply when a menu is "open".
+     * @param {?(string|string[])}     [options.closeClass = hide]         - The class to apply when a menu is "closed".
+     * @param {boolean}                [options.isTopLevel = false]        - A flag to mark the root menu.
+     * @param {?BaseMenu}              [options.parentMenu = null]         - The parent menu to this menu.
+     * @param {string}                 [options.hoverType = off]           - The type of hoverability a menu has.
+     * @param {number}                 [options.hoverDelay = 250]          - The delay for closing menus if the menu is hoverable (in miliseconds).
      */
     function BaseMenu(_ref) {
       var menuElement = _ref.menuElement,
@@ -942,7 +1015,15 @@ var AccessibleMenu = (function () {
     /**
      * Initializes the menu.
      *
-     * This will also initialize all menu items and sub menus.
+     * The following steps will be taken to initialize the menu:
+     * - {@link BaseMenu#validate|Validate} that the menu can initialize,
+     * - find the root menu of the menu tree if it isn't already set,
+     * - populate all DOM elements within the {@link BaseMenu#dom|dom},
+     * - if the current menu is the root menu _and_ has a controller, initialize
+     *   the controller, and
+     * - populate the menu elements within the {@link BaseMenu#elements|elements}
+     *
+     * @throws {Error} Will throw an Error if validate returns `false`.
      */
 
 
@@ -976,7 +1057,14 @@ var AccessibleMenu = (function () {
       /**
        * The DOM elements within the menu.
        *
-       * @returns {object} - The DOM elements.
+       * @type {object.<HTMLElement,HTMLElement[]>}
+       * @property {HTMLElement}   menu           - The menu element.
+       * @property {HTMLElement[]} menuItems      - An array of menu items.
+       * @property {HTMLElement[]} submenuItems   - An array of menu items that also contain submenu elements.
+       * @property {HTMLElement[]} submenuToggles - An array of menu links that function as submenu toggles.
+       * @property {HTMLElement[]} submenus       - An array of submenu elements.
+       * @property {HTMLElement}   controller     - The toggle for this menu.
+       * @property {HTMLElement}   container      - The container for this menu.
        */
 
     }, {
@@ -985,9 +1073,14 @@ var AccessibleMenu = (function () {
         return this.domElements;
       }
       /**
-       * The CSS selectors available to the menu.
+       * The CSS selectors used by the menu to populate the {@link BaseMenu#dom|dom}.
        *
-       * @returns {object} - The selectors.
+       * @type {object.<string>}
+       * @property {string} menuItems      - The CSS selector for menu items.
+       * @property {string} menuLinks      - The CSS selector for menu links.
+       * @property {string} submenuItems   - The CSS selector for menu items containing submenus.
+       * @property {string} submenuToggles - The CSS selector for menu links that function as submenu toggles.
+       * @property {string} submenus       - The CSS selector for for submenus.
        */
 
     }, {
@@ -996,9 +1089,14 @@ var AccessibleMenu = (function () {
         return this.domSelectors;
       }
       /**
-       * The elements within the menu.
+       * The declared accessible-menu elements within the menu.
        *
-       * @returns {object} - The elements.
+       * @type {object.<BaseMenu,BaseMenuToggle,BaseMenuItem[],BaseMenuToggle[]>}
+       * @property {BaseMenuItem[]}   menuItems      - An array of menu items.
+       * @property {BaseMenuToggle[]} submenuToggles - An array of menu toggles.
+       * @property {?BaseMenuToggle}  controller     - A menu toggle that controls this menu.
+       * @property {?BaseMenu}        parentMenu     - The parent menu.
+       * @property {?BaseMenu}        rootMenu       - The root menu of the menu tree.
        */
 
     }, {
@@ -1007,12 +1105,12 @@ var AccessibleMenu = (function () {
         return this.menuElements;
       }
       /**
-       * The class(es) to apply when the menu is "open".
+       * The class(es) to apply when the menu is open.
        *
        * This functions differently for root vs. submenus.
        * Submenus will always inherit their root menu's open class(es).
        *
-       * @returns {string|string[]} - The class(es).
+       * @type {string|string[]}
        */
 
     }, {
@@ -1021,21 +1119,15 @@ var AccessibleMenu = (function () {
         return this.isTopLevel ? this.submenuOpenClass : this.elements.rootMenu.openClass;
       }
       /**
-       * The class(es) to apply when the menu is "closed".
+       * The class(es) to apply when the menu is closed.
        *
        * This functions differently for root vs. submenus.
        * Submenus will always inherit their root menu's close class(es).
        *
-       * @returns {string|string[]} - The class(es).
+       * @type {string|string[]}
        */
       ,
-      set:
-      /**
-       * Set the class to apply when the menu is "open".
-       *
-       * @param {string} value - The class.
-       */
-      function set(value) {
+      set: function set(value) {
         isValidClassList({
           openClass: value
         });
@@ -1044,12 +1136,6 @@ var AccessibleMenu = (function () {
           this.submenuOpenClass = value;
         }
       }
-      /**
-       * Set the class to apply when the menu is "closed".
-       *
-       * @param {string} value - The class.
-       */
-
     }, {
       key: "closeClass",
       get: function get() {
@@ -1058,7 +1144,7 @@ var AccessibleMenu = (function () {
       /**
        * A flag marking the root menu.
        *
-       * @returns {boolean} - The top-level flag.
+       * @type {boolean}
        */
       ,
       set: function set(value) {
@@ -1070,28 +1156,24 @@ var AccessibleMenu = (function () {
           this.submenuCloseClass = value;
         }
       }
-      /**
-       * Set the index currently selected menu item in the menu.
-       *
-       * - Attempting to set a value < -1 will set the currentChild to -1.
-       * - Attempting to set a value >= the number of menu items will set the currentChild to the number of menu items - 1.
-       *
-       * If the current menu has a parent menu _and_ the menu's current event is "mouse",
-       * The parent menu will have it's current child updated as well to help with transitioning
-       * between mouse and keyboard naviation.
-       *
-       * @param {number} value - The index.
-       */
-
     }, {
       key: "isTopLevel",
       get: function get() {
         return this.root;
       }
       /**
-       * The index of the currently selected menu item in the menu.
+       * The index of the currently selected {@link BaseMenuItem|menu item} in the menu.
        *
-       * @returns {number} - The index.
+       * - Attempting to set a value less than -1 will set the current child to -1.
+       * - Attempting to set a value greater than or equal to the number of menu items
+       *   will set the current child to the index of the last menu item in the menu.
+       *
+       * If the current menu has a parent menu _and_ the menu's
+       * {@link BaseMenu#currentEvent|current event} is "mouse", The parent menu
+       * will have it's current child updated as well to help with transitioning
+       * between mouse and keyboard naviation.
+       *
+       * @type {number}
        */
 
     }, {
@@ -1102,7 +1184,7 @@ var AccessibleMenu = (function () {
       /**
        * The current state of the menu's focus.
        *
-       * @returns {string} - The state.
+       * @type {string}
        */
       ,
       set: function set(value) {
@@ -1148,12 +1230,6 @@ var AccessibleMenu = (function () {
           setParentChild(this);
         }
       }
-      /**
-       * Set the state of the menu's focus.
-       *
-       * @param {string} value - The state.
-       */
-
     }, {
       key: "focusState",
       get: function get() {
@@ -1162,7 +1238,7 @@ var AccessibleMenu = (function () {
       /**
        * This last event triggered on the menu.
        *
-       * @returns {string} - The event type.
+       * @type {string}
        */
       ,
       set: function set(value) {
@@ -1174,12 +1250,6 @@ var AccessibleMenu = (function () {
           this.state = value;
         }
       }
-      /**
-       * Set the last event triggered on the menu.
-       *
-       * @param {string} value - The event type.
-       */
-
     }, {
       key: "currentEvent",
       get: function get() {
@@ -1188,7 +1258,7 @@ var AccessibleMenu = (function () {
       /**
        * The currently selected menu item.
        *
-       * @returns {BaseMenuItem} - The menu item.
+       * @type {BaseMenuItem}
        */
       ,
       set: function set(value) {
@@ -1206,12 +1276,6 @@ var AccessibleMenu = (function () {
           }
         }
       }
-      /**
-       * Set the type of hoverability for the menu.
-       *
-       * @param {string} value - The hover type.
-       */
-
     }, {
       key: "currentMenuItem",
       get: function get() {
@@ -1223,7 +1287,7 @@ var AccessibleMenu = (function () {
        * This functions differently for root vs. submenus.
        * Submenus will always inherit their root menu's hoverability.
        *
-       * @returns {string} - The hover type.
+       * @type {string}
        */
 
     }, {
@@ -1237,7 +1301,7 @@ var AccessibleMenu = (function () {
        * This functions differently for root vs. submenus.
        * Submenus will always inherit their root menu's hover delay.
        *
-       * @returns {number} - The delay time.
+       * @type {number}
        */
       ,
       set: function set(value) {
@@ -1249,12 +1313,6 @@ var AccessibleMenu = (function () {
           this.hover = value;
         }
       }
-      /**
-       * Set the delay time (in miliseconds) used for mouseout events to take place.
-       *
-       * @param {number} value - The delay time.
-       */
-
     }, {
       key: "hoverDelay",
       get: function get() {
@@ -1263,12 +1321,13 @@ var AccessibleMenu = (function () {
       /**
        * A flag to check if the menu's focus methods should _actually_ move the focus in the DOM.
        *
-       * Will return false unless any of the following criteria are met:
-       * - The menu's currentEvent is "keyboard".
-       * - The menu's currentEvent is "character".
-       * - The menu's currentEvent is "mouse" _and_ the menu's hoverType is "dynamic".
+       * This will be `false` unless any of the following criteria are met:
+       * - The menu's {@link BaseMenu#currentEvent|current event} is "keyboard".
+       * - The menu's current event is "character".
+       * - The menu's current event is "mouse" _and_ the menu's
+       *   {@link BaseMenu#hoverType|hover type} is "dynamic".
        *
-       * @returns {boolean} - The flag.
+       * @type {boolean}
        */
       ,
       set: function set(value) {
@@ -1386,6 +1445,9 @@ var AccessibleMenu = (function () {
       /**
        * Sets DOM elements within the menu.
        *
+       * This will set the actual `domElement` property, so all existing items in a
+       * given `domElement` property will be removed when this is run.
+       *
        * @param {string}      elementType - The type of element to populate.
        * @param {HTMLElement} base        - The element used as the base for the querySelect.
        * @param {Function}    filter      - A filter to use to narrow down the DOM elements selected.
@@ -1426,6 +1488,9 @@ var AccessibleMenu = (function () {
       }
       /**
        * Adds an element to DOM elements within the menu.
+       *
+       * This is an additive function, so existing items in a given `domElement`
+       * property will not be touched.
        *
        * @param {string}      elementType - The type of element to populate.
        * @param {HTMLElement} base        - The element used as the base for the querySelect.
@@ -1486,6 +1551,10 @@ var AccessibleMenu = (function () {
       }
       /**
        * Sets all DOM elements within the menu.
+       *
+       * Utiliizes {@link BaseMenu#setDOMElementType|setDOMElementType},
+       * {@link BaseMenu#clearDOMElementType|clearDOMElementType},
+       * and {@link BaseMenu#addDOMElementType|addDOMElementType}.
        */
 
     }, {
@@ -1592,6 +1661,11 @@ var AccessibleMenu = (function () {
       }
       /**
        * Handles focus events throughout the menu for proper menu use.
+       *
+       * - Adds a `focus` listener to every menu item so when it gains focus,
+       *   it will set the item's containing menu's {@link BaseMenu#focusState|focus state}
+       *   to "self", any parent menu's focus state to "child", and any
+       *   child menu's focus state to "none".
        */
 
     }, {
@@ -1610,6 +1684,20 @@ var AccessibleMenu = (function () {
       }
       /**
        * Handles click events throughout the menu for proper use.
+       *
+       * Depending on what is supported either `touchstart` and `touchend` or
+       * `mousedown` and `mouseup` will be used for all "click" event handling.
+       *
+       * - Adds a `touchend`/`mouseup` listener to the document so if the user clicks
+       *   outside of the menu when it is open, the menu will close.
+       * - Adds a `touchstart`/`mousedown` listener to every menu item that will blur
+       *   all menu items in the entire menu structure (starting at the root menu) and
+       *   then properly focus the clicked item.
+       * - Adds a `touchend`/`mouseup` listener to every submenu item that will properly
+       *   toggle the submenu open/closed.
+       * - Adds a `touchend`/`mouseup` listener to the menu's controller
+       *   (if the menu is the root menu) so when it is clicked it will properly
+       *   toggle open/closed.
        */
 
     }, {
@@ -1665,6 +1753,41 @@ var AccessibleMenu = (function () {
       }
       /**
        * Handles hover events throughout the menu for proper use.
+       *
+       * Adds `mouseenter` listeners to all menu items and `mouseleave` listeners
+       * to all submenu items which function differently depending on
+       * the menu's {@link BaseMenu#hoverType|hover type}.
+       *
+       * **Hover Type "on"**
+       * - When a `mouseenter` event triggers on any menu item the menu's
+       *   {@link BaseMenu#currentChild| current child} value will change to that
+       *   menu item.
+       * - When a `mouseenter` event triggers on a submenu item the
+       *   {@link BaseMenuToggle#preview|preview method} for the submenu item's
+       *   toggle will be called.
+       * - When a `mouseleave` event triggers on an open submenu item the
+       *   {@link BaseMenuToggle#close|close method} for the submenu item's toggle
+       *   will be called after a delay set by the menu's {@link BaseMenu#hoverDelay|hover delay}.
+       *
+       * **Hover Type "dynamic"**
+       * - When a `mouseenter` event triggers on any menu item the menu's
+       *   current child value will change to that menu item.
+       * - When a `mouseenter` event triggers on any menu item, and the menu's
+       *   {@link BaseMenu#focusState|focus state} is not "none", the menu item
+       *   will be focused.
+       * - When a `mouseenter` event triggers on a submenu item, and a submenu is
+       *   already open, the preview method for the submenu item's toggle will be called.
+       * - When a `mouseenter` event triggers on a submenu item, and no submenu is
+       *   open, no submenu-specific methods will be called.
+       * - When a `mouseleave` event triggers on an open submenu item that is not a
+       *   root-level submenu item the close method for the submenu item's toggle
+       *   will be called and the submenu item will be focused after a delay set by
+       *   the menu's hover delay.
+       * - When a `mouseleave` event triggers on an open submenu item that is a
+       *   root-level submenu item no submenu-specific methods will be called.
+       *
+       * **Hover Type "off"**
+       * All `mouseenter` and `mouseleave` events are ignored.
        */
 
     }, {
@@ -1724,6 +1847,11 @@ var AccessibleMenu = (function () {
       }
       /**
        * Handles keydown events throughout the menu for proper menu use.
+       *
+       * This method exists to assit the {@link BaseMenu#handleKeyup|handleKeyup method}.
+       *
+       * - Adds a `keydown` listener to the menu's controller (if the menu is the root menu).
+       *   - Blocks propagation on "Space", "Enter", and "Escape" keys.
        */
 
     }, {
@@ -1744,6 +1872,9 @@ var AccessibleMenu = (function () {
       }
       /**
        * Handles keyup events throughout the menu for proper menu use.
+       *
+       * - Adds a `keyup` listener to the menu's controller (if the menu is the root menu).
+       *   - Opens the menu when the user hits "Space" or "Enter".
        */
 
     }, {
@@ -1768,6 +1899,10 @@ var AccessibleMenu = (function () {
       }
       /**
        * Focus the menu.
+       *
+       * Sets the menu's {@link BaseMenu#focusState|focus state} to "self" and
+       * focusses the menu if the menu's {@link BaseMenu#shouldFocus|shouldFocus}
+       * value is `true`.
        */
 
     }, {
@@ -1781,6 +1916,10 @@ var AccessibleMenu = (function () {
       }
       /**
        * Unfocus the menu.
+       *
+       * Sets the menu's {@link BaseMenu#focusState|focus state} to "none"
+       * and blurs the menu if the menu's {@link BaseMenu#shouldFocus|shouldFocus}
+       * vallue is `true`.
        */
 
     }, {
@@ -1950,7 +2089,9 @@ var AccessibleMenu = (function () {
 
   function _getPrototypeOf$8(o) { _getPrototypeOf$8 = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$8(o); }
   /**
-   * A basic navigation link contained inside of a DisclosureMenu.
+   * A basic navigation link contained inside of a {@link DisclousreMenu}.
+   *
+   * @extends BaseMenuItem
    */
 
   var DisclosureMenuItem = /*#__PURE__*/function (_BaseMenuItem) {
@@ -1959,16 +2100,16 @@ var AccessibleMenu = (function () {
     var _super = _createSuper$8(DisclosureMenuItem);
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      *
-     * @param {object}                    param0                         - The menu item object.
-     * @param {HTMLElement}               param0.menuItemElement         - The menu item in the DOM.
-     * @param {HTMLElement}               param0.menuLinkElement         - The menu item's link in the DOM.
-     * @param {DisclosureMenu}            param0.parentMenu              - The parent menu.
-     * @param {boolean}                   [param0.isSubmenuItem = false] - A flag to mark if the menu item is controlling a submenu.
-     * @param {DisclosureMenu|null}       [param0.childMenu = null]      - The child menu.
-     * @param {DisclosureMenuToggle|null} [param0.toggle = null]         - The controller for the child menu.
-     * @param {boolean}                   [param0.initialize = true]     - A flag to initialize the menu item immediately upon creation.
+     * @param {object}                    options                         - The options for generating the menu item.
+     * @param {HTMLElement}               options.menuItemElement         - The menu item in the DOM.
+     * @param {HTMLElement}               options.menuLinkElement         - The menu item's link in the DOM.
+     * @param {DisclosureMenu}            options.parentMenu              - The parent menu.
+     * @param {boolean}                   [options.isSubmenuItem = false] - A flag to mark if the menu item is controlling a submenu.
+     * @param {DisclosureMenu|null}       [options.childMenu = null]      - The child menu.
+     * @param {DisclosureMenuToggle|null} [options.toggle = null]         - The controller for the child menu.
+     * @param {boolean}                   [options.initialize = true]     - A flag to initialize the menu item immediately upon creation.
      */
     function DisclosureMenuItem(_ref) {
       var _this;
@@ -2031,8 +2172,10 @@ var AccessibleMenu = (function () {
   function _isNativeReflectConstruct$7() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
   function _getPrototypeOf$7(o) { _getPrototypeOf$7 = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$7(o); }
-  /*
-   * A link or button that controls the visibility of a DisclosureMenu.
+  /**
+   * A link or button that controls the visibility of a {@link DisclousreMenu}.
+   *
+   * @extends BaseMenuToggle
    */
 
   var DisclosureMenuToggle = /*#__PURE__*/function (_BaseMenuToggle) {
@@ -2041,14 +2184,14 @@ var AccessibleMenu = (function () {
     var _super = _createSuper$7(DisclosureMenuToggle);
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      *
-     * @param {object}              param0                     - The menu toggle object.
-     * @param {HTMLElement}         param0.menuToggleElement   - The toggle element in the DOM.
-     * @param {HTMLElement}         param0.parentElement       - The element containing the controlled menu.
-     * @param {DisclosureMenu}      param0.controlledMenu      - The menu controlled by this toggle.
-     * @param {DisclosureMenu|null} [param0.parentMenu = null] - The menu containing this toggle.
-     * @param {boolean}             [param0.initialize = true] - A flag to initialize the menu toggle immediately upon creation.
+     * @param {object}              options                     - The options for generating the menu toggle.
+     * @param {HTMLElement}         options.menuToggleElement   - The toggle element in the DOM.
+     * @param {HTMLElement}         options.parentElement       - The element containing the controlled menu.
+     * @param {DisclosureMenu}      options.controlledMenu      - The menu controlled by this toggle.
+     * @param {DisclosureMenu|null} [options.parentMenu = null] - The menu containing this toggle.
+     * @param {boolean}             [options.initialize = true] - A flag to initialize the menu toggle immediately upon creation.
      */
     function DisclosureMenuToggle(_ref) {
       var _this;
@@ -2078,6 +2221,9 @@ var AccessibleMenu = (function () {
     }
     /**
      * Opens the controlled menu.
+     *
+     * Calls the {@link DisclosureMenuToggle#closeSiblings| closeSiblings method}
+     * and _then_ {@link BaseMenuToggle#open|BaseMenuToggle's open method}.
      */
 
 
@@ -2091,6 +2237,9 @@ var AccessibleMenu = (function () {
       }
       /**
        * Opens the controlled menu without the current focus entering it.
+       *
+       * Calls the {@link DisclosureMenuToggle#closeSiblings| closeSiblings method}
+       * and _then_ {@link BaseMenuToggle#preview|BaseMenuToggle's preview method}.
        */
 
     }, {
@@ -2103,6 +2252,9 @@ var AccessibleMenu = (function () {
       }
       /**
        * Closes the controlled menu.
+       *
+       * Calls the {@link DisclosureMenuToggle#closeChildren| closeChildren method}
+       * and _then_ {@link BaseMenuToggle#close|BaseMenuToggle's close method}.
        */
 
     }, {
@@ -2148,7 +2300,9 @@ var AccessibleMenu = (function () {
   /**
    * An accessible disclosure menu in the DOM.
    *
-   * See https://www.w3.org/TR/wai-aria-practices-1.2/examples/disclosure/disclosure-navigation.html
+   * See {@link https://www.w3.org/TR/wai-aria-practices-1.2/examples/disclosure/disclosure-navigation.html|Example Disclosure for Navigation Menus}
+   *
+   * @extends BaseMenu
    */
 
   var DisclosureMenu = /*#__PURE__*/function (_BaseMenu) {
@@ -2157,25 +2311,25 @@ var AccessibleMenu = (function () {
     var _super = _createSuper$6(DisclosureMenu);
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      *
-     * @param {object}              param0                               - The menu object.
-     * @param {HTMLElement}         param0.menuElement                   - The menu element in the DOM.
-     * @param {string}              [param0.menuItemSelector = "li"]     - The CSS selector string for menu items.
-     * @param {string}              [param0.menuLinkSelector = "a"]      - The CSS selector string for menu links.
-     * @param {string}              [param0.submenuItemSelector = ""]    - The CSS selector string for menu items containing submenus.
-     * @param {string}              [param0.submenuToggleSelector = "a"] - The CSS selector string for submenu toggle buttons/links.
-     * @param {string}              [param0.submenuSelector = "ul"]      - The CSS selector string for submenus.
-     * @param {HTMLElement|null}    [param0.controllerElement = null]    - The element controlling the menu in the DOM.
-     * @param {HTMLElement|null}    [param0.containerElement = null]     - The element containing the menu in the DOM.
-     * @param {string}              [param0.openClass = "show"]          - The class to apply when a menu is "open".
-     * @param {string}              [param0.closeClass = "hide"]         - The class to apply when a menu is "closed".
-     * @param {boolean}             [param0.isTopLevel = false]          - A flag to mark the root menu.
-     * @param {DisclosureMenu|null} [param0.parentMenu = null]           - The parent menu to this menu.
-     * @param {string}              [param0.hoverType = "off"]           - The type of hoverability a menu has.
-     * @param {number}              [param0.hoverDelay = 250]            - The delay for closing menus if the menu is hoverable (in miliseconds).
-     * @param {boolean}             [param0.optionalKeySupport = false]  - A flag to add optional keyboard support (Arrow keys, Home, and End) to the menu.
-     * @param {boolean}             [param0.initialize = true]           - A flag to initialize the menu immediately upon creation.
+     * @param {object}                 options                              - The options for generating the menu.
+     * @param {HTMLElement}            options.menuElement                  - The menu element in the DOM.
+     * @param {string}                 [options.menuItemSelector = li]      - The CSS selector string for menu items.
+     * @param {string}                 [options.menuLinkSelector = a]       - The CSS selector string for menu links.
+     * @param {string}                 [options.submenuItemSelector]        - The CSS selector string for menu items containing submenus.
+     * @param {string}                 [options.submenuToggleSelector = a]  - The CSS selector string for submenu toggle buttons/links.
+     * @param {string}                 [options.submenuSelector = ul]       - The CSS selector string for submenus.
+     * @param {(HTMLElement|null)}     [options.controllerElement = null]   - The element controlling the menu in the DOM.
+     * @param {(HTMLElement|null)}     [options.containerElement = null]    - The element containing the menu in the DOM.
+     * @param {(string|string[]|null)} [options.openClass = show]           - The class to apply when a menu is "open".
+     * @param {(string|string[]|null)} [options.closeClass = hide]          - The class to apply when a menu is "closed".
+     * @param {boolean}                [options.isTopLevel = false]         - A flag to mark the root menu.
+     * @param {(DisclosureMenu|null)}  [options.parentMenu = null]          - The parent menu to this menu.
+     * @param {string}                 [options.hoverType = off]            - The type of hoverability a menu has.
+     * @param {number}                 [options.hoverDelay = 250]           - The delay for closing menus if the menu is hoverable (in miliseconds).
+     * @param {boolean}                [options.optionalKeySupport = false] - A flag to add optional keyboard support (Arrow keys, Home, and End) to the menu.
+     * @param {boolean}                [options.initialize = true]          - A flag to initialize the menu immediately upon creation.
      */
     function DisclosureMenu(_ref) {
       var _this;
@@ -2244,12 +2398,12 @@ var AccessibleMenu = (function () {
       return _this;
     }
     /**
-     * A flag to add optional keyboard support (Arrow keys, Home, and End) to the menu.
+     * A flag to add optional keyboard support (Arrow keys, "Home", and "End") to the menu.
      *
      * This functions differently for root vs. submenus.
      * Submenus will always inherit their root menu's optionalKeySupport.
      *
-     * @returns {boolean} - The flag.
+     * @type {boolean}
      */
 
 
@@ -2257,13 +2411,7 @@ var AccessibleMenu = (function () {
       key: "optionalKeySupport",
       get: function get() {
         return this.isTopLevel ? this.optionalSupport : this.elements.rootMenu.optionalKeySupport;
-      }
-      /**
-       * Set the flag to add optional keyboard support (Arrow keys, Home, and End) to the menu.
-       *
-       * @param {boolean} value - The flag.
-       */
-      ,
+      },
       set: function set(value) {
         isValidType("boolean", {
           optionalKeySupport: value
@@ -2273,7 +2421,15 @@ var AccessibleMenu = (function () {
       /**
        * Initializes the menu.
        *
-       * This will also initialize all menu items and sub menus.
+       * Initialize will call the {@link BaseMenu#initialize|BaseMenu's initialize method}
+       * as well as set up {@link DisclosureMenu#handleFocus|focus},
+       * {@link DisclosureMenu#handleClick|click},
+       * {@link DisclosureMenu#handleHover|hover},
+       * {@link DisclosureMenu#handleKeydown|keydown}, and
+       * {@link DisclosureMenu#handleKeyup|keyup} events for the menu.
+       *
+       * If the BaseMenu's initialize method throws an error,
+       * this will catch it and log it to the console.
        */
 
     }, {
@@ -2293,6 +2449,15 @@ var AccessibleMenu = (function () {
       }
       /**
        * Handles click events throughout the menu for proper use.
+       *
+       * Depending on what is supported either `touchstart` and `touchend` or
+       * `mousedown` and `mouseup` will be used for all "click" event handling.
+       *
+       * - Adds all event listeners listed in
+       *   {@link BaseMenu#handleClick|BaseMenu's handleClick method}, and
+       * - adds a `touchend`/`mouseup` listener to the `document` so if the user
+       *   clicks outside of the menu it will close if it is open.
+       *
        */
 
     }, {
@@ -2323,6 +2488,14 @@ var AccessibleMenu = (function () {
       }
       /**
        * Handles keydown events throughout the menu for proper menu use.
+       *
+       * This method exists to assist the {@link DisclosureMenu#handleKeyup|handleKeyup method}.
+       * - Adds all `keydown` listeners from {@link BaseMenu#handleKeydown|BaseMenu's handleKeydown method}
+       * - Adds a `keydown` listener to the menu/all submenus.
+       *   - Blocks propagation on the following keys: "Space", "Enter", and "Escape".
+       *   - _If_ {@link DisclosureMenu#optionalKeySupport|optional keyboard support}
+       *     is enabled, blocks propagation on the following keys:
+       *     "ArrowUp", "ArrowRight", "ArrowDown", "ArrowLeft", "Home", and "End".
        */
 
     }, {
@@ -2359,6 +2532,23 @@ var AccessibleMenu = (function () {
       }
       /**
        * Handles keyup events throughout the menu for proper menu use.
+       *
+       * Adds all `keyup` listeners from {@link BaseMenu#handleKeyup|BaseMenu's handleKeyup method}.
+       *
+       * Adds the following keybindings (explanations are taken from the
+       * {@link https://www.w3.org/TR/wai-aria-practices-1.2/examples/disclosure/disclosure-navigation.html#kbd_label|WAI ARIA Pracitices Example Disclosure for Navigation Menus}):
+       *
+       * | Key | Function |
+       * | --- | --- |
+       * | _Tab_ or _Shift + Tab_ | Move keyboard focus among top-level buttons, and if a dropdown is open, into and through links in the dropdown. |
+       * | _Space_ or _Enter_ | <ul><li>If focus is on a disclosure button, activates the button, which toggles the visibility of the dropdown.</li><li>If focus is on a link:<ul><li>If any link has aria-current set, removes it.</li><li>Sets aria-current="page" on the focused link.</li><li>Activates the focused link.</li></ul></li></ul> |
+       * | _Escape_ | If a dropdown is open, closes it and sets focus on the button that controls that dropdown. |
+       * | _Down Arrow_ or _Right Arrow_ (Optional}) | <ul><li>If focus is on a button and its dropdown is collapsed, and it is not the last button, moves focus to the next button.</li><li>if focus is on a button and its dropdown is expanded, moves focus to the first link in the dropdown.</li><li>If focus is on a link, and it is not the last link, moves focus to the next link.</li></ul> |
+       * | _Up Arrow_ or _Left Arrow_ (Optional}) | <ul><li>If focus is on a button, and it is not the first button, moves focus to the previous button.</li><li>If focus is on a link, and it is not the first link, moves focus to the previous link.</li></ul> |
+       * | _Home_ (Optional}) | <ul><li>If focus is on a button, and it is not the first button, moves focus to the first button.</li><li>If focus is on a link, and it is not the first link, moves focus to the first link.</li></ul> |
+       * | _End_ (Optional}) | <ul><li>If focus is on a button, and it is not the last button, moves focus to the last button.</li><li>If focus is on a link, and it is not the last link, moves focus to the last link.</li></ul> |
+       *
+       * The optional keybindings are controlled by the menu's {@link DisclosureMenu#optionalKeySupport|optionalKeySupport} value.
        */
 
     }, {
@@ -2479,7 +2669,9 @@ var AccessibleMenu = (function () {
 
   function _getPrototypeOf$5(o) { _getPrototypeOf$5 = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$5(o); }
   /**
-   * A basic navigation link contained inside of a Menubar.
+   * A basic navigation link contained inside of a {@link Menubar}.
+   *
+   * @extends BaseMenuItem
    */
 
   var MenubarItem = /*#__PURE__*/function (_BaseMenuItem) {
@@ -2488,16 +2680,16 @@ var AccessibleMenu = (function () {
     var _super = _createSuper$5(MenubarItem);
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      *
-     * @param {object}             param0                         - The menu item object.
-     * @param {HTMLElement}        param0.menuItemElement         - The menu item in the DOM.
-     * @param {HTMLElement}        param0.menuLinkElement         - The menu item's link in the DOM.
-     * @param {Menubar}            param0.parentMenu              - The parent menu.
-     * @param {boolean}            [param0.isSubmenuItem = false] - A flag to mark if the menu item is controlling a submenu.
-     * @param {Menubar|null}       [param0.childMenu = null]      - The child menu.
-     * @param {MenubarToggle|null} [param0.toggle = null]         - The controller for the child menu.
-     * @param {boolean}            [param0.initialize = true]     - A flag to initialize the menu item immediately upon creation.
+     * @param {object}             options                         - The options for generating the menu item.
+     * @param {HTMLElement}        options.menuItemElement         - The menu item in the DOM.
+     * @param {HTMLElement}        options.menuLinkElement         - The menu item's link in the DOM.
+     * @param {Menubar}            options.parentMenu              - The parent menu.
+     * @param {boolean}            [options.isSubmenuItem = false] - A flag to mark if the menu item is controlling a submenu.
+     * @param {Menubar|null}       [options.childMenu = null]      - The child menu.
+     * @param {MenubarToggle|null} [options.toggle = null]         - The controller for the child menu.
+     * @param {boolean}            [options.initialize = true]     - A flag to initialize the menu item immediately upon creation.
      */
     function MenubarItem(_ref) {
       var _this;
@@ -2532,7 +2724,12 @@ var AccessibleMenu = (function () {
       return _this;
     }
     /**
-     * Initialize the menu item by setting its role and tab index.
+     * Initialize the menu item.
+     *
+     * Initialize will call the {@link BaseMenuItem#initialize|BaseMenuItem's initialize method}
+     * as well as set the menu item's `role` to "none",
+     * the menu link's `role` to "menuitem", and
+     * the menu link's `tabIndex` to -1 in the DOM.
      */
 
 
@@ -2546,7 +2743,12 @@ var AccessibleMenu = (function () {
         this.dom.link.tabIndex = -1;
       }
       /**
-       * Focuses the menu item's link and set proper tabIndex.
+       * Focuses the menu item's link if the parent menu's
+       * {@link Menubar#shouldFocus|shouldFocus} value is `true`.
+       *
+       * This will call the {@link BaseMenuItem#focus|BaseMenuItem's focus method}
+       * as well as set the menu link's `tabIndex` to 0 if the parent menu
+       * is the root menu.
        */
 
     }, {
@@ -2559,7 +2761,12 @@ var AccessibleMenu = (function () {
         }
       }
       /**
-       * Blurs the menu item's link and set proper tabIndex.
+       * Blurs the menu item's link if the parent menu's
+       * {@link Menubar#shouldFocus|shouldFocus} value is `true`.
+       *
+       * This will call the {@link BaseMenuItem#blur|BaseMenuItem's blur method}
+       * as well as set the menu link's `tabIndex` to -1 if the parent menu
+       * is the root menu.
        */
 
     }, {
@@ -2601,8 +2808,10 @@ var AccessibleMenu = (function () {
   function _isNativeReflectConstruct$4() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
   function _getPrototypeOf$4(o) { _getPrototypeOf$4 = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$4(o); }
-  /*
-   * A link or button that controls the visibility of a Menubar.
+  /**
+   * A link or button that controls the visibility of a {@link Menubar}.
+   *
+   * @extends BaseMenuToggle
    */
 
   var MenubarToggle = /*#__PURE__*/function (_BaseMenuToggle) {
@@ -2611,14 +2820,14 @@ var AccessibleMenu = (function () {
     var _super = _createSuper$4(MenubarToggle);
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      *
-     * @param {object}       param0                     - The menu toggle object.
-     * @param {HTMLElement}  param0.menuToggleElement   - The toggle element in the DOM.
-     * @param {HTMLElement}  param0.parentElement       - The element containing the controlled menu.
-     * @param {Menubar}      param0.controlledMenu      - The menu controlled by this toggle.
-     * @param {Menubar|null} [param0.parentMenu = null] - The menu containing this toggle.
-     * @param {boolean}      [param0.initialize = true] - A flag to initialize the menu toggle immediately upon creation.
+     * @param {object}       options                     - The options for generating the menu toggle.
+     * @param {HTMLElement}  options.menuToggleElement   - The toggle element in the DOM.
+     * @param {HTMLElement}  options.parentElement       - The element containing the controlled menu.
+     * @param {Menubar}      options.controlledMenu      - The menu controlled by this toggle.
+     * @param {Menubar|null} [options.parentMenu = null] - The menu containing this toggle.
+     * @param {boolean}      [options.initialize = true] - A flag to initialize the menu toggle immediately upon creation.
      */
     function MenubarToggle(_ref) {
       var _this;
@@ -2648,6 +2857,9 @@ var AccessibleMenu = (function () {
     }
     /**
      * Opens the controlled menu.
+     *
+     * Calls the {@link MenubarToggle#closeSiblings| closeSiblings method}
+     * and _then_ {@link BaseMenuToggle#open|BaseMenuToggle's open method}.
      */
 
 
@@ -2661,6 +2873,9 @@ var AccessibleMenu = (function () {
       }
       /**
        * Opens the controlled menu without the current focus entering it.
+       *
+       * Calls the {@link MenubarToggle#closeSiblings| closeSiblings method}
+       * and _then_ {@link BaseMenuToggle#preview|BaseMenuToggle's preview method}.
        */
 
     }, {
@@ -2673,6 +2888,9 @@ var AccessibleMenu = (function () {
       }
       /**
        * Closes the controlled menu.
+       *
+       * Calls the {@link MenubarToggle#closeChildren| closeChildren method}
+       * and _then_ {@link BaseMenuToggle#close|BaseMenuToggle's close method}.
        */
 
     }, {
@@ -2718,7 +2936,9 @@ var AccessibleMenu = (function () {
   /**
    * An accessible menubar navigation in the DOM.
    *
-   * See https://www.w3.org/TR/wai-aria-practices-1.2/examples/menubar/menubar-1/menubar-1.html
+   * See {@link https://www.w3.org/TR/wai-aria-practices-1.2/examples/menubar/menubar-1/menubar-1.html|Navigation Menubar Example}
+   *
+   * @extends BaseMenu
    */
 
   var Menubar = /*#__PURE__*/function (_BaseMenu) {
@@ -2727,24 +2947,24 @@ var AccessibleMenu = (function () {
     var _super = _createSuper$3(Menubar);
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      *
-     * @param {object}           param0                               - The menu object.
-     * @param {HTMLElement}      param0.menuElement                   - The menu element in the DOM.
-     * @param {string}           [param0.menuItemSelector = "li"]     - The CSS selector string for menu items.
-     * @param {string}           [param0.menuLinkSelector = "a"]      - The CSS selector string for menu links.
-     * @param {string}           [param0.submenuItemSelector = ""]    - The CSS selector string for menu items containing submenus.
-     * @param {string}           [param0.submenuToggleSelector = "a"] - The CSS selector string for submenu toggle buttons/links.
-     * @param {string}           [param0.submenuSelector = "ul"]      - The CSS selector string for submenus.
-     * @param {HTMLElement|null} [param0.controllerElement = null]    - The element controlling the menu in the DOM.
-     * @param {HTMLElement|null} [param0.containerElement = null]     - The element containing the menu in the DOM.
-     * @param {string}           [param0.openClass = "show"]          - The class to apply when a menu is "open".
-     * @param {string}           [param0.closeClass = "hide"]         - The class to apply when a menu is "closed".
-     * @param {boolean}          [param0.isTopLevel = false]          - A flag to mark the root menu.
-     * @param {Menubar|null}     [param0.parentMenu = null]           - The parent menu to this menu.
-     * @param {string}           [param0.hoverType = "off"]           - The type of hoverability a menu has.
-     * @param {number}           [param0.hoverDelay = 250]            - The delay for closing menus if the menu is hoverable (in miliseconds).
-     * @param {boolean}          [param0.initialize = true]           - A flag to initialize the menu immediately upon creation.
+     * @param {object}                 options                             - The options for generating the menu.
+     * @param {HTMLElement}            options.menuElement                 - The menu element in the DOM.
+     * @param {string}                 [options.menuItemSelector = li]     - The CSS selector string for menu items.
+     * @param {string}                 [options.menuLinkSelector = a]      - The CSS selector string for menu links.
+     * @param {string}                 [options.submenuItemSelector]       - The CSS selector string for menu items containing submenus.
+     * @param {string}                 [options.submenuToggleSelector = a] - The CSS selector string for submenu toggle buttons/links.
+     * @param {string}                 [options.submenuSelector = ul]      - The CSS selector string for submenus.
+     * @param {(HTMLElement|null)}     [options.controllerElement = null]  - The element controlling the menu in the DOM.
+     * @param {(HTMLElement|null)}     [options.containerElement = null]   - The element containing the menu in the DOM.
+     * @param {(string|string[]|null)} [options.openClass = show]          - The class to apply when a menu is "open".
+     * @param {(string|string[]|null)} [options.closeClass = hide]         - The class to apply when a menu is "closed".
+     * @param {boolean}                [options.isTopLevel = false]        - A flag to mark the root menu.
+     * @param {(Menubar|null)}         [options.parentMenu = null]         - The parent menu to this menu.
+     * @param {string}                 [options.hoverType = off]           - The type of hoverability a menu has.
+     * @param {number}                 [options.hoverDelay = 250]          - The delay for closing menus if the menu is hoverable (in miliseconds).
+     * @param {boolean}                [options.initialize = true]         - A flag to initialize the menu immediately upon creation.
      */
     function Menubar(_ref) {
       var _this;
@@ -2810,7 +3030,18 @@ var AccessibleMenu = (function () {
     /**
      * Initializes the menu.
      *
-     * This will also initialize all menu items and sub menus.
+     * Initialize will call the {@link BaseMenu#initialize|BaseMenu's initialize method}
+     * as well as set up {@link Menubar#handleFocus|focus},
+     * {@link Menubar#handleClick|click},
+     * {@link Menubar#handleHover|hover},
+     * {@link Menubar#handleKeydown|keydown}, and
+     * {@link Menubar#handleKeyup|keyup} events for the menu.
+     *
+     * This will also set the menu's `role` to "menubar" and the first menu item's
+     * `tabIndex` to 0 in the DOM.
+     *
+     * If the BaseMenu's initialize method throws an error,
+     * this will catch it and log it to the console.
      */
 
 
@@ -2833,6 +3064,14 @@ var AccessibleMenu = (function () {
       }
       /**
        * Handles click events throughout the menu for proper use.
+       *
+       * Depending on what is supported either `touchstart` and `touchend` or
+       * `mousedown` and `mouseup` will be used for all "click" event handling.
+       *
+       * - Adds all event listeners listed in
+       *   {@link BaseMenu#handleClick|BaseMenu's handleClick method}, and
+       * - adds a `touchend`/`mouseup` listener to the `document` so if the user
+       *   clicks outside of the menu it will close if it is open.
        */
 
     }, {
@@ -2863,6 +3102,14 @@ var AccessibleMenu = (function () {
       }
       /**
        * Handles keydown events throughout the menu for proper menu use.
+       *
+       * This method exists to assist the {@link Menubar#handleKeyup|handleKeyup method}.
+       * - Adds all `keydown` listeners from {@link BaseMenu#handleKeydown|BaseMenu's handleKeydown method}
+       * - Adds a `keydown` listener to the menu/all submenus.
+       *   - Blocks propagation on the following keys: "ArrowUp", "ArrowRight",
+       *     "ArrowDown", "ArrowLeft", "Home", "End", "Space", "Enter", "Escape",
+       *     and "A" through "Z".
+       *   - Completely closes the menu and moves focus out if the "Tab" key is pressed.
        */
 
     }, {
@@ -2919,6 +3166,38 @@ var AccessibleMenu = (function () {
       }
       /**
        * Handles keyup events throughout the menu for proper menu use.
+       *
+       * Adds all `keyup` listeners from {@link BaseMenu#handleKeyup|BaseMenu's handleKeyup method}.
+       *
+       * Adds the following keybindings (explanations are taken from the
+       * {@link https://www.w3.org/TR/2019/WD-wai-aria-practices-1.2-20191218/examples/menubar/menubar-1/menubar-1.html#kbd_label|Navigation Menubar Example}):
+       *
+       * **Menubar**
+       *
+       * | Key | Function |
+       * | --- | --- |
+       * | _Space_ or _Enter_ | Opens submenu and moves focus to first item in the submenu. |
+       * | _Right Arrow_ | <ul><li>Moves focus to the next item in the menubar.</li><li>If focus is on the last item, moves focus to the first item.</li></ul> |
+       * | _Left Arrow_ | <ul><li>Moves focus to the previous item in the menubar.</li><li>If focus is on the first item, moves focus to the last item.</li></ul> |
+       * | _Down Arrow_ | Opens submenu and moves focus to first item in the submenu. |
+       * | _Up Arrow_ | Opens submenu and moves focus to last item in the submenu. |
+       * | _Home_ | Moves focus to first item in the menubar. |
+       * | _End_ | Moves focus to last item in the menubar. |
+       * | _Character_ | <ul><li>Moves focus to next item in the menubar having a name that starts with the typed character.</li><li>If none of the items have a name starting with the typed character, focus does not move.</li></ul> |
+       *
+       * **Submenu**
+       *
+       * | Key | Function |
+       * | --- | --- |
+       * | _Space_ or _Enter_ | <ul><li>Activates menu item, causing the link to be activated.</li><li>NOTE: the links go to dummy pages; use the browser go-back function to return to this menubar example page.</li></ul> |
+       * | _Escape_ | <ul><li>Closes submenu.</li><li>Moves focus to parent menubar item.</li></ul> |
+       * | _Right Arrow_ | <ul><li>If focus is on an item with a submenu, opens the submenu and places focus on the first item.</li><li>If focus is on an item that does not have a submenu:<ul><li>Closes submenu.</li><li>Moves focus to next item in the menubar.</li><li>Opens submenu of newly focused menubar item, keeping focus on that parent menubar item.</li></ul></li></ul> |
+       * | _Left Arrow_ | <ul><li>Closes submenu and moves focus to parent menu item.</li><li>If parent menu item is in the menubar, also:<ul><li>moves focus to previous item in the menubar.</li><li>Opens submenu of newly focused menubar item, keeping focus on that parent menubar item.</li></ul></li></ul> |
+       * | _Down Arrow_ | <ul><li>Moves focus to the next item in the submenu.</li><li>If focus is on the last item, moves focus to the first item.</li></ul> |
+       * | _Up Arrow_ | <ul><li>Moves focus to previous item in the submenu.</li><li>If focus is on the first item, moves focus to the last item.</li></ul> |
+       * | Home | Moves focus to the first item in the submenu. |
+       * | End | Moves focus to the last item in the submenu. |
+       * | _Character_ | <ul><li>Moves focus to the next item having a name that starts with the typed character.</li><li>If none of the items have a name starting with the typed character, focus does not move.</li></ul> |
        */
 
     }, {
@@ -3173,6 +3452,9 @@ var AccessibleMenu = (function () {
       }
       /**
        * Focus the menu's next child.
+       *
+       * If the currently focussed child in the menu is the last child then this will
+       * focus the first child in the menu.
        */
 
     }, {
@@ -3187,6 +3469,9 @@ var AccessibleMenu = (function () {
       }
       /**
        * Focus the menu's previous child.
+       *
+       * If the currently focussed child in the menu is the first child then this will
+       * focus the last child in the menu.
        */
 
     }, {
@@ -3256,7 +3541,9 @@ var AccessibleMenu = (function () {
 
   function _getPrototypeOf$2(o) { _getPrototypeOf$2 = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$2(o); }
   /**
-   * A basic navigation link contained inside of a Treeview.
+   * A basic navigation link contained inside of a {@link Treeview}.
+   *
+   * @extends BaseMenuItem
    */
 
   var TreeviewItem = /*#__PURE__*/function (_BaseMenuItem) {
@@ -3265,16 +3552,16 @@ var AccessibleMenu = (function () {
     var _super = _createSuper$2(TreeviewItem);
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      *
-     * @param {object}              param0                         - The menu item object.
-     * @param {HTMLElement}         param0.menuItemElement         - The menu item in the DOM.
-     * @param {HTMLElement}         param0.menuLinkElement         - The menu item's link in the DOM.
-     * @param {Treeview}            param0.parentMenu              - The parent menu.
-     * @param {boolean}             [param0.isSubmenuItem = false] - A flag to mark if the menu item is controlling a submenu.
-     * @param {Treeview|null}       [param0.childMenu = null]      - The child menu.
-     * @param {TreeviewToggle|null} [param0.toggle = null]         - The controller for the child menu.
-     * @param {boolean}             [param0.initialize = true]     - A flag to initialize the menu item immediately upon creation.
+     * @param {object}              options                         - The options for generating the menu item.
+     * @param {HTMLElement}         options.menuItemElement         - The menu item in the DOM.
+     * @param {HTMLElement}         options.menuLinkElement         - The menu item's link in the DOM.
+     * @param {Treeview}            options.parentMenu              - The parent menu.
+     * @param {boolean}             [options.isSubmenuItem = false] - A flag to mark if the menu item is controlling a submenu.
+     * @param {Treeview|null}       [options.childMenu = null]      - The child menu.
+     * @param {TreeviewToggle|null} [options.toggle = null]         - The controller for the child menu.
+     * @param {boolean}             [options.initialize = true]     - A flag to initialize the menu item immediately upon creation.
      */
     function TreeviewItem(_ref) {
       var _this;
@@ -3309,7 +3596,12 @@ var AccessibleMenu = (function () {
       return _this;
     }
     /**
-     * Initialize the menu item by setting its role and tab index.
+     * Initialize the menu item.
+     *
+     * Initialize will call the {@link BaseMenuItem#initialize|BaseMenuItem's initialize method}
+     * as well as set the menu item's `role` to "none",
+     * the menu link's `role` to "treeitem", and
+     * the menu link's `tabIndex` to -1 in the DOM.
      */
 
 
@@ -3323,7 +3615,11 @@ var AccessibleMenu = (function () {
         this.dom.link.tabIndex = -1;
       }
       /**
-       * Focuses the menu item's link and set proper tabIndex.
+       * Focuses the menu item's link if the parent menu's
+       * {@link Menubar#shouldFocus|shouldFocus} value is `true`.
+       *
+       * This will call the {@link BaseMenuItem#focus|BaseMenuItem's focus method}
+       * as well as set the menu link's `tabIndex` to 0.
        */
 
     }, {
@@ -3334,7 +3630,11 @@ var AccessibleMenu = (function () {
         this.dom.link.tabIndex = 0;
       }
       /**
-       * Blurs the menu item's link and set proper tabIndex.
+       * Blurs the menu item's link if the parent menu's
+       * {@link Menubar#shouldFocus|shouldFocus} value is `true`.
+       *
+       * This will call the {@link BaseMenuItem#blur|BaseMenuItem's blur method}
+       * as well as set the menu link's `tabIndex` to -1.
        */
 
     }, {
@@ -3366,8 +3666,10 @@ var AccessibleMenu = (function () {
   function _isNativeReflectConstruct$1() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
   function _getPrototypeOf$1(o) { _getPrototypeOf$1 = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$1(o); }
-  /*
-   * A link or button that controls the visibility of a TreeviewNavigation.
+  /**
+   * A link or button that controls the visibility of a {@link Treeview}.
+   *
+   * @extends BaseMenuToggle
    */
 
   var TreeviewToggle = /*#__PURE__*/function (_BaseMenuToggle) {
@@ -3376,14 +3678,14 @@ var AccessibleMenu = (function () {
     var _super = _createSuper$1(TreeviewToggle);
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      *
-     * @param {object}                  param0                     - The menu toggle object.
-     * @param {HTMLElement}             param0.menuToggleElement   - The toggle element in the DOM.
-     * @param {HTMLElement}             param0.parentElement       - The element containing the controlled menu.
-     * @param {TreeviewNavigation}      param0.controlledMenu      - The menu controlled by this toggle.
-     * @param {TreeviewNavigation|null} [param0.parentMenu = null] - The menu containing this toggle.
-     * @param {boolean}                 [param0.initialize = true] - A flag to initialize the menu toggle immediately upon creation.
+     * @param {object}                  options                     - The options for generating the menu toggle.
+     * @param {HTMLElement}             options.menuToggleElement   - The toggle element in the DOM.
+     * @param {HTMLElement}             options.parentElement       - The element containing the controlled menu.
+     * @param {TreeviewNavigation}      options.controlledMenu      - The menu controlled by this toggle.
+     * @param {TreeviewNavigation|null} [options.parentMenu = null] - The menu containing this toggle.
+     * @param {boolean}                 [options.initialize = true] - A flag to initialize the menu toggle immediately upon creation.
      */
     function TreeviewToggle(_ref) {
       var _this;
@@ -3455,8 +3757,9 @@ var AccessibleMenu = (function () {
   /**
    * An accessible treeview navigation in the DOM.
    *
-   * See https://www.w3.org/TR/wai-aria-practices-1.2/examples/treeview/treeview-2/treeview-2a.html
-   * or https://www.w3.org/TR/wai-aria-practices-1.2/examples/treeview/treeview-2/treeview-2b.html
+   * See {@link https://www.w3.org/TR/wai-aria-practices-1.2/examples/treeview/treeview-2/treeview-2a.html|Navigation Treeview Example Using Computed Properties}
+   *
+   * @extends BaseMenu
    */
 
   var Treeview = /*#__PURE__*/function (_BaseMenu) {
@@ -3465,24 +3768,24 @@ var AccessibleMenu = (function () {
     var _super = _createSuper(Treeview);
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      *
-     * @param {object}           param0                               - The menu object.
-     * @param {HTMLElement}      param0.menuElement                   - The menu element in the DOM.
-     * @param {string}           [param0.menuItemSelector = "li"]     - The CSS selector string for menu items.
-     * @param {string}           [param0.menuLinkSelector = "a"]      - The CSS selector string for menu links.
-     * @param {string}           [param0.submenuItemSelector = ""]    - The CSS selector string for menu items containing submenus.
-     * @param {string}           [param0.submenuToggleSelector = "a"] - The CSS selector string for submenu toggle buttons/links.
-     * @param {string}           [param0.submenuSelector = "ul"]      - The CSS selector string for submenus.
-     * @param {HTMLElement|null} [param0.controllerElement = null]    - The element controlling the menu in the DOM.
-     * @param {HTMLElement|null} [param0.containerElement = null]     - The element containing the menu in the DOM.
-     * @param {string}           [param0.openClass = "show"]          - The class to apply when a menu is "open".
-     * @param {string}           [param0.closeClass = "hide"]         - The class to apply when a menu is "closed".
-     * @param {boolean}          [param0.isTopLevel = false]          - A flag to mark the root menu.
-     * @param {Treeview|null}    [param0.parentMenu = null]           - The parent menu to this menu.
-     * @param {string}           [param0.hoverType = "off"]           - The type of hoverability a menu has.
-     * @param {number}           [param0.hoverDelay = 250]            - The delay for closing menus if the menu is hoverable (in miliseconds).
-     * @param {boolean}          [param0.initialize = true]           - A flag to initialize the menu immediately upon creation.
+     * @param {object}                 options                             - The options for generating the menu.
+     * @param {HTMLElement}            options.menuElement                 - The menu element in the DOM.
+     * @param {string}                 [options.menuItemSelector = li]     - The CSS selector string for menu items.
+     * @param {string}                 [options.menuLinkSelector = a]      - The CSS selector string for menu links.
+     * @param {string}                 [options.submenuItemSelector]       - The CSS selector string for menu items containing submenus.
+     * @param {string}                 [options.submenuToggleSelector = a] - The CSS selector string for submenu toggle buttons/links.
+     * @param {string}                 [options.submenuSelector = ul]      - The CSS selector string for submenus.
+     * @param {(HTMLElement|null)}     [options.controllerElement = null]  - The element controlling the menu in the DOM.
+     * @param {(HTMLElement|null)}     [options.containerElement = null]   - The element containing the menu in the DOM.
+     * @param {(string|string[]|null)} [options.openClass = show]          - The class to apply when a menu is "open".
+     * @param {(string|string[]|null)} [options.closeClass = hide]         - The class to apply when a menu is "closed".
+     * @param {boolean}                [options.isTopLevel = false]        - A flag to mark the root menu.
+     * @param {(Treeview|null)}        [options.parentMenu = null]         - The parent menu to this menu.
+     * @param {string}                 [options.hoverType = off]           - The type of hoverability a menu has.
+     * @param {number}                 [options.hoverDelay = 250]          - The delay for closing menus if the menu is hoverable (in miliseconds).
+     * @param {boolean}                [options.initialize = true]         - A flag to initialize the menu immediately upon creation.
      */
     function Treeview(_ref) {
       var _this;
@@ -3549,7 +3852,20 @@ var AccessibleMenu = (function () {
     /**
      * Initializes the menu.
      *
-     * This will also initialize all menu items and sub menus.
+     * Initialize will call the {@link BaseMenu#initialize|BaseMenu's initialize method}
+     * as well as set up {@link Treeview#handleFocus|focus},
+     * {@link Treeview#handleClick|click},
+     * {@link Treeview#handleHover|hover},
+     * {@link Treeview#handleKeydown|keydown}, and
+     * {@link Treeview#handleKeyup|keyup} events for the menu.
+     *
+     * If the menu is a root menu it's `role` will be set to "tree" and the first
+     * menu item's `tabIndex` will be set to 0 in the DOM.
+     *
+     * If the menu is _not_ a root menu it's `role` will be set to "group".
+     *
+     * If the BaseMenu's initialize method throws an error,
+     * this will catch it and log it to the console.
      */
 
 
@@ -3577,6 +3893,14 @@ var AccessibleMenu = (function () {
       }
       /**
        * Handles keydown events throughout the menu for proper menu use.
+       *
+       * This method exists to assist the {@link Treeview#handleKeyup|handleKeyup method}.
+       * - Adds all `keydown` listeners from {@link BaseMenu#handleKeydown|BaseMenu's handleKeydown method}
+       * - Adds a `keydown` listener to the menu/all submenus.
+       *   - Blocks propagation on the following keys: "ArrowUp", "ArrowRight",
+       *     "ArrowDown", "ArrowLeft", "Home", "End", "Space", "Enter", "Escape",
+       *     "*" (asterisk), and "A" through "Z".
+       *   - Moves focus out if the "Tab" key is pressed.
        */
 
     }, {
@@ -3617,6 +3941,23 @@ var AccessibleMenu = (function () {
       }
       /**
        * Handles keyup events throughout the menu for proper menu use.
+       *
+       * Adds all `keyup` listeners from {@link BaseMenu#handleKeyup|BaseMenu's handleKeyup method}.
+       *
+       * Adds the following keybindings (explanations are taken from the
+       * {@link https://www.w3.org/TR/2019/WD-wai-aria-practices-1.2-20191218/examples/treeview/treeview-2/treeview-2a.html#kbd_label|Navigation Treeview Example Using Computed Properties}):
+       *
+       * | Key | Function |
+       * | --- | --- |
+       * | _Enter_ or _Space_ | Performs the default action (e.g. onclick event) for the focused node. |
+       * | _Down arrow_ | <ul><li>Moves focus to the next node that is focusable without opening or closing a node.</li><li>If focus is on the last node, does nothing.</li></ul> |
+       * | _Up arrow_ | <ul><li>Moves focus to the previous node that is focusable without opening or closing a node.</li><li>If focus is on the first node, does nothing.</li></ul> |
+       * | _Right arrow_ | <ul><li>When focus is on a closed node, opens the node; focus does not move.</li><li>When focus is on a open node, moves focus to the first child node.</li><li>When focus is on an end node, does nothing.</li></ul> |
+       * | _Left arrow_ | <ul><li>When focus is on an open node, closes the node.</li><li>When focus is on a child node that is also either an end node or a closed node, moves focus to its parent node.</li><li>When focus is on a root node that is also either an end node or a closed node, does nothing.</li></ul> |
+       * | _Home_ | Moves focus to first node without opening or closing a node. |
+       * | _End_ | Moves focus to the last node that can be focused without expanding any nodes that are closed. |
+       * | _a-z_, _A-Z_ | <ul><li>Focus moves to the next node with a name that starts with the typed character.</li><li>Search wraps to first node if a matching name is not found among the nodes that follow the focused node.</li><li>Search ignores nodes that are descendants of closed nodes.</li></ul> |
+       * | _* (asterisk)_ | <ul><li>Expands all closed sibling nodes that are at the same level as the focused node.</li><li>Focus does not move.</li></ul> |
        */
 
     }, {
@@ -3796,9 +4137,9 @@ var AccessibleMenu = (function () {
       /**
        * Focus the menu's next node starting with a specific letter.
        *
-       * Wraps to the first node if no match is found after the current node.
-       *
        * This includes all _open_ child menu items.
+       *
+       * Wraps to the first node if no match is found after the current node.
        *
        * @param {string} char - The character to look for.
        */

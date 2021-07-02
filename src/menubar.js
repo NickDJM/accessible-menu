@@ -7,28 +7,30 @@ import { isEventSupported } from "./validate.js";
 /**
  * An accessible menubar navigation in the DOM.
  *
- * See https://www.w3.org/TR/wai-aria-practices-1.2/examples/menubar/menubar-1/menubar-1.html
+ * See {@link https://www.w3.org/TR/wai-aria-practices-1.2/examples/menubar/menubar-1/menubar-1.html|Navigation Menubar Example}
+ *
+ * @extends BaseMenu
  */
 class Menubar extends BaseMenu {
   /**
-   * {@inheritdoc}
+   * @inheritdoc
    *
-   * @param {object}           param0                               - The menu object.
-   * @param {HTMLElement}      param0.menuElement                   - The menu element in the DOM.
-   * @param {string}           [param0.menuItemSelector = "li"]     - The CSS selector string for menu items.
-   * @param {string}           [param0.menuLinkSelector = "a"]      - The CSS selector string for menu links.
-   * @param {string}           [param0.submenuItemSelector = ""]    - The CSS selector string for menu items containing submenus.
-   * @param {string}           [param0.submenuToggleSelector = "a"] - The CSS selector string for submenu toggle buttons/links.
-   * @param {string}           [param0.submenuSelector = "ul"]      - The CSS selector string for submenus.
-   * @param {HTMLElement|null} [param0.controllerElement = null]    - The element controlling the menu in the DOM.
-   * @param {HTMLElement|null} [param0.containerElement = null]     - The element containing the menu in the DOM.
-   * @param {string}           [param0.openClass = "show"]          - The class to apply when a menu is "open".
-   * @param {string}           [param0.closeClass = "hide"]         - The class to apply when a menu is "closed".
-   * @param {boolean}          [param0.isTopLevel = false]          - A flag to mark the root menu.
-   * @param {Menubar|null}     [param0.parentMenu = null]           - The parent menu to this menu.
-   * @param {string}           [param0.hoverType = "off"]           - The type of hoverability a menu has.
-   * @param {number}           [param0.hoverDelay = 250]            - The delay for closing menus if the menu is hoverable (in miliseconds).
-   * @param {boolean}          [param0.initialize = true]           - A flag to initialize the menu immediately upon creation.
+   * @param {object}                 options                             - The options for generating the menu.
+   * @param {HTMLElement}            options.menuElement                 - The menu element in the DOM.
+   * @param {string}                 [options.menuItemSelector = li]     - The CSS selector string for menu items.
+   * @param {string}                 [options.menuLinkSelector = a]      - The CSS selector string for menu links.
+   * @param {string}                 [options.submenuItemSelector]       - The CSS selector string for menu items containing submenus.
+   * @param {string}                 [options.submenuToggleSelector = a] - The CSS selector string for submenu toggle buttons/links.
+   * @param {string}                 [options.submenuSelector = ul]      - The CSS selector string for submenus.
+   * @param {(HTMLElement|null)}     [options.controllerElement = null]  - The element controlling the menu in the DOM.
+   * @param {(HTMLElement|null)}     [options.containerElement = null]   - The element containing the menu in the DOM.
+   * @param {(string|string[]|null)} [options.openClass = show]          - The class to apply when a menu is "open".
+   * @param {(string|string[]|null)} [options.closeClass = hide]         - The class to apply when a menu is "closed".
+   * @param {boolean}                [options.isTopLevel = false]        - A flag to mark the root menu.
+   * @param {(Menubar|null)}         [options.parentMenu = null]         - The parent menu to this menu.
+   * @param {string}                 [options.hoverType = off]           - The type of hoverability a menu has.
+   * @param {number}                 [options.hoverDelay = 250]          - The delay for closing menus if the menu is hoverable (in miliseconds).
+   * @param {boolean}                [options.initialize = true]         - A flag to initialize the menu immediately upon creation.
    */
   constructor({
     menuElement,
@@ -76,7 +78,18 @@ class Menubar extends BaseMenu {
   /**
    * Initializes the menu.
    *
-   * This will also initialize all menu items and sub menus.
+   * Initialize will call the {@link BaseMenu#initialize|BaseMenu's initialize method}
+   * as well as set up {@link Menubar#handleFocus|focus},
+   * {@link Menubar#handleClick|click},
+   * {@link Menubar#handleHover|hover},
+   * {@link Menubar#handleKeydown|keydown}, and
+   * {@link Menubar#handleKeyup|keyup} events for the menu.
+   *
+   * This will also set the menu's `role` to "menubar" and the first menu item's
+   * `tabIndex` to 0 in the DOM.
+   *
+   * If the BaseMenu's initialize method throws an error,
+   * this will catch it and log it to the console.
    */
   initialize() {
     try {
@@ -98,6 +111,14 @@ class Menubar extends BaseMenu {
 
   /**
    * Handles click events throughout the menu for proper use.
+   *
+   * Depending on what is supported either `touchstart` and `touchend` or
+   * `mousedown` and `mouseup` will be used for all "click" event handling.
+   *
+   * - Adds all event listeners listed in
+   *   {@link BaseMenu#handleClick|BaseMenu's handleClick method}, and
+   * - adds a `touchend`/`mouseup` listener to the `document` so if the user
+   *   clicks outside of the menu it will close if it is open.
    */
   handleClick() {
     super.handleClick();
@@ -129,6 +150,14 @@ class Menubar extends BaseMenu {
 
   /**
    * Handles keydown events throughout the menu for proper menu use.
+   *
+   * This method exists to assist the {@link Menubar#handleKeyup|handleKeyup method}.
+   * - Adds all `keydown` listeners from {@link BaseMenu#handleKeydown|BaseMenu's handleKeydown method}
+   * - Adds a `keydown` listener to the menu/all submenus.
+   *   - Blocks propagation on the following keys: "ArrowUp", "ArrowRight",
+   *     "ArrowDown", "ArrowLeft", "Home", "End", "Space", "Enter", "Escape",
+   *     and "A" through "Z".
+   *   - Completely closes the menu and moves focus out if the "Tab" key is pressed.
    */
   handleKeydown() {
     super.handleKeydown();
@@ -195,6 +224,38 @@ class Menubar extends BaseMenu {
 
   /**
    * Handles keyup events throughout the menu for proper menu use.
+   *
+   * Adds all `keyup` listeners from {@link BaseMenu#handleKeyup|BaseMenu's handleKeyup method}.
+   *
+   * Adds the following keybindings (explanations are taken from the
+   * {@link https://www.w3.org/TR/2019/WD-wai-aria-practices-1.2-20191218/examples/menubar/menubar-1/menubar-1.html#kbd_label|Navigation Menubar Example}):
+   *
+   * **Menubar**
+   *
+   * | Key | Function |
+   * | --- | --- |
+   * | _Space_ or _Enter_ | Opens submenu and moves focus to first item in the submenu. |
+   * | _Right Arrow_ | <ul><li>Moves focus to the next item in the menubar.</li><li>If focus is on the last item, moves focus to the first item.</li></ul> |
+   * | _Left Arrow_ | <ul><li>Moves focus to the previous item in the menubar.</li><li>If focus is on the first item, moves focus to the last item.</li></ul> |
+   * | _Down Arrow_ | Opens submenu and moves focus to first item in the submenu. |
+   * | _Up Arrow_ | Opens submenu and moves focus to last item in the submenu. |
+   * | _Home_ | Moves focus to first item in the menubar. |
+   * | _End_ | Moves focus to last item in the menubar. |
+   * | _Character_ | <ul><li>Moves focus to next item in the menubar having a name that starts with the typed character.</li><li>If none of the items have a name starting with the typed character, focus does not move.</li></ul> |
+   *
+   * **Submenu**
+   *
+   * | Key | Function |
+   * | --- | --- |
+   * | _Space_ or _Enter_ | <ul><li>Activates menu item, causing the link to be activated.</li><li>NOTE: the links go to dummy pages; use the browser go-back function to return to this menubar example page.</li></ul> |
+   * | _Escape_ | <ul><li>Closes submenu.</li><li>Moves focus to parent menubar item.</li></ul> |
+   * | _Right Arrow_ | <ul><li>If focus is on an item with a submenu, opens the submenu and places focus on the first item.</li><li>If focus is on an item that does not have a submenu:<ul><li>Closes submenu.</li><li>Moves focus to next item in the menubar.</li><li>Opens submenu of newly focused menubar item, keeping focus on that parent menubar item.</li></ul></li></ul> |
+   * | _Left Arrow_ | <ul><li>Closes submenu and moves focus to parent menu item.</li><li>If parent menu item is in the menubar, also:<ul><li>moves focus to previous item in the menubar.</li><li>Opens submenu of newly focused menubar item, keeping focus on that parent menubar item.</li></ul></li></ul> |
+   * | _Down Arrow_ | <ul><li>Moves focus to the next item in the submenu.</li><li>If focus is on the last item, moves focus to the first item.</li></ul> |
+   * | _Up Arrow_ | <ul><li>Moves focus to previous item in the submenu.</li><li>If focus is on the first item, moves focus to the last item.</li></ul> |
+   * | Home | Moves focus to the first item in the submenu. |
+   * | End | Moves focus to the last item in the submenu. |
+   * | _Character_ | <ul><li>Moves focus to the next item having a name that starts with the typed character.</li><li>If none of the items have a name starting with the typed character, focus does not move.</li></ul> |
    */
   handleKeyup() {
     super.handleKeyup();
@@ -427,6 +488,9 @@ class Menubar extends BaseMenu {
 
   /**
    * Focus the menu's next child.
+   *
+   * If the currently focussed child in the menu is the last child then this will
+   * focus the first child in the menu.
    */
   focusNextChild() {
     // If the current child is the last child of the menu, focus the menu's first child.
@@ -439,6 +503,9 @@ class Menubar extends BaseMenu {
 
   /**
    * Focus the menu's previous child.
+   *
+   * If the currently focussed child in the menu is the first child then this will
+   * focus the last child in the menu.
    */
   focusPreviousChild() {
     // If the current child is the first child of the menu, focus the menu's last child.

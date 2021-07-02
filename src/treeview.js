@@ -6,29 +6,30 @@ import { keyPress, preventEvent } from "./eventHandlers.js";
 /**
  * An accessible treeview navigation in the DOM.
  *
- * See https://www.w3.org/TR/wai-aria-practices-1.2/examples/treeview/treeview-2/treeview-2a.html
- * or https://www.w3.org/TR/wai-aria-practices-1.2/examples/treeview/treeview-2/treeview-2b.html
+ * See {@link https://www.w3.org/TR/wai-aria-practices-1.2/examples/treeview/treeview-2/treeview-2a.html|Navigation Treeview Example Using Computed Properties}
+ *
+ * @extends BaseMenu
  */
 class Treeview extends BaseMenu {
   /**
-   * {@inheritdoc}
+   * @inheritdoc
    *
-   * @param {object}           param0                               - The menu object.
-   * @param {HTMLElement}      param0.menuElement                   - The menu element in the DOM.
-   * @param {string}           [param0.menuItemSelector = "li"]     - The CSS selector string for menu items.
-   * @param {string}           [param0.menuLinkSelector = "a"]      - The CSS selector string for menu links.
-   * @param {string}           [param0.submenuItemSelector = ""]    - The CSS selector string for menu items containing submenus.
-   * @param {string}           [param0.submenuToggleSelector = "a"] - The CSS selector string for submenu toggle buttons/links.
-   * @param {string}           [param0.submenuSelector = "ul"]      - The CSS selector string for submenus.
-   * @param {HTMLElement|null} [param0.controllerElement = null]    - The element controlling the menu in the DOM.
-   * @param {HTMLElement|null} [param0.containerElement = null]     - The element containing the menu in the DOM.
-   * @param {string}           [param0.openClass = "show"]          - The class to apply when a menu is "open".
-   * @param {string}           [param0.closeClass = "hide"]         - The class to apply when a menu is "closed".
-   * @param {boolean}          [param0.isTopLevel = false]          - A flag to mark the root menu.
-   * @param {Treeview|null}    [param0.parentMenu = null]           - The parent menu to this menu.
-   * @param {string}           [param0.hoverType = "off"]           - The type of hoverability a menu has.
-   * @param {number}           [param0.hoverDelay = 250]            - The delay for closing menus if the menu is hoverable (in miliseconds).
-   * @param {boolean}          [param0.initialize = true]           - A flag to initialize the menu immediately upon creation.
+   * @param {object}                 options                             - The options for generating the menu.
+   * @param {HTMLElement}            options.menuElement                 - The menu element in the DOM.
+   * @param {string}                 [options.menuItemSelector = li]     - The CSS selector string for menu items.
+   * @param {string}                 [options.menuLinkSelector = a]      - The CSS selector string for menu links.
+   * @param {string}                 [options.submenuItemSelector]       - The CSS selector string for menu items containing submenus.
+   * @param {string}                 [options.submenuToggleSelector = a] - The CSS selector string for submenu toggle buttons/links.
+   * @param {string}                 [options.submenuSelector = ul]      - The CSS selector string for submenus.
+   * @param {(HTMLElement|null)}     [options.controllerElement = null]  - The element controlling the menu in the DOM.
+   * @param {(HTMLElement|null)}     [options.containerElement = null]   - The element containing the menu in the DOM.
+   * @param {(string|string[]|null)} [options.openClass = show]          - The class to apply when a menu is "open".
+   * @param {(string|string[]|null)} [options.closeClass = hide]         - The class to apply when a menu is "closed".
+   * @param {boolean}                [options.isTopLevel = false]        - A flag to mark the root menu.
+   * @param {(Treeview|null)}        [options.parentMenu = null]         - The parent menu to this menu.
+   * @param {string}                 [options.hoverType = off]           - The type of hoverability a menu has.
+   * @param {number}                 [options.hoverDelay = 250]          - The delay for closing menus if the menu is hoverable (in miliseconds).
+   * @param {boolean}                [options.initialize = true]         - A flag to initialize the menu immediately upon creation.
    */
   constructor({
     menuElement,
@@ -77,7 +78,20 @@ class Treeview extends BaseMenu {
   /**
    * Initializes the menu.
    *
-   * This will also initialize all menu items and sub menus.
+   * Initialize will call the {@link BaseMenu#initialize|BaseMenu's initialize method}
+   * as well as set up {@link Treeview#handleFocus|focus},
+   * {@link Treeview#handleClick|click},
+   * {@link Treeview#handleHover|hover},
+   * {@link Treeview#handleKeydown|keydown}, and
+   * {@link Treeview#handleKeyup|keyup} events for the menu.
+   *
+   * If the menu is a root menu it's `role` will be set to "tree" and the first
+   * menu item's `tabIndex` will be set to 0 in the DOM.
+   *
+   * If the menu is _not_ a root menu it's `role` will be set to "group".
+   *
+   * If the BaseMenu's initialize method throws an error,
+   * this will catch it and log it to the console.
    */
   initialize() {
     try {
@@ -102,6 +116,14 @@ class Treeview extends BaseMenu {
 
   /**
    * Handles keydown events throughout the menu for proper menu use.
+   *
+   * This method exists to assist the {@link Treeview#handleKeyup|handleKeyup method}.
+   * - Adds all `keydown` listeners from {@link BaseMenu#handleKeydown|BaseMenu's handleKeydown method}
+   * - Adds a `keydown` listener to the menu/all submenus.
+   *   - Blocks propagation on the following keys: "ArrowUp", "ArrowRight",
+   *     "ArrowDown", "ArrowLeft", "Home", "End", "Space", "Enter", "Escape",
+   *     "*" (asterisk), and "A" through "Z".
+   *   - Moves focus out if the "Tab" key is pressed.
    */
   handleKeydown() {
     super.handleKeydown();
@@ -150,6 +172,23 @@ class Treeview extends BaseMenu {
 
   /**
    * Handles keyup events throughout the menu for proper menu use.
+   *
+   * Adds all `keyup` listeners from {@link BaseMenu#handleKeyup|BaseMenu's handleKeyup method}.
+   *
+   * Adds the following keybindings (explanations are taken from the
+   * {@link https://www.w3.org/TR/2019/WD-wai-aria-practices-1.2-20191218/examples/treeview/treeview-2/treeview-2a.html#kbd_label|Navigation Treeview Example Using Computed Properties}):
+   *
+   * | Key | Function |
+   * | --- | --- |
+   * | _Enter_ or _Space_ | Performs the default action (e.g. onclick event) for the focused node. |
+   * | _Down arrow_ | <ul><li>Moves focus to the next node that is focusable without opening or closing a node.</li><li>If focus is on the last node, does nothing.</li></ul> |
+   * | _Up arrow_ | <ul><li>Moves focus to the previous node that is focusable without opening or closing a node.</li><li>If focus is on the first node, does nothing.</li></ul> |
+   * | _Right arrow_ | <ul><li>When focus is on a closed node, opens the node; focus does not move.</li><li>When focus is on a open node, moves focus to the first child node.</li><li>When focus is on an end node, does nothing.</li></ul> |
+   * | _Left arrow_ | <ul><li>When focus is on an open node, closes the node.</li><li>When focus is on a child node that is also either an end node or a closed node, moves focus to its parent node.</li><li>When focus is on a root node that is also either an end node or a closed node, does nothing.</li></ul> |
+   * | _Home_ | Moves focus to first node without opening or closing a node. |
+   * | _End_ | Moves focus to the last node that can be focused without expanding any nodes that are closed. |
+   * | _a-z_, _A-Z_ | <ul><li>Focus moves to the next node with a name that starts with the typed character.</li><li>Search wraps to first node if a matching name is not found among the nodes that follow the focused node.</li><li>Search ignores nodes that are descendants of closed nodes.</li></ul> |
+   * | _* (asterisk)_ | <ul><li>Expands all closed sibling nodes that are at the same level as the focused node.</li><li>Focus does not move.</li></ul> |
    */
   handleKeyup() {
     super.handleKeyup();
@@ -319,9 +358,9 @@ class Treeview extends BaseMenu {
   /**
    * Focus the menu's next node starting with a specific letter.
    *
-   * Wraps to the first node if no match is found after the current node.
-   *
    * This includes all _open_ child menu items.
+   *
+   * Wraps to the first node if no match is found after the current node.
    *
    * @param {string} char - The character to look for.
    */

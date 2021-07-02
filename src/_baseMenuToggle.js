@@ -2,18 +2,18 @@
 
 import { isTag, isValidType } from "./validate.js";
 
-/*
- * A link or button that controls the visibility of a Menu.
+/**
+ * A link or button that controls the visibility of a {@link BaseMenu}.
  */
 class BaseMenuToggle {
   /**
-   * {@inheritdoc}
+   * @inheritdoc
    *
-   * @param {object}        param0                     - The menu toggle object.
-   * @param {HTMLElement}   param0.menuToggleElement   - The toggle element in the DOM.
-   * @param {HTMLElement}   param0.parentElement       - The element containing the controlled menu.
-   * @param {BaseMenu}      param0.controlledMenu      - The menu controlled by this toggle.
-   * @param {BaseMenu|null} [param0.parentMenu = null] - The menu containing this toggle.
+   * @param {object}        options                     - The options for generating the menu toggle.
+   * @param {HTMLElement}   options.menuToggleElement   - The toggle element in the DOM.
+   * @param {HTMLElement}   options.parentElement       - The element containing the controlled menu.
+   * @param {BaseMenu}      options.controlledMenu      - The menu controlled by this toggle.
+   * @param {BaseMenu|null} [options.parentMenu = null] - The menu containing this toggle.
    */
   constructor({
     menuToggleElement,
@@ -31,10 +31,24 @@ class BaseMenuToggle {
     };
     this.isOpen = false;
 
+    /**
+     * Expand event.
+     *
+     * @event accessibleMenuExpand
+     * @type {CustomEvent}
+     * @property {object<BaseMenuToggle>} details - The details object containing the BaseMenuToggle itself.
+     */
     this.expandEvent = new CustomEvent("accessibleMenuExpand", {
       bubbles: true,
       detail: { toggle: this },
     });
+    /**
+     * Collapse event.
+     *
+     * @event accessibleMenuCollapse
+     * @type {CustomEvent}
+     * @property {object<BaseMenuToggle>} details - The details object containing the BaseMenuToggle itself.
+     */
     this.collapseEvent = new CustomEvent("accessibleMenuCollapse", {
       bubbles: true,
       detail: { toggle: this },
@@ -42,8 +56,27 @@ class BaseMenuToggle {
   }
 
   /**
-   * Initialize the toggle by ensuring WAI-ARIA values are set,
-   * handling click events, and adding new keydown events.
+   * Initializes the menu toggle.
+   *
+   * Initialize does a lot of setup on the menu toggle.
+   *
+   * The most basic setup steps are to ensure that the toggle has `aria-haspopup`
+   * set to "true", `aria-expanded` initially set to "false" and, if the toggle
+   * element is not a `<button>`, set the `role` to "button".
+   *
+   * The next step to the initialization is to ensure both the toggle and the
+   * menu it controlls have IDs.
+   *
+   * If they do not, the following steps take place:
+   * - Generate a random 10 character string,
+   * - Get the innerText of the toggle,
+   * - Set the toggle's ID to: `${toggle-inner-text}-${the-random-string}-menu-button`
+   * - Set the menu's ID to: `${toggle-inner-text}-${the-random-string}-menu`
+   *
+   * Once the ID's have been generated, the menu's `aria-labelledby` is set to
+   * the toggle's ID, and the toggle's `aria-controls` is set to the menu's ID.
+   *
+   * Finally, the collapse method is called to make sure the submenu is closed.
    */
   initialize() {
     // Add WAI-ARIA properties.
@@ -113,16 +146,20 @@ class BaseMenuToggle {
   /**
    * The DOM elements within the toggle.
    *
-   * @returns {object} - The DOM elements.
+   * @type {object.<HTMLElement>}
+   * @property {HTMLElement} toggle - The menu toggle.
+   * @property {HTMLElement} parent - The menu containing this toggle.
    */
   get dom() {
     return this.domElements;
   }
 
   /**
-   * The elements within the toggle.
+   * The declared accessible-menu elements within the menu toggle.
    *
-   * @returns {object} - The elements.
+   * @type {object.<BaseMenu>}
+   * @property {BaseMenu} controlledMenu - The menu controlled by this toggle.
+   * @property {BaseMenu} parentMenu     - The menu containing this toggle.
    */
   get elements() {
     return this.menuElements;
@@ -131,17 +168,12 @@ class BaseMenuToggle {
   /**
    * The open state on the menu.
    *
-   * @returns {boolean} - The open state.
+   * @type {boolean}
    */
   get isOpen() {
     return this.show;
   }
 
-  /**
-   * Set the open state on the menu.
-   *
-   * @param {boolean} value - The open state.
-   */
   set isOpen(value) {
     isValidType("boolean", { value });
 
@@ -151,9 +183,16 @@ class BaseMenuToggle {
   /**
    * Expands the controlled menu.
    *
-   * Alters ARIA attributes and classes.
+   * Sets the toggle's `aria-expanded` to "true", adds the
+   * {@link BaseMenu#openClass|open class} to the toggle's parent menu item
+   * and controlled menu, and removed the {@link BaseMenu#closeClass|closed class}
+   * from the toggle's parent menu item and controlled menu.
+   *
+   * If `emit` is set to `true`, this will also emit a custom event
+   * called {@link accessibleMenuExpand}
    *
    * @param {boolean} [emit = true] - A toggle to emit the expand event once expanded.
+   * @fires accessibleMenuExpand
    */
   expand(emit = true) {
     const { closeClass, openClass } = this.elements.controlledMenu;
@@ -186,9 +225,16 @@ class BaseMenuToggle {
   /**
    * Collapses the controlled menu.
    *
-   * Alters ARIA attributes and classes.
+   * Sets the toggle's `aria-expanded` to "false", adds the
+   * {@link BaseMenu#closeClass|closed class} to the toggle's parent menu item
+   * and controlled menu, and removes the {@link BaseMenu#openClass|open class}
+   * from the toggle's parent menu item and controlled menu.
+   *
+   * If `emit` is set to `true`, this will also emit a custom event
+   * called {@link accessibleMenuCollapse}
    *
    * @param {boolean} [emit = true] - A toggle to emit the collapse event once collapsed.
+   * @fires accessibleMenuCollapse
    */
   collapse(emit = true) {
     const { closeClass, openClass } = this.elements.controlledMenu;
@@ -220,6 +266,10 @@ class BaseMenuToggle {
 
   /**
    * Opens the controlled menu.
+   *
+   * Sets the controlled menu's {@link BaseMenu#focusState|focus state} to "self"
+   * and the parent menu's focus state to "child", calls {@link BaseMenuToggle#expand|expand},
+   * and sets the {@link BaseMenuToggle#isOpen|isOpen} value to `true`.
    */
   open() {
     // Set proper focus states to parent & child.
@@ -238,6 +288,10 @@ class BaseMenuToggle {
 
   /**
    * Opens the controlled menu without the current focus entering it.
+   *
+   * Sets the controlled menu's {@link BaseMenu#focusState|focus state} to "self"
+   * and the parent menu's focus state to "child",
+   * and calls {@link BaseMenuToggle#expand|expand}.
    */
   preview() {
     // Set proper focus states to parent & child.
@@ -256,6 +310,12 @@ class BaseMenuToggle {
 
   /**
    * Closes the controlled menu.
+   *
+   * Sets the controlled menu's {@link BaseMenu#focusState|focus state} to "none"
+   * and the parent menu's focus state to "self", blurs the controlled menu
+   * and sets it's {@link BaseMenu#currentChild|current child index} to 0,
+   * calls {@link BaseMenuToggle#collapse|collapse}, and sets
+   * the {@link BaseMenuToggle#isOpen|isOpen} value to `false`.
    */
   close() {
     if (this.isOpen) {
@@ -279,7 +339,7 @@ class BaseMenuToggle {
   }
 
   /**
-   * Toggles the open state of the controlled menu.
+   * Toggles the open state of the controlled menu between `true` and `false`.
    */
   toggle() {
     if (this.isOpen) {

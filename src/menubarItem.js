@@ -3,20 +3,22 @@
 import BaseMenuItem from "./_baseMenuItem.js";
 
 /**
- * A basic navigation link contained inside of a Menubar.
+ * A basic navigation link contained inside of a {@link Menubar}.
+ *
+ * @extends BaseMenuItem
  */
 class MenubarItem extends BaseMenuItem {
   /**
-   * {@inheritdoc}
+   * @inheritdoc
    *
-   * @param {object}             param0                         - The menu item object.
-   * @param {HTMLElement}        param0.menuItemElement         - The menu item in the DOM.
-   * @param {HTMLElement}        param0.menuLinkElement         - The menu item's link in the DOM.
-   * @param {Menubar}            param0.parentMenu              - The parent menu.
-   * @param {boolean}            [param0.isSubmenuItem = false] - A flag to mark if the menu item is controlling a submenu.
-   * @param {Menubar|null}       [param0.childMenu = null]      - The child menu.
-   * @param {MenubarToggle|null} [param0.toggle = null]         - The controller for the child menu.
-   * @param {boolean}            [param0.initialize = true]     - A flag to initialize the menu item immediately upon creation.
+   * @param {object}             options                         - The options for generating the menu item.
+   * @param {HTMLElement}        options.menuItemElement         - The menu item in the DOM.
+   * @param {HTMLElement}        options.menuLinkElement         - The menu item's link in the DOM.
+   * @param {Menubar}            options.parentMenu              - The parent menu.
+   * @param {boolean}            [options.isSubmenuItem = false] - A flag to mark if the menu item is controlling a submenu.
+   * @param {Menubar|null}       [options.childMenu = null]      - The child menu.
+   * @param {MenubarToggle|null} [options.toggle = null]         - The controller for the child menu.
+   * @param {boolean}            [options.initialize = true]     - A flag to initialize the menu item immediately upon creation.
    */
   constructor({
     menuItemElement,
@@ -42,7 +44,12 @@ class MenubarItem extends BaseMenuItem {
   }
 
   /**
-   * Initialize the menu item by setting its role and tab index.
+   * Initialize the menu item.
+   *
+   * Initialize will call the {@link BaseMenuItem#initialize|BaseMenuItem's initialize method}
+   * as well as set the menu item's `role` to "none",
+   * the menu link's `role` to "menuitem", and
+   * the menu link's `tabIndex` to -1 in the DOM.
    */
   initialize() {
     super.initialize();
@@ -53,7 +60,12 @@ class MenubarItem extends BaseMenuItem {
   }
 
   /**
-   * Focuses the menu item's link and set proper tabIndex.
+   * Focuses the menu item's link if the parent menu's
+   * {@link Menubar#shouldFocus|shouldFocus} value is `true`.
+   *
+   * This will call the {@link BaseMenuItem#focus|BaseMenuItem's focus method}
+   * as well as set the menu link's `tabIndex` to 0 if the parent menu
+   * is the root menu.
    */
   focus() {
     super.focus();
@@ -64,7 +76,12 @@ class MenubarItem extends BaseMenuItem {
   }
 
   /**
-   * Blurs the menu item's link and set proper tabIndex.
+   * Blurs the menu item's link if the parent menu's
+   * {@link Menubar#shouldFocus|shouldFocus} value is `true`.
+   *
+   * This will call the {@link BaseMenuItem#blur|BaseMenuItem's blur method}
+   * as well as set the menu link's `tabIndex` to -1 if the parent menu
+   * is the root menu.
    */
   blur() {
     super.blur();

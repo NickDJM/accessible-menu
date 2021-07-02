@@ -7,29 +7,31 @@ import { isValidType, isEventSupported } from "./validate.js";
 /**
  * An accessible disclosure menu in the DOM.
  *
- * See https://www.w3.org/TR/wai-aria-practices-1.2/examples/disclosure/disclosure-navigation.html
+ * See {@link https://www.w3.org/TR/wai-aria-practices-1.2/examples/disclosure/disclosure-navigation.html|Example Disclosure for Navigation Menus}
+ *
+ * @extends BaseMenu
  */
 class DisclosureMenu extends BaseMenu {
   /**
-   * {@inheritdoc}
+   * @inheritdoc
    *
-   * @param {object}              param0                               - The menu object.
-   * @param {HTMLElement}         param0.menuElement                   - The menu element in the DOM.
-   * @param {string}              [param0.menuItemSelector = "li"]     - The CSS selector string for menu items.
-   * @param {string}              [param0.menuLinkSelector = "a"]      - The CSS selector string for menu links.
-   * @param {string}              [param0.submenuItemSelector = ""]    - The CSS selector string for menu items containing submenus.
-   * @param {string}              [param0.submenuToggleSelector = "a"] - The CSS selector string for submenu toggle buttons/links.
-   * @param {string}              [param0.submenuSelector = "ul"]      - The CSS selector string for submenus.
-   * @param {HTMLElement|null}    [param0.controllerElement = null]    - The element controlling the menu in the DOM.
-   * @param {HTMLElement|null}    [param0.containerElement = null]     - The element containing the menu in the DOM.
-   * @param {string}              [param0.openClass = "show"]          - The class to apply when a menu is "open".
-   * @param {string}              [param0.closeClass = "hide"]         - The class to apply when a menu is "closed".
-   * @param {boolean}             [param0.isTopLevel = false]          - A flag to mark the root menu.
-   * @param {DisclosureMenu|null} [param0.parentMenu = null]           - The parent menu to this menu.
-   * @param {string}              [param0.hoverType = "off"]           - The type of hoverability a menu has.
-   * @param {number}              [param0.hoverDelay = 250]            - The delay for closing menus if the menu is hoverable (in miliseconds).
-   * @param {boolean}             [param0.optionalKeySupport = false]  - A flag to add optional keyboard support (Arrow keys, Home, and End) to the menu.
-   * @param {boolean}             [param0.initialize = true]           - A flag to initialize the menu immediately upon creation.
+   * @param {object}                 options                              - The options for generating the menu.
+   * @param {HTMLElement}            options.menuElement                  - The menu element in the DOM.
+   * @param {string}                 [options.menuItemSelector = li]      - The CSS selector string for menu items.
+   * @param {string}                 [options.menuLinkSelector = a]       - The CSS selector string for menu links.
+   * @param {string}                 [options.submenuItemSelector]        - The CSS selector string for menu items containing submenus.
+   * @param {string}                 [options.submenuToggleSelector = a]  - The CSS selector string for submenu toggle buttons/links.
+   * @param {string}                 [options.submenuSelector = ul]       - The CSS selector string for submenus.
+   * @param {(HTMLElement|null)}     [options.controllerElement = null]   - The element controlling the menu in the DOM.
+   * @param {(HTMLElement|null)}     [options.containerElement = null]    - The element containing the menu in the DOM.
+   * @param {(string|string[]|null)} [options.openClass = show]           - The class to apply when a menu is "open".
+   * @param {(string|string[]|null)} [options.closeClass = hide]          - The class to apply when a menu is "closed".
+   * @param {boolean}                [options.isTopLevel = false]         - A flag to mark the root menu.
+   * @param {(DisclosureMenu|null)}  [options.parentMenu = null]          - The parent menu to this menu.
+   * @param {string}                 [options.hoverType = off]            - The type of hoverability a menu has.
+   * @param {number}                 [options.hoverDelay = 250]           - The delay for closing menus if the menu is hoverable (in miliseconds).
+   * @param {boolean}                [options.optionalKeySupport = false] - A flag to add optional keyboard support (Arrow keys, Home, and End) to the menu.
+   * @param {boolean}                [options.initialize = true]          - A flag to initialize the menu immediately upon creation.
    */
   constructor({
     menuElement,
@@ -80,12 +82,12 @@ class DisclosureMenu extends BaseMenu {
   }
 
   /**
-   * A flag to add optional keyboard support (Arrow keys, Home, and End) to the menu.
+   * A flag to add optional keyboard support (Arrow keys, "Home", and "End") to the menu.
    *
    * This functions differently for root vs. submenus.
    * Submenus will always inherit their root menu's optionalKeySupport.
    *
-   * @returns {boolean} - The flag.
+   * @type {boolean}
    */
   get optionalKeySupport() {
     return this.isTopLevel
@@ -93,11 +95,6 @@ class DisclosureMenu extends BaseMenu {
       : this.elements.rootMenu.optionalKeySupport;
   }
 
-  /**
-   * Set the flag to add optional keyboard support (Arrow keys, Home, and End) to the menu.
-   *
-   * @param {boolean} value - The flag.
-   */
   set optionalKeySupport(value) {
     isValidType("boolean", { optionalKeySupport: value });
 
@@ -107,7 +104,15 @@ class DisclosureMenu extends BaseMenu {
   /**
    * Initializes the menu.
    *
-   * This will also initialize all menu items and sub menus.
+   * Initialize will call the {@link BaseMenu#initialize|BaseMenu's initialize method}
+   * as well as set up {@link DisclosureMenu#handleFocus|focus},
+   * {@link DisclosureMenu#handleClick|click},
+   * {@link DisclosureMenu#handleHover|hover},
+   * {@link DisclosureMenu#handleKeydown|keydown}, and
+   * {@link DisclosureMenu#handleKeyup|keyup} events for the menu.
+   *
+   * If the BaseMenu's initialize method throws an error,
+   * this will catch it and log it to the console.
    */
   initialize() {
     try {
@@ -125,6 +130,15 @@ class DisclosureMenu extends BaseMenu {
 
   /**
    * Handles click events throughout the menu for proper use.
+   *
+   * Depending on what is supported either `touchstart` and `touchend` or
+   * `mousedown` and `mouseup` will be used for all "click" event handling.
+   *
+   * - Adds all event listeners listed in
+   *   {@link BaseMenu#handleClick|BaseMenu's handleClick method}, and
+   * - adds a `touchend`/`mouseup` listener to the `document` so if the user
+   *   clicks outside of the menu it will close if it is open.
+   *
    */
   handleClick() {
     super.handleClick();
@@ -156,6 +170,14 @@ class DisclosureMenu extends BaseMenu {
 
   /**
    * Handles keydown events throughout the menu for proper menu use.
+   *
+   * This method exists to assist the {@link DisclosureMenu#handleKeyup|handleKeyup method}.
+   * - Adds all `keydown` listeners from {@link BaseMenu#handleKeydown|BaseMenu's handleKeydown method}
+   * - Adds a `keydown` listener to the menu/all submenus.
+   *   - Blocks propagation on the following keys: "Space", "Enter", and "Escape".
+   *   - _If_ {@link DisclosureMenu#optionalKeySupport|optional keyboard support}
+   *     is enabled, blocks propagation on the following keys:
+   *     "ArrowUp", "ArrowRight", "ArrowDown", "ArrowLeft", "Home", and "End".
    */
   handleKeydown() {
     super.handleKeydown();
@@ -199,6 +221,23 @@ class DisclosureMenu extends BaseMenu {
 
   /**
    * Handles keyup events throughout the menu for proper menu use.
+   *
+   * Adds all `keyup` listeners from {@link BaseMenu#handleKeyup|BaseMenu's handleKeyup method}.
+   *
+   * Adds the following keybindings (explanations are taken from the
+   * {@link https://www.w3.org/TR/wai-aria-practices-1.2/examples/disclosure/disclosure-navigation.html#kbd_label|WAI ARIA Pracitices Example Disclosure for Navigation Menus}):
+   *
+   * | Key | Function |
+   * | --- | --- |
+   * | _Tab_ or _Shift + Tab_ | Move keyboard focus among top-level buttons, and if a dropdown is open, into and through links in the dropdown. |
+   * | _Space_ or _Enter_ | <ul><li>If focus is on a disclosure button, activates the button, which toggles the visibility of the dropdown.</li><li>If focus is on a link:<ul><li>If any link has aria-current set, removes it.</li><li>Sets aria-current="page" on the focused link.</li><li>Activates the focused link.</li></ul></li></ul> |
+   * | _Escape_ | If a dropdown is open, closes it and sets focus on the button that controls that dropdown. |
+   * | _Down Arrow_ or _Right Arrow_ (Optional}) | <ul><li>If focus is on a button and its dropdown is collapsed, and it is not the last button, moves focus to the next button.</li><li>if focus is on a button and its dropdown is expanded, moves focus to the first link in the dropdown.</li><li>If focus is on a link, and it is not the last link, moves focus to the next link.</li></ul> |
+   * | _Up Arrow_ or _Left Arrow_ (Optional}) | <ul><li>If focus is on a button, and it is not the first button, moves focus to the previous button.</li><li>If focus is on a link, and it is not the first link, moves focus to the previous link.</li></ul> |
+   * | _Home_ (Optional}) | <ul><li>If focus is on a button, and it is not the first button, moves focus to the first button.</li><li>If focus is on a link, and it is not the first link, moves focus to the first link.</li></ul> |
+   * | _End_ (Optional}) | <ul><li>If focus is on a button, and it is not the last button, moves focus to the last button.</li><li>If focus is on a link, and it is not the last link, moves focus to the last link.</li></ul> |
+   *
+   * The optional keybindings are controlled by the menu's {@link DisclosureMenu#optionalKeySupport|optionalKeySupport} value.
    */
   handleKeyup() {
     super.handleKeyup();

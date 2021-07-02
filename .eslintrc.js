@@ -22,4 +22,15 @@ module.exports = {
       },
     ],
   },
+  settings: {
+    jsdoc: {
+      tagNamePreference: {
+        augments: {
+          message:
+            "@extends is to be used over @augments as it is more evocative of classes than @augments",
+          replacement: "extends",
+        },
+      },
+    },
+  },
 };
