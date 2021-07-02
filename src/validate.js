@@ -309,8 +309,8 @@ export function isValidHoverType(values) {
  * The elements must be provided inside of an object
  * so the variable name can be retrieved in case of errors.
  *
- * @param   {string}                tagName  - The name of the tag.
- * @param   {object.<HTMLEelement>} elements - The element(s) to check.
+ * @param   {string}               tagName  - The name of the tag.
+ * @param   {object.<HTMLElement>} elements - The element(s) to check.
  *
  * @returns {boolean} - The result of the check.
  */
