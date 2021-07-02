@@ -104,14 +104,14 @@ class DisclosureMenu extends BaseMenu {
   /**
    * Initializes the menu.
    *
-   * Initialize will call the {@link BaseMenu#initialize|Base Menu's initialize method}
+   * Initialize will call the {@link BaseMenu#initialize|BaseMenu's initialize method}
    * as well as set up {@link DisclosureMenu#handleFocus|focus},
    * {@link DisclosureMenu#handleClick|click},
    * {@link DisclosureMenu#handleHover|hover},
    * {@link DisclosureMenu#handleKeydown|keydown}, and
    * {@link DisclosureMenu#handleKeyup|keyup} events for the menu.
    *
-   * If the Base Menu's initialize method throws an error,
+   * If the BaseMenu's initialize method throws an error,
    * this will catch it and log it to the console.
    */
   initialize() {
@@ -226,6 +226,7 @@ class DisclosureMenu extends BaseMenu {
    *
    * Adds the following keybindings (explanations are taken from the
    * {@link https://www.w3.org/TR/wai-aria-practices-1.2/examples/disclosure/disclosure-navigation.html#kbd_label|WAI ARIA Pracitices Example Disclosure for Navigation Menus}):
+   *
    * | Key | Function |
    * | --- | --- |
    * | _Tab_ or _Shift + Tab_ | Move keyboard focus among top-level buttons, and if a dropdown is open, into and through links in the dropdown. |

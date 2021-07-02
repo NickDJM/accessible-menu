@@ -44,7 +44,12 @@ class TreeviewItem extends BaseMenuItem {
   }
 
   /**
-   * Initialize the menu item by setting its role and tab index.
+   * Initialize the menu item.
+   *
+   * Initialize will call the {@link BaseMenuItem#initialize|BaseMenuItem's initialize method}
+   * as well as set the menu item's `role` to "none",
+   * the menu link's `role` to "treeitem", and
+   * the menu link's `tabIndex` to -1 in the DOM.
    */
   initialize() {
     super.initialize();
@@ -55,7 +60,11 @@ class TreeviewItem extends BaseMenuItem {
   }
 
   /**
-   * Focuses the menu item's link and set proper tabIndex.
+   * Focuses the menu item's link if the parent menu's
+   * {@link Menubar#shouldFocus|shouldFocus} value is `true`.
+   *
+   * This will call the {@link BaseMenuItem#focus|BaseMenuItem's focus method}
+   * as well as set the menu link's `tabIndex` to 0.
    */
   focus() {
     super.focus();
@@ -64,7 +73,11 @@ class TreeviewItem extends BaseMenuItem {
   }
 
   /**
-   * Blurs the menu item's link and set proper tabIndex.
+   * Blurs the menu item's link if the parent menu's
+   * {@link Menubar#shouldFocus|shouldFocus} value is `true`.
+   *
+   * This will call the {@link BaseMenuItem#blur|BaseMenuItem's blur method}
+   * as well as set the menu link's `tabIndex` to -1.
    */
   blur() {
     super.blur();
