@@ -2545,7 +2545,10 @@ var Menubar = /*#__PURE__*/function (_BaseMenu) {
         this.handleHover();
         this.handleKeydown();
         this.handleKeyup();
-        this.elements.menuItems[0].dom.link.tabIndex = 0;
+
+        if (this.isTopLevel) {
+          this.elements.menuItems[0].dom.link.tabIndex = 0;
+        }
       } catch (error) {
         console.error(error);
       }
