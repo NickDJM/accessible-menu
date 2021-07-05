@@ -5,6 +5,7 @@
  */
 
 import { Treeview } from "../../../index";
-import { sanity } from "../_common/sanity";
+import { singleLevelSanity, twoLevelSanity } from "../_common/sanity";
 
-sanity(Treeview);
+singleLevelSanity(Treeview);
+twoLevelSanity(Treeview);

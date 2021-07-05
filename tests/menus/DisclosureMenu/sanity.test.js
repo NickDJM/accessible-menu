@@ -5,6 +5,7 @@
  */
 
 import { DisclosureMenu } from "../../../index";
-import { sanity } from "../_common/sanity";
+import { singleLevelSanity, twoLevelSanity } from "../_common/sanity";
 
-sanity(DisclosureMenu);
+singleLevelSanity(DisclosureMenu);
+twoLevelSanity(DisclosureMenu);

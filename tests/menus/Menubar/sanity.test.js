@@ -5,6 +5,7 @@
  */
 
 import { Menubar } from "../../../index";
-import { sanity } from "../_common/sanity";
+import { singleLevelSanity, twoLevelSanity } from "../_common/sanity";
 
-sanity(Menubar);
+singleLevelSanity(Menubar);
+twoLevelSanity(Menubar);

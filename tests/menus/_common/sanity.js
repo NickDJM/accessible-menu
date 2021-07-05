@@ -7,11 +7,11 @@
 import { oneLevelMenu, twoLevelMenu } from "../../test-menus";
 
 /**
- * A set of sanity tests.
+ * A set of single-level menu sanity tests.
  *
- * @param {(DisclosureMenu|Menubar|Treeview)} MenuClass        - The menu class to test.
+ * @param {(DisclosureMenu|Menubar|Treeview)} MenuClass - The menu class to test.
  */
-export function sanity(MenuClass) {
+export function singleLevelSanity(MenuClass) {
   const menuType = MenuClass.name;
 
   describe(`${menuType} single-level menu sanity check`, () => {
@@ -132,6 +132,15 @@ export function sanity(MenuClass) {
       expect(menu.shouldFocus).toBeFalse();
     });
   });
+}
+
+/**
+ * A set of two-level menu sanity tests.
+ *
+ * @param {(DisclosureMenu|Menubar|Treeview)} MenuClass - The menu class to test.
+ */
+export function twoLevelSanity(MenuClass) {
+  const menuType = MenuClass.name;
 
   describe(`${menuType} two-level menu sanity check`, () => {
     // Set up the DOM.
