@@ -5,7 +5,7 @@
  */
 /* eslint-disable no-new */
 
-import { twoLevelMenu } from "../../test-menus";
+import { twoLevelMenu } from "./test-menus";
 
 /**
  * A set of ARIA tests.

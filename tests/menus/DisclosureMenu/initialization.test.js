@@ -5,7 +5,7 @@
  */
 
 import { DisclosureMenu } from "../../../index";
-import { oneLevelMenu } from "../../test-menus";
+import { oneLevelMenu } from "../_common/test-menus";
 import {
   defaultInitialization,
   controlledMenu,

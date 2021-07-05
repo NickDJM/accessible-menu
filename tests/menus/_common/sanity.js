@@ -4,7 +4,7 @@
  * @jest-environment jsdom
  */
 
-import { oneLevelMenu, twoLevelMenu } from "../../test-menus";
+import { oneLevelMenu, twoLevelMenu } from "./test-menus";
 
 /**
  * A set of single-level menu sanity tests.

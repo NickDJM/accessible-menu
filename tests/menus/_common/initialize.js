@@ -5,7 +5,7 @@
  */
 /* eslint-disable no-new */
 
-import { oneLevelMenu } from "../../test-menus";
+import { oneLevelMenu } from "./test-menus";
 
 /**
  * A set of default initialization tests.
