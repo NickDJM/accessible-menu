@@ -4,12 +4,19 @@
  * @jest-environment jsdom
  */
 
-/* eslint-disable no-new */
-
 import { DisclosureMenu } from "../../../index";
 import { oneLevelMenu } from "../../test-menus";
+import {
+  defaultInitialization,
+  controlledMenu,
+  customizedMenu,
+} from "../_common/initialize";
 
-describe("DisclosureMenu initialization tests", () => {
+defaultInitialization(DisclosureMenu);
+controlledMenu(DisclosureMenu);
+customizedMenu(DisclosureMenu);
+
+describe("DisclosureMenu-specific initialization", () => {
   // Mock console.error.
   console.error = jest.fn((error) => {
     throw new Error(error.message);
@@ -18,8 +25,9 @@ describe("DisclosureMenu initialization tests", () => {
   // Set up the DOM.
   document.body.innerHTML = oneLevelMenu;
 
-  test("won't initialize if optionalKeySupport is not a boolean", () => {
+  test("will fail if optionalKeySupport is not a boolean", () => {
     expect(() => {
+      // eslint-disable-next-line no-new
       new DisclosureMenu({
         menuElement: document.querySelector("#menu-0"),
         optionalKeySupport: "true",
