@@ -1720,7 +1720,7 @@ var AccessibleMenu = (function () {
           preventEvent(event);
           toggle.toggle();
 
-          if (toggle.isOpen) {
+          if (!menu.isTopLevel && toggle.isOpen) {
             menu.focusState = "self";
             toggle.elements.controlledMenu.focusState = "none";
           }
@@ -3037,8 +3037,10 @@ var AccessibleMenu = (function () {
      * {@link Menubar#handleKeydown|keydown}, and
      * {@link Menubar#handleKeyup|keyup} events for the menu.
      *
-     * This will also set the menu's `role` to "menubar" and the first menu item's
-     * `tabIndex` to 0 in the DOM.
+     * This will also set the menu's `role` to "menubar" in the DOM.
+     *
+     * If the menu is a root menu the first menu item's `tabIndex` will be set to
+     * 0 in the DOM.
      *
      * If the BaseMenu's initialize method throws an error,
      * this will catch it and log it to the console.
