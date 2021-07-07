@@ -11,7 +11,7 @@
 export function triggerEvent(eventType, element) {
   try {
     const event = document.createEvent("HTMLEvents");
-    event.initEvent(eventType, false, true);
+    event.initEvent(eventType, true, true);
     element.dispatchEvent(event);
   } catch (error) {
     console.error(error);
