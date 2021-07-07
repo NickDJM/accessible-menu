@@ -33,7 +33,6 @@ export function openClose(MenuClass) {
      */
     function hasOpened(openMenu) {
       expect(openMenu.elements.controller.isOpen).toBeTrue();
-      expect(openMenu.focusState).toBe("self");
       expect(openMenu.dom.controller.getAttribute("aria-expanded")).toBe(
         "true"
       );
@@ -60,6 +59,7 @@ export function openClose(MenuClass) {
       menu.elements.controller.open();
 
       hasOpened(menu);
+      expect(menu.focusState).toBe("self");
     });
 
     test("will close when the controller's close method is called", () => {
@@ -73,6 +73,7 @@ export function openClose(MenuClass) {
       click(menu.dom.controller);
 
       hasOpened(menu);
+      expect(menu.focusState).toBe("none");
     });
 
     test("will close when the controller is clicked when the menu is open", () => {
