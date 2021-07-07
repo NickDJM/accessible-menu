@@ -6,7 +6,7 @@
 /* eslint-disable no-new */
 
 import { twoLevelMenu } from "./test-menus";
-import { click, touch } from "./helpers";
+import { click } from "./helpers";
 
 /**
  * A set of open/close click tests.
@@ -25,51 +25,69 @@ export function openClose(MenuClass) {
     controllerElement: document.querySelector("#toggle-0"),
   });
 
-  // const submenus = [
-  //   { index: 0, id: 2 },
-  //   { index: 1, id: 3 },
-  //   { index: 2, id: 5 },
-  // ];
-
   describe(menuType, () => {
+    /**
+     * Test to see if a menu has opened.
+     *
+     * @param {(DisclosureMenu|Menubar|Treeview)} openMenu - The menu to test
+     */
+    function hasOpened(openMenu) {
+      expect(openMenu.elements.controller.isOpen).toBeTrue();
+      expect(openMenu.focusState).toBe("self");
+      expect(openMenu.dom.controller.getAttribute("aria-expanded")).toBe(
+        "true"
+      );
+      expect(openMenu.dom.menu.classList.contains("show")).toBeTrue();
+      expect(openMenu.dom.menu.classList.contains("hide")).toBeFalse();
+    }
+
+    /**
+     * Test to see if a menu has closed.
+     *
+     * @param {(DisclosureMenu|Menubar|Treeview)} closedMenu - The menu to test
+     */
+    function hasClosed(closedMenu) {
+      expect(closedMenu.elements.controller.isOpen).toBeFalse();
+      expect(closedMenu.focusState).toBe("none");
+      expect(closedMenu.dom.controller.getAttribute("aria-expanded")).toBe(
+        "false"
+      );
+      expect(closedMenu.dom.menu.classList.contains("hide")).toBeTrue();
+      expect(closedMenu.dom.menu.classList.contains("show")).toBeFalse();
+    }
+
     test("will open when the controller's open method is called", () => {
       menu.elements.controller.open();
 
-      expect(menu.elements.controller.isOpen).toBeTrue();
-      expect(menu.focusState).toBe("self");
+      hasOpened(menu);
     });
 
     test("will close when the controller's close method is called", () => {
       menu.elements.controller.close();
 
-      expect(menu.elements.controller.isOpen).toBeFalse();
-      expect(menu.focusState).toBe("none");
+      hasClosed(menu);
     });
 
     test("will open when the controller is clicked when the menu is closed", () => {
       menu.elements.controller.close();
       click(menu.dom.controller);
 
-      expect(menu.elements.controller.isOpen).toBeTrue();
-      expect(menu.focusState).toBe("self");
+      hasOpened(menu);
     });
 
     test("will close when the controller is clicked when the menu is open", () => {
       menu.elements.controller.open();
       click(menu.dom.controller);
 
-      expect(menu.elements.controller.isOpen).toBeFalse();
-      expect(menu.focusState).toBe("none");
+      hasClosed(menu);
     });
 
     if (menuType === "DisclosureMenu" || menuType === "Menubar") {
       test("will close when a click event is registered outside of the menu", () => {
         menu.elements.controller.open();
-        const main = document.querySelector("main");
-        click(main);
+        click(document.querySelector("main"));
 
-        expect(menu.elements.controller.isOpen).toBeFalse();
-        expect(menu.focusState).toBe("none");
+        hasClosed(menu);
       });
     }
   });
