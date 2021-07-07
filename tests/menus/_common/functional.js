@@ -91,4 +91,67 @@ export function openClose(MenuClass) {
       });
     }
   });
+
+  describe(`${menuType} submenus`, () => {
+    const toggle = menu.elements.submenuToggles[0];
+    const submenu = toggle.elements.controlledMenu;
+
+    /**
+     * Test to see if a submenu has opened.
+     *
+     * @param {(DisclosureMenuToggle|MenubarToggle|TreeviewToggle)} openToggle - The toggle to test.
+     * @param {(DisclosureMenu|Menubar|Treeview)}                   openMenu   - The menu to test.
+     */
+    function hasOpened(openToggle, openMenu) {
+      expect(openToggle.isOpen).toBeTrue();
+      expect(openToggle.dom.toggle.getAttribute("aria-expanded")).toBe("true");
+      expect(openMenu.dom.menu.classList.contains("show")).toBeTrue();
+      expect(openMenu.dom.menu.classList.contains("hide")).toBeFalse();
+    }
+
+    /**
+     * Test to see if a submenu has closed.
+     *
+     * @param {(DisclosureMenuToggle|MenubarToggle|TreeviewToggle)} openToggle - The toggle to test.
+     * @param {(DisclosureMenu|Menubar|Treeview)}                   openMenu   - The menu to test.
+     */
+    function hasClosed(openToggle, openMenu) {
+      expect(openToggle.isOpen).toBeFalse();
+      expect(openToggle.dom.toggle.getAttribute("aria-expanded")).toBe("false");
+      expect(openMenu.focusState).toBe("none");
+      expect(openToggle.elements.parentMenu.focusState).toBe("self");
+      expect(openMenu.dom.menu.classList.contains("hide")).toBeTrue();
+      expect(openMenu.dom.menu.classList.contains("show")).toBeFalse();
+    }
+
+    test("will open when the controller's open method is called", () => {
+      toggle.open();
+
+      hasOpened(toggle, submenu);
+      expect(submenu.focusState).toBe("self");
+      expect(menu.focusState).toBe("child");
+    });
+
+    test("will close when the controller's close method is called", () => {
+      toggle.close();
+
+      hasClosed(toggle, submenu);
+    });
+
+    test("will open when the controller is clicked when the menu is closed", () => {
+      toggle.close();
+      click(toggle.dom.toggle);
+
+      hasOpened(toggle, submenu);
+      expect(submenu.focusState).toBe("none");
+      expect(menu.focusState).toBe("self");
+    });
+
+    test("will close when the controller is clicked when the menu is open", () => {
+      toggle.open();
+      click(toggle.dom.toggle);
+
+      hasClosed(toggle, submenu);
+    });
+  });
 }
