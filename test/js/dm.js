@@ -1,5 +1,5 @@
 import DisclosureMenu from "../../src/disclosureMenu.js";
-import { click } from "../../tests/menus/_common/helpers.js";
+import { triggerEvent } from "../../tests/menus/_common/helpers.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   const menu = new DisclosureMenu({
@@ -7,11 +7,15 @@ document.addEventListener("DOMContentLoaded", () => {
     submenuItemSelector: "li.dropdown",
     containerElement: document.querySelector("nav"),
     controllerElement: document.querySelector("#toggle-0"),
+    hoverType: "on",
   });
 
   setTimeout(() => {
-    menu.elements.controller.close();
-    click(menu.dom.controller);
-    console.log(menu);
+    triggerEvent("mouseenter", menu.elements.submenuToggles[0].dom.toggle);
+
+    setTimeout(() => {
+      triggerEvent("mouseleave", menu.elements.submenuToggles[0].dom.toggle);
+      console.log(menu.elements.submenuToggles[0]);
+    }, 1000);
   }, 2000);
 });

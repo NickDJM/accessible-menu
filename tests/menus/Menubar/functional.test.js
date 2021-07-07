@@ -5,6 +5,7 @@
  */
 
 import { Menubar } from "../../../index";
-import { openClose } from "../_common/functional";
+import { openClose, clickTests } from "../_common/functional";
 
 openClose(Menubar);
+clickTests(Menubar);

@@ -6,10 +6,10 @@
 /* eslint-disable no-new */
 
 import { twoLevelMenu } from "./test-menus";
-import { click } from "./helpers";
+import { click, triggerEvent } from "./helpers";
 
 /**
- * A set of open/close click tests.
+ * A set of open/close tests.
  *
  * @param {(DisclosureMenu|Menubar|Treeview)} MenuClass - The menu class to test.
  */
@@ -26,61 +26,93 @@ export function openClose(MenuClass) {
   });
 
   describe(menuType, () => {
-    /**
-     * Test to see if a menu has opened.
-     *
-     * @param {(DisclosureMenu|Menubar|Treeview)} openMenu - The menu to test
-     */
-    function hasOpened(openMenu) {
-      expect(openMenu.elements.controller.isOpen).toBeTrue();
-      expect(openMenu.dom.controller.getAttribute("aria-expanded")).toBe(
-        "true"
-      );
-      expect(openMenu.dom.menu.classList.contains("show")).toBeTrue();
-      expect(openMenu.dom.menu.classList.contains("hide")).toBeFalse();
-    }
-
-    /**
-     * Test to see if a menu has closed.
-     *
-     * @param {(DisclosureMenu|Menubar|Treeview)} closedMenu - The menu to test
-     */
-    function hasClosed(closedMenu) {
-      expect(closedMenu.elements.controller.isOpen).toBeFalse();
-      expect(closedMenu.focusState).toBe("none");
-      expect(closedMenu.dom.controller.getAttribute("aria-expanded")).toBe(
-        "false"
-      );
-      expect(closedMenu.dom.menu.classList.contains("hide")).toBeTrue();
-      expect(closedMenu.dom.menu.classList.contains("show")).toBeFalse();
-    }
-
     test("will open when the controller's open method is called", () => {
       menu.elements.controller.open();
 
-      hasOpened(menu);
+      expect(menu.elements.controller.isOpen).toBeTrue();
       expect(menu.focusState).toBe("self");
+      expect(menu.dom.controller.getAttribute("aria-expanded")).toBe("true");
+      expect(menu.dom.menu.classList.contains("show")).toBeTrue();
+      expect(menu.dom.menu.classList.contains("hide")).toBeFalse();
     });
 
     test("will close when the controller's close method is called", () => {
       menu.elements.controller.close();
 
-      hasClosed(menu);
+      expect(menu.elements.controller.isOpen).toBeFalse();
+      expect(menu.focusState).toBe("none");
+      expect(menu.dom.controller.getAttribute("aria-expanded")).toBe("false");
+      expect(menu.dom.menu.classList.contains("hide")).toBeTrue();
+      expect(menu.dom.menu.classList.contains("show")).toBeFalse();
+    });
+  });
+
+  describe(`${menuType} submenus`, () => {
+    const toggle = menu.elements.submenuToggles[0];
+    const submenu = toggle.elements.controlledMenu;
+
+    test("will open when the controller's open method is called", () => {
+      toggle.open();
+
+      expect(toggle.isOpen).toBeTrue();
+      expect(submenu.focusState).toBe("self");
+      expect(menu.focusState).toBe("child");
+      expect(toggle.dom.toggle.getAttribute("aria-expanded")).toBe("true");
+      expect(submenu.dom.menu.classList.contains("show")).toBeTrue();
+      expect(submenu.dom.menu.classList.contains("hide")).toBeFalse();
     });
 
+    test("will close when the controller's close method is called", () => {
+      toggle.close();
+
+      expect(toggle.isOpen).toBeFalse();
+      expect(toggle.dom.toggle.getAttribute("aria-expanded")).toBe("false");
+      expect(submenu.focusState).toBe("none");
+      expect(menu.focusState).toBe("self");
+      expect(submenu.dom.menu.classList.contains("hide")).toBeTrue();
+      expect(submenu.dom.menu.classList.contains("show")).toBeFalse();
+    });
+  });
+}
+
+/**
+ * A set of click tests.
+ *
+ * @param {(DisclosureMenu|Menubar|Treeview)} MenuClass - The menu class to test.
+ */
+export function clickTests(MenuClass) {
+  const menuType = MenuClass.name;
+
+  // Set up the DOM.
+  document.body.innerHTML = twoLevelMenu;
+  const menu = new MenuClass({
+    menuElement: document.querySelector("#menu-0"),
+    submenuItemSelector: "li.dropdown",
+    containerElement: document.querySelector("nav"),
+    controllerElement: document.querySelector("#toggle-0"),
+  });
+
+  describe(menuType, () => {
     test("will open when the controller is clicked when the menu is closed", () => {
       menu.elements.controller.close();
       click(menu.dom.controller);
 
-      hasOpened(menu);
+      expect(menu.elements.controller.isOpen).toBeTrue();
       expect(menu.focusState).toBe("none");
+      expect(menu.dom.controller.getAttribute("aria-expanded")).toBe("true");
+      expect(menu.dom.menu.classList.contains("show")).toBeTrue();
+      expect(menu.dom.menu.classList.contains("hide")).toBeFalse();
     });
 
     test("will close when the controller is clicked when the menu is open", () => {
       menu.elements.controller.open();
       click(menu.dom.controller);
 
-      hasClosed(menu);
+      expect(menu.elements.controller.isOpen).toBeFalse();
+      expect(menu.focusState).toBe("none");
+      expect(menu.dom.controller.getAttribute("aria-expanded")).toBe("false");
+      expect(menu.dom.menu.classList.contains("hide")).toBeTrue();
+      expect(menu.dom.menu.classList.contains("show")).toBeFalse();
     });
 
     if (menuType === "DisclosureMenu" || menuType === "Menubar") {
@@ -88,7 +120,11 @@ export function openClose(MenuClass) {
         menu.elements.controller.open();
         click(document.querySelector("main"));
 
-        hasClosed(menu);
+        expect(menu.elements.controller.isOpen).toBeFalse();
+        expect(menu.focusState).toBe("none");
+        expect(menu.dom.controller.getAttribute("aria-expanded")).toBe("false");
+        expect(menu.dom.menu.classList.contains("hide")).toBeTrue();
+        expect(menu.dom.menu.classList.contains("show")).toBeFalse();
       });
     }
   });
@@ -97,62 +133,28 @@ export function openClose(MenuClass) {
     const toggle = menu.elements.submenuToggles[0];
     const submenu = toggle.elements.controlledMenu;
 
-    /**
-     * Test to see if a submenu has opened.
-     *
-     * @param {(DisclosureMenuToggle|MenubarToggle|TreeviewToggle)} openToggle - The toggle to test.
-     * @param {(DisclosureMenu|Menubar|Treeview)}                   openMenu   - The menu to test.
-     */
-    function hasOpened(openToggle, openMenu) {
-      expect(openToggle.isOpen).toBeTrue();
-      expect(openToggle.dom.toggle.getAttribute("aria-expanded")).toBe("true");
-      expect(openMenu.dom.menu.classList.contains("show")).toBeTrue();
-      expect(openMenu.dom.menu.classList.contains("hide")).toBeFalse();
-    }
-
-    /**
-     * Test to see if a submenu has closed.
-     *
-     * @param {(DisclosureMenuToggle|MenubarToggle|TreeviewToggle)} openToggle - The toggle to test.
-     * @param {(DisclosureMenu|Menubar|Treeview)}                   openMenu   - The menu to test.
-     */
-    function hasClosed(openToggle, openMenu) {
-      expect(openToggle.isOpen).toBeFalse();
-      expect(openToggle.dom.toggle.getAttribute("aria-expanded")).toBe("false");
-      expect(openMenu.focusState).toBe("none");
-      expect(openToggle.elements.parentMenu.focusState).toBe("self");
-      expect(openMenu.dom.menu.classList.contains("hide")).toBeTrue();
-      expect(openMenu.dom.menu.classList.contains("show")).toBeFalse();
-    }
-
-    test("will open when the controller's open method is called", () => {
-      toggle.open();
-
-      hasOpened(toggle, submenu);
-      expect(submenu.focusState).toBe("self");
-      expect(menu.focusState).toBe("child");
-    });
-
-    test("will close when the controller's close method is called", () => {
-      toggle.close();
-
-      hasClosed(toggle, submenu);
-    });
-
     test("will open when the controller is clicked when the menu is closed", () => {
       toggle.close();
       click(toggle.dom.toggle);
 
-      hasOpened(toggle, submenu);
+      expect(toggle.isOpen).toBeTrue();
       expect(submenu.focusState).toBe("none");
       expect(menu.focusState).toBe("self");
+      expect(toggle.dom.toggle.getAttribute("aria-expanded")).toBe("true");
+      expect(submenu.dom.menu.classList.contains("show")).toBeTrue();
+      expect(submenu.dom.menu.classList.contains("hide")).toBeFalse();
     });
 
     test("will close when the controller is clicked when the menu is open", () => {
       toggle.open();
       click(toggle.dom.toggle);
 
-      hasClosed(toggle, submenu);
+      expect(toggle.isOpen).toBeFalse();
+      expect(submenu.focusState).toBe("none");
+      expect(menu.focusState).toBe("self");
+      expect(toggle.dom.toggle.getAttribute("aria-expanded")).toBe("false");
+      expect(submenu.dom.menu.classList.contains("hide")).toBeTrue();
+      expect(submenu.dom.menu.classList.contains("show")).toBeFalse();
     });
   });
 }
