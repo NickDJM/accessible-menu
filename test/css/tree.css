@@ -82,7 +82,7 @@ nav ul li li li a {
 
 @media screen and (min-width: 1070px) {
   nav > button {
-    display: none;
+    display: block;
   }
   nav > ul {
     display: flex;

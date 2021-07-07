@@ -1,31 +1,17 @@
-import Treeview from "../../src/treeview.js";
+import Treeview from "../../src/disclosureMenu.js";
+import { click } from "../../tests/menus/_common/helpers.js";
 
-const navs = document.querySelectorAll("nav");
-const menus = [];
+document.addEventListener("DOMContentLoaded", () => {
+  const menu = new Treeview({
+    menuElement: document.querySelector("#menu-0"),
+    submenuItemSelector: "li.dropdown",
+    containerElement: document.querySelector("nav"),
+    controllerElement: document.querySelector("#toggle-0"),
+  });
 
-Array.from(navs).forEach((nav) => {
-  const menuElement = nav.querySelector("ul");
-  const submenuItemSelector = "li.dropdown";
-  const controllerElement =
-    nav.id === "main-menu" ? nav.querySelector("button") : null;
-  const containerElement = nav.id === "main-menu" ? nav : null;
-
-  menus.push(
-    new Treeview({
-      menuElement,
-      submenuItemSelector,
-      controllerElement,
-      containerElement,
-      openClass: ["show", "open"],
-      hoverType: "off",
-    })
-  );
-});
-
-document.addEventListener("accessibleMenuExpand", (event) => {
-  console.log(event);
-});
-
-document.addEventListener("accessibleMenuCollapse", (event) => {
-  console.log(event);
+  setTimeout(() => {
+    menu.elements.controller.close();
+    click(menu.dom.controller);
+    console.log(menu);
+  }, 2000);
 });
