@@ -1855,7 +1855,7 @@ var BaseMenu = /*#__PURE__*/function () {
         preventEvent(event);
         toggle.toggle();
 
-        if (toggle.isOpen) {
+        if (!menu.isTopLevel && toggle.isOpen) {
           menu.focusState = "self";
           toggle.elements.controlledMenu.focusState = "none";
         }
