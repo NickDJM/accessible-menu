@@ -779,7 +779,7 @@ class BaseMenu {
 
       toggle.toggle();
 
-      if (!menu.isTopLevel && toggle.isOpen) {
+      if (toggle.isOpen) {
         menu.focusState = "self";
         toggle.elements.controlledMenu.focusState = "none";
       }
