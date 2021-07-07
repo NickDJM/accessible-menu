@@ -62,13 +62,15 @@ export function openClose(MenuClass) {
       expect(menu.focusState).toBe("none");
     });
 
-    test("will close when a click event is registered outside of the menu", () => {
-      menu.elements.controller.open();
-      const main = document.querySelector("main");
-      click(main);
+    if (menuType === "DisclosureMenu" || menuType === "Menubar") {
+      test("will close when a click event is registered outside of the menu", () => {
+        menu.elements.controller.open();
+        const main = document.querySelector("main");
+        click(main);
 
-      expect(menu.elements.controller.isOpen).toBeFalse();
-      expect(menu.focusState).toBe("none");
-    });
+        expect(menu.elements.controller.isOpen).toBeFalse();
+        expect(menu.focusState).toBe("none");
+      });
+    }
   });
 }
