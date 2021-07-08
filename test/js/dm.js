@@ -12,9 +12,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   setTimeout(() => {
     triggerEvent("mouseenter", menu.elements.submenuToggles[0].dom.toggle);
+    console.log(menu.elements.submenuToggles[0]);
+    triggerEvent("mouseleave", menu.elements.menuItems[1].dom.item);
 
     setTimeout(() => {
-      triggerEvent("mouseleave", menu.elements.submenuToggles[0].dom.toggle);
       console.log(menu.elements.submenuToggles[0]);
     }, 1000);
   }, 2000);

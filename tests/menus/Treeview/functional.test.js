@@ -5,7 +5,8 @@
  */
 
 import { Treeview } from "../../../index";
-import { openClose, clickTests } from "../_common/functional";
+import { openClose, clickTests, hoverTests } from "../_common/functional";
 
 openClose(Treeview);
 clickTests(Treeview);
+hoverTests(Treeview);
