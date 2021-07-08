@@ -213,7 +213,9 @@ export function hoverTests(MenuClass) {
     });
     const menuItem = menu.elements.menuItems[1];
     const toggle = menu.elements.submenuToggles[0];
+    const toggle2 = menu.elements.submenuToggles[1];
     const submenu = toggle.elements.controlledMenu;
+    const submenu2 = toggle2.elements.controlledMenu;
 
     test("submenus will not open when a mouse enters their controller and no other submenus are open", () => {
       triggerEvent("mouseenter", toggle.dom.toggle);
@@ -235,6 +237,18 @@ export function hoverTests(MenuClass) {
       expect(toggle.dom.toggle.getAttribute("aria-expanded")).toBe("true");
       expect(submenu.dom.menu.classList.contains("show")).toBeTrue();
       expect(submenu.dom.menu.classList.contains("hide")).toBeFalse();
+    });
+
+    test("submenus will open when a mouse enters their controller if another submenu is already open", () => {
+      toggle.open();
+      triggerEvent("mouseenter", toggle2.dom.toggle);
+
+      expect(toggle2.isOpen).toBeTrue();
+      expect(toggle2.elements.parentMenu.focusState).toBe("self");
+      expect(submenu2.focusState).toBe("none");
+      expect(toggle2.dom.toggle.getAttribute("aria-expanded")).toBe("true");
+      expect(submenu2.dom.menu.classList.contains("show")).toBeTrue();
+      expect(submenu2.dom.menu.classList.contains("hide")).toBeFalse();
     });
   });
 }
