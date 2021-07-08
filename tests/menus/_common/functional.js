@@ -5,7 +5,7 @@
  */
 /* eslint-disable no-new */
 
-import { twoLevelMenu } from "./test-menus";
+import { twoLevelMenu, fullMenu } from "./test-menus";
 import { click, triggerEvent } from "./helpers";
 
 /**
@@ -202,7 +202,7 @@ export function hoverTests(MenuClass) {
 
   describe(`${menuType} with hoverType "dynamic"`, () => {
     // Set up the DOM.
-    document.body.innerHTML = twoLevelMenu;
+    document.body.innerHTML = fullMenu;
     const menu = new MenuClass({
       menuElement: document.querySelector("#menu-0"),
       submenuItemSelector: "li.dropdown",
@@ -216,6 +216,9 @@ export function hoverTests(MenuClass) {
     const toggle2 = menu.elements.submenuToggles[1];
     const submenu = toggle.elements.controlledMenu;
     const submenu2 = toggle2.elements.controlledMenu;
+    const nonRootMenuItem = submenu.elements.menuItems[1];
+    const nonRootToggle = submenu.elements.submenuToggles[0];
+    const nonRootSubmenu = nonRootToggle.elements.controlledMenu;
 
     test("submenus will not open when a mouse enters their controller and no other submenus are open", () => {
       triggerEvent("mouseenter", toggle.dom.toggle);
@@ -249,6 +252,35 @@ export function hoverTests(MenuClass) {
       expect(toggle2.dom.toggle.getAttribute("aria-expanded")).toBe("true");
       expect(submenu2.dom.menu.classList.contains("show")).toBeTrue();
       expect(submenu2.dom.menu.classList.contains("hide")).toBeFalse();
+    });
+
+    test("submenus that are not direct children of the root menu with open when a mouse enters their controller", () => {
+      toggle.open();
+      triggerEvent("mouseenter", nonRootToggle.dom.toggle);
+
+      expect(nonRootToggle.isOpen).toBeTrue();
+      expect(nonRootToggle.elements.parentMenu.focusState).toBe("self");
+      expect(nonRootSubmenu.focusState).toBe("none");
+      expect(nonRootToggle.dom.toggle.getAttribute("aria-expanded")).toBe(
+        "true"
+      );
+      expect(nonRootSubmenu.dom.menu.classList.contains("show")).toBeTrue();
+      expect(nonRootSubmenu.dom.menu.classList.contains("hide")).toBeFalse();
+    });
+
+    test("submenus that are not direct children of the root menu with close when a mouse leaves the submenu item", () => {
+      toggle.open();
+      nonRootToggle.open();
+      triggerEvent("mouseleave", nonRootMenuItem.dom.item);
+
+      expect(nonRootToggle.isOpen).toBeFalse();
+      expect(nonRootToggle.elements.parentMenu.focusState).toBe("self");
+      expect(nonRootSubmenu.focusState).toBe("none");
+      expect(nonRootToggle.dom.toggle.getAttribute("aria-expanded")).toBe(
+        "false"
+      );
+      expect(nonRootSubmenu.dom.menu.classList.contains("hide")).toBeTrue();
+      expect(nonRootSubmenu.dom.menu.classList.contains("show")).toBeFalse();
     });
   });
 }
