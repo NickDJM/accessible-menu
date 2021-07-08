@@ -1827,18 +1827,30 @@ var AccessibleMenu = (function () {
           if (menuItem.isSubmenuItem) {
             menuItem.dom.item.addEventListener("mouseleave", function () {
               if (_this5.hoverType === "on") {
-                setTimeout(function () {
+                if (_this5.hoverDelay > 0) {
+                  setTimeout(function () {
+                    _this5.currentEvent = "mouse";
+                    menuItem.elements.toggle.close();
+                  }, _this5.hoverDelay);
+                } else {
                   _this5.currentEvent = "mouse";
                   menuItem.elements.toggle.close();
-                }, _this5.hoverDelay);
+                }
               } else if (_this5.hoverType === "dynamic") {
                 if (!_this5.isTopLevel) {
-                  setTimeout(function () {
+                  if (_this5.hoverDelay > 0) {
+                    setTimeout(function () {
+                      _this5.currentEvent = "mouse";
+                      menuItem.elements.toggle.close();
+
+                      _this5.focusCurrentChild();
+                    }, _this5.hoverDelay);
+                  } else {
                     _this5.currentEvent = "mouse";
                     menuItem.elements.toggle.close();
 
                     _this5.focusCurrentChild();
-                  }, _this5.hoverDelay);
+                  }
                 }
               }
             });

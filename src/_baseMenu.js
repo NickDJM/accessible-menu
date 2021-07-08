@@ -880,17 +880,28 @@ class BaseMenu {
       if (menuItem.isSubmenuItem) {
         menuItem.dom.item.addEventListener("mouseleave", () => {
           if (this.hoverType === "on") {
-            setTimeout(() => {
-              this.currentEvent = "mouse";
-              menuItem.elements.toggle.close();
-            }, this.hoverDelay);
-          } else if (this.hoverType === "dynamic") {
-            if (!this.isTopLevel) {
+            if (this.hoverDelay > 0) {
               setTimeout(() => {
                 this.currentEvent = "mouse";
                 menuItem.elements.toggle.close();
-                this.focusCurrentChild();
               }, this.hoverDelay);
+            } else {
+              this.currentEvent = "mouse";
+              menuItem.elements.toggle.close();
+            }
+          } else if (this.hoverType === "dynamic") {
+            if (!this.isTopLevel) {
+              if (this.hoverDelay > 0) {
+                setTimeout(() => {
+                  this.currentEvent = "mouse";
+                  menuItem.elements.toggle.close();
+                  this.focusCurrentChild();
+                }, this.hoverDelay);
+              } else {
+                this.currentEvent = "mouse";
+                menuItem.elements.toggle.close();
+                this.focusCurrentChild();
+              }
             }
           }
         });
