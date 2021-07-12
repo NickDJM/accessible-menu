@@ -6,7 +6,7 @@
 /* eslint-disable no-new */
 
 import { twoLevelMenu, fullMenu } from "./test-menus";
-import { click, triggerEvent } from "./helpers";
+import { simulateClick, simulateMouseEvent } from "./helpers";
 
 /**
  * A set of open/close tests.
@@ -95,7 +95,7 @@ export function clickTests(MenuClass) {
 
     test("will open when the controller is clicked when the menu is closed", () => {
       menu.elements.controller.close();
-      click(menu.dom.controller);
+      simulateClick(menu.dom.controller);
 
       expect(menu.elements.controller.isOpen).toBeTrue();
       expect(menu.focusState).toBe("none");
@@ -106,7 +106,7 @@ export function clickTests(MenuClass) {
 
     test("will close when the controller is clicked when the menu is open", () => {
       menu.elements.controller.open();
-      click(menu.dom.controller);
+      simulateClick(menu.dom.controller);
 
       expect(menu.elements.controller.isOpen).toBeFalse();
       expect(menu.focusState).toBe("none");
@@ -118,7 +118,7 @@ export function clickTests(MenuClass) {
     if (menuType === "DisclosureMenu" || menuType === "Menubar") {
       test("will close when a click event is registered outside of the menu", () => {
         menu.elements.controller.open();
-        click(document.querySelector("main"));
+        simulateClick(document.querySelector("main"));
 
         expect(menu.elements.controller.isOpen).toBeFalse();
         expect(menu.focusState).toBe("none");
@@ -130,7 +130,7 @@ export function clickTests(MenuClass) {
 
     test("submenus will open when the controller is clicked when the menu is closed", () => {
       toggle.close();
-      click(toggle.dom.toggle);
+      simulateClick(toggle.dom.toggle);
 
       expect(toggle.isOpen).toBeTrue();
       expect(submenu.focusState).toBe("none");
@@ -142,7 +142,7 @@ export function clickTests(MenuClass) {
 
     test("submenus will close when the controller is clicked when the menu is open", () => {
       toggle.open();
-      click(toggle.dom.toggle);
+      simulateClick(toggle.dom.toggle);
 
       expect(toggle.isOpen).toBeFalse();
       expect(submenu.focusState).toBe("none");
@@ -178,7 +178,7 @@ export function hoverTests(MenuClass) {
     const submenu = toggle.elements.controlledMenu;
 
     test("submenus will open when a mouse enters their controller", () => {
-      triggerEvent("mouseenter", toggle.dom.toggle);
+      simulateMouseEvent("mouseenter", toggle.dom.toggle);
 
       expect(toggle.isOpen).toBeTrue();
       expect(toggle.elements.parentMenu.focusState).toBe("self");
@@ -189,7 +189,7 @@ export function hoverTests(MenuClass) {
     });
 
     test("submenus will close when a mouse leaves the submenu item", () => {
-      triggerEvent("mouseleave", menuItem.dom.item);
+      simulateMouseEvent("mouseleave", menuItem.dom.item);
 
       expect(toggle.isOpen).toBeFalse();
       expect(toggle.elements.parentMenu.focusState).toBe("self");
@@ -221,7 +221,7 @@ export function hoverTests(MenuClass) {
     const nonRootSubmenu = nonRootToggle.elements.controlledMenu;
 
     test("submenus will not open when a mouse enters their controller and no other submenus are open", () => {
-      triggerEvent("mouseenter", toggle.dom.toggle);
+      simulateMouseEvent("mouseenter", toggle.dom.toggle);
 
       expect(toggle.isOpen).toBeFalse();
       expect(submenu.focusState).toBe("none");
@@ -232,7 +232,7 @@ export function hoverTests(MenuClass) {
 
     test("submenus will not close when a mouse leaves the submenu item if no other submenus are opened", () => {
       toggle.open();
-      triggerEvent("mouseleave", menuItem.dom.item);
+      simulateMouseEvent("mouseleave", menuItem.dom.item);
 
       expect(toggle.isOpen).toBeTrue();
       expect(toggle.elements.parentMenu.focusState).toBe("child");
@@ -244,7 +244,7 @@ export function hoverTests(MenuClass) {
 
     test("submenus will open when a mouse enters their controller if another submenu is already open", () => {
       toggle.open();
-      triggerEvent("mouseenter", toggle2.dom.toggle);
+      simulateMouseEvent("mouseenter", toggle2.dom.toggle);
 
       expect(toggle2.isOpen).toBeTrue();
       expect(toggle2.elements.parentMenu.focusState).toBe("self");
@@ -256,7 +256,7 @@ export function hoverTests(MenuClass) {
 
     test("submenus that are not direct children of the root menu with open when a mouse enters their controller", () => {
       toggle.open();
-      triggerEvent("mouseenter", nonRootToggle.dom.toggle);
+      simulateMouseEvent("mouseenter", nonRootToggle.dom.toggle);
 
       expect(nonRootToggle.isOpen).toBeTrue();
       expect(nonRootToggle.elements.parentMenu.focusState).toBe("self");
@@ -271,7 +271,7 @@ export function hoverTests(MenuClass) {
     test("submenus that are not direct children of the root menu with close when a mouse leaves the submenu item", () => {
       toggle.open();
       nonRootToggle.open();
-      triggerEvent("mouseleave", nonRootMenuItem.dom.item);
+      simulateMouseEvent("mouseleave", nonRootMenuItem.dom.item);
 
       expect(nonRootToggle.isOpen).toBeFalse();
       expect(nonRootToggle.elements.parentMenu.focusState).toBe("self");
