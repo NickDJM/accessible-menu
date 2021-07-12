@@ -14,7 +14,6 @@ import { twoLevelMenu } from "./test-menus";
  */
 export function aria(MenuClass) {
   const menuType = MenuClass.name;
-  const expectedItemRole = menuType === "Menubar" ? "menuitem" : "treeitem";
 
   describe(`${menuType}`, () => {
     // Set up the DOM.
@@ -25,7 +24,7 @@ export function aria(MenuClass) {
       containerElement: document.querySelector("nav"),
       controllerElement: document.querySelector("#toggle-0"),
     });
-
+    const expectedItemRole = menuType === "Menubar" ? "menuitem" : "treeitem";
     const submenus = [
       { index: 0, id: 2 },
       { index: 1, id: 3 },
