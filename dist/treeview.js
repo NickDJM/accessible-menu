@@ -2585,6 +2585,7 @@ var Treeview = (function () {
        * | _End_ | Moves focus to the last node that can be focused without expanding any nodes that are closed. |
        * | _a-z_, _A-Z_ | <ul><li>Focus moves to the next node with a name that starts with the typed character.</li><li>Search wraps to first node if a matching name is not found among the nodes that follow the focused node.</li><li>Search ignores nodes that are descendants of closed nodes.</li></ul> |
        * | _* (asterisk)_ | <ul><li>Expands all closed sibling nodes that are at the same level as the focused node.</li><li>Focus does not move.</li></ul> |
+       * | _Escape_ | If the root menu is collapsible, collapses the menu and focuses the menu's controlling element. |
        */
 
     }, {
@@ -2622,6 +2623,12 @@ var Treeview = (function () {
                 }
               } else {
                 _this3.currentMenuItem.dom.link.click();
+              }
+            } else if (key === "Escape") {
+              if (_this3.isTopLevel && _this3.elements.controller && _this3.elements.controller.isOpen) {
+                _this3.elements.controller.close();
+
+                _this3.focusController();
               }
             } else if (key === "ArrowDown") {
               // Hitting the Down Arrow:
