@@ -6,7 +6,7 @@
 /* eslint-disable no-new */
 
 import { twoLevelMenu, fullMenu } from "./test-menus";
-import { simulateClick, simulateMouseEvent } from "./helpers";
+import { simulateClick, simulateMouseEvent, simulateKeypress } from "./helpers";
 
 /**
  * A set of open/close tests.
@@ -281,6 +281,63 @@ export function hoverTests(MenuClass) {
       );
       expect(nonRootSubmenu.dom.menu.classList.contains("hide")).toBeTrue();
       expect(nonRootSubmenu.dom.menu.classList.contains("show")).toBeFalse();
+    });
+  });
+}
+
+/**
+ * A set of base keypress tests.
+ *
+ * @param {(DisclosureMenu|Menubar|Treeview)} MenuClass - The menu class to test.
+ */
+export function baseKeypressTests(MenuClass) {
+  const menuType = MenuClass.name;
+
+  describe(menuType, () => {
+    test.each(["Enter", "Spacebar"])(
+      "will open when then '%s' key is pressed on the controller",
+      (key) => {
+        // Set up the DOM.
+        document.body.innerHTML = fullMenu;
+        const menu = new MenuClass({
+          menuElement: document.querySelector("#menu-0"),
+          submenuItemSelector: "li.dropdown",
+          containerElement: document.querySelector("nav"),
+          controllerElement: document.querySelector("#toggle-0"),
+        });
+        const toggle = menu.elements.controller;
+
+        simulateKeypress(key, toggle.dom.toggle);
+
+        expect(toggle.isOpen).toBeTrue();
+        expect(menu.focusState).toBe("self");
+        expect(toggle.dom.toggle.getAttribute("aria-expanded")).toBe("true");
+        expect(menu.dom.menu.classList.contains("show")).toBeTrue();
+        expect(menu.dom.menu.classList.contains("hide")).toBeFalse();
+        expect(menu.currentChild).toBe(0);
+      }
+    );
+
+    test("will close when the 'Escape' key is pressed when inside the menu", () => {
+      // Set up the DOM.
+      document.body.innerHTML = fullMenu;
+      const menu = new MenuClass({
+        menuElement: document.querySelector("#menu-0"),
+        submenuItemSelector: "li.dropdown",
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("#toggle-0"),
+      });
+      const toggle = menu.elements.controller;
+
+      simulateKeypress("Enter", toggle.dom.toggle);
+      simulateKeypress("Escape", menu.dom.menu);
+
+      expect(toggle.isOpen).toBeFalse();
+      expect(menu.focusState).toBe("none");
+      expect(toggle.dom.toggle.getAttribute("aria-expanded")).toBe("false");
+      expect(menu.dom.menu.classList.contains("hide")).toBeTrue();
+      expect(menu.dom.menu.classList.contains("show")).toBeFalse();
+      expect(menu.currentChild).toBe(0);
     });
   });
 }

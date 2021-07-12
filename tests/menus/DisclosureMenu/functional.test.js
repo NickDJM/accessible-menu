@@ -5,8 +5,14 @@
  */
 
 import { DisclosureMenu } from "../../../index";
-import { openClose, clickTests, hoverTests } from "../_common/functional";
+import {
+  openClose,
+  clickTests,
+  hoverTests,
+  baseKeypressTests,
+} from "../_common/functional";
 
 openClose(DisclosureMenu);
 clickTests(DisclosureMenu);
 hoverTests(DisclosureMenu);
+baseKeypressTests(DisclosureMenu);
