@@ -1,22 +1,13 @@
 import DisclosureMenu from "../../src/disclosureMenu.js";
-import { triggerEvent } from "../../tests/menus/_common/helpers.js";
+
+const menus = [];
 
 document.addEventListener("DOMContentLoaded", () => {
-  const menu = new DisclosureMenu({
-    menuElement: document.querySelector("#menu-0"),
-    submenuItemSelector: "li.dropdown",
-    containerElement: document.querySelector("nav"),
-    controllerElement: document.querySelector("#toggle-0"),
-    hoverType: "on",
-  });
-
-  setTimeout(() => {
-    triggerEvent("mouseenter", menu.elements.submenuToggles[0].dom.toggle);
-    console.log(menu.elements.submenuToggles[0]);
-    triggerEvent("mouseleave", menu.elements.menuItems[1].dom.item);
-
-    setTimeout(() => {
-      console.log(menu.elements.submenuToggles[0]);
-    }, 1000);
-  }, 2000);
+  menus.push(
+    new DisclosureMenu({
+      menuElement: document.querySelector("#menu-0"),
+      submenuItemSelector: "li.dropdown",
+      optionalKeySupport: true,
+    })
+  );
 });

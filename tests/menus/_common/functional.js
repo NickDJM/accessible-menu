@@ -317,27 +317,5 @@ export function baseKeypressTests(MenuClass) {
         expect(menu.currentChild).toBe(0);
       }
     );
-
-    test("will close when the 'Escape' key is pressed when inside the menu", () => {
-      // Set up the DOM.
-      document.body.innerHTML = fullMenu;
-      const menu = new MenuClass({
-        menuElement: document.querySelector("#menu-0"),
-        submenuItemSelector: "li.dropdown",
-        containerElement: document.querySelector("nav"),
-        controllerElement: document.querySelector("#toggle-0"),
-      });
-      const toggle = menu.elements.controller;
-
-      simulateKeypress("Enter", toggle.dom.toggle);
-      simulateKeypress("Escape", menu.dom.menu);
-
-      expect(toggle.isOpen).toBeFalse();
-      expect(menu.focusState).toBe("none");
-      expect(toggle.dom.toggle.getAttribute("aria-expanded")).toBe("false");
-      expect(menu.dom.menu.classList.contains("hide")).toBeTrue();
-      expect(menu.dom.menu.classList.contains("show")).toBeFalse();
-      expect(menu.currentChild).toBe(0);
-    });
   });
 }
