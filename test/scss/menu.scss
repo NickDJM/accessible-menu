@@ -20,7 +20,7 @@ li {
   }
 
   ul {
-    &.dropdown {
+    li.dropdown > ul {
       position: absolute;
       top: 100%;
       left: 0;

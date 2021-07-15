@@ -51,17 +51,17 @@ nav ul {
   margin: 0;
   padding: 0;
 }
-nav ul.dropdown {
-  display: none;
-  flex-direction: column;
-}
-nav ul.dropdown.show {
-  display: flex;
-}
 nav ul li {
   position: relative;
   margin: 0;
   padding: 0;
+}
+nav ul li.dropdown > ul {
+  display: none;
+  flex-direction: column;
+}
+nav ul li.dropdown > ul.show {
+  display: flex;
 }
 nav ul li a {
   display: flex;
@@ -82,7 +82,7 @@ nav ul li li li a {
 
 @media screen and (min-width: 1070px) {
   nav > button {
-    display: block;
+    display: none;
   }
   nav > ul {
     display: flex;
@@ -102,19 +102,19 @@ li a {
     flex-direction: row;
   }
 
-  ul.dropdown {
+  ul li.dropdown > ul {
     position: absolute;
     top: 100%;
     left: 0;
   }
-  ul.dropdown ul {
+  ul li.dropdown > ul ul {
     top: 0;
     left: 100%;
   }
-  ul.dropdown li a {
+  ul li.dropdown > ul li a {
     padding-left: 2rem;
   }
-  ul.dropdown li li a {
+  ul li.dropdown > ul li li a {
     padding-left: 2rem;
   }
 }

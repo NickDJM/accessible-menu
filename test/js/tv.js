@@ -1,17 +1,12 @@
-import Treeview from "../../src/disclosureMenu.js";
-import { click } from "../../tests/menus/_common/helpers.js";
+import Treeview from "../../src/treeview.js";
+
+const menus = [];
 
 document.addEventListener("DOMContentLoaded", () => {
-  const menu = new Treeview({
-    menuElement: document.querySelector("#menu-0"),
-    submenuItemSelector: "li.dropdown",
-    containerElement: document.querySelector("nav"),
-    controllerElement: document.querySelector("#toggle-0"),
-  });
-
-  setTimeout(() => {
-    menu.elements.controller.close();
-    click(menu.dom.controller);
-    console.log(menu);
-  }, 2000);
+  menus.push(
+    new Treeview({
+      menuElement: document.querySelector("#menu-0"),
+      submenuItemSelector: "li.dropdown",
+    })
+  );
 });

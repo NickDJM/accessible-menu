@@ -1,5 +1,5 @@
-@use "variables"as *;
-@use "mixins"as *;
+@use "variables" as *;
+@use "mixins" as *;
 
 * {
   box-sizing: content-box;
@@ -57,19 +57,19 @@ nav {
     margin: 0;
     padding: 0;
 
-    &.dropdown {
-      display: none;
-      flex-direction: column;
-
-      &.show {
-        display: flex;
-      }
-    }
-
     li {
       position: relative;
       margin: 0;
       padding: 0;
+
+      &.dropdown > ul {
+        display: none;
+        flex-direction: column;
+
+        &.show {
+          display: flex;
+        }
+      }
 
       a {
         display: flex;
@@ -100,7 +100,7 @@ nav {
 @include media-desktop() {
   nav {
     > button {
-      display: block;
+      display: none;
     }
 
     > ul {

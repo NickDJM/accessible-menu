@@ -7,7 +7,6 @@ document.addEventListener("DOMContentLoaded", () => {
     new DisclosureMenu({
       menuElement: document.querySelector("#menu-0"),
       submenuItemSelector: "li.dropdown",
-      optionalKeySupport: true,
     })
   );
 });
