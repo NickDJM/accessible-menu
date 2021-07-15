@@ -2598,8 +2598,12 @@ var Treeview = (function () {
         this.dom.menu.addEventListener("keyup", function (event) {
           _this3.currentEvent = "keyboard";
           var key = keyPress(event);
+          var altKey = event.altKey,
+              crtlKey = event.crtlKey,
+              metaKey = event.metaKey;
+          var modifier = altKey || crtlKey || metaKey;
 
-          if (key === "Character") {
+          if (key === "Character" && !modifier) {
             // Hitting Character:
             // - Focus moves to the next node with a name that starts with the typed character.
             // - Search wraps to first node if a matching name is not found among the nodes that follow the focused node.

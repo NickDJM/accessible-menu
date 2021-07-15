@@ -198,8 +198,10 @@ class Treeview extends BaseMenu {
       this.currentEvent = "keyboard";
 
       const key = keyPress(event);
+      const { altKey, crtlKey, metaKey } = event;
+      const modifier = altKey || crtlKey || metaKey;
 
-      if (key === "Character") {
+      if (key === "Character" && !modifier) {
         // Hitting Character:
         // - Focus moves to the next node with a name that starts with the typed character.
         // - Search wraps to first node if a matching name is not found among the nodes that follow the focused node.
