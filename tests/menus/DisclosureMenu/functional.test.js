@@ -20,75 +20,77 @@ hoverTests(DisclosureMenu);
 baseKeypressTests(DisclosureMenu);
 
 describe("DisclosureMenu", () => {
-  test("will close any open child when the 'Escape' key is pressed", () => {
-    // Set up the DOM.
-    document.body.innerHTML = fullMenu;
-    const menu = new DisclosureMenu({
-      menuElement: document.querySelector("#menu-0"),
-      submenuItemSelector: "li.dropdown",
+  describe("when the 'Escape' key is pressed", () => {
+    test("will close any open child", () => {
+      // Set up the DOM.
+      document.body.innerHTML = fullMenu;
+      const menu = new DisclosureMenu({
+        menuElement: document.querySelector("#menu-0"),
+        submenuItemSelector: "li.dropdown",
+      });
+      const toggle = menu.elements.submenuToggles[0];
+
+      // Enter the menu.
+      menu.elements.menuItems[0].dom.link.focus();
+
+      // Set up the menu for the test.
+      menu.focusChild(1);
+      toggle.preview();
+
+      // Simluate the keypress.
+      simulateKeypress("Escape", menu.dom.menu);
+
+      expect(toggle.isOpen).toBeFalse();
     });
-    const toggle = menu.elements.submenuToggles[0];
 
-    // Enter the menu.
-    menu.elements.menuItems[0].dom.link.focus();
+    test("will close the menu and focus the parent menu's current child if the menu has a parent menu", () => {
+      // Set up the DOM.
+      document.body.innerHTML = fullMenu;
+      const menu = new DisclosureMenu({
+        menuElement: document.querySelector("#menu-0"),
+        submenuItemSelector: "li.dropdown",
+      });
+      const toggle = menu.elements.submenuToggles[0];
+      const submenu = toggle.elements.controlledMenu;
 
-    // Set up the menu for the test.
-    menu.focusChild(1);
-    toggle.preview();
+      // Enter the menu.
+      menu.elements.menuItems[0].dom.link.focus();
 
-    // Simluate the keypress.
-    simulateKeypress("Escape", menu.dom.menu);
+      // Set up the menu for the test.
+      menu.focusChild(1);
+      toggle.open();
+      submenu.focusChild(0);
 
-    expect(toggle.isOpen).toBeFalse();
-  });
+      // Simluate the keypress.
+      simulateKeypress("Escape", submenu.dom.menu);
 
-  test("will close the menu and focus the parent menu's current child if the menu has a parent menu", () => {
-    // Set up the DOM.
-    document.body.innerHTML = fullMenu;
-    const menu = new DisclosureMenu({
-      menuElement: document.querySelector("#menu-0"),
-      submenuItemSelector: "li.dropdown",
+      expect(toggle.isOpen).toBeFalse();
+      expect(submenu.focusState).toBe("none");
+      expect(menu.focusState).toBe("self");
+      expect(menu.currentChild).toBe(1);
     });
-    const toggle = menu.elements.submenuToggles[0];
-    const submenu = toggle.elements.controlledMenu;
 
-    // Enter the menu.
-    menu.elements.menuItems[0].dom.link.focus();
+    test("will close if the menu has a controller and no child menus are open", () => {
+      // Set up the DOM.
+      document.body.innerHTML = fullMenu;
+      const menu = new DisclosureMenu({
+        menuElement: document.querySelector("#menu-0"),
+        submenuItemSelector: "li.dropdown",
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("#toggle-0"),
+      });
+      const toggle = menu.elements.controller;
 
-    // Set up the menu for the test.
-    menu.focusChild(1);
-    toggle.open();
-    submenu.focusChild(0);
+      // Set up the menu for the test.
+      toggle.dom.toggle.focus();
+      toggle.open();
+      menu.focusChild(0);
 
-    // Simluate the keypress.
-    simulateKeypress("Escape", submenu.dom.menu);
+      simulateKeypress("Escape", menu.dom.menu);
 
-    expect(toggle.isOpen).toBeFalse();
-    expect(submenu.focusState).toBe("none");
-    expect(menu.focusState).toBe("self");
-    expect(menu.currentChild).toBe(1);
-  });
-
-  test("will close if the menu has a controller and no child menus are open", () => {
-    // Set up the DOM.
-    document.body.innerHTML = fullMenu;
-    const menu = new DisclosureMenu({
-      menuElement: document.querySelector("#menu-0"),
-      submenuItemSelector: "li.dropdown",
-      containerElement: document.querySelector("nav"),
-      controllerElement: document.querySelector("#toggle-0"),
+      expect(toggle.isOpen).toBeFalse();
+      expect(menu.focusState).toBe("none");
     });
-    const toggle = menu.elements.controller;
-
-    // Set up the menu for the test.
-    toggle.dom.toggle.focus();
-    toggle.open();
-    menu.focusChild(0);
-
-    simulateKeypress("Escape", menu.dom.menu);
-
-    expect(toggle.isOpen).toBeFalse();
-    expect(menu.focusState).toBe("none");
   });
 
   describe("with optionalKeySupport set to 'true'", () => {
