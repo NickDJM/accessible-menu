@@ -6,7 +6,12 @@
 /* eslint-disable no-new */
 
 import { twoLevelMenu, fullMenu } from "./test-menus";
-import { simulateClick, simulateMouseEvent, simulateKeypress } from "./helpers";
+import {
+  simulateClick,
+  simulateMouseEvent,
+  simulateKeypress,
+  toggleIsOpen,
+} from "./helpers";
 
 /**
  * A set of open/close tests.
@@ -293,10 +298,9 @@ export function hoverTests(MenuClass) {
 export function baseKeypressTests(MenuClass) {
   const menuType = MenuClass.name;
 
-  describe(menuType, () => {
-    test.each(["Enter", "Spacebar"])(
-      "will open when then '%s' key is pressed on the controller",
-      (key) => {
+  describe(`${menuType} keypress tests`, () => {
+    describe.each(["Enter", "Spacebar"])("'%s' key", (key) => {
+      test("Opens the menu when triggered on the controller.", () => {
         // Set up the DOM.
         document.body.innerHTML = fullMenu;
         const menu = new MenuClass({
@@ -309,13 +313,9 @@ export function baseKeypressTests(MenuClass) {
 
         simulateKeypress(key, toggle.dom.toggle);
 
-        expect(toggle.isOpen).toBeTrue();
-        expect(menu.focusState).toBe("self");
-        expect(toggle.dom.toggle.getAttribute("aria-expanded")).toBe("true");
-        expect(menu.dom.menu.classList.contains("show")).toBeTrue();
-        expect(menu.dom.menu.classList.contains("hide")).toBeFalse();
+        toggleIsOpen(toggle);
         expect(menu.currentChild).toBe(0);
-      }
-    );
+      });
+    });
   });
 }
