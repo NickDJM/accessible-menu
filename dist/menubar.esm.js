@@ -3004,10 +3004,19 @@ var Menubar = /*#__PURE__*/function (_BaseMenu) {
       var found = false;
 
       while (!found && index < this.elements.menuItems.length) {
-        // Ensure the text in the item is lowercase just to be safe.
-        var text = this.elements.menuItems[index].dom.item.innerText.toLowerCase(); // Focus the child if the text matches, otherwise move on.
+        var text = ""; // Attempt to use the browser to get proper innerText,
+        // otherwise fall back to textContent.
 
-        if (text.startsWith(match)) {
+        if (this.elements.menuItems[index].dom.item.innerText) {
+          text = this.elements.menuItems[index].dom.item.innerText;
+        } else {
+          text = this.elements.menuItems[index].dom.item.textContent;
+        } // Remove spaces, make lowercase, and grab the first chracter of the string.
+
+
+        text = text.replace(/[\s]/g, "").toLowerCase().charAt(0); // Focus the child if the text matches, otherwise move on.
+
+        if (text === match) {
           found = true;
           this.focusChild(index);
         }

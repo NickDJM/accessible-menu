@@ -416,11 +416,21 @@ class Treeview extends BaseMenu {
     let found = false;
 
     while (!found && ctr < sortedMenuItems.length) {
-      // Ensure the text in the item is lowercase just to be safe.
-      const text = sortedMenuItems[ctr].dom.item.innerText.toLowerCase();
+      let text = "";
+
+      // Attempt to use the browser to get proper innerText,
+      // otherwise fall back to textContent.
+      if (sortedMenuItems[ctr].dom.item.innerText) {
+        text = sortedMenuItems[ctr].dom.item.innerText;
+      } else {
+        text = sortedMenuItems[ctr].dom.item.textContent;
+      }
+
+      // Remove spaces, make lowercase, and grab the first chracter of the string.
+      text = text.replace(/[\s]/g, "").toLowerCase().charAt(0);
 
       // Focus the child if the text matches, otherwise move on.
-      if (text.startsWith(match)) {
+      if (text === match) {
         found = true;
         const menu = sortedMenuItems[ctr].elements.parentMenu;
         const index = menu.elements.menuItems.indexOf(sortedMenuItems[ctr]);
