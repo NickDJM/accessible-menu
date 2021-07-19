@@ -103,3 +103,72 @@ export function simulateKeypress(key, element, options = {}) {
   simulateKeyboardEvent("keydown", element, eventOptions);
   simulateKeyboardEvent("keyup", element, eventOptions);
 }
+
+/**
+ * Checks if a toggle is open.
+ *
+ * @param {DisclosureMenuToggle|MenubarToggle|TreeviewToggle} toggle - The toggle to check.
+ */
+export function toggleIsOpen(toggle) {
+  const { parentMenu, controlledMenu } = toggle.elements;
+
+  // Toggle expectations.
+  expect(toggle.isOpen).toBeTrue();
+  expect(toggle.dom.toggle.getAttribute("aria-expanded")).toBe("true");
+
+  // Parent menu expectations.
+  if (parentMenu) {
+    expect(parentMenu.focusState).toBe("child");
+  }
+
+  // Controlled menu expectations.
+  expect(controlledMenu.focusState).toBe("self");
+  expect(controlledMenu.dom.menu.classList.contains("show")).toBeTrue();
+  expect(controlledMenu.dom.menu.classList.contains("hide")).toBeFalse();
+}
+
+/**
+ * Checks if a toggle is previewed.
+ *
+ * @param {DisclosureMenuToggle|MenubarToggle|TreeviewToggle} toggle - The toggle to check.
+ */
+export function toggleIsPreviewed(toggle) {
+  const { parentMenu, controlledMenu } = toggle.elements;
+
+  // Toggle expectations.
+  expect(toggle.isOpen).toBeTrue();
+  expect(toggle.dom.toggle.getAttribute("aria-expanded")).toBe("true");
+
+  // Parent menu expectations.
+  if (parentMenu) {
+    expect(parentMenu.focusState).toBe("self");
+  }
+
+  // Controlled menu expectations.
+  expect(controlledMenu.focusState).toBe("none");
+  expect(controlledMenu.dom.menu.classList.contains("show")).toBeTrue();
+  expect(controlledMenu.dom.menu.classList.contains("hide")).toBeFalse();
+}
+
+/**
+ * Checks if a toggle is closed.
+ *
+ * @param {DisclosureMenuToggle|MenubarToggle|TreeviewToggle} toggle - The toggle to check.
+ */
+export function toggleIsClosed(toggle) {
+  const { parentMenu, controlledMenu } = toggle.elements;
+
+  // Toggle expectations.
+  expect(toggle.isOpen).toBeFalse();
+  expect(toggle.dom.toggle.getAttribute("aria-expanded")).toBe("false");
+
+  // Parent menu expectations.
+  if (parentMenu) {
+    expect(parentMenu.focusState).toBe("self");
+  }
+
+  // Controlled menu expectations.
+  expect(controlledMenu.focusState).toBe("none");
+  expect(controlledMenu.dom.menu.classList.contains("show")).toBeFalse();
+  expect(controlledMenu.dom.menu.classList.contains("hide")).toBeTrue();
+}
