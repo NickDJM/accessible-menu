@@ -45,6 +45,10 @@ For production environments, it is recommend to use a specific version to avoid 
 <script src="https://cdn.jsdelivr.net/npm/accessible-menu@3.0.0/dist/accessible-menu.min.js"></script>
 ```
 
+## Upgrading from version 2 to version 3?
+
+Check out the [upgrade guide](docs/upgrading-from-v2-to-v3.md)!
+
 ## Usage
 
 To use **accessible-menu**, you first need to make sure your menu matches the following structure:
