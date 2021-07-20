@@ -18,7 +18,6 @@
     "release": "git add dist/. && standard-version -a",
     "prebuild": "npm run build:docs",
     "build": "rollup --config .rollup.config.js",
-    "build:test": "sass test/scss:test/css",
     "build:docs": "jsdoc -c jsdoc.config.js",
     "test": "jest"
   },
@@ -66,11 +65,9 @@
     "jest-extended": "^0.11.5",
     "jsdoc": "^3.6.7",
     "lint-staged": "^10.5.4",
-    "minami": "^1.2.3",
     "prettier": "^2.1.2",
     "rollup": "^2.33.1",
     "rollup-plugin-terser": "^7.0.2",
-    "sass": "^1.29.0",
     "standard-version": "^9.0.0",
     "terser": "^5.6.1"
   }
