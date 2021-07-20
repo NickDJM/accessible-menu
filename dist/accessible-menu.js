@@ -4046,11 +4046,7 @@ var AccessibleMenu = (function () {
 
                 _this3.currentMenuItem.elements.childMenu.focusFirstChild();
               } else if (!_this3.isTopLevel && _this3.currentChild === _this3.elements.menuItems.length - 1) {
-                _this3.blurCurrentChild();
-
-                _this3.elements.parentMenu.currentEvent = _this3.currentEvent;
-
-                _this3.elements.parentMenu.focusNextChild();
+                _this3.focusParentsNextChild();
               } else {
                 _this3.focusNextChild();
               }
@@ -4067,7 +4063,7 @@ var AccessibleMenu = (function () {
                 _this3.currentChild = _this3.currentChild - 1;
                 _this3.currentMenuItem.elements.childMenu.currentEvent = _this3.currentEvent;
 
-                _this3.currentMenuItem.elements.childMenu.focusLastChild();
+                _this3.focusChildsLastNode();
               } else if (!_this3.isTopLevel && _this3.currentChild === 0) {
                 _this3.blurCurrentChild();
 
@@ -4234,6 +4230,43 @@ var AccessibleMenu = (function () {
           }
 
           ctr++;
+        }
+      }
+      /**
+       * Focus the parent menu's next child.
+       *
+       * This will cascade up through to the root menu.
+       */
+
+    }, {
+      key: "focusParentsNextChild",
+      value: function focusParentsNextChild() {
+        if (!this.elements.parentMenu) return;
+        this.elements.parentMenu.currentEvent = this.currentEvent;
+
+        if (this.elements.parentMenu.currentChild === this.elements.parentMenu.elements.menuItems.length - 1) {
+          this.elements.parentMenu.blurCurrentChild();
+          this.elements.parentMenu.focusParentsNextChild();
+        } else {
+          this.blurChildren();
+          this.elements.parentMenu.focusNextChild();
+        }
+      }
+      /**
+       * Focus the last child of the current child's submenu.
+       *
+       * This will cascade down through to the last open menu.
+       */
+
+    }, {
+      key: "focusChildsLastNode",
+      value: function focusChildsLastNode() {
+        this.currentMenuItem.elements.childMenu.currentEvent = this.currentEvent;
+        this.currentMenuItem.elements.childMenu.focusLastChild();
+
+        if (this.currentMenuItem.elements.childMenu.currentMenuItem.isSubmenuItem && this.currentMenuItem.elements.childMenu.currentMenuItem.elements.toggle.isOpen) {
+          this.currentMenuItem.elements.childMenu.blurCurrentChild();
+          this.currentMenuItem.elements.childMenu.focusChildsLastNode();
         }
       }
     }]);

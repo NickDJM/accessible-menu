@@ -252,9 +252,7 @@ class Treeview extends BaseMenu {
             !this.isTopLevel &&
             this.currentChild === this.elements.menuItems.length - 1
           ) {
-            this.blurCurrentChild();
-            this.elements.parentMenu.currentEvent = this.currentEvent;
-            this.elements.parentMenu.focusNextChild();
+            this.focusParentsNextChild();
           } else {
             this.focusNextChild();
           }
@@ -276,7 +274,7 @@ class Treeview extends BaseMenu {
             this.currentChild = this.currentChild - 1;
             this.currentMenuItem.elements.childMenu.currentEvent =
               this.currentEvent;
-            this.currentMenuItem.elements.childMenu.focusLastChild();
+            this.focusChildsLastNode();
           } else if (!this.isTopLevel && this.currentChild === 0) {
             this.blurCurrentChild();
             this.elements.parentMenu.currentEvent = this.currentEvent;
@@ -439,6 +437,47 @@ class Treeview extends BaseMenu {
       }
 
       ctr++;
+    }
+  }
+
+  /**
+   * Focus the parent menu's next child.
+   *
+   * This will cascade up through to the root menu.
+   */
+  focusParentsNextChild() {
+    if (!this.elements.parentMenu) return;
+
+    this.elements.parentMenu.currentEvent = this.currentEvent;
+
+    if (
+      this.elements.parentMenu.currentChild ===
+      this.elements.parentMenu.elements.menuItems.length - 1
+    ) {
+      this.elements.parentMenu.blurCurrentChild();
+      this.elements.parentMenu.focusParentsNextChild();
+    } else {
+      this.blurChildren();
+      this.elements.parentMenu.focusNextChild();
+    }
+  }
+
+  /**
+   * Focus the last child of the current child's submenu.
+   *
+   * This will cascade down through to the last open menu.
+   */
+  focusChildsLastNode() {
+    this.currentMenuItem.elements.childMenu.currentEvent = this.currentEvent;
+    this.currentMenuItem.elements.childMenu.focusLastChild();
+
+    if (
+      this.currentMenuItem.elements.childMenu.currentMenuItem.isSubmenuItem &&
+      this.currentMenuItem.elements.childMenu.currentMenuItem.elements.toggle
+        .isOpen
+    ) {
+      this.currentMenuItem.elements.childMenu.blurCurrentChild();
+      this.currentMenuItem.elements.childMenu.focusChildsLastNode();
     }
   }
 }
