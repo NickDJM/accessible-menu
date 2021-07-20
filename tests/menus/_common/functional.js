@@ -11,6 +11,8 @@ import {
   simulateMouseEvent,
   simulateKeypress,
   toggleIsOpen,
+  toggleIsClosed,
+  toggleIsPreviewed,
 } from "./helpers";
 
 /**
@@ -21,59 +23,72 @@ import {
 export function openClose(MenuClass) {
   const menuType = MenuClass.name;
 
-  // Set up the DOM.
-  document.body.innerHTML = twoLevelMenu;
-
   describe(menuType, () => {
-    const menu = new MenuClass({
-      menuElement: document.querySelector("#menu-0"),
-      submenuItemSelector: "li.dropdown",
-      containerElement: document.querySelector("nav"),
-      controllerElement: document.querySelector("#toggle-0"),
-    });
-    const toggle = menu.elements.submenuToggles[0];
-    const submenu = toggle.elements.controlledMenu;
-
     test("will open when the controller's open method is called", () => {
-      menu.elements.controller.open();
+      // Set up the DOM.
+      document.body.innerHTML = twoLevelMenu;
+      const menu = new MenuClass({
+        menuElement: document.querySelector("#menu-0"),
+        submenuItemSelector: "li.dropdown",
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("#toggle-0"),
+      });
+      const { controller } = menu.elements;
 
-      expect(menu.elements.controller.isOpen).toBeTrue();
-      expect(menu.focusState).toBe("self");
-      expect(menu.dom.controller.getAttribute("aria-expanded")).toBe("true");
-      expect(menu.dom.menu.classList.contains("show")).toBeTrue();
-      expect(menu.dom.menu.classList.contains("hide")).toBeFalse();
+      // Call the method.
+      controller.open();
+
+      toggleIsOpen(controller);
     });
 
     test("will close when the controller's close method is called", () => {
-      menu.elements.controller.close();
+      // Set up the DOM.
+      document.body.innerHTML = twoLevelMenu;
+      const menu = new MenuClass({
+        menuElement: document.querySelector("#menu-0"),
+        submenuItemSelector: "li.dropdown",
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("#toggle-0"),
+      });
+      const { controller } = menu.elements;
 
-      expect(menu.elements.controller.isOpen).toBeFalse();
-      expect(menu.focusState).toBe("none");
-      expect(menu.dom.controller.getAttribute("aria-expanded")).toBe("false");
-      expect(menu.dom.menu.classList.contains("hide")).toBeTrue();
-      expect(menu.dom.menu.classList.contains("show")).toBeFalse();
+      // Call the method.
+      controller.close();
+
+      toggleIsClosed(controller);
     });
 
     test("submenus will open when the controller's open method is called", () => {
+      // Set up the DOM.
+      document.body.innerHTML = twoLevelMenu;
+      const menu = new MenuClass({
+        menuElement: document.querySelector("#menu-0"),
+        submenuItemSelector: "li.dropdown",
+      });
+      const toggle = menu.elements.submenuToggles[0];
+
+      // Call the method.
       toggle.open();
 
-      expect(toggle.isOpen).toBeTrue();
-      expect(submenu.focusState).toBe("self");
-      expect(menu.focusState).toBe("child");
-      expect(toggle.dom.toggle.getAttribute("aria-expanded")).toBe("true");
-      expect(submenu.dom.menu.classList.contains("show")).toBeTrue();
-      expect(submenu.dom.menu.classList.contains("hide")).toBeFalse();
+      toggleIsOpen(toggle);
     });
 
     test("submenus will close when the controller's close method is called", () => {
+      // Set up the DOM.
+      document.body.innerHTML = twoLevelMenu;
+      const menu = new MenuClass({
+        menuElement: document.querySelector("#menu-0"),
+        submenuItemSelector: "li.dropdown",
+      });
+      const toggle = menu.elements.submenuToggles[0];
+
+      // Set up the menu for the test.
+      toggle.open();
+
+      // Call the method.
       toggle.close();
 
-      expect(toggle.isOpen).toBeFalse();
-      expect(toggle.dom.toggle.getAttribute("aria-expanded")).toBe("false");
-      expect(submenu.focusState).toBe("none");
-      expect(menu.focusState).toBe("self");
-      expect(submenu.dom.menu.classList.contains("hide")).toBeTrue();
-      expect(submenu.dom.menu.classList.contains("show")).toBeFalse();
+      toggleIsClosed(toggle);
     });
   });
 }
@@ -87,74 +102,107 @@ export function clickTests(MenuClass) {
   const menuType = MenuClass.name;
 
   describe(menuType, () => {
-    // Set up the DOM.
-    document.body.innerHTML = twoLevelMenu;
-    const menu = new MenuClass({
-      menuElement: document.querySelector("#menu-0"),
-      submenuItemSelector: "li.dropdown",
-      containerElement: document.querySelector("nav"),
-      controllerElement: document.querySelector("#toggle-0"),
-    });
-    const toggle = menu.elements.submenuToggles[0];
-    const submenu = toggle.elements.controlledMenu;
-
     test("will open when the controller is clicked when the menu is closed", () => {
-      menu.elements.controller.close();
-      simulateClick(menu.dom.controller);
+      // Set up the DOM.
+      document.body.innerHTML = twoLevelMenu;
+      const menu = new MenuClass({
+        menuElement: document.querySelector("#menu-0"),
+        submenuItemSelector: "li.dropdown",
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("#toggle-0"),
+      });
+      const { controller } = menu.elements;
 
-      expect(menu.elements.controller.isOpen).toBeTrue();
+      // Set up the menu for the test.
+      controller.close();
+
+      // Simulate the click.
+      simulateClick(controller.dom.toggle);
+
+      // Toggle expectations.
+      expect(controller.isOpen).toBeTrue();
+      expect(controller.dom.toggle.getAttribute("aria-expanded")).toBe("true");
+
+      // Child menu expectations.
       expect(menu.focusState).toBe("none");
-      expect(menu.dom.controller.getAttribute("aria-expanded")).toBe("true");
       expect(menu.dom.menu.classList.contains("show")).toBeTrue();
       expect(menu.dom.menu.classList.contains("hide")).toBeFalse();
     });
 
     test("will close when the controller is clicked when the menu is open", () => {
-      menu.elements.controller.open();
-      simulateClick(menu.dom.controller);
+      // Set up the DOM.
+      document.body.innerHTML = twoLevelMenu;
+      const menu = new MenuClass({
+        menuElement: document.querySelector("#menu-0"),
+        submenuItemSelector: "li.dropdown",
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("#toggle-0"),
+      });
+      const { controller } = menu.elements;
 
-      expect(menu.elements.controller.isOpen).toBeFalse();
-      expect(menu.focusState).toBe("none");
-      expect(menu.dom.controller.getAttribute("aria-expanded")).toBe("false");
-      expect(menu.dom.menu.classList.contains("hide")).toBeTrue();
-      expect(menu.dom.menu.classList.contains("show")).toBeFalse();
+      // Set up the menu for the test.
+      controller.open();
+
+      // Simulate the click.
+      simulateClick(controller.dom.toggle);
+
+      toggleIsClosed(controller);
     });
 
     if (menuType === "DisclosureMenu" || menuType === "Menubar") {
       test("will close when a click event is registered outside of the menu", () => {
-        menu.elements.controller.open();
+        // Set up the DOM.
+        document.body.innerHTML = twoLevelMenu;
+        const menu = new MenuClass({
+          menuElement: document.querySelector("#menu-0"),
+          submenuItemSelector: "li.dropdown",
+          containerElement: document.querySelector("nav"),
+          controllerElement: document.querySelector("#toggle-0"),
+        });
+        const { controller } = menu.elements;
+
+        // Set up the menu for the test.
+        controller.open();
+
+        // Simulate the click.
         simulateClick(document.querySelector("main"));
 
-        expect(menu.elements.controller.isOpen).toBeFalse();
-        expect(menu.focusState).toBe("none");
-        expect(menu.dom.controller.getAttribute("aria-expanded")).toBe("false");
-        expect(menu.dom.menu.classList.contains("hide")).toBeTrue();
-        expect(menu.dom.menu.classList.contains("show")).toBeFalse();
+        toggleIsClosed(controller);
       });
     }
 
-    test("submenus will open when the controller is clicked when the menu is closed", () => {
-      toggle.close();
+    test("submenus will open when the controller is clicked when the submenu is closed", () => {
+      // Set up the DOM.
+      document.body.innerHTML = twoLevelMenu;
+      const menu = new MenuClass({
+        menuElement: document.querySelector("#menu-0"),
+        submenuItemSelector: "li.dropdown",
+      });
+      const toggle = menu.elements.submenuToggles[0];
+
+      // Simulate the click.
       simulateClick(toggle.dom.toggle);
 
-      expect(toggle.isOpen).toBeTrue();
-      expect(submenu.focusState).toBe("none");
-      expect(menu.focusState).toBe("self");
-      expect(toggle.dom.toggle.getAttribute("aria-expanded")).toBe("true");
-      expect(submenu.dom.menu.classList.contains("show")).toBeTrue();
-      expect(submenu.dom.menu.classList.contains("hide")).toBeFalse();
+      toggleIsPreviewed(toggle);
     });
 
     test("submenus will close when the controller is clicked when the menu is open", () => {
+      // Set up the DOM.
+      document.body.innerHTML = twoLevelMenu;
+      const menu = new MenuClass({
+        menuElement: document.querySelector("#menu-0"),
+        submenuItemSelector: "li.dropdown",
+      });
+      const toggle = menu.elements.submenuToggles[0];
+      const { controlledMenu } = toggle.elements;
+
+      // Set up the menu for the test.
       toggle.open();
+
+      // Simulate the click.
       simulateClick(toggle.dom.toggle);
 
-      expect(toggle.isOpen).toBeFalse();
-      expect(submenu.focusState).toBe("none");
-      expect(menu.focusState).toBe("self");
-      expect(toggle.dom.toggle.getAttribute("aria-expanded")).toBe("false");
-      expect(submenu.dom.menu.classList.contains("hide")).toBeTrue();
-      expect(submenu.dom.menu.classList.contains("show")).toBeFalse();
+      toggleIsClosed(toggle);
     });
   });
 }
@@ -168,124 +216,170 @@ export function hoverTests(MenuClass) {
   const menuType = MenuClass.name;
 
   describe(`${menuType} with hoverType "on"`, () => {
-    // Set up the DOM.
-    document.body.innerHTML = twoLevelMenu;
-    const menu = new MenuClass({
-      menuElement: document.querySelector("#menu-0"),
-      submenuItemSelector: "li.dropdown",
-      containerElement: document.querySelector("nav"),
-      controllerElement: document.querySelector("#toggle-0"),
-      hoverType: "on",
-      hoverDelay: 0, // Set the hoverDelay to 0 so we don't have to worry about a setTimeout.
-    });
-    const menuItem = menu.elements.menuItems[1];
-    const toggle = menu.elements.submenuToggles[0];
-    const submenu = toggle.elements.controlledMenu;
-
     test("submenus will open when a mouse enters their controller", () => {
+      // Set up the DOM.
+      document.body.innerHTML = twoLevelMenu;
+      const menu = new MenuClass({
+        menuElement: document.querySelector("#menu-0"),
+        submenuItemSelector: "li.dropdown",
+        hoverType: "on",
+        hoverDelay: 0, // Set the hoverDelay to 0 so we don't have to worry about a setTimeout.
+      });
+      const toggle = menu.elements.submenuToggles[0];
+
+      // Simulate the mouse.
       simulateMouseEvent("mouseenter", toggle.dom.toggle);
 
-      expect(toggle.isOpen).toBeTrue();
-      expect(toggle.elements.parentMenu.focusState).toBe("self");
-      expect(submenu.focusState).toBe("none");
-      expect(toggle.dom.toggle.getAttribute("aria-expanded")).toBe("true");
-      expect(submenu.dom.menu.classList.contains("show")).toBeTrue();
-      expect(submenu.dom.menu.classList.contains("hide")).toBeFalse();
+      toggleIsPreviewed(toggle);
     });
 
     test("submenus will close when a mouse leaves the submenu item", () => {
+      // Set up the DOM.
+      document.body.innerHTML = twoLevelMenu;
+      const menu = new MenuClass({
+        menuElement: document.querySelector("#menu-0"),
+        submenuItemSelector: "li.dropdown",
+        hoverType: "on",
+        hoverDelay: 0, // Set the hoverDelay to 0 so we don't have to worry about a setTimeout.
+      });
+      const menuItem = menu.elements.menuItems[1];
+      const toggle = menu.elements.submenuToggles[0];
+
+      // Set up the menu for the test.
+      toggle.open();
+
+      // Simulate the mouse.
       simulateMouseEvent("mouseleave", menuItem.dom.item);
 
-      expect(toggle.isOpen).toBeFalse();
-      expect(toggle.elements.parentMenu.focusState).toBe("self");
-      expect(submenu.focusState).toBe("none");
-      expect(toggle.dom.toggle.getAttribute("aria-expanded")).toBe("false");
-      expect(submenu.dom.menu.classList.contains("hide")).toBeTrue();
-      expect(submenu.dom.menu.classList.contains("show")).toBeFalse();
+      toggleIsClosed(toggle);
     });
   });
 
   describe(`${menuType} with hoverType "dynamic"`, () => {
-    // Set up the DOM.
-    document.body.innerHTML = fullMenu;
-    const menu = new MenuClass({
-      menuElement: document.querySelector("#menu-0"),
-      submenuItemSelector: "li.dropdown",
-      containerElement: document.querySelector("nav"),
-      controllerElement: document.querySelector("#toggle-0"),
-      hoverType: "dynamic",
-      hoverDelay: 0, // Set the hoverDelay to 0 so we don't have to worry about a setTimeout.
-    });
-    const menuItem = menu.elements.menuItems[1];
-    const toggle = menu.elements.submenuToggles[0];
-    const toggle2 = menu.elements.submenuToggles[1];
-    const submenu = toggle.elements.controlledMenu;
-    const submenu2 = toggle2.elements.controlledMenu;
-    const nonRootMenuItem = submenu.elements.menuItems[1];
-    const nonRootToggle = submenu.elements.submenuToggles[0];
-    const nonRootSubmenu = nonRootToggle.elements.controlledMenu;
-
     test("submenus will not open when a mouse enters their controller and no other submenus are open", () => {
+      // Set up the DOM.
+      document.body.innerHTML = fullMenu;
+      const menu = new MenuClass({
+        menuElement: document.querySelector("#menu-0"),
+        submenuItemSelector: "li.dropdown",
+        hoverType: "dynamic",
+        hoverDelay: 0, // Set the hoverDelay to 0 so we don't have to worry about a setTimeout.
+      });
+      const toggle = menu.elements.submenuToggles[0];
+
+      // Enter the menu.
+      menu.elements.menuItems[0].dom.link.focus();
+
+      // Simulate the mouse.
       simulateMouseEvent("mouseenter", toggle.dom.toggle);
 
-      expect(toggle.isOpen).toBeFalse();
-      expect(submenu.focusState).toBe("none");
-      expect(toggle.dom.toggle.getAttribute("aria-expanded")).toBe("false");
-      expect(submenu.dom.menu.classList.contains("hide")).toBeTrue();
-      expect(submenu.dom.menu.classList.contains("show")).toBeFalse();
+      toggleIsClosed(toggle);
     });
 
     test("submenus will not close when a mouse leaves the submenu item if no other submenus are opened", () => {
+      // Set up the DOM.
+      document.body.innerHTML = fullMenu;
+      const menu = new MenuClass({
+        menuElement: document.querySelector("#menu-0"),
+        submenuItemSelector: "li.dropdown",
+        hoverType: "dynamic",
+        hoverDelay: 0, // Set the hoverDelay to 0 so we don't have to worry about a setTimeout.
+      });
+      const menuItem = menu.elements.menuItems[1];
+      const toggle = menu.elements.submenuToggles[0];
+
+      // Set up the menu for the test.
       toggle.open();
+
+      // Simulate the mouse.
       simulateMouseEvent("mouseleave", menuItem.dom.item);
 
-      expect(toggle.isOpen).toBeTrue();
-      expect(toggle.elements.parentMenu.focusState).toBe("child");
-      expect(submenu.focusState).toBe("self");
-      expect(toggle.dom.toggle.getAttribute("aria-expanded")).toBe("true");
-      expect(submenu.dom.menu.classList.contains("show")).toBeTrue();
-      expect(submenu.dom.menu.classList.contains("hide")).toBeFalse();
+      toggleIsOpen(toggle);
     });
 
     test("submenus will open when a mouse enters their controller if another submenu is already open", () => {
-      toggle.open();
-      simulateMouseEvent("mouseenter", toggle2.dom.toggle);
+      // Set up the DOM.
+      document.body.innerHTML = fullMenu;
+      const menu = new MenuClass({
+        menuElement: document.querySelector("#menu-0"),
+        submenuItemSelector: "li.dropdown",
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("#toggle-0"),
+        hoverType: "dynamic",
+        hoverDelay: 0, // Set the hoverDelay to 0 so we don't have to worry about a setTimeout.
+      });
+      const originalToggle = menu.elements.submenuToggles[0];
+      const newToggle = menu.elements.submenuToggles[1];
 
-      expect(toggle2.isOpen).toBeTrue();
-      expect(toggle2.elements.parentMenu.focusState).toBe("self");
-      expect(submenu2.focusState).toBe("none");
-      expect(toggle2.dom.toggle.getAttribute("aria-expanded")).toBe("true");
-      expect(submenu2.dom.menu.classList.contains("show")).toBeTrue();
-      expect(submenu2.dom.menu.classList.contains("hide")).toBeFalse();
+      // Enter the menu.
+      menu.elements.menuItems[0].dom.link.focus();
+
+      // Set up the menu for the test.
+      originalToggle.open();
+
+      // Simulate the mouse.
+      simulateMouseEvent("mouseenter", newToggle.dom.toggle);
+
+      if (menuType === "DisclosureMenu" || menuType === "Menubar") {
+        toggleIsClosed(originalToggle);
+      }
+      toggleIsPreviewed(newToggle);
     });
 
     test("submenus that are not direct children of the root menu with open when a mouse enters their controller", () => {
-      toggle.open();
-      simulateMouseEvent("mouseenter", nonRootToggle.dom.toggle);
+      // Set up the DOM.
+      document.body.innerHTML = fullMenu;
+      const menu = new MenuClass({
+        menuElement: document.querySelector("#menu-0"),
+        submenuItemSelector: "li.dropdown",
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("#toggle-0"),
+        hoverType: "dynamic",
+        hoverDelay: 0, // Set the hoverDelay to 0 so we don't have to worry about a setTimeout.
+      });
+      const toggle = menu.elements.submenuToggles[0];
+      const { controlledMenu } = toggle.elements;
+      const submenuToggle = controlledMenu.elements.submenuToggles[0];
 
-      expect(nonRootToggle.isOpen).toBeTrue();
-      expect(nonRootToggle.elements.parentMenu.focusState).toBe("self");
-      expect(nonRootSubmenu.focusState).toBe("none");
-      expect(nonRootToggle.dom.toggle.getAttribute("aria-expanded")).toBe(
-        "true"
-      );
-      expect(nonRootSubmenu.dom.menu.classList.contains("show")).toBeTrue();
-      expect(nonRootSubmenu.dom.menu.classList.contains("hide")).toBeFalse();
+      // Enter the menu.
+      menu.elements.menuItems[0].dom.link.focus();
+
+      // Set up the menu for the test.
+      toggle.open();
+
+      // Simulate the mouse.
+      simulateMouseEvent("mouseenter", submenuToggle.dom.toggle);
+
+      toggleIsPreviewed(submenuToggle);
     });
 
-    test("submenus that are not direct children of the root menu with close when a mouse leaves the submenu item", () => {
-      toggle.open();
-      nonRootToggle.open();
-      simulateMouseEvent("mouseleave", nonRootMenuItem.dom.item);
+    test("submenus that are not direct children of the root menu will close when a mouse leaves the submenu item", () => {
+      // Set up the DOM.
+      document.body.innerHTML = fullMenu;
+      const menu = new MenuClass({
+        menuElement: document.querySelector("#menu-0"),
+        submenuItemSelector: "li.dropdown",
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("#toggle-0"),
+        hoverType: "dynamic",
+        hoverDelay: 0, // Set the hoverDelay to 0 so we don't have to worry about a setTimeout.
+      });
+      const toggle = menu.elements.submenuToggles[0];
+      const { controlledMenu } = toggle.elements;
+      const submenuItem = controlledMenu.elements.menuItems[1];
+      const submenuToggle = controlledMenu.elements.submenuToggles[0];
 
-      expect(nonRootToggle.isOpen).toBeFalse();
-      expect(nonRootToggle.elements.parentMenu.focusState).toBe("self");
-      expect(nonRootSubmenu.focusState).toBe("none");
-      expect(nonRootToggle.dom.toggle.getAttribute("aria-expanded")).toBe(
-        "false"
-      );
-      expect(nonRootSubmenu.dom.menu.classList.contains("hide")).toBeTrue();
-      expect(nonRootSubmenu.dom.menu.classList.contains("show")).toBeFalse();
+      // Enter the menu.
+      menu.elements.menuItems[0].dom.link.focus();
+
+      // Set up the menu for the test.
+      toggle.open();
+      submenuToggle.open();
+
+      // Simulate the mouse.
+      simulateMouseEvent("mouseleave", submenuItem.dom.item);
+
+      toggleIsClosed(submenuToggle);
     });
   });
 }
@@ -311,6 +405,7 @@ export function baseKeypressTests(MenuClass) {
         });
         const toggle = menu.elements.controller;
 
+        // Simluate the keypress.
         simulateKeypress(key, toggle.dom.toggle);
 
         toggleIsOpen(toggle);
