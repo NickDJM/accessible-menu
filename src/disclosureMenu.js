@@ -12,6 +12,13 @@ import { isValidType, isEventSupported } from "./validate.js";
  * @extends BaseMenu
  */
 class DisclosureMenu extends BaseMenu {
+  MenuType = DisclosureMenu;
+  MenuItemType = DisclosureMenuItem;
+  MenuToggleType = DisclosureMenuToggle;
+
+  focussedChild = -1;
+  optionalSupport = false;
+
   /**
    * @inheritdoc
    *
@@ -68,12 +75,6 @@ class DisclosureMenu extends BaseMenu {
       hoverDelay,
     });
 
-    // Set default class types.
-    this.MenuType = DisclosureMenu;
-    this.MenuItemType = DisclosureMenuItem;
-    this.MenuToggleType = DisclosureMenuToggle;
-
-    this.currentChild = -1;
     this.optionalKeySupport = optionalKeySupport;
 
     if (initialize) {

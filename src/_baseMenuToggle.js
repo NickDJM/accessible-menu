@@ -6,6 +6,16 @@ import { isTag, isValidType } from "./validate.js";
  * A link or button that controls the visibility of a {@link BaseMenu}.
  */
 class BaseMenuToggle {
+  domElements = {
+    toggle: null,
+    parent: null,
+  };
+
+  menuElements = {
+    controlledMenu: null,
+    parentMenu: null,
+  };
+
   /**
    * @inheritdoc
    *
@@ -21,14 +31,14 @@ class BaseMenuToggle {
     controlledMenu,
     parentMenu = null,
   }) {
-    this.domElements = {
-      toggle: menuToggleElement,
-      parent: parentElement,
-    };
-    this.menuElements = {
-      controlledMenu,
-      parentMenu,
-    };
+    // Set DOM elements.
+    this.domElements.toggle = menuToggleElement;
+    this.domElements.parent = parentElement;
+
+    // Set menu elements.
+    this.menuElements.controlledMenu = controlledMenu;
+    this.menuElements.parentMenu = parentMenu;
+
     this.isOpen = false;
 
     /**

@@ -4,6 +4,17 @@
  * A basic navigation link contained inside of a {@link BaseMenu}.
  */
 class BaseMenuItem {
+  domElements = {
+    item: null,
+    link: null,
+  };
+
+  menuElements = {
+    parentMenu: null,
+    childMenu: null,
+    toggle: null,
+  };
+
   /**
    * @inheritdoc
    *
@@ -23,15 +34,15 @@ class BaseMenuItem {
     childMenu = null,
     toggle = null,
   }) {
-    this.domElements = {
-      item: menuItemElement,
-      link: menuLinkElement,
-    };
-    this.menuElements = {
-      parentMenu,
-      childMenu,
-      toggle,
-    };
+    // Set DOM elements.
+    this.domElements.item = menuItemElement;
+    this.domElements.link = menuLinkElement;
+
+    // Set menu elements.
+    this.menuElements.parentMenu = parentMenu;
+    this.menuElements.childMenu = childMenu;
+    this.menuElements.toggle = toggle;
+
     this.isController = isSubmenuItem;
   }
 

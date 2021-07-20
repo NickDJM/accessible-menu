@@ -21,6 +21,45 @@ import { preventEvent, keyPress } from "./eventHandlers.js";
  * Use a {@link DisclosureMenu}, {@link Menubar}, or {@link Treeview} instead.
  */
 class BaseMenu {
+  MenuType = BaseMenu;
+  MenuItemType = BaseMenuItem;
+  MenuToggleType = BaseMenuToggle;
+
+  domElements = {
+    menu: null,
+    menuItems: [],
+    submenuItems: [],
+    submenuToggles: [],
+    submenus: [],
+    controller: null,
+    container: null,
+  };
+
+  domSelectors = {
+    menuItems: "",
+    menuLinks: "",
+    submenuItems: "",
+    submenuToggles: "",
+    submenus: "",
+  };
+
+  menuElements = {
+    menuItems: [],
+    submenuToggles: [],
+    controller: null,
+    parentMenu: null,
+    rootMenu: null,
+  };
+
+  submenuOpenClass = "show";
+  submenuCloseClass = "hide";
+  root = true;
+  focussedChild = 0;
+  state = "none";
+  event = "none";
+  hover = "off";
+  delay = 250;
+
   /**
    * @inheritdoc
    *
@@ -56,42 +95,35 @@ class BaseMenu {
     hoverType = "off",
     hoverDelay = 250,
   }) {
-    this.domElements = {
-      menu: menuElement,
-      menuItems: [],
-      submenuItems: [],
-      submenuToggles: [],
-      submenus: [],
-      controller: controllerElement,
-      container: containerElement,
-    };
-    this.domSelectors = {
-      menuItems: menuItemSelector,
-      menuLinks: menuLinkSelector,
-      submenuItems: submenuItemSelector,
-      submenuToggles: submenuToggleSelector,
-      submenus: submenuSelector,
-    };
-    this.menuElements = {
-      menuItems: [],
-      submenuToggles: [],
-      controller: null,
-      parentMenu,
-      rootMenu: isTopLevel ? this : null,
-    };
+    // Set DOM elements.
+    this.domElements.menu = menuElement;
+    this.domElements.controller = controllerElement;
+    this.domElements.container = containerElement;
+
+    // Set DOM selectors.
+    this.domSelectors.menuItems = menuItemSelector;
+    this.domSelectors.menuLinks = menuLinkSelector;
+    this.domSelectors.submenuItems = submenuItemSelector;
+    this.domSelectors.submenuToggles = submenuToggleSelector;
+    this.domSelectors.submenus = submenuSelector;
+
+    // Set menu elements.
+    this.menuElements.menuItems = [];
+    this.menuElements.submenuToggles = [];
+    this.menuElements.controller = null;
+    this.menuElements.parentMenu = parentMenu;
+    this.menuElements.rootMenu = isTopLevel ? this : null;
+
+    // Set open/close classes.
     this.submenuOpenClass = openClass || "";
     this.submenuCloseClass = closeClass || "";
+
+    // Set root.
     this.root = isTopLevel;
-    this.focussedChild = 0;
-    this.state = "none";
-    this.event = "none";
+
+    // Set hover settings.
     this.hover = hoverType;
     this.delay = hoverDelay;
-
-    // Set default class types.
-    this.MenuType = BaseMenu;
-    this.MenuItemType = BaseMenuItem;
-    this.MenuToggleType = BaseMenuToggle;
   }
 
   /**

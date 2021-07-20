@@ -12,6 +12,10 @@ import { isEventSupported } from "./validate.js";
  * @extends BaseMenu
  */
 class Menubar extends BaseMenu {
+  MenuType = Menubar;
+  MenuItemType = MenubarItem;
+  MenuToggleType = MenubarToggle;
+
   /**
    * @inheritdoc
    *
@@ -65,10 +69,6 @@ class Menubar extends BaseMenu {
       hoverType,
       hoverDelay,
     });
-
-    this.MenuType = Menubar;
-    this.MenuItemType = MenubarItem;
-    this.MenuToggleType = MenubarToggle;
 
     if (initialize) {
       this.initialize();

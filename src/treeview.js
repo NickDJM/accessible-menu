@@ -11,6 +11,10 @@ import { keyPress, preventEvent } from "./eventHandlers.js";
  * @extends BaseMenu
  */
 class Treeview extends BaseMenu {
+  MenuType = Treeview;
+  MenuItemType = TreeviewItem;
+  MenuToggleType = TreeviewToggle;
+
   /**
    * @inheritdoc
    *
@@ -64,11 +68,6 @@ class Treeview extends BaseMenu {
       hoverType,
       hoverDelay,
     });
-
-    // Set default class types.
-    this.MenuType = Treeview;
-    this.MenuItemType = TreeviewItem;
-    this.MenuToggleType = TreeviewToggle;
 
     if (initialize) {
       this.initialize();
