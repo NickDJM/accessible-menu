@@ -240,6 +240,11 @@ class BaseMenu {
   /**
    * The current state of the menu's focus.
    *
+   * - If the menu has submenus, setting the focus state to "none" or "self" will
+   *   update all child menus to have the focus state of "none".
+   * - If the menu has a parent menu, setting the focus state to "self" or "child"
+   *   will update all parent menus to have the focus state of "child".
+   *
    * @type {string}
    */
   get focusState() {
@@ -386,6 +391,19 @@ class BaseMenu {
 
     if (this.state !== value) {
       this.state = value;
+    }
+
+    if (
+      this.elements.submenuToggles.length > 0 &&
+      (value === "self" || value === "none")
+    ) {
+      this.elements.submenuToggles.forEach((toggle) => {
+        toggle.elements.controlledMenu.focusState = "none";
+      });
+    }
+
+    if (this.elements.parentMenu && (value === "self" || value === "child")) {
+      this.elements.parentMenu.focusState = "child";
     }
   }
 
@@ -724,17 +742,11 @@ class BaseMenu {
    *
    * - Adds a `focus` listener to every menu item so when it gains focus,
    *   it will set the item's containing menu's {@link BaseMenu#focusState|focus state}
-   *   to "self", any parent menu's focus state to "child", and any
-   *   child menu's focus state to "none".
+   *   to "self".
    */
   handleFocus() {
     this.elements.menuItems.forEach((menuItem, index) => {
       menuItem.dom.link.addEventListener("focus", () => {
-        if (this.elements.parentMenu)
-          this.elements.parentMenu.focusState = "child";
-        if (menuItem.elements.childMenu)
-          menuItem.elements.childMenu.focusState = "none";
-
         this.focusState = "self";
         this.currentChild = index;
       });
@@ -990,6 +1002,8 @@ class BaseMenu {
    * Focus the menu's current child.
    */
   focusCurrentChild() {
+    this.focusState = "self";
+
     if (this.currentChild !== -1) {
       this.currentMenuItem.focus();
     }
@@ -1046,6 +1060,8 @@ class BaseMenu {
    * Blurs the menu's current child.
    */
   blurCurrentChild() {
+    this.focusState = "none";
+
     if (this.currentChild !== -1) {
       this.currentMenuItem.blur();
     }

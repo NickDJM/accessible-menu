@@ -785,11 +785,7 @@ var BaseMenuToggle = /*#__PURE__*/function () {
   }, {
     key: "open",
     value: function open() {
-      // Set proper focus states to parent & child.
-      if (this.elements.parentMenu) {
-        this.elements.parentMenu.focusState = "child";
-      }
-
+      // Set proper focus state on the child.
       this.elements.controlledMenu.focusState = "self"; // Expand the controlled menu.
 
       this.expand(); // Set the open flag.
@@ -807,12 +803,11 @@ var BaseMenuToggle = /*#__PURE__*/function () {
   }, {
     key: "preview",
     value: function preview() {
-      // Set proper focus states to parent & child.
+      // Set proper focus state on the parent.
       if (this.elements.parentMenu) {
         this.elements.parentMenu.focusState = "self";
-      }
+      } // Expand the controlled menu.
 
-      this.elements.controlledMenu.focusState = "none"; // Expand the controlled menu.
 
       this.expand(); // Set the open flag.
 
@@ -834,13 +829,12 @@ var BaseMenuToggle = /*#__PURE__*/function () {
       if (this.isOpen) {
         // Reset controlled menu.
         this.elements.controlledMenu.currentChild = 0;
-        this.elements.controlledMenu.blur(); // Set proper focus states to parent & child.
+        this.elements.controlledMenu.blur(); // Set proper focus states on the parent.
 
         if (this.elements.parentMenu) {
           this.elements.parentMenu.focusState = "self";
-        }
+        } // Collapse the controlled menu.
 
-        this.elements.controlledMenu.focusState = "none"; // Collapse the controlled menu.
 
         this.collapse(); // Set the open flag.
 
@@ -1319,6 +1313,11 @@ var BaseMenu = /*#__PURE__*/function () {
     /**
      * The current state of the menu's focus.
      *
+     * - If the menu has submenus, setting the focus state to "none" or "self" will
+     *   update all child menus to have the focus state of "none".
+     * - If the menu has a parent menu, setting the focus state to "self" or "child"
+     *   will update all parent menus to have the focus state of "child".
+     *
      * @type {string}
      */
     ,
@@ -1383,6 +1382,16 @@ var BaseMenu = /*#__PURE__*/function () {
 
       if (this.state !== value) {
         this.state = value;
+      }
+
+      if (this.elements.submenuToggles.length > 0 && (value === "self" || value === "none")) {
+        this.elements.submenuToggles.forEach(function (toggle) {
+          toggle.elements.controlledMenu.focusState = "none";
+        });
+      }
+
+      if (this.elements.parentMenu && (value === "self" || value === "child")) {
+        this.elements.parentMenu.focusState = "child";
       }
     }
   }, {
@@ -1799,8 +1808,7 @@ var BaseMenu = /*#__PURE__*/function () {
      *
      * - Adds a `focus` listener to every menu item so when it gains focus,
      *   it will set the item's containing menu's {@link BaseMenu#focusState|focus state}
-     *   to "self", any parent menu's focus state to "child", and any
-     *   child menu's focus state to "none".
+     *   to "self".
      */
 
   }, {
@@ -1810,8 +1818,6 @@ var BaseMenu = /*#__PURE__*/function () {
 
       this.elements.menuItems.forEach(function (menuItem, index) {
         menuItem.dom.link.addEventListener("focus", function () {
-          if (_this3.elements.parentMenu) _this3.elements.parentMenu.focusState = "child";
-          if (menuItem.elements.childMenu) menuItem.elements.childMenu.focusState = "none";
           _this3.focusState = "self";
           _this3.currentChild = index;
         });
@@ -2085,6 +2091,8 @@ var BaseMenu = /*#__PURE__*/function () {
   }, {
     key: "focusCurrentChild",
     value: function focusCurrentChild() {
+      this.focusState = "self";
+
       if (this.currentChild !== -1) {
         this.currentMenuItem.focus();
       }
@@ -2153,6 +2161,8 @@ var BaseMenu = /*#__PURE__*/function () {
   }, {
     key: "blurCurrentChild",
     value: function blurCurrentChild() {
+      this.focusState = "none";
+
       if (this.currentChild !== -1) {
         this.currentMenuItem.blur();
       }

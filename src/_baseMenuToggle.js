@@ -272,11 +272,7 @@ class BaseMenuToggle {
    * and sets the {@link BaseMenuToggle#isOpen|isOpen} value to `true`.
    */
   open() {
-    // Set proper focus states to parent & child.
-    if (this.elements.parentMenu) {
-      this.elements.parentMenu.focusState = "child";
-    }
-
+    // Set proper focus state on the child.
     this.elements.controlledMenu.focusState = "self";
 
     // Expand the controlled menu.
@@ -294,12 +290,10 @@ class BaseMenuToggle {
    * and calls {@link BaseMenuToggle#expand|expand}.
    */
   preview() {
-    // Set proper focus states to parent & child.
+    // Set proper focus state on the parent.
     if (this.elements.parentMenu) {
       this.elements.parentMenu.focusState = "self";
     }
-
-    this.elements.controlledMenu.focusState = "none";
 
     // Expand the controlled menu.
     this.expand();
@@ -323,12 +317,10 @@ class BaseMenuToggle {
       this.elements.controlledMenu.currentChild = 0;
       this.elements.controlledMenu.blur();
 
-      // Set proper focus states to parent & child.
+      // Set proper focus states on the parent.
       if (this.elements.parentMenu) {
         this.elements.parentMenu.focusState = "self";
       }
-
-      this.elements.controlledMenu.focusState = "none";
 
       // Collapse the controlled menu.
       this.collapse();
