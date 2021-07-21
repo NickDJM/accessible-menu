@@ -2,6 +2,43 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0-alpha.2](https://github.com/NickDJM/accessible-menu/compare/v3.0.0-alpha.1...v3.0.0-alpha.2) (2021-07-21)
+
+
+### Bug Fixes
+
+* **menubar:** only change the root menubar's tabIndex on init ([d993c13](https://github.com/NickDJM/accessible-menu/commit/d993c13286562999547b6a0cebc0492cca41fbe3))
+* **menu:** only change focusState on click of non-root menus ([110e241](https://github.com/NickDJM/accessible-menu/commit/110e2410b1ee013f8ab81cda4741d16ceffded84))
+* **menu:** only setTimout on mouseleave if hoverDelay is > 0 ([1158090](https://github.com/NickDJM/accessible-menu/commit/1158090b28baf4080f6c3056fa59f05f4b2cabad))
+* **menus:** add textContent fallback to character functions ([d6224cb](https://github.com/NickDJM/accessible-menu/commit/d6224cbad3b628463569a34fbe6151e0dce8b959))
+* **treeview:** fix up and down arrow navigation when going through multiple menu levels ([2caf071](https://github.com/NickDJM/accessible-menu/commit/2caf0710b18dbca7b6448755dd58cee9dc18aa7b))
+* **treeview:** handle escape key if the root menu can collapse ([43d09bf](https://github.com/NickDJM/accessible-menu/commit/43d09bfedf95a8907edc9a87d8143c0771a5b6ae))
+* **treeview:** only trigger character event if no modifier is pressed ([51b43a8](https://github.com/NickDJM/accessible-menu/commit/51b43a8dd142f57eaf259802a2e8efca07276631))
+
+
+### Reverts
+
+* click should still alter the focusState of menus ([c56de2f](https://github.com/NickDJM/accessible-menu/commit/c56de2fc13f3c6072cd88ae3643e3d40038dacc4))
+
+
+### Code Refactoring
+
+* **focus:** set parent/child menu focus when setting menu's own focus ([ae3b663](https://github.com/NickDJM/accessible-menu/commit/ae3b663f01a1301e2affadf4dd63a930649edc4f))
+
+
+### Build System
+
+* **github:** add action for running tests ([9cc2de3](https://github.com/NickDJM/accessible-menu/commit/9cc2de383a3935e43c9c28c6c6b18f5054458997))
+* remove unused test directory and dependencies ([a5e2e4b](https://github.com/NickDJM/accessible-menu/commit/a5e2e4beaaaf723907b0149568e7606fbea8505d))
+
+
+### Documentation
+
+* add upgrade guide from v2 to v3 ([c3ae67a](https://github.com/NickDJM/accessible-menu/commit/c3ae67a038c991b876c68289ea1f806a24ec9f4f)), closes [#107](https://github.com/NickDJM/accessible-menu/issues/107)
+* **menubar:** update docs to reflect tabIndex fix ([480406f](https://github.com/NickDJM/accessible-menu/commit/480406f3ee8e38fa92f560698c86817c15e6df34))
+* **README:** add build status badge ([00fabf3](https://github.com/NickDJM/accessible-menu/commit/00fabf3d2a4c17c6877c36e6ffba12cb5188234a))
+* use jsdoc to generate api documentation ([a524ef8](https://github.com/NickDJM/accessible-menu/commit/a524ef8358d1468a9cfd7f24f0ba5bb46e6590af))
+
 ## [3.0.0-alpha.1](https://github.com/NickDJM/accessible-menu/compare/v3.0.0-alpha.0...v3.0.0-alpha.1) (2021-06-23)
 
 
