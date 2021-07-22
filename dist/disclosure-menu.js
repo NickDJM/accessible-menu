@@ -39,6 +39,21 @@ var DisclosureMenu = (function () {
     return Constructor;
   }
 
+  function _defineProperty(obj, key, value) {
+    if (key in obj) {
+      Object.defineProperty(obj, key, {
+        value: value,
+        enumerable: true,
+        configurable: true,
+        writable: true
+      });
+    } else {
+      obj[key] = value;
+    }
+
+    return obj;
+  }
+
   function _inherits(subClass, superClass) {
     if (typeof superClass !== "function" && superClass !== null) {
       throw new TypeError("Super expression must either be null or a function");
@@ -509,7 +524,50 @@ var DisclosureMenu = (function () {
 
   var BaseMenuToggle = /*#__PURE__*/function () {
     /**
-     * @inheritdoc
+     * The DOM elements within the menu toggle.
+     *
+     * @type {object.<HTMLElement>}
+     * @property {HTMLElement} toggle - The menu toggle.
+     * @property {HTMLElement} parent - The menu containing this toggle.
+     * @protected
+     */
+
+    /**
+     * The declared accessible-menu elements within the menu toggle.
+     *
+     * @type {object.<BaseMenu>}
+     * @property {BaseMenu} controlledMenu - The menu controlled by this toggle.
+     * @property {BaseMenu} parentMenu     - The menu containing this toggle.
+     * @protected
+     */
+
+    /**
+     * The open state of the menu toggle.
+     *
+     * @type {boolean}
+     * @protected
+     */
+
+    /**
+     * Expand event.
+     *
+     * @event accessibleMenuExpand
+     * @type {CustomEvent}
+     * @property {object<BaseMenuToggle>} details - The details object containing the BaseMenuToggle itself.
+     * @protected
+     */
+
+    /**
+     * Collapse event.
+     *
+     * @event accessibleMenuCollapse
+     * @type {CustomEvent}
+     * @property {object<BaseMenuToggle>} details - The details object containing the BaseMenuToggle itself.
+     * @protected
+     */
+
+    /**
+     * Constructs the menu toggle.
      *
      * @param {object}        options                     - The options for generating the menu toggle.
      * @param {HTMLElement}   options.menuToggleElement   - The toggle element in the DOM.
@@ -526,43 +584,38 @@ var DisclosureMenu = (function () {
 
       _classCallCheck(this, BaseMenuToggle);
 
-      this.domElements = {
-        toggle: menuToggleElement,
-        parent: parentElement
-      };
-      this.menuElements = {
-        controlledMenu: controlledMenu,
-        parentMenu: parentMenu
-      };
-      this.isOpen = false;
-      /**
-       * Expand event.
-       *
-       * @event accessibleMenuExpand
-       * @type {CustomEvent}
-       * @property {object<BaseMenuToggle>} details - The details object containing the BaseMenuToggle itself.
-       */
+      _defineProperty(this, "_dom", {
+        toggle: null,
+        parent: null
+      });
 
-      this.expandEvent = new CustomEvent("accessibleMenuExpand", {
+      _defineProperty(this, "_elements", {
+        controlledMenu: null,
+        parentMenu: null
+      });
+
+      _defineProperty(this, "_open", false);
+
+      _defineProperty(this, "_expandEvent", new CustomEvent("accessibleMenuExpand", {
         bubbles: true,
         detail: {
           toggle: this
         }
-      });
-      /**
-       * Collapse event.
-       *
-       * @event accessibleMenuCollapse
-       * @type {CustomEvent}
-       * @property {object<BaseMenuToggle>} details - The details object containing the BaseMenuToggle itself.
-       */
+      }));
 
-      this.collapseEvent = new CustomEvent("accessibleMenuCollapse", {
+      _defineProperty(this, "_collapseEvent", new CustomEvent("accessibleMenuCollapse", {
         bubbles: true,
         detail: {
           toggle: this
         }
-      });
+      }));
+
+      // Set DOM elements.
+      this._dom.toggle = menuToggleElement;
+      this._dom.parent = parentElement; // Set menu elements.
+
+      this._elements.controlledMenu = controlledMenu;
+      this._elements.parentMenu = parentMenu;
     }
     /**
      * Initializes the menu toggle.
@@ -637,47 +690,48 @@ var DisclosureMenu = (function () {
         this.collapse(false);
       }
       /**
-       * The DOM elements within the toggle.
+       * Get the DOM elements within the toggle.
        *
        * @type {object.<HTMLElement>}
-       * @property {HTMLElement} toggle - The menu toggle.
-       * @property {HTMLElement} parent - The menu containing this toggle.
+       * @readonly
+       * @see _dom
        */
 
     }, {
       key: "dom",
       get: function get() {
-        return this.domElements;
+        return this._dom;
       }
       /**
-       * The declared accessible-menu elements within the menu toggle.
+       * Get the declared accessible-menu elements within the menu toggle.
        *
        * @type {object.<BaseMenu>}
-       * @property {BaseMenu} controlledMenu - The menu controlled by this toggle.
-       * @property {BaseMenu} parentMenu     - The menu containing this toggle.
+       * @readonly
+       * @see _elements
        */
 
     }, {
       key: "elements",
       get: function get() {
-        return this.menuElements;
+        return this._elements;
       }
       /**
-       * The open state on the menu.
+       * Get the open state on the menu.
        *
        * @type {boolean}
+       * @see _open
        */
 
     }, {
       key: "isOpen",
       get: function get() {
-        return this.show;
+        return this._open;
       },
       set: function set(value) {
         isValidType("boolean", {
           value: value
         });
-        this.show = value;
+        this._open = value;
       }
       /**
        * Expands the controlled menu.
@@ -725,7 +779,7 @@ var DisclosureMenu = (function () {
         }
 
         if (emit) {
-          this.dom.toggle.dispatchEvent(this.expandEvent);
+          this.dom.toggle.dispatchEvent(this._expandEvent);
         }
       }
       /**
@@ -774,7 +828,7 @@ var DisclosureMenu = (function () {
         }
 
         if (emit) {
-          this.dom.toggle.dispatchEvent(this.collapseEvent);
+          this.dom.toggle.dispatchEvent(this._collapseEvent);
         }
       }
       /**
@@ -895,7 +949,32 @@ var DisclosureMenu = (function () {
    */
   var BaseMenuItem = /*#__PURE__*/function () {
     /**
-     * @inheritdoc
+     * The DOM elements within the menu item.
+     *
+     * @type {object.<HTMLElement>}
+     * @property {HTMLElement} item - The menu item.
+     * @property {HTMLElement} link - The menu item's link.
+     * @protected
+     */
+
+    /**
+     * The declared accessible-menu elements within the menu item.
+     *
+     * @type {object.<BaseMenu,BaseMenuToggle>}
+     * @property {BaseMenu}        parentMenu - The menu containing this menu item.
+     * @property {?BaseMenu}       childMenu  - The menu contained within this menu item.
+     * @property {?BaseMenuToggle} toggle     - The menu toggle within this menu item that controls the `childMenu`.
+     * @protected
+     */
+
+    /**
+     * A flag marking a submenu item.
+     *
+     * @type {boolean}
+     */
+
+    /**
+     * Constructs the menu item.
      *
      * @param {object}          options                         - The options for generating the menu item.
      * @param {HTMLElement}     options.menuItemElement         - The menu item in the DOM.
@@ -918,16 +997,27 @@ var DisclosureMenu = (function () {
 
       _classCallCheck(this, BaseMenuItem);
 
-      this.domElements = {
-        item: menuItemElement,
-        link: menuLinkElement
-      };
-      this.menuElements = {
-        parentMenu: parentMenu,
-        childMenu: childMenu,
-        toggle: toggle
-      };
-      this.isController = isSubmenuItem;
+      _defineProperty(this, "_dom", {
+        item: null,
+        link: null
+      });
+
+      _defineProperty(this, "_elements", {
+        parentMenu: null,
+        childMenu: null,
+        toggle: null
+      });
+
+      _defineProperty(this, "_submenu", false);
+
+      // Set DOM elements.
+      this._dom.item = menuItemElement;
+      this._dom.link = menuLinkElement; // Set menu elements.
+
+      this._elements.parentMenu = parentMenu;
+      this._elements.childMenu = childMenu;
+      this._elements.toggle = toggle;
+      this._submenu = isSubmenuItem;
     }
     /**
      * Initialize the menu item.
@@ -941,39 +1031,40 @@ var DisclosureMenu = (function () {
        * The DOM elements within the menu item.
        *
        * @type {object.<HTMLElement>}
-       * @property {HTMLElement} item - The menu item.
-       * @property {HTMLElement} link - The menu item's link.
+       * @readonly
+       * @see _dom
        */
 
     }, {
       key: "dom",
       get: function get() {
-        return this.domElements;
+        return this._dom;
       }
       /**
        * The declared accessible-menu elements within the menu item.
        *
        * @type {object.<BaseMenu,BaseMenuToggle>}
-       * @property {BaseMenu}        parentMenu - The menu containing this menu item.
-       * @property {?BaseMenu}       childMenu  - The menu contained within this menu item.
-       * @property {?BaseMenuToggle} toggle     - The menu toggle within this menu item that controls the `childMenu`.
+       * @readonly
+       * @see _elements
        */
 
     }, {
       key: "elements",
       get: function get() {
-        return this.menuElements;
+        return this._elements;
       }
       /**
        * A flag marking a submenu item.
        *
        * @type {boolean}
+       * @readonly
+       * @see _submenu
        */
 
     }, {
       key: "isSubmenuItem",
       get: function get() {
-        return this.isController;
+        return this._submenu;
       }
       /**
        * Focuses the menu item's link if the parent menu's
@@ -1059,7 +1150,122 @@ var DisclosureMenu = (function () {
 
   var BaseMenu = /*#__PURE__*/function () {
     /**
-     * @inheritdoc
+     * The class to use when generating submenus.
+     *
+     * @type {typeof BaseMenu}
+     * @protected
+     */
+
+    /**
+     * The class to use when generating menu items.
+     *
+     * @type {typeof BaseMenuItem}
+     * @protected
+     */
+
+    /**
+     * The class to use when generating submenu toggles.
+     *
+     * @type {typeof BaseMenuToggle}
+     * @protected
+     */
+
+    /**
+     * The DOM elements within the menu.
+     *
+     * @type {object.<HTMLElement,HTMLElement[]>}
+     * @property {HTMLElement}   menu           - The menu element.
+     * @property {HTMLElement[]} menuItems      - An array of menu items.
+     * @property {HTMLElement[]} submenuItems   - An array of menu items that also contain submenu elements.
+     * @property {HTMLElement[]} submenuToggles - An array of menu links that function as submenu toggles.
+     * @property {HTMLElement[]} submenus       - An array of submenu elements.
+     * @property {HTMLElement}   controller     - The toggle for this menu.
+     * @property {HTMLElement}   container      - The container for this menu.
+     * @protected
+     */
+
+    /**
+     * The CSS selectors used by the menu to populate the {@link BaseMenu#dom|dom}.
+     *
+     * @type {object.<string>}
+     * @property {string} menuItems      - The CSS selector for menu items.
+     * @property {string} menuLinks      - The CSS selector for menu links.
+     * @property {string} submenuItems   - The CSS selector for menu items containing submenus.
+     * @property {string} submenuToggles - The CSS selector for menu links that function as submenu toggles.
+     * @property {string} submenus       - The CSS selector for for submenus.
+     * @protected
+     */
+
+    /**
+     * The declared accessible-menu elements within the menu.
+     *
+     * @type {object.<BaseMenu,BaseMenuToggle,BaseMenuItem[],BaseMenuToggle[]>}
+     * @property {BaseMenuItem[]}   menuItems      - An array of menu items.
+     * @property {BaseMenuToggle[]} submenuToggles - An array of menu toggles.
+     * @property {?BaseMenuToggle}  controller     - A menu toggle that controls this menu.
+     * @property {?BaseMenu}        parentMenu     - The parent menu.
+     * @property {?BaseMenu}        rootMenu       - The root menu of the menu tree.
+     * @protected
+     */
+
+    /**
+     * The class(es) to apply when the menu is open.
+     *
+     * @type {string|string[]}
+     * @protected
+     */
+
+    /**
+     * The class(es) to apply when the menu is closed.
+     *
+     * @type {string|string[]}
+     * @protected
+     */
+
+    /**
+     * A flag marking the root menu.
+     *
+     * @type {boolean}
+     * @protected
+     */
+
+    /**
+     * The index of the currently selected {@link BaseMenuItem|menu item} in the menu.
+     *
+     * @type {number}
+     * @protected
+     */
+
+    /**
+     * The current state of the menu's focus.
+     *
+     * @type {string}
+     * @protected
+     */
+
+    /**
+     * This last event triggered on the menu.
+     *
+     * @type {string}
+     * @protected
+     */
+
+    /**
+     * The type of hoverability for the menu.
+     *
+     * @type {string}
+     * @protected
+     */
+
+    /**
+     * The delay time (in miliseconds) used for mouseout events to take place.
+     *
+     * @type {number}
+     * @protected
+     */
+
+    /**
+     * Constructs the menu.
      *
      * @param {object}                 options                             - The options for generating the menu.
      * @param {HTMLElement}            options.menuElement                 - The menu element in the DOM.
@@ -1108,41 +1314,78 @@ var DisclosureMenu = (function () {
 
       _classCallCheck(this, BaseMenu);
 
-      this.domElements = {
-        menu: menuElement,
+      _defineProperty(this, "_MenuType", BaseMenu);
+
+      _defineProperty(this, "_MenuItemType", BaseMenuItem);
+
+      _defineProperty(this, "_MenuToggleType", BaseMenuToggle);
+
+      _defineProperty(this, "_dom", {
+        menu: null,
         menuItems: [],
         submenuItems: [],
         submenuToggles: [],
         submenus: [],
-        controller: controllerElement,
-        container: containerElement
-      };
-      this.domSelectors = {
-        menuItems: menuItemSelector,
-        menuLinks: menuLinkSelector,
-        submenuItems: submenuItemSelector,
-        submenuToggles: submenuToggleSelector,
-        submenus: submenuSelector
-      };
-      this.menuElements = {
+        controller: null,
+        container: null
+      });
+
+      _defineProperty(this, "_selectors", {
+        menuItems: "",
+        menuLinks: "",
+        submenuItems: "",
+        submenuToggles: "",
+        submenus: ""
+      });
+
+      _defineProperty(this, "_elements", {
         menuItems: [],
         submenuToggles: [],
         controller: null,
-        parentMenu: parentMenu,
-        rootMenu: isTopLevel ? this : null
-      };
-      this.submenuOpenClass = openClass || "";
-      this.submenuCloseClass = closeClass || "";
-      this.root = isTopLevel;
-      this.focussedChild = 0;
-      this.state = "none";
-      this.event = "none";
-      this.hover = hoverType;
-      this.delay = hoverDelay; // Set default class types.
+        parentMenu: null,
+        rootMenu: null
+      });
 
-      this.MenuType = BaseMenu;
-      this.MenuItemType = BaseMenuItem;
-      this.MenuToggleType = BaseMenuToggle;
+      _defineProperty(this, "_openClass", "show");
+
+      _defineProperty(this, "_closeClass", "hide");
+
+      _defineProperty(this, "_root", true);
+
+      _defineProperty(this, "_currentChild", 0);
+
+      _defineProperty(this, "_focusState", "none");
+
+      _defineProperty(this, "_currentEvent", "none");
+
+      _defineProperty(this, "_hoverType", "off");
+
+      _defineProperty(this, "_hoverDelay", 250);
+
+      // Set DOM elements.
+      this._dom.menu = menuElement;
+      this._dom.controller = controllerElement;
+      this._dom.container = containerElement; // Set DOM selectors.
+
+      this._selectors.menuItems = menuItemSelector;
+      this._selectors.menuLinks = menuLinkSelector;
+      this._selectors.submenuItems = submenuItemSelector;
+      this._selectors.submenuToggles = submenuToggleSelector;
+      this._selectors.submenus = submenuSelector; // Set menu elements.
+
+      this._elements.menuItems = [];
+      this._elements.submenuToggles = [];
+      this._elements.controller = null;
+      this._elements.parentMenu = parentMenu;
+      this._elements.rootMenu = isTopLevel ? this : null; // Set open/close classes.
+
+      this._openClass = openClass || "";
+      this._closeClass = closeClass || ""; // Set root.
+
+      this._root = isTopLevel; // Set hover settings.
+
+      this._hoverType = hoverType;
+      this._hoverDelay = hoverDelay;
     }
     /**
      * Initializes the menu.
@@ -1164,9 +1407,8 @@ var DisclosureMenu = (function () {
       value: function initialize() {
         if (!this.validate()) {
           throw new Error("AccesibleMenu: cannot initialize menu. See other error messaged for more information.");
-        }
+        } // Get the root menu if it doesn't exist.
 
-        var MenuToggleType = this.MenuToggleType; // Get the root menu if it doesn't exist.
 
         if (this.elements.rootMenu === null) this.findRootMenu(this); // Set all of the DOM elements.
 
@@ -1175,12 +1417,12 @@ var DisclosureMenu = (function () {
         if (this.isTopLevel) {
           if (this.dom.controller && this.dom.container) {
             // Create a new BaseMenuToggle to control the menu.
-            var toggle = new MenuToggleType({
+            var toggle = new this._MenuToggleType({
               menuToggleElement: this.dom.controller,
               parentElement: this.dom.container,
               controlledMenu: this
             });
-            this.menuElements.controller = toggle;
+            this._elements.controller = toggle;
           }
         }
 
@@ -1190,51 +1432,40 @@ var DisclosureMenu = (function () {
        * The DOM elements within the menu.
        *
        * @type {object.<HTMLElement,HTMLElement[]>}
-       * @property {HTMLElement}   menu           - The menu element.
-       * @property {HTMLElement[]} menuItems      - An array of menu items.
-       * @property {HTMLElement[]} submenuItems   - An array of menu items that also contain submenu elements.
-       * @property {HTMLElement[]} submenuToggles - An array of menu links that function as submenu toggles.
-       * @property {HTMLElement[]} submenus       - An array of submenu elements.
-       * @property {HTMLElement}   controller     - The toggle for this menu.
-       * @property {HTMLElement}   container      - The container for this menu.
+       * @readonly
+       * @see _dom
        */
 
     }, {
       key: "dom",
       get: function get() {
-        return this.domElements;
+        return this._dom;
       }
       /**
        * The CSS selectors used by the menu to populate the {@link BaseMenu#dom|dom}.
        *
        * @type {object.<string>}
-       * @property {string} menuItems      - The CSS selector for menu items.
-       * @property {string} menuLinks      - The CSS selector for menu links.
-       * @property {string} submenuItems   - The CSS selector for menu items containing submenus.
-       * @property {string} submenuToggles - The CSS selector for menu links that function as submenu toggles.
-       * @property {string} submenus       - The CSS selector for for submenus.
+       * @readonly
+       * @see _selectors
        */
 
     }, {
       key: "selectors",
       get: function get() {
-        return this.domSelectors;
+        return this._selectors;
       }
       /**
        * The declared accessible-menu elements within the menu.
        *
        * @type {object.<BaseMenu,BaseMenuToggle,BaseMenuItem[],BaseMenuToggle[]>}
-       * @property {BaseMenuItem[]}   menuItems      - An array of menu items.
-       * @property {BaseMenuToggle[]} submenuToggles - An array of menu toggles.
-       * @property {?BaseMenuToggle}  controller     - A menu toggle that controls this menu.
-       * @property {?BaseMenu}        parentMenu     - The parent menu.
-       * @property {?BaseMenu}        rootMenu       - The root menu of the menu tree.
+       * @readonly
+       * @see _elements
        */
 
     }, {
       key: "elements",
       get: function get() {
-        return this.menuElements;
+        return this._elements;
       }
       /**
        * The class(es) to apply when the menu is open.
@@ -1243,12 +1474,13 @@ var DisclosureMenu = (function () {
        * Submenus will always inherit their root menu's open class(es).
        *
        * @type {string|string[]}
+       * @see _openClass
        */
 
     }, {
       key: "openClass",
       get: function get() {
-        return this.isTopLevel ? this.submenuOpenClass : this.elements.rootMenu.openClass;
+        return this.isTopLevel ? this._openClass : this.elements.rootMenu.openClass;
       }
       /**
        * The class(es) to apply when the menu is closed.
@@ -1257,6 +1489,7 @@ var DisclosureMenu = (function () {
        * Submenus will always inherit their root menu's close class(es).
        *
        * @type {string|string[]}
+       * @see _closeClass
        */
       ,
       set: function set(value) {
@@ -1264,19 +1497,21 @@ var DisclosureMenu = (function () {
           openClass: value
         });
 
-        if (this.submenuOpenClass !== value) {
-          this.submenuOpenClass = value;
+        if (this._openClass !== value) {
+          this._openClass = value;
         }
       }
     }, {
       key: "closeClass",
       get: function get() {
-        return this.isTopLevel ? this.submenuCloseClass : this.elements.rootMenu.closeClass;
+        return this.isTopLevel ? this._closeClass : this.elements.rootMenu.closeClass;
       }
       /**
-       * A flag marking the root menu.
+       * The flag marking the root menu.
        *
        * @type {boolean}
+       * @readonly
+       * @see _root
        */
       ,
       set: function set(value) {
@@ -1284,14 +1519,14 @@ var DisclosureMenu = (function () {
           closeClass: value
         });
 
-        if (this.submenuCloseClass !== value) {
-          this.submenuCloseClass = value;
+        if (this._closeClass !== value) {
+          this._closeClass = value;
         }
       }
     }, {
       key: "isTopLevel",
       get: function get() {
-        return this.root;
+        return this._root;
       }
       /**
        * The index of the currently selected {@link BaseMenuItem|menu item} in the menu.
@@ -1306,12 +1541,13 @@ var DisclosureMenu = (function () {
        * between mouse and keyboard naviation.
        *
        * @type {number}
+       * @see _currentChild
        */
 
     }, {
       key: "currentChild",
       get: function get() {
-        return this.focussedChild;
+        return this._currentChild;
       }
       /**
        * The current state of the menu's focus.
@@ -1322,6 +1558,7 @@ var DisclosureMenu = (function () {
        *   will update all parent menus to have the focus state of "child".
        *
        * @type {string}
+       * @see _focusState
        */
       ,
       set: function set(value) {
@@ -1357,25 +1594,26 @@ var DisclosureMenu = (function () {
         }
 
         if (value < -1) {
-          this.focussedChild = -1;
+          this._currentChild = -1;
           setParentChild(this);
         } else if (value >= this.elements.menuItems.length) {
-          this.focussedChild = this.elements.menuItems.length - 1;
+          this._currentChild = this.elements.menuItems.length - 1;
           setParentChild(this);
         } else if (this.focusChild !== value) {
-          this.focussedChild = value;
+          this._currentChild = value;
           setParentChild(this);
         }
       }
     }, {
       key: "focusState",
       get: function get() {
-        return this.state;
+        return this._focusState;
       }
       /**
-       * This last event triggered on the menu.
+       * The last event triggered on the menu.
        *
        * @type {string}
+       * @see _currentEvent
        */
       ,
       set: function set(value) {
@@ -1383,8 +1621,8 @@ var DisclosureMenu = (function () {
           value: value
         });
 
-        if (this.state !== value) {
-          this.state = value;
+        if (this._focusState !== value) {
+          this._focusState = value;
         }
 
         if (this.elements.submenuToggles.length > 0 && (value === "self" || value === "none")) {
@@ -1400,7 +1638,7 @@ var DisclosureMenu = (function () {
     }, {
       key: "currentEvent",
       get: function get() {
-        return this.event;
+        return this._currentEvent;
       }
       /**
        * The currently selected menu item.
@@ -1413,8 +1651,8 @@ var DisclosureMenu = (function () {
           value: value
         });
 
-        if (this.event !== value) {
-          this.event = value;
+        if (this._currentEvent !== value) {
+          this._currentEvent = value;
 
           if (this.elements.submenuToggles.length > 0) {
             this.elements.submenuToggles.forEach(function (submenuToggle) {
@@ -1435,12 +1673,13 @@ var DisclosureMenu = (function () {
        * Submenus will always inherit their root menu's hoverability.
        *
        * @type {string}
+       * @see _hoverType
        */
 
     }, {
       key: "hoverType",
       get: function get() {
-        return this.root ? this.hover : this.elements.rootMenu.hoverType;
+        return this._root ? this._hoverType : this.elements.rootMenu.hoverType;
       }
       /**
        * The delay time (in miliseconds) used for mouseout events to take place.
@@ -1449,6 +1688,7 @@ var DisclosureMenu = (function () {
        * Submenus will always inherit their root menu's hover delay.
        *
        * @type {number}
+       * @see _hoverDelay
        */
       ,
       set: function set(value) {
@@ -1456,14 +1696,14 @@ var DisclosureMenu = (function () {
           value: value
         });
 
-        if (this.hover !== value) {
-          this.hover = value;
+        if (this._hoverType !== value) {
+          this._hoverType = value;
         }
       }
     }, {
       key: "hoverDelay",
       get: function get() {
-        return this.root ? this.delay : this.elements.rootMenu.hoverDelay;
+        return this._root ? this._hoverDelay : this.elements.rootMenu.hoverDelay;
       }
       /**
        * A flag to check if the menu's focus methods should _actually_ move the focus in the DOM.
@@ -1472,7 +1712,7 @@ var DisclosureMenu = (function () {
        * - The menu's {@link BaseMenu#currentEvent|current event} is "keyboard".
        * - The menu's current event is "character".
        * - The menu's current event is "mouse" _and_ the menu's
-       *   {@link BaseMenu#hoverType|hover type} is "dynamic".
+       *   {@link BaseMenu_hoverTypeType|hover type} is "dynamic".
        *
        * @type {boolean}
        */
@@ -1482,14 +1722,14 @@ var DisclosureMenu = (function () {
           value: value
         });
 
-        if (this.delay !== value) {
-          this.delay = value;
+        if (this._hoverDelay !== value) {
+          this._hoverDelay = value;
         }
       }
       /**
        * Validates all aspects of the menu to ensure proper functionality.
        *
-       * @returns {boolean} - The result of the validation.
+       * @return {boolean} - The result of the validation.
        */
 
     }, {
@@ -1510,79 +1750,71 @@ var DisclosureMenu = (function () {
     }, {
       key: "validate",
       value: function validate() {
-        var domElements = this.domElements,
-            domSelectors = this.domSelectors,
-            menuElements = this.menuElements,
-            submenuOpenClass = this.submenuOpenClass,
-            submenuCloseClass = this.submenuCloseClass,
-            root = this.root,
-            hover = this.hover,
-            delay = this.delay;
         var check = true;
 
-        if (domElements.container !== null || domElements.controller !== null) {
+        if (this._dom.container !== null || this._dom.controller !== null) {
           if (!isValidInstance(HTMLElement, {
-            menuElement: domElements.menu,
-            controllerElement: domElements.controller,
-            containerElement: domElements.container
+            menuElement: this._dom.menu,
+            controllerElement: this._dom.controller,
+            containerElement: this._dom.container
           })) {
             check = false;
           }
         } else if (!isValidInstance(HTMLElement, {
-          menuElement: domElements.menu
+          menuElement: this._dom.menu
         })) {
           check = false;
         }
 
-        if (domSelectors.submenuItems !== "") {
+        if (this._selectors.submenuItems !== "") {
           if (!isCSSSelector({
-            menuItemSelector: domSelectors.menuItems,
-            menuLinkSelector: domSelectors.menuLinks,
-            submenuItemSelector: domSelectors.submenuItems,
-            submenuToggleSelector: domSelectors.submenuToggles,
-            submenuSelector: domSelectors.submenus
+            menuItemSelector: this._selectors.menuItems,
+            menuLinkSelector: this._selectors.menuLinks,
+            submenuItemSelector: this._selectors.submenuItems,
+            submenuToggleSelector: this._selectors.submenuToggles,
+            submenuSelector: this._selectors.submenus
           })) {
             check = false;
           }
         } else if (!isCSSSelector({
-          menuItemSelector: domSelectors.menuItems,
-          menuLinkSelector: domSelectors.menuLinks
+          menuItemSelector: this._selectors.menuItems,
+          menuLinkSelector: this._selectors.menuLinks
         })) {
           check = false;
         }
 
-        if (submenuOpenClass !== "" && !isValidClassList({
-          openClass: submenuOpenClass
+        if (this._openClass !== "" && !isValidClassList({
+          openClass: this._openClass
         })) {
           check = false;
         }
 
-        if (submenuCloseClass !== "" && !isValidClassList({
-          closeClass: submenuCloseClass
+        if (this._closeClass !== "" && !isValidClassList({
+          closeClass: this._closeClass
         })) {
           check = false;
         }
 
         if (!isValidType("boolean", {
-          isTopLevel: root
+          isTopLevel: this._root
         })) {
           check = false;
         }
 
-        if (menuElements.parentMenu !== null && !isValidInstance(BaseMenu, {
-          parentMenu: menuElements.parentMenu
+        if (this._elements.parentMenu !== null && !isValidInstance(BaseMenu, {
+          parentMenu: this._elements.parentMenu
         })) {
           check = false;
         }
 
         if (!isValidHoverType({
-          hoverType: hover
+          hoverType: this._hoverType
         })) {
           check = false;
         }
 
         if (!isValidType("number", {
-          hoverDelay: delay
+          hoverDelay: this._hoverDelay
         })) {
           check = false;
         }
@@ -1618,14 +1850,14 @@ var DisclosureMenu = (function () {
 
           if (typeof filter !== "undefined") {
             if (typeof filter === "function") {
-              this.domElements[elementType] = domElements.filter(function (item) {
+              this._dom[elementType] = domElements.filter(function (item) {
                 return filter(item);
               });
             } else {
-              this.domElements[elementType] = domElements;
+              this._dom[elementType] = domElements;
             }
           } else {
-            this.domElements[elementType] = domElements.filter(function (item) {
+            this._dom[elementType] = domElements.filter(function (item) {
               return baseFilter(item);
             });
           }
@@ -1662,14 +1894,14 @@ var DisclosureMenu = (function () {
 
           if (typeof filter !== "undefined") {
             if (typeof filter === "function") {
-              this.domElements[elementType] = [].concat(_toConsumableArray(this.domElements[elementType]), _toConsumableArray(domElements.filter(function (item) {
+              this._dom[elementType] = [].concat(_toConsumableArray(this._dom[elementType]), _toConsumableArray(domElements.filter(function (item) {
                 return filter(item);
               })));
             } else {
-              this.domElements[elementType] = [].concat(_toConsumableArray(this.domElements[elementType]), _toConsumableArray(domElements));
+              this._dom[elementType] = [].concat(_toConsumableArray(this._dom[elementType]), _toConsumableArray(domElements));
             }
           } else {
-            this.domElements[elementType] = [].concat(_toConsumableArray(this.domElements[elementType]), _toConsumableArray(domElements.filter(function (item) {
+            this._dom[elementType] = [].concat(_toConsumableArray(this._dom[elementType]), _toConsumableArray(domElements.filter(function (item) {
               return baseFilter(item);
             })));
           }
@@ -1688,10 +1920,10 @@ var DisclosureMenu = (function () {
       value: function clearDOMElementType(elementType) {
         if (elementType === "menu") return;
 
-        if (Array.isArray(this.domElements[elementType])) {
-          this.domElements[elementType] = [];
-        } else if (typeof this.domElements[elementType] !== "undefined") {
-          this.domElements[elementType] = null;
+        if (Array.isArray(this._dom[elementType])) {
+          this._dom[elementType] = [];
+        } else if (typeof this._dom[elementType] !== "undefined") {
+          this._dom[elementType] = null;
         } else {
           throw new Error("".concat(elementType, " is not a valid element type within the menu."));
         }
@@ -1732,7 +1964,7 @@ var DisclosureMenu = (function () {
       key: "findRootMenu",
       value: function findRootMenu(menu) {
         if (menu.isTopLevel) {
-          this.menuElements.rootMenu = menu;
+          this._elements.rootMenu = menu;
         } else if (menu.elements.parentMenu !== null) {
           this.findRootMenu(menu.elements.parentMenu);
         } else {
@@ -1748,9 +1980,6 @@ var DisclosureMenu = (function () {
       value: function createChildElements() {
         var _this2 = this;
 
-        var MenuType = this.MenuType,
-            MenuItemType = this.MenuItemType,
-            MenuToggleType = this.MenuToggleType;
         this.dom.menuItems.forEach(function (element) {
           var menuItem;
 
@@ -1760,7 +1989,7 @@ var DisclosureMenu = (function () {
 
             var submenu = element.querySelector(_this2.selectors.submenus); // Create the new menu and initialize it.
 
-            var menu = new MenuType({
+            var menu = new _this2._MenuType({
               menuElement: submenu,
               menuItemSelector: _this2.selectors.menuItems,
               menuLinkSelector: _this2.selectors.menuLinks,
@@ -1775,17 +2004,17 @@ var DisclosureMenu = (function () {
               hoverDelay: _this2.hoverDelay
             }); // Create the new menu toggle.
 
-            var toggle = new MenuToggleType({
+            var toggle = new _this2._MenuToggleType({
               menuToggleElement: toggler,
               parentElement: element,
               controlledMenu: menu,
               parentMenu: _this2
             }); // Add the toggle to the list of toggles.
 
-            _this2.menuElements.submenuToggles.push(toggle); // Create a new menu item.
+            _this2._elements.submenuToggles.push(toggle); // Create a new menu item.
 
 
-            menuItem = new MenuItemType({
+            menuItem = new _this2._MenuItemType({
               menuItemElement: element,
               menuLinkElement: toggler,
               parentMenu: _this2,
@@ -1796,14 +2025,14 @@ var DisclosureMenu = (function () {
           } else {
             var link = element.querySelector(_this2.selectors.menuLinks); // Create a new menu item.
 
-            menuItem = new MenuItemType({
+            menuItem = new _this2._MenuItemType({
               menuItemElement: element,
               menuLinkElement: link,
               parentMenu: _this2
             });
           }
 
-          _this2.menuElements.menuItems.push(menuItem);
+          _this2._elements.menuItems.push(menuItem);
         });
       }
       /**
@@ -1900,7 +2129,7 @@ var DisclosureMenu = (function () {
        *
        * Adds `mouseenter` listeners to all menu items and `mouseleave` listeners
        * to all submenu items which function differently depending on
-       * the menu's {@link BaseMenu#hoverType|hover type}.
+       * the menu's {@link BaseMenu_hoverTypeType|hover type}.
        *
        * **Hover Type "on"**
        * - When a `mouseenter` event triggers on any menu item the menu's
@@ -1911,7 +2140,7 @@ var DisclosureMenu = (function () {
        *   toggle will be called.
        * - When a `mouseleave` event triggers on an open submenu item the
        *   {@link BaseMenuToggle#close|close method} for the submenu item's toggle
-       *   will be called after a delay set by the menu's {@link BaseMenu#hoverDelay|hover delay}.
+       *   will be called after a delay set by the menu's {@link BaseMenu_hoverTypeDelay|hover delay}.
        *
        * **Hover Type "dynamic"**
        * - When a `mouseenter` event triggers on any menu item the menu's
@@ -2243,7 +2472,7 @@ var DisclosureMenu = (function () {
     var _super = _createSuper(DisclosureMenuItem);
 
     /**
-     * @inheritdoc
+     * Constructs the menu item.
      *
      * @param {object}                    options                         - The options for generating the menu item.
      * @param {HTMLElement}               options.menuItemElement         - The menu item in the DOM.
@@ -2302,7 +2531,7 @@ var DisclosureMenu = (function () {
     var _super = _createSuper(DisclosureMenuToggle);
 
     /**
-     * @inheritdoc
+     * Constructs the menu toggle.
      *
      * @param {object}              options                     - The options for generating the menu toggle.
      * @param {HTMLElement}         options.menuToggleElement   - The toggle element in the DOM.
@@ -2404,7 +2633,42 @@ var DisclosureMenu = (function () {
     var _super = _createSuper(DisclosureMenu);
 
     /**
-     * @inheritdoc
+     * The class to use when generating submenus.
+     *
+     * @type {typeof DisclosureMenu}
+     * @public
+     */
+
+    /**
+     * The class to use when generating menu items.
+     *
+     * @type {typeof DisclosureMenuItem}
+     * @public
+     */
+
+    /**
+     * The class to use when generating submenu toggles.
+     *
+     * @type {typeof DisclosureMenuToggle}
+     * @public
+     */
+
+    /**
+     * The index of the currently selected {@link BaseMenuItem|menu item} in the menu.
+     *
+     * @type {number}
+     * @protected
+     */
+
+    /**
+     * A flag to add optional keyboard support (Arrow keys, "Home", and "End") to the menu.
+     *
+     * @type {boolean}
+     * @protected
+     */
+
+    /**
+     * Constructs the menu.
      *
      * @param {object}                 options                              - The options for generating the menu.
      * @param {HTMLElement}            options.menuElement                  - The menu element in the DOM.
@@ -2476,12 +2740,18 @@ var DisclosureMenu = (function () {
         parentMenu: parentMenu,
         hoverType: hoverType,
         hoverDelay: hoverDelay
-      }); // Set default class types.
+      }); // Set optional key support.
 
-      _this.MenuType = DisclosureMenu;
-      _this.MenuItemType = DisclosureMenuItem;
-      _this.MenuToggleType = DisclosureMenuToggle;
-      _this.currentChild = -1;
+      _defineProperty(_assertThisInitialized(_this), "_MenuType", DisclosureMenu);
+
+      _defineProperty(_assertThisInitialized(_this), "_MenuItemType", DisclosureMenuItem);
+
+      _defineProperty(_assertThisInitialized(_this), "_MenuToggleType", DisclosureMenuToggle);
+
+      _defineProperty(_assertThisInitialized(_this), "_currentChild", -1);
+
+      _defineProperty(_assertThisInitialized(_this), "_optionalSupport", false);
+
       _this.optionalKeySupport = optionalKeySupport;
 
       if (initialize) {
@@ -2497,19 +2767,20 @@ var DisclosureMenu = (function () {
      * Submenus will always inherit their root menu's optionalKeySupport.
      *
      * @type {boolean}
+     * @see _optionalSupport
      */
 
 
     _createClass(DisclosureMenu, [{
       key: "optionalKeySupport",
       get: function get() {
-        return this.isTopLevel ? this.optionalSupport : this.elements.rootMenu.optionalKeySupport;
+        return this.isTopLevel ? this._optionalSupport : this.elements.rootMenu.optionalKeySupport;
       },
       set: function set(value) {
         isValidType("boolean", {
           optionalKeySupport: value
         });
-        this.optionalSupport = value;
+        this._optionalSupport = value;
       }
       /**
        * Initializes the menu.

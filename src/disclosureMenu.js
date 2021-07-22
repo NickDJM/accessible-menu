@@ -13,7 +13,47 @@ import { isValidType, isEventSupported } from "./validate.js";
  */
 class DisclosureMenu extends BaseMenu {
   /**
-   * @inheritdoc
+   * The class to use when generating submenus.
+   *
+   * @type {typeof DisclosureMenu}
+   * @public
+   */
+  _MenuType = DisclosureMenu;
+
+  /**
+   * The class to use when generating menu items.
+   *
+   * @type {typeof DisclosureMenuItem}
+   * @public
+   */
+  _MenuItemType = DisclosureMenuItem;
+
+  /**
+   * The class to use when generating submenu toggles.
+   *
+   * @type {typeof DisclosureMenuToggle}
+   * @public
+   */
+  _MenuToggleType = DisclosureMenuToggle;
+
+  /**
+   * The index of the currently selected {@link BaseMenuItem|menu item} in the menu.
+   *
+   * @type {number}
+   * @protected
+   */
+  _currentChild = -1;
+
+  /**
+   * A flag to add optional keyboard support (Arrow keys, "Home", and "End") to the menu.
+   *
+   * @type {boolean}
+   * @protected
+   */
+  _optionalSupport = false;
+
+  /**
+   * Constructs the menu.
    *
    * @param {object}                 options                              - The options for generating the menu.
    * @param {HTMLElement}            options.menuElement                  - The menu element in the DOM.
@@ -68,12 +108,7 @@ class DisclosureMenu extends BaseMenu {
       hoverDelay,
     });
 
-    // Set default class types.
-    this.MenuType = DisclosureMenu;
-    this.MenuItemType = DisclosureMenuItem;
-    this.MenuToggleType = DisclosureMenuToggle;
-
-    this.currentChild = -1;
+    // Set optional key support.
     this.optionalKeySupport = optionalKeySupport;
 
     if (initialize) {
@@ -88,17 +123,18 @@ class DisclosureMenu extends BaseMenu {
    * Submenus will always inherit their root menu's optionalKeySupport.
    *
    * @type {boolean}
+   * @see _optionalSupport
    */
   get optionalKeySupport() {
     return this.isTopLevel
-      ? this.optionalSupport
+      ? this._optionalSupport
       : this.elements.rootMenu.optionalKeySupport;
   }
 
   set optionalKeySupport(value) {
     isValidType("boolean", { optionalKeySupport: value });
 
-    this.optionalSupport = value;
+    this._optionalSupport = value;
   }
 
   /**

@@ -30,3 +30,37 @@ If you have written custom subclass that extend the `MenuItem` or `MenuToggle` c
 In version 2, Disclosure Menus _always_ had the [keyboard support that is labelled as "optional"](https://www.w3.org/TR/wai-aria-practices-1.2/examples/disclosure/disclosure-navigation.html#kbd_label). This is no longer the case in version 3.
 
 You will need to set the [`optionalKeySupport`](https://accessible-menu.netlify.app/disclosuremenu#optionalKeySupport) value to `true` to gain access to the optional keyboard support.
+
+## Class field changes
+
+Version 3 of accessible-menu has cleaned up and renamed some class fields:
+
+### Menu fields
+
+- `BaseMenu.domElements` has changed to `BaseMenu._dom`
+- `BaseMenu.domSelectors` has changed to `BaseMenu._selectors`
+- `BaseMenu.menuElements` has changed to `BaseMenu._elements`
+- `BaseMenu.submenuOpenClass` has changed to `BaseMenu._openClass`
+- `BaseMenu.submenuCloseClass` has changed to `BaseMenu._closeClass`
+- `BaseMenu.root` has changed to `BaseMenu._root`
+- `BaseMenu.focussedChild` has changed to `BaseMenu._currentChild`
+- `BaseMenu.state` has changed to `BaseMenu._focusState`
+- `BaseMenu.event` has changed to `BaseMenu._currentEvent`
+- `BaseMenu.hoverable` has changed to `BaseMenu._hoverType`
+- `BaseMenu.delay` has changed to `BaseMenu._hoverDelay`
+
+### Menu item fields
+
+- `MenuItem.domElements` has changed to `BaseMenuItem._dom`
+- `MenuItem.menuElements` has changed to `BaseMenuItem._elements`
+- `MenuItem.isController` has changed to `BaseMenuItem._submenu`
+
+### Menu toggle fields
+
+- `MenuToggle.domElements` has changed to `BaseMenuToggle._dom`
+- `MenuToggle.menuElements` has changed to `BaseMenuToggle._elements`
+- `MenuToggle.show` has changed to `BaseMenuToggle._open`
+- `MenuToggle.expandEvent` has changed to `BaseMenuToggle._expandEvent`
+- `MenuToggle.collapseEvent` has changed to `BaseMenuToggle._collapseEvent`
+- `MenuToggle.openClass` has been removed
+- `MenuToggle.closeClass` has been removed

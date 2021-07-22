@@ -12,7 +12,31 @@ import { keyPress, preventEvent } from "./eventHandlers.js";
  */
 class Treeview extends BaseMenu {
   /**
-   * @inheritdoc
+   * The class to use when generating submenus.
+   *
+   * @type {typeof Treeview}
+   * @protected
+   */
+  _MenuType = Treeview;
+
+  /**
+   * The class to use when generating menu items.
+   *
+   * @type {typeof TreeviewItem}
+   * @protected
+   */
+  _MenuItemType = TreeviewItem;
+
+  /**
+   * The class to use when generating submenu toggles.
+   *
+   * @type {typeof TreeviewToggle}
+   * @protected
+   */
+  _MenuToggleType = TreeviewToggle;
+
+  /**
+   * Constructs the menu.
    *
    * @param {object}                 options                             - The options for generating the menu.
    * @param {HTMLElement}            options.menuElement                 - The menu element in the DOM.
@@ -64,11 +88,6 @@ class Treeview extends BaseMenu {
       hoverType,
       hoverDelay,
     });
-
-    // Set default class types.
-    this.MenuType = Treeview;
-    this.MenuItemType = TreeviewItem;
-    this.MenuToggleType = TreeviewToggle;
 
     if (initialize) {
       this.initialize();
@@ -380,7 +399,7 @@ class Treeview extends BaseMenu {
      *
      * @param {Treeview} menu - The menu.
      *
-     * @returns {TreeviewItem[]} - The menu items.
+     * @return {TreeviewItem[]} - The menu items.
      */
     function getOpenMenuItems(menu) {
       let menuItems = [];

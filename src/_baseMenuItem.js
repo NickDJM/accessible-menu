@@ -5,7 +5,42 @@
  */
 class BaseMenuItem {
   /**
-   * @inheritdoc
+   * The DOM elements within the menu item.
+   *
+   * @type {object.<HTMLElement>}
+   * @property {HTMLElement} item - The menu item.
+   * @property {HTMLElement} link - The menu item's link.
+   * @protected
+   */
+  _dom = {
+    item: null,
+    link: null,
+  };
+
+  /**
+   * The declared accessible-menu elements within the menu item.
+   *
+   * @type {object.<BaseMenu,BaseMenuToggle>}
+   * @property {BaseMenu}        parentMenu - The menu containing this menu item.
+   * @property {?BaseMenu}       childMenu  - The menu contained within this menu item.
+   * @property {?BaseMenuToggle} toggle     - The menu toggle within this menu item that controls the `childMenu`.
+   * @protected
+   */
+  _elements = {
+    parentMenu: null,
+    childMenu: null,
+    toggle: null,
+  };
+
+  /**
+   * A flag marking a submenu item.
+   *
+   * @type {boolean}
+   */
+  _submenu = false;
+
+  /**
+   * Constructs the menu item.
    *
    * @param {object}          options                         - The options for generating the menu item.
    * @param {HTMLElement}     options.menuItemElement         - The menu item in the DOM.
@@ -23,16 +58,16 @@ class BaseMenuItem {
     childMenu = null,
     toggle = null,
   }) {
-    this.domElements = {
-      item: menuItemElement,
-      link: menuLinkElement,
-    };
-    this.menuElements = {
-      parentMenu,
-      childMenu,
-      toggle,
-    };
-    this.isController = isSubmenuItem;
+    // Set DOM elements.
+    this._dom.item = menuItemElement;
+    this._dom.link = menuLinkElement;
+
+    // Set menu elements.
+    this._elements.parentMenu = parentMenu;
+    this._elements.childMenu = childMenu;
+    this._elements.toggle = toggle;
+
+    this._submenu = isSubmenuItem;
   }
 
   /**
@@ -44,32 +79,33 @@ class BaseMenuItem {
    * The DOM elements within the menu item.
    *
    * @type {object.<HTMLElement>}
-   * @property {HTMLElement} item - The menu item.
-   * @property {HTMLElement} link - The menu item's link.
+   * @readonly
+   * @see _dom
    */
   get dom() {
-    return this.domElements;
+    return this._dom;
   }
 
   /**
    * The declared accessible-menu elements within the menu item.
    *
    * @type {object.<BaseMenu,BaseMenuToggle>}
-   * @property {BaseMenu}        parentMenu - The menu containing this menu item.
-   * @property {?BaseMenu}       childMenu  - The menu contained within this menu item.
-   * @property {?BaseMenuToggle} toggle     - The menu toggle within this menu item that controls the `childMenu`.
+   * @readonly
+   * @see _elements
    */
   get elements() {
-    return this.menuElements;
+    return this._elements;
   }
 
   /**
    * A flag marking a submenu item.
    *
    * @type {boolean}
+   * @readonly
+   * @see _submenu
    */
   get isSubmenuItem() {
-    return this.isController;
+    return this._submenu;
   }
 
   /**

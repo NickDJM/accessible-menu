@@ -9,7 +9,7 @@ import BaseMenuToggle from "./_baseMenuToggle.js";
  */
 class TreeviewToggle extends BaseMenuToggle {
   /**
-   * @inheritdoc
+   * Constructs the menu toggle.
    *
    * @param {object}                  options                     - The options for generating the menu toggle.
    * @param {HTMLElement}             options.menuToggleElement   - The toggle element in the DOM.

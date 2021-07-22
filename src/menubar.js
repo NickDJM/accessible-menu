@@ -13,7 +13,31 @@ import { isEventSupported } from "./validate.js";
  */
 class Menubar extends BaseMenu {
   /**
-   * @inheritdoc
+   * The class to use when generating submenus.
+   *
+   * @type {typeof Menubar}
+   * @protected
+   */
+  _MenuType = Menubar;
+
+  /**
+   * The class to use when generating menu items.
+   *
+   * @type {typeof MenubarItem}
+   * @protected
+   */
+  _MenuItemType = MenubarItem;
+
+  /**
+   * The class to use when generating submenu toggles.
+   *
+   * @type {typeof MenubarToggle}
+   * @protected
+   */
+  _MenuToggleType = MenubarToggle;
+
+  /**
+   * Constructs the menu.
    *
    * @param {object}                 options                             - The options for generating the menu.
    * @param {HTMLElement}            options.menuElement                 - The menu element in the DOM.
@@ -65,10 +89,6 @@ class Menubar extends BaseMenu {
       hoverType,
       hoverDelay,
     });
-
-    this.MenuType = Menubar;
-    this.MenuItemType = MenubarItem;
-    this.MenuToggleType = MenubarToggle;
 
     if (initialize) {
       this.initialize();
