@@ -109,7 +109,7 @@ class DisclosureMenu extends BaseMenu {
     });
 
     // Set optional key support.
-    this.optionalKeySupport = optionalKeySupport;
+    this._optionalSupport = optionalKeySupport;
 
     if (initialize) {
       this.initialize();
@@ -162,6 +162,23 @@ class DisclosureMenu extends BaseMenu {
     } catch (error) {
       console.error(error);
     }
+  }
+
+  /**
+   * Validates all aspects of the menu to ensure proper functionality.
+   *
+   * @return {boolean} - The result of the validation.
+   */
+  validate() {
+    let check = super.validate();
+
+    if (
+      !isValidType("boolean", { optionalKeySupport: this._optionalSupport })
+    ) {
+      check = false;
+    }
+
+    return check;
   }
 
   /**
