@@ -1406,7 +1406,7 @@ var Treeview = (function () {
       key: "initialize",
       value: function initialize() {
         if (!this.validate()) {
-          throw new Error("AccesibleMenu: cannot initialize menu. See other error messaged for more information.");
+          throw new Error("AccesibleMenu: cannot initialize menu. See other error messages for more information.");
         } // Get the root menu if it doesn't exist.
 
 

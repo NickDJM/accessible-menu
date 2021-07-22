@@ -1259,7 +1259,7 @@ var AccessibleMenu = (function () {
       key: "initialize",
       value: function initialize() {
         if (!this.validate()) {
-          throw new Error("AccesibleMenu: cannot initialize menu. See other error messaged for more information.");
+          throw new Error("AccesibleMenu: cannot initialize menu. See other error messages for more information.");
         } // Get the root menu if it doesn't exist.
 
 
@@ -2674,7 +2674,7 @@ var AccessibleMenu = (function () {
 
       _defineProperty$2(_assertThisInitialized$6(_this), "_optionalSupport", false);
 
-      _this.optionalKeySupport = optionalKeySupport;
+      _this._optionalSupport = optionalKeySupport;
 
       if (initialize) {
         _this.initialize();
@@ -2732,6 +2732,25 @@ var AccessibleMenu = (function () {
         } catch (error) {
           console.error(error);
         }
+      }
+      /**
+       * Validates all aspects of the menu to ensure proper functionality.
+       *
+       * @return {boolean} - The result of the validation.
+       */
+
+    }, {
+      key: "validate",
+      value: function validate() {
+        var check = _get$5(_getPrototypeOf$6(DisclosureMenu.prototype), "validate", this).call(this);
+
+        if (!isValidType("boolean", {
+          optionalKeySupport: this._optionalSupport
+        })) {
+          check = false;
+        }
+
+        return check;
       }
       /**
        * Handles click events throughout the menu for proper use.
