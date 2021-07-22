@@ -252,7 +252,7 @@ class BaseMenu {
   initialize() {
     if (!this.validate()) {
       throw new Error(
-        "AccesibleMenu: cannot initialize menu. See other error messaged for more information."
+        "AccesibleMenu: cannot initialize menu. See other error messages for more information."
       );
     }
 
