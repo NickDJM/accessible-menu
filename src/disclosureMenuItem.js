@@ -9,7 +9,7 @@ import BaseMenuItem from "./_baseMenuItem.js";
  */
 class DisclosureMenuItem extends BaseMenuItem {
   /**
-   * @inheritdoc
+   * Constructs the menu item.
    *
    * @param {object}                    options                         - The options for generating the menu item.
    * @param {HTMLElement}               options.menuItemElement         - The menu item in the DOM.

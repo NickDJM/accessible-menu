@@ -4,7 +4,7 @@ module.exports = {
     includePattern: ".js$",
     excludePattern: "(node_modules/|docs)",
   },
-  plugins: ["plugins/markdown"],
+  plugins: ["plugins/markdown", "node_modules/jsdoc-typeof-plugin"],
   opts: {
     destination: "./docs/dist",
     encoding: "utf8",

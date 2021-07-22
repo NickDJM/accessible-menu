@@ -12,15 +12,48 @@ import { isValidType, isEventSupported } from "./validate.js";
  * @extends BaseMenu
  */
 class DisclosureMenu extends BaseMenu {
-  MenuType = DisclosureMenu;
-  MenuItemType = DisclosureMenuItem;
-  MenuToggleType = DisclosureMenuToggle;
-
-  focussedChild = -1;
-  optionalSupport = false;
+  /**
+   * The class to use when generating submenus.
+   *
+   * @type {typeof DisclosureMenu}
+   * @public
+   */
+  _MenuType = DisclosureMenu;
 
   /**
-   * @inheritdoc
+   * The class to use when generating menu items.
+   *
+   * @type {typeof DisclosureMenuItem}
+   * @public
+   */
+  _MenuItemType = DisclosureMenuItem;
+
+  /**
+   * The class to use when generating submenu toggles.
+   *
+   * @type {typeof DisclosureMenuToggle}
+   * @public
+   */
+  _MenuToggleType = DisclosureMenuToggle;
+
+  /**
+   * The index of the currently selected {@link BaseMenuItem|menu item} in the menu.
+   *
+   * @type {number}
+   * @protected
+   */
+  _currentChild = -1;
+
+  /**
+   * A flag to add optional keyboard support (Arrow keys, "Home", and "End") to the menu.
+   *
+   * @type {boolean}
+   * @protected
+   */
+  _optionalSupport = false;
+
+  /**
+   * Constructs the menu.
    *
    * @param {object}                 options                              - The options for generating the menu.
    * @param {HTMLElement}            options.menuElement                  - The menu element in the DOM.
@@ -75,6 +108,7 @@ class DisclosureMenu extends BaseMenu {
       hoverDelay,
     });
 
+    // Set optional key support.
     this.optionalKeySupport = optionalKeySupport;
 
     if (initialize) {
@@ -89,17 +123,18 @@ class DisclosureMenu extends BaseMenu {
    * Submenus will always inherit their root menu's optionalKeySupport.
    *
    * @type {boolean}
+   * @see _optionalSupport
    */
   get optionalKeySupport() {
     return this.isTopLevel
-      ? this.optionalSupport
+      ? this._optionalSupport
       : this.elements.rootMenu.optionalKeySupport;
   }
 
   set optionalKeySupport(value) {
     isValidType("boolean", { optionalKeySupport: value });
 
-    this.optionalSupport = value;
+    this._optionalSupport = value;
   }
 
   /**

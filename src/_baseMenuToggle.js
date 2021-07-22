@@ -6,18 +6,68 @@ import { isTag, isValidType } from "./validate.js";
  * A link or button that controls the visibility of a {@link BaseMenu}.
  */
 class BaseMenuToggle {
-  domElements = {
+  /**
+   * The DOM elements within the menu toggle.
+   *
+   * @type {object.<HTMLElement>}
+   * @property {HTMLElement} toggle - The menu toggle.
+   * @property {HTMLElement} parent - The menu containing this toggle.
+   * @protected
+   */
+  _dom = {
     toggle: null,
     parent: null,
   };
 
-  menuElements = {
+  /**
+   * The declared accessible-menu elements within the menu toggle.
+   *
+   * @type {object.<BaseMenu>}
+   * @property {BaseMenu} controlledMenu - The menu controlled by this toggle.
+   * @property {BaseMenu} parentMenu     - The menu containing this toggle.
+   * @protected
+   */
+  _elements = {
     controlledMenu: null,
     parentMenu: null,
   };
 
   /**
-   * @inheritdoc
+   * The open state of the menu toggle.
+   *
+   * @type {boolean}
+   * @protected
+   */
+  _open = false;
+
+  /**
+   * Expand event.
+   *
+   * @event accessibleMenuExpand
+   * @type {CustomEvent}
+   * @property {object<BaseMenuToggle>} details - The details object containing the BaseMenuToggle itself.
+   * @protected
+   */
+  _expandEvent = new CustomEvent("accessibleMenuExpand", {
+    bubbles: true,
+    detail: { toggle: this },
+  });
+
+  /**
+   * Collapse event.
+   *
+   * @event accessibleMenuCollapse
+   * @type {CustomEvent}
+   * @property {object<BaseMenuToggle>} details - The details object containing the BaseMenuToggle itself.
+   * @protected
+   */
+  _collapseEvent = new CustomEvent("accessibleMenuCollapse", {
+    bubbles: true,
+    detail: { toggle: this },
+  });
+
+  /**
+   * Constructs the menu toggle.
    *
    * @param {object}        options                     - The options for generating the menu toggle.
    * @param {HTMLElement}   options.menuToggleElement   - The toggle element in the DOM.
@@ -32,37 +82,12 @@ class BaseMenuToggle {
     parentMenu = null,
   }) {
     // Set DOM elements.
-    this.domElements.toggle = menuToggleElement;
-    this.domElements.parent = parentElement;
+    this._dom.toggle = menuToggleElement;
+    this._dom.parent = parentElement;
 
     // Set menu elements.
-    this.menuElements.controlledMenu = controlledMenu;
-    this.menuElements.parentMenu = parentMenu;
-
-    this.isOpen = false;
-
-    /**
-     * Expand event.
-     *
-     * @event accessibleMenuExpand
-     * @type {CustomEvent}
-     * @property {object<BaseMenuToggle>} details - The details object containing the BaseMenuToggle itself.
-     */
-    this.expandEvent = new CustomEvent("accessibleMenuExpand", {
-      bubbles: true,
-      detail: { toggle: this },
-    });
-    /**
-     * Collapse event.
-     *
-     * @event accessibleMenuCollapse
-     * @type {CustomEvent}
-     * @property {object<BaseMenuToggle>} details - The details object containing the BaseMenuToggle itself.
-     */
-    this.collapseEvent = new CustomEvent("accessibleMenuCollapse", {
-      bubbles: true,
-      detail: { toggle: this },
-    });
+    this._elements.controlledMenu = controlledMenu;
+    this._elements.parentMenu = parentMenu;
   }
 
   /**
@@ -154,40 +179,41 @@ class BaseMenuToggle {
   }
 
   /**
-   * The DOM elements within the toggle.
+   * Get the DOM elements within the toggle.
    *
    * @type {object.<HTMLElement>}
-   * @property {HTMLElement} toggle - The menu toggle.
-   * @property {HTMLElement} parent - The menu containing this toggle.
+   * @readonly
+   * @see _dom
    */
   get dom() {
-    return this.domElements;
+    return this._dom;
   }
 
   /**
-   * The declared accessible-menu elements within the menu toggle.
+   * Get the declared accessible-menu elements within the menu toggle.
    *
    * @type {object.<BaseMenu>}
-   * @property {BaseMenu} controlledMenu - The menu controlled by this toggle.
-   * @property {BaseMenu} parentMenu     - The menu containing this toggle.
+   * @readonly
+   * @see _elements
    */
   get elements() {
-    return this.menuElements;
+    return this._elements;
   }
 
   /**
-   * The open state on the menu.
+   * Get the open state on the menu.
    *
    * @type {boolean}
+   * @see _open
    */
   get isOpen() {
-    return this.show;
+    return this._open;
   }
 
   set isOpen(value) {
     isValidType("boolean", { value });
 
-    this.show = value;
+    this._open = value;
   }
 
   /**
@@ -228,7 +254,7 @@ class BaseMenuToggle {
     }
 
     if (emit) {
-      this.dom.toggle.dispatchEvent(this.expandEvent);
+      this.dom.toggle.dispatchEvent(this._expandEvent);
     }
   }
 
@@ -270,7 +296,7 @@ class BaseMenuToggle {
     }
 
     if (emit) {
-      this.dom.toggle.dispatchEvent(this.collapseEvent);
+      this.dom.toggle.dispatchEvent(this._collapseEvent);
     }
   }
 

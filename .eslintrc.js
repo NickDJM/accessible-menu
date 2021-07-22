@@ -24,6 +24,7 @@ module.exports = {
   },
   settings: {
     jsdoc: {
+      mode: "permissive",
       tagNamePreference: {
         augments: {
           message:

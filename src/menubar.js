@@ -12,12 +12,32 @@ import { isEventSupported } from "./validate.js";
  * @extends BaseMenu
  */
 class Menubar extends BaseMenu {
-  MenuType = Menubar;
-  MenuItemType = MenubarItem;
-  MenuToggleType = MenubarToggle;
+  /**
+   * The class to use when generating submenus.
+   *
+   * @type {typeof Menubar}
+   * @protected
+   */
+  _MenuType = Menubar;
 
   /**
-   * @inheritdoc
+   * The class to use when generating menu items.
+   *
+   * @type {typeof MenubarItem}
+   * @protected
+   */
+  _MenuItemType = MenubarItem;
+
+  /**
+   * The class to use when generating submenu toggles.
+   *
+   * @type {typeof MenubarToggle}
+   * @protected
+   */
+  _MenuToggleType = MenubarToggle;
+
+  /**
+   * Constructs the menu.
    *
    * @param {object}                 options                             - The options for generating the menu.
    * @param {HTMLElement}            options.menuElement                 - The menu element in the DOM.
