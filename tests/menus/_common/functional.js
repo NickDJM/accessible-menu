@@ -18,7 +18,7 @@ import {
 /**
  * A set of open/close tests.
  *
- * @param {(DisclosureMenu|Menubar|Treeview)} MenuClass - The menu class to test.
+ * @param {(typeof DisclosureMenu|typeof Menubar|typeof Treeview)} MenuClass - The menu class to test.
  */
 export function openClose(MenuClass) {
   const menuType = MenuClass.name;
@@ -96,7 +96,7 @@ export function openClose(MenuClass) {
 /**
  * A set of click tests.
  *
- * @param {(DisclosureMenu|Menubar|Treeview)} MenuClass - The menu class to test.
+ * @param {(typeof DisclosureMenu|typeof Menubar|typeof Treeview)} MenuClass - The menu class to test.
  */
 export function clickTests(MenuClass) {
   const menuType = MenuClass.name;
@@ -210,7 +210,7 @@ export function clickTests(MenuClass) {
 /**
  * A set of hover tests.
  *
- * @param {(DisclosureMenu|Menubar|Treeview)} MenuClass - The menu class to test.
+ * @param {(typeof DisclosureMenu|typeof Menubar|typeof Treeview)} MenuClass - The menu class to test.
  */
 export function hoverTests(MenuClass) {
   const menuType = MenuClass.name;
@@ -387,7 +387,7 @@ export function hoverTests(MenuClass) {
 /**
  * A set of base keypress tests.
  *
- * @param {(DisclosureMenu|Menubar|Treeview)} MenuClass - The menu class to test.
+ * @param {(typeof DisclosureMenu|typeof Menubar|typeof Treeview)} MenuClass - The menu class to test.
  */
 export function baseKeypressTests(MenuClass) {
   const menuType = MenuClass.name;
