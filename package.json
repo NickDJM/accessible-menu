@@ -1,6 +1,6 @@
 {
   "name": "accessible-menu",
-  "version": "3.0.0-alpha.1",
+  "version": "3.0.0-alpha.2",
   "description": "A JavaScript library to help you generate WCAG accessible menus in the DOM.",
   "main": "index.js",
   "files": [
@@ -35,7 +35,8 @@
     "nav",
     "navigation",
     "menubar",
-    "disclosure menu"
+    "disclosure menu",
+    "treeview"
   ],
   "author": "Nick Milton",
   "license": "ISC",
