@@ -12,7 +12,7 @@
  * @param   {object} contructor - The constructor to check for.
  * @param   {object} elements   - The element(s) to check.
  *
- * @returns {boolean} - The result of the check.
+ * @return {boolean} - The result of the check.
  */
 export function isValidInstance(contructor, elements) {
   try {
@@ -54,7 +54,7 @@ export function isValidInstance(contructor, elements) {
  * @param   {string} type   - The type to check for.
  * @param   {object} values - The value(s) to check.
  *
- * @returns {boolean} - The result of the check.
+ * @return {boolean} - The result of the check.
  */
 export function isValidType(type, values) {
   try {
@@ -93,7 +93,7 @@ export function isValidType(type, values) {
  *
  * @param   {object.<string>} values - The value(s) to check.
  *
- * @returns {boolean} - The result of the check.
+ * @return {boolean} - The result of the check.
  */
 export function isCSSSelector(values) {
   try {
@@ -136,7 +136,7 @@ export function isCSSSelector(values) {
  *
  * @param   {object.<string,string[]>} values - The value(s) to check.
  *
- * @returns {boolean} - The result of the check.
+ * @return {boolean} - The result of the check.
  */
 export function isValidClassList(values) {
   try {
@@ -190,7 +190,7 @@ export function isValidClassList(values) {
  *
  * @param   {object.<string>} values - The value(s) to check.
  *
- * @returns {boolean} - The result of the check.
+ * @return {boolean} - The result of the check.
  */
 export function isValidState(values) {
   try {
@@ -231,7 +231,7 @@ export function isValidState(values) {
  *
  * @param   {object.<string>} values - The value(s) to check.
  *
- * @returns {boolean} - The result of the check.
+ * @return {boolean} - The result of the check.
  */
 export function isValidEvent(values) {
   try {
@@ -272,7 +272,7 @@ export function isValidEvent(values) {
  *
  * @param   {object.<string>} values - The value(s) to check.
  *
- * @returns {boolean} - The result of the check.
+ * @return {boolean} - The result of the check.
  */
 export function isValidHoverType(values) {
   try {
@@ -312,7 +312,7 @@ export function isValidHoverType(values) {
  * @param   {string}               tagName  - The name of the tag.
  * @param   {object.<HTMLElement>} elements - The element(s) to check.
  *
- * @returns {boolean} - The result of the check.
+ * @return {boolean} - The result of the check.
  */
 export function isTag(tagName, elements) {
   if (
@@ -338,7 +338,7 @@ export function isTag(tagName, elements) {
  * @param   {string}      event   - The event type.
  * @param   {HTMLElement} element - The element to check.
  *
- * @returns {boolean} - The result.
+ * @return {boolean} - The result.
  */
 export function isEventSupported(event, element) {
   if (

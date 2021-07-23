@@ -3,7 +3,7 @@
  *
  * @param   {KeyboardEvent} event - The keyboard event.
  *
- * @returns {string} - The name of the key or an empty string.
+ * @return {string} - The name of the key or an empty string.
  */
 export function keyPress(event) {
   try {
