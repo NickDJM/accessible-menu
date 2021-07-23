@@ -1,10 +1,11 @@
 import { babel } from "@rollup/plugin-babel";
 import { terser } from "rollup-plugin-terser";
+import cleanup from "rollup-plugin-cleanup";
 
 export default [
   {
     input: "./rollup.js",
-    plugins: [babel({ babelHelpers: "inline" })],
+    plugins: [babel({ babelHelpers: "inline" }), cleanup()],
     output: [
       {
         name: "AccessibleMenu",
@@ -23,7 +24,7 @@ export default [
   },
   {
     input: "./src/disclosureMenu.js",
-    plugins: [babel({ babelHelpers: "bundled" })],
+    plugins: [babel({ babelHelpers: "bundled" }), cleanup()],
     output: [
       {
         name: "DisclosureMenu",
@@ -55,7 +56,7 @@ export default [
   },
   {
     input: "./src/menubar.js",
-    plugins: [babel({ babelHelpers: "bundled" })],
+    plugins: [babel({ babelHelpers: "bundled" }), cleanup()],
     output: [
       {
         name: "Menubar",
@@ -87,7 +88,7 @@ export default [
   },
   {
     input: "./src/treeview.js",
-    plugins: [babel({ babelHelpers: "bundled" })],
+    plugins: [babel({ babelHelpers: "bundled" }), cleanup()],
     output: [
       {
         name: "Treeview",
