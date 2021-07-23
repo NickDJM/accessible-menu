@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0-alpha.3](https://github.com/NickDJM/accessible-menu/compare/v3.0.0-alpha.2...v3.0.0-alpha.3) (2021-07-23)
+
+
+### ⚠ BREAKING CHANGES
+
+* **fields:** renamed all class fields to start with _ to mark them as protected
+
+### Bug Fixes
+
+* correct typo in error message during initialization ([7190697](https://github.com/NickDJM/accessible-menu/commit/71906977db3e24c202858671f733fe1d1ecea690))
+
+
+### Performance Improvements
+
+* **validation:** add custom validation for DisclosureMenus to handle _optionalSupport field ([be4f370](https://github.com/NickDJM/accessible-menu/commit/be4f370496ba71a88546f487e1287668e06baf89))
+
+
+### Code Refactoring
+
+* **fields:** rename and declare class fields outside of constructors ([d725043](https://github.com/NickDJM/accessible-menu/commit/d725043c1239e44d2b608a488929288c2be9cfe5)), closes [#114](https://github.com/NickDJM/accessible-menu/issues/114)
+
+
+### Build System
+
+* **rollup:** add cleanup plugin to remove comments from bundled code ([8f15e77](https://github.com/NickDJM/accessible-menu/commit/8f15e77ca361ef3803050799d27701bb4282698c))
+
 ## [3.0.0-alpha.2](https://github.com/NickDJM/accessible-menu/compare/v3.0.0-alpha.1...v3.0.0-alpha.2) (2021-07-21)
 
 
