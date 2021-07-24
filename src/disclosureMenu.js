@@ -16,7 +16,7 @@ class DisclosureMenu extends BaseMenu {
    * The class to use when generating submenus.
    *
    * @type {typeof DisclosureMenu}
-   * @public
+   * @protected
    */
   _MenuType = DisclosureMenu;
 
@@ -24,7 +24,7 @@ class DisclosureMenu extends BaseMenu {
    * The class to use when generating menu items.
    *
    * @type {typeof DisclosureMenuItem}
-   * @public
+   * @protected
    */
   _MenuItemType = DisclosureMenuItem;
 
@@ -32,7 +32,7 @@ class DisclosureMenu extends BaseMenu {
    * The class to use when generating submenu toggles.
    *
    * @type {typeof DisclosureMenuToggle}
-   * @public
+   * @protected
    */
   _MenuToggleType = DisclosureMenuToggle;
 
