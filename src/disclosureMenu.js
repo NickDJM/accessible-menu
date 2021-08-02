@@ -10,6 +10,41 @@ import { isValidType, isEventSupported } from "./validate.js";
  * See {@link https://www.w3.org/TR/wai-aria-practices-1.2/examples/disclosure/disclosure-navigation.html|Example Disclosure for Navigation Menus}
  *
  * @extends BaseMenu
+ *
+ * @example
+ * <caption>A single-level menu</caption>
+ * // Import the class.
+ * import { DisclosureMenu } from "accessible-menu";
+ *
+ * // Create the menu.
+ * const menu = new DisclosureMenu({
+ *   menuElement: document.querySelector("nav ul"),
+ * });
+ *
+ * @example
+ * <caption>A single-level collapsible menu</caption>
+ * // Import the class.
+ * import { DisclosureMenu } from "accessible-menu";
+ *
+ * // Create the menu.
+ * const menu = new DisclosureMenu({
+ *   menuElement: document.querySelector("nav ul"),
+ *   controllerElement: document.querySelector("nav button"),
+ *   containerElement: document.querySelector("nav"),
+ * });
+ *
+ * @example
+ * <caption>A two-level collapsible menu</caption>
+ * // Import the class.
+ * import { DisclosureMenu } from "accessible-menu";
+ *
+ * // Create the menu.
+ * const menu = new DisclosureMenu({
+ *   menuElement: document.querySelector("nav ul"),
+ *   submenuItemSelector: "li.dropdown",
+ *   controllerElement: document.querySelector("nav button"),
+ *   containerElement: document.querySelector("nav"),
+ * });
  */
 class DisclosureMenu extends BaseMenu {
   /**

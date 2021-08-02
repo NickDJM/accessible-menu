@@ -9,6 +9,41 @@ import { keyPress, preventEvent } from "./eventHandlers.js";
  * See {@link https://www.w3.org/TR/wai-aria-practices-1.2/examples/treeview/treeview-2/treeview-2a.html|Navigation Treeview Example Using Computed Properties}
  *
  * @extends BaseMenu
+ *
+ * @example
+ * <caption>A single-level menu</caption>
+ * // Import the class.
+ * import { Treeview } from "accessible-menu";
+ *
+ * // Create the menu.
+ * const menu = new Treeview({
+ *   menuElement: document.querySelector("nav ul"),
+ * });
+ *
+ * @example
+ * <caption>A single-level collapsible menu</caption>
+ * // Import the class.
+ * import { Treeview } from "accessible-menu";
+ *
+ * // Create the menu.
+ * const menu = new Treeview({
+ *   menuElement: document.querySelector("nav ul"),
+ *   controllerElement: document.querySelector("nav button"),
+ *   containerElement: document.querySelector("nav"),
+ * });
+ *
+ * @example
+ * <caption>A two-level collapsible menu</caption>
+ * // Import the class.
+ * import { Treeview } from "accessible-menu";
+ *
+ * // Create the menu.
+ * const menu = new Treeview({
+ *   menuElement: document.querySelector("nav ul"),
+ *   submenuItemSelector: "li.dropdown",
+ *   controllerElement: document.querySelector("nav button"),
+ *   containerElement: document.querySelector("nav"),
+ * });
  */
 class Treeview extends BaseMenu {
   /**
