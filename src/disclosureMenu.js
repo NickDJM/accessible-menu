@@ -10,6 +10,18 @@ import { isValidType, isEventSupported } from "./validate.js";
  * See {@link https://www.w3.org/TR/wai-aria-practices-1.2/examples/disclosure/disclosure-navigation.html|Example Disclosure for Navigation Menus}
  *
  * @extends BaseMenu
+ *
+ * @example
+ * // Import the class.
+ * import { DisclosureMenu } from "accessible-menu";
+ *
+ * // Select the desired menu element.
+ * const menuElement = document.querySelector("nav ul");
+ *
+ * // Create the menu.
+ * const menu = new DisclosureMenu({
+ *   menuElement,
+ * });
  */
 class DisclosureMenu extends BaseMenu {
   /**
