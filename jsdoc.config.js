@@ -13,6 +13,6 @@ module.exports = {
     recurse: true,
   },
   docdash: {
-    search: true,
+    sort: false,
   },
 };
