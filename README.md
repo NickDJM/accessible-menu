@@ -171,9 +171,13 @@ const menu = new Treeview({
 
 Looking for a working example of **accessible-menu**? Check out these jsfiddles:
 
-- [Custom implementation](https://jsfiddle.net/NickDJM/yokxg0vr/)
-- [Bootstrap 4](https://jsfiddle.net/NickDJM/ku28qd97/)
-- [TailwindCSS](https://jsfiddle.net/NickDJM/4rfsqw5z/)
+- [Collapsible DisclosureMenu with optional key support](https://jsfiddle.net/NickDJM/boa82u0g/)
+- [Collapsible Menubar](https://jsfiddle.net/NickDJM/4hpmtnLc/)
+- [Treeview](https://jsfiddle.net/NickDJM/xzndc3u1/)
+
+#### Bootstrap support
+
+Looking to use this with Bootstrap? Because Bootstrap adds classes to the menu's containing element to show/hide the menu, you'll need custom open/close functions for your menu. Check out the [accessible-menu-bootstrap-4](https://www.npmjs.com/package/accessible-menu-bootstrap-4) project where all that is done for you!
 
 ## Versioning
 
