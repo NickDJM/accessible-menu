@@ -12,38 +12,15 @@ import { isEventSupported } from "./validate.js";
  * @extends BaseMenu
  *
  * @example
- * <caption>A single-level menu</caption>
  * // Import the class.
  * import { Menubar } from "accessible-menu";
  *
- * // Create the menu.
- * const menu = new Menubar({
- *   menuElement: document.querySelector("nav ul"),
- * });
- *
- * @example
- * <caption>A single-level collapsible menu</caption>
- * // Import the class.
- * import { Menubar } from "accessible-menu";
+ * // Select the desired menu element.
+ * const menuElement = document.querySelector("nav ul");
  *
  * // Create the menu.
  * const menu = new Menubar({
- *   menuElement: document.querySelector("nav ul"),
- *   controllerElement: document.querySelector("nav button"),
- *   containerElement: document.querySelector("nav"),
- * });
- *
- * @example
- * <caption>A two-level collapsible menu</caption>
- * // Import the class.
- * import { Menubar } from "accessible-menu";
- *
- * // Create the menu.
- * const menu = new Menubar({
- *   menuElement: document.querySelector("nav ul"),
- *   submenuItemSelector: "li.dropdown",
- *   controllerElement: document.querySelector("nav button"),
- *   containerElement: document.querySelector("nav"),
+ *   menuElement,
  * });
  */
 class Menubar extends BaseMenu {
