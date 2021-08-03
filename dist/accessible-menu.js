@@ -250,7 +250,7 @@ var AccessibleMenu = (function () {
         }
         this.elements.controlledMenu.dom.menu.setAttribute("aria-labelledby", this.dom.toggle.id);
         this.dom.toggle.setAttribute("aria-controls", this.elements.controlledMenu.dom.menu.id);
-        this.collapse(false);
+        this._collapse(false);
       }
     }, {
       key: "dom",
@@ -274,8 +274,8 @@ var AccessibleMenu = (function () {
         this._open = value;
       }
     }, {
-      key: "expand",
-      value: function expand() {
+      key: "_expand",
+      value: function _expand() {
         var emit = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
         var _this$elements$contro = this.elements.controlledMenu,
             closeClass = _this$elements$contro.closeClass,
@@ -302,8 +302,8 @@ var AccessibleMenu = (function () {
         }
       }
     }, {
-      key: "collapse",
-      value: function collapse() {
+      key: "_collapse",
+      value: function _collapse() {
         var emit = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
         var _this$elements$contro4 = this.elements.controlledMenu,
             closeClass = _this$elements$contro4.closeClass,
@@ -333,7 +333,7 @@ var AccessibleMenu = (function () {
       key: "open",
       value: function open() {
         this.elements.controlledMenu.focusState = "self";
-        this.expand();
+        this._expand();
         this.isOpen = true;
       }
     }, {
@@ -342,7 +342,7 @@ var AccessibleMenu = (function () {
         if (this.elements.parentMenu) {
           this.elements.parentMenu.focusState = "self";
         }
-        this.expand();
+        this._expand();
         this.isOpen = true;
       }
     }, {
@@ -354,7 +354,7 @@ var AccessibleMenu = (function () {
           if (this.elements.parentMenu) {
             this.elements.parentMenu.focusState = "self";
           }
-          this.collapse();
+          this._collapse();
           this.isOpen = false;
         }
       }
@@ -582,11 +582,11 @@ var AccessibleMenu = (function () {
     _createClass$7(BaseMenu, [{
       key: "initialize",
       value: function initialize() {
-        if (!this.validate()) {
+        if (!this._validate()) {
           throw new Error("AccesibleMenu: cannot initialize menu. See other error messages for more information.");
         }
-        if (this.elements.rootMenu === null) this.findRootMenu(this);
-        this.setDOMElements();
+        if (this.elements.rootMenu === null) this._findRootMenu(this);
+        this._setDOMElements();
         if (this.isTopLevel) {
           if (this.dom.controller && this.dom.container) {
             var toggle = new this._MenuToggleType({
@@ -597,7 +597,7 @@ var AccessibleMenu = (function () {
             this._elements.controller = toggle;
           }
         }
-        this.createChildElements();
+        this._createChildElements();
       }
     }, {
       key: "dom",
@@ -771,8 +771,8 @@ var AccessibleMenu = (function () {
         return check;
       }
     }, {
-      key: "validate",
-      value: function validate() {
+      key: "_validate",
+      value: function _validate() {
         var check = true;
         if (this._dom.container !== null || this._dom.controller !== null) {
           if (!isValidInstance(HTMLElement, {
@@ -836,106 +836,71 @@ var AccessibleMenu = (function () {
         return check;
       }
     }, {
-      key: "setDOMElementType",
-      value: function setDOMElementType(elementType, base, filter) {
+      key: "_setDOMElementType",
+      value: function _setDOMElementType(elementType) {
+        var base = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.dom.menu;
+        var overwrite = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
         if (typeof this.selectors[elementType] === "string") {
-          if (base) isValidInstance(HTMLElement, {
+          if (!Array.isArray(this.dom[elementType])) {
+            throw new Error("AccessibleMenu: The \"".concat(elementType, "\" element cannot be set through _setDOMElementType."));
+          }
+          if (base !== this.dom.menu) isValidInstance(HTMLElement, {
             base: base
           });
-          var baseElement = base || this.dom.menu;
-          var baseFilter = function baseFilter(item) {
-            return item.parentElement === baseElement;
-          };
-          var selector = this.selectors[elementType];
-          var domElements = Array.from(baseElement.querySelectorAll(selector));
-          if (typeof filter !== "undefined") {
-            if (typeof filter === "function") {
-              this._dom[elementType] = domElements.filter(function (item) {
-                return filter(item);
-              });
-            } else {
-              this._dom[elementType] = domElements;
-            }
+          var domElements = Array.from(base.querySelectorAll(this.selectors[elementType]));
+          var filteredElements = domElements.filter(function (item) {
+            return item.parentElement === base;
+          });
+          if (overwrite) {
+            this._dom[elementType] = filteredElements;
           } else {
-            this._dom[elementType] = domElements.filter(function (item) {
-              return baseFilter(item);
-            });
+            this._dom[elementType] = [].concat(_toConsumableArray$1(this._dom[elementType]), _toConsumableArray$1(filteredElements));
           }
         } else {
-          throw new Error("".concat(elementType, " is not a valid element type within the menu."));
+          throw new Error("AccessibleMenu: \"".concat(elementType, "\" is not a valid element type within the menu."));
         }
       }
     }, {
-      key: "addDOMElementType",
-      value: function addDOMElementType(elementType, base, filter) {
-        if (typeof this.selectors[elementType] === "string") {
-          if (base) isValidInstance(HTMLElement, {
-            base: base
-          });
-          var baseElement = base || this.dom.menu;
-          var baseFilter = function baseFilter(item) {
-            return item.parentElement === baseElement;
-          };
-          var selector = this.selectors[elementType];
-          var domElements = Array.from(baseElement.querySelectorAll(selector));
-          if (typeof filter !== "undefined") {
-            if (typeof filter === "function") {
-              this._dom[elementType] = [].concat(_toConsumableArray$1(this._dom[elementType]), _toConsumableArray$1(domElements.filter(function (item) {
-                return filter(item);
-              })));
-            } else {
-              this._dom[elementType] = [].concat(_toConsumableArray$1(this._dom[elementType]), _toConsumableArray$1(domElements));
-            }
-          } else {
-            this._dom[elementType] = [].concat(_toConsumableArray$1(this._dom[elementType]), _toConsumableArray$1(domElements.filter(function (item) {
-              return baseFilter(item);
-            })));
+      key: "_resetDOMElementType",
+      value: function _resetDOMElementType(elementType) {
+        if (typeof this.dom[elementType] !== "undefined") {
+          if (!Array.isArray(this.dom[elementType])) {
+            throw new Error("AccessibleMenu: The \"".concat(elementType, "\" element cannot be reset through _resetDOMElementType."));
           }
-        } else {
-          throw new Error("".concat(elementType, " is not a valid element type within the menu."));
-        }
-      }
-    }, {
-      key: "clearDOMElementType",
-      value: function clearDOMElementType(elementType) {
-        if (elementType === "menu") return;
-        if (Array.isArray(this._dom[elementType])) {
           this._dom[elementType] = [];
-        } else if (typeof this._dom[elementType] !== "undefined") {
-          this._dom[elementType] = null;
         } else {
-          throw new Error("".concat(elementType, " is not a valid element type within the menu."));
+          throw new Error("AccessibleMenu: \"".concat(elementType, "\" is not a valid element type within the menu."));
         }
       }
     }, {
-      key: "setDOMElements",
-      value: function setDOMElements() {
+      key: "_setDOMElements",
+      value: function _setDOMElements() {
         var _this = this;
-        this.setDOMElementType("menuItems");
+        this._setDOMElementType("menuItems");
         if (this.selectors.submenuItems !== "") {
-          this.setDOMElementType("submenuItems");
-          this.clearDOMElementType("submenuToggles");
-          this.clearDOMElementType("submenus");
+          this._setDOMElementType("submenuItems");
+          this._resetDOMElementType("submenuToggles");
+          this._resetDOMElementType("submenus");
           this.dom.submenuItems.forEach(function (item) {
-            _this.addDOMElementType("submenuToggles", item);
-            _this.addDOMElementType("submenus", item);
+            _this._setDOMElementType("submenuToggles", item, false);
+            _this._setDOMElementType("submenus", item, false);
           });
         }
       }
     }, {
-      key: "findRootMenu",
-      value: function findRootMenu(menu) {
+      key: "_findRootMenu",
+      value: function _findRootMenu(menu) {
         if (menu.isTopLevel) {
           this._elements.rootMenu = menu;
         } else if (menu.elements.parentMenu !== null) {
-          this.findRootMenu(menu.elements.parentMenu);
+          this._findRootMenu(menu.elements.parentMenu);
         } else {
           throw new Error("Cannot find root menu.");
         }
       }
     }, {
-      key: "createChildElements",
-      value: function createChildElements() {
+      key: "_createChildElements",
+      value: function _createChildElements() {
         var _this2 = this;
         this.dom.menuItems.forEach(function (element) {
           var menuItem;
@@ -983,8 +948,8 @@ var AccessibleMenu = (function () {
         });
       }
     }, {
-      key: "handleFocus",
-      value: function handleFocus() {
+      key: "_handleFocus",
+      value: function _handleFocus() {
         var _this3 = this;
         this.elements.menuItems.forEach(function (menuItem, index) {
           menuItem.dom.link.addEventListener("focus", function () {
@@ -994,8 +959,8 @@ var AccessibleMenu = (function () {
         });
       }
     }, {
-      key: "handleClick",
-      value: function handleClick() {
+      key: "_handleClick",
+      value: function _handleClick() {
         var _this4 = this;
         var startEventType = isEventSupported("touchstart", this.dom.menu) ? "touchstart" : "mousedown";
         var endEventType = isEventSupported("touchend", this.dom.menu) ? "touchend" : "mouseup";
@@ -1028,8 +993,8 @@ var AccessibleMenu = (function () {
         }
       }
     }, {
-      key: "handleHover",
-      value: function handleHover() {
+      key: "_handleHover",
+      value: function _handleHover() {
         var _this5 = this;
         this.elements.menuItems.forEach(function (menuItem, index) {
           menuItem.dom.link.addEventListener("mouseenter", function () {
@@ -1086,8 +1051,8 @@ var AccessibleMenu = (function () {
         });
       }
     }, {
-      key: "handleKeydown",
-      value: function handleKeydown() {
+      key: "_handleKeydown",
+      value: function _handleKeydown() {
         var _this6 = this;
         if (this.isTopLevel && this.elements.controller) {
           this.elements.controller.dom.toggle.addEventListener("keydown", function (event) {
@@ -1100,8 +1065,8 @@ var AccessibleMenu = (function () {
         }
       }
     }, {
-      key: "handleKeyup",
-      value: function handleKeyup() {
+      key: "_handleKeyup",
+      value: function _handleKeyup() {
         var _this7 = this;
         if (this.isTopLevel && this.elements.controller) {
           this.elements.controller.dom.toggle.addEventListener("keyup", function (event) {
@@ -1405,6 +1370,20 @@ var AccessibleMenu = (function () {
       return _this;
     }
     _createClass$5(DisclosureMenu, [{
+      key: "initialize",
+      value: function initialize() {
+        try {
+          _get$5(_getPrototypeOf$6(DisclosureMenu.prototype), "initialize", this).call(this);
+          this._handleFocus();
+          this._handleClick();
+          this._handleHover();
+          this._handleKeydown();
+          this._handleKeyup();
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    }, {
       key: "optionalKeySupport",
       get: function get() {
         return this.isTopLevel ? this._optionalSupport : this.elements.rootMenu.optionalKeySupport;
@@ -1416,23 +1395,9 @@ var AccessibleMenu = (function () {
         this._optionalSupport = value;
       }
     }, {
-      key: "initialize",
-      value: function initialize() {
-        try {
-          _get$5(_getPrototypeOf$6(DisclosureMenu.prototype), "initialize", this).call(this);
-          this.handleFocus();
-          this.handleClick();
-          this.handleHover();
-          this.handleKeydown();
-          this.handleKeyup();
-        } catch (error) {
-          console.error(error);
-        }
-      }
-    }, {
-      key: "validate",
-      value: function validate() {
-        var check = _get$5(_getPrototypeOf$6(DisclosureMenu.prototype), "validate", this).call(this);
+      key: "_validate",
+      value: function _validate() {
+        var check = _get$5(_getPrototypeOf$6(DisclosureMenu.prototype), "_validate", this).call(this);
         if (!isValidType("boolean", {
           optionalKeySupport: this._optionalSupport
         })) {
@@ -1441,10 +1406,10 @@ var AccessibleMenu = (function () {
         return check;
       }
     }, {
-      key: "handleClick",
-      value: function handleClick() {
+      key: "_handleClick",
+      value: function _handleClick() {
         var _this2 = this;
-        _get$5(_getPrototypeOf$6(DisclosureMenu.prototype), "handleClick", this).call(this);
+        _get$5(_getPrototypeOf$6(DisclosureMenu.prototype), "_handleClick", this).call(this);
         var endEventType = isEventSupported("touchend", this.dom.menu) ? "touchend" : "mouseup";
         document.addEventListener(endEventType, function (event) {
           if (_this2.focusState !== "none") {
@@ -1460,10 +1425,10 @@ var AccessibleMenu = (function () {
         });
       }
     }, {
-      key: "handleKeydown",
-      value: function handleKeydown() {
+      key: "_handleKeydown",
+      value: function _handleKeydown() {
         var _this3 = this;
-        _get$5(_getPrototypeOf$6(DisclosureMenu.prototype), "handleKeydown", this).call(this);
+        _get$5(_getPrototypeOf$6(DisclosureMenu.prototype), "_handleKeydown", this).call(this);
         this.dom.menu.addEventListener("keydown", function (event) {
           _this3.currentEvent = "keyboard";
           var key = keyPress(event);
@@ -1487,10 +1452,10 @@ var AccessibleMenu = (function () {
         });
       }
     }, {
-      key: "handleKeyup",
-      value: function handleKeyup() {
+      key: "_handleKeyup",
+      value: function _handleKeyup() {
         var _this4 = this;
-        _get$5(_getPrototypeOf$6(DisclosureMenu.prototype), "handleKeyup", this).call(this);
+        _get$5(_getPrototypeOf$6(DisclosureMenu.prototype), "_handleKeyup", this).call(this);
         this.dom.menu.addEventListener("keyup", function (event) {
           _this4.currentEvent = "keyboard";
           var key = keyPress(event);
@@ -1756,11 +1721,11 @@ var AccessibleMenu = (function () {
         try {
           _get$2(_getPrototypeOf$3(Menubar.prototype), "initialize", this).call(this);
           this.dom.menu.setAttribute("role", "menubar");
-          this.handleFocus();
-          this.handleClick();
-          this.handleHover();
-          this.handleKeydown();
-          this.handleKeyup();
+          this._handleFocus();
+          this._handleClick();
+          this._handleHover();
+          this._handleKeydown();
+          this._handleKeyup();
           if (this.isTopLevel) {
             this.elements.menuItems[0].dom.link.tabIndex = 0;
           }
@@ -1769,10 +1734,10 @@ var AccessibleMenu = (function () {
         }
       }
     }, {
-      key: "handleClick",
-      value: function handleClick() {
+      key: "_handleClick",
+      value: function _handleClick() {
         var _this2 = this;
-        _get$2(_getPrototypeOf$3(Menubar.prototype), "handleClick", this).call(this);
+        _get$2(_getPrototypeOf$3(Menubar.prototype), "_handleClick", this).call(this);
         var endEventType = isEventSupported("touchend", this.dom.menu) ? "touchend" : "mouseup";
         document.addEventListener(endEventType, function (event) {
           if (_this2.focusState !== "none") {
@@ -1788,10 +1753,10 @@ var AccessibleMenu = (function () {
         });
       }
     }, {
-      key: "handleKeydown",
-      value: function handleKeydown() {
+      key: "_handleKeydown",
+      value: function _handleKeydown() {
         var _this3 = this;
-        _get$2(_getPrototypeOf$3(Menubar.prototype), "handleKeydown", this).call(this);
+        _get$2(_getPrototypeOf$3(Menubar.prototype), "_handleKeydown", this).call(this);
         this.dom.menu.addEventListener("keydown", function (event) {
           _this3.currentEvent = "keyboard";
           var key = keyPress(event);
@@ -1830,10 +1795,10 @@ var AccessibleMenu = (function () {
         });
       }
     }, {
-      key: "handleKeyup",
-      value: function handleKeyup() {
+      key: "_handleKeyup",
+      value: function _handleKeyup() {
         var _this4 = this;
-        _get$2(_getPrototypeOf$3(Menubar.prototype), "handleKeyup", this).call(this);
+        _get$2(_getPrototypeOf$3(Menubar.prototype), "_handleKeyup", this).call(this);
         this.dom.menu.addEventListener("keyup", function (event) {
           _this4.currentEvent = "keyboard";
           var key = keyPress(event);
@@ -2216,20 +2181,20 @@ var AccessibleMenu = (function () {
           } else {
             this.dom.menu.setAttribute("role", "group");
           }
-          this.handleFocus();
-          this.handleClick();
-          this.handleHover();
-          this.handleKeydown();
-          this.handleKeyup();
+          this._handleFocus();
+          this._handleClick();
+          this._handleHover();
+          this._handleKeydown();
+          this._handleKeyup();
         } catch (error) {
           console.error(error);
         }
       }
     }, {
-      key: "handleKeydown",
-      value: function handleKeydown() {
+      key: "_handleKeydown",
+      value: function _handleKeydown() {
         var _this2 = this;
-        _get(_getPrototypeOf(Treeview.prototype), "handleKeydown", this).call(this);
+        _get(_getPrototypeOf(Treeview.prototype), "_handleKeydown", this).call(this);
         this.dom.menu.addEventListener("keydown", function (event) {
           _this2.currentEvent = "keyboard";
           var key = keyPress(event);
@@ -2255,10 +2220,10 @@ var AccessibleMenu = (function () {
         });
       }
     }, {
-      key: "handleKeyup",
-      value: function handleKeyup() {
+      key: "_handleKeyup",
+      value: function _handleKeyup() {
         var _this3 = this;
-        _get(_getPrototypeOf(Treeview.prototype), "handleKeyup", this).call(this);
+        _get(_getPrototypeOf(Treeview.prototype), "_handleKeyup", this).call(this);
         this.dom.menu.addEventListener("keyup", function (event) {
           _this3.currentEvent = "keyboard";
           var key = keyPress(event);
