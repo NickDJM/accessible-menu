@@ -260,7 +260,7 @@ class BaseMenu {
     if (this.elements.rootMenu === null) this.findRootMenu(this);
 
     // Set all of the DOM elements.
-    this.setDOMElements();
+    this._setDOMElements();
 
     if (this.isTopLevel) {
       if (this.dom.controller && this.dom.container) {
@@ -659,94 +659,70 @@ class BaseMenu {
   /**
    * Sets DOM elements within the menu.
    *
-   * This will set the actual `domElement` property, so all existing items in a
-   * given `domElement` property will be removed when this is run.
+   * Elements that are not stored inside an array cannot be set through this method.
    *
-   * @param {string}      elementType - The type of element to populate.
-   * @param {HTMLElement} base        - The element used as the base for the querySelect.
-   * @param {Function}    filter      - A filter to use to narrow down the DOM elements selected.
+   * @param {string}      elementType            - The type of element to populate.
+   * @param {HTMLElement} [base = this.dom.menu] - The element used as the base for the querySelect.
+   * @param {boolean}     [overwrite = true]     - A flag to set if the existing elements will be overwritten.
+   *
+   * @protected
    */
-  setDOMElementType(elementType, base, filter) {
+  _setDOMElementType(elementType, base = this.dom.menu, overwrite = true) {
     if (typeof this.selectors[elementType] === "string") {
-      if (base) isValidInstance(HTMLElement, { base });
-
-      const baseElement = base || this.dom.menu;
-      const baseFilter = (item) => item.parentElement === baseElement;
-      const selector = this.selectors[elementType];
-      const domElements = Array.from(baseElement.querySelectorAll(selector));
-
-      if (typeof filter !== "undefined") {
-        if (typeof filter === "function") {
-          this._dom[elementType] = domElements.filter((item) => filter(item));
-        } else {
-          this._dom[elementType] = domElements;
-        }
-      } else {
-        this._dom[elementType] = domElements.filter((item) => baseFilter(item));
+      if (!Array.isArray(this.dom[elementType])) {
+        throw new Error(
+          `AccessibleMenu: The "${elementType}" element cannot be set through _setDOMElementType.`
+        );
       }
-    } else {
-      throw new Error(
-        `${elementType} is not a valid element type within the menu.`
+
+      if (base !== this.dom.menu) isValidInstance(HTMLElement, { base });
+
+      // Get the all elements matching the selector in the base.
+      const domElements = Array.from(
+        base.querySelectorAll(this.selectors[elementType])
       );
-    }
-  }
 
-  /**
-   * Adds an element to DOM elements within the menu.
-   *
-   * This is an additive function, so existing items in a given `domElement`
-   * property will not be touched.
-   *
-   * @param {string}      elementType - The type of element to populate.
-   * @param {HTMLElement} base        - The element used as the base for the querySelect.
-   * @param {Function}    filter      - A filter to use to narrow down the DOM elements selected.
-   */
-  addDOMElementType(elementType, base, filter) {
-    if (typeof this.selectors[elementType] === "string") {
-      if (base) isValidInstance(HTMLElement, { base });
+      // Filter the elements so only direct children of the base are kept.
+      const filteredElements = domElements.filter(
+        (item) => item.parentElement === base
+      );
 
-      const baseElement = base || this.dom.menu;
-      const baseFilter = (item) => item.parentElement === baseElement;
-      const selector = this.selectors[elementType];
-      const domElements = Array.from(baseElement.querySelectorAll(selector));
-
-      if (typeof filter !== "undefined") {
-        if (typeof filter === "function") {
-          this._dom[elementType] = [
-            ...this._dom[elementType],
-            ...domElements.filter((item) => filter(item)),
-          ];
-        } else {
-          this._dom[elementType] = [...this._dom[elementType], ...domElements];
-        }
+      if (overwrite) {
+        this._dom[elementType] = filteredElements;
       } else {
         this._dom[elementType] = [
           ...this._dom[elementType],
-          ...domElements.filter((item) => baseFilter(item)),
+          ...filteredElements,
         ];
       }
     } else {
       throw new Error(
-        `${elementType} is not a valid element type within the menu.`
+        `AccessibleMenu: "${elementType}" is not a valid element type within the menu.`
       );
     }
   }
 
   /**
-   * Clears DOM elements within the menu.
+   * Resets DOM elements within the menu.
+   *
+   * Elements that are not stored inside an array cannot be reset through this method.
    *
    * @param {string} elementType - The type of element to clear.
+   *
+   * @protected
    */
-  clearDOMElementType(elementType) {
-    if (elementType === "menu") return;
+  _resetDOMElementType(elementType) {
+    if (typeof this.dom[elementType] !== "undefined") {
+      if (!Array.isArray(this.dom[elementType])) {
+        throw new Error(
+          `AccessibleMenu: The "${elementType}" element cannot be reset through _resetDOMElementType.`
+        );
+      }
 
-    if (Array.isArray(this._dom[elementType])) {
       this._dom[elementType] = [];
-    } else if (typeof this._dom[elementType] !== "undefined") {
-      this._dom[elementType] = null;
     } else {
       throw new Error(
-        `${elementType} is not a valid element type within the menu.`
+        `AccessibleMenu: "${elementType}" is not a valid element type within the menu.`
       );
     }
   }
@@ -754,22 +730,23 @@ class BaseMenu {
   /**
    * Sets all DOM elements within the menu.
    *
-   * Utiliizes {@link BaseMenu#setDOMElementType|setDOMElementType},
-   * {@link BaseMenu#clearDOMElementType|clearDOMElementType},
-   * and {@link BaseMenu#addDOMElementType|addDOMElementType}.
+   * Utiliizes {@link BaseMenu#_setDOMElementType|_setDOMElementType} and
+   * {@link BaseMenu#_resetDOMElementType|_resetDOMElementType}.
+   *
+   * @protected
    */
-  setDOMElements() {
-    this.setDOMElementType("menuItems");
+  _setDOMElements() {
+    this._setDOMElementType("menuItems");
 
     if (this.selectors.submenuItems !== "") {
-      this.setDOMElementType("submenuItems");
+      this._setDOMElementType("submenuItems");
 
-      this.clearDOMElementType("submenuToggles");
-      this.clearDOMElementType("submenus");
+      this._resetDOMElementType("submenuToggles");
+      this._resetDOMElementType("submenus");
 
       this.dom.submenuItems.forEach((item) => {
-        this.addDOMElementType("submenuToggles", item);
-        this.addDOMElementType("submenus", item);
+        this._setDOMElementType("submenuToggles", item, false);
+        this._setDOMElementType("submenus", item, false);
       });
     }
   }
