@@ -31,9 +31,9 @@ In version 2, Disclosure Menus _always_ had the [keyboard support that is labell
 
 You will need to set the [`optionalKeySupport`](https://accessible-menu.netlify.app/disclosuremenu#optionalKeySupport) value to `true` to gain access to the optional keyboard support.
 
-## Class field changes
+## Class field/method changes
 
-Version 3 of accessible-menu has cleaned up and renamed some class fields:
+Version 3 of accessible-menu has cleaned up and renamed some class fields and methods:
 
 ### Menu fields
 
@@ -48,6 +48,12 @@ Version 3 of accessible-menu has cleaned up and renamed some class fields:
 - `BaseMenu.event` has changed to `BaseMenu._currentEvent`
 - `BaseMenu.hoverable` has changed to `BaseMenu._hoverType`
 - `BaseMenu.delay` has changed to `BaseMenu._hoverDelay`
+
+### Menu methods
+
+- `BaseMenu.setDOMElementType()` and `BaseMenu.addDOMElementType()` have been merged into `BaseMenu._setDOMEelementType()`
+- `BaseMenu.clearDOMElementType()` has been renamed to `BaseMenu._resetDOMElementType()`
+- `BaseMenu.setDOMElements()` has been renamed to `BaseMenu._setDOMElements()`
 
 ### Menu item fields
 
