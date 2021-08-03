@@ -250,14 +250,14 @@ class BaseMenu {
    * @throws {Error} Will throw an Error if validate returns `false`.
    */
   initialize() {
-    if (!this.validate()) {
+    if (!this._validate()) {
       throw new Error(
         "AccesibleMenu: cannot initialize menu. See other error messages for more information."
       );
     }
 
     // Get the root menu if it doesn't exist.
-    if (this.elements.rootMenu === null) this.findRootMenu(this);
+    if (this.elements.rootMenu === null) this._findRootMenu(this);
 
     // Set all of the DOM elements.
     this._setDOMElements();
@@ -275,7 +275,7 @@ class BaseMenu {
       }
     }
 
-    this.createChildElements();
+    this._createChildElements();
   }
 
   /**
@@ -577,8 +577,10 @@ class BaseMenu {
    * Validates all aspects of the menu to ensure proper functionality.
    *
    * @return {boolean} - The result of the validation.
+   *
+   * @protected
    */
-  validate() {
+  _validate() {
     let check = true;
 
     if (this._dom.container !== null || this._dom.controller !== null) {
@@ -755,12 +757,14 @@ class BaseMenu {
    * Finds the root menu element.
    *
    * @param {BaseMenu} menu - The menu to check.
+   *
+   * @protected
    */
-  findRootMenu(menu) {
+  _findRootMenu(menu) {
     if (menu.isTopLevel) {
       this._elements.rootMenu = menu;
     } else if (menu.elements.parentMenu !== null) {
-      this.findRootMenu(menu.elements.parentMenu);
+      this._findRootMenu(menu.elements.parentMenu);
     } else {
       throw new Error("Cannot find root menu.");
     }
@@ -768,8 +772,10 @@ class BaseMenu {
 
   /**
    * Creates and initializes all menu items and submenus.
+   *
+   * @protected
    */
-  createChildElements() {
+  _createChildElements() {
     this.dom.menuItems.forEach((element) => {
       let menuItem;
 
@@ -836,8 +842,10 @@ class BaseMenu {
    * - Adds a `focus` listener to every menu item so when it gains focus,
    *   it will set the item's containing menu's {@link BaseMenu#focusState|focus state}
    *   to "self".
+   *
+   * @protected
    */
-  handleFocus() {
+  _handleFocus() {
     this.elements.menuItems.forEach((menuItem, index) => {
       menuItem.dom.link.addEventListener("focus", () => {
         this.focusState = "self";
@@ -862,8 +870,10 @@ class BaseMenu {
    * - Adds a `touchend`/`mouseup` listener to the menu's controller
    *   (if the menu is the root menu) so when it is clicked it will properly
    *   toggle open/closed.
+   *
+   * @protected
    */
-  handleClick() {
+  _handleClick() {
     // Use touch over mouse events when supported.
     const startEventType = isEventSupported("touchstart", this.dom.menu)
       ? "touchstart"
@@ -953,8 +963,10 @@ class BaseMenu {
    *
    * **Hover Type "off"**
    * All `mouseenter` and `mouseleave` events are ignored.
+   *
+   * @protected
    */
-  handleHover() {
+  _handleHover() {
     this.elements.menuItems.forEach((menuItem, index) => {
       menuItem.dom.link.addEventListener("mouseenter", () => {
         if (this.hoverType === "on") {
@@ -1017,12 +1029,14 @@ class BaseMenu {
   /**
    * Handles keydown events throughout the menu for proper menu use.
    *
-   * This method exists to assit the {@link BaseMenu#handleKeyup|handleKeyup method}.
+   * This method exists to assit the {@link BaseMenu#_handleKeyup|_handleKeyup method}.
    *
    * - Adds a `keydown` listener to the menu's controller (if the menu is the root menu).
    *   - Blocks propagation on "Space", "Enter", and "Escape" keys.
+   *
+   * @protected
    */
-  handleKeydown() {
+  _handleKeydown() {
     if (this.isTopLevel && this.elements.controller) {
       this.elements.controller.dom.toggle.addEventListener(
         "keydown",
@@ -1044,8 +1058,10 @@ class BaseMenu {
    *
    * - Adds a `keyup` listener to the menu's controller (if the menu is the root menu).
    *   - Opens the menu when the user hits "Space" or "Enter".
+   *
+   * @protected
    */
-  handleKeyup() {
+  _handleKeyup() {
     if (this.isTopLevel && this.elements.controller) {
       this.elements.controller.dom.toggle.addEventListener("keyup", (event) => {
         this.currentEvent = "keyboard";

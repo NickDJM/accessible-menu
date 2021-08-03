@@ -175,7 +175,7 @@ class BaseMenuToggle {
     );
 
     // Make sure the menu is collapsed on initialization, but do not emit the collapse event.
-    this.collapse(false);
+    this._collapse(false);
   }
 
   /**
@@ -229,8 +229,10 @@ class BaseMenuToggle {
    *
    * @param {boolean} [emit = true] - A toggle to emit the expand event once expanded.
    * @fires accessibleMenuExpand
+   *
+   * @protected
    */
-  expand(emit = true) {
+  _expand(emit = true) {
     const { closeClass, openClass } = this.elements.controlledMenu;
 
     this.dom.toggle.setAttribute("aria-expanded", "true");
@@ -271,8 +273,10 @@ class BaseMenuToggle {
    *
    * @param {boolean} [emit = true] - A toggle to emit the collapse event once collapsed.
    * @fires accessibleMenuCollapse
+   *
+   * @protected
    */
-  collapse(emit = true) {
+  _collapse(emit = true) {
     const { closeClass, openClass } = this.elements.controlledMenu;
 
     this.dom.toggle.setAttribute("aria-expanded", "false");
@@ -312,7 +316,7 @@ class BaseMenuToggle {
     this.elements.controlledMenu.focusState = "self";
 
     // Expand the controlled menu.
-    this.expand();
+    this._expand();
 
     // Set the open flag.
     this.isOpen = true;
@@ -332,7 +336,7 @@ class BaseMenuToggle {
     }
 
     // Expand the controlled menu.
-    this.expand();
+    this._expand();
 
     // Set the open flag.
     this.isOpen = true;
@@ -359,7 +363,7 @@ class BaseMenuToggle {
       }
 
       // Collapse the controlled menu.
-      this.collapse();
+      this._collapse();
 
       // Set the open flag.
       this.isOpen = false;

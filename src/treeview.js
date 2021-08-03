@@ -110,11 +110,11 @@ class Treeview extends BaseMenu {
    * Initializes the menu.
    *
    * Initialize will call the {@link BaseMenu#initialize|BaseMenu's initialize method}
-   * as well as set up {@link Treeview#handleFocus|focus},
-   * {@link Treeview#handleClick|click},
-   * {@link Treeview#handleHover|hover},
-   * {@link Treeview#handleKeydown|keydown}, and
-   * {@link Treeview#handleKeyup|keyup} events for the menu.
+   * as well as set up {@link Treeview#_handleFocus|focus},
+   * {@link Treeview#_handleClick|click},
+   * {@link Treeview#_handleHover|hover},
+   * {@link Treeview#_handleKeydown|keydown}, and
+   * {@link Treeview#_handleKeyup|keyup} events for the menu.
    *
    * If the menu is a root menu it's `role` will be set to "tree" and the first
    * menu item's `tabIndex` will be set to 0 in the DOM.
@@ -135,11 +135,11 @@ class Treeview extends BaseMenu {
         this.dom.menu.setAttribute("role", "group");
       }
 
-      this.handleFocus();
-      this.handleClick();
-      this.handleHover();
-      this.handleKeydown();
-      this.handleKeyup();
+      this._handleFocus();
+      this._handleClick();
+      this._handleHover();
+      this._handleKeydown();
+      this._handleKeyup();
     } catch (error) {
       console.error(error);
     }
@@ -148,16 +148,18 @@ class Treeview extends BaseMenu {
   /**
    * Handles keydown events throughout the menu for proper menu use.
    *
-   * This method exists to assist the {@link Treeview#handleKeyup|handleKeyup method}.
-   * - Adds all `keydown` listeners from {@link BaseMenu#handleKeydown|BaseMenu's handleKeydown method}
+   * This method exists to assist the {@link Treeview#_handleKeyup|_handleKeyup method}.
+   * - Adds all `keydown` listeners from {@link BaseMenu#_handleKeydown|BaseMenu's _handleKeydown method}
    * - Adds a `keydown` listener to the menu/all submenus.
    *   - Blocks propagation on the following keys: "ArrowUp", "ArrowRight",
    *     "ArrowDown", "ArrowLeft", "Home", "End", "Space", "Enter", "Escape",
    *     "*" (asterisk), and "A" through "Z".
    *   - Moves focus out if the "Tab" key is pressed.
+   *
+   * @protected
    */
-  handleKeydown() {
-    super.handleKeydown();
+  _handleKeydown() {
+    super._handleKeydown();
 
     this.dom.menu.addEventListener("keydown", (event) => {
       this.currentEvent = "keyboard";
@@ -204,7 +206,7 @@ class Treeview extends BaseMenu {
   /**
    * Handles keyup events throughout the menu for proper menu use.
    *
-   * Adds all `keyup` listeners from {@link BaseMenu#handleKeyup|BaseMenu's handleKeyup method}.
+   * Adds all `keyup` listeners from {@link BaseMenu#_handleKeyup|BaseMenu's _handleKeyup method}.
    *
    * Adds the following keybindings (explanations are taken from the
    * {@link https://www.w3.org/TR/2019/WD-wai-aria-practices-1.2-20191218/examples/treeview/treeview-2/treeview-2a.html#kbd_label|Navigation Treeview Example Using Computed Properties}):
@@ -221,9 +223,11 @@ class Treeview extends BaseMenu {
    * | _a-z_, _A-Z_ | <ul><li>Focus moves to the next node with a name that starts with the typed character.</li><li>Search wraps to first node if a matching name is not found among the nodes that follow the focused node.</li><li>Search ignores nodes that are descendants of closed nodes.</li></ul> |
    * | _* (asterisk)_ | <ul><li>Expands all closed sibling nodes that are at the same level as the focused node.</li><li>Focus does not move.</li></ul> |
    * | _Escape_ | If the root menu is collapsible, collapses the menu and focuses the menu's controlling element. |
+   *
+   * @protected
    */
-  handleKeyup() {
-    super.handleKeyup();
+  _handleKeyup() {
+    super._handleKeyup();
 
     this.dom.menu.addEventListener("keyup", (event) => {
       this.currentEvent = "keyboard";
