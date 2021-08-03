@@ -147,7 +147,7 @@ import { Treeview } from "accessible-menu";
 or
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/accessible-menu@3.0.0/dist/navigationTreeview.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/accessible-menu@3.0.0/dist/treeview.min.js"></script>
 ```
 
 then
