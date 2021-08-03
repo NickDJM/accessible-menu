@@ -9,10 +9,9 @@
  *
  * Will return true is the check is successful.
  *
- * @param   {object} contructor - The constructor to check for.
- * @param   {object} elements   - The element(s) to check.
- *
- * @return {boolean} - The result of the check.
+ * @param  {object}  contructor - The constructor to check for.
+ * @param  {object}  elements   - The element(s) to check.
+ * @return {boolean}            - The result of the check.
  */
 export function isValidInstance(contructor, elements) {
   try {
@@ -51,10 +50,9 @@ export function isValidInstance(contructor, elements) {
  *
  * Will return true is the check is successful.
  *
- * @param   {string} type   - The type to check for.
- * @param   {object} values - The value(s) to check.
- *
- * @return {boolean} - The result of the check.
+ * @param  {string}  type   - The type to check for.
+ * @param  {object}  values - The value(s) to check.
+ * @return {boolean}        - The result of the check.
  */
 export function isValidType(type, values) {
   try {
@@ -91,9 +89,8 @@ export function isValidType(type, values) {
  *
  * Will return true is the check is successful.
  *
- * @param   {object.<string>} values - The value(s) to check.
- *
- * @return {boolean} - The result of the check.
+ * @param  {object.<string>} values - The value(s) to check.
+ * @return {boolean}                - The result of the check.
  */
 export function isCSSSelector(values) {
   try {
@@ -134,9 +131,8 @@ export function isCSSSelector(values) {
  *
  * Will return true is the check is successful.
  *
- * @param   {object.<string,string[]>} values - The value(s) to check.
- *
- * @return {boolean} - The result of the check.
+ * @param  {object.<string,string[]>} values - The value(s) to check.
+ * @return {boolean}                         - The result of the check.
  */
 export function isValidClassList(values) {
   try {
@@ -188,9 +184,8 @@ export function isValidClassList(values) {
  *
  * Will return true is the check is successful.
  *
- * @param   {object.<string>} values - The value(s) to check.
- *
- * @return {boolean} - The result of the check.
+ * @param  {object.<string>} values - The value(s) to check.
+ * @return {boolean}                - The result of the check.
  */
 export function isValidState(values) {
   try {
@@ -229,9 +224,8 @@ export function isValidState(values) {
  *
  * Will return true is the check is successful.
  *
- * @param   {object.<string>} values - The value(s) to check.
- *
- * @return {boolean} - The result of the check.
+ * @param  {object.<string>} values - The value(s) to check.
+ * @return {boolean}                - The result of the check.
  */
 export function isValidEvent(values) {
   try {
@@ -270,9 +264,8 @@ export function isValidEvent(values) {
  *
  * Will return true is the check is successful.
  *
- * @param   {object.<string>} values - The value(s) to check.
- *
- * @return {boolean} - The result of the check.
+ * @param  {object.<string>} values - The value(s) to check.
+ * @return {boolean}                - The result of the check.
  */
 export function isValidHoverType(values) {
   try {
@@ -309,10 +302,9 @@ export function isValidHoverType(values) {
  * The elements must be provided inside of an object
  * so the variable name can be retrieved in case of errors.
  *
- * @param   {string}               tagName  - The name of the tag.
- * @param   {object.<HTMLElement>} elements - The element(s) to check.
- *
- * @return {boolean} - The result of the check.
+ * @param  {string}               tagName  - The name of the tag.
+ * @param  {object.<HTMLElement>} elements - The element(s) to check.
+ * @return {boolean}                       - The result of the check.
  */
 export function isTag(tagName, elements) {
   if (
@@ -335,10 +327,9 @@ export function isTag(tagName, elements) {
 /**
  * Checks to see if an event is supported by a node.
  *
- * @param   {string}      event   - The event type.
- * @param   {HTMLElement} element - The element to check.
- *
- * @return {boolean} - The result.
+ * @param  {string}      event   - The event type.
+ * @param  {HTMLElement} element - The element to check.
+ * @return {boolean}             - The result.
  */
 export function isEventSupported(event, element) {
   if (

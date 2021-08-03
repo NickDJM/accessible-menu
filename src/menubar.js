@@ -27,24 +27,27 @@ class Menubar extends BaseMenu {
   /**
    * The class to use when generating submenus.
    *
-   * @type {typeof Menubar}
    * @protected
+   *
+   * @type {typeof Menubar}
    */
   _MenuType = Menubar;
 
   /**
    * The class to use when generating menu items.
    *
-   * @type {typeof MenubarItem}
    * @protected
+   *
+   * @type {typeof MenubarItem}
    */
   _MenuItemType = MenubarItem;
 
   /**
    * The class to use when generating submenu toggles.
    *
-   * @type {typeof MenubarToggle}
    * @protected
+   *
+   * @type {typeof MenubarToggle}
    */
   _MenuToggleType = MenubarToggle;
 
@@ -270,7 +273,7 @@ class Menubar extends BaseMenu {
    * Adds the following keybindings (explanations are taken from the
    * {@link https://www.w3.org/TR/2019/WD-wai-aria-practices-1.2-20191218/examples/menubar/menubar-1/menubar-1.html#kbd_label|Navigation Menubar Example}):
    *
-   * **Menubar**
+   * <strong>Menubar</strong>
    *
    * | Key | Function |
    * | --- | --- |
@@ -283,7 +286,7 @@ class Menubar extends BaseMenu {
    * | _End_ | Moves focus to last item in the menubar. |
    * | _Character_ | <ul><li>Moves focus to next item in the menubar having a name that starts with the typed character.</li><li>If none of the items have a name starting with the typed character, focus does not move.</li></ul> |
    *
-   * **Submenu**
+   * <strong>Submenu</strong>
    *
    * | Key | Function |
    * | --- | --- |

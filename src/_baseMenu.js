@@ -24,31 +24,37 @@ class BaseMenu {
   /**
    * The class to use when generating submenus.
    *
-   * @type {typeof BaseMenu}
    * @protected
+   *
+   * @type {typeof BaseMenu}
    */
   _MenuType = BaseMenu;
 
   /**
    * The class to use when generating menu items.
    *
-   * @type {typeof BaseMenuItem}
    * @protected
+   *
+   * @type {typeof BaseMenuItem}
    */
   _MenuItemType = BaseMenuItem;
 
   /**
    * The class to use when generating submenu toggles.
    *
-   * @type {typeof BaseMenuToggle}
    * @protected
+   *
+   * @type {typeof BaseMenuToggle}
    */
   _MenuToggleType = BaseMenuToggle;
 
   /**
    * The DOM elements within the menu.
    *
+   * @protected
+   *
    * @type {object.<HTMLElement,HTMLElement[]>}
+   *
    * @property {HTMLElement}   menu           - The menu element.
    * @property {HTMLElement[]} menuItems      - An array of menu items.
    * @property {HTMLElement[]} submenuItems   - An array of menu items that also contain submenu elements.
@@ -56,7 +62,6 @@ class BaseMenu {
    * @property {HTMLElement[]} submenus       - An array of submenu elements.
    * @property {HTMLElement}   controller     - The toggle for this menu.
    * @property {HTMLElement}   container      - The container for this menu.
-   * @protected
    */
   _dom = {
     menu: null,
@@ -71,13 +76,15 @@ class BaseMenu {
   /**
    * The CSS selectors used by the menu to populate the {@link BaseMenu#dom|dom}.
    *
+   * @protected
+   *
    * @type {object.<string>}
+   *
    * @property {string} menuItems      - The CSS selector for menu items.
    * @property {string} menuLinks      - The CSS selector for menu links.
    * @property {string} submenuItems   - The CSS selector for menu items containing submenus.
    * @property {string} submenuToggles - The CSS selector for menu links that function as submenu toggles.
    * @property {string} submenus       - The CSS selector for for submenus.
-   * @protected
    */
   _selectors = {
     menuItems: "",
@@ -90,13 +97,15 @@ class BaseMenu {
   /**
    * The declared accessible-menu elements within the menu.
    *
+   * @protected
+   *
    * @type {object.<BaseMenu,BaseMenuToggle,BaseMenuItem[],BaseMenuToggle[]>}
+   *
    * @property {BaseMenuItem[]}   menuItems      - An array of menu items.
    * @property {BaseMenuToggle[]} submenuToggles - An array of menu toggles.
    * @property {?BaseMenuToggle}  controller     - A menu toggle that controls this menu.
    * @property {?BaseMenu}        parentMenu     - The parent menu.
    * @property {?BaseMenu}        rootMenu       - The root menu of the menu tree.
-   * @protected
    */
   _elements = {
     menuItems: [],
@@ -109,64 +118,72 @@ class BaseMenu {
   /**
    * The class(es) to apply when the menu is open.
    *
-   * @type {string|string[]}
    * @protected
+   *
+   * @type {string|string[]}
    */
   _openClass = "show";
 
   /**
    * The class(es) to apply when the menu is closed.
    *
-   * @type {string|string[]}
    * @protected
+   *
+   * @type {string|string[]}
    */
   _closeClass = "hide";
 
   /**
    * A flag marking the root menu.
    *
-   * @type {boolean}
    * @protected
+   *
+   * @type {boolean}
    */
   _root = true;
 
   /**
    * The index of the currently selected {@link BaseMenuItem|menu item} in the menu.
    *
-   * @type {number}
    * @protected
+   *
+   * @type {number}
    */
   _currentChild = 0;
 
   /**
    * The current state of the menu's focus.
    *
-   * @type {string}
    * @protected
+   *
+   * @type {string}
    */
   _focusState = "none";
 
   /**
    * This last event triggered on the menu.
    *
-   * @type {string}
    * @protected
+   *
+   * @type {string}
    */
   _currentEvent = "none";
 
   /**
    * The type of hoverability for the menu.
    *
-   * @type {string}
    * @protected
+   *
+   * @type {string}
    */
   _hoverType = "off";
 
   /**
    * The delay time (in miliseconds) used for mouseout events to take place.
    *
-   * @type {number}
    * @protected
+   *
+   * @type {number}
    */
   _hoverDelay = 250;
 
@@ -281,8 +298,10 @@ class BaseMenu {
   /**
    * The DOM elements within the menu.
    *
-   * @type {object.<HTMLElement,HTMLElement[]>}
    * @readonly
+   *
+   * @type {object.<HTMLElement,HTMLElement[]>}
+   *
    * @see _dom
    */
   get dom() {
@@ -292,8 +311,10 @@ class BaseMenu {
   /**
    * The CSS selectors used by the menu to populate the {@link BaseMenu#dom|dom}.
    *
-   * @type {object.<string>}
    * @readonly
+   *
+   * @type {object.<string>}
+   *
    * @see _selectors
    */
   get selectors() {
@@ -303,12 +324,27 @@ class BaseMenu {
   /**
    * The declared accessible-menu elements within the menu.
    *
-   * @type {object.<BaseMenu,BaseMenuToggle,BaseMenuItem[],BaseMenuToggle[]>}
    * @readonly
+   *
+   * @type {object.<BaseMenu,BaseMenuToggle,BaseMenuItem[],BaseMenuToggle[]>}
+   *
    * @see _elements
    */
   get elements() {
     return this._elements;
+  }
+
+  /**
+   * The flag marking the root menu.
+   *
+   * @readonly
+   *
+   * @type {boolean}
+   *
+   * @see _root
+   */
+  get isTopLevel() {
+    return this._root;
   }
 
   /**
@@ -318,6 +354,7 @@ class BaseMenu {
    * Submenus will always inherit their root menu's open class(es).
    *
    * @type {string|string[]}
+   *
    * @see _openClass
    */
   get openClass() {
@@ -331,23 +368,13 @@ class BaseMenu {
    * Submenus will always inherit their root menu's close class(es).
    *
    * @type {string|string[]}
+   *
    * @see _closeClass
    */
   get closeClass() {
     return this.isTopLevel
       ? this._closeClass
       : this.elements.rootMenu.closeClass;
-  }
-
-  /**
-   * The flag marking the root menu.
-   *
-   * @type {boolean}
-   * @readonly
-   * @see _root
-   */
-  get isTopLevel() {
-    return this._root;
   }
 
   /**
@@ -363,6 +390,7 @@ class BaseMenu {
    * between mouse and keyboard naviation.
    *
    * @type {number}
+   *
    * @see _currentChild
    */
   get currentChild() {
@@ -378,6 +406,7 @@ class BaseMenu {
    *   will update all parent menus to have the focus state of "child".
    *
    * @type {string}
+   *
    * @see _focusState
    */
   get focusState() {
@@ -388,6 +417,7 @@ class BaseMenu {
    * The last event triggered on the menu.
    *
    * @type {string}
+   *
    * @see _currentEvent
    */
   get currentEvent() {
@@ -410,6 +440,7 @@ class BaseMenu {
    * Submenus will always inherit their root menu's hoverability.
    *
    * @type {string}
+   *
    * @see _hoverType
    */
   get hoverType() {
@@ -423,6 +454,7 @@ class BaseMenu {
    * Submenus will always inherit their root menu's hover delay.
    *
    * @type {number}
+   *
    * @see _hoverDelay
    */
   get hoverDelay() {
@@ -576,9 +608,9 @@ class BaseMenu {
   /**
    * Validates all aspects of the menu to ensure proper functionality.
    *
-   * @return {boolean} - The result of the validation.
-   *
    * @protected
+   *
+   * @return {boolean} - The result of the validation.
    */
   _validate() {
     let check = true;
@@ -663,11 +695,11 @@ class BaseMenu {
    *
    * Elements that are not stored inside an array cannot be set through this method.
    *
+   * @protected
+   *
    * @param {string}      elementType            - The type of element to populate.
    * @param {HTMLElement} [base = this.dom.menu] - The element used as the base for the querySelect.
    * @param {boolean}     [overwrite = true]     - A flag to set if the existing elements will be overwritten.
-   *
-   * @protected
    */
   _setDOMElementType(elementType, base = this.dom.menu, overwrite = true) {
     if (typeof this.selectors[elementType] === "string") {
@@ -709,9 +741,9 @@ class BaseMenu {
    *
    * Elements that are not stored inside an array cannot be reset through this method.
    *
-   * @param {string} elementType - The type of element to clear.
-   *
    * @protected
+   *
+   * @param {string} elementType - The type of element to clear.
    */
   _resetDOMElementType(elementType) {
     if (typeof this.dom[elementType] !== "undefined") {
@@ -756,9 +788,9 @@ class BaseMenu {
   /**
    * Finds the root menu element.
    *
-   * @param {BaseMenu} menu - The menu to check.
-   *
    * @protected
+   *
+   * @param {BaseMenu} menu - The menu to check.
    */
   _findRootMenu(menu) {
     if (menu.isTopLevel) {
@@ -933,7 +965,7 @@ class BaseMenu {
    * to all submenu items which function differently depending on
    * the menu's {@link BaseMenu_hoverTypeType|hover type}.
    *
-   * **Hover Type "on"**
+   * <strong>Hover Type "on"</strong>
    * - When a `mouseenter` event triggers on any menu item the menu's
    *   {@link BaseMenu#currentChild| current child} value will change to that
    *   menu item.
@@ -944,7 +976,7 @@ class BaseMenu {
    *   {@link BaseMenuToggle#close|close method} for the submenu item's toggle
    *   will be called after a delay set by the menu's {@link BaseMenu_hoverTypeDelay|hover delay}.
    *
-   * **Hover Type "dynamic"**
+   * <strong>Hover Type "dynamic"</strong>
    * - When a `mouseenter` event triggers on any menu item the menu's
    *   current child value will change to that menu item.
    * - When a `mouseenter` event triggers on any menu item, and the menu's
@@ -961,7 +993,7 @@ class BaseMenu {
    * - When a `mouseleave` event triggers on an open submenu item that is a
    *   root-level submenu item no submenu-specific methods will be called.
    *
-   * **Hover Type "off"**
+   * <strong>Hover Type "off"</strong>
    * All `mouseenter` and `mouseleave` events are ignored.
    *
    * @protected

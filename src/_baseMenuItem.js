@@ -8,9 +8,11 @@ class BaseMenuItem {
    * The DOM elements within the menu item.
    *
    * @type {object.<HTMLElement>}
+   *
+   * @protected
+   *
    * @property {HTMLElement} item - The menu item.
    * @property {HTMLElement} link - The menu item's link.
-   * @protected
    */
   _dom = {
     item: null,
@@ -21,10 +23,12 @@ class BaseMenuItem {
    * The declared accessible-menu elements within the menu item.
    *
    * @type {object.<BaseMenu,BaseMenuToggle>}
+   *
+   * @protected
+   *
    * @property {BaseMenu}        parentMenu - The menu containing this menu item.
    * @property {?BaseMenu}       childMenu  - The menu contained within this menu item.
    * @property {?BaseMenuToggle} toggle     - The menu toggle within this menu item that controls the `childMenu`.
-   * @protected
    */
   _elements = {
     parentMenu: null,
@@ -79,7 +83,9 @@ class BaseMenuItem {
    * The DOM elements within the menu item.
    *
    * @type {object.<HTMLElement>}
+   *
    * @readonly
+   *
    * @see _dom
    */
   get dom() {
@@ -90,7 +96,9 @@ class BaseMenuItem {
    * The declared accessible-menu elements within the menu item.
    *
    * @type {object.<BaseMenu,BaseMenuToggle>}
+   *
    * @readonly
+   *
    * @see _elements
    */
   get elements() {
@@ -101,7 +109,9 @@ class BaseMenuItem {
    * A flag marking a submenu item.
    *
    * @type {boolean}
+   *
    * @readonly
+   *
    * @see _submenu
    */
   get isSubmenuItem() {

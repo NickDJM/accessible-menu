@@ -27,40 +27,45 @@ class DisclosureMenu extends BaseMenu {
   /**
    * The class to use when generating submenus.
    *
-   * @type {typeof DisclosureMenu}
    * @protected
+   *
+   * @type {typeof DisclosureMenu}
    */
   _MenuType = DisclosureMenu;
 
   /**
    * The class to use when generating menu items.
    *
-   * @type {typeof DisclosureMenuItem}
    * @protected
+   *
+   * @type {typeof DisclosureMenuItem}
    */
   _MenuItemType = DisclosureMenuItem;
 
   /**
    * The class to use when generating submenu toggles.
    *
-   * @type {typeof DisclosureMenuToggle}
    * @protected
+   *
+   * @type {typeof DisclosureMenuToggle}
    */
   _MenuToggleType = DisclosureMenuToggle;
 
   /**
    * The index of the currently selected {@link BaseMenuItem|menu item} in the menu.
    *
-   * @type {number}
    * @protected
+   *
+   * @type {number}
    */
   _currentChild = -1;
 
   /**
    * A flag to add optional keyboard support (Arrow keys, "Home", and "End") to the menu.
    *
-   * @type {boolean}
    * @protected
+   *
+   * @type {boolean}
    */
   _optionalSupport = false;
 
@@ -162,6 +167,7 @@ class DisclosureMenu extends BaseMenu {
    * Submenus will always inherit their root menu's optionalKeySupport.
    *
    * @type {boolean}
+   *
    * @see _optionalSupport
    */
   get optionalKeySupport() {
@@ -179,9 +185,9 @@ class DisclosureMenu extends BaseMenu {
   /**
    * Validates all aspects of the menu to ensure proper functionality.
    *
-   * @return {boolean} - The result of the validation.
-   *
    * @protected
+   *
+   * @return {boolean} - The result of the validation.
    */
   _validate() {
     let check = super._validate();

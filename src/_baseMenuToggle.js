@@ -9,10 +9,12 @@ class BaseMenuToggle {
   /**
    * The DOM elements within the menu toggle.
    *
+   * @protected
+   *
    * @type {object.<HTMLElement>}
+   *
    * @property {HTMLElement} toggle - The menu toggle.
    * @property {HTMLElement} parent - The menu containing this toggle.
-   * @protected
    */
   _dom = {
     toggle: null,
@@ -22,10 +24,12 @@ class BaseMenuToggle {
   /**
    * The declared accessible-menu elements within the menu toggle.
    *
+   * @protected
+   *
    * @type {object.<BaseMenu>}
+   *
    * @property {BaseMenu} controlledMenu - The menu controlled by this toggle.
    * @property {BaseMenu} parentMenu     - The menu containing this toggle.
-   * @protected
    */
   _elements = {
     controlledMenu: null,
@@ -35,18 +39,22 @@ class BaseMenuToggle {
   /**
    * The open state of the menu toggle.
    *
-   * @type {boolean}
    * @protected
+   *
+   * @type {boolean}
    */
   _open = false;
 
   /**
    * Expand event.
    *
-   * @event accessibleMenuExpand
-   * @type {CustomEvent}
-   * @property {object<BaseMenuToggle>} details - The details object containing the BaseMenuToggle itself.
    * @protected
+   *
+   * @event accessibleMenuExpand
+   *
+   * @type {CustomEvent}
+   *
+   * @property {object<BaseMenuToggle>} details - The details object containing the BaseMenuToggle itself.
    */
   _expandEvent = new CustomEvent("accessibleMenuExpand", {
     bubbles: true,
@@ -56,10 +64,13 @@ class BaseMenuToggle {
   /**
    * Collapse event.
    *
-   * @event accessibleMenuCollapse
-   * @type {CustomEvent}
-   * @property {object<BaseMenuToggle>} details - The details object containing the BaseMenuToggle itself.
    * @protected
+   *
+   * @event accessibleMenuCollapse
+   *
+   * @type {CustomEvent}
+   *
+   * @property {object<BaseMenuToggle>} details - The details object containing the BaseMenuToggle itself.
    */
   _collapseEvent = new CustomEvent("accessibleMenuCollapse", {
     bubbles: true,
@@ -181,8 +192,10 @@ class BaseMenuToggle {
   /**
    * Get the DOM elements within the toggle.
    *
-   * @type {object.<HTMLElement>}
    * @readonly
+   *
+   * @type {object.<HTMLElement>}
+   *
    * @see _dom
    */
   get dom() {
@@ -192,8 +205,10 @@ class BaseMenuToggle {
   /**
    * Get the declared accessible-menu elements within the menu toggle.
    *
-   * @type {object.<BaseMenu>}
    * @readonly
+   *
+   * @type {object.<BaseMenu>}
+   *
    * @see _elements
    */
   get elements() {
@@ -204,6 +219,7 @@ class BaseMenuToggle {
    * Get the open state on the menu.
    *
    * @type {boolean}
+   *
    * @see _open
    */
   get isOpen() {
@@ -227,10 +243,11 @@ class BaseMenuToggle {
    * If `emit` is set to `true`, this will also emit a custom event
    * called {@link accessibleMenuExpand}
    *
-   * @param {boolean} [emit = true] - A toggle to emit the expand event once expanded.
+   * @protected
+   *
    * @fires accessibleMenuExpand
    *
-   * @protected
+   * @param {boolean} [emit = true] - A toggle to emit the expand event once expanded.
    */
   _expand(emit = true) {
     const { closeClass, openClass } = this.elements.controlledMenu;
@@ -271,10 +288,11 @@ class BaseMenuToggle {
    * If `emit` is set to `true`, this will also emit a custom event
    * called {@link accessibleMenuCollapse}
    *
-   * @param {boolean} [emit = true] - A toggle to emit the collapse event once collapsed.
+   * @protected
+   *
    * @fires accessibleMenuCollapse
    *
-   * @protected
+   * @param {boolean} [emit = true] - A toggle to emit the collapse event once collapsed.
    */
   _collapse(emit = true) {
     const { closeClass, openClass } = this.elements.controlledMenu;

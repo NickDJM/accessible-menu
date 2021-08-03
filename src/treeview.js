@@ -26,24 +26,27 @@ class Treeview extends BaseMenu {
   /**
    * The class to use when generating submenus.
    *
-   * @type {typeof Treeview}
    * @protected
+   *
+   * @type {typeof Treeview}
    */
   _MenuType = Treeview;
 
   /**
    * The class to use when generating menu items.
    *
-   * @type {typeof TreeviewItem}
    * @protected
+   *
+   * @type {typeof TreeviewItem}
    */
   _MenuItemType = TreeviewItem;
 
   /**
    * The class to use when generating submenu toggles.
    *
-   * @type {typeof TreeviewToggle}
    * @protected
+   *
+   * @type {typeof TreeviewToggle}
    */
   _MenuToggleType = TreeviewToggle;
 
@@ -413,9 +416,8 @@ class Treeview extends BaseMenu {
     /**
      * Gets all the menu's items and submenu's items.
      *
-     * @param {Treeview} menu - The menu.
-     *
-     * @return {TreeviewItem[]} - The menu items.
+     * @param  {Treeview}       menu - The menu.
+     * @return {TreeviewItem[]}      - The menu items.
      */
     function getOpenMenuItems(menu) {
       let menuItems = [];
