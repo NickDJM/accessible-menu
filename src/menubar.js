@@ -111,11 +111,11 @@ class Menubar extends BaseMenu {
    * Initializes the menu.
    *
    * Initialize will call the {@link BaseMenu#initialize|BaseMenu's initialize method}
-   * as well as set up {@link Menubar#handleFocus|focus},
-   * {@link Menubar#handleClick|click},
-   * {@link Menubar#handleHover|hover},
-   * {@link Menubar#handleKeydown|keydown}, and
-   * {@link Menubar#handleKeyup|keyup} events for the menu.
+   * as well as set up {@link Menubar#_handleFocus|focus},
+   * {@link Menubar#_handleClick|click},
+   * {@link Menubar#_handleHover|hover},
+   * {@link Menubar#_handleKeydown|keydown}, and
+   * {@link Menubar#_handleKeyup|keyup} events for the menu.
    *
    * This will also set the menu's `role` to "menubar" in the DOM.
    *
@@ -131,11 +131,11 @@ class Menubar extends BaseMenu {
 
       this.dom.menu.setAttribute("role", "menubar");
 
-      this.handleFocus();
-      this.handleClick();
-      this.handleHover();
-      this.handleKeydown();
-      this.handleKeyup();
+      this._handleFocus();
+      this._handleClick();
+      this._handleHover();
+      this._handleKeydown();
+      this._handleKeyup();
 
       if (this.isTopLevel) {
         this.elements.menuItems[0].dom.link.tabIndex = 0;
@@ -152,12 +152,14 @@ class Menubar extends BaseMenu {
    * `mousedown` and `mouseup` will be used for all "click" event handling.
    *
    * - Adds all event listeners listed in
-   *   {@link BaseMenu#handleClick|BaseMenu's handleClick method}, and
+   *   {@link BaseMenu#_handleClick|BaseMenu's _handleClick method}, and
    * - adds a `touchend`/`mouseup` listener to the `document` so if the user
    *   clicks outside of the menu it will close if it is open.
+   *
+   * @protected
    */
-  handleClick() {
-    super.handleClick();
+  _handleClick() {
+    super._handleClick();
 
     // Use touch over mouse events when supported.
     const endEventType = isEventSupported("touchend", this.dom.menu)
@@ -187,16 +189,18 @@ class Menubar extends BaseMenu {
   /**
    * Handles keydown events throughout the menu for proper menu use.
    *
-   * This method exists to assist the {@link Menubar#handleKeyup|handleKeyup method}.
-   * - Adds all `keydown` listeners from {@link BaseMenu#handleKeydown|BaseMenu's handleKeydown method}
+   * This method exists to assist the {@link Menubar#_handleKeyup|_handleKeyup method}.
+   * - Adds all `keydown` listeners from {@link BaseMenu#_handleKeydown|BaseMenu's _handleKeydown method}
    * - Adds a `keydown` listener to the menu/all submenus.
    *   - Blocks propagation on the following keys: "ArrowUp", "ArrowRight",
    *     "ArrowDown", "ArrowLeft", "Home", "End", "Space", "Enter", "Escape",
    *     and "A" through "Z".
    *   - Completely closes the menu and moves focus out if the "Tab" key is pressed.
+   *
+   * @protected
    */
-  handleKeydown() {
-    super.handleKeydown();
+  _handleKeydown() {
+    super._handleKeydown();
 
     this.dom.menu.addEventListener("keydown", (event) => {
       this.currentEvent = "keyboard";
@@ -261,7 +265,7 @@ class Menubar extends BaseMenu {
   /**
    * Handles keyup events throughout the menu for proper menu use.
    *
-   * Adds all `keyup` listeners from {@link BaseMenu#handleKeyup|BaseMenu's handleKeyup method}.
+   * Adds all `keyup` listeners from {@link BaseMenu#_handleKeyup|BaseMenu's _handleKeyup method}.
    *
    * Adds the following keybindings (explanations are taken from the
    * {@link https://www.w3.org/TR/2019/WD-wai-aria-practices-1.2-20191218/examples/menubar/menubar-1/menubar-1.html#kbd_label|Navigation Menubar Example}):
@@ -292,9 +296,11 @@ class Menubar extends BaseMenu {
    * | Home | Moves focus to the first item in the submenu. |
    * | End | Moves focus to the last item in the submenu. |
    * | _Character_ | <ul><li>Moves focus to the next item having a name that starts with the typed character.</li><li>If none of the items have a name starting with the typed character, focus does not move.</li></ul> |
+   *
+   * @protected
    */
-  handleKeyup() {
-    super.handleKeyup();
+  _handleKeyup() {
+    super._handleKeyup();
 
     this.dom.menu.addEventListener("keyup", (event) => {
       this.currentEvent = "keyboard";

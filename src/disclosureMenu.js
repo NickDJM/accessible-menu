@@ -129,6 +129,33 @@ class DisclosureMenu extends BaseMenu {
   }
 
   /**
+   * Initializes the menu.
+   *
+   * Initialize will call the {@link BaseMenu#initialize|BaseMenu's initialize method}
+   * as well as set up {@link DisclosureMenu#_handleFocus|focus},
+   * {@link DisclosureMenu#_handleClick|click},
+   * {@link DisclosureMenu#_handleHover|hover},
+   * {@link DisclosureMenu#_handleKeydown|keydown}, and
+   * {@link DisclosureMenu#_handleKeyup|keyup} events for the menu.
+   *
+   * If the BaseMenu's initialize method throws an error,
+   * this will catch it and log it to the console.
+   */
+  initialize() {
+    try {
+      super.initialize();
+
+      this._handleFocus();
+      this._handleClick();
+      this._handleHover();
+      this._handleKeydown();
+      this._handleKeyup();
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  /**
    * A flag to add optional keyboard support (Arrow keys, "Home", and "End") to the menu.
    *
    * This functions differently for root vs. submenus.
@@ -150,39 +177,14 @@ class DisclosureMenu extends BaseMenu {
   }
 
   /**
-   * Initializes the menu.
-   *
-   * Initialize will call the {@link BaseMenu#initialize|BaseMenu's initialize method}
-   * as well as set up {@link DisclosureMenu#handleFocus|focus},
-   * {@link DisclosureMenu#handleClick|click},
-   * {@link DisclosureMenu#handleHover|hover},
-   * {@link DisclosureMenu#handleKeydown|keydown}, and
-   * {@link DisclosureMenu#handleKeyup|keyup} events for the menu.
-   *
-   * If the BaseMenu's initialize method throws an error,
-   * this will catch it and log it to the console.
-   */
-  initialize() {
-    try {
-      super.initialize();
-
-      this.handleFocus();
-      this.handleClick();
-      this.handleHover();
-      this.handleKeydown();
-      this.handleKeyup();
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  /**
    * Validates all aspects of the menu to ensure proper functionality.
    *
    * @return {boolean} - The result of the validation.
+   *
+   * @protected
    */
-  validate() {
-    let check = super.validate();
+  _validate() {
+    let check = super._validate();
 
     if (
       !isValidType("boolean", { optionalKeySupport: this._optionalSupport })
@@ -200,13 +202,14 @@ class DisclosureMenu extends BaseMenu {
    * `mousedown` and `mouseup` will be used for all "click" event handling.
    *
    * - Adds all event listeners listed in
-   *   {@link BaseMenu#handleClick|BaseMenu's handleClick method}, and
+   *   {@link BaseMenu#_handleClick|BaseMenu's _handleClick method}, and
    * - adds a `touchend`/`mouseup` listener to the `document` so if the user
    *   clicks outside of the menu it will close if it is open.
    *
+   * @protected
    */
-  handleClick() {
-    super.handleClick();
+  _handleClick() {
+    super._handleClick();
 
     // Use touch over mouse events when supported.
     const endEventType = isEventSupported("touchend", this.dom.menu)
@@ -236,16 +239,18 @@ class DisclosureMenu extends BaseMenu {
   /**
    * Handles keydown events throughout the menu for proper menu use.
    *
-   * This method exists to assist the {@link DisclosureMenu#handleKeyup|handleKeyup method}.
-   * - Adds all `keydown` listeners from {@link BaseMenu#handleKeydown|BaseMenu's handleKeydown method}
+   * This method exists to assist the {@link DisclosureMenu#_handleKeyup|_handleKeyup method}.
+   * - Adds all `keydown` listeners from {@link BaseMenu#_handleKeydown|BaseMenu's _handleKeydown method}
    * - Adds a `keydown` listener to the menu/all submenus.
    *   - Blocks propagation on the following keys: "Space", "Enter", and "Escape".
    *   - _If_ {@link DisclosureMenu#optionalKeySupport|optional keyboard support}
    *     is enabled, blocks propagation on the following keys:
    *     "ArrowUp", "ArrowRight", "ArrowDown", "ArrowLeft", "Home", and "End".
+   *
+   * @protected
    */
-  handleKeydown() {
-    super.handleKeydown();
+  _handleKeydown() {
+    super._handleKeydown();
 
     this.dom.menu.addEventListener("keydown", (event) => {
       this.currentEvent = "keyboard";
@@ -287,7 +292,7 @@ class DisclosureMenu extends BaseMenu {
   /**
    * Handles keyup events throughout the menu for proper menu use.
    *
-   * Adds all `keyup` listeners from {@link BaseMenu#handleKeyup|BaseMenu's handleKeyup method}.
+   * Adds all `keyup` listeners from {@link BaseMenu#_handleKeyup|BaseMenu's _handleKeyup method}.
    *
    * Adds the following keybindings (explanations are taken from the
    * {@link https://www.w3.org/TR/wai-aria-practices-1.2/examples/disclosure/disclosure-navigation.html#kbd_label|WAI ARIA Pracitices Example Disclosure for Navigation Menus}):
@@ -303,9 +308,11 @@ class DisclosureMenu extends BaseMenu {
    * | _End_ (Optional}) | <ul><li>If focus is on a button, and it is not the last button, moves focus to the last button.</li><li>If focus is on a link, and it is not the last link, moves focus to the last link.</li></ul> |
    *
    * The optional keybindings are controlled by the menu's {@link DisclosureMenu#optionalKeySupport|optionalKeySupport} value.
+   *
+   * @protected
    */
-  handleKeyup() {
-    super.handleKeyup();
+  _handleKeyup() {
+    super._handleKeyup();
 
     this.dom.menu.addEventListener("keyup", (event) => {
       this.currentEvent = "keyboard";

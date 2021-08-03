@@ -37,36 +37,48 @@ Version 3 of accessible-menu has cleaned up and renamed some class fields and me
 
 ### Menu fields
 
-- `BaseMenu.domElements` has changed to `BaseMenu._dom`
-- `BaseMenu.domSelectors` has changed to `BaseMenu._selectors`
-- `BaseMenu.menuElements` has changed to `BaseMenu._elements`
-- `BaseMenu.submenuOpenClass` has changed to `BaseMenu._openClass`
-- `BaseMenu.submenuCloseClass` has changed to `BaseMenu._closeClass`
-- `BaseMenu.root` has changed to `BaseMenu._root`
-- `BaseMenu.focussedChild` has changed to `BaseMenu._currentChild`
-- `BaseMenu.state` has changed to `BaseMenu._focusState`
-- `BaseMenu.event` has changed to `BaseMenu._currentEvent`
-- `BaseMenu.hoverable` has changed to `BaseMenu._hoverType`
-- `BaseMenu.delay` has changed to `BaseMenu._hoverDelay`
+- `BaseMenu.domElements` has been renamed to `BaseMenu._dom`
+- `BaseMenu.domSelectors` has been renamed to `BaseMenu._selectors`
+- `BaseMenu.menuElements` has been renamed to `BaseMenu._elements`
+- `BaseMenu.submenuOpenClass` has been renamed to `BaseMenu._openClass`
+- `BaseMenu.submenuCloseClass` has been renamed to `BaseMenu._closeClass`
+- `BaseMenu.root` has been renamed to `BaseMenu._root`
+- `BaseMenu.focussedChild` has been renamed to `BaseMenu._currentChild`
+- `BaseMenu.state` has been renamed to `BaseMenu._focusState`
+- `BaseMenu.event` has been renamed to `BaseMenu._currentEvent`
+- `BaseMenu.hoverable` has been renamed to `BaseMenu._hoverType`
+- `BaseMenu.delay` has been renamed to `BaseMenu._hoverDelay`
 
 ### Menu methods
 
 - `BaseMenu.setDOMElementType()` and `BaseMenu.addDOMElementType()` have been merged into `BaseMenu._setDOMEelementType()`
 - `BaseMenu.clearDOMElementType()` has been renamed to `BaseMenu._resetDOMElementType()`
 - `BaseMenu.setDOMElements()` has been renamed to `BaseMenu._setDOMElements()`
+- `BaseMenu.findRootMenu()` has been renamed to `BaseMenu._findRootMenu()`
+- `BaseMenu.createChildElements()` has been renamed to `BaseMenu._createChildElements()`
+- `BaseMenu.handleFocus()` has been renamed to `BaseMenu._handleFocus()`
+- `BaseMenu.handleClick()` has been renamed to `BaseMenu._handleClick()`
+- `BaseMenu.handleHover()` has been renamed to `BaseMenu._handleHover()`
+- `BaseMenu.handleKeydown()` has been renamed to `BaseMenu._handleKeydown()`
+- `BaseMenu.handleKeyup()` has been renamed to `BaseMenu._handleKeyup()`
 
 ### Menu item fields
 
-- `MenuItem.domElements` has changed to `BaseMenuItem._dom`
-- `MenuItem.menuElements` has changed to `BaseMenuItem._elements`
-- `MenuItem.isController` has changed to `BaseMenuItem._submenu`
+- `MenuItem.domElements` has been renamed to `BaseMenuItem._dom`
+- `MenuItem.menuElements` has been renamed to `BaseMenuItem._elements`
+- `MenuItem.isController` has been renamed to `BaseMenuItem._submenu`
 
 ### Menu toggle fields
 
-- `MenuToggle.domElements` has changed to `BaseMenuToggle._dom`
-- `MenuToggle.menuElements` has changed to `BaseMenuToggle._elements`
-- `MenuToggle.show` has changed to `BaseMenuToggle._open`
-- `MenuToggle.expandEvent` has changed to `BaseMenuToggle._expandEvent`
-- `MenuToggle.collapseEvent` has changed to `BaseMenuToggle._collapseEvent`
+- `MenuToggle.domElements` has been renamed to `BaseMenuToggle._dom`
+- `MenuToggle.menuElements` has been renamed to `BaseMenuToggle._elements`
+- `MenuToggle.show` has been renamed to `BaseMenuToggle._open`
+- `MenuToggle.expandEvent` has been renamed to `BaseMenuToggle._expandEvent`
+- `MenuToggle.collapseEvent` has been renamed to `BaseMenuToggle._collapseEvent`
 - `MenuToggle.openClass` has been removed
 - `MenuToggle.closeClass` has been removed
+
+### Menu toggle methods
+
+- `MenuToggle.expand()` has been renamed to `BaseMenuToggle._expand()`
+- `MenuToggle.collapse()` has been renamed to `BaseMenuToggle._collapse()`
