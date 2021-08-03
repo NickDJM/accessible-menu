@@ -2,6 +2,36 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0](https://github.com/NickDJM/accessible-menu/compare/v3.0.0-alpha.3...v3.0.0) (2021-08-03)
+
+
+### ⚠ BREAKING CHANGES
+
+* **menus:** changed the name of all menu event handler methods and toggle expand/collapse
+methods to begin with _
+* **menu:** merging and changing the names of the DOM element generation methods will require
+any code referencing the old methods to be updated
+
+### Code Refactoring
+
+* **menu:** clean up DOM element generating methods ([b242c9c](https://github.com/NickDJM/accessible-menu/commit/b242c9c5ac4ed02819bdfc956f5ea6daf85ef054)), closes [#127](https://github.com/NickDJM/accessible-menu/issues/127)
+* **menus:** change methods to be protected where needed ([780c76b](https://github.com/NickDJM/accessible-menu/commit/780c76b5f5819e7d40a7b10ae31168551262e4a1))
+
+
+### Documentation
+
+* **examples:** link to new jsfiddles using 3.x ([4df02fe](https://github.com/NickDJM/accessible-menu/commit/4df02fea5a20bce047ee89ba14ec7e20bff2d6bc)), closes [#124](https://github.com/NickDJM/accessible-menu/issues/124)
+* fix path to treeview ([92b0501](https://github.com/NickDJM/accessible-menu/commit/92b050179f757de35201d091ee111d0caf969f9f))
+* properly mark fields as protected ([7d43b50](https://github.com/NickDJM/accessible-menu/commit/7d43b50eeef1bd52b2c5bac93556cf945015f63a))
+* **treeview:** correct reference to treeview in toggle ([aaa4249](https://github.com/NickDJM/accessible-menu/commit/aaa42491f5ce3e73ac3f8099d24bf9f8179319bc))
+* use docdash templates for api documentation ([9433ddf](https://github.com/NickDJM/accessible-menu/commit/9433ddfe9cc2f1c9f46c14c3eb60f5b87e8db649)), closes [#123](https://github.com/NickDJM/accessible-menu/issues/123)
+
+
+### Build System
+
+* **lint:** update eslint and prettier options ([c324a6a](https://github.com/NickDJM/accessible-menu/commit/c324a6ad12393ff0af921bec558a3f84be0d6560))
+* **npm:** update dev dependencies to latest ([cebd3c4](https://github.com/NickDJM/accessible-menu/commit/cebd3c411edc182825440ef789d96480c043c66b))
+
 ## [3.0.0-alpha.3](https://github.com/NickDJM/accessible-menu/compare/v3.0.0-alpha.2...v3.0.0-alpha.3) (2021-07-23)
 
 
