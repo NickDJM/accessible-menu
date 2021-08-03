@@ -785,6 +785,11 @@ var Menubar = (function () {
         return this._elements;
       }
     }, {
+      key: "isTopLevel",
+      get: function get() {
+        return this._root;
+      }
+    }, {
       key: "openClass",
       get: function get() {
         return this.isTopLevel ? this._openClass : this.elements.rootMenu.openClass;
@@ -811,11 +816,6 @@ var Menubar = (function () {
         if (this._closeClass !== value) {
           this._closeClass = value;
         }
-      }
-    }, {
-      key: "isTopLevel",
-      get: function get() {
-        return this._root;
       }
     }, {
       key: "currentChild",

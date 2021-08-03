@@ -615,6 +615,11 @@ var AccessibleMenu = (function () {
         return this._elements;
       }
     }, {
+      key: "isTopLevel",
+      get: function get() {
+        return this._root;
+      }
+    }, {
       key: "openClass",
       get: function get() {
         return this.isTopLevel ? this._openClass : this.elements.rootMenu.openClass;
@@ -641,11 +646,6 @@ var AccessibleMenu = (function () {
         if (this._closeClass !== value) {
           this._closeClass = value;
         }
-      }
-    }, {
-      key: "isTopLevel",
-      get: function get() {
-        return this._root;
       }
     }, {
       key: "currentChild",
