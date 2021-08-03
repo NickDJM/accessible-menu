@@ -21,6 +21,17 @@ module.exports = {
         allow: ["warn", "error"],
       },
     ],
+    "jsdoc/tag-lines": [
+      "warn",
+      "always",
+      {
+        noEndLines: true,
+        tags: {
+          property: { lines: "never" },
+          param: { lines: "never" },
+        },
+      },
+    ],
   },
   settings: {
     jsdoc: {

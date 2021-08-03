@@ -8,7 +8,6 @@ module.exports = {
   bracketSpacing: true,
   arrowParens: "always",
   htmlWhitespaceSensitivity: "css",
-  vueIndentScriptAndStyle: false,
   endOfLine: "lf",
   printWidth: 80,
 };
