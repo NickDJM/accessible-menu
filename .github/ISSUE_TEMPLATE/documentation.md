@@ -1,14 +1,14 @@
 ---
-name: Feature request
-about: Suggest an idea for this project
-title: 'Feat: [Brief Description]'
-labels: enhancement
+name: Documentation Issue
+about: Create an issue to help fix or improve documentation
+title: 'Docs: [Brief Description]'
+labels: documentation
 assignees: ''
 
 ---
 
 ## Summary
-<!-- A clear and concise description of what the problem is. Ex. I'm always frustrated when [...] -->
+<!-- What is the issue you are experiencing? Is something unclear or wrong? A typo perhaps? -->
 
 ## Solution
 <!-- Describe the solution you'd like to see. -->
