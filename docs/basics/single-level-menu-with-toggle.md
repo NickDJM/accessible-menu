@@ -28,7 +28,7 @@ Given the above structure, the parameters needed for an accessible menu are:
 - `containerElement`
 - `openClass`
 
-Depending on what kind of menu you'd like to create you can either use [Menubar](../classes/Menubar.md) or [DisclosureMenu](../classes/DisclosureMenu.md).
+Depending on what kind of menu you'd like to create you can use [DisclosureMenu](https://accessible-menu.netlify.app/disclosuremenu), [Menubar](https://accessible-menu.netlify.app/menubar), or [Treeview](https://accessible-menu.netlify.app/treeview).
 
 ```js
 const menu = new AccessibleMenu.DisclosureMenu({
