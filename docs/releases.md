@@ -14,18 +14,16 @@ For more detailed information about SemVer, please see the [official documentati
 
 ## Making a release
 
-_Before_ making a release, run `npm run build` to ensure all changes to the source code are captured in the bundled version within the `dist/` directory.
+When making a release use the provided command:
 
-If there are differences in the freshly bundled version, commit them as a `chore`.
-
-When making a release, you should use the provided command:
-
-```
+```bash
 npm run release
 ```
 
 This command uses [standard-version](https://github.com/conventional-changelog/standard-version) to parse through your commits, decide what kind of release will be created, and automatically generates a CHANGELOG.md file for your project. These changes are then commited using the message `chore(release): <version number>`.
 
-Once that is done, you can simply run `git push --follow-tags origin` to have your release pushed up to the repository.
+A pre-release script will run  `lint`, `build`, and `test` scripts to ensure all code meets the coding standards, all changes to the source code are captured in the bundled version, and all code continues to function as expected. If any of theses scripts fail, a release will not be created.
+
+Once the script has succeeded, you can run `git push --follow-tags origin` to have your release pushed up to the repository.
 
 Standard-version will also tell you what command to run to publish to NPM- be that a regular release, alpha, beta, etc.
