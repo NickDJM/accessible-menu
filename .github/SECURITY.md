@@ -16,9 +16,9 @@ If a PR is submitted along with the issue to resolve the vulnerability, you can 
 
 ## Vulnerabilities in dependencies
 
-Given that accessible-menu does not have any production dependencies, any vulnerabile dependency will be updated when/if possible- though a new release of accessible-menu may not be pushed out right away.
+Given that accessible-menu does not have any production dependencies, any vulnerable dev dependencies will be updated when/if possible- though a new release of accessible-menu may not be pushed out right away.
 
-A higher priority will be given to dependencies that are directly responsible for compiling the project:
+A higher priority will be given to dev dependencies that are directly responsible for compiling the project:
 
 - [babel](https://github.com/babel/babel),
 - [rollup](https://github.com/rollup/rollup),
