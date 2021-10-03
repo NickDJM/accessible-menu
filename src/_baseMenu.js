@@ -910,9 +910,9 @@ class BaseMenu {
     const startEventType = isEventSupported("touchstart", this.dom.menu)
       ? "touchstart"
       : "mousedown";
-    const endEventType = isEventSupported("touchend", this.dom.menu)
-      ? "touchend"
-      : "mouseup";
+    const endEventTypes = isEventSupported("touchend", this.dom.menu)
+      ? ["touchend", "mouseup"]
+      : ["mouseup"];
 
     /**
      * Toggles a toggle element.
@@ -942,19 +942,23 @@ class BaseMenu {
 
       // Properly toggle submenus open and closed.
       if (item.isSubmenuItem) {
-        item.elements.toggle.dom.toggle[`on${endEventType}`] = (event) => {
-          this.currentEvent = "mouse";
-          toggleToggle(this, item.elements.toggle, event);
-        };
+        for (const endEventType of endEventTypes) {
+          item.elements.toggle.dom.toggle[`on${endEventType}`] = (event) => {
+            this.currentEvent = "mouse";
+            toggleToggle(this, item.elements.toggle, event);
+          };
+        }
       }
     });
 
     // Open the this menu if it's controller is clicked.
     if (this.isTopLevel && this.elements.controller) {
-      this.elements.controller.dom.toggle[`on${endEventType}`] = (event) => {
-        this.currentEvent = "mouse";
-        toggleToggle(this, this.elements.controller, event);
-      };
+      for (const endEventType of endEventTypes) {
+        this.elements.controller.dom.toggle[`on${endEventType}`] = (event) => {
+          this.currentEvent = "mouse";
+          toggleToggle(this, this.elements.controller, event);
+        };
+      }
     }
   }
 
