@@ -934,11 +934,15 @@ class BaseMenu {
 
     this.elements.menuItems.forEach((item, index) => {
       // Properly focus the current menu item.
-      item.dom.link.addEventListener(startEventType, () => {
-        this.currentEvent = "mouse";
-        this.elements.rootMenu.blurChildren();
-        this.focusChild(index);
-      });
+      item.dom.link.addEventListener(
+        startEventType,
+        () => {
+          this.currentEvent = "mouse";
+          this.elements.rootMenu.blurChildren();
+          this.focusChild(index);
+        },
+        { passive: true }
+      );
 
       // Properly toggle submenus open and closed.
       if (item.isSubmenuItem) {

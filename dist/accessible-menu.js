@@ -978,6 +978,8 @@ var AccessibleMenu = (function () {
             _this4.currentEvent = "mouse";
             _this4.elements.rootMenu.blurChildren();
             _this4.focusChild(index);
+          }, {
+            passive: true
           });
           if (item.isSubmenuItem) {
             var _iterator = _createForOfIteratorHelper(endEventTypes),
