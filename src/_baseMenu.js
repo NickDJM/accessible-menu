@@ -889,17 +889,17 @@ class BaseMenu {
   /**
    * Handles click events throughout the menu for proper use.
    *
-   * Depending on what is supported either `touchstart` and `touchend` or
+   * Depending on what is supported `pointerdown` and `pointerup`, otherwise either `touchstart` and `touchend` or
    * `mousedown` and `mouseup` will be used for all "click" event handling.
    *
-   * - Adds a `touchend`/`mouseup` listener to the document so if the user clicks
+   * - Adds a `pointerup`/`touchend`/`mouseup` listener to the document so if the user clicks
    *   outside of the menu when it is open, the menu will close.
-   * - Adds a `touchstart`/`mousedown` listener to every menu item that will blur
+   * - Adds a `pointerdown`/`touchstart`/`mousedown` listener to every menu item that will blur
    *   all menu items in the entire menu structure (starting at the root menu) and
    *   then properly focus the clicked item.
-   * - Adds a `touchend`/`mouseup` listener to every submenu item that will properly
+   * - Adds a `pointerup`/`touchend`/`mouseup` listener to every submenu item that will properly
    *   toggle the submenu open/closed.
-   * - Adds a `touchend`/`mouseup` listener to the menu's controller
+   * - Adds a `pointerup`/`touchend`/`mouseup` listener to the menu's controller
    *   (if the menu is the root menu) so when it is clicked it will properly
    *   toggle open/closed.
    *
@@ -907,12 +907,16 @@ class BaseMenu {
    */
   _handleClick() {
     // Use touch over mouse events when supported.
-    const startEventType = isEventSupported("touchstart", this.dom.menu)
+    const startEventType = isEventSupported("pointerdown", this.dom.menu)
+      ? "pointerdown"
+      : isEventSupported("touchstart", this.dom.menu)
       ? "touchstart"
       : "mousedown";
-    const endEventTypes = isEventSupported("touchend", this.dom.menu)
-      ? ["touchend", "mouseup"]
-      : ["mouseup"];
+    const endEventType = isEventSupported("pointerup", this.dom.menu)
+      ? "pointerup"
+      : isEventSupported("touchend", this.dom.menu)
+      ? "touchend"
+      : "mouseup";
 
     /**
      * Toggles a toggle element.
@@ -946,23 +950,19 @@ class BaseMenu {
 
       // Properly toggle submenus open and closed.
       if (item.isSubmenuItem) {
-        for (const endEventType of endEventTypes) {
-          item.elements.toggle.dom.toggle[`on${endEventType}`] = (event) => {
-            this.currentEvent = "mouse";
-            toggleToggle(this, item.elements.toggle, event);
-          };
-        }
+        item.elements.toggle.dom.toggle[`on${endEventType}`] = (event) => {
+          this.currentEvent = "mouse";
+          toggleToggle(this, item.elements.toggle, event);
+        };
       }
     });
 
     // Open the this menu if it's controller is clicked.
     if (this.isTopLevel && this.elements.controller) {
-      for (const endEventType of endEventTypes) {
-        this.elements.controller.dom.toggle[`on${endEventType}`] = (event) => {
-          this.currentEvent = "mouse";
-          toggleToggle(this, this.elements.controller, event);
-        };
-      }
+      this.elements.controller.dom.toggle[`on${endEventType}`] = (event) => {
+        this.currentEvent = "mouse";
+        toggleToggle(this, this.elements.controller, event);
+      };
     }
   }
 
