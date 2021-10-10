@@ -357,18 +357,6 @@ var Treeview = (function () {
       return false;
     }
   }
-  function isEventSupported(event, element) {
-    if (isValidType("string", {
-      event: event
-    }) && isValidInstance(HTMLElement, {
-      element: element
-    })) {
-      var eventProp = "on".concat(event);
-      return typeof element[eventProp] !== "undefined";
-    } else {
-      return false;
-    }
-  }
 
   var BaseMenuToggle = function () {
     function BaseMenuToggle(_ref) {
@@ -1134,8 +1122,8 @@ var Treeview = (function () {
       key: "_handleClick",
       value: function _handleClick() {
         var _this4 = this;
-        var startEventType = isEventSupported("pointerdown", this.dom.menu) ? "pointerdown" : isEventSupported("touchstart", this.dom.menu) ? "touchstart" : "mousedown";
-        var endEventType = isEventSupported("pointerup", this.dom.menu) ? "pointerup" : isEventSupported("touchend", this.dom.menu) ? "touchend" : "mouseup";
+        var startEventType = "pointerdown";
+        var endEventType = "pointerup";
         function toggleToggle(menu, toggle, event) {
           preventEvent(event);
           toggle.toggle();

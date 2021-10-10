@@ -8,7 +8,6 @@ import {
   isValidState,
   isValidEvent,
   isValidHoverType,
-  isEventSupported,
 } from "./validate.js";
 import { preventEvent, keyPress } from "./eventHandlers.js";
 
@@ -889,17 +888,16 @@ class BaseMenu {
   /**
    * Handles click events throughout the menu for proper use.
    *
-   * Depending on what is supported `pointerdown` and `pointerup`, otherwise either `touchstart` and `touchend` or
-   * `mousedown` and `mouseup` will be used for all "click" event handling.
+   * `pointerdown` and `pointerup` will be used for all "click" event handling.
    *
-   * - Adds a `pointerup`/`touchend`/`mouseup` listener to the document so if the user clicks
+   * - Adds a `pointerup` listener to the document so if the user clicks
    *   outside of the menu when it is open, the menu will close.
-   * - Adds a `pointerdown`/`touchstart`/`mousedown` listener to every menu item that will blur
+   * - Adds a `pointerdown` listener to every menu item that will blur
    *   all menu items in the entire menu structure (starting at the root menu) and
    *   then properly focus the clicked item.
-   * - Adds a `pointerup`/`touchend`/`mouseup` listener to every submenu item that will properly
+   * - Adds a `pointerup` listener to every submenu item that will properly
    *   toggle the submenu open/closed.
-   * - Adds a `pointerup`/`touchend`/`mouseup` listener to the menu's controller
+   * - Adds a `pointerup` listener to the menu's controller
    *   (if the menu is the root menu) so when it is clicked it will properly
    *   toggle open/closed.
    *
@@ -907,16 +905,8 @@ class BaseMenu {
    */
   _handleClick() {
     // Use touch over mouse events when supported.
-    const startEventType = isEventSupported("pointerdown", this.dom.menu)
-      ? "pointerdown"
-      : isEventSupported("touchstart", this.dom.menu)
-      ? "touchstart"
-      : "mousedown";
-    const endEventType = isEventSupported("pointerup", this.dom.menu)
-      ? "pointerup"
-      : isEventSupported("touchend", this.dom.menu)
-      ? "touchend"
-      : "mouseup";
+    const startEventType = "pointerdown";
+    const endEventType = "pointerup";
 
     /**
      * Toggles a toggle element.
