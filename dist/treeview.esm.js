@@ -1138,17 +1138,17 @@ var BaseMenu = function () {
           passive: true
         });
         if (item.isSubmenuItem) {
-          item.elements.toggle.dom.toggle["on".concat(endEventType)] = function (event) {
+          item.elements.toggle.dom.toggle.addEventListener(endEventType, function (event) {
             _this4.currentEvent = "mouse";
             toggleToggle(_this4, item.elements.toggle, event);
-          };
+          });
         }
       });
       if (this.isTopLevel && this.elements.controller) {
-        this.elements.controller.dom.toggle["on".concat(endEventType)] = function (event) {
+        this.elements.controller.dom.toggle.addEventListener(endEventType, function (event) {
           _this4.currentEvent = "mouse";
           toggleToggle(_this4, _this4.elements.controller, event);
-        };
+        });
       }
     }
   }, {

@@ -161,18 +161,6 @@ var AccessibleMenu = (function () {
       return false;
     }
   }
-  function isEventSupported(event, element) {
-    if (isValidType("string", {
-      event: event
-    }) && isValidInstance(HTMLElement, {
-      element: element
-    })) {
-      var eventProp = "on".concat(event);
-      return typeof element[eventProp] !== "undefined";
-    } else {
-      return false;
-    }
-  }
 
   function _toConsumableArray$2(arr) { return _arrayWithoutHoles$2(arr) || _iterableToArray$2(arr) || _unsupportedIterableToArray$2(arr) || _nonIterableSpread$2(); }
   function _nonIterableSpread$2() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -981,17 +969,17 @@ var AccessibleMenu = (function () {
             passive: true
           });
           if (item.isSubmenuItem) {
-            item.elements.toggle.dom.toggle["on".concat(endEventType)] = function (event) {
+            item.elements.toggle.dom.toggle.addEventListener(endEventType, function (event) {
               _this4.currentEvent = "mouse";
               toggleToggle(_this4, item.elements.toggle, event);
-            };
+            });
           }
         });
         if (this.isTopLevel && this.elements.controller) {
-          this.elements.controller.dom.toggle["on".concat(endEventType)] = function (event) {
+          this.elements.controller.dom.toggle.addEventListener(endEventType, function (event) {
             _this4.currentEvent = "mouse";
             toggleToggle(_this4, _this4.elements.controller, event);
-          };
+          });
         }
       }
     }, {
@@ -1412,7 +1400,7 @@ var AccessibleMenu = (function () {
       value: function _handleClick() {
         var _this2 = this;
         _get$5(_getPrototypeOf$6(DisclosureMenu.prototype), "_handleClick", this).call(this);
-        var endEventType = isEventSupported("touchend", this.dom.menu) ? "touchend" : "mouseup";
+        var endEventType = "pointerup";
         document.addEventListener(endEventType, function (event) {
           if (_this2.focusState !== "none") {
             _this2.currentEvent = "mouse";
@@ -1740,7 +1728,7 @@ var AccessibleMenu = (function () {
       value: function _handleClick() {
         var _this2 = this;
         _get$2(_getPrototypeOf$3(Menubar.prototype), "_handleClick", this).call(this);
-        var endEventType = isEventSupported("touchend", this.dom.menu) ? "touchend" : "mouseup";
+        var endEventType = "pointerup";
         document.addEventListener(endEventType, function (event) {
           if (_this2.focusState !== "none") {
             _this2.currentEvent = "mouse";

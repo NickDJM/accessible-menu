@@ -354,18 +354,6 @@ function isTag(tagName, elements) {
     return false;
   }
 }
-function isEventSupported(event, element) {
-  if (isValidType("string", {
-    event: event
-  }) && isValidInstance(HTMLElement, {
-    element: element
-  })) {
-    var eventProp = "on".concat(event);
-    return typeof element[eventProp] !== "undefined";
-  } else {
-    return false;
-  }
-}
 
 var BaseMenuToggle = function () {
   function BaseMenuToggle(_ref) {
@@ -1150,17 +1138,17 @@ var BaseMenu = function () {
           passive: true
         });
         if (item.isSubmenuItem) {
-          item.elements.toggle.dom.toggle["on".concat(endEventType)] = function (event) {
+          item.elements.toggle.dom.toggle.addEventListener(endEventType, function (event) {
             _this4.currentEvent = "mouse";
             toggleToggle(_this4, item.elements.toggle, event);
-          };
+          });
         }
       });
       if (this.isTopLevel && this.elements.controller) {
-        this.elements.controller.dom.toggle["on".concat(endEventType)] = function (event) {
+        this.elements.controller.dom.toggle.addEventListener(endEventType, function (event) {
           _this4.currentEvent = "mouse";
           toggleToggle(_this4, _this4.elements.controller, event);
-        };
+        });
       }
     }
   }, {
@@ -1545,7 +1533,7 @@ var DisclosureMenu = function (_BaseMenu) {
     value: function _handleClick() {
       var _this2 = this;
       _get(_getPrototypeOf(DisclosureMenu.prototype), "_handleClick", this).call(this);
-      var endEventType = isEventSupported("touchend", this.dom.menu) ? "touchend" : "mouseup";
+      var endEventType = "pointerup";
       document.addEventListener(endEventType, function (event) {
         if (_this2.focusState !== "none") {
           _this2.currentEvent = "mouse";

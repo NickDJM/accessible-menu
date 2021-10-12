@@ -2,7 +2,6 @@ import BaseMenu from "./_baseMenu.js";
 import MenubarItem from "./menubarItem.js";
 import MenubarToggle from "./menubarToggle.js";
 import { keyPress, preventEvent } from "./eventHandlers.js";
-import { isEventSupported } from "./validate.js";
 
 /**
  * An accessible menubar navigation in the DOM.
@@ -151,23 +150,18 @@ class Menubar extends BaseMenu {
   /**
    * Handles click events throughout the menu for proper use.
    *
-   * Depending on what is supported either `touchstart` and `touchend` or
-   * `mousedown` and `mouseup` will be used for all "click" event handling.
+   * `pointerup` will be used for all "click" event handling.
    *
    * - Adds all event listeners listed in
    *   {@link BaseMenu#_handleClick|BaseMenu's _handleClick method}, and
-   * - adds a `touchend`/`mouseup` listener to the `document` so if the user
+   * - adds a `pointerup` listener to the `document` so if the user
    *   clicks outside of the menu it will close if it is open.
    *
    * @protected
    */
   _handleClick() {
     super._handleClick();
-
-    // Use touch over mouse events when supported.
-    const endEventType = isEventSupported("touchend", this.dom.menu)
-      ? "touchend"
-      : "mouseup";
+    const endEventType = "pointerup";
 
     // Close the menu if a click event happens outside of it.
     document.addEventListener(endEventType, (event) => {
