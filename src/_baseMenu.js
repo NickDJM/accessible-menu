@@ -904,7 +904,6 @@ class BaseMenu {
    * @protected
    */
   _handleClick() {
-    // Use touch over mouse events when supported.
     const startEventType = "pointerdown";
     const endEventType = "pointerup";
 
@@ -940,19 +939,25 @@ class BaseMenu {
 
       // Properly toggle submenus open and closed.
       if (item.isSubmenuItem) {
-        item.elements.toggle.dom.toggle[`on${endEventType}`] = (event) => {
-          this.currentEvent = "mouse";
-          toggleToggle(this, item.elements.toggle, event);
-        };
+        item.elements.toggle.dom.toggle.addEventListener(
+          endEventType,
+          (event) => {
+            this.currentEvent = "mouse";
+            toggleToggle(this, item.elements.toggle, event);
+          }
+        );
       }
     });
 
     // Open the this menu if it's controller is clicked.
     if (this.isTopLevel && this.elements.controller) {
-      this.elements.controller.dom.toggle[`on${endEventType}`] = (event) => {
-        this.currentEvent = "mouse";
-        toggleToggle(this, this.elements.controller, event);
-      };
+      this.elements.controller.dom.toggle.addEventListener(
+        endEventType,
+        (event) => {
+          this.currentEvent = "mouse";
+          toggleToggle(this, this.elements.controller, event);
+        }
+      );
     }
   }
 
