@@ -330,6 +330,8 @@ export function isTag(tagName, elements) {
  * @param  {string}      event   - The event type.
  * @param  {HTMLElement} element - The element to check.
  * @return {boolean}             - The result.
+ *
+ * @deprecated Will be removed in v4 unless there is a new found need for it.
  */
 export function isEventSupported(event, element) {
   if (
