@@ -204,7 +204,6 @@ class DisclosureMenu extends BaseMenu {
   /**
    * Handles click events throughout the menu for proper use.
    *
-   * `pointerup` will be used for all "click" event handling.
    *
    * - Adds all event listeners listed in
    *   {@link BaseMenu#_handleClick|BaseMenu's _handleClick method}, and
@@ -215,10 +214,9 @@ class DisclosureMenu extends BaseMenu {
    */
   _handleClick() {
     super._handleClick();
-    const endEventType = "pointerup";
 
     // Close the menu if a click event happens outside of it.
-    document.addEventListener(endEventType, (event) => {
+    document.addEventListener("pointerup", (event) => {
       if (this.focusState !== "none") {
         this.currentEvent = "mouse";
 

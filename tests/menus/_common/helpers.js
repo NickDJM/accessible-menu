@@ -102,7 +102,7 @@ export function simulateKeyboardEvent(eventType, element, options = {}) {
 }
 
 /**
- * Simulates a pointer event on a DOM element.
+ * Simulates a pointerdown and a pointerup event on a DOM element.
  *
  * @param {HTMLElement} element - The element to trigger the events on.
  * @param {object}      options - Custom options for the events.

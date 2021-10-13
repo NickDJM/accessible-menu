@@ -888,7 +888,6 @@ class BaseMenu {
   /**
    * Handles click events throughout the menu for proper use.
    *
-   * `pointerdown` and `pointerup` will be used for all "click" event handling.
    *
    * - Adds a `pointerup` listener to the document so if the user clicks
    *   outside of the menu when it is open, the menu will close.
@@ -904,8 +903,6 @@ class BaseMenu {
    * @protected
    */
   _handleClick() {
-    const startEventType = "pointerdown";
-    const endEventType = "pointerup";
 
     /**
      * Toggles a toggle element.
@@ -928,7 +925,7 @@ class BaseMenu {
     this.elements.menuItems.forEach((item, index) => {
       // Properly focus the current menu item.
       item.dom.link.addEventListener(
-        startEventType,
+        "pointerdown",
         () => {
           this.currentEvent = "mouse";
           this.elements.rootMenu.blurChildren();
@@ -940,7 +937,7 @@ class BaseMenu {
       // Properly toggle submenus open and closed.
       if (item.isSubmenuItem) {
         item.elements.toggle.dom.toggle.addEventListener(
-          endEventType,
+          "pointerup",
           (event) => {
             this.currentEvent = "mouse";
             toggleToggle(this, item.elements.toggle, event);
@@ -952,7 +949,7 @@ class BaseMenu {
     // Open the this menu if it's controller is clicked.
     if (this.isTopLevel && this.elements.controller) {
       this.elements.controller.dom.toggle.addEventListener(
-        endEventType,
+        "pointerup",
         (event) => {
           this.currentEvent = "mouse";
           toggleToggle(this, this.elements.controller, event);
