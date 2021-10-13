@@ -2,7 +2,7 @@ import BaseMenu from "./_baseMenu.js";
 import DisclosureMenuItem from "./disclosureMenuItem.js";
 import DisclosureMenuToggle from "./disclosureMenuToggle.js";
 import { preventEvent, keyPress } from "./eventHandlers.js";
-import { isValidType, isEventSupported } from "./validate.js";
+import { isValidType } from "./validate.js";
 
 /**
  * An accessible disclosure menu in the DOM.
@@ -204,12 +204,10 @@ class DisclosureMenu extends BaseMenu {
   /**
    * Handles click events throughout the menu for proper use.
    *
-   * Depending on what is supported either `touchstart` and `touchend` or
-   * `mousedown` and `mouseup` will be used for all "click" event handling.
    *
    * - Adds all event listeners listed in
    *   {@link BaseMenu#_handleClick|BaseMenu's _handleClick method}, and
-   * - adds a `touchend`/`mouseup` listener to the `document` so if the user
+   * - adds a `pointerup` listener to the `document` so if the user
    *   clicks outside of the menu it will close if it is open.
    *
    * @protected
@@ -217,13 +215,8 @@ class DisclosureMenu extends BaseMenu {
   _handleClick() {
     super._handleClick();
 
-    // Use touch over mouse events when supported.
-    const endEventType = isEventSupported("touchend", this.dom.menu)
-      ? "touchend"
-      : "mouseup";
-
     // Close the menu if a click event happens outside of it.
-    document.addEventListener(endEventType, (event) => {
+    document.addEventListener("pointerup", (event) => {
       if (this.focusState !== "none") {
         this.currentEvent = "mouse";
 

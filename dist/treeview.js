@@ -109,6 +109,8 @@ var Treeview = (function () {
   function _possibleConstructorReturn(self, call) {
     if (call && (typeof call === "object" || typeof call === "function")) {
       return call;
+    } else if (call !== void 0) {
+      throw new TypeError("Derived constructors may only return object or undefined");
     }
 
     return _assertThisInitialized(self);
@@ -351,18 +353,6 @@ var Treeview = (function () {
         if (elements[key].tagName.toLowerCase() !== tag) check = false;
       }
       return check;
-    } else {
-      return false;
-    }
-  }
-  function isEventSupported(event, element) {
-    if (isValidType("string", {
-      event: event
-    }) && isValidInstance(HTMLElement, {
-      element: element
-    })) {
-      var eventProp = "on".concat(event);
-      return typeof element[eventProp] !== "undefined";
     } else {
       return false;
     }
@@ -1132,8 +1122,8 @@ var Treeview = (function () {
       key: "_handleClick",
       value: function _handleClick() {
         var _this4 = this;
-        var startEventType = isEventSupported("touchstart", this.dom.menu) ? "touchstart" : "mousedown";
-        var endEventType = isEventSupported("touchend", this.dom.menu) ? "touchend" : "mouseup";
+        var startEventType = "pointerdown";
+        var endEventType = "pointerup";
         function toggleToggle(menu, toggle, event) {
           preventEvent(event);
           toggle.toggle();
@@ -1147,19 +1137,21 @@ var Treeview = (function () {
             _this4.currentEvent = "mouse";
             _this4.elements.rootMenu.blurChildren();
             _this4.focusChild(index);
+          }, {
+            passive: true
           });
           if (item.isSubmenuItem) {
-            item.elements.toggle.dom.toggle["on".concat(endEventType)] = function (event) {
+            item.elements.toggle.dom.toggle.addEventListener(endEventType, function (event) {
               _this4.currentEvent = "mouse";
               toggleToggle(_this4, item.elements.toggle, event);
-            };
+            });
           }
         });
         if (this.isTopLevel && this.elements.controller) {
-          this.elements.controller.dom.toggle["on".concat(endEventType)] = function (event) {
+          this.elements.controller.dom.toggle.addEventListener(endEventType, function (event) {
             _this4.currentEvent = "mouse";
             toggleToggle(_this4, _this4.elements.controller, event);
-          };
+          });
         }
       }
     }, {
@@ -1728,5 +1720,5 @@ var Treeview = (function () {
 
   return Treeview;
 
-}());
+})();
 //# sourceMappingURL=treeview.js.map
