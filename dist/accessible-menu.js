@@ -950,8 +950,6 @@ var AccessibleMenu = (function () {
       key: "_handleClick",
       value: function _handleClick() {
         var _this4 = this;
-        var startEventType = "pointerdown";
-        var endEventType = "pointerup";
         function toggleToggle(menu, toggle, event) {
           preventEvent(event);
           toggle.toggle();
@@ -961,7 +959,7 @@ var AccessibleMenu = (function () {
           }
         }
         this.elements.menuItems.forEach(function (item, index) {
-          item.dom.link.addEventListener(startEventType, function () {
+          item.dom.link.addEventListener("pointerdown", function () {
             _this4.currentEvent = "mouse";
             _this4.elements.rootMenu.blurChildren();
             _this4.focusChild(index);
@@ -969,14 +967,14 @@ var AccessibleMenu = (function () {
             passive: true
           });
           if (item.isSubmenuItem) {
-            item.elements.toggle.dom.toggle.addEventListener(endEventType, function (event) {
+            item.elements.toggle.dom.toggle.addEventListener("pointerup", function (event) {
               _this4.currentEvent = "mouse";
               toggleToggle(_this4, item.elements.toggle, event);
             });
           }
         });
         if (this.isTopLevel && this.elements.controller) {
-          this.elements.controller.dom.toggle.addEventListener(endEventType, function (event) {
+          this.elements.controller.dom.toggle.addEventListener("pointerup", function (event) {
             _this4.currentEvent = "mouse";
             toggleToggle(_this4, _this4.elements.controller, event);
           });
@@ -1400,8 +1398,7 @@ var AccessibleMenu = (function () {
       value: function _handleClick() {
         var _this2 = this;
         _get$5(_getPrototypeOf$6(DisclosureMenu.prototype), "_handleClick", this).call(this);
-        var endEventType = "pointerup";
-        document.addEventListener(endEventType, function (event) {
+        document.addEventListener("pointerup", function (event) {
           if (_this2.focusState !== "none") {
             _this2.currentEvent = "mouse";
             if (!_this2.dom.menu.contains(event.target) && !_this2.dom.menu !== event.target) {
@@ -1728,8 +1725,7 @@ var AccessibleMenu = (function () {
       value: function _handleClick() {
         var _this2 = this;
         _get$2(_getPrototypeOf$3(Menubar.prototype), "_handleClick", this).call(this);
-        var endEventType = "pointerup";
-        document.addEventListener(endEventType, function (event) {
+        document.addEventListener("pointerup", function (event) {
           if (_this2.focusState !== "none") {
             _this2.currentEvent = "mouse";
             if (!_this2.dom.menu.contains(event.target) && !_this2.dom.menu !== event.target) {

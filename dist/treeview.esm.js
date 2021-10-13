@@ -1119,8 +1119,6 @@ var BaseMenu = function () {
     key: "_handleClick",
     value: function _handleClick() {
       var _this4 = this;
-      var startEventType = "pointerdown";
-      var endEventType = "pointerup";
       function toggleToggle(menu, toggle, event) {
         preventEvent(event);
         toggle.toggle();
@@ -1130,7 +1128,7 @@ var BaseMenu = function () {
         }
       }
       this.elements.menuItems.forEach(function (item, index) {
-        item.dom.link.addEventListener(startEventType, function () {
+        item.dom.link.addEventListener("pointerdown", function () {
           _this4.currentEvent = "mouse";
           _this4.elements.rootMenu.blurChildren();
           _this4.focusChild(index);
@@ -1138,14 +1136,14 @@ var BaseMenu = function () {
           passive: true
         });
         if (item.isSubmenuItem) {
-          item.elements.toggle.dom.toggle.addEventListener(endEventType, function (event) {
+          item.elements.toggle.dom.toggle.addEventListener("pointerup", function (event) {
             _this4.currentEvent = "mouse";
             toggleToggle(_this4, item.elements.toggle, event);
           });
         }
       });
       if (this.isTopLevel && this.elements.controller) {
-        this.elements.controller.dom.toggle.addEventListener(endEventType, function (event) {
+        this.elements.controller.dom.toggle.addEventListener("pointerup", function (event) {
           _this4.currentEvent = "mouse";
           toggleToggle(_this4, _this4.elements.controller, event);
         });
