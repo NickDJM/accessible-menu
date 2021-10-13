@@ -888,9 +888,6 @@ class BaseMenu {
   /**
    * Handles click events throughout the menu for proper use.
    *
-   *
-   * - Adds a `pointerup` listener to the document so if the user clicks
-   *   outside of the menu when it is open, the menu will close.
    * - Adds a `pointerdown` listener to every menu item that will blur
    *   all menu items in the entire menu structure (starting at the root menu) and
    *   then properly focus the clicked item.
@@ -903,7 +900,6 @@ class BaseMenu {
    * @protected
    */
   _handleClick() {
-
     /**
      * Toggles a toggle element.
      *

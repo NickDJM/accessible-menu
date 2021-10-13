@@ -204,7 +204,6 @@ class DisclosureMenu extends BaseMenu {
   /**
    * Handles click events throughout the menu for proper use.
    *
-   *
    * - Adds all event listeners listed in
    *   {@link BaseMenu#_handleClick|BaseMenu's _handleClick method}, and
    * - adds a `pointerup` listener to the `document` so if the user
