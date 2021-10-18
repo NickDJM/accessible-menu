@@ -1,6 +1,8 @@
 /**
  * Test the isEventSupported() function in validate.js to make sure the expected values are returned.
  *
+ * @deprecated Will be removed in v4.
+ *
  * @jest-environment jsdom
  */
 
