@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.1](https://github.com/NickDJM/accessible-menu/compare/v3.0.0...v3.0.1) (2021-10-18)
+
+
+### Bug Fixes
+
+* **accessibilty:** replace click/touch events with pointer events ([e88ae5f](https://github.com/NickDJM/accessible-menu/commit/e88ae5feea540eb2c75c36a1af68ff582d53bef0))
+
+
+### Documentation
+
+* **badges:** add CodeQL badge ([fdcbfb7](https://github.com/NickDJM/accessible-menu/commit/fdcbfb76a7719fa81367a287c4a91ef538cea070))
+* correct typo ([7adac86](https://github.com/NickDJM/accessible-menu/commit/7adac86b823ae8e142949ca5d7ef596f83a8a689))
+* **examples:** use proper links to api in basic examples ([9c1f075](https://github.com/NickDJM/accessible-menu/commit/9c1f075098a38ca3e48296b2a35bd7d9e2892749))
+* **github:** add documentation issue template ([f43cf42](https://github.com/NickDJM/accessible-menu/commit/f43cf42dee88668f71a77b1994d493826ba93352))
+* **github:** add security policy ([30915b5](https://github.com/NickDJM/accessible-menu/commit/30915b5ebf3e9e93072a32f1a958803f2d5aaf92))
+* **github:** update issue and pr templates ([8f7b322](https://github.com/NickDJM/accessible-menu/commit/8f7b322f805dc0ed4faa4ef61131c75e3bf59417))
+* **menu:** correct documentation on handle click ([c0c9894](https://github.com/NickDJM/accessible-menu/commit/c0c98942e804fb87b881e90b3451fd49e426538b))
+* **release:** update documentation to be accurate as to what happens on release ([a95f86c](https://github.com/NickDJM/accessible-menu/commit/a95f86c2eaa8871d6b79a66fdf9baff7677b8ee9))
+* update contributing guidelines to reflect the current state of the project ([8fde6b8](https://github.com/NickDJM/accessible-menu/commit/8fde6b87c63c36ecf9356959344fcf1c21edf266))
+* **validate:** add deprecation notice to isEventSupported() ([04c7cbd](https://github.com/NickDJM/accessible-menu/commit/04c7cbd4ce395d15f1411323a231e8c5615b59cd))
+
+
+### Build System
+
+* bump jest-extended from 0.11.5 to 1.0.0 ([85074a7](https://github.com/NickDJM/accessible-menu/commit/85074a728d578b4fcd584d67a33ba88464aa2ee0))
+* **npm:** remove deprecated eslint-plugin-standard ([c50a001](https://github.com/NickDJM/accessible-menu/commit/c50a001fb439c444443a3406cc7c0be2e8dcafdb))
+
 ## [3.0.0](https://github.com/NickDJM/accessible-menu/compare/v3.0.0-alpha.3...v3.0.0) (2021-08-03)
 
 
