@@ -43,7 +43,7 @@ For learning/prototyping purposes you can use the latest version with:
 For production environments, it is recommend to use a specific version to avoid unforseen breaking changes:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/accessible-menu@3.0.0/dist/accessible-menu.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/accessible-menu@3.0.2/dist/accessible-menu.min.js"></script>
 ```
 
 ## Upgrading from version 2 to version 3?

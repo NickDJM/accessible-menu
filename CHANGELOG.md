@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.2](https://github.com/NickDJM/accessible-menu/compare/v3.0.1...v3.0.2) (2021-10-26)
+
+
+### Bug Fixes
+
+* **menubar:** ensure click events are fired on regular submenu items ([035a104](https://github.com/NickDJM/accessible-menu/commit/035a104ee9cde693138c2b55584f4ac5a6505776)), closes [#141](https://github.com/NickDJM/accessible-menu/issues/141)
+
+
+### Build System
+
+* bump eslint-plugin-jsdoc from 36.1.1 to 37.0.0 ([84f57d7](https://github.com/NickDJM/accessible-menu/commit/84f57d73aa40accb488195384de67666ef778876))
+
+
+### Documentation
+
+* **contributing:** update fork info and consistency ([2cc2c0d](https://github.com/NickDJM/accessible-menu/commit/2cc2c0d81f6e14eba1f2302282d7a2d441f3f1f0))
+
+
+### Continuous Integration
+
+* **workflow:** add build and lint workflows ([efbe3ca](https://github.com/NickDJM/accessible-menu/commit/efbe3cac03ee692ad4b6a3afd26a14fc53ec4ecf))
+
 ### [3.0.1](https://github.com/NickDJM/accessible-menu/compare/v3.0.0...v3.0.1) (2021-10-18)
 
 
