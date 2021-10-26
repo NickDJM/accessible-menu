@@ -411,6 +411,90 @@ export function baseKeypressTests(MenuClass) {
         toggleIsOpen(toggle);
         expect(menu.currentChild).toBe(0);
       });
+
+      test("Activates 'clicks' root level menu item's link when not a submenu toggle", () => {
+        // Set up the DOM.
+        document.body.innerHTML = fullMenu;
+        const menu = new MenuClass({
+          menuElement: document.querySelector("#menu-0"),
+          submenuItemSelector: "li.dropdown",
+        });
+        const menuItem = menu.elements.menuItems[0];
+
+        // Set up the spy.
+        const spy = jest.spyOn(menuItem.dom.link, "click");
+
+        // Enter the menu.
+        menuItem.dom.link.focus();
+
+        // Simluate the keypress.
+        simulateKeypress(key, menuItem.dom.link);
+
+        expect(spy).toHaveBeenCalled();
+      });
+
+      test("Activates 'clicks' child level menu item's link when not a submenu toggle", () => {
+        // Set up the DOM.
+        document.body.innerHTML = fullMenu;
+        const menu = new MenuClass({
+          menuElement: document.querySelector("#menu-0"),
+          submenuItemSelector: "li.dropdown",
+        });
+        const toggle = menu.elements.submenuToggles[0];
+        const { controlledMenu } = toggle.elements;
+        const menuItem = controlledMenu.elements.menuItems[0];
+
+        // Enter the menu.
+        menu.elements.menuItems[0].dom.link.focus();
+
+        // Set up the menu for the test.
+        menu.focusChild(1);
+        toggle.open();
+        controlledMenu.focusChild(0);
+
+        // Set up the spy.
+        const spy = jest.spyOn(menuItem.dom.link, "click");
+
+        // Enter the menu.
+        menuItem.dom.link.focus();
+
+        // Simluate the keypress.
+        simulateKeypress(key, menuItem.dom.link);
+
+        expect(spy).toHaveBeenCalled();
+      });
+
+      test("Activates 'clicks' grandchild level menu item's link when not a submenu toggle", () => {
+        // Set up the DOM.
+        document.body.innerHTML = fullMenu;
+        const menu = new MenuClass({
+          menuElement: document.querySelector("#menu-0"),
+          submenuItemSelector: "li.dropdown",
+        });
+        const toggle = menu.elements.submenuToggles[0];
+        const { controlledMenu } = toggle.elements;
+        const submenuToggle = controlledMenu.elements.submenuToggles[1];
+        const subControlledMenu = submenuToggle.elements.controlledMenu;
+        const menuItem = subControlledMenu.elements.menuItems[0];
+
+        // Set up the spy.
+        const spy = jest.spyOn(menuItem.dom.link, "click");
+
+        // Enter the menu.
+        menu.elements.menuItems[0].dom.link.focus();
+
+        // Set up the menu for the test.
+        menu.focusChild(1);
+        toggle.open();
+        controlledMenu.focusChild(2);
+        submenuToggle.open();
+        subControlledMenu.focusChild(0);
+
+        // Simluate the keypress.
+        simulateKeypress(key, menuItem.dom.link);
+
+        expect(spy).toHaveBeenCalled();
+      });
     });
   });
 }
