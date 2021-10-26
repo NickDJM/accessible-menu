@@ -1880,6 +1880,8 @@ var AccessibleMenu = (function () {
                 requestAnimationFrame(function () {
                   _this4.currentMenuItem.elements.childMenu.focusFirstChild();
                 });
+              } else {
+                _this4.currentMenuItem.dom.link.click();
               }
             } else if (key === "Escape") {
               preventEvent(event);
