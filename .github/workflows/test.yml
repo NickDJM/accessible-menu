@@ -14,7 +14,7 @@ jobs:
       - name: Install modules
         run: npm install
       - name: Run build
-        run: npm build
+        run: npm run build
   lint:
     runs-on: ubuntu-latest
     steps:
@@ -22,9 +22,9 @@ jobs:
       - name: Install modules
         run: npm install
       - name: Run eslint
-        run: npm eslint
+        run: npm run eslint
       - name: Run prettier
-        run: npm prettier -- --check
+        run: npm run prettier -- --check
   test:
     runs-on: ubuntu-latest
     steps:
