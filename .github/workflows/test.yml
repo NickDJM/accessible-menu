@@ -7,7 +7,7 @@ on:
     branches:
       - 3.x
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -15,5 +15,21 @@ jobs:
         run: npm install
       - name: Run build
         run: npm run build
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install modules
+        run: npm install
+      - name: Run eslint
+        run: npm run eslint
+      - name: Run prettier
+        run: npm run prettier -- --check
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install modules
+        run: npm install
       - name: Run tests
         run: npm test
