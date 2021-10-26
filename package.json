@@ -11,9 +11,9 @@
   "scripts": {
     "prepare": "husky install",
     "commit": "git-cz",
-    "lint": "npm run eslint && npm run prettier",
-    "eslint": "eslint --ext .js --fix .",
-    "prettier": "prettier '**/*.js' --write --ignore-path .eslintignore",
+    "lint": "npm run eslint -- --fix && npm run prettier -- --write",
+    "eslint": "eslint --ext .js .",
+    "prettier": "prettier '**/*.js' --ignore-path .eslintignore",
     "prerelease": "npm run lint && npm run build && npm test",
     "release": "git add dist/. && standard-version -a",
     "prebuild": "npm run build:docs",
