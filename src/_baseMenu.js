@@ -996,7 +996,7 @@ class BaseMenu {
    */
   _handleHover() {
     this.elements.menuItems.forEach((menuItem, index) => {
-      menuItem.dom.link.addEventListener("mouseenter", () => {
+      menuItem.dom.link.addEventListener("pointerenter", () => {
         if (this.hoverType === "on") {
           this.currentEvent = "mouse";
           this.currentChild = index;
@@ -1023,7 +1023,7 @@ class BaseMenu {
       });
 
       if (menuItem.isSubmenuItem) {
-        menuItem.dom.item.addEventListener("mouseleave", () => {
+        menuItem.dom.item.addEventListener("pointerleave", () => {
           if (this.hoverType === "on") {
             if (this.hoverDelay > 0) {
               setTimeout(() => {
