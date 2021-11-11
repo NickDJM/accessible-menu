@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.3](https://github.com/NickDJM/accessible-menu/compare/v3.0.2...v3.0.3) (2021-11-11)
+
+
+### Bug Fixes
+
+* **accessibility:** use pointer events for _handleHover() to ensure device support ([a137cb0](https://github.com/NickDJM/accessible-menu/commit/a137cb05cbb38980b4d508ad8a45cc7036f58feb))
+
+
+### Build System
+
+* bump @commitlint/cli from 13.2.1 to 14.1.0 ([4d423c0](https://github.com/NickDJM/accessible-menu/commit/4d423c0417f6d92a97e0ba3157484388d977064d))
+* bump @commitlint/config-conventional from 13.2.0 to 14.1.0 ([ccf5e8e](https://github.com/NickDJM/accessible-menu/commit/ccf5e8e137229e41988f751047f6f518c8dd5880))
+
 ### [3.0.2](https://github.com/NickDJM/accessible-menu/compare/v3.0.1...v3.0.2) (2021-10-26)
 
 
