@@ -13,7 +13,7 @@
 module.exports.readVersion = (contents) => {
   try {
     const version = contents
-      .match(/accessible-menu@\d\.\d\.\d/)[0]
+      .match(/\/accessible-menu@\d+\.\d+\.\d+(-.*?\.\d+)?\//)[0]
       .replace("accessible-menu@", "");
 
     return version;
@@ -31,7 +31,7 @@ module.exports.readVersion = (contents) => {
  */
 module.exports.writeVersion = (contents, version) => {
   return contents.replace(
-    /accessible-menu@\d\.\d\.\d/g,
+    /\/accessible-menu@\d+\.\d+\.\d+(-.*?\.\d+)?\//g,
     `accessible-menu@${version}`
   );
 };
