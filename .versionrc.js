@@ -1,4 +1,4 @@
-module.exports = {
+const config = {
   types: [
     {
       type: "feat",
@@ -57,3 +57,15 @@ module.exports = {
     },
   ],
 };
+
+config.packageFiles = ["package.json"];
+
+config.bumpFiles = [
+  ...config.packageFiles,
+  {
+    filename: "README.md",
+    updater: "./updater-readme.js",
+  },
+];
+
+module.exports = config;
