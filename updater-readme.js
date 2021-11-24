@@ -32,6 +32,6 @@ module.exports.readVersion = (contents) => {
 module.exports.writeVersion = (contents, version) => {
   return contents.replace(
     /\/accessible-menu@\d+\.\d+\.\d+(-.*?\.\d+)?\//g,
-    `accessible-menu@${version}`
+    `/accessible-menu@${version}/`
   );
 };
