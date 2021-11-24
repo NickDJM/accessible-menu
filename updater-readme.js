@@ -1,4 +1,15 @@
-// Get the current version from the README.
+/**
+ * @file
+ * A custom updater for standard-version that finds all instances of the
+ * version in the README file and updates them.
+ */
+
+/**
+ * Get the current version of the README file.
+ *
+ * @param  {string} contents - The contents of the file.
+ * @return {string}          - The version number.
+ */
 module.exports.readVersion = (contents) => {
   try {
     const version = contents
@@ -11,7 +22,13 @@ module.exports.readVersion = (contents) => {
   }
 };
 
-// Update all versions of the README.
+/**
+ * Update all instances of the version of the README file.
+ *
+ * @param  {string} contents - The contents of the file.
+ * @param  {string} version  - The new version number.
+ * @return {string}          - The new contents of the file.
+ */
 module.exports.writeVersion = (contents, version) => {
   return contents.replace(
     /accessible-menu@\d\.\d\.\d/g,
