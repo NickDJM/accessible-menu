@@ -62,7 +62,6 @@ config.packageFiles = ["package.json"];
 
 config.bumpFiles = [
   ...config.packageFiles,
-  "package-lock.json",
   {
     filename: "README.md",
     updater: "./updater-readme.js",
