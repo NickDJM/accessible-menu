@@ -1004,6 +1004,7 @@ class BaseMenu {
         if (event.pointerType === "pen" || event.pointerType === "touch") {
           return;
         }
+
         if (this.hoverType === "on") {
           this.currentEvent = "mouse";
           this.currentChild = index;
