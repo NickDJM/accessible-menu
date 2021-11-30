@@ -1001,9 +1001,9 @@ class BaseMenu {
     this.elements.menuItems.forEach((menuItem, index) => {
       menuItem.dom.link.addEventListener("pointerenter", (event) => {
         // Exit out of the event if it was not made by a mouse.
-        if (event.pointerType === "pen" || event.pointerType === "touch")
+        if (event.pointerType === "pen" || event.pointerType === "touch") {
           return;
-
+        }
         if (this.hoverType === "on") {
           this.currentEvent = "mouse";
           this.currentChild = index;
@@ -1032,8 +1032,9 @@ class BaseMenu {
       if (menuItem.isSubmenuItem) {
         menuItem.dom.item.addEventListener("pointerleave", (event) => {
           // Exit out of the event if it was not made by a mouse.
-          if (event.pointerType === "pen" || event.pointerType === "touch")
+          if (event.pointerType === "pen" || event.pointerType === "touch") {
             return;
+          }
 
           if (this.hoverType === "on") {
             if (this.hoverDelay > 0) {
