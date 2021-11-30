@@ -144,7 +144,7 @@ var Treeview = (function () {
     return object;
   }
 
-  function _get(target, property, receiver) {
+  function _get() {
     if (typeof Reflect !== "undefined" && Reflect.get) {
       _get = Reflect.get;
     } else {
@@ -155,14 +155,14 @@ var Treeview = (function () {
         var desc = Object.getOwnPropertyDescriptor(base, property);
 
         if (desc.get) {
-          return desc.get.call(receiver);
+          return desc.get.call(arguments.length < 3 ? target : receiver);
         }
 
         return desc.value;
       };
     }
 
-    return _get(target, property, receiver || target);
+    return _get.apply(this, arguments);
   }
 
   function _toConsumableArray(arr) {
@@ -1157,7 +1157,10 @@ var Treeview = (function () {
       value: function _handleHover() {
         var _this5 = this;
         this.elements.menuItems.forEach(function (menuItem, index) {
-          menuItem.dom.link.addEventListener("pointerenter", function () {
+          menuItem.dom.link.addEventListener("pointerenter", function (event) {
+            if (event.pointerType === "pen" || event.pointerType === "touch") {
+              return;
+            }
             if (_this5.hoverType === "on") {
               _this5.currentEvent = "mouse";
               _this5.currentChild = index;
@@ -1180,7 +1183,10 @@ var Treeview = (function () {
             }
           });
           if (menuItem.isSubmenuItem) {
-            menuItem.dom.item.addEventListener("pointerleave", function () {
+            menuItem.dom.item.addEventListener("pointerleave", function (event) {
+              if (event.pointerType === "pen" || event.pointerType === "touch") {
+                return;
+              }
               if (_this5.hoverType === "on") {
                 if (_this5.hoverDelay > 0) {
                   setTimeout(function () {

@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.4](https://github.com/NickDJM/accessible-menu/compare/v3.0.3...v3.0.4) (2021-11-30)
+
+
+### Bug Fixes
+
+* **menu:** do not trigger hover events for pointer types pen or touch ([680abc5](https://github.com/NickDJM/accessible-menu/commit/680abc560052a2868b7fa14dbcf92c24f0821f29))
+
+
+### Build System
+
+* bump @commitlint/cli from 14.1.0 to 15.0.0 ([97c0335](https://github.com/NickDJM/accessible-menu/commit/97c033549cf4d826b022be4726920b31dd7e3e79))
+* bump @commitlint/config-conventional from 14.1.0 to 15.0.0 ([e2db0da](https://github.com/NickDJM/accessible-menu/commit/e2db0daa5c0f81c37c8a8fd097ee8843dbb5e21d))
+* bump lint-staged from 11.2.6 to 12.0.2 ([bf4f993](https://github.com/NickDJM/accessible-menu/commit/bf4f9937f211010eea4602a381b49b2acdf08edd))
+* **versioning:** automatically update CDN version links in README on release ([556961b](https://github.com/NickDJM/accessible-menu/commit/556961bddec36a145037f4f1892fba7df750d35a)), closes [#145](https://github.com/NickDJM/accessible-menu/issues/145)
+
 ### [3.0.3](https://github.com/NickDJM/accessible-menu/compare/v3.0.2...v3.0.3) (2021-11-11)
 
 
