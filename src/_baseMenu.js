@@ -957,46 +957,54 @@ class BaseMenu {
   /**
    * Handles hover events throughout the menu for proper use.
    *
-   * Adds `mouseenter` listeners to all menu items and `mouseleave` listeners
+   * Adds `pointerenter` listeners to all menu items and `pointerleave` listeners
    * to all submenu items which function differently depending on
    * the menu's {@link BaseMenu_hoverTypeType|hover type}.
    *
+   * Before executing anything, the event is checked to make sure the event wasn't
+   * triggered by a pen or touch.
+   *
    * <strong>Hover Type "on"</strong>
-   * - When a `mouseenter` event triggers on any menu item the menu's
+   * - When a `pointerenter` event triggers on any menu item the menu's
    *   {@link BaseMenu#currentChild| current child} value will change to that
    *   menu item.
-   * - When a `mouseenter` event triggers on a submenu item the
+   * - When a `pointerenter` event triggers on a submenu item the
    *   {@link BaseMenuToggle#preview|preview method} for the submenu item's
    *   toggle will be called.
-   * - When a `mouseleave` event triggers on an open submenu item the
+   * - When a `pointerleave` event triggers on an open submenu item the
    *   {@link BaseMenuToggle#close|close method} for the submenu item's toggle
    *   will be called after a delay set by the menu's {@link BaseMenu_hoverTypeDelay|hover delay}.
    *
    * <strong>Hover Type "dynamic"</strong>
-   * - When a `mouseenter` event triggers on any menu item the menu's
+   * - When a `pointerenter` event triggers on any menu item the menu's
    *   current child value will change to that menu item.
-   * - When a `mouseenter` event triggers on any menu item, and the menu's
+   * - When a `pointerenter` event triggers on any menu item, and the menu's
    *   {@link BaseMenu#focusState|focus state} is not "none", the menu item
    *   will be focused.
-   * - When a `mouseenter` event triggers on a submenu item, and a submenu is
+   * - When a `pointerenter` event triggers on a submenu item, and a submenu is
    *   already open, the preview method for the submenu item's toggle will be called.
-   * - When a `mouseenter` event triggers on a submenu item, and no submenu is
+   * - When a `pointerenter` event triggers on a submenu item, and no submenu is
    *   open, no submenu-specific methods will be called.
-   * - When a `mouseleave` event triggers on an open submenu item that is not a
+   * - When a `pointerleave` event triggers on an open submenu item that is not a
    *   root-level submenu item the close method for the submenu item's toggle
    *   will be called and the submenu item will be focused after a delay set by
    *   the menu's hover delay.
-   * - When a `mouseleave` event triggers on an open submenu item that is a
+   * - When a `pointerleave` event triggers on an open submenu item that is a
    *   root-level submenu item no submenu-specific methods will be called.
    *
    * <strong>Hover Type "off"</strong>
-   * All `mouseenter` and `mouseleave` events are ignored.
+   * All `pointerenter` and `pointerleave` events are ignored.
    *
    * @protected
    */
   _handleHover() {
     this.elements.menuItems.forEach((menuItem, index) => {
-      menuItem.dom.link.addEventListener("pointerenter", () => {
+      menuItem.dom.link.addEventListener("pointerenter", (event) => {
+        // Exit out of the event if it was not made by a mouse.
+        if (event.pointerType === "pen" || event.pointerType === "touch") {
+          return;
+        }
+
         if (this.hoverType === "on") {
           this.currentEvent = "mouse";
           this.currentChild = index;
@@ -1023,7 +1031,12 @@ class BaseMenu {
       });
 
       if (menuItem.isSubmenuItem) {
-        menuItem.dom.item.addEventListener("pointerleave", () => {
+        menuItem.dom.item.addEventListener("pointerleave", (event) => {
+          // Exit out of the event if it was not made by a mouse.
+          if (event.pointerType === "pen" || event.pointerType === "touch") {
+            return;
+          }
+
           if (this.hoverType === "on") {
             if (this.hoverDelay > 0) {
               setTimeout(() => {
