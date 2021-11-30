@@ -961,8 +961,8 @@ class BaseMenu {
    * to all submenu items which function differently depending on
    * the menu's {@link BaseMenu_hoverTypeType|hover type}.
    *
-   * Before executing anything, the event is checked to make sure the event was
-   * triggered by a mouse- not a pen or touch.
+   * Before executing anything, the event is checked to make sure the event wasn't
+   * triggered by a pen or touch.
    *
    * <strong>Hover Type "on"</strong>
    * - When a `pointerenter` event triggers on any menu item the menu's
@@ -1001,7 +1001,8 @@ class BaseMenu {
     this.elements.menuItems.forEach((menuItem, index) => {
       menuItem.dom.link.addEventListener("pointerenter", (event) => {
         // Exit out of the event if it was not made by a mouse.
-        if (event.pointerType !== "mouse") return;
+        if (event.pointerType === "pen" || event.pointerType === "touch")
+          return;
 
         if (this.hoverType === "on") {
           this.currentEvent = "mouse";
@@ -1031,7 +1032,8 @@ class BaseMenu {
       if (menuItem.isSubmenuItem) {
         menuItem.dom.item.addEventListener("pointerleave", (event) => {
           // Exit out of the event if it was not made by a mouse.
-          if (event.pointerType !== "mouse") return;
+          if (event.pointerType === "pen" || event.pointerType === "touch")
+            return;
 
           if (this.hoverType === "on") {
             if (this.hoverDelay > 0) {
