@@ -1,7 +1,5 @@
 /**
  * Test the Menubar class for proper ARIA attributes.
- *
- * @jest-environment jsdom
  */
 
 import { Menubar } from "../../../index";

@@ -1,7 +1,5 @@
 /**
  * Test the Treeview class for proper ARIA attributes.
- *
- * @jest-environment jsdom
  */
 
 import { Treeview } from "../../../index";

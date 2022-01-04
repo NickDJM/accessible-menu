@@ -1,7 +1,5 @@
 /**
  * Test the Treeview class to make sure it "just works".
- *
- * @jest-environment jsdom
  */
 
 import { Treeview } from "../../../index";

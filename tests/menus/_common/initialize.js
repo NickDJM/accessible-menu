@@ -1,7 +1,5 @@
 /**
  * Reusable initialization tests.
- *
- * @jest-environment jsdom
  */
 /* eslint-disable no-new */
 

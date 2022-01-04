@@ -1,7 +1,5 @@
 /**
  * Test the isCSSSelector() function in validate.js to make sure the expected values are returned.
- *
- * @jest-environment jsdom
  */
 
 import { isCSSSelector } from "../../src/validate";

@@ -1,7 +1,5 @@
 /**
  * Reusable functional tests.
- *
- * @jest-environment jsdom
  */
 /* eslint-disable no-new */
 

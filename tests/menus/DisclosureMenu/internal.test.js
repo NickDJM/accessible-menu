@@ -1,7 +1,5 @@
 /**
  * Test the DisclosureMenu class's internal methods.
- *
- * @jest-environment jsdom
  */
 
 import { DisclosureMenu } from "../../../index";

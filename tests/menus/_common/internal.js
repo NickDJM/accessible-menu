@@ -1,7 +1,5 @@
 /**
  * Reusable internal menu function tests.
- *
- * @jest-environment jsdom
  */
 
 import { twoLevelMenu } from "./test-menus";

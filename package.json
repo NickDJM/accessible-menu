@@ -64,7 +64,6 @@
     "eslint-plugin-promise": "^5.1.0",
     "husky": "^7.0.2",
     "jest": "^27.0.4",
-    "jest-environment-jsdom-latest": "^26.6.2",
     "jest-extended": "^1.0.0",
     "jsdoc": "^3.6.7",
     "jsdoc-typeof-plugin": "^1.0.0",

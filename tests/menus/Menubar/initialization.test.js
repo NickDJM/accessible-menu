@@ -1,7 +1,5 @@
 /**
  * Test the Menubar class to make sure it can initialize under various scenarios.
- *
- * @jest-environment jsdom
  */
 
 import { Menubar } from "../../../index";
