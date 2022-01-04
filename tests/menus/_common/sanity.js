@@ -1,7 +1,5 @@
 /**
  * Reusable tests to make sure menus "just work".
- *
- * @jest-environment jsdom
  */
 
 import { oneLevelMenu, twoLevelMenu } from "./test-menus";

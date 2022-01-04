@@ -1,7 +1,5 @@
 /**
  * Test the isValidClassList() function in validate.js to make sure the expected values are returned.
- *
- * @jest-environment jsdom
  */
 
 import { isValidClassList } from "../../src/validate";

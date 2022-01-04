@@ -1,7 +1,5 @@
 /**
  * Test the DisclosureMenu class for proper ARIA attributes.
- *
- * @jest-environment jsdom
  */
 
 import { DisclosureMenu } from "../../../index";

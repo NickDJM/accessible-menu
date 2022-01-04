@@ -1,7 +1,5 @@
 /**
  * Test the isTag() function in validate.js to make sure the expected values are returned.
- *
- * @jest-environment jsdom
  */
 
 import { isTag } from "../../src/validate";

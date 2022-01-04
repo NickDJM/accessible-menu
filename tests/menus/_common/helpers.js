@@ -4,7 +4,8 @@
 
 /**
  * Extends jsdom MouseEvent class as PointerEvent class
- * NOTE: It should be deprecated if JSDOM fully supports PointEvent in the future
+ *
+ * @todo: deprecate if/when JSDOM fully supports PointerEvents.
  */
 class PointerEvent extends window.MouseEvent {
   constructor(type, props) {

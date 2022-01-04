@@ -1,7 +1,5 @@
 /**
  * Test the isValidInstance() function in validate.js to make sure the expected values are returned.
- *
- * @jest-environment jsdom
  */
 
 import { isValidInstance } from "../../src/validate";
