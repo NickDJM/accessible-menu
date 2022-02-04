@@ -178,7 +178,7 @@ Looking for a working example of **accessible-menu**? Check out these jsfiddles:
 
 #### Bootstrap support
 
-Looking to use this with Bootstrap? Because Bootstrap adds classes to the menu's containing element to show/hide the menu, you'll need custom open/close functions for your menu. Check out the [accessible-menu-bootstrap-4](https://www.npmjs.com/package/accessible-menu-bootstrap-4) project where all that is done for you!
+Looking to use this with Bootstrap? Because Bootstrap adds classes to the menu's containing element to show/hide the menu, you'll need custom open/close functions for your menu. Check out the [accessible-menu-bootstrap-4](https://www.npmjs.com/package/accessible-menu-bootstrap-4) or [accessible-menu-bootstrap-5](https://github.com/NickDJM/accessible-menu-bootstrap-5) projects where all that is done for you!
 
 ## Versioning
 
