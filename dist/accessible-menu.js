@@ -2115,6 +2115,8 @@ var AccessibleMenu = (function () {
           menuLinkSelector = _ref$menuLinkSelector === void 0 ? "a" : _ref$menuLinkSelector,
           _ref$submenuItemSelec = _ref.submenuItemSelector,
           submenuItemSelector = _ref$submenuItemSelec === void 0 ? "" : _ref$submenuItemSelec,
+          _ref$topLinkSubmenuTo = _ref.topLinkSubmenuToggleSelector,
+          topLinkSubmenuToggleSelector = _ref$topLinkSubmenuTo === void 0 ? "button" : _ref$topLinkSubmenuTo,
           _ref$submenuToggleSel = _ref.submenuToggleSelector,
           submenuToggleSelector = _ref$submenuToggleSel === void 0 ? "a" : _ref$submenuToggleSel,
           _ref$submenuSelector = _ref.submenuSelector,
@@ -2162,6 +2164,7 @@ var AccessibleMenu = (function () {
       _defineProperty$1(_assertThisInitialized$3(_this), "_currentChild", -1);
       _defineProperty$1(_assertThisInitialized$3(_this), "_optionalSupport", false);
       _this._optionalSupport = optionalKeySupport;
+      _this._selectors.topLevelSubmenuToggles = topLinkSubmenuToggleSelector;
       if (initialize) {
         _this.initialize();
       }
