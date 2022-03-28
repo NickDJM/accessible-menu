@@ -1351,10 +1351,10 @@ var BaseMenu = function () {
   return BaseMenu;
 }();
 
-var MenubarItem = function (_BaseMenuItem) {
-  _inherits(MenubarItem, _BaseMenuItem);
-  var _super = _createSuper(MenubarItem);
-  function MenubarItem(_ref) {
+var TopLinkDisclosureMenuItem = function (_BaseMenuItem) {
+  _inherits(TopLinkDisclosureMenuItem, _BaseMenuItem);
+  var _super = _createSuper(TopLinkDisclosureMenuItem);
+  function TopLinkDisclosureMenuItem(_ref) {
     var _this;
     var menuItemElement = _ref.menuItemElement,
         menuLinkElement = _ref.menuLinkElement,
@@ -1367,7 +1367,7 @@ var MenubarItem = function (_BaseMenuItem) {
         toggle = _ref$toggle === void 0 ? null : _ref$toggle,
         _ref$initialize = _ref.initialize,
         initialize = _ref$initialize === void 0 ? true : _ref$initialize;
-    _classCallCheck(this, MenubarItem);
+    _classCallCheck(this, TopLinkDisclosureMenuItem);
     _this = _super.call(this, {
       menuItemElement: menuItemElement,
       menuLinkElement: menuLinkElement,
@@ -1381,38 +1381,13 @@ var MenubarItem = function (_BaseMenuItem) {
     }
     return _this;
   }
-  _createClass(MenubarItem, [{
-    key: "initialize",
-    value: function initialize() {
-      _get(_getPrototypeOf(MenubarItem.prototype), "initialize", this).call(this);
-      this.dom.item.setAttribute("role", "none");
-      this.dom.link.setAttribute("role", "menuitem");
-      this.dom.link.tabIndex = -1;
-    }
-  }, {
-    key: "focus",
-    value: function focus() {
-      _get(_getPrototypeOf(MenubarItem.prototype), "focus", this).call(this);
-      if (this.elements.parentMenu.isTopLevel) {
-        this.dom.link.tabIndex = 0;
-      }
-    }
-  }, {
-    key: "blur",
-    value: function blur() {
-      _get(_getPrototypeOf(MenubarItem.prototype), "blur", this).call(this);
-      if (this.elements.parentMenu.isTopLevel) {
-        this.dom.link.tabIndex = -1;
-      }
-    }
-  }]);
-  return MenubarItem;
+  return _createClass(TopLinkDisclosureMenuItem);
 }(BaseMenuItem);
 
-var MenubarToggle = function (_BaseMenuToggle) {
-  _inherits(MenubarToggle, _BaseMenuToggle);
-  var _super = _createSuper(MenubarToggle);
-  function MenubarToggle(_ref) {
+var TopLinkDisclosureMenuToggle = function (_BaseMenuToggle) {
+  _inherits(TopLinkDisclosureMenuToggle, _BaseMenuToggle);
+  var _super = _createSuper(TopLinkDisclosureMenuToggle);
+  function TopLinkDisclosureMenuToggle(_ref) {
     var _this;
     var menuToggleElement = _ref.menuToggleElement,
         parentElement = _ref.parentElement,
@@ -1421,7 +1396,7 @@ var MenubarToggle = function (_BaseMenuToggle) {
         parentMenu = _ref$parentMenu === void 0 ? null : _ref$parentMenu,
         _ref$initialize = _ref.initialize,
         initialize = _ref$initialize === void 0 ? true : _ref$initialize;
-    _classCallCheck(this, MenubarToggle);
+    _classCallCheck(this, TopLinkDisclosureMenuToggle);
     _this = _super.call(this, {
       menuToggleElement: menuToggleElement,
       parentElement: parentElement,
@@ -1433,17 +1408,17 @@ var MenubarToggle = function (_BaseMenuToggle) {
     }
     return _this;
   }
-  _createClass(MenubarToggle, [{
+  _createClass(TopLinkDisclosureMenuToggle, [{
     key: "open",
     value: function open() {
       this.closeSiblings();
-      _get(_getPrototypeOf(MenubarToggle.prototype), "open", this).call(this);
+      _get(_getPrototypeOf(TopLinkDisclosureMenuToggle.prototype), "open", this).call(this);
     }
   }, {
     key: "preview",
     value: function preview() {
       this.closeSiblings();
-      _get(_getPrototypeOf(MenubarToggle.prototype), "preview", this).call(this);
+      _get(_getPrototypeOf(TopLinkDisclosureMenuToggle.prototype), "preview", this).call(this);
     }
   }, {
     key: "close",
@@ -1451,16 +1426,16 @@ var MenubarToggle = function (_BaseMenuToggle) {
       if (this.isOpen) {
         this.closeChildren();
       }
-      _get(_getPrototypeOf(MenubarToggle.prototype), "close", this).call(this);
+      _get(_getPrototypeOf(TopLinkDisclosureMenuToggle.prototype), "close", this).call(this);
     }
   }]);
-  return MenubarToggle;
+  return TopLinkDisclosureMenuToggle;
 }(BaseMenuToggle);
 
-var Menubar = function (_BaseMenu) {
-  _inherits(Menubar, _BaseMenu);
-  var _super = _createSuper(Menubar);
-  function Menubar(_ref) {
+var TopLinkDisclosureMenu = function (_BaseMenu) {
+  _inherits(TopLinkDisclosureMenu, _BaseMenu);
+  var _super = _createSuper(TopLinkDisclosureMenu);
+  function TopLinkDisclosureMenu(_ref) {
     var _this;
     var menuElement = _ref.menuElement,
         _ref$menuItemSelector = _ref.menuItemSelector,
@@ -1489,9 +1464,11 @@ var Menubar = function (_BaseMenu) {
         hoverType = _ref$hoverType === void 0 ? "off" : _ref$hoverType,
         _ref$hoverDelay = _ref.hoverDelay,
         hoverDelay = _ref$hoverDelay === void 0 ? 250 : _ref$hoverDelay,
+        _ref$optionalKeySuppo = _ref.optionalKeySupport,
+        optionalKeySupport = _ref$optionalKeySuppo === void 0 ? false : _ref$optionalKeySuppo,
         _ref$initialize = _ref.initialize,
         initialize = _ref$initialize === void 0 ? true : _ref$initialize;
-    _classCallCheck(this, Menubar);
+    _classCallCheck(this, TopLinkDisclosureMenu);
     _this = _super.call(this, {
       menuElement: menuElement,
       menuItemSelector: menuItemSelector,
@@ -1508,37 +1485,58 @@ var Menubar = function (_BaseMenu) {
       hoverType: hoverType,
       hoverDelay: hoverDelay
     });
-    _defineProperty(_assertThisInitialized(_this), "_MenuType", Menubar);
-    _defineProperty(_assertThisInitialized(_this), "_MenuItemType", MenubarItem);
-    _defineProperty(_assertThisInitialized(_this), "_MenuToggleType", MenubarToggle);
+    _defineProperty(_assertThisInitialized(_this), "_MenuType", TopLinkDisclosureMenu);
+    _defineProperty(_assertThisInitialized(_this), "_MenuItemType", TopLinkDisclosureMenuItem);
+    _defineProperty(_assertThisInitialized(_this), "_MenuToggleType", TopLinkDisclosureMenuToggle);
+    _defineProperty(_assertThisInitialized(_this), "_currentChild", -1);
+    _defineProperty(_assertThisInitialized(_this), "_optionalSupport", false);
+    _this._optionalSupport = optionalKeySupport;
     if (initialize) {
       _this.initialize();
     }
     return _this;
   }
-  _createClass(Menubar, [{
+  _createClass(TopLinkDisclosureMenu, [{
     key: "initialize",
     value: function initialize() {
       try {
-        _get(_getPrototypeOf(Menubar.prototype), "initialize", this).call(this);
-        this.dom.menu.setAttribute("role", "menubar");
+        _get(_getPrototypeOf(TopLinkDisclosureMenu.prototype), "initialize", this).call(this);
         this._handleFocus();
         this._handleClick();
         this._handleHover();
         this._handleKeydown();
         this._handleKeyup();
-        if (this.isTopLevel) {
-          this.elements.menuItems[0].dom.link.tabIndex = 0;
-        }
       } catch (error) {
         console.error(error);
       }
     }
   }, {
+    key: "optionalKeySupport",
+    get: function get() {
+      return this.isTopLevel ? this._optionalSupport : this.elements.rootMenu.optionalKeySupport;
+    },
+    set: function set(value) {
+      isValidType("boolean", {
+        optionalKeySupport: value
+      });
+      this._optionalSupport = value;
+    }
+  }, {
+    key: "_validate",
+    value: function _validate() {
+      var check = _get(_getPrototypeOf(TopLinkDisclosureMenu.prototype), "_validate", this).call(this);
+      if (!isValidType("boolean", {
+        optionalKeySupport: this._optionalSupport
+      })) {
+        check = false;
+      }
+      return check;
+    }
+  }, {
     key: "_handleClick",
     value: function _handleClick() {
       var _this2 = this;
-      _get(_getPrototypeOf(Menubar.prototype), "_handleClick", this).call(this);
+      _get(_getPrototypeOf(TopLinkDisclosureMenu.prototype), "_handleClick", this).call(this);
       document.addEventListener("pointerup", function (event) {
         if (_this2.focusState !== "none") {
           _this2.currentEvent = "mouse";
@@ -1556,39 +1554,24 @@ var Menubar = function (_BaseMenu) {
     key: "_handleKeydown",
     value: function _handleKeydown() {
       var _this3 = this;
-      _get(_getPrototypeOf(Menubar.prototype), "_handleKeydown", this).call(this);
+      _get(_getPrototypeOf(TopLinkDisclosureMenu.prototype), "_handleKeydown", this).call(this);
       this.dom.menu.addEventListener("keydown", function (event) {
         _this3.currentEvent = "keyboard";
         var key = keyPress(event);
-        if (key === "Tab") {
-          if (_this3.elements.rootMenu.focusState !== "none") {
-            _this3.elements.rootMenu.blur();
-            _this3.elements.rootMenu.closeChildren();
-          } else {
-            _this3.elements.rootMenu.focus();
-          }
-        }
-        if (key === "Character") {
-          preventEvent(event);
-        } else if (_this3.isTopLevel) {
-          if (_this3.focusState === "self") {
-            var keys = ["ArrowRight", "ArrowLeft", "Home", "End"];
-            var submenuKeys = ["Space", "Enter", "ArrowDown", "ArrowUp"];
-            var controllerKeys = ["Escape"];
+        if (_this3.focusState === "self") {
+          var submenuKeys = ["Space", "Enter"];
+          var controllerKeys = ["Escape"];
+          var parentKeys = ["Escape"];
+          if (_this3.optionalKeySupport) {
+            var keys = ["ArrowUp", "ArrowRight", "ArrowDown", "ArrowLeft", "Home", "End"];
             if (keys.includes(key)) {
               preventEvent(event);
-            } else if (_this3.currentMenuItem.isSubmenuItem && submenuKeys.includes(key)) {
-              preventEvent(event);
-            } else if (_this3.elements.controller && controllerKeys.includes(key)) {
-              preventEvent(event);
             }
-          }
-        } else {
-          var _keys = ["Escape", "ArrowRight", "ArrowLeft", "ArrowDown", "ArrowUp", "Home", "End"];
-          var _submenuKeys = ["Space", "Enter"];
-          if (_keys.includes(key)) {
+          } else if (_this3.currentMenuItem.isSubmenuItem && submenuKeys.includes(key)) {
             preventEvent(event);
-          } else if (_this3.currentMenuItem.isSubmenuItem && _submenuKeys.includes(key)) {
+          } else if (_this3.elements.controller && controllerKeys.includes(key)) {
+            preventEvent(event);
+          } else if (_this3.elements.parentMenu && parentKeys.includes(key)) {
             preventEvent(event);
           }
         }
@@ -1598,197 +1581,60 @@ var Menubar = function (_BaseMenu) {
     key: "_handleKeyup",
     value: function _handleKeyup() {
       var _this4 = this;
-      _get(_getPrototypeOf(Menubar.prototype), "_handleKeyup", this).call(this);
+      _get(_getPrototypeOf(TopLinkDisclosureMenu.prototype), "_handleKeyup", this).call(this);
       this.dom.menu.addEventListener("keyup", function (event) {
         _this4.currentEvent = "keyboard";
         var key = keyPress(event);
-        var altKey = event.altKey,
-            crtlKey = event.crtlKey,
-            metaKey = event.metaKey;
-        var modifier = altKey || crtlKey || metaKey;
-        if (key === "Character" && !modifier) {
-          preventEvent(event);
-          _this4.elements.rootMenu.currentEvent = "character";
-          _this4.focusNextChildWithCharacter(event.key);
-        } else if (_this4.isTopLevel) {
-          if (_this4.focusState === "self") {
-            if (key === "Space" || key === "Enter") {
-              if (_this4.currentMenuItem.isSubmenuItem) {
-                preventEvent(event);
+        if (_this4.focusState === "self") {
+          if (key === "Space" || key === "Enter") {
+            if (_this4.currentMenuItem.isSubmenuItem) {
+              preventEvent(event);
+              _this4.currentMenuItem.elements.toggle.preview();
+            } else {
+              _this4.currentMenuItem.dom.link.click();
+            }
+          } else if (key === "Escape") {
+            var hasOpenChild = _this4.elements.submenuToggles.some(function (toggle) {
+              return toggle.isOpen;
+            });
+            if (hasOpenChild) {
+              preventEvent(event);
+              _this4.closeChildren();
+            } else if (_this4.elements.parentMenu) {
+              preventEvent(event);
+              _this4.elements.parentMenu.currentEvent = _this4.currentEvent;
+              _this4.elements.parentMenu.closeChildren();
+              _this4.elements.parentMenu.focusCurrentChild();
+            } else if (_this4.isTopLevel && _this4.elements.controller && _this4.elements.controller.isOpen) {
+              _this4.elements.controller.close();
+              _this4.focusController();
+            }
+          } else if (_this4.optionalKeySupport) {
+            if (key === "ArrowDown" || key === "ArrowRight") {
+              preventEvent(event);
+              if (_this4.currentMenuItem.isSubmenuItem && _this4.currentMenuItem.elements.toggle.isOpen) {
                 _this4.currentMenuItem.elements.childMenu.currentEvent = "keyboard";
-                _this4.currentMenuItem.elements.toggle.open();
-                requestAnimationFrame(function () {
-                  _this4.currentMenuItem.elements.childMenu.focusFirstChild();
-                });
+                _this4.currentMenuItem.elements.childMenu.focusFirstChild();
               } else {
-                _this4.currentMenuItem.dom.link.click();
+                _this4.focusNextChild();
               }
-            } else if (key === "ArrowRight") {
+            } else if (key === "ArrowUp" || key === "ArrowLeft") {
               preventEvent(event);
-              var previousChildOpen = _this4.currentMenuItem.isSubmenuItem && _this4.currentMenuItem.elements.toggle.isOpen;
-              _this4.focusNextChild();
-              if (previousChildOpen) {
-                if (_this4.currentMenuItem.isSubmenuItem) {
-                  _this4.currentMenuItem.elements.childMenu.currentEvent = "keyboard";
-                  _this4.currentMenuItem.elements.toggle.preview();
-                } else {
-                  _this4.closeChildren();
-                }
-              }
-            } else if (key === "ArrowLeft") {
-              preventEvent(event);
-              var _previousChildOpen = _this4.currentMenuItem.isSubmenuItem && _this4.currentMenuItem.elements.toggle.isOpen;
               _this4.focusPreviousChild();
-              if (_previousChildOpen) {
-                if (_this4.currentMenuItem.isSubmenuItem) {
-                  _this4.currentMenuItem.elements.childMenu.currentEvent = "keyboard";
-                  _this4.currentMenuItem.elements.toggle.preview();
-                } else {
-                  _this4.closeChildren();
-                }
-              }
-            } else if (key === "ArrowDown") {
-              if (_this4.currentMenuItem.isSubmenuItem) {
-                preventEvent(event);
-                _this4.currentMenuItem.elements.childMenu.currentEvent = "keyboard";
-                _this4.currentMenuItem.elements.toggle.open();
-                requestAnimationFrame(function () {
-                  _this4.currentMenuItem.elements.childMenu.focusFirstChild();
-                });
-              }
-            } else if (key === "ArrowUp") {
-              if (_this4.currentMenuItem.isSubmenuItem) {
-                preventEvent(event);
-                _this4.currentMenuItem.elements.childMenu.currentEvent = "keyboard";
-                _this4.currentMenuItem.elements.toggle.open();
-                requestAnimationFrame(function () {
-                  _this4.currentMenuItem.elements.childMenu.focusLastChild();
-                });
-              }
             } else if (key === "Home") {
               preventEvent(event);
               _this4.focusFirstChild();
             } else if (key === "End") {
               preventEvent(event);
               _this4.focusLastChild();
-            } else if (key === "Escape") {
-              var hasOpenChild = _this4.elements.submenuToggles.some(function (toggle) {
-                return toggle.isOpen;
-              });
-              if (hasOpenChild) {
-                preventEvent(event);
-                _this4.closeChildren();
-              } else if (_this4.isTopLevel && _this4.elements.controller && _this4.elements.controller.isOpen) {
-                preventEvent(event);
-                _this4.elements.controller.close();
-                _this4.focusController();
-              }
             }
-          }
-        } else {
-          if (key === "Space" || key === "Enter") {
-            if (_this4.currentMenuItem.isSubmenuItem) {
-              preventEvent(event);
-              _this4.currentMenuItem.elements.childMenu.currentEvent = "keyboard";
-              _this4.currentMenuItem.elements.toggle.open();
-              requestAnimationFrame(function () {
-                _this4.currentMenuItem.elements.childMenu.focusFirstChild();
-              });
-            } else {
-              _this4.currentMenuItem.dom.link.click();
-            }
-          } else if (key === "Escape") {
-            preventEvent(event);
-            _this4.elements.rootMenu.closeChildren();
-            _this4.elements.rootMenu.focusCurrentChild();
-          } else if (key === "ArrowRight") {
-            if (_this4.currentMenuItem.isSubmenuItem) {
-              preventEvent(event);
-              _this4.currentMenuItem.elements.childMenu.currentEvent = "keyboard";
-              _this4.currentMenuItem.elements.toggle.open();
-              requestAnimationFrame(function () {
-                _this4.currentMenuItem.elements.childMenu.focusFirstChild();
-              });
-            } else {
-              preventEvent(event);
-              _this4.elements.rootMenu.closeChildren();
-              _this4.elements.rootMenu.focusNextChild();
-              if (_this4.elements.rootMenu.currentMenuItem.isSubmenuItem) {
-                _this4.elements.rootMenu.currentMenuItem.elements.toggle.preview();
-              }
-            }
-          } else if (key === "ArrowLeft") {
-            if (_this4.elements.parentMenu.currentMenuItem.isSubmenuItem) {
-              preventEvent(event);
-              _this4.elements.parentMenu.currentMenuItem.elements.toggle.close();
-              _this4.elements.parentMenu.focusCurrentChild();
-              if (_this4.elements.parentMenu === _this4.elements.rootMenu) {
-                _this4.elements.rootMenu.closeChildren();
-                _this4.elements.rootMenu.focusPreviousChild();
-                if (_this4.elements.rootMenu.currentMenuItem.isSubmenuItem) {
-                  _this4.elements.rootMenu.currentMenuItem.elements.childMenu.currentEvent = "keyboard";
-                  _this4.elements.rootMenu.currentMenuItem.elements.toggle.preview();
-                }
-              }
-            }
-          } else if (key === "ArrowDown") {
-            preventEvent(event);
-            _this4.focusNextChild();
-          } else if (key === "ArrowUp") {
-            preventEvent(event);
-            _this4.focusPreviousChild();
-          } else if (key === "Home") {
-            preventEvent(event);
-            _this4.focusFirstChild();
-          } else if (key === "End") {
-            preventEvent(event);
-            _this4.focusLastChild();
           }
         }
       });
     }
-  }, {
-    key: "focusNextChild",
-    value: function focusNextChild() {
-      if (this.currentChild === this.elements.menuItems.length - 1) {
-        this.focusFirstChild();
-      } else {
-        this.focusChild(this.currentChild + 1);
-      }
-    }
-  }, {
-    key: "focusPreviousChild",
-    value: function focusPreviousChild() {
-      if (this.currentChild === 0) {
-        this.focusLastChild();
-      } else {
-        this.focusChild(this.currentChild - 1);
-      }
-    }
-  }, {
-    key: "focusNextChildWithCharacter",
-    value: function focusNextChildWithCharacter(char) {
-      var match = char.toLowerCase();
-      var index = this.currentChild + 1;
-      var found = false;
-      while (!found && index < this.elements.menuItems.length) {
-        var text = "";
-        if (this.elements.menuItems[index].dom.item.innerText) {
-          text = this.elements.menuItems[index].dom.item.innerText;
-        } else {
-          text = this.elements.menuItems[index].dom.item.textContent;
-        }
-        text = text.replace(/[\s]/g, "").toLowerCase().charAt(0);
-        if (text === match) {
-          found = true;
-          this.focusChild(index);
-        }
-        index++;
-      }
-    }
   }]);
-  return Menubar;
+  return TopLinkDisclosureMenu;
 }(BaseMenu);
 
-export { Menubar as default };
-//# sourceMappingURL=menubar.esm.js.map
+export { TopLinkDisclosureMenu as default };
+//# sourceMappingURL=top-link-disclosure-menu.esm.js.map

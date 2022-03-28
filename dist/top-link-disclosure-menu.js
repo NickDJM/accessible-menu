@@ -1,4 +1,4 @@
-var DisclosureMenu = (function () {
+var TopLinkDisclosureMenu = (function () {
   'use strict';
 
   function _typeof(obj) {
@@ -1354,10 +1354,10 @@ var DisclosureMenu = (function () {
     return BaseMenu;
   }();
 
-  var DisclosureMenuItem = function (_BaseMenuItem) {
-    _inherits(DisclosureMenuItem, _BaseMenuItem);
-    var _super = _createSuper(DisclosureMenuItem);
-    function DisclosureMenuItem(_ref) {
+  var TopLinkDisclosureMenuItem = function (_BaseMenuItem) {
+    _inherits(TopLinkDisclosureMenuItem, _BaseMenuItem);
+    var _super = _createSuper(TopLinkDisclosureMenuItem);
+    function TopLinkDisclosureMenuItem(_ref) {
       var _this;
       var menuItemElement = _ref.menuItemElement,
           menuLinkElement = _ref.menuLinkElement,
@@ -1370,7 +1370,7 @@ var DisclosureMenu = (function () {
           toggle = _ref$toggle === void 0 ? null : _ref$toggle,
           _ref$initialize = _ref.initialize,
           initialize = _ref$initialize === void 0 ? true : _ref$initialize;
-      _classCallCheck(this, DisclosureMenuItem);
+      _classCallCheck(this, TopLinkDisclosureMenuItem);
       _this = _super.call(this, {
         menuItemElement: menuItemElement,
         menuLinkElement: menuLinkElement,
@@ -1384,13 +1384,13 @@ var DisclosureMenu = (function () {
       }
       return _this;
     }
-    return _createClass(DisclosureMenuItem);
+    return _createClass(TopLinkDisclosureMenuItem);
   }(BaseMenuItem);
 
-  var DisclosureMenuToggle = function (_BaseMenuToggle) {
-    _inherits(DisclosureMenuToggle, _BaseMenuToggle);
-    var _super = _createSuper(DisclosureMenuToggle);
-    function DisclosureMenuToggle(_ref) {
+  var TopLinkDisclosureMenuToggle = function (_BaseMenuToggle) {
+    _inherits(TopLinkDisclosureMenuToggle, _BaseMenuToggle);
+    var _super = _createSuper(TopLinkDisclosureMenuToggle);
+    function TopLinkDisclosureMenuToggle(_ref) {
       var _this;
       var menuToggleElement = _ref.menuToggleElement,
           parentElement = _ref.parentElement,
@@ -1399,7 +1399,7 @@ var DisclosureMenu = (function () {
           parentMenu = _ref$parentMenu === void 0 ? null : _ref$parentMenu,
           _ref$initialize = _ref.initialize,
           initialize = _ref$initialize === void 0 ? true : _ref$initialize;
-      _classCallCheck(this, DisclosureMenuToggle);
+      _classCallCheck(this, TopLinkDisclosureMenuToggle);
       _this = _super.call(this, {
         menuToggleElement: menuToggleElement,
         parentElement: parentElement,
@@ -1411,17 +1411,17 @@ var DisclosureMenu = (function () {
       }
       return _this;
     }
-    _createClass(DisclosureMenuToggle, [{
+    _createClass(TopLinkDisclosureMenuToggle, [{
       key: "open",
       value: function open() {
         this.closeSiblings();
-        _get(_getPrototypeOf(DisclosureMenuToggle.prototype), "open", this).call(this);
+        _get(_getPrototypeOf(TopLinkDisclosureMenuToggle.prototype), "open", this).call(this);
       }
     }, {
       key: "preview",
       value: function preview() {
         this.closeSiblings();
-        _get(_getPrototypeOf(DisclosureMenuToggle.prototype), "preview", this).call(this);
+        _get(_getPrototypeOf(TopLinkDisclosureMenuToggle.prototype), "preview", this).call(this);
       }
     }, {
       key: "close",
@@ -1429,16 +1429,16 @@ var DisclosureMenu = (function () {
         if (this.isOpen) {
           this.closeChildren();
         }
-        _get(_getPrototypeOf(DisclosureMenuToggle.prototype), "close", this).call(this);
+        _get(_getPrototypeOf(TopLinkDisclosureMenuToggle.prototype), "close", this).call(this);
       }
     }]);
-    return DisclosureMenuToggle;
+    return TopLinkDisclosureMenuToggle;
   }(BaseMenuToggle);
 
-  var DisclosureMenu = function (_BaseMenu) {
-    _inherits(DisclosureMenu, _BaseMenu);
-    var _super = _createSuper(DisclosureMenu);
-    function DisclosureMenu(_ref) {
+  var TopLinkDisclosureMenu = function (_BaseMenu) {
+    _inherits(TopLinkDisclosureMenu, _BaseMenu);
+    var _super = _createSuper(TopLinkDisclosureMenu);
+    function TopLinkDisclosureMenu(_ref) {
       var _this;
       var menuElement = _ref.menuElement,
           _ref$menuItemSelector = _ref.menuItemSelector,
@@ -1471,7 +1471,7 @@ var DisclosureMenu = (function () {
           optionalKeySupport = _ref$optionalKeySuppo === void 0 ? false : _ref$optionalKeySuppo,
           _ref$initialize = _ref.initialize,
           initialize = _ref$initialize === void 0 ? true : _ref$initialize;
-      _classCallCheck(this, DisclosureMenu);
+      _classCallCheck(this, TopLinkDisclosureMenu);
       _this = _super.call(this, {
         menuElement: menuElement,
         menuItemSelector: menuItemSelector,
@@ -1488,9 +1488,9 @@ var DisclosureMenu = (function () {
         hoverType: hoverType,
         hoverDelay: hoverDelay
       });
-      _defineProperty(_assertThisInitialized(_this), "_MenuType", DisclosureMenu);
-      _defineProperty(_assertThisInitialized(_this), "_MenuItemType", DisclosureMenuItem);
-      _defineProperty(_assertThisInitialized(_this), "_MenuToggleType", DisclosureMenuToggle);
+      _defineProperty(_assertThisInitialized(_this), "_MenuType", TopLinkDisclosureMenu);
+      _defineProperty(_assertThisInitialized(_this), "_MenuItemType", TopLinkDisclosureMenuItem);
+      _defineProperty(_assertThisInitialized(_this), "_MenuToggleType", TopLinkDisclosureMenuToggle);
       _defineProperty(_assertThisInitialized(_this), "_currentChild", -1);
       _defineProperty(_assertThisInitialized(_this), "_optionalSupport", false);
       _this._optionalSupport = optionalKeySupport;
@@ -1499,11 +1499,11 @@ var DisclosureMenu = (function () {
       }
       return _this;
     }
-    _createClass(DisclosureMenu, [{
+    _createClass(TopLinkDisclosureMenu, [{
       key: "initialize",
       value: function initialize() {
         try {
-          _get(_getPrototypeOf(DisclosureMenu.prototype), "initialize", this).call(this);
+          _get(_getPrototypeOf(TopLinkDisclosureMenu.prototype), "initialize", this).call(this);
           this._handleFocus();
           this._handleClick();
           this._handleHover();
@@ -1527,7 +1527,7 @@ var DisclosureMenu = (function () {
     }, {
       key: "_validate",
       value: function _validate() {
-        var check = _get(_getPrototypeOf(DisclosureMenu.prototype), "_validate", this).call(this);
+        var check = _get(_getPrototypeOf(TopLinkDisclosureMenu.prototype), "_validate", this).call(this);
         if (!isValidType("boolean", {
           optionalKeySupport: this._optionalSupport
         })) {
@@ -1539,7 +1539,7 @@ var DisclosureMenu = (function () {
       key: "_handleClick",
       value: function _handleClick() {
         var _this2 = this;
-        _get(_getPrototypeOf(DisclosureMenu.prototype), "_handleClick", this).call(this);
+        _get(_getPrototypeOf(TopLinkDisclosureMenu.prototype), "_handleClick", this).call(this);
         document.addEventListener("pointerup", function (event) {
           if (_this2.focusState !== "none") {
             _this2.currentEvent = "mouse";
@@ -1557,7 +1557,7 @@ var DisclosureMenu = (function () {
       key: "_handleKeydown",
       value: function _handleKeydown() {
         var _this3 = this;
-        _get(_getPrototypeOf(DisclosureMenu.prototype), "_handleKeydown", this).call(this);
+        _get(_getPrototypeOf(TopLinkDisclosureMenu.prototype), "_handleKeydown", this).call(this);
         this.dom.menu.addEventListener("keydown", function (event) {
           _this3.currentEvent = "keyboard";
           var key = keyPress(event);
@@ -1584,7 +1584,7 @@ var DisclosureMenu = (function () {
       key: "_handleKeyup",
       value: function _handleKeyup() {
         var _this4 = this;
-        _get(_getPrototypeOf(DisclosureMenu.prototype), "_handleKeyup", this).call(this);
+        _get(_getPrototypeOf(TopLinkDisclosureMenu.prototype), "_handleKeyup", this).call(this);
         this.dom.menu.addEventListener("keyup", function (event) {
           _this4.currentEvent = "keyboard";
           var key = keyPress(event);
@@ -1636,10 +1636,10 @@ var DisclosureMenu = (function () {
         });
       }
     }]);
-    return DisclosureMenu;
+    return TopLinkDisclosureMenu;
   }(BaseMenu);
 
-  return DisclosureMenu;
+  return TopLinkDisclosureMenu;
 
 })();
-//# sourceMappingURL=disclosure-menu.js.map
+//# sourceMappingURL=top-link-disclosure-menu.js.map
