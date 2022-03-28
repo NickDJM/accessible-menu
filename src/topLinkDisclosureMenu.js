@@ -72,29 +72,31 @@ class TopLinkDisclosureMenu extends BaseMenu {
   /**
    * Constructs the menu.
    *
-   * @param {object}                       options                              - The options for generating the menu.
-   * @param {HTMLElement}                  options.menuElement                  - The menu element in the DOM.
-   * @param {string}                       [options.menuItemSelector = li]      - The CSS selector string for menu items.
-   * @param {string}                       [options.menuLinkSelector = a]       - The CSS selector string for menu links.
-   * @param {string}                       [options.submenuItemSelector]        - The CSS selector string for menu items containing submenus.
-   * @param {string}                       [options.submenuToggleSelector = a]  - The CSS selector string for submenu toggle buttons/links.
-   * @param {string}                       [options.submenuSelector = ul]       - The CSS selector string for submenus.
-   * @param {(HTMLElement|null)}           [options.controllerElement = null]   - The element controlling the menu in the DOM.
-   * @param {(HTMLElement|null)}           [options.containerElement = null]    - The element containing the menu in the DOM.
-   * @param {(string|string[]|null)}       [options.openClass = show]           - The class to apply when a menu is "open".
-   * @param {(string|string[]|null)}       [options.closeClass = hide]          - The class to apply when a menu is "closed".
-   * @param {boolean}                      [options.isTopLevel = false]         - A flag to mark the root menu.
-   * @param {(TopLinkDisclosureMenu|null)} [options.parentMenu = null]          - The parent menu to this menu.
-   * @param {string}                       [options.hoverType = off]            - The type of hoverability a menu has.
-   * @param {number}                       [options.hoverDelay = 250]           - The delay for closing menus if the menu is hoverable (in miliseconds).
-   * @param {boolean}                      [options.optionalKeySupport = false] - A flag to add optional keyboard support (Arrow keys, Home, and End) to the menu.
-   * @param {boolean}                      [options.initialize = true]          - A flag to initialize the menu immediately upon creation.
+   * @param {object}                       options                                         - The options for generating the menu.
+   * @param {HTMLElement}                  options.menuElement                             - The menu element in the DOM.
+   * @param {string}                       [options.menuItemSelector = li]                 - The CSS selector string for menu items.
+   * @param {string}                       [options.menuLinkSelector = a]                  - The CSS selector string for menu links.
+   * @param {string}                       [options.submenuItemSelector]                   - The CSS selector string for menu items containing submenus.
+   * @param {string}                       [options.topLinkSubmenuToggleSelector = button] - The CSS selector string for top-level submenu toggle buttons/links.
+   * @param {string}                       [options.submenuToggleSelector = a]             - The CSS selector string for submenu toggle buttons/links.
+   * @param {string}                       [options.submenuSelector = ul]                  - The CSS selector string for submenus.
+   * @param {(HTMLElement|null)}           [options.controllerElement = null]              - The element controlling the menu in the DOM.
+   * @param {(HTMLElement|null)}           [options.containerElement = null]               - The element containing the menu in the DOM.
+   * @param {(string|string[]|null)}       [options.openClass = show]                      - The class to apply when a menu is "open".
+   * @param {(string|string[]|null)}       [options.closeClass = hide]                     - The class to apply when a menu is "closed".
+   * @param {boolean}                      [options.isTopLevel = false]                    - A flag to mark the root menu.
+   * @param {(TopLinkDisclosureMenu|null)} [options.parentMenu = null]                     - The parent menu to this menu.
+   * @param {string}                       [options.hoverType = off]                       - The type of hoverability a menu has.
+   * @param {number}                       [options.hoverDelay = 250]                      - The delay for closing menus if the menu is hoverable (in miliseconds).
+   * @param {boolean}                      [options.optionalKeySupport = false]            - A flag to add optional keyboard support (Arrow keys, Home, and End) to the menu.
+   * @param {boolean}                      [options.initialize = true]                     - A flag to initialize the menu immediately upon creation.
    */
   constructor({
     menuElement,
     menuItemSelector = "li",
     menuLinkSelector = "a",
     submenuItemSelector = "",
+    topLinkSubmenuToggleSelector = "button",
     submenuToggleSelector = "a",
     submenuSelector = "ul",
     controllerElement = null,
@@ -127,6 +129,7 @@ class TopLinkDisclosureMenu extends BaseMenu {
 
     // Set optional key support.
     this._optionalSupport = optionalKeySupport;
+    this._selectors.topLevelSubmenuToggles = topLinkSubmenuToggleSelector;
 
     if (initialize) {
       this.initialize();
