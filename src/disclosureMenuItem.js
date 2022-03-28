@@ -3,7 +3,7 @@
 import BaseMenuItem from "./_baseMenuItem.js";
 
 /**
- * A basic navigation link contained inside of a {@link DisclousreMenu}.
+ * A basic navigation link contained inside of a {@link DisclosureMenu}.
  *
  * @extends BaseMenuItem
  */
