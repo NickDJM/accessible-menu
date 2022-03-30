@@ -275,6 +275,77 @@ class TopLinkDisclosureMenu extends BaseMenu {
   }
 
   /**
+   * Creates and initializes all menu items and submenus.
+   *
+   * @protected
+   */
+  _createChildElements() {
+    this.dom.menuItems.forEach((element) => {
+      let menuItem;
+
+      if (this.dom.submenuItems.includes(element)) {
+        // The menu's toggle controller DOM element.
+        // This changes depending on the level of menu.
+        const toggler = this.isTopLevel
+          ? element.querySelector(this.selectors.topLevelSubmenuToggles)
+          : element.querySelector(this.selectors.submenuToggles);
+        // The actual menu DOM element.
+        const submenu = element.querySelector(this.selectors.submenus);
+
+        // Create the new menu and initialize it.
+        const menu = new this._MenuType({
+          menuElement: submenu,
+          menuItemSelector: this.selectors.menuItems,
+          menuLinkSelector: this.selectors.menuLinks,
+          submenuItemSelector: this.selectors.submenuItems,
+          topLevelSubmenuToggleSelector:
+            this.selectors.topLevelSubmenuToggleSelector,
+          submenuToggleSelector: this.selectors.submenuToggles,
+          submenuSelector: this.selectors.submenus,
+          openClass: this.openClass,
+          closeClass: this.closeClass,
+          isTopLevel: false,
+          parentMenu: this,
+          hoverType: this.hoverType,
+          hoverDelay: this.hoverDelay,
+        });
+
+        // Create the new menu toggle.
+        const toggle = new this._MenuToggleType({
+          menuToggleElement: toggler,
+          parentElement: element,
+          controlledMenu: menu,
+          parentMenu: this,
+        });
+
+        // Add the toggle to the list of toggles.
+        this._elements.submenuToggles.push(toggle);
+
+        // Create a new menu item.
+        menuItem = new this._MenuItemType({
+          menuItemElement: element,
+          menuLinkElement: toggler,
+          parentMenu: this,
+          isSubmenuItem: true,
+          childMenu: menu,
+          toggle,
+        });
+      } else {
+        const link = element.querySelector(this.selectors.menuLinks);
+
+        // Create a new menu item.
+        menuItem = new this._MenuItemType({
+          menuItemElement: element,
+          menuLinkElement: link,
+          parentMenu: this,
+        });
+      }
+
+      this._elements.menuItems.push(menuItem);
+    });
+  }
+
+  /**
    * Handles click events throughout the menu for proper use.
    *
    * - Adds all event listeners listed in
