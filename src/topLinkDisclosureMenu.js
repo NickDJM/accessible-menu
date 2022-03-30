@@ -2,7 +2,7 @@ import BaseMenu from "./_baseMenu.js";
 import TopLinkDisclosureMenuItem from "./topLinkDisclosureMenuItem.js";
 import TopLinkDisclosureMenuToggle from "./topLinkDisclosureMenuToggle.js";
 import { preventEvent, keyPress } from "./eventHandlers.js";
-import { isCSSSelector, isValidType } from "./validate.js";
+import { isCSSSelector, isValidInstance, isValidType } from "./validate.js";
 
 /**
  * An accessible disclosure menu in the DOM.
@@ -219,6 +219,59 @@ class TopLinkDisclosureMenu extends BaseMenu {
     }
 
     return check;
+  }
+
+  /**
+   * Sets DOM elements within the menu.
+   *
+   * Elements that are not stored inside an array cannot be set through this method.
+   *
+   * @protected
+   *
+   * @param {string}      elementType            - The type of element to populate.
+   * @param {HTMLElement} [base = this.dom.menu] - The element used as the base for the querySelect.
+   * @param {boolean}     [overwrite = true]     - A flag to set if the existing elements will be overwritten.
+   */
+  _setDOMElementType(elementType, base = this.dom.menu, overwrite = true) {
+    if (typeof this.selectors[elementType] === "string") {
+      if (!Array.isArray(this.dom[elementType])) {
+        throw new Error(
+          `AccessibleMenu: The "${elementType}" element cannot be set through _setDOMElementType.`
+        );
+      }
+
+      if (base !== this.dom.menu) isValidInstance(HTMLElement, { base });
+
+      // Set the selector.
+      let elementSelector = this.selectors[elementType];
+
+      // If this is the root menu _and_ we're generating submenu toggles,
+      // use the top level selector instead.
+      if (this.isTopLevel && elementType === "submenuToggles") {
+        elementSelector = this.selectors.topLevelSubmenuToggles;
+      }
+
+      // Get the all elements matching the selector in the base.
+      const domElements = Array.from(base.querySelectorAll(elementSelector));
+
+      // Filter the elements so only direct children of the base are kept.
+      const filteredElements = domElements.filter(
+        (item) => item.parentElement === base
+      );
+
+      if (overwrite) {
+        this._dom[elementType] = filteredElements;
+      } else {
+        this._dom[elementType] = [
+          ...this._dom[elementType],
+          ...filteredElements,
+        ];
+      }
+    } else {
+      throw new Error(
+        `AccessibleMenu: "${elementType}" is not a valid element type within the menu.`
+      );
+    }
   }
 
   /**
