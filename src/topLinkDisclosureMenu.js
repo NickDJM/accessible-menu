@@ -84,7 +84,7 @@ class TopLinkDisclosureMenu extends BaseMenu {
    * @param {(HTMLElement|null)}           [options.containerElement = null]               - The element containing the menu in the DOM.
    * @param {(string|string[]|null)}       [options.openClass = show]                      - The class to apply when a menu is "open".
    * @param {(string|string[]|null)}       [options.closeClass = hide]                     - The class to apply when a menu is "closed".
-   * @param {boolean}                      [options.isTopLevel = false]                    - A flag to mark the root menu.
+   * @param {boolean}                      [options.isTopLevel = true]                    - A flag to mark the root menu.
    * @param {(TopLinkDisclosureMenu|null)} [options.parentMenu = null]                     - The parent menu to this menu.
    * @param {string}                       [options.hoverType = off]                       - The type of hoverability a menu has.
    * @param {number}                       [options.hoverDelay = 250]                      - The delay for closing menus if the menu is hoverable (in miliseconds).
