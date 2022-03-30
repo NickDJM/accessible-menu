@@ -131,6 +131,15 @@ class TopLinkDisclosureMenu extends BaseMenu {
     this._optionalSupport = optionalKeySupport;
     this._selectors.topLevelSubmenuToggles = topLinkSubmenuToggleSelector;
 
+    // Set unique menu link selectors.
+    this._selectors.menuLinks = [
+      ...new Set([
+        menuLinkSelector,
+        submenuToggleSelector,
+        topLinkSubmenuToggleSelector,
+      ]),
+    ].join(",");
+
     if (initialize) {
       this.initialize();
     }
