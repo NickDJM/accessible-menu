@@ -2,7 +2,7 @@ import BaseMenu from "./_baseMenu.js";
 import TopLinkDisclosureMenuItem from "./topLinkDisclosureMenuItem.js";
 import TopLinkDisclosureMenuToggle from "./topLinkDisclosureMenuToggle.js";
 import { preventEvent, keyPress } from "./eventHandlers.js";
-import { isValidType } from "./validate.js";
+import { isCSSSelector, isValidType } from "./validate.js";
 
 /**
  * An accessible disclosure menu in the DOM.
@@ -206,6 +206,14 @@ class TopLinkDisclosureMenu extends BaseMenu {
 
     if (
       !isValidType("boolean", { optionalKeySupport: this._optionalSupport })
+    ) {
+      check = false;
+    }
+
+    if (
+      !isCSSSelector({
+        topLevelSubmenuToggles: this._selectors.topLevelSubmenuToggles,
+      })
     ) {
       check = false;
     }
