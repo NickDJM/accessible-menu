@@ -323,7 +323,12 @@ class DisclosureMenu extends BaseMenu {
           // - If focus is on a disclosure button, activates the button, which toggles the visibility of the dropdown.
           if (this.currentMenuItem.isSubmenuItem) {
             preventEvent(event);
-            this.currentMenuItem.elements.toggle.preview();
+
+            if (this.currentMenuItem.elements.toggle.isOpen) {
+              this.currentMenuItem.elements.toggle.close();
+            } else {
+              this.currentMenuItem.elements.toggle.preview();
+            }
           } else {
             this.currentMenuItem.dom.link.click();
           }
