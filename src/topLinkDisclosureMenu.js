@@ -2,12 +2,12 @@ import BaseMenu from "./_baseMenu.js";
 import TopLinkDisclosureMenuItem from "./topLinkDisclosureMenuItem.js";
 import TopLinkDisclosureMenuToggle from "./topLinkDisclosureMenuToggle.js";
 import { preventEvent, keyPress } from "./eventHandlers.js";
-import { isCSSSelector, isValidInstance, isValidType } from "./validate.js";
+import { isValidType } from "./validate.js";
 
 /**
- * An accessible disclosure menu in the DOM.
+ * An accessible disclosure menu with top-level links in the DOM.
  *
- * See {@link https://www.w3.org/TR/wai-aria-practices-1.2/examples/disclosure/disclosure-navigation.html|Example Disclosure for Navigation Menus}
+ * See {@link https://www.w3.org/TR/wai-aria-practices-1.2/examples/disclosure/disclosure-navigation-hybrid.html#mythical-page-content|Example Disclosure Navigation Menu with Top-Level Links}
  *
  * @extends BaseMenu
  *
@@ -77,7 +77,6 @@ class TopLinkDisclosureMenu extends BaseMenu {
    * @param {string}                       [options.menuItemSelector = li]                  - The CSS selector string for menu items.
    * @param {string}                       [options.menuLinkSelector = a]                   - The CSS selector string for menu links.
    * @param {string}                       [options.submenuItemSelector]                    - The CSS selector string for menu items containing submenus.
-   * @param {string}                       [options.topLevelSubmenuToggleSelector = button] - The CSS selector string for top-level submenu toggle buttons/links.
    * @param {string}                       [options.submenuToggleSelector = a]              - The CSS selector string for submenu toggle buttons/links.
    * @param {string}                       [options.submenuSelector = ul]                   - The CSS selector string for submenus.
    * @param {(HTMLElement|null)}           [options.controllerElement = null]               - The element controlling the menu in the DOM.
@@ -96,8 +95,7 @@ class TopLinkDisclosureMenu extends BaseMenu {
     menuItemSelector = "li",
     menuLinkSelector = "a",
     submenuItemSelector = "",
-    topLevelSubmenuToggleSelector = "button",
-    submenuToggleSelector = "a",
+    submenuToggleSelector = "button",
     submenuSelector = "ul",
     controllerElement = null,
     containerElement = null,
@@ -129,15 +127,10 @@ class TopLinkDisclosureMenu extends BaseMenu {
 
     // Set optional key support.
     this._optionalSupport = optionalKeySupport;
-    this._selectors.topLevelSubmenuToggles = topLevelSubmenuToggleSelector;
 
     // Set unique menu link selectors.
     this._selectors.menuLinks = [
-      ...new Set([
-        menuLinkSelector,
-        submenuToggleSelector,
-        topLevelSubmenuToggleSelector,
-      ]),
+      ...new Set([menuLinkSelector, submenuToggleSelector]),
     ].join(",");
 
     if (initialize) {
@@ -210,139 +203,7 @@ class TopLinkDisclosureMenu extends BaseMenu {
       check = false;
     }
 
-    if (
-      !isCSSSelector({
-        topLevelSubmenuToggles: this._selectors.topLevelSubmenuToggles,
-      })
-    ) {
-      check = false;
-    }
-
     return check;
-  }
-
-  /**
-   * Sets DOM elements within the menu.
-   *
-   * Elements that are not stored inside an array cannot be set through this method.
-   *
-   * @protected
-   *
-   * @param {string}      elementType            - The type of element to populate.
-   * @param {HTMLElement} [base = this.dom.menu] - The element used as the base for the querySelect.
-   * @param {boolean}     [overwrite = true]     - A flag to set if the existing elements will be overwritten.
-   */
-  _setDOMElementType(elementType, base = this.dom.menu, overwrite = true) {
-    if (typeof this.selectors[elementType] === "string") {
-      if (!Array.isArray(this.dom[elementType])) {
-        throw new Error(
-          `AccessibleMenu: The "${elementType}" element cannot be set through _setDOMElementType.`
-        );
-      }
-
-      if (base !== this.dom.menu) isValidInstance(HTMLElement, { base });
-
-      // Set the selector.
-      let elementSelector = this.selectors[elementType];
-
-      // If this is the root menu _and_ we're generating submenu toggles,
-      // use the top level selector instead.
-      if (this.isTopLevel && elementType === "submenuToggles") {
-        elementSelector = this.selectors.topLevelSubmenuToggles;
-      }
-
-      // Get the all elements matching the selector in the base.
-      const domElements = Array.from(base.querySelectorAll(elementSelector));
-
-      // Filter the elements so only direct children of the base are kept.
-      const filteredElements = domElements.filter(
-        (item) => item.parentElement === base
-      );
-
-      if (overwrite) {
-        this._dom[elementType] = filteredElements;
-      } else {
-        this._dom[elementType] = [
-          ...this._dom[elementType],
-          ...filteredElements,
-        ];
-      }
-    } else {
-      throw new Error(
-        `AccessibleMenu: "${elementType}" is not a valid element type within the menu.`
-      );
-    }
-  }
-
-  /**
-   * Creates and initializes all menu items and submenus.
-   *
-   * @protected
-   */
-  _createChildElements() {
-    this.dom.menuItems.forEach((element) => {
-      let menuItem;
-
-      if (this.dom.submenuItems.includes(element)) {
-        // The menu's toggle controller DOM element.
-        // This changes depending on the level of menu.
-        const toggler = this.isTopLevel
-          ? element.querySelector(this.selectors.topLevelSubmenuToggles)
-          : element.querySelector(this.selectors.submenuToggles);
-        // The actual menu DOM element.
-        const submenu = element.querySelector(this.selectors.submenus);
-
-        // Create the new menu and initialize it.
-        const menu = new this._MenuType({
-          menuElement: submenu,
-          menuItemSelector: this.selectors.menuItems,
-          menuLinkSelector: this.selectors.menuLinks,
-          submenuItemSelector: this.selectors.submenuItems,
-          topLevelSubmenuToggleSelector:
-            this.selectors.topLevelSubmenuToggleSelector,
-          submenuToggleSelector: this.selectors.submenuToggles,
-          submenuSelector: this.selectors.submenus,
-          openClass: this.openClass,
-          closeClass: this.closeClass,
-          isTopLevel: false,
-          parentMenu: this,
-          hoverType: this.hoverType,
-          hoverDelay: this.hoverDelay,
-        });
-
-        // Create the new menu toggle.
-        const toggle = new this._MenuToggleType({
-          menuToggleElement: toggler,
-          parentElement: element,
-          controlledMenu: menu,
-          parentMenu: this,
-        });
-
-        // Add the toggle to the list of toggles.
-        this._elements.submenuToggles.push(toggle);
-
-        // Create a new menu item.
-        menuItem = new this._MenuItemType({
-          menuItemElement: element,
-          menuLinkElement: toggler,
-          parentMenu: this,
-          isSubmenuItem: true,
-          childMenu: menu,
-          toggle,
-        });
-      } else {
-        const link = element.querySelector(this.selectors.menuLinks);
-
-        // Create a new menu item.
-        menuItem = new this._MenuItemType({
-          menuItemElement: element,
-          menuLinkElement: link,
-          parentMenu: this,
-        });
-      }
-
-      this._elements.menuItems.push(menuItem);
-    });
   }
 
   /**
