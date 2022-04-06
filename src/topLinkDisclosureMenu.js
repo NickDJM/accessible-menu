@@ -77,7 +77,7 @@ class TopLinkDisclosureMenu extends BaseMenu {
    * @param {string}                       [options.menuItemSelector = li]                  - The CSS selector string for menu items.
    * @param {string}                       [options.menuLinkSelector = a]                   - The CSS selector string for menu links.
    * @param {string}                       [options.submenuItemSelector]                    - The CSS selector string for menu items containing submenus.
-   * @param {string}                       [options.submenuToggleSelector = a]              - The CSS selector string for submenu toggle buttons/links.
+   * @param {string}                       [options.submenuToggleSelector = button]         - The CSS selector string for submenu toggle buttons/links.
    * @param {string}                       [options.submenuSelector = ul]                   - The CSS selector string for submenus.
    * @param {(HTMLElement|null)}           [options.controllerElement = null]               - The element controlling the menu in the DOM.
    * @param {(HTMLElement|null)}           [options.containerElement = null]                - The element containing the menu in the DOM.
