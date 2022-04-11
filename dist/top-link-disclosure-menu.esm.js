@@ -1444,10 +1444,8 @@ var TopLinkDisclosureMenu = function (_BaseMenu) {
         menuLinkSelector = _ref$menuLinkSelector === void 0 ? "a" : _ref$menuLinkSelector,
         _ref$submenuItemSelec = _ref.submenuItemSelector,
         submenuItemSelector = _ref$submenuItemSelec === void 0 ? "" : _ref$submenuItemSelec,
-        _ref$topLinkSubmenuTo = _ref.topLinkSubmenuToggleSelector,
-        topLinkSubmenuToggleSelector = _ref$topLinkSubmenuTo === void 0 ? "button" : _ref$topLinkSubmenuTo,
         _ref$submenuToggleSel = _ref.submenuToggleSelector,
-        submenuToggleSelector = _ref$submenuToggleSel === void 0 ? "a" : _ref$submenuToggleSel,
+        submenuToggleSelector = _ref$submenuToggleSel === void 0 ? "button" : _ref$submenuToggleSel,
         _ref$submenuSelector = _ref.submenuSelector,
         submenuSelector = _ref$submenuSelector === void 0 ? "ul" : _ref$submenuSelector,
         _ref$controllerElemen = _ref.controllerElement,
@@ -1493,7 +1491,7 @@ var TopLinkDisclosureMenu = function (_BaseMenu) {
     _defineProperty(_assertThisInitialized(_this), "_currentChild", -1);
     _defineProperty(_assertThisInitialized(_this), "_optionalSupport", false);
     _this._optionalSupport = optionalKeySupport;
-    _this._selectors.topLevelSubmenuToggles = topLinkSubmenuToggleSelector;
+    _this._selectors.menuLinks = _toConsumableArray(new Set([menuLinkSelector, submenuToggleSelector])).join(",");
     if (initialize) {
       _this.initialize();
     }
@@ -1592,7 +1590,11 @@ var TopLinkDisclosureMenu = function (_BaseMenu) {
           if (key === "Space" || key === "Enter") {
             if (_this4.currentMenuItem.isSubmenuItem) {
               preventEvent(event);
-              _this4.currentMenuItem.elements.toggle.preview();
+              if (_this4.currentMenuItem.elements.toggle.isOpen) {
+                _this4.currentMenuItem.elements.toggle.close();
+              } else {
+                _this4.currentMenuItem.elements.toggle.preview();
+              }
             } else {
               _this4.currentMenuItem.dom.link.click();
             }
