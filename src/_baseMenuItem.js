@@ -7,7 +7,7 @@ class BaseMenuItem {
   /**
    * The DOM elements within the menu item.
    *
-   * @type {object.<HTMLElement>}
+   * @type {Object<HTMLElement>}
    *
    * @protected
    *
@@ -22,7 +22,7 @@ class BaseMenuItem {
   /**
    * The declared accessible-menu elements within the menu item.
    *
-   * @type {object.<BaseMenu,BaseMenuToggle>}
+   * @type {Object<BaseMenu, BaseMenuToggle>}
    *
    * @protected
    *
@@ -82,7 +82,7 @@ class BaseMenuItem {
   /**
    * The DOM elements within the menu item.
    *
-   * @type {object.<HTMLElement>}
+   * @type {Object<HTMLElement>}
    *
    * @readonly
    *
@@ -95,7 +95,7 @@ class BaseMenuItem {
   /**
    * The declared accessible-menu elements within the menu item.
    *
-   * @type {object.<BaseMenu,BaseMenuToggle>}
+   * @type {Object<BaseMenu, BaseMenuToggle>}
    *
    * @readonly
    *

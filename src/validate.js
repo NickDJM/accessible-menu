@@ -89,7 +89,7 @@ export function isValidType(type, values) {
  *
  * Will return true is the check is successful.
  *
- * @param  {object.<string>} values - The value(s) to check.
+ * @param  {Object<string>} values - The value(s) to check.
  * @return {boolean}                - The result of the check.
  */
 export function isCSSSelector(values) {
@@ -131,7 +131,7 @@ export function isCSSSelector(values) {
  *
  * Will return true is the check is successful.
  *
- * @param  {object.<string,string[]>} values - The value(s) to check.
+ * @param  {Object<string, string[]>} values - The value(s) to check.
  * @return {boolean}                         - The result of the check.
  */
 export function isValidClassList(values) {
@@ -184,7 +184,7 @@ export function isValidClassList(values) {
  *
  * Will return true is the check is successful.
  *
- * @param  {object.<string>} values - The value(s) to check.
+ * @param  {Object<string>} values - The value(s) to check.
  * @return {boolean}                - The result of the check.
  */
 export function isValidState(values) {
@@ -224,7 +224,7 @@ export function isValidState(values) {
  *
  * Will return true is the check is successful.
  *
- * @param  {object.<string>} values - The value(s) to check.
+ * @param  {Object<string>} values - The value(s) to check.
  * @return {boolean}                - The result of the check.
  */
 export function isValidEvent(values) {
@@ -264,7 +264,7 @@ export function isValidEvent(values) {
  *
  * Will return true is the check is successful.
  *
- * @param  {object.<string>} values - The value(s) to check.
+ * @param  {Object<string>} values - The value(s) to check.
  * @return {boolean}                - The result of the check.
  */
 export function isValidHoverType(values) {
@@ -303,7 +303,7 @@ export function isValidHoverType(values) {
  * so the variable name can be retrieved in case of errors.
  *
  * @param  {string}               tagName  - The name of the tag.
- * @param  {object.<HTMLElement>} elements - The element(s) to check.
+ * @param  {Object<HTMLElement>} elements - The element(s) to check.
  * @return {boolean}                       - The result of the check.
  */
 export function isTag(tagName, elements) {

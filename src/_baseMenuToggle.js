@@ -11,7 +11,7 @@ class BaseMenuToggle {
    *
    * @protected
    *
-   * @type {object.<HTMLElement>}
+   * @type {Object<HTMLElement>}
    *
    * @property {HTMLElement} toggle - The menu toggle.
    * @property {HTMLElement} parent - The menu containing this toggle.
@@ -26,7 +26,7 @@ class BaseMenuToggle {
    *
    * @protected
    *
-   * @type {object.<BaseMenu>}
+   * @type {Object<BaseMenu>}
    *
    * @property {BaseMenu} controlledMenu - The menu controlled by this toggle.
    * @property {BaseMenu} parentMenu     - The menu containing this toggle.
@@ -54,7 +54,7 @@ class BaseMenuToggle {
    *
    * @type {CustomEvent}
    *
-   * @property {object<BaseMenuToggle>} details - The details object containing the BaseMenuToggle itself.
+   * @property {Object<BaseMenuToggle>} details - The details object containing the BaseMenuToggle itself.
    */
   _expandEvent = new CustomEvent("accessibleMenuExpand", {
     bubbles: true,
@@ -70,7 +70,7 @@ class BaseMenuToggle {
    *
    * @type {CustomEvent}
    *
-   * @property {object<BaseMenuToggle>} details - The details object containing the BaseMenuToggle itself.
+   * @property {Object<BaseMenuToggle>} details - The details object containing the BaseMenuToggle itself.
    */
   _collapseEvent = new CustomEvent("accessibleMenuCollapse", {
     bubbles: true,
@@ -194,7 +194,7 @@ class BaseMenuToggle {
    *
    * @readonly
    *
-   * @type {object.<HTMLElement>}
+   * @type {Object<HTMLElement>}
    *
    * @see _dom
    */
@@ -207,7 +207,7 @@ class BaseMenuToggle {
    *
    * @readonly
    *
-   * @type {object.<BaseMenu>}
+   * @type {Object<BaseMenu>}
    *
    * @see _elements
    */
