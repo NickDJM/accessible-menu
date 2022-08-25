@@ -52,7 +52,7 @@ class BaseMenu {
    *
    * @protected
    *
-   * @type {object.<HTMLElement,HTMLElement[]>}
+   * @type {Object<HTMLElement, HTMLElement[]>}
    *
    * @property {HTMLElement}   menu           - The menu element.
    * @property {HTMLElement[]} menuItems      - An array of menu items.
@@ -77,7 +77,7 @@ class BaseMenu {
    *
    * @protected
    *
-   * @type {object.<string>}
+   * @type {Object<string>}
    *
    * @property {string} menuItems      - The CSS selector for menu items.
    * @property {string} menuLinks      - The CSS selector for menu links.
@@ -98,7 +98,7 @@ class BaseMenu {
    *
    * @protected
    *
-   * @type {object.<BaseMenu,BaseMenuToggle,BaseMenuItem[],BaseMenuToggle[]>}
+   * @type {Object<BaseMenu, BaseMenuToggle, BaseMenuItem[], BaseMenuToggle[]>}
    *
    * @property {BaseMenuItem[]}   menuItems      - An array of menu items.
    * @property {BaseMenuToggle[]} submenuToggles - An array of menu toggles.
@@ -299,7 +299,7 @@ class BaseMenu {
    *
    * @readonly
    *
-   * @type {object.<HTMLElement,HTMLElement[]>}
+   * @type {Object<HTMLElement, HTMLElement[]>}
    *
    * @see _dom
    */
@@ -312,7 +312,7 @@ class BaseMenu {
    *
    * @readonly
    *
-   * @type {object.<string>}
+   * @type {Object<string>}
    *
    * @see _selectors
    */
@@ -325,7 +325,7 @@ class BaseMenu {
    *
    * @readonly
    *
-   * @type {object.<BaseMenu,BaseMenuToggle,BaseMenuItem[],BaseMenuToggle[]>}
+   * @type {Object<BaseMenu, BaseMenuToggle, BaseMenuItem[], BaseMenuToggle[]>}
    *
    * @see _elements
    */
