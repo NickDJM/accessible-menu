@@ -188,6 +188,71 @@ class TopLinkDisclosureMenu extends BaseMenu {
   }
 
   /**
+   * Creates and initializes all menu items and submenus.
+   *
+   * @protected
+   */
+  _createChildElements() {
+    this.dom.menuItems.forEach((element) => {
+      let menuItem;
+      const link = element.querySelector(this.selectors.menuLinks);
+
+      if (this.dom.submenuItems.includes(element)) {
+        // The menu's toggle controller DOM element.
+        const toggler = element.querySelector(this.selectors.submenuToggles);
+        // The actual menu DOM element.
+        const submenu = element.querySelector(this.selectors.submenus);
+
+        // Create the new menu and initialize it.
+        const menu = new this._MenuType({
+          menuElement: submenu,
+          menuItemSelector: this.selectors.menuItems,
+          menuLinkSelector: this.selectors.menuLinks,
+          submenuItemSelector: this.selectors.submenuItems,
+          submenuToggleSelector: this.selectors.submenuToggles,
+          submenuSelector: this.selectors.submenus,
+          openClass: this.openClass,
+          closeClass: this.closeClass,
+          isTopLevel: false,
+          parentMenu: this,
+          hoverType: this.hoverType,
+          hoverDelay: this.hoverDelay,
+        });
+
+        // Create the new menu toggle.
+        const toggle = new this._MenuToggleType({
+          menuToggleElement: toggler,
+          parentElement: element,
+          controlledMenu: menu,
+          parentMenu: this,
+        });
+
+        // Add the toggle to the list of toggles.
+        this._elements.submenuToggles.push(toggle);
+
+        // Create a new menu item.
+        menuItem = new this._MenuItemType({
+          menuItemElement: element,
+          menuLinkElement: link,
+          parentMenu: this,
+          isSubmenuItem: true,
+          childMenu: menu,
+          toggle,
+        });
+      } else {
+        // Create a new menu item.
+        menuItem = new this._MenuItemType({
+          menuItemElement: element,
+          menuLinkElement: link,
+          parentMenu: this,
+        });
+      }
+
+      this._elements.menuItems.push(menuItem);
+    });
+  }
+
+  /**
    * Validates all aspects of the menu to ensure proper functionality.
    *
    * @protected
@@ -326,7 +391,10 @@ class TopLinkDisclosureMenu extends BaseMenu {
         if (key === "Space" || key === "Enter") {
           // Hitting Space or Enter:
           // - If focus is on a disclosure button, activates the button, which toggles the visibility of the dropdown.
-          if (this.currentMenuItem.isSubmenuItem) {
+          if (
+            this.currentMenuItem.isSubmenuItem &&
+            event.target.matches(this.selectors.submenuToggles)
+          ) {
             preventEvent(event);
             if (this.currentMenuItem.elements.toggle.isOpen) {
               this.currentMenuItem.elements.toggle.close();
