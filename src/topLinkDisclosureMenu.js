@@ -325,17 +325,8 @@ class TopLinkDisclosureMenu extends BaseMenu {
       if (this.focusState === "self") {
         if (key === "Space" || key === "Enter") {
           // Hitting Space or Enter:
-          // - If focus is on a disclosure button, activates the button, which toggles the visibility of the dropdown.
-          if (this.currentMenuItem.isSubmenuItem) {
-            preventEvent(event);
-            if (this.currentMenuItem.elements.toggle.isOpen) {
-              this.currentMenuItem.elements.toggle.close();
-            } else {
-              this.currentMenuItem.elements.toggle.preview();
-            }
-          } else {
-            this.currentMenuItem.dom.link.click();
-          }
+          // - Activate link.
+          this.currentMenuItem.dom.link.click();
         } else if (key === "Escape") {
           // Hitting Escape
           // - If a dropdown is open, closes it.
