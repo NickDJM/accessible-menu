@@ -194,8 +194,16 @@ class TopLinkDisclosureMenu extends BaseMenu {
    */
   _createChildElements() {
     this.dom.menuItems.forEach((element) => {
-      let menuItem;
       const link = element.querySelector(this.selectors.menuLinks);
+
+      // Create a new menu item.
+      const menuItem = new this._MenuItemType({
+        menuItemElement: element,
+        menuLinkElement: link,
+        parentMenu: this,
+      });
+
+      this._elements.menuItems.push(menuItem);
 
       if (this.dom.submenuItems.includes(element)) {
         // The menu's toggle controller DOM element.
@@ -230,25 +238,17 @@ class TopLinkDisclosureMenu extends BaseMenu {
         // Add the toggle to the list of toggles.
         this._elements.submenuToggles.push(toggle);
 
-        // Create a new menu item.
-        menuItem = new this._MenuItemType({
+        const menuToggleItem = new this._MenuItemType({
           menuItemElement: element,
-          menuLinkElement: link,
+          menuLinkElement: toggler,
           parentMenu: this,
           isSubmenuItem: true,
           childMenu: menu,
           toggle,
         });
-      } else {
-        // Create a new menu item.
-        menuItem = new this._MenuItemType({
-          menuItemElement: element,
-          menuLinkElement: link,
-          parentMenu: this,
-        });
-      }
 
-      this._elements.menuItems.push(menuItem);
+        this._elements.menuItems.push(menuToggleItem);
+      }
     });
   }
 
