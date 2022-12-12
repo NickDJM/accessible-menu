@@ -110,12 +110,12 @@ export const fullTopLinkMenu = /* html */ `
       <li id="item-1-0-0"><a id="link-1-0-0" href="#">First item</a></li>
       <li id="item-2-0-0" class="dropdown">
         <a id="link-2-0-0" href="#">Second item</a>
-        <button id="toggle-2-0-0">Toggle second item</button>
+        <button id="toggle-2-0-0" aria-label="Toggle second item"></button>
         <ul id="menu-2">
           <li id="item-2-1-0"><a id="link-2-1-0" href="#">First item</a></li>
           <li id="item-2-2-0" class="dropdown">
             <a id="link-2-2-0" href="#">Second item</a>
-            <button id="toggle-2-2-0">Toggle second item</button>
+            <button id="toggle-2-2-0" aria-label="Toggle second item"></button>
             <ul id="menu-2-2">
               <li id="item-2-2-1"><a id="link-2-2-1" href="#">First item</a></li>
               <li id="item-2-2-2"><a id="link-2-2-2" href="#">Second item</a></li>
@@ -124,7 +124,7 @@ export const fullTopLinkMenu = /* html */ `
           </li>
           <li id="item-2-3-0" class="dropdown">
             <a id="link-2-3-0" href="#">Third item</a>
-            <button id="toggle-2-3-0">Toggle third item</button>
+            <button id="toggle-2-3-0" aria-label="Toggle third item"></button>
             <ul id="menu-2-3">
               <li id="item-2-3-1"><a id="link-2-3-1" href="#">First item</a></li>
               <li id="item-2-3-2"><a id="link-2-3-2" href="#">Second item</a></li>
@@ -135,7 +135,7 @@ export const fullTopLinkMenu = /* html */ `
       </li>
       <li id="item-3-0-0" class="dropdown">
         <a id="link-3-0-0" href="#">Third item</a>
-        <button id="toggle-3-0-0">Toggle third item</button>
+        <button id="toggle-3-0-0" aria-label="Toggle third item"></button>
         <ul id="menu-3">
           <li id="item-3-1-0"><a id="link-3-1-0" href="#">First item</a></li>
           <li id="item-3-2-0"><a id="link-3-2-0" href="#">Second item</a></li>
@@ -145,7 +145,7 @@ export const fullTopLinkMenu = /* html */ `
       <li id="item-4-0-0"><a id="link-4-0-0" href="#">Fourth item</a></li>
       <li id="item-5-0-0" class="dropdown">
         <a id="link-5-0-0" href="#">Fifth item</a>
-        <button id="toggle-5-0-0">Toggle fifth item</button>
+        <button id="toggle-5-0-0" aria-label="Toggle fifth item"></button>
         <ul id="menu-5">
           <li id="item-5-1-0"><a id="link-5-1-0" href="#">First item</a></li>
           <li id="item-5-2-0"><a id="link-5-2-0" href="#">Second item</a></li>
