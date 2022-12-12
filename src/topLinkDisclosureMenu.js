@@ -194,16 +194,8 @@ class TopLinkDisclosureMenu extends BaseMenu {
    */
   _createChildElements() {
     this.dom.menuItems.forEach((element) => {
+      let menuItem, menuToggleItem;
       const link = element.querySelector(this.selectors.menuLinks);
-
-      // Create a new menu item.
-      const menuItem = new this._MenuItemType({
-        menuItemElement: element,
-        menuLinkElement: link,
-        parentMenu: this,
-      });
-
-      this._elements.menuItems.push(menuItem);
 
       if (this.dom.submenuItems.includes(element)) {
         // The menu's toggle controller DOM element.
@@ -238,7 +230,8 @@ class TopLinkDisclosureMenu extends BaseMenu {
         // Add the toggle to the list of toggles.
         this._elements.submenuToggles.push(toggle);
 
-        const menuToggleItem = new this._MenuItemType({
+        // Create a new menu item specifically for the toggle.
+        menuToggleItem = new this._MenuItemType({
           menuItemElement: element,
           menuLinkElement: toggler,
           parentMenu: this,
@@ -247,6 +240,25 @@ class TopLinkDisclosureMenu extends BaseMenu {
           toggle,
         });
 
+        // Create a new menu item.
+        menuItem = new this._MenuItemType({
+          menuItemElement: element,
+          menuLinkElement: link,
+          parentMenu: this,
+          submenuSibling: menuToggleItem,
+        });
+      } else {
+        // Create a new menu item.
+        menuItem = new this._MenuItemType({
+          menuItemElement: element,
+          menuLinkElement: link,
+          parentMenu: this,
+        });
+      }
+
+      this._elements.menuItems.push(menuItem);
+
+      if (typeof menuToggleItem !== "undefined") {
         this._elements.menuItems.push(menuToggleItem);
       }
     });
@@ -300,6 +312,128 @@ class TopLinkDisclosureMenu extends BaseMenu {
             this.elements.controller.close();
           }
         }
+      }
+    });
+  }
+
+  /**
+   * Handles hover events throughout the menu for proper use.
+   *
+   * Adds `pointerenter` listeners to all menu items and `pointerleave` listeners
+   * to all submenu items which function differently depending on
+   * the menu's {@link BaseMenu_hoverTypeType|hover type}.
+   *
+   * Before executing anything, the event is checked to make sure the event wasn't
+   * triggered by a pen or touch.
+   *
+   * <strong>Hover Type "on"</strong>
+   * - When a `pointerenter` event triggers on any menu item the menu's
+   *   {@link BaseMenu#currentChild| current child} value will change to that
+   *   menu item.
+   * - When a `pointerenter` event triggers on a submenu item the
+   *   {@link BaseMenuToggle#preview|preview method} for the submenu item's
+   *   toggle will be called.
+   * - When a `pointerleave` event triggers on an open submenu item the
+   *   {@link BaseMenuToggle#close|close method} for the submenu item's toggle
+   *   will be called after a delay set by the menu's {@link BaseMenu_hoverTypeDelay|hover delay}.
+   *
+   * <strong>Hover Type "dynamic"</strong>
+   * - When a `pointerenter` event triggers on any menu item the menu's
+   *   current child value will change to that menu item.
+   * - When a `pointerenter` event triggers on any menu item, and the menu's
+   *   {@link BaseMenu#focusState|focus state} is not "none", the menu item
+   *   will be focused.
+   * - When a `pointerenter` event triggers on a submenu item, and a submenu is
+   *   already open, the preview method for the submenu item's toggle will be called.
+   * - When a `pointerenter` event triggers on a submenu item, and no submenu is
+   *   open, no submenu-specific methods will be called.
+   * - When a `pointerleave` event triggers on an open submenu item that is not a
+   *   root-level submenu item the close method for the submenu item's toggle
+   *   will be called and the submenu item will be focused after a delay set by
+   *   the menu's hover delay.
+   * - When a `pointerleave` event triggers on an open submenu item that is a
+   *   root-level submenu item no submenu-specific methods will be called.
+   *
+   * <strong>Hover Type "off"</strong>
+   * All `pointerenter` and `pointerleave` events are ignored.
+   *
+   * @protected
+   */
+  _handleHover() {
+    this.elements.menuItems.forEach((menuItem, index) => {
+      menuItem.dom.link.addEventListener("pointerenter", (event) => {
+        // Exit out of the event if it was not made by a mouse.
+        if (event.pointerType === "pen" || event.pointerType === "touch") {
+          return;
+        }
+
+        if (this.hoverType === "on") {
+          this.currentEvent = "mouse";
+          this.currentChild = index;
+
+          // Hovering over both the menu item _and_ the toggle item should work.
+          if (menuItem.isSubmenuItem) {
+            menuItem.elements.toggle.preview();
+          } else if (menuItem.elements.sibling !== null) {
+            menuItem.elements.sibling.elements.toggle.preview();
+          }
+        } else if (this.hoverType === "dynamic") {
+          const isOpen = this.elements.submenuToggles.some(
+            (toggle) => toggle.isOpen
+          );
+          this.currentChild = index;
+
+          if (!this.isTopLevel || this.focusState !== "none") {
+            this.currentEvent = "mouse";
+            this.focusCurrentChild();
+          }
+
+          if (!this.isTopLevel || isOpen) {
+            this.currentEvent = "mouse";
+
+            // Hovering over both the menu item _and_ the toggle item should work.
+            if (menuItem.isSubmenuItem) {
+              menuItem.elements.toggle.preview();
+            } else if (menuItem.elements.sibling !== null) {
+              menuItem.elements.sibling.elements.toggle.preview();
+            }
+          }
+        }
+      });
+
+      if (menuItem.isSubmenuItem) {
+        menuItem.dom.item.addEventListener("pointerleave", (event) => {
+          // Exit out of the event if it was not made by a mouse.
+          if (event.pointerType === "pen" || event.pointerType === "touch") {
+            return;
+          }
+
+          if (this.hoverType === "on") {
+            if (this.hoverDelay > 0) {
+              setTimeout(() => {
+                this.currentEvent = "mouse";
+                menuItem.elements.toggle.close();
+              }, this.hoverDelay);
+            } else {
+              this.currentEvent = "mouse";
+              menuItem.elements.toggle.close();
+            }
+          } else if (this.hoverType === "dynamic") {
+            if (!this.isTopLevel) {
+              if (this.hoverDelay > 0) {
+                setTimeout(() => {
+                  this.currentEvent = "mouse";
+                  menuItem.elements.toggle.close();
+                  this.focusCurrentChild();
+                }, this.hoverDelay);
+              } else {
+                this.currentEvent = "mouse";
+                menuItem.elements.toggle.close();
+                this.focusCurrentChild();
+              }
+            }
+          }
+        });
       }
     });
   }
