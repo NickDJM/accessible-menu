@@ -7,7 +7,7 @@ import { twoLevelMenu } from "./test-menus";
 /**
  * A set of tests for the _setDOMElementType method.
  *
- * @param {(typeof DisclosureMenu|typeof Menubar|typeof Treeview)} MenuClass - The menu class to test.
+ * @param {(typeof DisclosureMenu|typeof Menubar|typeof Treeview|typeof TopLinkDisclosureMenu)} MenuClass - The menu class to test.
  */
 export function setDOMElements(MenuClass) {
   const menuType = MenuClass.name;
@@ -75,7 +75,7 @@ export function setDOMElements(MenuClass) {
 /**
  * A set of tests for the _resetDOMElementType method.
  *
- * @param {(typeof DisclosureMenu|typeof Menubar|typeof Treeview)} MenuClass - The menu class to test.
+ * @param {(typeof DisclosureMenu|typeof Menubar|typeof Treeview|typeof TopLinkDisclosureMenu)} MenuClass - The menu class to test.
  */
 export function resetDOMElements(MenuClass) {
   const menuType = MenuClass.name;

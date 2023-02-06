@@ -8,7 +8,7 @@ import { twoLevelMenu } from "./test-menus";
 /**
  * A set of ARIA tests.
  *
- * @param {(typeof DisclosureMenu|typeof Menubar|typeof Treeview)} MenuClass - The menu class to test.
+ * @param {(typeof DisclosureMenu|typeof Menubar|typeof Treeview|typeof TopLinkDisclosureMenu)} MenuClass - The menu class to test.
  */
 export function aria(MenuClass) {
   const menuType = MenuClass.name;

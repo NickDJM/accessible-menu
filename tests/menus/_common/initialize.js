@@ -8,7 +8,7 @@ import { oneLevelMenu } from "./test-menus";
 /**
  * A set of default initialization tests.
  *
- * @param {(typeof DisclosureMenu|typeof Menubar|typeof Treeview)} MenuClass - The menu class to test.
+ * @param {(typeof DisclosureMenu|typeof Menubar|typeof Treeview|typeof TopLinkDisclosureMenu)} MenuClass - The menu class to test.
  */
 export function defaultInitialization(MenuClass) {
   const menuType = MenuClass.name;
@@ -51,7 +51,7 @@ export function defaultInitialization(MenuClass) {
 /**
  * A set of controlled menu initialization tests.
  *
- * @param {(typeof DisclosureMenu|typeof Menubar|typeof Treeview)} MenuClass - The menu class to test.
+ * @param {(typeof DisclosureMenu|typeof Menubar|typeof Treeview|typeof TopLinkDisclosureMenu)} MenuClass - The menu class to test.
  */
 export function controlledMenu(MenuClass) {
   const menuType = MenuClass.name;
@@ -129,7 +129,7 @@ export function controlledMenu(MenuClass) {
 /**
  * A set of customized menu initialization tests.
  *
- * @param {(typeof DisclosureMenu|typeof Menubar|typeof Treeview)} MenuClass - The menu class to test.
+ * @param {(typeof DisclosureMenu|typeof Menubar|typeof Treeview|typeof TopLinkDisclosureMenu)} MenuClass - The menu class to test.
  */
 export function customizedMenu(MenuClass) {
   const menuType = MenuClass.name;

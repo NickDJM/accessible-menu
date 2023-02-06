@@ -7,7 +7,7 @@ import { oneLevelMenu, twoLevelMenu } from "./test-menus";
 /**
  * A set of single-level menu sanity tests.
  *
- * @param {(typeof DisclosureMenu|typeof Menubar|typeof Treeview)} MenuClass - The menu class to test.
+ * @param {(typeof DisclosureMenu|typeof Menubar|typeof Treeview|typeof TopLinkDisclosureMenu)} MenuClass - The menu class to test.
  */
 export function singleLevelSanity(MenuClass) {
   const menuType = MenuClass.name;
@@ -135,7 +135,7 @@ export function singleLevelSanity(MenuClass) {
 /**
  * A set of two-level menu sanity tests.
  *
- * @param {(typeof DisclosureMenu|typeof Menubar|typeof Treeview)} MenuClass - The menu class to test.
+ * @param {(typeof DisclosureMenu|typeof Menubar|typeof Treeview|typeof TopLinkDisclosureMenu)} MenuClass - The menu class to test.
  */
 export function twoLevelSanity(MenuClass) {
   const menuType = MenuClass.name;
