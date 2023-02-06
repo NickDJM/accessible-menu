@@ -5,9 +5,6 @@
 import { isTag } from "../../src/validate";
 
 describe("isTag", () => {
-  // Mock console.error.
-  console.error = jest.fn();
-
   // Declare element.
   document.body.innerHTML = "<div><p></p></div>";
   const element = document.querySelector("p");

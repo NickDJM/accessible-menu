@@ -21,7 +21,7 @@ describe("isValidInstance", () => {
 
     expect(check.status).toBeFalse();
     expect(check.error.message).toBe(
-      "div must be an instance of Function. object given."
+      'div must be an instance of Function. "object" given.'
     );
   });
 
@@ -39,7 +39,7 @@ describe("isValidInstance", () => {
 
     expect(check.status).toBeFalse();
     expect(check.error.message).toBe(
-      "align must be an instance of HTMLElement. string given."
+      'align must be an instance of HTMLElement. "string" given.'
     );
   });
 

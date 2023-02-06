@@ -192,9 +192,13 @@ class DisclosureMenu extends BaseMenu {
   _validate() {
     let check = super._validate();
 
-    if (
-      !isValidType("boolean", { optionalKeySupport: this._optionalSupport })
-    ) {
+    // Option key support check.
+    const optionalSupportCheck = isValidType("boolean", {
+      optionalKeySupport: this._optionalSupport,
+    });
+
+    if (!optionalSupportCheck.status) {
+      this._errors.push(optionalSupportCheck.error.message);
       check = false;
     }
 
