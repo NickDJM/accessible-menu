@@ -27,7 +27,7 @@ export function isValidInstance(contructor, elements) {
       if (!(elements[key] instanceof contructor)) {
         const elementType = typeof elements[key];
         throw new TypeError(
-          `${key} must be an instance of ${contructor.name}. ${elementType} given.`
+          `${key} must be an instance of ${contructor.name}. "${elementType}" given.`
         );
       }
     }
@@ -171,7 +171,7 @@ export function isValidClassList(values) {
           });
         } else {
           throw new TypeError(
-            `${key} must be a string or an array of strings. ${type} given.`
+            `${key} must be a string or an array of strings. "${type}" given.`
           );
         }
       } else {
@@ -341,8 +341,8 @@ export function isValidHoverType(values) {
  */
 export function isTag(tagName, elements) {
   if (
-    isValidType("string", { tagName }) &&
-    isValidInstance(HTMLElement, elements)
+    isValidType("string", { tagName }).status &&
+    isValidInstance(HTMLElement, elements).status
   ) {
     const tag = tagName.toLowerCase();
     let check = true;
