@@ -115,7 +115,6 @@ export const fullTopLinkMenu = /* html */ `
           <li id="item-2-1-0"><a id="link-2-1-0" href="#">First item</a></li>
           <li id="item-2-2-0" class="dropdown">
             <a id="link-2-2-0" href="#">Second item</a>
-            <button id="toggle-2-2-0" aria-label="Toggle second item"></button>
             <ul id="menu-2-2">
               <li id="item-2-2-1"><a id="link-2-2-1" href="#">First item</a></li>
               <li id="item-2-2-2"><a id="link-2-2-2" href="#">Second item</a></li>
@@ -124,7 +123,6 @@ export const fullTopLinkMenu = /* html */ `
           </li>
           <li id="item-2-3-0" class="dropdown">
             <a id="link-2-3-0" href="#">Third item</a>
-            <button id="toggle-2-3-0" aria-label="Toggle third item"></button>
             <ul id="menu-2-3">
               <li id="item-2-3-1"><a id="link-2-3-1" href="#">First item</a></li>
               <li id="item-2-3-2"><a id="link-2-3-2" href="#">Second item</a></li>

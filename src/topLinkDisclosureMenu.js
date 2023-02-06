@@ -61,6 +61,29 @@ class TopLinkDisclosureMenu extends BaseMenu {
   _currentChild = -1;
 
   /**
+   * The CSS selectors used by the menu to populate the {@link BaseMenu#dom|dom}.
+   *
+   * @protected
+   *
+   * @type {Object<string>}
+   *
+   * @property {string} menuItems         - The CSS selector for menu items.
+   * @property {string} menuLinks         - The CSS selector for menu links.
+   * @property {string} submenuItems      - The CSS selector for menu items containing submenus.
+   * @property {string} submenuToggles    - The CSS selector for menu links that function as submenu toggles.
+   * @property {string} submenus          - The CSS selector for for submenus.
+   * @property {string} submenuSubtoggles - The CSS selector for menu links that function as submenu toggles below the top level.
+   */
+  _selectors = {
+    menuItems: "",
+    menuLinks: "",
+    submenuItems: "",
+    submenuToggles: "",
+    submenus: "",
+    submenuSubtoggles: "",
+  };
+
+  /**
    * A flag to add optional keyboard support (Arrow keys, "Home", and "End") to the menu.
    *
    * @protected
@@ -72,23 +95,24 @@ class TopLinkDisclosureMenu extends BaseMenu {
   /**
    * Constructs the menu.
    *
-   * @param {object}                       options                                          - The options for generating the menu.
-   * @param {HTMLElement}                  options.menuElement                              - The menu element in the DOM.
-   * @param {string}                       [options.menuItemSelector = li]                  - The CSS selector string for menu items.
-   * @param {string}                       [options.menuLinkSelector = a]                   - The CSS selector string for menu links.
-   * @param {string}                       [options.submenuItemSelector]                    - The CSS selector string for menu items containing submenus.
-   * @param {string}                       [options.submenuToggleSelector = button]         - The CSS selector string for submenu toggle buttons/links.
-   * @param {string}                       [options.submenuSelector = ul]                   - The CSS selector string for submenus.
-   * @param {(HTMLElement|null)}           [options.controllerElement = null]               - The element controlling the menu in the DOM.
-   * @param {(HTMLElement|null)}           [options.containerElement = null]                - The element containing the menu in the DOM.
-   * @param {(string|string[]|null)}       [options.openClass = show]                       - The class to apply when a menu is "open".
-   * @param {(string|string[]|null)}       [options.closeClass = hide]                      - The class to apply when a menu is "closed".
-   * @param {boolean}                      [options.isTopLevel = true]                      - A flag to mark the root menu.
-   * @param {(TopLinkDisclosureMenu|null)} [options.parentMenu = null]                      - The parent menu to this menu.
-   * @param {string}                       [options.hoverType = off]                        - The type of hoverability a menu has.
-   * @param {number}                       [options.hoverDelay = 250]                       - The delay for closing menus if the menu is hoverable (in miliseconds).
-   * @param {boolean}                      [options.optionalKeySupport = false]             - A flag to add optional keyboard support (Arrow keys, Home, and End) to the menu.
-   * @param {boolean}                      [options.initialize = true]                      - A flag to initialize the menu immediately upon creation.
+   * @param {object}                       options                                  - The options for generating the menu.
+   * @param {HTMLElement}                  options.menuElement                      - The menu element in the DOM.
+   * @param {string}                       [options.menuItemSelector = li]          - The CSS selector string for menu items.
+   * @param {string}                       [options.menuLinkSelector = a]           - The CSS selector string for menu links.
+   * @param {string}                       [options.submenuItemSelector]            - The CSS selector string for menu items containing submenus.
+   * @param {string}                       [options.submenuToggleSelector = button] - The CSS selector string for submenu toggle buttons/links.
+   * @param {string}                       [options.submenuSelector = ul]           - The CSS selector string for submenus.
+   * @param {string}                       [options.submenuSubtoggleSelector = a]   - The CSS selector string for submenu toggle buttons/links below the top level.
+   * @param {(HTMLElement|null)}           [options.controllerElement = null]       - The element controlling the menu in the DOM.
+   * @param {(HTMLElement|null)}           [options.containerElement = null]        - The element containing the menu in the DOM.
+   * @param {(string|string[]|null)}       [options.openClass = show]               - The class to apply when a menu is "open".
+   * @param {(string|string[]|null)}       [options.closeClass = hide]              - The class to apply when a menu is "closed".
+   * @param {boolean}                      [options.isTopLevel = true]              - A flag to mark the root menu.
+   * @param {(TopLinkDisclosureMenu|null)} [options.parentMenu = null]              - The parent menu to this menu.
+   * @param {string}                       [options.hoverType = off]                - The type of hoverability a menu has.
+   * @param {number}                       [options.hoverDelay = 250]               - The delay for closing menus if the menu is hoverable (in miliseconds).
+   * @param {boolean}                      [options.optionalKeySupport = false]     - A flag to add optional keyboard support (Arrow keys, Home, and End) to the menu.
+   * @param {boolean}                      [options.initialize = true]              - A flag to initialize the menu immediately upon creation.
    */
   constructor({
     menuElement,
@@ -97,6 +121,7 @@ class TopLinkDisclosureMenu extends BaseMenu {
     submenuItemSelector = "",
     submenuToggleSelector = "button",
     submenuSelector = "ul",
+    submenuSubtoggleSelector = "a",
     controllerElement = null,
     containerElement = null,
     openClass = "show",
@@ -113,8 +138,8 @@ class TopLinkDisclosureMenu extends BaseMenu {
       menuItemSelector,
       menuLinkSelector,
       submenuItemSelector,
-      submenuToggleSelector,
       submenuSelector,
+      submenuToggleSelector,
       controllerElement,
       containerElement,
       openClass,
@@ -127,6 +152,13 @@ class TopLinkDisclosureMenu extends BaseMenu {
 
     // Set optional key support.
     this._optionalSupport = optionalKeySupport;
+
+    // Set DOM selectors.
+    this._selectors.menuItems = menuItemSelector;
+    this._selectors.submenuItems = submenuItemSelector;
+    this._selectors.submenuToggles = submenuToggleSelector;
+    this._selectors.submenus = submenuSelector;
+    this._selectors.submenuSubtoggles = submenuSubtoggleSelector;
 
     // Set unique menu link selectors.
     this._selectors.menuLinks = [
@@ -209,8 +241,9 @@ class TopLinkDisclosureMenu extends BaseMenu {
           menuItemSelector: this.selectors.menuItems,
           menuLinkSelector: this.selectors.menuLinks,
           submenuItemSelector: this.selectors.submenuItems,
-          submenuToggleSelector: this.selectors.submenuToggles,
+          submenuToggleSelector: this.selectors.submenuSubtoggles,
           submenuSelector: this.selectors.submenus,
+          submenuSubtoggleSelector: this.selectors.submenuSubtoggles,
           openClass: this.openClass,
           closeClass: this.closeClass,
           isTopLevel: false,
@@ -230,23 +263,37 @@ class TopLinkDisclosureMenu extends BaseMenu {
         // Add the toggle to the list of toggles.
         this._elements.submenuToggles.push(toggle);
 
-        // Create a new menu item specifically for the toggle.
-        menuToggleItem = new this._MenuItemType({
-          menuItemElement: element,
-          menuLinkElement: toggler,
-          parentMenu: this,
-          isSubmenuItem: true,
-          childMenu: menu,
-          toggle,
-        });
+        // If the toggle and link are different, create separate menu items for each.
+        // Otherwise, create a single menu item with a toggle.
+        if (toggler !== link) {
+          // Create a new menu item for the toggle.
+          menuToggleItem = new this._MenuItemType({
+            menuItemElement: element,
+            menuLinkElement: toggler,
+            parentMenu: this,
+            isSubmenuItem: true,
+            childMenu: menu,
+            toggle,
+          });
 
-        // Create a new menu item.
-        menuItem = new this._MenuItemType({
-          menuItemElement: element,
-          menuLinkElement: link,
-          parentMenu: this,
-          submenuSibling: menuToggleItem,
-        });
+          // Create a new menu item for the link.
+          menuItem = new this._MenuItemType({
+            menuItemElement: element,
+            menuLinkElement: link,
+            parentMenu: this,
+            submenuSibling: menuToggleItem,
+          });
+        } else {
+          // Create a new menu item with a toggle.
+          menuItem = new this._MenuItemType({
+            menuItemElement: element,
+            menuLinkElement: link,
+            parentMenu: this,
+            isSubmenuItem: true,
+            childMenu: menu,
+            toggle,
+          });
+        }
       } else {
         // Create a new menu item.
         menuItem = new this._MenuItemType({
