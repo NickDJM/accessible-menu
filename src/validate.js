@@ -9,9 +9,9 @@
  *
  * Will return true is the check is successful.
  *
- * @param  {object}  contructor - The constructor to check for.
- * @param  {object}  elements   - The element(s) to check.
- * @return {boolean}            - The result of the check.
+ * @param  {object}                  contructor - The constructor to check for.
+ * @param  {object}                  elements   - The element(s) to check.
+ * @return {Object<boolean, string>}            - The result of the check.
  */
 export function isValidInstance(contructor, elements) {
   try {
@@ -19,7 +19,7 @@ export function isValidInstance(contructor, elements) {
       const elementsType = typeof elements;
 
       throw new TypeError(
-        `AccessibleMenu: Elements given to isValidInstance() must be inside of an object. ${elementsType} given.`
+        `Elements given to isValidInstance() must be inside of an object. "${elementsType}" given.`
       );
     }
 
@@ -27,15 +27,20 @@ export function isValidInstance(contructor, elements) {
       if (!(elements[key] instanceof contructor)) {
         const elementType = typeof elements[key];
         throw new TypeError(
-          `AccessibleMenu: ${key} must be an instance of ${contructor.name}. ${elementType} given.`
+          `${key} must be an instance of ${contructor.name}. ${elementType} given.`
         );
       }
     }
 
-    return true;
+    return {
+      status: true,
+      error: null,
+    };
   } catch (error) {
-    console.error(error);
-    return false;
+    return {
+      status: false,
+      error: error,
+    };
   }
 }
 
@@ -50,9 +55,9 @@ export function isValidInstance(contructor, elements) {
  *
  * Will return true is the check is successful.
  *
- * @param  {string}  type   - The type to check for.
- * @param  {object}  values - The value(s) to check.
- * @return {boolean}        - The result of the check.
+ * @param  {string}                  type   - The type to check for.
+ * @param  {object}                  values - The value(s) to check.
+ * @return {Object<boolean, string>}        - The result of the check.
  */
 export function isValidType(type, values) {
   try {
@@ -60,7 +65,7 @@ export function isValidType(type, values) {
       const valuesType = typeof values;
 
       throw new TypeError(
-        `AccessibleMenu: Values given to isValidType() must be inside of an object. ${valuesType} given.`
+        `Values given to isValidType() must be inside of an object. "${valuesType}" given.`
       );
     }
 
@@ -68,16 +73,19 @@ export function isValidType(type, values) {
       const valueType = typeof values[key];
 
       if (valueType !== type) {
-        throw new TypeError(
-          `AccessibleMenu: ${key} must be a ${type}. ${valueType} given.`
-        );
+        throw new TypeError(`${key} must be a ${type}. "${valueType}" given.`);
       }
     }
 
-    return true;
+    return {
+      status: true,
+      error: null,
+    };
   } catch (error) {
-    console.error(error);
-    return false;
+    return {
+      status: false,
+      error: error,
+    };
   }
 }
 
@@ -89,8 +97,8 @@ export function isValidType(type, values) {
  *
  * Will return true is the check is successful.
  *
- * @param  {Object<string>} values - The value(s) to check.
- * @return {boolean}                - The result of the check.
+ * @param  {Object<string>}          values - The value(s) to check.
+ * @return {Object<boolean, string>}        - The result of the check.
  */
 export function isCSSSelector(values) {
   try {
@@ -98,7 +106,7 @@ export function isCSSSelector(values) {
       const type = typeof values;
 
       throw new TypeError(
-        `AccessibleMenu: Values given to isCSSSelector() must be inside of an object. ${type} given.`
+        `Values given to isCSSSelector() must be inside of an object. "${type}" given.`
       );
     }
 
@@ -111,15 +119,20 @@ export function isCSSSelector(values) {
         document.querySelector(values[key]);
       } catch (error) {
         throw new TypeError(
-          `AccessibleMenu: ${key} must be a valid CSS selector. "${values[key]}" given.`
+          `${key} must be a valid CSS selector. "${values[key]}" given.`
         );
       }
     }
 
-    return true;
+    return {
+      status: true,
+      error: null,
+    };
   } catch (error) {
-    console.error(error);
-    return false;
+    return {
+      status: false,
+      error: error,
+    };
   }
 }
 
@@ -132,7 +145,7 @@ export function isCSSSelector(values) {
  * Will return true is the check is successful.
  *
  * @param  {Object<string, string[]>} values - The value(s) to check.
- * @return {boolean}                         - The result of the check.
+ * @return {Object<boolean, string>}         - The result of the check.
  */
 export function isValidClassList(values) {
   try {
@@ -140,7 +153,7 @@ export function isValidClassList(values) {
       const type = typeof values;
 
       throw new TypeError(
-        `AccessibleMenu: Values given to isValidClassList() must be inside of an object. ${type} given.`
+        `Values given to isValidClassList() must be inside of an object. "${type}" given.`
       );
     }
 
@@ -152,13 +165,13 @@ export function isValidClassList(values) {
           values[key].forEach((value) => {
             if (typeof value !== "string") {
               throw new TypeError(
-                `AccessibleMenu: ${key} must be a string or an array of strings. An array containing non-strings given.`
+                `${key} must be a string or an array of strings. An array containing non-strings given.`
               );
             }
           });
         } else {
           throw new TypeError(
-            `AccessibleMenu: ${key} must be a string or an array of strings. ${type} given.`
+            `${key} must be a string or an array of strings. ${type} given.`
           );
         }
       } else {
@@ -169,10 +182,15 @@ export function isValidClassList(values) {
       }
     }
 
-    return true;
+    return {
+      status: true,
+      error: null,
+    };
   } catch (error) {
-    console.error(error);
-    return false;
+    return {
+      status: false,
+      error: error,
+    };
   }
 }
 
@@ -184,8 +202,8 @@ export function isValidClassList(values) {
  *
  * Will return true is the check is successful.
  *
- * @param  {Object<string>} values - The value(s) to check.
- * @return {boolean}                - The result of the check.
+ * @param  {Object<string>}          values - The value(s) to check.
+ * @return {Object<boolean, string>}        - The result of the check.
  */
 export function isValidState(values) {
   try {
@@ -193,7 +211,7 @@ export function isValidState(values) {
       const type = typeof values;
 
       throw new TypeError(
-        `AccessibleMenu: Values given to isValidState() must be inside of an object. ${type} given.`
+        `Values given to isValidState() must be inside of an object. "${type}" given.`
       );
     }
 
@@ -202,17 +220,22 @@ export function isValidState(values) {
     for (const key in values) {
       if (!validStates.includes(values[key])) {
         throw new TypeError(
-          `AccessibleMenu: ${key} must be one of the following values: ${validStates.join(
+          `${key} must be one of the following values: ${validStates.join(
             ", "
           )}. "${values[key]}" given.`
         );
       }
     }
 
-    return true;
+    return {
+      status: true,
+      error: null,
+    };
   } catch (error) {
-    console.error(error);
-    return false;
+    return {
+      status: false,
+      error: error,
+    };
   }
 }
 
@@ -224,8 +247,8 @@ export function isValidState(values) {
  *
  * Will return true is the check is successful.
  *
- * @param  {Object<string>} values - The value(s) to check.
- * @return {boolean}                - The result of the check.
+ * @param  {Object<string>}          values - The value(s) to check.
+ * @return {Object<boolean, string>}        - The result of the check.
  */
 export function isValidEvent(values) {
   try {
@@ -233,7 +256,7 @@ export function isValidEvent(values) {
       const type = typeof values;
 
       throw new TypeError(
-        `AccessibleMenu: Values given to isValidEvent() must be inside of an object. ${type} given.`
+        `Values given to isValidEvent() must be inside of an object. "${type}" given.`
       );
     }
 
@@ -242,17 +265,22 @@ export function isValidEvent(values) {
     for (const key in values) {
       if (!validEvents.includes(values[key])) {
         throw new TypeError(
-          `AccessibleMenu: ${key} must be one of the following values: ${validEvents.join(
+          `${key} must be one of the following values: ${validEvents.join(
             ", "
           )}. "${values[key]}" given.`
         );
       }
     }
 
-    return true;
+    return {
+      status: true,
+      error: null,
+    };
   } catch (error) {
-    console.error(error);
-    return false;
+    return {
+      status: false,
+      error: error,
+    };
   }
 }
 
@@ -264,8 +292,8 @@ export function isValidEvent(values) {
  *
  * Will return true is the check is successful.
  *
- * @param  {Object<string>} values - The value(s) to check.
- * @return {boolean}                - The result of the check.
+ * @param  {Object<string>}          values - The value(s) to check.
+ * @return {Object<boolean, string>}        - The result of the check.
  */
 export function isValidHoverType(values) {
   try {
@@ -273,7 +301,7 @@ export function isValidHoverType(values) {
       const type = typeof values;
 
       throw new TypeError(
-        `AccessibleMenu: Values given to isValidHoverType() must be inside of an object. ${type} given.`
+        `Values given to isValidHoverType() must be inside of an object. "${type}" given.`
       );
     }
 
@@ -282,17 +310,22 @@ export function isValidHoverType(values) {
     for (const key in values) {
       if (!validTypes.includes(values[key])) {
         throw new TypeError(
-          `AccessibleMenu: ${key} must be one of the following values: ${validTypes.join(
+          `${key} must be one of the following values: ${validTypes.join(
             ", "
           )}. "${values[key]}" given.`
         );
       }
     }
 
-    return true;
+    return {
+      status: true,
+      error: null,
+    };
   } catch (error) {
-    console.error(error);
-    return false;
+    return {
+      status: false,
+      error: error,
+    };
   }
 }
 
@@ -302,9 +335,9 @@ export function isValidHoverType(values) {
  * The elements must be provided inside of an object
  * so the variable name can be retrieved in case of errors.
  *
- * @param  {string}               tagName  - The name of the tag.
+ * @param  {string}               tagName - The name of the tag.
  * @param  {Object<HTMLElement>} elements - The element(s) to check.
- * @return {boolean}                       - The result of the check.
+ * @return {boolean}                      - The result of the check.
  */
 export function isTag(tagName, elements) {
   if (
