@@ -3,7 +3,7 @@
  */
 /* eslint-disable no-new */
 
-import { twoLevelMenu } from "./test-menus";
+import { twoLevelMenu, twoLevelTopLinkMenu } from "./test-menus";
 
 /**
  * A set of ARIA tests.
@@ -15,7 +15,8 @@ export function aria(MenuClass) {
 
   describe(`${menuType}`, () => {
     // Set up the DOM.
-    document.body.innerHTML = twoLevelMenu;
+    document.body.innerHTML =
+      menuType === "TopLinkDisclosureMenu" ? twoLevelTopLinkMenu : twoLevelMenu;
     const menu = new MenuClass({
       menuElement: document.querySelector("#menu-0"),
       submenuItemSelector: "li.dropdown",
@@ -71,9 +72,11 @@ export function aria(MenuClass) {
       test("has proper ARIA attributes", () => {
         const submenuElement =
           menu.elements.submenuToggles[index].elements.controlledMenu.dom.menu;
+        const labelledByItem =
+          menuType === "TopLinkDisclosureMenu" ? "toggle" : "link";
 
         expect(submenuElement.getAttribute("aria-labelledby")).toBe(
-          `link-${id}-0-0`
+          `${labelledByItem}-${id}-0-0`
         );
 
         if (menuType === "Menubar") {
