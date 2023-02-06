@@ -323,25 +323,3 @@ export function isTag(tagName, elements) {
     return false;
   }
 }
-
-/**
- * Checks to see if an event is supported by a node.
- *
- * @param  {string}      event   - The event type.
- * @param  {HTMLElement} element - The element to check.
- * @return {boolean}             - The result.
- *
- * @deprecated Will be removed in v4 unless there is a new found need for it.
- */
-export function isEventSupported(event, element) {
-  if (
-    isValidType("string", { event }) &&
-    isValidInstance(HTMLElement, { element })
-  ) {
-    const eventProp = `on${event}`;
-
-    return typeof element[eventProp] !== "undefined";
-  } else {
-    return false;
-  }
-}
