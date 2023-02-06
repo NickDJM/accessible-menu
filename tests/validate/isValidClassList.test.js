@@ -27,7 +27,7 @@ describe("isValidClassList", () => {
 
     expect(check.status).toBeFalse();
     expect(check.error.message).toBe(
-      "classes must be a string or an array of strings. number given."
+      'classes must be a string or an array of strings. "number" given.'
     );
   });
 
