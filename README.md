@@ -193,5 +193,5 @@ If you're interested in contributing to the project, please read the [Contributi
 ## Sponsors
 
 <a href="https://coldfrontlabs.ca">
-  <img src="https://coldfrontlabs.ca/themes/custom/frosty/logo.svg" alt="Coldfront Labs Inc." style="max-width: 30ch"/>
+  <img src="https://coldfrontlabs.ca/themes/custom/frosty/logo.svg" alt="Coldfront Labs Inc." width="200px"/>
 </a>
