@@ -34,4 +34,16 @@ describe("TopLinkDisclosureMenu-specific initialization", () => {
       "AccessibleMenu: optionalKeySupport must be a boolean. string given."
     );
   });
+
+  test("will fail if submenuSubtoggleSelector is provided and submenuToggleSelector isn't a CSS selector", () => {
+    expect(() => {
+      // eslint-disable-next-line no-new
+      new TopLinkDisclosureMenu({
+        menuElement: document.querySelector("#menu-0"),
+        submenuSubtoggleSelector: 123,
+      });
+    }).toThrow(
+      'AccessibleMenu: submenuSubtoggleSelector must be a valid CSS selector. "123" given.'
+    );
+  });
 });
