@@ -5,21 +5,31 @@
 import { isValidHoverType } from "../../src/validate";
 
 describe("isValidHoverType", () => {
-  // Mock console.error.
-  console.error = jest.fn();
-
   // Valid hover type options.
   const validTypes = ["off", "on", "dynamic"];
 
   test.each(validTypes)("returns true if '%s' is passed", (type) => {
-    expect(isValidHoverType({ type })).toBeTrue();
+    const check = isValidHoverType({ type });
+
+    expect(check.status).toBeTrue();
+    expect(check.error).toBeNull();
   });
 
   test("returns false if an unsupported hover type is passed", () => {
-    expect(isValidHoverType({ type: "unsupported" })).toBeFalse();
+    const check = isValidHoverType({ type: "unsupported" });
+
+    expect(check.status).toBeFalse();
+    expect(check.error.message).toBe(
+      'type must be one of the following values: off, on, dynamic. "unsupported" given.'
+    );
   });
 
   test("returns false is a supported hover type, _not_ in an object, is passed", () => {
-    expect(isValidHoverType("none")).toBeFalse();
+    const check = isValidHoverType("none");
+
+    expect(check.status).toBeFalse();
+    expect(check.error.message).toBe(
+      'Values given to isValidHoverType() must be inside of an object. "string" given.'
+    );
   });
 });

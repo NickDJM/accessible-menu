@@ -15,11 +15,6 @@ controlledMenu(DisclosureMenu);
 customizedMenu(DisclosureMenu);
 
 describe("DisclosureMenu-specific initialization", () => {
-  // Mock console.error.
-  console.error = jest.fn((error) => {
-    throw new Error(error.message);
-  });
-
   // Set up the DOM.
   document.body.innerHTML = oneLevelMenu;
 
@@ -30,8 +25,6 @@ describe("DisclosureMenu-specific initialization", () => {
         menuElement: document.querySelector("#menu-0"),
         optionalKeySupport: "true",
       });
-    }).toThrow(
-      "AccessibleMenu: optionalKeySupport must be a boolean. string given."
-    );
+    }).toThrow('optionalKeySupport must be a boolean. "string" given.');
   });
 });
