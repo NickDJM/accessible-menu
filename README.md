@@ -192,8 +192,10 @@ If you're interested in contributing to the project, please read the [Contributi
 
 ## Sponsors
 
-<p align="center" style="background: #182763; padding: 1rem;">
-  <a href="https://coldfrontlabs.ca">
-    <img src="https://coldfrontlabs.ca/themes/custom/frosty/logo.svg" alt="Coldfront Labs Inc." width="300px"/>
-  </a>
-</p>
+<div style="background-color: #182763; padding: 1rem;">
+  <p align="center">
+    <a href="https://coldfrontlabs.ca">
+      <img src="https://coldfrontlabs.ca/themes/custom/frosty/logo.svg" alt="Coldfront Labs Inc." width="300px"/>
+    </a>
+  </p>
+</div>
