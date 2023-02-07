@@ -3,7 +3,12 @@
  */
 /* eslint-disable no-new */
 
-import { twoLevelMenu, fullMenu } from "./test-menus";
+import {
+  twoLevelMenu,
+  fullMenu,
+  twoLevelTopLinkMenu,
+  fullTopLinkMenu,
+} from "./test-menus";
 import {
   simulatePointer,
   simulatePointerEvent,
@@ -24,7 +29,10 @@ export function openClose(MenuClass) {
   describe(menuType, () => {
     test("will open when the controller's open method is called", () => {
       // Set up the DOM.
-      document.body.innerHTML = twoLevelMenu;
+      document.body.innerHTML =
+        menuType === "TopLinkDisclosureMenu"
+          ? twoLevelTopLinkMenu
+          : twoLevelMenu;
       const menu = new MenuClass({
         menuElement: document.querySelector("#menu-0"),
         submenuItemSelector: "li.dropdown",
@@ -41,7 +49,10 @@ export function openClose(MenuClass) {
 
     test("will close when the controller's close method is called", () => {
       // Set up the DOM.
-      document.body.innerHTML = twoLevelMenu;
+      document.body.innerHTML =
+        menuType === "TopLinkDisclosureMenu"
+          ? twoLevelTopLinkMenu
+          : twoLevelMenu;
       const menu = new MenuClass({
         menuElement: document.querySelector("#menu-0"),
         submenuItemSelector: "li.dropdown",
@@ -58,7 +69,10 @@ export function openClose(MenuClass) {
 
     test("submenus will open when the controller's open method is called", () => {
       // Set up the DOM.
-      document.body.innerHTML = twoLevelMenu;
+      document.body.innerHTML =
+        menuType === "TopLinkDisclosureMenu"
+          ? twoLevelTopLinkMenu
+          : twoLevelMenu;
       const menu = new MenuClass({
         menuElement: document.querySelector("#menu-0"),
         submenuItemSelector: "li.dropdown",
@@ -73,7 +87,10 @@ export function openClose(MenuClass) {
 
     test("submenus will close when the controller's close method is called", () => {
       // Set up the DOM.
-      document.body.innerHTML = twoLevelMenu;
+      document.body.innerHTML =
+        menuType === "TopLinkDisclosureMenu"
+          ? twoLevelTopLinkMenu
+          : twoLevelMenu;
       const menu = new MenuClass({
         menuElement: document.querySelector("#menu-0"),
         submenuItemSelector: "li.dropdown",
@@ -102,7 +119,10 @@ export function clickTests(MenuClass) {
   describe(menuType, () => {
     test("will open when the controller is clicked when the menu is closed", () => {
       // Set up the DOM.
-      document.body.innerHTML = twoLevelMenu;
+      document.body.innerHTML =
+        menuType === "TopLinkDisclosureMenu"
+          ? twoLevelTopLinkMenu
+          : twoLevelMenu;
       const menu = new MenuClass({
         menuElement: document.querySelector("#menu-0"),
         submenuItemSelector: "li.dropdown",
@@ -129,7 +149,10 @@ export function clickTests(MenuClass) {
 
     test("will close when the controller is clicked when the menu is open", () => {
       // Set up the DOM.
-      document.body.innerHTML = twoLevelMenu;
+      document.body.innerHTML =
+        menuType === "TopLinkDisclosureMenu"
+          ? twoLevelTopLinkMenu
+          : twoLevelMenu;
       const menu = new MenuClass({
         menuElement: document.querySelector("#menu-0"),
         submenuItemSelector: "li.dropdown",
@@ -147,10 +170,13 @@ export function clickTests(MenuClass) {
       toggleIsClosed(controller);
     });
 
-    if (menuType === "DisclosureMenu" || menuType === "Menubar") {
+    if (menuType !== "Treeview") {
       test("will close when a click event is registered outside of the menu", () => {
         // Set up the DOM.
-        document.body.innerHTML = twoLevelMenu;
+        document.body.innerHTML =
+          menuType === "TopLinkDisclosureMenu"
+            ? twoLevelTopLinkMenu
+            : twoLevelMenu;
         const menu = new MenuClass({
           menuElement: document.querySelector("#menu-0"),
           submenuItemSelector: "li.dropdown",
@@ -171,7 +197,10 @@ export function clickTests(MenuClass) {
 
     test("submenus will open when the controller is clicked when the submenu is closed", () => {
       // Set up the DOM.
-      document.body.innerHTML = twoLevelMenu;
+      document.body.innerHTML =
+        menuType === "TopLinkDisclosureMenu"
+          ? twoLevelTopLinkMenu
+          : twoLevelMenu;
       const menu = new MenuClass({
         menuElement: document.querySelector("#menu-0"),
         submenuItemSelector: "li.dropdown",
@@ -186,13 +215,15 @@ export function clickTests(MenuClass) {
 
     test("submenus will close when the controller is clicked when the menu is open", () => {
       // Set up the DOM.
-      document.body.innerHTML = twoLevelMenu;
+      document.body.innerHTML =
+        menuType === "TopLinkDisclosureMenu"
+          ? twoLevelTopLinkMenu
+          : twoLevelMenu;
       const menu = new MenuClass({
         menuElement: document.querySelector("#menu-0"),
         submenuItemSelector: "li.dropdown",
       });
       const toggle = menu.elements.submenuToggles[0];
-      const { controlledMenu } = toggle.elements;
 
       // Set up the menu for the test.
       toggle.open();
@@ -216,7 +247,10 @@ export function hoverTests(MenuClass) {
   describe(`${menuType} with hoverType "on"`, () => {
     test("submenus will open when a mouse enters their controller", () => {
       // Set up the DOM.
-      document.body.innerHTML = twoLevelMenu;
+      document.body.innerHTML =
+        menuType === "TopLinkDisclosureMenu"
+          ? twoLevelTopLinkMenu
+          : twoLevelMenu;
       const menu = new MenuClass({
         menuElement: document.querySelector("#menu-0"),
         submenuItemSelector: "li.dropdown",
@@ -233,7 +267,10 @@ export function hoverTests(MenuClass) {
 
     test("submenus will close when a mouse leaves the submenu item", () => {
       // Set up the DOM.
-      document.body.innerHTML = twoLevelMenu;
+      document.body.innerHTML =
+        menuType === "TopLinkDisclosureMenu"
+          ? twoLevelTopLinkMenu
+          : twoLevelMenu;
       const menu = new MenuClass({
         menuElement: document.querySelector("#menu-0"),
         submenuItemSelector: "li.dropdown",
@@ -256,7 +293,8 @@ export function hoverTests(MenuClass) {
   describe(`${menuType} with hoverType "dynamic"`, () => {
     test("submenus will not open when a mouse enters their controller and no other submenus are open", () => {
       // Set up the DOM.
-      document.body.innerHTML = fullMenu;
+      document.body.innerHTML =
+        menuType === "TopLinkDisclosureMenu" ? fullTopLinkMenu : fullMenu;
       const menu = new MenuClass({
         menuElement: document.querySelector("#menu-0"),
         submenuItemSelector: "li.dropdown",
@@ -276,7 +314,8 @@ export function hoverTests(MenuClass) {
 
     test("submenus will not close when a mouse leaves the submenu item if no other submenus are opened", () => {
       // Set up the DOM.
-      document.body.innerHTML = fullMenu;
+      document.body.innerHTML =
+        menuType === "TopLinkDisclosureMenu" ? fullTopLinkMenu : fullMenu;
       const menu = new MenuClass({
         menuElement: document.querySelector("#menu-0"),
         submenuItemSelector: "li.dropdown",
@@ -297,7 +336,8 @@ export function hoverTests(MenuClass) {
 
     test("submenus will open when a mouse enters their controller if another submenu is already open", () => {
       // Set up the DOM.
-      document.body.innerHTML = fullMenu;
+      document.body.innerHTML =
+        menuType === "TopLinkDisclosureMenu" ? fullTopLinkMenu : fullMenu;
       const menu = new MenuClass({
         menuElement: document.querySelector("#menu-0"),
         submenuItemSelector: "li.dropdown",
@@ -318,7 +358,7 @@ export function hoverTests(MenuClass) {
       // Simulate the mouse.
       simulatePointerEvent("pointerenter", newToggle.dom.toggle);
 
-      if (menuType === "DisclosureMenu" || menuType === "Menubar") {
+      if (menuType !== "Treeview") {
         toggleIsClosed(originalToggle);
       }
       toggleIsPreviewed(newToggle);
@@ -326,7 +366,8 @@ export function hoverTests(MenuClass) {
 
     test("submenus that are not direct children of the root menu with open when a mouse enters their controller", () => {
       // Set up the DOM.
-      document.body.innerHTML = fullMenu;
+      document.body.innerHTML =
+        menuType === "TopLinkDisclosureMenu" ? fullTopLinkMenu : fullMenu;
       const menu = new MenuClass({
         menuElement: document.querySelector("#menu-0"),
         submenuItemSelector: "li.dropdown",
@@ -353,7 +394,8 @@ export function hoverTests(MenuClass) {
 
     test("submenus that are not direct children of the root menu will close when a mouse leaves the submenu item", () => {
       // Set up the DOM.
-      document.body.innerHTML = fullMenu;
+      document.body.innerHTML =
+        menuType === "TopLinkDisclosureMenu" ? fullTopLinkMenu : fullMenu;
       const menu = new MenuClass({
         menuElement: document.querySelector("#menu-0"),
         submenuItemSelector: "li.dropdown",
@@ -394,7 +436,8 @@ export function baseKeypressTests(MenuClass) {
     describe.each(["Enter", "Spacebar"])("'%s' key", (key) => {
       test("Opens the menu when triggered on the controller.", () => {
         // Set up the DOM.
-        document.body.innerHTML = fullMenu;
+        document.body.innerHTML =
+          menuType === "TopLinkDisclosureMenu" ? fullTopLinkMenu : fullMenu;
         const menu = new MenuClass({
           menuElement: document.querySelector("#menu-0"),
           submenuItemSelector: "li.dropdown",
@@ -412,7 +455,8 @@ export function baseKeypressTests(MenuClass) {
 
       test("Activates 'clicks' root level menu item's link when not a submenu toggle", () => {
         // Set up the DOM.
-        document.body.innerHTML = fullMenu;
+        document.body.innerHTML =
+          menuType === "TopLinkDisclosureMenu" ? fullTopLinkMenu : fullMenu;
         const menu = new MenuClass({
           menuElement: document.querySelector("#menu-0"),
           submenuItemSelector: "li.dropdown",
@@ -433,7 +477,8 @@ export function baseKeypressTests(MenuClass) {
 
       test("Activates 'clicks' child level menu item's link when not a submenu toggle", () => {
         // Set up the DOM.
-        document.body.innerHTML = fullMenu;
+        document.body.innerHTML =
+          menuType === "TopLinkDisclosureMenu" ? fullTopLinkMenu : fullMenu;
         const menu = new MenuClass({
           menuElement: document.querySelector("#menu-0"),
           submenuItemSelector: "li.dropdown",
@@ -446,7 +491,11 @@ export function baseKeypressTests(MenuClass) {
         menu.elements.menuItems[0].dom.link.focus();
 
         // Set up the menu for the test.
-        menu.focusChild(1);
+        if (menuType === "TopLinkDisclosureMenu") {
+          menu.focusChild(2);
+        } else {
+          menu.focusChild(1);
+        }
         toggle.open();
         controlledMenu.focusChild(0);
 
@@ -464,7 +513,8 @@ export function baseKeypressTests(MenuClass) {
 
       test("Activates 'clicks' grandchild level menu item's link when not a submenu toggle", () => {
         // Set up the DOM.
-        document.body.innerHTML = fullMenu;
+        document.body.innerHTML =
+          menuType === "TopLinkDisclosureMenu" ? fullTopLinkMenu : fullMenu;
         const menu = new MenuClass({
           menuElement: document.querySelector("#menu-0"),
           submenuItemSelector: "li.dropdown",
@@ -482,9 +532,17 @@ export function baseKeypressTests(MenuClass) {
         menu.elements.menuItems[0].dom.link.focus();
 
         // Set up the menu for the test.
-        menu.focusChild(1);
+        if (menuType === "TopLinkDisclosureMenu") {
+          menu.focusChild(2);
+        } else {
+          menu.focusChild(1);
+        }
         toggle.open();
-        controlledMenu.focusChild(2);
+        if (menuType === "TopLinkDisclosureMenu") {
+          menu.focusChild(3);
+        } else {
+          menu.focusChild(2);
+        }
         submenuToggle.open();
         subControlledMenu.focusChild(0);
 
