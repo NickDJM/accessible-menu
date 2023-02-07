@@ -12,7 +12,7 @@ All code changes happen through pull requests.
 
 Pull requests are the best way to propose changes to the codebase. We actively welcome your pull requests:
 
-1. Fork the repo and create your branch from 3.x.
+1. Fork the repo and create your branch from 4.x.
 2. Link your pull request to any relavent open issues.
 3. If you've added or changed functionality update the documentation.
 4. Make sure your code functions.
