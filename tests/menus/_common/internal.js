@@ -2,7 +2,7 @@
  * Reusable internal menu function tests.
  */
 
-import { twoLevelMenu } from "./test-menus";
+import { twoLevelMenu, twoLevelTopLinkMenu } from "./test-menus";
 
 /**
  * A set of tests for the _setDOMElementType method.
@@ -23,7 +23,10 @@ export function setDOMElements(MenuClass) {
 
     test.each(allowedSets)("can set '%s' elements", (type) => {
       // Set up the DOM.
-      document.body.innerHTML = twoLevelMenu;
+      document.body.innerHTML =
+        menuType === "TopLinkDisclosureMenu"
+          ? twoLevelTopLinkMenu
+          : twoLevelMenu;
       const menu = new MenuClass({
         menuElement: document.querySelector("#menu-0"),
         submenuItemSelector: "li.dropdown",
@@ -38,7 +41,10 @@ export function setDOMElements(MenuClass) {
 
     test.each(disallowedSets)("cannot set '%s' elements", (type) => {
       // Set up the DOM.
-      document.body.innerHTML = twoLevelMenu;
+      document.body.innerHTML =
+        menuType === "TopLinkDisclosureMenu"
+          ? twoLevelTopLinkMenu
+          : twoLevelMenu;
       const menu = new MenuClass({
         menuElement: document.querySelector("#menu-0"),
         submenuItemSelector: "li.dropdown",
@@ -55,7 +61,10 @@ export function setDOMElements(MenuClass) {
 
     test("will fail if trying to set an element that doesn't have a selector", () => {
       // Set up the DOM.
-      document.body.innerHTML = twoLevelMenu;
+      document.body.innerHTML =
+        menuType === "TopLinkDisclosureMenu"
+          ? twoLevelTopLinkMenu
+          : twoLevelMenu;
       const menu = new MenuClass({
         menuElement: document.querySelector("#menu-0"),
         submenuItemSelector: "li.dropdown",
@@ -89,7 +98,10 @@ export function resetDOMElements(MenuClass) {
 
     test.each(allowedSets)("can reset '%s' elements", (type) => {
       // Set up the DOM.
-      document.body.innerHTML = twoLevelMenu;
+      document.body.innerHTML =
+        menuType === "TopLinkDisclosureMenu"
+          ? twoLevelTopLinkMenu
+          : twoLevelMenu;
       const menu = new MenuClass({
         menuElement: document.querySelector("#menu-0"),
         submenuItemSelector: "li.dropdown",
@@ -104,7 +116,10 @@ export function resetDOMElements(MenuClass) {
 
     test.each(disallowedSets)("cannot reset '%s' elements", (type) => {
       // Set up the DOM.
-      document.body.innerHTML = twoLevelMenu;
+      document.body.innerHTML =
+        menuType === "TopLinkDisclosureMenu"
+          ? twoLevelTopLinkMenu
+          : twoLevelMenu;
       const menu = new MenuClass({
         menuElement: document.querySelector("#menu-0"),
         submenuItemSelector: "li.dropdown",
@@ -121,7 +136,10 @@ export function resetDOMElements(MenuClass) {
 
     test("will fail if trying to reset an element that doesn't exist", () => {
       // Set up the DOM.
-      document.body.innerHTML = twoLevelMenu;
+      document.body.innerHTML =
+        menuType === "TopLinkDisclosureMenu"
+          ? twoLevelTopLinkMenu
+          : twoLevelMenu;
       const menu = new MenuClass({
         menuElement: document.querySelector("#menu-0"),
         submenuItemSelector: "li.dropdown",
