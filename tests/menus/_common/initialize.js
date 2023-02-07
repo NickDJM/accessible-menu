@@ -11,14 +11,14 @@ import { oneLevelMenu } from "./test-menus";
  * @param {(typeof DisclosureMenu|typeof Menubar|typeof Treeview|typeof TopLinkDisclosureMenu)} MenuClass - The menu class to test.
  */
 export function defaultInitialization(MenuClass) {
+  // Mock console.error.
+  console.error = jest.fn((error) => {
+    throw new Error(error);
+  });
+
   const menuType = MenuClass.name;
 
   describe(`${menuType} default initialization`, () => {
-    // Mock console.error.
-    console.error = jest.fn((error) => {
-      throw new Error(error.message);
-    });
-
     // Set up the DOM.
     document.body.innerHTML = oneLevelMenu;
     const options = {
@@ -54,14 +54,14 @@ export function defaultInitialization(MenuClass) {
  * @param {(typeof DisclosureMenu|typeof Menubar|typeof Treeview|typeof TopLinkDisclosureMenu)} MenuClass - The menu class to test.
  */
 export function controlledMenu(MenuClass) {
+  // Mock console.error.
+  console.error = jest.fn((error) => {
+    throw new Error(error);
+  });
+
   const menuType = MenuClass.name;
 
   describe(`${menuType} controlled menu initialization`, () => {
-    // Mock console.error.
-    console.error = jest.fn((error) => {
-      throw new Error(error.message);
-    });
-
     // Set up the DOM.
     document.body.innerHTML = oneLevelMenu;
     const menuElement = document.querySelector("#menu-0");
@@ -132,24 +132,20 @@ export function controlledMenu(MenuClass) {
  * @param {(typeof DisclosureMenu|typeof Menubar|typeof Treeview|typeof TopLinkDisclosureMenu)} MenuClass - The menu class to test.
  */
 export function customizedMenu(MenuClass) {
+  // Mock console.error.
+  console.error = jest.fn((error) => {
+    throw new Error(error);
+  });
+
   const menuType = MenuClass.name;
 
   describe(`${menuType} custom initialization`, () => {
-    // Mock console.error.
-    console.error = jest.fn((error) => {
-      throw new Error(error.message);
-    });
-
     // Set up the DOM.
     document.body.innerHTML = oneLevelMenu;
     const menuElement = document.querySelector("#menu-0");
 
     // CSS selectors for testing.
-    const basicCSSSelectors = [
-      "menuItemSelector",
-      "menuLinkSelector",
-      "submenuItemSelector",
-    ];
+    const basicCSSSelectors = ["menuItemSelector", "submenuItemSelector"];
 
     // Class lists for testing.
     const classLists = ["openClass", "closeClass"];
@@ -168,17 +164,32 @@ export function customizedMenu(MenuClass) {
       }
     );
 
-    test("will fail if submenuItemSelector is provided and submenuToggleSelector isn't a CSS selector", () => {
+    test("will fail if menuLinkSelector isn't a CSS selector", () => {
+      const errorValue =
+        menuType === "TopLinkDisclosureMenu" ? "123,button" : "123";
       expect(() => {
         new MenuClass({
           menuElement,
-          submenuItemSelector: "li.dropdown",
-          submenuToggleSelector: 123,
+          menuLinkSelector: 123,
         });
       }).toThrow(
-        'submenuToggleSelector must be a valid CSS selector. "123" given.'
+        `menuLinkSelector must be a valid CSS selector. "${errorValue}" given.`
       );
     });
+
+    if (menuType !== "TopLinkDisclosureMenu") {
+      test("will fail if submenuItemSelector is provided and submenuToggleSelector isn't a CSS selector", () => {
+        expect(() => {
+          new MenuClass({
+            menuElement,
+            submenuItemSelector: "li.dropdown",
+            submenuToggleSelector: 123,
+          });
+        }).toThrow(
+          `submenuToggleSelector must be a valid CSS selector. "123" given.`
+        );
+      });
+    }
 
     test("will fail if submenuItemSelector is provided and submenuSelector isn't a CSS selector", () => {
       expect(() => {

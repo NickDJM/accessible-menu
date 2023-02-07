@@ -17,7 +17,7 @@ customizedMenu(TopLinkDisclosureMenu);
 describe("TopLinkDisclosureMenu-specific initialization", () => {
   // Mock console.error.
   console.error = jest.fn((error) => {
-    throw new Error(error.message);
+    throw new Error(error);
   });
 
   // Set up the DOM.
@@ -30,9 +30,7 @@ describe("TopLinkDisclosureMenu-specific initialization", () => {
         menuElement: document.querySelector("#menu-0"),
         optionalKeySupport: "true",
       });
-    }).toThrow(
-      "AccessibleMenu: optionalKeySupport must be a boolean. string given."
-    );
+    }).toThrow('optionalKeySupport must be a boolean. "string" given.');
   });
 
   test("will fail if submenuSubtoggleSelector is provided and submenuToggleSelector isn't a CSS selector", () => {
@@ -43,7 +41,18 @@ describe("TopLinkDisclosureMenu-specific initialization", () => {
         submenuSubtoggleSelector: 123,
       });
     }).toThrow(
-      'AccessibleMenu: submenuSubtoggleSelector must be a valid CSS selector. "123" given.'
+      'submenuSubtoggleSelector must be a valid CSS selector. "123" given.'
     );
+  });
+
+  test("will fail if submenuItemSelector is provided and submenuToggleSelector isn't a CSS selector", () => {
+    expect(() => {
+      // eslint-disable-next-line no-new
+      new TopLinkDisclosureMenu({
+        menuElement: document.querySelector("#menu-0"),
+        submenuItemSelector: "li.dropdown",
+        submenuToggleSelector: 123,
+      });
+    }).toThrow('menuLinkSelector must be a valid CSS selector. "a,123" given.');
   });
 });

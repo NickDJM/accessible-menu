@@ -321,17 +321,22 @@ class TopLinkDisclosureMenu extends BaseMenu {
   _validate() {
     let check = super._validate();
 
-    if (
-      !isCSSSelector({
-        submenuSubtoggleSelector: this._selectors.submenuSubtoggles,
-      })
-    ) {
+    const submenuSubtoggleCheck = isCSSSelector({
+      submenuSubtoggleSelector: this._selectors.submenuSubtoggles,
+    });
+
+    if (!submenuSubtoggleCheck.status) {
+      this._errors.push(submenuSubtoggleCheck.error.message);
       check = false;
     }
 
-    if (
-      !isValidType("boolean", { optionalKeySupport: this._optionalSupport })
-    ) {
+    // Option key support check.
+    const optionalSupportCheck = isValidType("boolean", {
+      optionalKeySupport: this._optionalSupport,
+    });
+
+    if (!optionalSupportCheck.status) {
+      this._errors.push(optionalSupportCheck.error.message);
       check = false;
     }
 
