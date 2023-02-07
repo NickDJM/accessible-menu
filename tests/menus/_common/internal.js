@@ -49,7 +49,7 @@ export function setDOMElements(MenuClass) {
       expect(() => {
         menu._setDOMElementType(type);
       }).toThrow(
-        `AccessibleMenu: The "${type}" element cannot be set through _setDOMElementType.`
+        `The "${type}" element cannot be set through _setDOMElementType.`
       );
     });
 
@@ -65,9 +65,7 @@ export function setDOMElements(MenuClass) {
 
       expect(() => {
         menu._setDOMElementType("menu");
-      }).toThrow(
-        'AccessibleMenu: "menu" is not a valid element type within the menu.'
-      );
+      }).toThrow('"menu" is not a valid element type within the menu.');
     });
   });
 }
@@ -117,7 +115,7 @@ export function resetDOMElements(MenuClass) {
       expect(() => {
         menu._resetDOMElementType(type);
       }).toThrow(
-        `AccessibleMenu: The "${type}" element cannot be reset through _resetDOMElementType.`
+        `The "${type}" element cannot be reset through _resetDOMElementType.`
       );
     });
 
@@ -133,9 +131,7 @@ export function resetDOMElements(MenuClass) {
 
       expect(() => {
         menu._resetDOMElementType("otherMenu");
-      }).toThrow(
-        'AccessibleMenu: "otherMenu" is not a valid element type within the menu.'
-      );
+      }).toThrow('"otherMenu" is not a valid element type within the menu.');
     });
   });
 }
