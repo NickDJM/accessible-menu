@@ -5,21 +5,31 @@
 import { isValidState } from "../../src/validate";
 
 describe("isValidState", () => {
-  // Mock console.error.
-  console.error = jest.fn();
-
   // Valid state options.
   const validStates = ["none", "self", "child"];
 
   test.each(validStates)("returns true if '%s' is passed", (state) => {
-    expect(isValidState({ state })).toBeTrue();
+    const check = isValidState({ state });
+
+    expect(check.status).toBeTrue();
+    expect(check.error).toBeNull();
   });
 
   test("returns false if an unsupported state is passed", () => {
-    expect(isValidState({ state: "unsupported" })).toBeFalse();
+    const check = isValidState({ state: "unsupported" });
+
+    expect(check.status).toBeFalse();
+    expect(check.error.message).toBe(
+      'state must be one of the following values: none, self, child. "unsupported" given.'
+    );
   });
 
   test("returns false if a supported state, _not_ in an object, is passed", () => {
-    expect(isValidState("none")).toBeFalse();
+    const check = isValidState("none");
+
+    expect(check.status).toBeFalse();
+    expect(check.error.message).toBe(
+      'Values given to isValidState() must be inside of an object. "string" given.'
+    );
   });
 });

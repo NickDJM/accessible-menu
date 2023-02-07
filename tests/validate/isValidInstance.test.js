@@ -5,30 +5,50 @@
 import { isValidInstance } from "../../src/validate";
 
 describe("isValidInstance", () => {
-  // Mock console.error.
-  console.error = jest.fn();
-
   // Declare the element.
   document.body.innerHTML = "<div></div>";
   const div = document.querySelector("div");
 
   test("returns true when checking if a DOM element as an HTMLElement", () => {
-    expect(isValidInstance(HTMLElement, { div })).toBeTrue();
+    const check = isValidInstance(HTMLElement, { div });
+
+    expect(check.status).toBeTrue();
+    expect(check.error).toBeNull();
   });
 
   test("returns false when checking if a DOM element as a Function", () => {
-    expect(isValidInstance(Function, { div })).toBeFalse();
+    const check = isValidInstance(Function, { div });
+
+    expect(check.status).toBeFalse();
+    expect(check.error.message).toBe(
+      'div must be an instance of Function. "object" given.'
+    );
   });
 
   test("returns false when checking if a DOM element as an invalid constructor", () => {
-    expect(isValidInstance("HTMLElement", { div })).toBeFalse();
+    const check = isValidInstance("HTMLElement", { div });
+
+    expect(check.status).toBeFalse();
+    expect(check.error.message).toBe(
+      "Right-hand side of 'instanceof' is not an object"
+    );
   });
 
   test("returns false when checking if a DOM element, _not_ contained in an object, as an HTMLElement", () => {
-    expect(isValidInstance(HTMLElement, div)).toBeFalse();
+    const check = isValidInstance(HTMLElement, div);
+
+    expect(check.status).toBeFalse();
+    expect(check.error.message).toBe(
+      'align must be an instance of HTMLElement. "string" given.'
+    );
   });
 
   test("returns false when checking if a DOM element, _not_ contained in an object, as an invalid constructor", () => {
-    expect(isValidInstance("HTMLElement", div)).toBeFalse();
+    const check = isValidInstance("HTMLElement", div);
+
+    expect(check.status).toBeFalse();
+    expect(check.error.message).toBe(
+      "Right-hand side of 'instanceof' is not an object"
+    );
   });
 });

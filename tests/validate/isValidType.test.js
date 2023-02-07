@@ -5,29 +5,47 @@
 import { isValidType } from "../../src/validate";
 
 describe("isValidType", () => {
-  // Mock console.error.
-  console.error = jest.fn();
-
   // Declare string.
   const string = "A string.";
 
   test("returns true when checking if a string is a string", () => {
-    expect(isValidType("string", { string })).toBeTrue();
+    const check = isValidType("string", { string });
+
+    expect(check.status).toBeTrue();
+    expect(check.error).toBeNull();
   });
 
   test("returns false when checking if a string is a number", () => {
-    expect(isValidType("number", { string })).toBeFalse();
+    const check = isValidType("number", { string });
+
+    expect(check.status).toBeFalse();
+    expect(check.error.message).toBe(
+      'string must be a number. "string" given.'
+    );
   });
 
   test("returns false when checking if a string is an invalid type", () => {
-    expect(isValidType(123, { string })).toBeFalse();
+    const check = isValidType(123, { string });
+
+    expect(check.status).toBeFalse();
+    expect(check.error.message).toBe('string must be a 123. "string" given.');
   });
 
   test("returns false when checking if a string, _not_ contained in an object, is a string", () => {
-    expect(isValidType("string", string)).toBeFalse();
+    const check = isValidType("string", string);
+
+    expect(check.status).toBeFalse();
+    expect(check.error.message).toBe(
+      'Values given to isValidType() must be inside of an object. "string" given.'
+    );
   });
 
   test("returns false when checking if a string, _not_ contained in an object, is an invalid trype", () => {
-    expect(isValidType(123, string)).toBeFalse();
+    const check = isValidType(123, string);
+
+    expect(check.status).toBeFalse();
+    expect(check.error.message).toBe(
+      'Values given to isValidType() must be inside of an object. "string" given.'
+    );
   });
 });
