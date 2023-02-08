@@ -9,9 +9,9 @@ A JavaScript library to help you generate WCAG accessible menus in the DOM.
 
 The supported menu types are:
 
-- [Disclosure Navigation Menus](https://www.w3.org/TR/wai-aria-practices-1.2/examples/disclosure/disclosure-navigation.html)
-- [Navigation Menubar](https://www.w3.org/TR/wai-aria-practices-1.2/examples/menubar/menubar-navigation.html), and
-- [Navigation Treeview](https://www.w3.org/TR/wai-aria-practices-1.2/examples/treeview/treeview-navigation.html)
+- [Disclosure Navigation Menus](https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/examples/disclosure-navigation/)
+- [Navigation Menubar](https://www.w3.org/WAI/ARIA/apg/patterns/menubar/examples/menubar-navigation/), and
+- [Navigation Treeview](https://www.w3.org/WAI/ARIA/apg/patterns/treeview/examples/treeview-navigation/)
 
 ## Browser Support
 
@@ -170,11 +170,11 @@ const menu = new Treeview({
 
 ### Examples
 
-Looking for a working example of **accessible-menu**? Check out these jsfiddles:
+Looking for a working example of **accessible-menu**? Check out these codepens:
 
-- [Collapsible DisclosureMenu with optional key support](https://jsfiddle.net/NickDJM/boa82u0g/)
-- [Collapsible Menubar](https://jsfiddle.net/NickDJM/4hpmtnLc/)
-- [Treeview](https://jsfiddle.net/NickDJM/xzndc3u1/)
+- [Collapsible DisclosureMenu with optional key support](https://codepen.io/nickdjm/pen/LYBoOWX)
+- [Collapsible Menubar](https://codepen.io/nickdjm/pen/ZEjNoXw)
+- [Treeview](https://codepen.io/nickdjm/pen/wvxbjpy)
 
 #### Bootstrap support
 
