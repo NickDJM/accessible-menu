@@ -3,6 +3,7 @@
  */
 /* eslint-disable no-new */
 
+import { describe, test, expect, vi } from "vitest";
 import { oneLevelMenu } from "./test-menus";
 
 /**
@@ -12,7 +13,7 @@ import { oneLevelMenu } from "./test-menus";
  */
 export function defaultInitialization(MenuClass) {
   // Mock console.error.
-  console.error = jest.fn((error) => {
+  console.error = vi.fn((error) => {
     throw new Error(error);
   });
 
@@ -55,7 +56,7 @@ export function defaultInitialization(MenuClass) {
  */
 export function controlledMenu(MenuClass) {
   // Mock console.error.
-  console.error = jest.fn((error) => {
+  console.error = vi.fn((error) => {
     throw new Error(error);
   });
 
@@ -133,7 +134,7 @@ export function controlledMenu(MenuClass) {
  */
 export function customizedMenu(MenuClass) {
   // Mock console.error.
-  console.error = jest.fn((error) => {
+  console.error = vi.fn((error) => {
     throw new Error(error);
   });
 

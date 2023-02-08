@@ -2,6 +2,7 @@
  * Test the DisclosureMenu class to make sure it functions correctly.
  */
 
+import { describe, test, expect } from "vitest";
 import { DisclosureMenu } from "../../../index";
 import {
   openClose,
