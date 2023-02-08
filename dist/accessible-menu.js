@@ -1,16 +1,20 @@
 var AccessibleMenu = (function () {
-  'use strict';
+  "use strict";
 
   function isValidInstance(contructor, elements) {
     try {
       if (typeof elements !== "object") {
         const elementsType = typeof elements;
-        throw new TypeError(`AccessibleMenu: Elements given to isValidInstance() must be inside of an object. ${elementsType} given.`);
+        throw new TypeError(
+          `AccessibleMenu: Elements given to isValidInstance() must be inside of an object. ${elementsType} given.`
+        );
       }
       for (const key in elements) {
         if (!(elements[key] instanceof contructor)) {
           const elementType = typeof elements[key];
-          throw new TypeError(`AccessibleMenu: ${key} must be an instance of ${contructor.name}. ${elementType} given.`);
+          throw new TypeError(
+            `AccessibleMenu: ${key} must be an instance of ${contructor.name}. ${elementType} given.`
+          );
         }
       }
       return true;
@@ -23,12 +27,16 @@ var AccessibleMenu = (function () {
     try {
       if (typeof values !== "object") {
         const valuesType = typeof values;
-        throw new TypeError(`AccessibleMenu: Values given to isValidType() must be inside of an object. ${valuesType} given.`);
+        throw new TypeError(
+          `AccessibleMenu: Values given to isValidType() must be inside of an object. ${valuesType} given.`
+        );
       }
       for (const key in values) {
         const valueType = typeof values[key];
         if (valueType !== type) {
-          throw new TypeError(`AccessibleMenu: ${key} must be a ${type}. ${valueType} given.`);
+          throw new TypeError(
+            `AccessibleMenu: ${key} must be a ${type}. ${valueType} given.`
+          );
         }
       }
       return true;
@@ -41,7 +49,9 @@ var AccessibleMenu = (function () {
     try {
       if (typeof values !== "object") {
         const type = typeof values;
-        throw new TypeError(`AccessibleMenu: Values given to isCSSSelector() must be inside of an object. ${type} given.`);
+        throw new TypeError(
+          `AccessibleMenu: Values given to isCSSSelector() must be inside of an object. ${type} given.`
+        );
       }
       for (const key in values) {
         try {
@@ -50,7 +60,9 @@ var AccessibleMenu = (function () {
           }
           document.querySelector(values[key]);
         } catch (error) {
-          throw new TypeError(`AccessibleMenu: ${key} must be a valid CSS selector. "${values[key]}" given.`);
+          throw new TypeError(
+            `AccessibleMenu: ${key} must be a valid CSS selector. "${values[key]}" given.`
+          );
         }
       }
       return true;
@@ -63,19 +75,25 @@ var AccessibleMenu = (function () {
     try {
       if (typeof values !== "object" || Array.isArray(values)) {
         const type = typeof values;
-        throw new TypeError(`AccessibleMenu: Values given to isValidClassList() must be inside of an object. ${type} given.`);
+        throw new TypeError(
+          `AccessibleMenu: Values given to isValidClassList() must be inside of an object. ${type} given.`
+        );
       }
       for (const key in values) {
         const type = typeof values[key];
         if (type !== "string") {
           if (Array.isArray(values[key])) {
-            values[key].forEach(value => {
+            values[key].forEach((value) => {
               if (typeof value !== "string") {
-                throw new TypeError(`AccessibleMenu: ${key} must be a string or an array of strings. An array containing non-strings given.`);
+                throw new TypeError(
+                  `AccessibleMenu: ${key} must be a string or an array of strings. An array containing non-strings given.`
+                );
               }
             });
           } else {
-            throw new TypeError(`AccessibleMenu: ${key} must be a string or an array of strings. ${type} given.`);
+            throw new TypeError(
+              `AccessibleMenu: ${key} must be a string or an array of strings. ${type} given.`
+            );
           }
         } else {
           const obj = {};
@@ -93,12 +111,18 @@ var AccessibleMenu = (function () {
     try {
       if (typeof values !== "object") {
         const type = typeof values;
-        throw new TypeError(`AccessibleMenu: Values given to isValidState() must be inside of an object. ${type} given.`);
+        throw new TypeError(
+          `AccessibleMenu: Values given to isValidState() must be inside of an object. ${type} given.`
+        );
       }
       const validStates = ["none", "self", "child"];
       for (const key in values) {
         if (!validStates.includes(values[key])) {
-          throw new TypeError(`AccessibleMenu: ${key} must be one of the following values: ${validStates.join(", ")}. "${values[key]}" given.`);
+          throw new TypeError(
+            `AccessibleMenu: ${key} must be one of the following values: ${validStates.join(
+              ", "
+            )}. "${values[key]}" given.`
+          );
         }
       }
       return true;
@@ -111,12 +135,18 @@ var AccessibleMenu = (function () {
     try {
       if (typeof values !== "object") {
         const type = typeof values;
-        throw new TypeError(`AccessibleMenu: Values given to isValidEvent() must be inside of an object. ${type} given.`);
+        throw new TypeError(
+          `AccessibleMenu: Values given to isValidEvent() must be inside of an object. ${type} given.`
+        );
       }
       const validEvents = ["none", "mouse", "keyboard", "character"];
       for (const key in values) {
         if (!validEvents.includes(values[key])) {
-          throw new TypeError(`AccessibleMenu: ${key} must be one of the following values: ${validEvents.join(", ")}. "${values[key]}" given.`);
+          throw new TypeError(
+            `AccessibleMenu: ${key} must be one of the following values: ${validEvents.join(
+              ", "
+            )}. "${values[key]}" given.`
+          );
         }
       }
       return true;
@@ -129,12 +159,18 @@ var AccessibleMenu = (function () {
     try {
       if (typeof values !== "object") {
         const type = typeof values;
-        throw new TypeError(`AccessibleMenu: Values given to isValidHoverType() must be inside of an object. ${type} given.`);
+        throw new TypeError(
+          `AccessibleMenu: Values given to isValidHoverType() must be inside of an object. ${type} given.`
+        );
       }
       const validTypes = ["off", "on", "dynamic"];
       for (const key in values) {
         if (!validTypes.includes(values[key])) {
-          throw new TypeError(`AccessibleMenu: ${key} must be one of the following values: ${validTypes.join(", ")}. "${values[key]}" given.`);
+          throw new TypeError(
+            `AccessibleMenu: ${key} must be one of the following values: ${validTypes.join(
+              ", "
+            )}. "${values[key]}" given.`
+          );
         }
       }
       return true;
@@ -144,9 +180,12 @@ var AccessibleMenu = (function () {
     }
   }
   function isTag(tagName, elements) {
-    if (isValidType("string", {
-      tagName
-    }) && isValidInstance(HTMLElement, elements)) {
+    if (
+      isValidType("string", {
+        tagName,
+      }) &&
+      isValidInstance(HTMLElement, elements)
+    ) {
       const tag = tagName.toLowerCase();
       let check = true;
       for (const key in elements) {
@@ -158,38 +197,71 @@ var AccessibleMenu = (function () {
     }
   }
 
-  function _defineProperty$5(obj, key, value) { key = _toPropertyKey$5(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-  function _toPropertyKey$5(arg) { var key = _toPrimitive$5(arg, "string"); return typeof key === "symbol" ? key : String(key); }
-  function _toPrimitive$5(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+  function _defineProperty$5(obj, key, value) {
+    key = _toPropertyKey$5(key);
+    if (key in obj) {
+      Object.defineProperty(obj, key, {
+        value: value,
+        enumerable: true,
+        configurable: true,
+        writable: true,
+      });
+    } else {
+      obj[key] = value;
+    }
+    return obj;
+  }
+  function _toPropertyKey$5(arg) {
+    var key = _toPrimitive$5(arg, "string");
+    return typeof key === "symbol" ? key : String(key);
+  }
+  function _toPrimitive$5(input, hint) {
+    if (typeof input !== "object" || input === null) return input;
+    var prim = input[Symbol.toPrimitive];
+    if (prim !== undefined) {
+      var res = prim.call(input, hint || "default");
+      if (typeof res !== "object") return res;
+      throw new TypeError("@@toPrimitive must return a primitive value.");
+    }
+    return (hint === "string" ? String : Number)(input);
+  }
   class BaseMenuToggle {
     constructor(_ref) {
       let {
         menuToggleElement,
         parentElement,
         controlledMenu,
-        parentMenu = null
+        parentMenu = null,
       } = _ref;
       _defineProperty$5(this, "_dom", {
         toggle: null,
-        parent: null
+        parent: null,
       });
-      _defineProperty$5(this, "_elements", {
+      _defineProperty$7(this, "_elements", {
         controlledMenu: null,
-        parentMenu: null
+        parentMenu: null,
       });
-      _defineProperty$5(this, "_open", false);
-      _defineProperty$5(this, "_expandEvent", new CustomEvent("accessibleMenuExpand", {
-        bubbles: true,
-        detail: {
-          toggle: this
-        }
-      }));
-      _defineProperty$5(this, "_collapseEvent", new CustomEvent("accessibleMenuCollapse", {
-        bubbles: true,
-        detail: {
-          toggle: this
-        }
-      }));
+      _defineProperty$7(this, "_open", false);
+      _defineProperty$7(
+        this,
+        "_expandEvent",
+        new CustomEvent("accessibleMenuExpand", {
+          bubbles: true,
+          detail: {
+            toggle: this,
+          },
+        })
+      );
+      _defineProperty$7(
+        this,
+        "_collapseEvent",
+        new CustomEvent("accessibleMenuCollapse", {
+          bubbles: true,
+          detail: {
+            toggle: this,
+          },
+        })
+      );
       this._dom.toggle = menuToggleElement;
       this._dom.parent = parentElement;
       this._elements.controlledMenu = controlledMenu;
@@ -198,17 +270,30 @@ var AccessibleMenu = (function () {
     initialize() {
       this.dom.toggle.setAttribute("aria-haspopup", "true");
       this.dom.toggle.setAttribute("aria-expanded", "false");
-      if (!isTag("button", {
-        toggle: this.dom.toggle
-      })) {
+      if (
+        !isTag("button", {
+          toggle: this.dom.toggle,
+        })
+      ) {
         this.dom.toggle.setAttribute("role", "button");
       }
-      if (this.dom.toggle.id === "" || this.elements.controlledMenu.dom.menu.id === "") {
-        const randomString = Math.random().toString(36).replace(/[^a-z]+/g, "").substr(0, 10);
+      if (
+        this.dom.toggle.id === "" ||
+        this.elements.controlledMenu.dom.menu.id === ""
+      ) {
+        const randomString = Math.random()
+          .toString(36)
+          .replace(/[^a-z]+/g, "")
+          .substr(0, 10);
         let id = this.dom.toggle.innerText.replace(/[^a-zA-Z0-9\s]/g, "");
         let finalID = randomString;
-        if (!id.replace(/\s/g, "").length && this.dom.toggle.getAttribute("aria-label")) {
-          id = this.dom.toggle.getAttribute("aria-label").replace(/[^a-zA-Z0-9\s]/g, "");
+        if (
+          !id.replace(/\s/g, "").length &&
+          this.dom.toggle.getAttribute("aria-label")
+        ) {
+          id = this.dom.toggle
+            .getAttribute("aria-label")
+            .replace(/[^a-zA-Z0-9\s]/g, "");
         }
         if (id.replace(/\s/g, "").length > 0) {
           id = id.toLowerCase().replace(/\s+/g, "-");
@@ -221,10 +306,17 @@ var AccessibleMenu = (function () {
           finalID = `${id}-${finalID}`;
         }
         this.dom.toggle.id = this.dom.toggle.id || `${finalID}-menu-button`;
-        this.elements.controlledMenu.dom.menu.id = this.elements.controlledMenu.dom.menu.id || `${finalID}-menu`;
+        this.elements.controlledMenu.dom.menu.id =
+          this.elements.controlledMenu.dom.menu.id || `${finalID}-menu`;
       }
-      this.elements.controlledMenu.dom.menu.setAttribute("aria-labelledby", this.dom.toggle.id);
-      this.dom.toggle.setAttribute("aria-controls", this.elements.controlledMenu.dom.menu.id);
+      this.elements.controlledMenu.dom.menu.setAttribute(
+        "aria-labelledby",
+        this.dom.toggle.id
+      );
+      this.dom.toggle.setAttribute(
+        "aria-controls",
+        this.elements.controlledMenu.dom.menu.id
+      );
       this._collapse(false);
     }
     get dom() {
@@ -238,16 +330,16 @@ var AccessibleMenu = (function () {
     }
     set isOpen(value) {
       isValidType("boolean", {
-        value
+        value,
       });
       this._open = value;
     }
     _expand() {
-      let emit = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
-      const {
-        closeClass,
-        openClass
-      } = this.elements.controlledMenu;
+      let emit =
+        arguments.length > 0 && arguments[0] !== undefined
+          ? arguments[0]
+          : true;
+      const { closeClass, openClass } = this.elements.controlledMenu;
       this.dom.toggle.setAttribute("aria-expanded", "true");
       if (openClass !== "") {
         if (typeof openClass === "string") {
@@ -268,11 +360,11 @@ var AccessibleMenu = (function () {
       }
     }
     _collapse() {
-      let emit = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
-      const {
-        closeClass,
-        openClass
-      } = this.elements.controlledMenu;
+      let emit =
+        arguments.length > 0 && arguments[0] !== undefined
+          ? arguments[0]
+          : true;
+      const { closeClass, openClass } = this.elements.controlledMenu;
       this.dom.toggle.setAttribute("aria-expanded", "false");
       if (closeClass !== "") {
         if (typeof closeClass === "string") {
@@ -324,19 +416,46 @@ var AccessibleMenu = (function () {
     }
     closeSiblings() {
       if (this.elements.parentMenu) {
-        this.elements.parentMenu.elements.submenuToggles.forEach(toggle => {
+        this.elements.parentMenu.elements.submenuToggles.forEach((toggle) => {
           if (toggle !== this) toggle.close();
         });
       }
     }
     closeChildren() {
-      this.elements.controlledMenu.elements.submenuToggles.forEach(toggle => toggle.close());
+      this.elements.controlledMenu.elements.submenuToggles.forEach((toggle) =>
+        toggle.close()
+      );
     }
   }
 
-  function _defineProperty$4(obj, key, value) { key = _toPropertyKey$4(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-  function _toPropertyKey$4(arg) { var key = _toPrimitive$4(arg, "string"); return typeof key === "symbol" ? key : String(key); }
-  function _toPrimitive$4(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+  function _defineProperty$4(obj, key, value) {
+    key = _toPropertyKey$4(key);
+    if (key in obj) {
+      Object.defineProperty(obj, key, {
+        value: value,
+        enumerable: true,
+        configurable: true,
+        writable: true,
+      });
+    } else {
+      obj[key] = value;
+    }
+    return obj;
+  }
+  function _toPropertyKey$4(arg) {
+    var key = _toPrimitive$4(arg, "string");
+    return typeof key === "symbol" ? key : String(key);
+  }
+  function _toPrimitive$4(input, hint) {
+    if (typeof input !== "object" || input === null) return input;
+    var prim = input[Symbol.toPrimitive];
+    if (prim !== undefined) {
+      var res = prim.call(input, hint || "default");
+      if (typeof res !== "object") return res;
+      throw new TypeError("@@toPrimitive must return a primitive value.");
+    }
+    return (hint === "string" ? String : Number)(input);
+  }
   class BaseMenuItem {
     constructor(_ref) {
       let {
@@ -345,18 +464,18 @@ var AccessibleMenu = (function () {
         parentMenu,
         isSubmenuItem = false,
         childMenu = null,
-        toggle = null
+        toggle = null,
       } = _ref;
       _defineProperty$4(this, "_dom", {
         item: null,
-        link: null
+        link: null,
       });
-      _defineProperty$4(this, "_elements", {
+      _defineProperty$6(this, "_elements", {
         parentMenu: null,
         childMenu: null,
-        toggle: null
+        toggle: null,
       });
-      _defineProperty$4(this, "_submenu", false);
+      _defineProperty$6(this, "_submenu", false);
       this._dom.item = menuItemElement;
       this._dom.link = menuLinkElement;
       this._elements.parentMenu = parentMenu;
@@ -401,9 +520,9 @@ var AccessibleMenu = (function () {
         End: key === "End" || key === 35,
         Character: isNaN(key) && !!key.match(/^[a-zA-Z]{1}$/),
         Tab: key === "Tab" || key === 9,
-        Asterisk: key === "*" || key === 56
+        Asterisk: key === "*" || key === 56,
       };
-      return Object.keys(keys).find(key => keys[key] === true) || "";
+      return Object.keys(keys).find((key) => keys[key] === true) || "";
     } catch (error) {
       return "";
     }
@@ -413,9 +532,34 @@ var AccessibleMenu = (function () {
     event.stopPropagation();
   }
 
-  function _defineProperty$3(obj, key, value) { key = _toPropertyKey$3(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-  function _toPropertyKey$3(arg) { var key = _toPrimitive$3(arg, "string"); return typeof key === "symbol" ? key : String(key); }
-  function _toPrimitive$3(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+  function _defineProperty$3(obj, key, value) {
+    key = _toPropertyKey$3(key);
+    if (key in obj) {
+      Object.defineProperty(obj, key, {
+        value: value,
+        enumerable: true,
+        configurable: true,
+        writable: true,
+      });
+    } else {
+      obj[key] = value;
+    }
+    return obj;
+  }
+  function _toPropertyKey$3(arg) {
+    var key = _toPrimitive$3(arg, "string");
+    return typeof key === "symbol" ? key : String(key);
+  }
+  function _toPrimitive$3(input, hint) {
+    if (typeof input !== "object" || input === null) return input;
+    var prim = input[Symbol.toPrimitive];
+    if (prim !== undefined) {
+      var res = prim.call(input, hint || "default");
+      if (typeof res !== "object") return res;
+      throw new TypeError("@@toPrimitive must return a primitive value.");
+    }
+    return (hint === "string" ? String : Number)(input);
+  }
   class BaseMenu {
     constructor(_ref) {
       let {
@@ -432,7 +576,7 @@ var AccessibleMenu = (function () {
         isTopLevel = true,
         parentMenu = null,
         hoverType = "off",
-        hoverDelay = 250
+        hoverDelay = 250,
       } = _ref;
       _defineProperty$3(this, "_MenuType", BaseMenu);
       _defineProperty$3(this, "_MenuItemType", BaseMenuItem);
@@ -444,30 +588,30 @@ var AccessibleMenu = (function () {
         submenuToggles: [],
         submenus: [],
         controller: null,
-        container: null
+        container: null,
       });
-      _defineProperty$3(this, "_selectors", {
+      _defineProperty$5(this, "_selectors", {
         menuItems: "",
         menuLinks: "",
         submenuItems: "",
         submenuToggles: "",
-        submenus: ""
+        submenus: "",
       });
-      _defineProperty$3(this, "_elements", {
+      _defineProperty$5(this, "_elements", {
         menuItems: [],
         submenuToggles: [],
         controller: null,
         parentMenu: null,
-        rootMenu: null
+        rootMenu: null,
       });
-      _defineProperty$3(this, "_openClass", "show");
-      _defineProperty$3(this, "_closeClass", "hide");
-      _defineProperty$3(this, "_root", true);
-      _defineProperty$3(this, "_currentChild", 0);
-      _defineProperty$3(this, "_focusState", "none");
-      _defineProperty$3(this, "_currentEvent", "none");
-      _defineProperty$3(this, "_hoverType", "off");
-      _defineProperty$3(this, "_hoverDelay", 250);
+      _defineProperty$5(this, "_openClass", "show");
+      _defineProperty$5(this, "_closeClass", "hide");
+      _defineProperty$5(this, "_root", true);
+      _defineProperty$5(this, "_currentChild", 0);
+      _defineProperty$5(this, "_focusState", "none");
+      _defineProperty$5(this, "_currentEvent", "none");
+      _defineProperty$5(this, "_hoverType", "off");
+      _defineProperty$5(this, "_hoverDelay", 250);
       this._dom.menu = menuElement;
       this._dom.controller = controllerElement;
       this._dom.container = containerElement;
@@ -489,7 +633,9 @@ var AccessibleMenu = (function () {
     }
     initialize() {
       if (!this._validate()) {
-        throw new Error("AccesibleMenu: cannot initialize menu. See other error messages for more information.");
+        throw new Error(
+          "AccesibleMenu: cannot initialize menu. See other error messages for more information."
+        );
       }
       if (this.elements.rootMenu === null) this._findRootMenu(this);
       this._setDOMElements();
@@ -498,7 +644,7 @@ var AccessibleMenu = (function () {
           const toggle = new this._MenuToggleType({
             menuToggleElement: this.dom.controller,
             parentElement: this.dom.container,
-            controlledMenu: this
+            controlledMenu: this,
           });
           this._elements.controller = toggle;
         }
@@ -518,10 +664,14 @@ var AccessibleMenu = (function () {
       return this._root;
     }
     get openClass() {
-      return this.isTopLevel ? this._openClass : this.elements.rootMenu.openClass;
+      return this.isTopLevel
+        ? this._openClass
+        : this.elements.rootMenu.openClass;
     }
     get closeClass() {
-      return this.isTopLevel ? this._closeClass : this.elements.rootMenu.closeClass;
+      return this.isTopLevel
+        ? this._closeClass
+        : this.elements.rootMenu.closeClass;
     }
     get currentChild() {
       return this._currentChild;
@@ -543,7 +693,10 @@ var AccessibleMenu = (function () {
     }
     get shouldFocus() {
       let check = false;
-      if (this.currentEvent === "keyboard" || this.currentEvent === "character") {
+      if (
+        this.currentEvent === "keyboard" ||
+        this.currentEvent === "character"
+      ) {
         check = true;
       }
       if (this.currentEvent === "mouse" && this.hoverType === "dynamic") {
@@ -553,7 +706,7 @@ var AccessibleMenu = (function () {
     }
     set openClass(value) {
       isValidClassList({
-        openClass: value
+        openClass: value,
       });
       if (this._openClass !== value) {
         this._openClass = value;
@@ -561,7 +714,7 @@ var AccessibleMenu = (function () {
     }
     set closeClass(value) {
       isValidClassList({
-        closeClass: value
+        closeClass: value,
       });
       if (this._closeClass !== value) {
         this._closeClass = value;
@@ -569,16 +722,25 @@ var AccessibleMenu = (function () {
     }
     set currentChild(value) {
       isValidType("number", {
-        value
+        value,
       });
       function setParentChild(menu) {
         const updateEvents = ["mouse", "character"];
-        if (updateEvents.includes(menu.currentEvent) && menu.elements.parentMenu) {
+        if (
+          updateEvents.includes(menu.currentEvent) &&
+          menu.elements.parentMenu
+        ) {
           let index = 0;
           let found = false;
-          while (!found && index < menu.elements.parentMenu.elements.menuItems.length) {
+          while (
+            !found &&
+            index < menu.elements.parentMenu.elements.menuItems.length
+          ) {
             const menuItem = menu.elements.parentMenu.elements.menuItems[index];
-            if (menuItem.isSubmenuItem && menuItem.elements.toggle.elements.controlledMenu === menu) {
+            if (
+              menuItem.isSubmenuItem &&
+              menuItem.elements.toggle.elements.controlledMenu === menu
+            ) {
               found = true;
               menu.elements.parentMenu.currentEvent = menu.currentEvent;
               menu.elements.parentMenu.currentChild = index;
@@ -600,13 +762,16 @@ var AccessibleMenu = (function () {
     }
     set focusState(value) {
       isValidState({
-        value
+        value,
       });
       if (this._focusState !== value) {
         this._focusState = value;
       }
-      if (this.elements.submenuToggles.length > 0 && (value === "self" || value === "none")) {
-        this.elements.submenuToggles.forEach(toggle => {
+      if (
+        this.elements.submenuToggles.length > 0 &&
+        (value === "self" || value === "none")
+      ) {
+        this.elements.submenuToggles.forEach((toggle) => {
           toggle.elements.controlledMenu.focusState = "none";
         });
       }
@@ -616,12 +781,12 @@ var AccessibleMenu = (function () {
     }
     set currentEvent(value) {
       isValidEvent({
-        value
+        value,
       });
       if (this._currentEvent !== value) {
         this._currentEvent = value;
         if (this.elements.submenuToggles.length > 0) {
-          this.elements.submenuToggles.forEach(submenuToggle => {
+          this.elements.submenuToggles.forEach((submenuToggle) => {
             submenuToggle.elements.controlledMenu.currentEvent = value;
           });
         }
@@ -629,7 +794,7 @@ var AccessibleMenu = (function () {
     }
     set hoverType(value) {
       isValidHoverType({
-        value
+        value,
       });
       if (this._hoverType !== value) {
         this._hoverType = value;
@@ -637,7 +802,7 @@ var AccessibleMenu = (function () {
     }
     set hoverDelay(value) {
       isValidType("number", {
-        value
+        value,
       });
       if (this._hoverDelay !== value) {
         this._hoverDelay = value;
@@ -646,95 +811,140 @@ var AccessibleMenu = (function () {
     _validate() {
       let check = true;
       if (this._dom.container !== null || this._dom.controller !== null) {
-        if (!isValidInstance(HTMLElement, {
-          menuElement: this._dom.menu,
-          controllerElement: this._dom.controller,
-          containerElement: this._dom.container
-        })) {
+        if (
+          !isValidInstance(HTMLElement, {
+            menuElement: this._dom.menu,
+            controllerElement: this._dom.controller,
+            containerElement: this._dom.container,
+          })
+        ) {
           check = false;
         }
-      } else if (!isValidInstance(HTMLElement, {
-        menuElement: this._dom.menu
-      })) {
+      } else if (
+        !isValidInstance(HTMLElement, {
+          menuElement: this._dom.menu,
+        })
+      ) {
         check = false;
       }
       if (this._selectors.submenuItems !== "") {
-        if (!isCSSSelector({
-          menuItemSelector: this._selectors.menuItems,
-          menuLinkSelector: this._selectors.menuLinks,
-          submenuItemSelector: this._selectors.submenuItems,
-          submenuToggleSelector: this._selectors.submenuToggles,
-          submenuSelector: this._selectors.submenus
-        })) {
+        if (
+          !isCSSSelector({
+            menuItemSelector: this._selectors.menuItems,
+            menuLinkSelector: this._selectors.menuLinks,
+            submenuItemSelector: this._selectors.submenuItems,
+            submenuToggleSelector: this._selectors.submenuToggles,
+            submenuSelector: this._selectors.submenus,
+          })
+        ) {
           check = false;
         }
-      } else if (!isCSSSelector({
-        menuItemSelector: this._selectors.menuItems,
-        menuLinkSelector: this._selectors.menuLinks
-      })) {
+      } else if (
+        !isCSSSelector({
+          menuItemSelector: this._selectors.menuItems,
+          menuLinkSelector: this._selectors.menuLinks,
+        })
+      ) {
         check = false;
       }
-      if (this._openClass !== "" && !isValidClassList({
-        openClass: this._openClass
-      })) {
+      if (
+        this._openClass !== "" &&
+        !isValidClassList({
+          openClass: this._openClass,
+        })
+      ) {
         check = false;
       }
-      if (this._closeClass !== "" && !isValidClassList({
-        closeClass: this._closeClass
-      })) {
+      if (
+        this._closeClass !== "" &&
+        !isValidClassList({
+          closeClass: this._closeClass,
+        })
+      ) {
         check = false;
       }
-      if (!isValidType("boolean", {
-        isTopLevel: this._root
-      })) {
+      if (
+        !isValidType("boolean", {
+          isTopLevel: this._root,
+        })
+      ) {
         check = false;
       }
-      if (this._elements.parentMenu !== null && !isValidInstance(BaseMenu, {
-        parentMenu: this._elements.parentMenu
-      })) {
+      if (
+        this._elements.parentMenu !== null &&
+        !isValidInstance(BaseMenu, {
+          parentMenu: this._elements.parentMenu,
+        })
+      ) {
         check = false;
       }
-      if (!isValidHoverType({
-        hoverType: this._hoverType
-      })) {
+      if (
+        !isValidHoverType({
+          hoverType: this._hoverType,
+        })
+      ) {
         check = false;
       }
-      if (!isValidType("number", {
-        hoverDelay: this._hoverDelay
-      })) {
+      if (
+        !isValidType("number", {
+          hoverDelay: this._hoverDelay,
+        })
+      ) {
         check = false;
       }
       return check;
     }
     _setDOMElementType(elementType) {
-      let base = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.dom.menu;
-      let overwrite = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+      let base =
+        arguments.length > 1 && arguments[1] !== undefined
+          ? arguments[1]
+          : this.dom.menu;
+      let overwrite =
+        arguments.length > 2 && arguments[2] !== undefined
+          ? arguments[2]
+          : true;
       if (typeof this.selectors[elementType] === "string") {
         if (!Array.isArray(this.dom[elementType])) {
-          throw new Error(`AccessibleMenu: The "${elementType}" element cannot be set through _setDOMElementType.`);
+          throw new Error(
+            `AccessibleMenu: The "${elementType}" element cannot be set through _setDOMElementType.`
+          );
         }
-        if (base !== this.dom.menu) isValidInstance(HTMLElement, {
-          base
-        });
-        const domElements = Array.from(base.querySelectorAll(this.selectors[elementType]));
-        const filteredElements = domElements.filter(item => item.parentElement === base);
+        if (base !== this.dom.menu)
+          isValidInstance(HTMLElement, {
+            base,
+          });
+        const domElements = Array.from(
+          base.querySelectorAll(this.selectors[elementType])
+        );
+        const filteredElements = domElements.filter(
+          (item) => item.parentElement === base
+        );
         if (overwrite) {
           this._dom[elementType] = filteredElements;
         } else {
-          this._dom[elementType] = [...this._dom[elementType], ...filteredElements];
+          this._dom[elementType] = [
+            ...this._dom[elementType],
+            ...filteredElements,
+          ];
         }
       } else {
-        throw new Error(`AccessibleMenu: "${elementType}" is not a valid element type within the menu.`);
+        throw new Error(
+          `AccessibleMenu: "${elementType}" is not a valid element type within the menu.`
+        );
       }
     }
     _resetDOMElementType(elementType) {
       if (typeof this.dom[elementType] !== "undefined") {
         if (!Array.isArray(this.dom[elementType])) {
-          throw new Error(`AccessibleMenu: The "${elementType}" element cannot be reset through _resetDOMElementType.`);
+          throw new Error(
+            `AccessibleMenu: The "${elementType}" element cannot be reset through _resetDOMElementType.`
+          );
         }
         this._dom[elementType] = [];
       } else {
-        throw new Error(`AccessibleMenu: "${elementType}" is not a valid element type within the menu.`);
+        throw new Error(
+          `AccessibleMenu: "${elementType}" is not a valid element type within the menu.`
+        );
       }
     }
     _setDOMElements() {
@@ -743,7 +953,7 @@ var AccessibleMenu = (function () {
         this._setDOMElementType("submenuItems");
         this._resetDOMElementType("submenuToggles");
         this._resetDOMElementType("submenus");
-        this.dom.submenuItems.forEach(item => {
+        this.dom.submenuItems.forEach((item) => {
           this._setDOMElementType("submenuToggles", item, false);
           this._setDOMElementType("submenus", item, false);
         });
@@ -759,7 +969,7 @@ var AccessibleMenu = (function () {
       }
     }
     _createChildElements() {
-      this.dom.menuItems.forEach(element => {
+      this.dom.menuItems.forEach((element) => {
         let menuItem;
         if (this.dom.submenuItems.includes(element)) {
           const toggler = element.querySelector(this.selectors.submenuToggles);
@@ -776,13 +986,13 @@ var AccessibleMenu = (function () {
             isTopLevel: false,
             parentMenu: this,
             hoverType: this.hoverType,
-            hoverDelay: this.hoverDelay
+            hoverDelay: this.hoverDelay,
           });
           const toggle = new this._MenuToggleType({
             menuToggleElement: toggler,
             parentElement: element,
             controlledMenu: menu,
-            parentMenu: this
+            parentMenu: this,
           });
           this._elements.submenuToggles.push(toggle);
           menuItem = new this._MenuItemType({
@@ -791,14 +1001,14 @@ var AccessibleMenu = (function () {
             parentMenu: this,
             isSubmenuItem: true,
             childMenu: menu,
-            toggle
+            toggle,
           });
         } else {
           const link = element.querySelector(this.selectors.menuLinks);
           menuItem = new this._MenuItemType({
             menuItemElement: element,
             menuLinkElement: link,
-            parentMenu: this
+            parentMenu: this,
           });
         }
         this._elements.menuItems.push(menuItem);
@@ -822,30 +1032,40 @@ var AccessibleMenu = (function () {
         }
       }
       this.elements.menuItems.forEach((item, index) => {
-        item.dom.link.addEventListener("pointerdown", () => {
-          this.currentEvent = "mouse";
-          this.elements.rootMenu.blurChildren();
-          this.focusChild(index);
-        }, {
-          passive: true
-        });
-        if (item.isSubmenuItem) {
-          item.elements.toggle.dom.toggle.addEventListener("pointerup", event => {
+        item.dom.link.addEventListener(
+          "pointerdown",
+          () => {
             this.currentEvent = "mouse";
-            toggleToggle(this, item.elements.toggle, event);
-          });
+            this.elements.rootMenu.blurChildren();
+            this.focusChild(index);
+          },
+          {
+            passive: true,
+          }
+        );
+        if (item.isSubmenuItem) {
+          item.elements.toggle.dom.toggle.addEventListener(
+            "pointerup",
+            (event) => {
+              this.currentEvent = "mouse";
+              toggleToggle(this, item.elements.toggle, event);
+            }
+          );
         }
       });
       if (this.isTopLevel && this.elements.controller) {
-        this.elements.controller.dom.toggle.addEventListener("pointerup", event => {
-          this.currentEvent = "mouse";
-          toggleToggle(this, this.elements.controller, event);
-        });
+        this.elements.controller.dom.toggle.addEventListener(
+          "pointerup",
+          (event) => {
+            this.currentEvent = "mouse";
+            toggleToggle(this, this.elements.controller, event);
+          }
+        );
       }
     }
     _handleHover() {
       this.elements.menuItems.forEach((menuItem, index) => {
-        menuItem.dom.link.addEventListener("pointerenter", event => {
+        menuItem.dom.link.addEventListener("pointerenter", (event) => {
           if (event.pointerType === "pen" || event.pointerType === "touch") {
             return;
           }
@@ -856,7 +1076,9 @@ var AccessibleMenu = (function () {
               menuItem.elements.toggle.preview();
             }
           } else if (this.hoverType === "dynamic") {
-            const isOpen = this.elements.submenuToggles.some(toggle => toggle.isOpen);
+            const isOpen = this.elements.submenuToggles.some(
+              (toggle) => toggle.isOpen
+            );
             this.currentChild = index;
             if (!this.isTopLevel || this.focusState !== "none") {
               this.currentEvent = "mouse";
@@ -869,7 +1091,7 @@ var AccessibleMenu = (function () {
           }
         });
         if (menuItem.isSubmenuItem) {
-          menuItem.dom.item.addEventListener("pointerleave", event => {
+          menuItem.dom.item.addEventListener("pointerleave", (event) => {
             if (event.pointerType === "pen" || event.pointerType === "touch") {
               return;
             }
@@ -904,26 +1126,32 @@ var AccessibleMenu = (function () {
     }
     _handleKeydown() {
       if (this.isTopLevel && this.elements.controller) {
-        this.elements.controller.dom.toggle.addEventListener("keydown", event => {
-          this.currentEvent = "keyboard";
-          const key = keyPress(event);
-          if (key === "Space" || key === "Enter") {
-            preventEvent(event);
+        this.elements.controller.dom.toggle.addEventListener(
+          "keydown",
+          (event) => {
+            this.currentEvent = "keyboard";
+            const key = keyPress(event);
+            if (key === "Space" || key === "Enter") {
+              preventEvent(event);
+            }
           }
-        });
+        );
       }
     }
     _handleKeyup() {
       if (this.isTopLevel && this.elements.controller) {
-        this.elements.controller.dom.toggle.addEventListener("keyup", event => {
-          this.currentEvent = "keyboard";
-          const key = keyPress(event);
-          if (key === "Space" || key === "Enter") {
-            preventEvent(event);
-            this.elements.controller.open();
-            this.focusFirstChild();
+        this.elements.controller.dom.toggle.addEventListener(
+          "keyup",
+          (event) => {
+            this.currentEvent = "keyboard";
+            const key = keyPress(event);
+            if (key === "Space" || key === "Enter") {
+              preventEvent(event);
+              this.elements.controller.open();
+              this.focusFirstChild();
+            }
           }
-        });
+        );
       }
     }
     focus() {
@@ -992,10 +1220,10 @@ var AccessibleMenu = (function () {
       }
     }
     closeChildren() {
-      this.elements.submenuToggles.forEach(toggle => toggle.close());
+      this.elements.submenuToggles.forEach((toggle) => toggle.close());
     }
     blurChildren() {
-      this.elements.menuItems.forEach(menuItem => {
+      this.elements.menuItems.forEach((menuItem) => {
         menuItem.blur();
         if (menuItem.isSubmenuItem) {
           menuItem.elements.childMenu.blurChildren();
@@ -1013,7 +1241,7 @@ var AccessibleMenu = (function () {
         isSubmenuItem = false,
         childMenu = null,
         toggle = null,
-        initialize = true
+        initialize = true,
       } = _ref;
       super({
         menuItemElement,
@@ -1021,7 +1249,7 @@ var AccessibleMenu = (function () {
         parentMenu,
         isSubmenuItem,
         childMenu,
-        toggle
+        toggle,
       });
       if (initialize) {
         this.initialize();
@@ -1036,13 +1264,13 @@ var AccessibleMenu = (function () {
         parentElement,
         controlledMenu,
         parentMenu = null,
-        initialize = true
+        initialize = true,
       } = _ref;
       super({
         menuToggleElement,
         parentElement,
         controlledMenu,
-        parentMenu
+        parentMenu,
       });
       if (initialize) {
         this.initialize();
@@ -1064,9 +1292,34 @@ var AccessibleMenu = (function () {
     }
   }
 
-  function _defineProperty$2(obj, key, value) { key = _toPropertyKey$2(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-  function _toPropertyKey$2(arg) { var key = _toPrimitive$2(arg, "string"); return typeof key === "symbol" ? key : String(key); }
-  function _toPrimitive$2(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+  function _defineProperty$2(obj, key, value) {
+    key = _toPropertyKey$2(key);
+    if (key in obj) {
+      Object.defineProperty(obj, key, {
+        value: value,
+        enumerable: true,
+        configurable: true,
+        writable: true,
+      });
+    } else {
+      obj[key] = value;
+    }
+    return obj;
+  }
+  function _toPropertyKey$2(arg) {
+    var key = _toPrimitive$2(arg, "string");
+    return typeof key === "symbol" ? key : String(key);
+  }
+  function _toPrimitive$2(input, hint) {
+    if (typeof input !== "object" || input === null) return input;
+    var prim = input[Symbol.toPrimitive];
+    if (prim !== undefined) {
+      var res = prim.call(input, hint || "default");
+      if (typeof res !== "object") return res;
+      throw new TypeError("@@toPrimitive must return a primitive value.");
+    }
+    return (hint === "string" ? String : Number)(input);
+  }
   class DisclosureMenu extends BaseMenu {
     constructor(_ref) {
       let {
@@ -1085,7 +1338,7 @@ var AccessibleMenu = (function () {
         hoverType = "off",
         hoverDelay = 250,
         optionalKeySupport = false,
-        initialize = true
+        initialize = true,
       } = _ref;
       super({
         menuElement,
@@ -1101,7 +1354,7 @@ var AccessibleMenu = (function () {
         isTopLevel,
         parentMenu,
         hoverType,
-        hoverDelay
+        hoverDelay,
       });
       _defineProperty$2(this, "_MenuType", DisclosureMenu);
       _defineProperty$2(this, "_MenuItemType", DisclosureMenuItem);
@@ -1126,29 +1379,36 @@ var AccessibleMenu = (function () {
       }
     }
     get optionalKeySupport() {
-      return this.isTopLevel ? this._optionalSupport : this.elements.rootMenu.optionalKeySupport;
+      return this.isTopLevel
+        ? this._optionalSupport
+        : this.elements.rootMenu.optionalKeySupport;
     }
     set optionalKeySupport(value) {
       isValidType("boolean", {
-        optionalKeySupport: value
+        optionalKeySupport: value,
       });
       this._optionalSupport = value;
     }
     _validate() {
       let check = super._validate();
-      if (!isValidType("boolean", {
-        optionalKeySupport: this._optionalSupport
-      })) {
+      if (
+        !isValidType("boolean", {
+          optionalKeySupport: this._optionalSupport,
+        })
+      ) {
         check = false;
       }
       return check;
     }
     _handleClick() {
       super._handleClick();
-      document.addEventListener("pointerup", event => {
+      document.addEventListener("pointerup", (event) => {
         if (this.focusState !== "none") {
           this.currentEvent = "mouse";
-          if (!this.dom.menu.contains(event.target) && !this.dom.menu !== event.target) {
+          if (
+            !this.dom.menu.contains(event.target) &&
+            !this.dom.menu !== event.target
+          ) {
             this.closeChildren();
             this.blur();
             if (this.elements.controller) {
@@ -1160,7 +1420,7 @@ var AccessibleMenu = (function () {
     }
     _handleKeydown() {
       super._handleKeydown();
-      this.dom.menu.addEventListener("keydown", event => {
+      this.dom.menu.addEventListener("keydown", (event) => {
         this.currentEvent = "keyboard";
         const key = keyPress(event);
         if (this.focusState === "self") {
@@ -1168,11 +1428,21 @@ var AccessibleMenu = (function () {
           const controllerKeys = ["Escape"];
           const parentKeys = ["Escape"];
           if (this.optionalKeySupport) {
-            const keys = ["ArrowUp", "ArrowRight", "ArrowDown", "ArrowLeft", "Home", "End"];
+            const keys = [
+              "ArrowUp",
+              "ArrowRight",
+              "ArrowDown",
+              "ArrowLeft",
+              "Home",
+              "End",
+            ];
             if (keys.includes(key)) {
               preventEvent(event);
             }
-          } else if (this.currentMenuItem.isSubmenuItem && submenuKeys.includes(key)) {
+          } else if (
+            this.currentMenuItem.isSubmenuItem &&
+            submenuKeys.includes(key)
+          ) {
             preventEvent(event);
           } else if (this.elements.controller && controllerKeys.includes(key)) {
             preventEvent(event);
@@ -1184,7 +1454,7 @@ var AccessibleMenu = (function () {
     }
     _handleKeyup() {
       super._handleKeyup();
-      this.dom.menu.addEventListener("keyup", event => {
+      this.dom.menu.addEventListener("keyup", (event) => {
         this.currentEvent = "keyboard";
         const key = keyPress(event);
         if (this.focusState === "self") {
@@ -1200,7 +1470,9 @@ var AccessibleMenu = (function () {
               this.currentMenuItem.dom.link.click();
             }
           } else if (key === "Escape") {
-            const hasOpenChild = this.elements.submenuToggles.some(toggle => toggle.isOpen);
+            const hasOpenChild = this.elements.submenuToggles.some(
+              (toggle) => toggle.isOpen
+            );
             if (hasOpenChild) {
               preventEvent(event);
               this.closeChildren();
@@ -1209,15 +1481,23 @@ var AccessibleMenu = (function () {
               this.elements.parentMenu.currentEvent = this.currentEvent;
               this.elements.parentMenu.closeChildren();
               this.elements.parentMenu.focusCurrentChild();
-            } else if (this.isTopLevel && this.elements.controller && this.elements.controller.isOpen) {
+            } else if (
+              this.isTopLevel &&
+              this.elements.controller &&
+              this.elements.controller.isOpen
+            ) {
               this.elements.controller.close();
               this.focusController();
             }
           } else if (this.optionalKeySupport) {
             if (key === "ArrowDown" || key === "ArrowRight") {
               preventEvent(event);
-              if (this.currentMenuItem.isSubmenuItem && this.currentMenuItem.elements.toggle.isOpen) {
-                this.currentMenuItem.elements.childMenu.currentEvent = "keyboard";
+              if (
+                this.currentMenuItem.isSubmenuItem &&
+                this.currentMenuItem.elements.toggle.isOpen
+              ) {
+                this.currentMenuItem.elements.childMenu.currentEvent =
+                  "keyboard";
                 this.currentMenuItem.elements.childMenu.focusFirstChild();
               } else {
                 this.focusNextChild();
@@ -1247,7 +1527,7 @@ var AccessibleMenu = (function () {
         isSubmenuItem = false,
         childMenu = null,
         toggle = null,
-        initialize = true
+        initialize = true,
       } = _ref;
       super({
         menuItemElement,
@@ -1255,7 +1535,7 @@ var AccessibleMenu = (function () {
         parentMenu,
         isSubmenuItem,
         childMenu,
-        toggle
+        toggle,
       });
       if (initialize) {
         this.initialize();
@@ -1288,13 +1568,13 @@ var AccessibleMenu = (function () {
         parentElement,
         controlledMenu,
         parentMenu = null,
-        initialize = true
+        initialize = true,
       } = _ref;
       super({
         menuToggleElement,
         parentElement,
         controlledMenu,
-        parentMenu
+        parentMenu,
       });
       if (initialize) {
         this.initialize();
@@ -1316,9 +1596,34 @@ var AccessibleMenu = (function () {
     }
   }
 
-  function _defineProperty$1(obj, key, value) { key = _toPropertyKey$1(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-  function _toPropertyKey$1(arg) { var key = _toPrimitive$1(arg, "string"); return typeof key === "symbol" ? key : String(key); }
-  function _toPrimitive$1(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+  function _defineProperty$1(obj, key, value) {
+    key = _toPropertyKey$1(key);
+    if (key in obj) {
+      Object.defineProperty(obj, key, {
+        value: value,
+        enumerable: true,
+        configurable: true,
+        writable: true,
+      });
+    } else {
+      obj[key] = value;
+    }
+    return obj;
+  }
+  function _toPropertyKey$1(arg) {
+    var key = _toPrimitive$1(arg, "string");
+    return typeof key === "symbol" ? key : String(key);
+  }
+  function _toPrimitive$1(input, hint) {
+    if (typeof input !== "object" || input === null) return input;
+    var prim = input[Symbol.toPrimitive];
+    if (prim !== undefined) {
+      var res = prim.call(input, hint || "default");
+      if (typeof res !== "object") return res;
+      throw new TypeError("@@toPrimitive must return a primitive value.");
+    }
+    return (hint === "string" ? String : Number)(input);
+  }
   class Menubar extends BaseMenu {
     constructor(_ref) {
       let {
@@ -1336,7 +1641,7 @@ var AccessibleMenu = (function () {
         parentMenu = null,
         hoverType = "off",
         hoverDelay = 250,
-        initialize = true
+        initialize = true,
       } = _ref;
       super({
         menuElement,
@@ -1352,7 +1657,7 @@ var AccessibleMenu = (function () {
         isTopLevel,
         parentMenu,
         hoverType,
-        hoverDelay
+        hoverDelay,
       });
       _defineProperty$1(this, "_MenuType", Menubar);
       _defineProperty$1(this, "_MenuItemType", MenubarItem);
@@ -1379,10 +1684,13 @@ var AccessibleMenu = (function () {
     }
     _handleClick() {
       super._handleClick();
-      document.addEventListener("pointerup", event => {
+      document.addEventListener("pointerup", (event) => {
         if (this.focusState !== "none") {
           this.currentEvent = "mouse";
-          if (!this.dom.menu.contains(event.target) && !this.dom.menu !== event.target) {
+          if (
+            !this.dom.menu.contains(event.target) &&
+            !this.dom.menu !== event.target
+          ) {
             this.closeChildren();
             this.blur();
             if (this.elements.controller) {
@@ -1394,7 +1702,7 @@ var AccessibleMenu = (function () {
     }
     _handleKeydown() {
       super._handleKeydown();
-      this.dom.menu.addEventListener("keydown", event => {
+      this.dom.menu.addEventListener("keydown", (event) => {
         this.currentEvent = "keyboard";
         const key = keyPress(event);
         if (key === "Tab") {
@@ -1414,18 +1722,35 @@ var AccessibleMenu = (function () {
             const controllerKeys = ["Escape"];
             if (keys.includes(key)) {
               preventEvent(event);
-            } else if (this.currentMenuItem.isSubmenuItem && submenuKeys.includes(key)) {
+            } else if (
+              this.currentMenuItem.isSubmenuItem &&
+              submenuKeys.includes(key)
+            ) {
               preventEvent(event);
-            } else if (this.elements.controller && controllerKeys.includes(key)) {
+            } else if (
+              this.elements.controller &&
+              controllerKeys.includes(key)
+            ) {
               preventEvent(event);
             }
           }
         } else {
-          const keys = ["Escape", "ArrowRight", "ArrowLeft", "ArrowDown", "ArrowUp", "Home", "End"];
+          const keys = [
+            "Escape",
+            "ArrowRight",
+            "ArrowLeft",
+            "ArrowDown",
+            "ArrowUp",
+            "Home",
+            "End",
+          ];
           const submenuKeys = ["Space", "Enter"];
           if (keys.includes(key)) {
             preventEvent(event);
-          } else if (this.currentMenuItem.isSubmenuItem && submenuKeys.includes(key)) {
+          } else if (
+            this.currentMenuItem.isSubmenuItem &&
+            submenuKeys.includes(key)
+          ) {
             preventEvent(event);
           }
         }
@@ -1433,14 +1758,10 @@ var AccessibleMenu = (function () {
     }
     _handleKeyup() {
       super._handleKeyup();
-      this.dom.menu.addEventListener("keyup", event => {
+      this.dom.menu.addEventListener("keyup", (event) => {
         this.currentEvent = "keyboard";
         const key = keyPress(event);
-        const {
-          altKey,
-          crtlKey,
-          metaKey
-        } = event;
+        const { altKey, crtlKey, metaKey } = event;
         const modifier = altKey || crtlKey || metaKey;
         if (key === "Character" && !modifier) {
           preventEvent(event);
@@ -1451,7 +1772,8 @@ var AccessibleMenu = (function () {
             if (key === "Space" || key === "Enter") {
               if (this.currentMenuItem.isSubmenuItem) {
                 preventEvent(event);
-                this.currentMenuItem.elements.childMenu.currentEvent = "keyboard";
+                this.currentMenuItem.elements.childMenu.currentEvent =
+                  "keyboard";
                 this.currentMenuItem.elements.toggle.open();
                 requestAnimationFrame(() => {
                   this.currentMenuItem.elements.childMenu.focusFirstChild();
@@ -1461,11 +1783,14 @@ var AccessibleMenu = (function () {
               }
             } else if (key === "ArrowRight") {
               preventEvent(event);
-              const previousChildOpen = this.currentMenuItem.isSubmenuItem && this.currentMenuItem.elements.toggle.isOpen;
+              const previousChildOpen =
+                this.currentMenuItem.isSubmenuItem &&
+                this.currentMenuItem.elements.toggle.isOpen;
               this.focusNextChild();
               if (previousChildOpen) {
                 if (this.currentMenuItem.isSubmenuItem) {
-                  this.currentMenuItem.elements.childMenu.currentEvent = "keyboard";
+                  this.currentMenuItem.elements.childMenu.currentEvent =
+                    "keyboard";
                   this.currentMenuItem.elements.toggle.preview();
                 } else {
                   this.closeChildren();
@@ -1473,11 +1798,14 @@ var AccessibleMenu = (function () {
               }
             } else if (key === "ArrowLeft") {
               preventEvent(event);
-              const previousChildOpen = this.currentMenuItem.isSubmenuItem && this.currentMenuItem.elements.toggle.isOpen;
+              const previousChildOpen =
+                this.currentMenuItem.isSubmenuItem &&
+                this.currentMenuItem.elements.toggle.isOpen;
               this.focusPreviousChild();
               if (previousChildOpen) {
                 if (this.currentMenuItem.isSubmenuItem) {
-                  this.currentMenuItem.elements.childMenu.currentEvent = "keyboard";
+                  this.currentMenuItem.elements.childMenu.currentEvent =
+                    "keyboard";
                   this.currentMenuItem.elements.toggle.preview();
                 } else {
                   this.closeChildren();
@@ -1486,7 +1814,8 @@ var AccessibleMenu = (function () {
             } else if (key === "ArrowDown") {
               if (this.currentMenuItem.isSubmenuItem) {
                 preventEvent(event);
-                this.currentMenuItem.elements.childMenu.currentEvent = "keyboard";
+                this.currentMenuItem.elements.childMenu.currentEvent =
+                  "keyboard";
                 this.currentMenuItem.elements.toggle.open();
                 requestAnimationFrame(() => {
                   this.currentMenuItem.elements.childMenu.focusFirstChild();
@@ -1495,7 +1824,8 @@ var AccessibleMenu = (function () {
             } else if (key === "ArrowUp") {
               if (this.currentMenuItem.isSubmenuItem) {
                 preventEvent(event);
-                this.currentMenuItem.elements.childMenu.currentEvent = "keyboard";
+                this.currentMenuItem.elements.childMenu.currentEvent =
+                  "keyboard";
                 this.currentMenuItem.elements.toggle.open();
                 requestAnimationFrame(() => {
                   this.currentMenuItem.elements.childMenu.focusLastChild();
@@ -1508,11 +1838,17 @@ var AccessibleMenu = (function () {
               preventEvent(event);
               this.focusLastChild();
             } else if (key === "Escape") {
-              const hasOpenChild = this.elements.submenuToggles.some(toggle => toggle.isOpen);
+              const hasOpenChild = this.elements.submenuToggles.some(
+                (toggle) => toggle.isOpen
+              );
               if (hasOpenChild) {
                 preventEvent(event);
                 this.closeChildren();
-              } else if (this.isTopLevel && this.elements.controller && this.elements.controller.isOpen) {
+              } else if (
+                this.isTopLevel &&
+                this.elements.controller &&
+                this.elements.controller.isOpen
+              ) {
                 preventEvent(event);
                 this.elements.controller.close();
                 this.focusController();
@@ -1560,7 +1896,8 @@ var AccessibleMenu = (function () {
                 this.elements.rootMenu.closeChildren();
                 this.elements.rootMenu.focusPreviousChild();
                 if (this.elements.rootMenu.currentMenuItem.isSubmenuItem) {
-                  this.elements.rootMenu.currentMenuItem.elements.childMenu.currentEvent = "keyboard";
+                  this.elements.rootMenu.currentMenuItem.elements.childMenu.currentEvent =
+                    "keyboard";
                   this.elements.rootMenu.currentMenuItem.elements.toggle.preview();
                 }
               }
@@ -1625,7 +1962,7 @@ var AccessibleMenu = (function () {
         isSubmenuItem = false,
         childMenu = null,
         toggle = null,
-        initialize = true
+        initialize = true,
       } = _ref;
       super({
         menuItemElement,
@@ -1633,7 +1970,7 @@ var AccessibleMenu = (function () {
         parentMenu,
         isSubmenuItem,
         childMenu,
-        toggle
+        toggle,
       });
       if (initialize) {
         this.initialize();
@@ -1662,13 +1999,13 @@ var AccessibleMenu = (function () {
         parentElement,
         controlledMenu,
         parentMenu = null,
-        initialize = true
+        initialize = true,
       } = _ref;
       super({
         menuToggleElement,
         parentElement,
         controlledMenu,
-        parentMenu
+        parentMenu,
       });
       if (initialize) {
         this.initialize();
@@ -1676,9 +2013,34 @@ var AccessibleMenu = (function () {
     }
   }
 
-  function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-  function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return typeof key === "symbol" ? key : String(key); }
-  function _toPrimitive(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+  function _defineProperty(obj, key, value) {
+    key = _toPropertyKey(key);
+    if (key in obj) {
+      Object.defineProperty(obj, key, {
+        value: value,
+        enumerable: true,
+        configurable: true,
+        writable: true,
+      });
+    } else {
+      obj[key] = value;
+    }
+    return obj;
+  }
+  function _toPropertyKey(arg) {
+    var key = _toPrimitive(arg, "string");
+    return typeof key === "symbol" ? key : String(key);
+  }
+  function _toPrimitive(input, hint) {
+    if (typeof input !== "object" || input === null) return input;
+    var prim = input[Symbol.toPrimitive];
+    if (prim !== undefined) {
+      var res = prim.call(input, hint || "default");
+      if (typeof res !== "object") return res;
+      throw new TypeError("@@toPrimitive must return a primitive value.");
+    }
+    return (hint === "string" ? String : Number)(input);
+  }
   class Treeview extends BaseMenu {
     constructor(_ref) {
       let {
@@ -1696,7 +2058,7 @@ var AccessibleMenu = (function () {
         parentMenu = null,
         hoverType = "off",
         hoverDelay = 250,
-        initialize = true
+        initialize = true,
       } = _ref;
       super({
         menuElement,
@@ -1712,7 +2074,7 @@ var AccessibleMenu = (function () {
         isTopLevel,
         parentMenu,
         hoverType,
-        hoverDelay
+        hoverDelay,
       });
       _defineProperty(this, "_MenuType", Treeview);
       _defineProperty(this, "_MenuItemType", TreeviewItem);
@@ -1741,7 +2103,7 @@ var AccessibleMenu = (function () {
     }
     _handleKeydown() {
       super._handleKeydown();
-      this.dom.menu.addEventListener("keydown", event => {
+      this.dom.menu.addEventListener("keydown", (event) => {
         this.currentEvent = "keyboard";
         const key = keyPress(event);
         if (key === "Tab") {
@@ -1752,12 +2114,23 @@ var AccessibleMenu = (function () {
           }
         }
         if (this.focusState === "self") {
-          const keys = ["Space", "ArrowUp", "ArrowDown", "ArrowLeft", "Asterisk", "Home", "End"];
+          const keys = [
+            "Space",
+            "ArrowUp",
+            "ArrowDown",
+            "ArrowLeft",
+            "Asterisk",
+            "Home",
+            "End",
+          ];
           const submenuKeys = ["Enter", "ArrowRight"];
           const controllerKeys = ["Escape"];
           if (keys.includes(key)) {
             preventEvent(event);
-          } else if (this.currentMenuItem.isSubmenuItem && submenuKeys.includes(key)) {
+          } else if (
+            this.currentMenuItem.isSubmenuItem &&
+            submenuKeys.includes(key)
+          ) {
             preventEvent(event);
           } else if (this.elements.controller && controllerKeys.includes(key)) {
             preventEvent(event);
@@ -1767,14 +2140,10 @@ var AccessibleMenu = (function () {
     }
     _handleKeyup() {
       super._handleKeyup();
-      this.dom.menu.addEventListener("keyup", event => {
+      this.dom.menu.addEventListener("keyup", (event) => {
         this.currentEvent = "keyboard";
         const key = keyPress(event);
-        const {
-          altKey,
-          crtlKey,
-          metaKey
-        } = event;
+        const { altKey, crtlKey, metaKey } = event;
         const modifier = altKey || crtlKey || metaKey;
         if (key === "Character" && !modifier) {
           preventEvent(event);
@@ -1793,28 +2162,45 @@ var AccessibleMenu = (function () {
               this.currentMenuItem.dom.link.click();
             }
           } else if (key === "Escape") {
-            if (this.isTopLevel && this.elements.controller && this.elements.controller.isOpen) {
+            if (
+              this.isTopLevel &&
+              this.elements.controller &&
+              this.elements.controller.isOpen
+            ) {
               this.elements.controller.close();
               this.focusController();
             }
           } else if (key === "ArrowDown") {
             preventEvent(event);
-            if (this.currentMenuItem.isSubmenuItem && this.currentMenuItem.elements.toggle.isOpen) {
+            if (
+              this.currentMenuItem.isSubmenuItem &&
+              this.currentMenuItem.elements.toggle.isOpen
+            ) {
               this.blurCurrentChild();
-              this.currentMenuItem.elements.childMenu.currentEvent = this.currentEvent;
+              this.currentMenuItem.elements.childMenu.currentEvent =
+                this.currentEvent;
               this.currentMenuItem.elements.childMenu.focusFirstChild();
-            } else if (!this.isTopLevel && this.currentChild === this.elements.menuItems.length - 1) {
+            } else if (
+              !this.isTopLevel &&
+              this.currentChild === this.elements.menuItems.length - 1
+            ) {
               this.focusParentsNextChild();
             } else {
               this.focusNextChild();
             }
           } else if (key === "ArrowUp") {
             preventEvent(event);
-            const previousMenuItem = this.elements.menuItems[this.currentChild - 1];
-            if (previousMenuItem && previousMenuItem.isSubmenuItem && previousMenuItem.elements.toggle.isOpen) {
+            const previousMenuItem =
+              this.elements.menuItems[this.currentChild - 1];
+            if (
+              previousMenuItem &&
+              previousMenuItem.isSubmenuItem &&
+              previousMenuItem.elements.toggle.isOpen
+            ) {
               this.blurCurrentChild();
               this.currentChild = this.currentChild - 1;
-              this.currentMenuItem.elements.childMenu.currentEvent = this.currentEvent;
+              this.currentMenuItem.elements.childMenu.currentEvent =
+                this.currentEvent;
               this.focusChildsLastNode();
             } else if (!this.isTopLevel && this.currentChild === 0) {
               this.blurCurrentChild();
@@ -1828,7 +2214,8 @@ var AccessibleMenu = (function () {
               preventEvent(event);
               if (this.currentMenuItem.elements.toggle.isOpen) {
                 this.blurCurrentChild();
-                this.currentMenuItem.elements.childMenu.currentEvent = this.currentEvent;
+                this.currentMenuItem.elements.childMenu.currentEvent =
+                  this.currentEvent;
                 this.currentMenuItem.elements.childMenu.focusFirstChild();
               } else {
                 this.currentMenuItem.elements.toggle.preview();
@@ -1836,7 +2223,10 @@ var AccessibleMenu = (function () {
             }
           } else if (key === "ArrowLeft") {
             preventEvent(event);
-            if (this.currentMenuItem.isSubmenuItem && this.currentMenuItem.elements.toggle.isOpen) {
+            if (
+              this.currentMenuItem.isSubmenuItem &&
+              this.currentMenuItem.elements.toggle.isOpen
+            ) {
               this.currentMenuItem.elements.childMenu.blurCurrentChild();
               this.currentMenuItem.elements.toggle.close();
             } else if (!this.isTopLevel) {
@@ -1871,15 +2261,20 @@ var AccessibleMenu = (function () {
       }
     }
     openChildren() {
-      this.elements.submenuToggles.forEach(toggle => toggle.preview());
+      this.elements.submenuToggles.forEach((toggle) => toggle.preview());
     }
     focusNextNodeWithCharacter(char) {
       function getOpenMenuItems(menu) {
         let menuItems = [];
-        menu.elements.menuItems.forEach(menuItem => {
+        menu.elements.menuItems.forEach((menuItem) => {
           menuItems.push(menuItem);
           if (menuItem.isSubmenuItem && menuItem.elements.toggle.isOpen) {
-            menuItems = [...menuItems, ...getOpenMenuItems(menuItem.elements.toggle.elements.controlledMenu)];
+            menuItems = [
+              ...menuItems,
+              ...getOpenMenuItems(
+                menuItem.elements.toggle.elements.controlledMenu
+              ),
+            ];
           }
         });
         return menuItems;
@@ -1887,7 +2282,10 @@ var AccessibleMenu = (function () {
       const match = char.toLowerCase();
       const menuItems = getOpenMenuItems(this.elements.rootMenu);
       const currentItem = menuItems.indexOf(this.currentMenuItem) + 1;
-      const sortedMenuItems = [...menuItems.slice(currentItem), ...menuItems.slice(0, currentItem)];
+      const sortedMenuItems = [
+        ...menuItems.slice(currentItem),
+        ...menuItems.slice(0, currentItem),
+      ];
       let ctr = 0;
       let found = false;
       while (!found && ctr < sortedMenuItems.length) {
@@ -1911,7 +2309,10 @@ var AccessibleMenu = (function () {
     focusParentsNextChild() {
       if (!this.elements.parentMenu) return;
       this.elements.parentMenu.currentEvent = this.currentEvent;
-      if (this.elements.parentMenu.currentChild === this.elements.parentMenu.elements.menuItems.length - 1) {
+      if (
+        this.elements.parentMenu.currentChild ===
+        this.elements.parentMenu.elements.menuItems.length - 1
+      ) {
         this.elements.parentMenu.blurCurrentChild();
         this.elements.parentMenu.focusParentsNextChild();
       } else {
@@ -1922,7 +2323,11 @@ var AccessibleMenu = (function () {
     focusChildsLastNode() {
       this.currentMenuItem.elements.childMenu.currentEvent = this.currentEvent;
       this.currentMenuItem.elements.childMenu.focusLastChild();
-      if (this.currentMenuItem.elements.childMenu.currentMenuItem.isSubmenuItem && this.currentMenuItem.elements.childMenu.currentMenuItem.elements.toggle.isOpen) {
+      if (
+        this.currentMenuItem.elements.childMenu.currentMenuItem.isSubmenuItem &&
+        this.currentMenuItem.elements.childMenu.currentMenuItem.elements.toggle
+          .isOpen
+      ) {
         this.currentMenuItem.elements.childMenu.blurCurrentChild();
         this.currentMenuItem.elements.childMenu.focusChildsLastNode();
       }
@@ -1932,10 +2337,9 @@ var AccessibleMenu = (function () {
   var rollup = {
     DisclosureMenu,
     Menubar,
-    Treeview
+    Treeview,
   };
 
   return rollup;
-
 })();
 //# sourceMappingURL=accessible-menu.js.map

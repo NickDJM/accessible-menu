@@ -1,14 +1,13 @@
-var Menubar = (function () {
-  "use strict";
+var TopLinkDisclosureMenu = (function () {
+  'use strict';
 
   function _defineProperty(obj, key, value) {
-    key = _toPropertyKey(key);
     if (key in obj) {
       Object.defineProperty(obj, key, {
         value: value,
         enumerable: true,
         configurable: true,
-        writable: true,
+        writable: true
       });
     } else {
       obj[key] = value;
@@ -20,16 +19,12 @@ var Menubar = (function () {
     try {
       if (typeof elements !== "object") {
         const elementsType = typeof elements;
-        throw new TypeError(
-          `AccessibleMenu: Elements given to isValidInstance() must be inside of an object. ${elementsType} given.`
-        );
+        throw new TypeError(`AccessibleMenu: Elements given to isValidInstance() must be inside of an object. ${elementsType} given.`);
       }
       for (const key in elements) {
         if (!(elements[key] instanceof contructor)) {
           const elementType = typeof elements[key];
-          throw new TypeError(
-            `AccessibleMenu: ${key} must be an instance of ${contructor.name}. ${elementType} given.`
-          );
+          throw new TypeError(`AccessibleMenu: ${key} must be an instance of ${contructor.name}. ${elementType} given.`);
         }
       }
       return true;
@@ -42,16 +37,12 @@ var Menubar = (function () {
     try {
       if (typeof values !== "object") {
         const valuesType = typeof values;
-        throw new TypeError(
-          `AccessibleMenu: Values given to isValidType() must be inside of an object. ${valuesType} given.`
-        );
+        throw new TypeError(`AccessibleMenu: Values given to isValidType() must be inside of an object. ${valuesType} given.`);
       }
       for (const key in values) {
         const valueType = typeof values[key];
         if (valueType !== type) {
-          throw new TypeError(
-            `AccessibleMenu: ${key} must be a ${type}. ${valueType} given.`
-          );
+          throw new TypeError(`AccessibleMenu: ${key} must be a ${type}. ${valueType} given.`);
         }
       }
       return true;
@@ -64,9 +55,7 @@ var Menubar = (function () {
     try {
       if (typeof values !== "object") {
         const type = typeof values;
-        throw new TypeError(
-          `AccessibleMenu: Values given to isCSSSelector() must be inside of an object. ${type} given.`
-        );
+        throw new TypeError(`AccessibleMenu: Values given to isCSSSelector() must be inside of an object. ${type} given.`);
       }
       for (const key in values) {
         try {
@@ -75,9 +64,7 @@ var Menubar = (function () {
           }
           document.querySelector(values[key]);
         } catch (error) {
-          throw new TypeError(
-            `AccessibleMenu: ${key} must be a valid CSS selector. "${values[key]}" given.`
-          );
+          throw new TypeError(`AccessibleMenu: ${key} must be a valid CSS selector. "${values[key]}" given.`);
         }
       }
       return true;
@@ -90,25 +77,19 @@ var Menubar = (function () {
     try {
       if (typeof values !== "object" || Array.isArray(values)) {
         const type = typeof values;
-        throw new TypeError(
-          `AccessibleMenu: Values given to isValidClassList() must be inside of an object. ${type} given.`
-        );
+        throw new TypeError(`AccessibleMenu: Values given to isValidClassList() must be inside of an object. ${type} given.`);
       }
       for (const key in values) {
         const type = typeof values[key];
         if (type !== "string") {
           if (Array.isArray(values[key])) {
-            values[key].forEach((value) => {
+            values[key].forEach(value => {
               if (typeof value !== "string") {
-                throw new TypeError(
-                  `AccessibleMenu: ${key} must be a string or an array of strings. An array containing non-strings given.`
-                );
+                throw new TypeError(`AccessibleMenu: ${key} must be a string or an array of strings. An array containing non-strings given.`);
               }
             });
           } else {
-            throw new TypeError(
-              `AccessibleMenu: ${key} must be a string or an array of strings. ${type} given.`
-            );
+            throw new TypeError(`AccessibleMenu: ${key} must be a string or an array of strings. ${type} given.`);
           }
         } else {
           const obj = {};
@@ -126,18 +107,12 @@ var Menubar = (function () {
     try {
       if (typeof values !== "object") {
         const type = typeof values;
-        throw new TypeError(
-          `AccessibleMenu: Values given to isValidState() must be inside of an object. ${type} given.`
-        );
+        throw new TypeError(`AccessibleMenu: Values given to isValidState() must be inside of an object. ${type} given.`);
       }
       const validStates = ["none", "self", "child"];
       for (const key in values) {
         if (!validStates.includes(values[key])) {
-          throw new TypeError(
-            `AccessibleMenu: ${key} must be one of the following values: ${validStates.join(
-              ", "
-            )}. "${values[key]}" given.`
-          );
+          throw new TypeError(`AccessibleMenu: ${key} must be one of the following values: ${validStates.join(", ")}. "${values[key]}" given.`);
         }
       }
       return true;
@@ -150,18 +125,12 @@ var Menubar = (function () {
     try {
       if (typeof values !== "object") {
         const type = typeof values;
-        throw new TypeError(
-          `AccessibleMenu: Values given to isValidEvent() must be inside of an object. ${type} given.`
-        );
+        throw new TypeError(`AccessibleMenu: Values given to isValidEvent() must be inside of an object. ${type} given.`);
       }
       const validEvents = ["none", "mouse", "keyboard", "character"];
       for (const key in values) {
         if (!validEvents.includes(values[key])) {
-          throw new TypeError(
-            `AccessibleMenu: ${key} must be one of the following values: ${validEvents.join(
-              ", "
-            )}. "${values[key]}" given.`
-          );
+          throw new TypeError(`AccessibleMenu: ${key} must be one of the following values: ${validEvents.join(", ")}. "${values[key]}" given.`);
         }
       }
       return true;
@@ -174,18 +143,12 @@ var Menubar = (function () {
     try {
       if (typeof values !== "object") {
         const type = typeof values;
-        throw new TypeError(
-          `AccessibleMenu: Values given to isValidHoverType() must be inside of an object. ${type} given.`
-        );
+        throw new TypeError(`AccessibleMenu: Values given to isValidHoverType() must be inside of an object. ${type} given.`);
       }
       const validTypes = ["off", "on", "dynamic"];
       for (const key in values) {
         if (!validTypes.includes(values[key])) {
-          throw new TypeError(
-            `AccessibleMenu: ${key} must be one of the following values: ${validTypes.join(
-              ", "
-            )}. "${values[key]}" given.`
-          );
+          throw new TypeError(`AccessibleMenu: ${key} must be one of the following values: ${validTypes.join(", ")}. "${values[key]}" given.`);
         }
       }
       return true;
@@ -195,12 +158,9 @@ var Menubar = (function () {
     }
   }
   function isTag(tagName, elements) {
-    if (
-      isValidType("string", {
-        tagName,
-      }) &&
-      isValidInstance(HTMLElement, elements)
-    ) {
+    if (isValidType("string", {
+      tagName
+    }) && isValidInstance(HTMLElement, elements)) {
       const tag = tagName.toLowerCase();
       let check = true;
       for (const key in elements) {
@@ -218,37 +178,29 @@ var Menubar = (function () {
         menuToggleElement,
         parentElement,
         controlledMenu,
-        parentMenu = null,
+        parentMenu = null
       } = _ref;
       _defineProperty(this, "_dom", {
         toggle: null,
-        parent: null,
+        parent: null
       });
       _defineProperty(this, "_elements", {
         controlledMenu: null,
-        parentMenu: null,
+        parentMenu: null
       });
       _defineProperty(this, "_open", false);
-      _defineProperty(
-        this,
-        "_expandEvent",
-        new CustomEvent("accessibleMenuExpand", {
-          bubbles: true,
-          detail: {
-            toggle: this,
-          },
-        })
-      );
-      _defineProperty(
-        this,
-        "_collapseEvent",
-        new CustomEvent("accessibleMenuCollapse", {
-          bubbles: true,
-          detail: {
-            toggle: this,
-          },
-        })
-      );
+      _defineProperty(this, "_expandEvent", new CustomEvent("accessibleMenuExpand", {
+        bubbles: true,
+        detail: {
+          toggle: this
+        }
+      }));
+      _defineProperty(this, "_collapseEvent", new CustomEvent("accessibleMenuCollapse", {
+        bubbles: true,
+        detail: {
+          toggle: this
+        }
+      }));
       this._dom.toggle = menuToggleElement;
       this._dom.parent = parentElement;
       this._elements.controlledMenu = controlledMenu;
@@ -257,30 +209,17 @@ var Menubar = (function () {
     initialize() {
       this.dom.toggle.setAttribute("aria-haspopup", "true");
       this.dom.toggle.setAttribute("aria-expanded", "false");
-      if (
-        !isTag("button", {
-          toggle: this.dom.toggle,
-        })
-      ) {
+      if (!isTag("button", {
+        toggle: this.dom.toggle
+      })) {
         this.dom.toggle.setAttribute("role", "button");
       }
-      if (
-        this.dom.toggle.id === "" ||
-        this.elements.controlledMenu.dom.menu.id === ""
-      ) {
-        const randomString = Math.random()
-          .toString(36)
-          .replace(/[^a-z]+/g, "")
-          .substr(0, 10);
+      if (this.dom.toggle.id === "" || this.elements.controlledMenu.dom.menu.id === "") {
+        const randomString = Math.random().toString(36).replace(/[^a-z]+/g, "").substr(0, 10);
         let id = this.dom.toggle.innerText.replace(/[^a-zA-Z0-9\s]/g, "");
         let finalID = randomString;
-        if (
-          !id.replace(/\s/g, "").length &&
-          this.dom.toggle.getAttribute("aria-label")
-        ) {
-          id = this.dom.toggle
-            .getAttribute("aria-label")
-            .replace(/[^a-zA-Z0-9\s]/g, "");
+        if (!id.replace(/\s/g, "").length && this.dom.toggle.getAttribute("aria-label")) {
+          id = this.dom.toggle.getAttribute("aria-label").replace(/[^a-zA-Z0-9\s]/g, "");
         }
         if (id.replace(/\s/g, "").length > 0) {
           id = id.toLowerCase().replace(/\s+/g, "-");
@@ -293,17 +232,10 @@ var Menubar = (function () {
           finalID = `${id}-${finalID}`;
         }
         this.dom.toggle.id = this.dom.toggle.id || `${finalID}-menu-button`;
-        this.elements.controlledMenu.dom.menu.id =
-          this.elements.controlledMenu.dom.menu.id || `${finalID}-menu`;
+        this.elements.controlledMenu.dom.menu.id = this.elements.controlledMenu.dom.menu.id || `${finalID}-menu`;
       }
-      this.elements.controlledMenu.dom.menu.setAttribute(
-        "aria-labelledby",
-        this.dom.toggle.id
-      );
-      this.dom.toggle.setAttribute(
-        "aria-controls",
-        this.elements.controlledMenu.dom.menu.id
-      );
+      this.elements.controlledMenu.dom.menu.setAttribute("aria-labelledby", this.dom.toggle.id);
+      this.dom.toggle.setAttribute("aria-controls", this.elements.controlledMenu.dom.menu.id);
       this._collapse(false);
     }
     get dom() {
@@ -317,16 +249,16 @@ var Menubar = (function () {
     }
     set isOpen(value) {
       isValidType("boolean", {
-        value,
+        value
       });
       this._open = value;
     }
     _expand() {
-      let emit =
-        arguments.length > 0 && arguments[0] !== undefined
-          ? arguments[0]
-          : true;
-      const { closeClass, openClass } = this.elements.controlledMenu;
+      let emit = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+      const {
+        closeClass,
+        openClass
+      } = this.elements.controlledMenu;
       this.dom.toggle.setAttribute("aria-expanded", "true");
       if (openClass !== "") {
         if (typeof openClass === "string") {
@@ -347,11 +279,11 @@ var Menubar = (function () {
       }
     }
     _collapse() {
-      let emit =
-        arguments.length > 0 && arguments[0] !== undefined
-          ? arguments[0]
-          : true;
-      const { closeClass, openClass } = this.elements.controlledMenu;
+      let emit = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+      const {
+        closeClass,
+        openClass
+      } = this.elements.controlledMenu;
       this.dom.toggle.setAttribute("aria-expanded", "false");
       if (closeClass !== "") {
         if (typeof closeClass === "string") {
@@ -403,15 +335,13 @@ var Menubar = (function () {
     }
     closeSiblings() {
       if (this.elements.parentMenu) {
-        this.elements.parentMenu.elements.submenuToggles.forEach((toggle) => {
+        this.elements.parentMenu.elements.submenuToggles.forEach(toggle => {
           if (toggle !== this) toggle.close();
         });
       }
     }
     closeChildren() {
-      this.elements.controlledMenu.elements.submenuToggles.forEach((toggle) =>
-        toggle.close()
-      );
+      this.elements.controlledMenu.elements.submenuToggles.forEach(toggle => toggle.close());
     }
   }
 
@@ -423,16 +353,16 @@ var Menubar = (function () {
         parentMenu,
         isSubmenuItem = false,
         childMenu = null,
-        toggle = null,
+        toggle = null
       } = _ref;
       _defineProperty(this, "_dom", {
         item: null,
-        link: null,
+        link: null
       });
       _defineProperty(this, "_elements", {
         parentMenu: null,
         childMenu: null,
-        toggle: null,
+        toggle: null
       });
       _defineProperty(this, "_submenu", false);
       this._dom.item = menuItemElement;
@@ -479,9 +409,9 @@ var Menubar = (function () {
         End: key === "End" || key === 35,
         Character: isNaN(key) && !!key.match(/^[a-zA-Z]{1}$/),
         Tab: key === "Tab" || key === 9,
-        Asterisk: key === "*" || key === 56,
+        Asterisk: key === "*" || key === 56
       };
-      return Object.keys(keys).find((key) => keys[key] === true) || "";
+      return Object.keys(keys).find(key => keys[key] === true) || "";
     } catch (error) {
       return "";
     }
@@ -507,7 +437,7 @@ var Menubar = (function () {
         isTopLevel = true,
         parentMenu = null,
         hoverType = "off",
-        hoverDelay = 250,
+        hoverDelay = 250
       } = _ref;
       _defineProperty(this, "_MenuType", BaseMenu);
       _defineProperty(this, "_MenuItemType", BaseMenuItem);
@@ -519,21 +449,21 @@ var Menubar = (function () {
         submenuToggles: [],
         submenus: [],
         controller: null,
-        container: null,
+        container: null
       });
       _defineProperty(this, "_selectors", {
         menuItems: "",
         menuLinks: "",
         submenuItems: "",
         submenuToggles: "",
-        submenus: "",
+        submenus: ""
       });
       _defineProperty(this, "_elements", {
         menuItems: [],
         submenuToggles: [],
         controller: null,
         parentMenu: null,
-        rootMenu: null,
+        rootMenu: null
       });
       _defineProperty(this, "_openClass", "show");
       _defineProperty(this, "_closeClass", "hide");
@@ -564,9 +494,7 @@ var Menubar = (function () {
     }
     initialize() {
       if (!this._validate()) {
-        throw new Error(
-          "AccesibleMenu: cannot initialize menu. See other error messages for more information."
-        );
+        throw new Error("AccesibleMenu: cannot initialize menu. See other error messages for more information.");
       }
       if (this.elements.rootMenu === null) this._findRootMenu(this);
       this._setDOMElements();
@@ -575,7 +503,7 @@ var Menubar = (function () {
           const toggle = new this._MenuToggleType({
             menuToggleElement: this.dom.controller,
             parentElement: this.dom.container,
-            controlledMenu: this,
+            controlledMenu: this
           });
           this._elements.controller = toggle;
         }
@@ -595,14 +523,10 @@ var Menubar = (function () {
       return this._root;
     }
     get openClass() {
-      return this.isTopLevel
-        ? this._openClass
-        : this.elements.rootMenu.openClass;
+      return this.isTopLevel ? this._openClass : this.elements.rootMenu.openClass;
     }
     get closeClass() {
-      return this.isTopLevel
-        ? this._closeClass
-        : this.elements.rootMenu.closeClass;
+      return this.isTopLevel ? this._closeClass : this.elements.rootMenu.closeClass;
     }
     get currentChild() {
       return this._currentChild;
@@ -624,10 +548,7 @@ var Menubar = (function () {
     }
     get shouldFocus() {
       let check = false;
-      if (
-        this.currentEvent === "keyboard" ||
-        this.currentEvent === "character"
-      ) {
+      if (this.currentEvent === "keyboard" || this.currentEvent === "character") {
         check = true;
       }
       if (this.currentEvent === "mouse" && this.hoverType === "dynamic") {
@@ -637,7 +558,7 @@ var Menubar = (function () {
     }
     set openClass(value) {
       isValidClassList({
-        openClass: value,
+        openClass: value
       });
       if (this._openClass !== value) {
         this._openClass = value;
@@ -645,7 +566,7 @@ var Menubar = (function () {
     }
     set closeClass(value) {
       isValidClassList({
-        closeClass: value,
+        closeClass: value
       });
       if (this._closeClass !== value) {
         this._closeClass = value;
@@ -653,25 +574,16 @@ var Menubar = (function () {
     }
     set currentChild(value) {
       isValidType("number", {
-        value,
+        value
       });
       function setParentChild(menu) {
         const updateEvents = ["mouse", "character"];
-        if (
-          updateEvents.includes(menu.currentEvent) &&
-          menu.elements.parentMenu
-        ) {
+        if (updateEvents.includes(menu.currentEvent) && menu.elements.parentMenu) {
           let index = 0;
           let found = false;
-          while (
-            !found &&
-            index < menu.elements.parentMenu.elements.menuItems.length
-          ) {
+          while (!found && index < menu.elements.parentMenu.elements.menuItems.length) {
             const menuItem = menu.elements.parentMenu.elements.menuItems[index];
-            if (
-              menuItem.isSubmenuItem &&
-              menuItem.elements.toggle.elements.controlledMenu === menu
-            ) {
+            if (menuItem.isSubmenuItem && menuItem.elements.toggle.elements.controlledMenu === menu) {
               found = true;
               menu.elements.parentMenu.currentEvent = menu.currentEvent;
               menu.elements.parentMenu.currentChild = index;
@@ -693,16 +605,13 @@ var Menubar = (function () {
     }
     set focusState(value) {
       isValidState({
-        value,
+        value
       });
       if (this._focusState !== value) {
         this._focusState = value;
       }
-      if (
-        this.elements.submenuToggles.length > 0 &&
-        (value === "self" || value === "none")
-      ) {
-        this.elements.submenuToggles.forEach((toggle) => {
+      if (this.elements.submenuToggles.length > 0 && (value === "self" || value === "none")) {
+        this.elements.submenuToggles.forEach(toggle => {
           toggle.elements.controlledMenu.focusState = "none";
         });
       }
@@ -712,12 +621,12 @@ var Menubar = (function () {
     }
     set currentEvent(value) {
       isValidEvent({
-        value,
+        value
       });
       if (this._currentEvent !== value) {
         this._currentEvent = value;
         if (this.elements.submenuToggles.length > 0) {
-          this.elements.submenuToggles.forEach((submenuToggle) => {
+          this.elements.submenuToggles.forEach(submenuToggle => {
             submenuToggle.elements.controlledMenu.currentEvent = value;
           });
         }
@@ -725,7 +634,7 @@ var Menubar = (function () {
     }
     set hoverType(value) {
       isValidHoverType({
-        value,
+        value
       });
       if (this._hoverType !== value) {
         this._hoverType = value;
@@ -733,7 +642,7 @@ var Menubar = (function () {
     }
     set hoverDelay(value) {
       isValidType("number", {
-        value,
+        value
       });
       if (this._hoverDelay !== value) {
         this._hoverDelay = value;
@@ -742,140 +651,95 @@ var Menubar = (function () {
     _validate() {
       let check = true;
       if (this._dom.container !== null || this._dom.controller !== null) {
-        if (
-          !isValidInstance(HTMLElement, {
-            menuElement: this._dom.menu,
-            controllerElement: this._dom.controller,
-            containerElement: this._dom.container,
-          })
-        ) {
+        if (!isValidInstance(HTMLElement, {
+          menuElement: this._dom.menu,
+          controllerElement: this._dom.controller,
+          containerElement: this._dom.container
+        })) {
           check = false;
         }
-      } else if (
-        !isValidInstance(HTMLElement, {
-          menuElement: this._dom.menu,
-        })
-      ) {
+      } else if (!isValidInstance(HTMLElement, {
+        menuElement: this._dom.menu
+      })) {
         check = false;
       }
       if (this._selectors.submenuItems !== "") {
-        if (
-          !isCSSSelector({
-            menuItemSelector: this._selectors.menuItems,
-            menuLinkSelector: this._selectors.menuLinks,
-            submenuItemSelector: this._selectors.submenuItems,
-            submenuToggleSelector: this._selectors.submenuToggles,
-            submenuSelector: this._selectors.submenus,
-          })
-        ) {
-          check = false;
-        }
-      } else if (
-        !isCSSSelector({
+        if (!isCSSSelector({
           menuItemSelector: this._selectors.menuItems,
           menuLinkSelector: this._selectors.menuLinks,
-        })
-      ) {
+          submenuItemSelector: this._selectors.submenuItems,
+          submenuToggleSelector: this._selectors.submenuToggles,
+          submenuSelector: this._selectors.submenus
+        })) {
+          check = false;
+        }
+      } else if (!isCSSSelector({
+        menuItemSelector: this._selectors.menuItems,
+        menuLinkSelector: this._selectors.menuLinks
+      })) {
         check = false;
       }
-      if (
-        this._openClass !== "" &&
-        !isValidClassList({
-          openClass: this._openClass,
-        })
-      ) {
+      if (this._openClass !== "" && !isValidClassList({
+        openClass: this._openClass
+      })) {
         check = false;
       }
-      if (
-        this._closeClass !== "" &&
-        !isValidClassList({
-          closeClass: this._closeClass,
-        })
-      ) {
+      if (this._closeClass !== "" && !isValidClassList({
+        closeClass: this._closeClass
+      })) {
         check = false;
       }
-      if (
-        !isValidType("boolean", {
-          isTopLevel: this._root,
-        })
-      ) {
+      if (!isValidType("boolean", {
+        isTopLevel: this._root
+      })) {
         check = false;
       }
-      if (
-        this._elements.parentMenu !== null &&
-        !isValidInstance(BaseMenu, {
-          parentMenu: this._elements.parentMenu,
-        })
-      ) {
+      if (this._elements.parentMenu !== null && !isValidInstance(BaseMenu, {
+        parentMenu: this._elements.parentMenu
+      })) {
         check = false;
       }
-      if (
-        !isValidHoverType({
-          hoverType: this._hoverType,
-        })
-      ) {
+      if (!isValidHoverType({
+        hoverType: this._hoverType
+      })) {
         check = false;
       }
-      if (
-        !isValidType("number", {
-          hoverDelay: this._hoverDelay,
-        })
-      ) {
+      if (!isValidType("number", {
+        hoverDelay: this._hoverDelay
+      })) {
         check = false;
       }
       return check;
     }
     _setDOMElementType(elementType) {
-      let base =
-        arguments.length > 1 && arguments[1] !== undefined
-          ? arguments[1]
-          : this.dom.menu;
-      let overwrite =
-        arguments.length > 2 && arguments[2] !== undefined
-          ? arguments[2]
-          : true;
+      let base = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.dom.menu;
+      let overwrite = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
       if (typeof this.selectors[elementType] === "string") {
         if (!Array.isArray(this.dom[elementType])) {
-          throw new Error(
-            `AccessibleMenu: The "${elementType}" element cannot be set through _setDOMElementType.`
-          );
+          throw new Error(`AccessibleMenu: The "${elementType}" element cannot be set through _setDOMElementType.`);
         }
-        if (base !== this.dom.menu)
-          isValidInstance(HTMLElement, {
-            base,
-          });
-        const domElements = Array.from(
-          base.querySelectorAll(this.selectors[elementType])
-        );
-        const filteredElements = domElements.filter(
-          (item) => item.parentElement === base
-        );
+        if (base !== this.dom.menu) isValidInstance(HTMLElement, {
+          base
+        });
+        const domElements = Array.from(base.querySelectorAll(this.selectors[elementType]));
+        const filteredElements = domElements.filter(item => item.parentElement === base);
         if (overwrite) {
           this._dom[elementType] = filteredElements;
         } else {
-          this._dom[elementType] = [
-            ...this._dom[elementType],
-            ...filteredElements,
-          ];
+          this._dom[elementType] = [...this._dom[elementType], ...filteredElements];
         }
       } else {
-        throw new Error(
-          `AccessibleMenu: "${elementType}" is not a valid element type within the menu.`
-        );
+        throw new Error(`AccessibleMenu: "${elementType}" is not a valid element type within the menu.`);
       }
     }
     _resetDOMElementType(elementType) {
       if (typeof this.dom[elementType] !== "undefined") {
         if (!Array.isArray(this.dom[elementType])) {
-          throw new Error(
-            `AccessibleMenu: The "${elementType}" element cannot be reset through _resetDOMElementType.`
-          );
+          throw new Error(`AccessibleMenu: The "${elementType}" element cannot be reset through _resetDOMElementType.`);
         }
         this._dom[elementType] = [];
       } else {
-        throw new Error(
-          `AccessibleMenu: "${elementType}" is not a valid element type within the menu.`
-        );
+        throw new Error(`AccessibleMenu: "${elementType}" is not a valid element type within the menu.`);
       }
     }
     _setDOMElements() {
@@ -884,7 +748,7 @@ var Menubar = (function () {
         this._setDOMElementType("submenuItems");
         this._resetDOMElementType("submenuToggles");
         this._resetDOMElementType("submenus");
-        this.dom.submenuItems.forEach((item) => {
+        this.dom.submenuItems.forEach(item => {
           this._setDOMElementType("submenuToggles", item, false);
           this._setDOMElementType("submenus", item, false);
         });
@@ -900,7 +764,7 @@ var Menubar = (function () {
       }
     }
     _createChildElements() {
-      this.dom.menuItems.forEach((element) => {
+      this.dom.menuItems.forEach(element => {
         let menuItem;
         if (this.dom.submenuItems.includes(element)) {
           const toggler = element.querySelector(this.selectors.submenuToggles);
@@ -917,13 +781,13 @@ var Menubar = (function () {
             isTopLevel: false,
             parentMenu: this,
             hoverType: this.hoverType,
-            hoverDelay: this.hoverDelay,
+            hoverDelay: this.hoverDelay
           });
           const toggle = new this._MenuToggleType({
             menuToggleElement: toggler,
             parentElement: element,
             controlledMenu: menu,
-            parentMenu: this,
+            parentMenu: this
           });
           this._elements.submenuToggles.push(toggle);
           menuItem = new this._MenuItemType({
@@ -932,14 +796,14 @@ var Menubar = (function () {
             parentMenu: this,
             isSubmenuItem: true,
             childMenu: menu,
-            toggle,
+            toggle
           });
         } else {
           const link = element.querySelector(this.selectors.menuLinks);
           menuItem = new this._MenuItemType({
             menuItemElement: element,
             menuLinkElement: link,
-            parentMenu: this,
+            parentMenu: this
           });
         }
         this._elements.menuItems.push(menuItem);
@@ -963,40 +827,30 @@ var Menubar = (function () {
         }
       }
       this.elements.menuItems.forEach((item, index) => {
-        item.dom.link.addEventListener(
-          "pointerdown",
-          () => {
-            this.currentEvent = "mouse";
-            this.elements.rootMenu.blurChildren();
-            this.focusChild(index);
-          },
-          {
-            passive: true,
-          }
-        );
+        item.dom.link.addEventListener("pointerdown", () => {
+          this.currentEvent = "mouse";
+          this.elements.rootMenu.blurChildren();
+          this.focusChild(index);
+        }, {
+          passive: true
+        });
         if (item.isSubmenuItem) {
-          item.elements.toggle.dom.toggle.addEventListener(
-            "pointerup",
-            (event) => {
-              this.currentEvent = "mouse";
-              toggleToggle(this, item.elements.toggle, event);
-            }
-          );
+          item.elements.toggle.dom.toggle.addEventListener("pointerup", event => {
+            this.currentEvent = "mouse";
+            toggleToggle(this, item.elements.toggle, event);
+          });
         }
       });
       if (this.isTopLevel && this.elements.controller) {
-        this.elements.controller.dom.toggle.addEventListener(
-          "pointerup",
-          (event) => {
-            this.currentEvent = "mouse";
-            toggleToggle(this, this.elements.controller, event);
-          }
-        );
+        this.elements.controller.dom.toggle.addEventListener("pointerup", event => {
+          this.currentEvent = "mouse";
+          toggleToggle(this, this.elements.controller, event);
+        });
       }
     }
     _handleHover() {
       this.elements.menuItems.forEach((menuItem, index) => {
-        menuItem.dom.link.addEventListener("pointerenter", (event) => {
+        menuItem.dom.link.addEventListener("pointerenter", event => {
           if (event.pointerType === "pen" || event.pointerType === "touch") {
             return;
           }
@@ -1007,9 +861,7 @@ var Menubar = (function () {
               menuItem.elements.toggle.preview();
             }
           } else if (this.hoverType === "dynamic") {
-            const isOpen = this.elements.submenuToggles.some(
-              (toggle) => toggle.isOpen
-            );
+            const isOpen = this.elements.submenuToggles.some(toggle => toggle.isOpen);
             this.currentChild = index;
             if (!this.isTopLevel || this.focusState !== "none") {
               this.currentEvent = "mouse";
@@ -1022,7 +874,7 @@ var Menubar = (function () {
           }
         });
         if (menuItem.isSubmenuItem) {
-          menuItem.dom.item.addEventListener("pointerleave", (event) => {
+          menuItem.dom.item.addEventListener("pointerleave", event => {
             if (event.pointerType === "pen" || event.pointerType === "touch") {
               return;
             }
@@ -1057,32 +909,26 @@ var Menubar = (function () {
     }
     _handleKeydown() {
       if (this.isTopLevel && this.elements.controller) {
-        this.elements.controller.dom.toggle.addEventListener(
-          "keydown",
-          (event) => {
-            this.currentEvent = "keyboard";
-            const key = keyPress(event);
-            if (key === "Space" || key === "Enter") {
-              preventEvent(event);
-            }
+        this.elements.controller.dom.toggle.addEventListener("keydown", event => {
+          this.currentEvent = "keyboard";
+          const key = keyPress(event);
+          if (key === "Space" || key === "Enter") {
+            preventEvent(event);
           }
-        );
+        });
       }
     }
     _handleKeyup() {
       if (this.isTopLevel && this.elements.controller) {
-        this.elements.controller.dom.toggle.addEventListener(
-          "keyup",
-          (event) => {
-            this.currentEvent = "keyboard";
-            const key = keyPress(event);
-            if (key === "Space" || key === "Enter") {
-              preventEvent(event);
-              this.elements.controller.open();
-              this.focusFirstChild();
-            }
+        this.elements.controller.dom.toggle.addEventListener("keyup", event => {
+          this.currentEvent = "keyboard";
+          const key = keyPress(event);
+          if (key === "Space" || key === "Enter") {
+            preventEvent(event);
+            this.elements.controller.open();
+            this.focusFirstChild();
           }
-        );
+        });
       }
     }
     focus() {
@@ -1151,10 +997,10 @@ var Menubar = (function () {
       }
     }
     closeChildren() {
-      this.elements.submenuToggles.forEach((toggle) => toggle.close());
+      this.elements.submenuToggles.forEach(toggle => toggle.close());
     }
     blurChildren() {
-      this.elements.menuItems.forEach((menuItem) => {
+      this.elements.menuItems.forEach(menuItem => {
         menuItem.blur();
         if (menuItem.isSubmenuItem) {
           menuItem.elements.childMenu.blurChildren();
@@ -1163,7 +1009,7 @@ var Menubar = (function () {
     }
   }
 
-  class MenubarItem extends BaseMenuItem {
+  class TopLinkDisclosureMenuItem extends BaseMenuItem {
     constructor(_ref) {
       let {
         menuItemElement,
@@ -1173,6 +1019,7 @@ var Menubar = (function () {
         childMenu = null,
         toggle = null,
         initialize = true,
+        submenuSibling = null
       } = _ref;
       super({
         menuItemElement,
@@ -1180,46 +1027,38 @@ var Menubar = (function () {
         parentMenu,
         isSubmenuItem,
         childMenu,
-        toggle,
+        toggle
       });
+      _defineProperty(this, "_elements", {
+        parentMenu: null,
+        childMenu: null,
+        toggle: null,
+        sibling: null
+      });
+      this._elements.parentMenu = parentMenu;
+      this._elements.childMenu = childMenu;
+      this._elements.toggle = toggle;
+      this._elements.sibling = submenuSibling;
       if (initialize) {
         this.initialize();
       }
     }
-    initialize() {
-      super.initialize();
-      this.dom.item.setAttribute("role", "none");
-      this.dom.link.setAttribute("role", "menuitem");
-      this.dom.link.tabIndex = -1;
-    }
-    focus() {
-      super.focus();
-      if (this.elements.parentMenu.isTopLevel) {
-        this.dom.link.tabIndex = 0;
-      }
-    }
-    blur() {
-      super.blur();
-      if (this.elements.parentMenu.isTopLevel) {
-        this.dom.link.tabIndex = -1;
-      }
-    }
   }
 
-  class MenubarToggle extends BaseMenuToggle {
+  class TopLinkDisclosureMenuToggle extends BaseMenuToggle {
     constructor(_ref) {
       let {
         menuToggleElement,
         parentElement,
         controlledMenu,
         parentMenu = null,
-        initialize = true,
+        initialize = true
       } = _ref;
       super({
         menuToggleElement,
         parentElement,
         controlledMenu,
-        parentMenu,
+        parentMenu
       });
       if (initialize) {
         this.initialize();
@@ -1241,14 +1080,14 @@ var Menubar = (function () {
     }
   }
 
-  class Menubar extends BaseMenu {
+  class TopLinkDisclosureMenu extends BaseMenu {
     constructor(_ref) {
       let {
         menuElement,
         menuItemSelector = "li",
         menuLinkSelector = "a",
         submenuItemSelector = "",
-        submenuToggleSelector = "a",
+        submenuToggleSelector = "button",
         submenuSelector = "ul",
         controllerElement = null,
         containerElement = null,
@@ -1258,7 +1097,8 @@ var Menubar = (function () {
         parentMenu = null,
         hoverType = "off",
         hoverDelay = 250,
-        initialize = true,
+        optionalKeySupport = false,
+        initialize = true
       } = _ref;
       super({
         menuElement,
@@ -1274,11 +1114,15 @@ var Menubar = (function () {
         isTopLevel,
         parentMenu,
         hoverType,
-        hoverDelay,
+        hoverDelay
       });
-      _defineProperty(this, "_MenuType", Menubar);
-      _defineProperty(this, "_MenuItemType", MenubarItem);
-      _defineProperty(this, "_MenuToggleType", MenubarToggle);
+      _defineProperty(this, "_MenuType", TopLinkDisclosureMenu);
+      _defineProperty(this, "_MenuItemType", TopLinkDisclosureMenuItem);
+      _defineProperty(this, "_MenuToggleType", TopLinkDisclosureMenuToggle);
+      _defineProperty(this, "_currentChild", -1);
+      _defineProperty(this, "_optionalSupport", false);
+      this._optionalSupport = optionalKeySupport;
+      this._selectors.menuLinks = [...new Set([menuLinkSelector, submenuToggleSelector])].join(",");
       if (initialize) {
         this.initialize();
       }
@@ -1286,28 +1130,94 @@ var Menubar = (function () {
     initialize() {
       try {
         super.initialize();
-        this.dom.menu.setAttribute("role", "menubar");
         this._handleFocus();
         this._handleClick();
         this._handleHover();
         this._handleKeydown();
         this._handleKeyup();
-        if (this.isTopLevel) {
-          this.elements.menuItems[0].dom.link.tabIndex = 0;
-        }
       } catch (error) {
         console.error(error);
       }
     }
+    get optionalKeySupport() {
+      return this.isTopLevel ? this._optionalSupport : this.elements.rootMenu.optionalKeySupport;
+    }
+    set optionalKeySupport(value) {
+      isValidType("boolean", {
+        optionalKeySupport: value
+      });
+      this._optionalSupport = value;
+    }
+    _createChildElements() {
+      this.dom.menuItems.forEach(element => {
+        let menuItem, menuToggleItem;
+        const link = element.querySelector(this.selectors.menuLinks);
+        if (this.dom.submenuItems.includes(element)) {
+          const toggler = element.querySelector(this.selectors.submenuToggles);
+          const submenu = element.querySelector(this.selectors.submenus);
+          const menu = new this._MenuType({
+            menuElement: submenu,
+            menuItemSelector: this.selectors.menuItems,
+            menuLinkSelector: this.selectors.menuLinks,
+            submenuItemSelector: this.selectors.submenuItems,
+            submenuToggleSelector: this.selectors.submenuToggles,
+            submenuSelector: this.selectors.submenus,
+            openClass: this.openClass,
+            closeClass: this.closeClass,
+            isTopLevel: false,
+            parentMenu: this,
+            hoverType: this.hoverType,
+            hoverDelay: this.hoverDelay
+          });
+          const toggle = new this._MenuToggleType({
+            menuToggleElement: toggler,
+            parentElement: element,
+            controlledMenu: menu,
+            parentMenu: this
+          });
+          this._elements.submenuToggles.push(toggle);
+          menuToggleItem = new this._MenuItemType({
+            menuItemElement: element,
+            menuLinkElement: toggler,
+            parentMenu: this,
+            isSubmenuItem: true,
+            childMenu: menu,
+            toggle
+          });
+          menuItem = new this._MenuItemType({
+            menuItemElement: element,
+            menuLinkElement: link,
+            parentMenu: this,
+            submenuSibling: menuToggleItem
+          });
+        } else {
+          menuItem = new this._MenuItemType({
+            menuItemElement: element,
+            menuLinkElement: link,
+            parentMenu: this
+          });
+        }
+        this._elements.menuItems.push(menuItem);
+        if (typeof menuToggleItem !== "undefined") {
+          this._elements.menuItems.push(menuToggleItem);
+        }
+      });
+    }
+    _validate() {
+      let check = super._validate();
+      if (!isValidType("boolean", {
+        optionalKeySupport: this._optionalSupport
+      })) {
+        check = false;
+      }
+      return check;
+    }
     _handleClick() {
       super._handleClick();
-      document.addEventListener("pointerup", (event) => {
+      document.addEventListener("pointerup", event => {
         if (this.focusState !== "none") {
           this.currentEvent = "mouse";
-          if (
-            !this.dom.menu.contains(event.target) &&
-            !this.dom.menu !== event.target
-          ) {
+          if (!this.dom.menu.contains(event.target) && !this.dom.menu !== event.target) {
             this.closeChildren();
             this.blur();
             if (this.elements.controller) {
@@ -1317,57 +1227,90 @@ var Menubar = (function () {
         }
       });
     }
-    _handleKeydown() {
-      super._handleKeydown();
-      this.dom.menu.addEventListener("keydown", (event) => {
-        this.currentEvent = "keyboard";
-        const key = keyPress(event);
-        if (key === "Tab") {
-          if (this.elements.rootMenu.focusState !== "none") {
-            this.elements.rootMenu.blur();
-            this.elements.rootMenu.closeChildren();
-          } else {
-            this.elements.rootMenu.focus();
+    _handleHover() {
+      this.elements.menuItems.forEach((menuItem, index) => {
+        menuItem.dom.link.addEventListener("pointerenter", event => {
+          if (event.pointerType === "pen" || event.pointerType === "touch") {
+            return;
           }
-        }
-        if (key === "Character") {
-          preventEvent(event);
-        } else if (this.isTopLevel) {
-          if (this.focusState === "self") {
-            const keys = ["ArrowRight", "ArrowLeft", "Home", "End"];
-            const submenuKeys = ["Space", "Enter", "ArrowDown", "ArrowUp"];
-            const controllerKeys = ["Escape"];
-            if (keys.includes(key)) {
-              preventEvent(event);
-            } else if (
-              this.currentMenuItem.isSubmenuItem &&
-              submenuKeys.includes(key)
-            ) {
-              preventEvent(event);
-            } else if (
-              this.elements.controller &&
-              controllerKeys.includes(key)
-            ) {
-              preventEvent(event);
+          if (this.hoverType === "on") {
+            this.currentEvent = "mouse";
+            this.currentChild = index;
+            if (menuItem.isSubmenuItem) {
+              menuItem.elements.toggle.preview();
+            } else if (menuItem.elements.sibling !== null) {
+              menuItem.elements.sibling.elements.toggle.preview();
+            }
+          } else if (this.hoverType === "dynamic") {
+            const isOpen = this.elements.submenuToggles.some(toggle => toggle.isOpen);
+            this.currentChild = index;
+            if (!this.isTopLevel || this.focusState !== "none") {
+              this.currentEvent = "mouse";
+              this.focusCurrentChild();
+            }
+            if (!this.isTopLevel || isOpen) {
+              this.currentEvent = "mouse";
+              if (menuItem.isSubmenuItem) {
+                menuItem.elements.toggle.preview();
+              } else if (menuItem.elements.sibling !== null) {
+                menuItem.elements.sibling.elements.toggle.preview();
+              }
             }
           }
-        } else {
-          const keys = [
-            "Escape",
-            "ArrowRight",
-            "ArrowLeft",
-            "ArrowDown",
-            "ArrowUp",
-            "Home",
-            "End",
-          ];
+        });
+        if (menuItem.isSubmenuItem) {
+          menuItem.dom.item.addEventListener("pointerleave", event => {
+            if (event.pointerType === "pen" || event.pointerType === "touch") {
+              return;
+            }
+            if (this.hoverType === "on") {
+              if (this.hoverDelay > 0) {
+                setTimeout(() => {
+                  this.currentEvent = "mouse";
+                  menuItem.elements.toggle.close();
+                }, this.hoverDelay);
+              } else {
+                this.currentEvent = "mouse";
+                menuItem.elements.toggle.close();
+              }
+            } else if (this.hoverType === "dynamic") {
+              if (!this.isTopLevel) {
+                if (this.hoverDelay > 0) {
+                  setTimeout(() => {
+                    this.currentEvent = "mouse";
+                    menuItem.elements.toggle.close();
+                    this.focusCurrentChild();
+                  }, this.hoverDelay);
+                } else {
+                  this.currentEvent = "mouse";
+                  menuItem.elements.toggle.close();
+                  this.focusCurrentChild();
+                }
+              }
+            }
+          });
+        }
+      });
+    }
+    _handleKeydown() {
+      super._handleKeydown();
+      this.dom.menu.addEventListener("keydown", event => {
+        this.currentEvent = "keyboard";
+        const key = keyPress(event);
+        if (this.focusState === "self") {
           const submenuKeys = ["Space", "Enter"];
-          if (keys.includes(key)) {
+          const controllerKeys = ["Escape"];
+          const parentKeys = ["Escape"];
+          if (this.optionalKeySupport) {
+            const keys = ["ArrowUp", "ArrowRight", "ArrowDown", "ArrowLeft", "Home", "End"];
+            if (keys.includes(key)) {
+              preventEvent(event);
+            }
+          } else if (this.currentMenuItem.isSubmenuItem && submenuKeys.includes(key)) {
             preventEvent(event);
-          } else if (
-            this.currentMenuItem.isSubmenuItem &&
-            submenuKeys.includes(key)
-          ) {
+          } else if (this.elements.controller && controllerKeys.includes(key)) {
+            preventEvent(event);
+          } else if (this.elements.parentMenu && parentKeys.includes(key)) {
             preventEvent(event);
           }
         }
@@ -1375,201 +1318,61 @@ var Menubar = (function () {
     }
     _handleKeyup() {
       super._handleKeyup();
-      this.dom.menu.addEventListener("keyup", (event) => {
+      this.dom.menu.addEventListener("keyup", event => {
         this.currentEvent = "keyboard";
         const key = keyPress(event);
-        const { altKey, crtlKey, metaKey } = event;
-        const modifier = altKey || crtlKey || metaKey;
-        if (key === "Character" && !modifier) {
-          preventEvent(event);
-          this.elements.rootMenu.currentEvent = "character";
-          this.focusNextChildWithCharacter(event.key);
-        } else if (this.isTopLevel) {
-          if (this.focusState === "self") {
-            if (key === "Space" || key === "Enter") {
-              if (this.currentMenuItem.isSubmenuItem) {
-                preventEvent(event);
-                this.currentMenuItem.elements.childMenu.currentEvent =
-                  "keyboard";
-                this.currentMenuItem.elements.toggle.open();
-                requestAnimationFrame(() => {
-                  this.currentMenuItem.elements.childMenu.focusFirstChild();
-                });
+        if (this.focusState === "self") {
+          if (key === "Space" || key === "Enter") {
+            if (this.currentMenuItem.isSubmenuItem && event.target.matches(this.selectors.submenuToggles)) {
+              preventEvent(event);
+              if (this.currentMenuItem.elements.toggle.isOpen) {
+                this.currentMenuItem.elements.toggle.close();
               } else {
-                this.currentMenuItem.dom.link.click();
+                this.currentMenuItem.elements.toggle.preview();
               }
-            } else if (key === "ArrowRight") {
+            } else {
+              this.currentMenuItem.dom.link.click();
+            }
+          } else if (key === "Escape") {
+            const hasOpenChild = this.elements.submenuToggles.some(toggle => toggle.isOpen);
+            if (hasOpenChild) {
               preventEvent(event);
-              const previousChildOpen =
-                this.currentMenuItem.isSubmenuItem &&
-                this.currentMenuItem.elements.toggle.isOpen;
-              this.focusNextChild();
-              if (previousChildOpen) {
-                if (this.currentMenuItem.isSubmenuItem) {
-                  this.currentMenuItem.elements.childMenu.currentEvent =
-                    "keyboard";
-                  this.currentMenuItem.elements.toggle.preview();
-                } else {
-                  this.closeChildren();
-                }
+              this.closeChildren();
+            } else if (this.elements.parentMenu) {
+              preventEvent(event);
+              this.elements.parentMenu.currentEvent = this.currentEvent;
+              this.elements.parentMenu.closeChildren();
+              this.elements.parentMenu.focusCurrentChild();
+            } else if (this.isTopLevel && this.elements.controller && this.elements.controller.isOpen) {
+              this.elements.controller.close();
+              this.focusController();
+            }
+          } else if (this.optionalKeySupport) {
+            if (key === "ArrowDown" || key === "ArrowRight") {
+              preventEvent(event);
+              if (this.currentMenuItem.isSubmenuItem && this.currentMenuItem.elements.toggle.isOpen) {
+                this.currentMenuItem.elements.childMenu.currentEvent = "keyboard";
+                this.currentMenuItem.elements.childMenu.focusFirstChild();
+              } else {
+                this.focusNextChild();
               }
-            } else if (key === "ArrowLeft") {
+            } else if (key === "ArrowUp" || key === "ArrowLeft") {
               preventEvent(event);
-              const previousChildOpen =
-                this.currentMenuItem.isSubmenuItem &&
-                this.currentMenuItem.elements.toggle.isOpen;
               this.focusPreviousChild();
-              if (previousChildOpen) {
-                if (this.currentMenuItem.isSubmenuItem) {
-                  this.currentMenuItem.elements.childMenu.currentEvent =
-                    "keyboard";
-                  this.currentMenuItem.elements.toggle.preview();
-                } else {
-                  this.closeChildren();
-                }
-              }
-            } else if (key === "ArrowDown") {
-              if (this.currentMenuItem.isSubmenuItem) {
-                preventEvent(event);
-                this.currentMenuItem.elements.childMenu.currentEvent =
-                  "keyboard";
-                this.currentMenuItem.elements.toggle.open();
-                requestAnimationFrame(() => {
-                  this.currentMenuItem.elements.childMenu.focusFirstChild();
-                });
-              }
-            } else if (key === "ArrowUp") {
-              if (this.currentMenuItem.isSubmenuItem) {
-                preventEvent(event);
-                this.currentMenuItem.elements.childMenu.currentEvent =
-                  "keyboard";
-                this.currentMenuItem.elements.toggle.open();
-                requestAnimationFrame(() => {
-                  this.currentMenuItem.elements.childMenu.focusLastChild();
-                });
-              }
             } else if (key === "Home") {
               preventEvent(event);
               this.focusFirstChild();
             } else if (key === "End") {
               preventEvent(event);
               this.focusLastChild();
-            } else if (key === "Escape") {
-              const hasOpenChild = this.elements.submenuToggles.some(
-                (toggle) => toggle.isOpen
-              );
-              if (hasOpenChild) {
-                preventEvent(event);
-                this.closeChildren();
-              } else if (
-                this.isTopLevel &&
-                this.elements.controller &&
-                this.elements.controller.isOpen
-              ) {
-                preventEvent(event);
-                this.elements.controller.close();
-                this.focusController();
-              }
             }
-          }
-        } else {
-          if (key === "Space" || key === "Enter") {
-            if (this.currentMenuItem.isSubmenuItem) {
-              preventEvent(event);
-              this.currentMenuItem.elements.childMenu.currentEvent = "keyboard";
-              this.currentMenuItem.elements.toggle.open();
-              requestAnimationFrame(() => {
-                this.currentMenuItem.elements.childMenu.focusFirstChild();
-              });
-            } else {
-              this.currentMenuItem.dom.link.click();
-            }
-          } else if (key === "Escape") {
-            preventEvent(event);
-            this.elements.rootMenu.closeChildren();
-            this.elements.rootMenu.focusCurrentChild();
-          } else if (key === "ArrowRight") {
-            if (this.currentMenuItem.isSubmenuItem) {
-              preventEvent(event);
-              this.currentMenuItem.elements.childMenu.currentEvent = "keyboard";
-              this.currentMenuItem.elements.toggle.open();
-              requestAnimationFrame(() => {
-                this.currentMenuItem.elements.childMenu.focusFirstChild();
-              });
-            } else {
-              preventEvent(event);
-              this.elements.rootMenu.closeChildren();
-              this.elements.rootMenu.focusNextChild();
-              if (this.elements.rootMenu.currentMenuItem.isSubmenuItem) {
-                this.elements.rootMenu.currentMenuItem.elements.toggle.preview();
-              }
-            }
-          } else if (key === "ArrowLeft") {
-            if (this.elements.parentMenu.currentMenuItem.isSubmenuItem) {
-              preventEvent(event);
-              this.elements.parentMenu.currentMenuItem.elements.toggle.close();
-              this.elements.parentMenu.focusCurrentChild();
-              if (this.elements.parentMenu === this.elements.rootMenu) {
-                this.elements.rootMenu.closeChildren();
-                this.elements.rootMenu.focusPreviousChild();
-                if (this.elements.rootMenu.currentMenuItem.isSubmenuItem) {
-                  this.elements.rootMenu.currentMenuItem.elements.childMenu.currentEvent =
-                    "keyboard";
-                  this.elements.rootMenu.currentMenuItem.elements.toggle.preview();
-                }
-              }
-            }
-          } else if (key === "ArrowDown") {
-            preventEvent(event);
-            this.focusNextChild();
-          } else if (key === "ArrowUp") {
-            preventEvent(event);
-            this.focusPreviousChild();
-          } else if (key === "Home") {
-            preventEvent(event);
-            this.focusFirstChild();
-          } else if (key === "End") {
-            preventEvent(event);
-            this.focusLastChild();
           }
         }
       });
     }
-    focusNextChild() {
-      if (this.currentChild === this.elements.menuItems.length - 1) {
-        this.focusFirstChild();
-      } else {
-        this.focusChild(this.currentChild + 1);
-      }
-    }
-    focusPreviousChild() {
-      if (this.currentChild === 0) {
-        this.focusLastChild();
-      } else {
-        this.focusChild(this.currentChild - 1);
-      }
-    }
-    focusNextChildWithCharacter(char) {
-      const match = char.toLowerCase();
-      let index = this.currentChild + 1;
-      let found = false;
-      while (!found && index < this.elements.menuItems.length) {
-        let text = "";
-        if (this.elements.menuItems[index].dom.item.innerText) {
-          text = this.elements.menuItems[index].dom.item.innerText;
-        } else {
-          text = this.elements.menuItems[index].dom.item.textContent;
-        }
-        text = text.replace(/[\s]/g, "").toLowerCase().charAt(0);
-        if (text === match) {
-          found = true;
-          this.focusChild(index);
-        }
-        index++;
-      }
-    }
   }
 
-  return Menubar;
+  return TopLinkDisclosureMenu;
+
 })();
-//# sourceMappingURL=menubar.js.map
+//# sourceMappingURL=top-link-disclosure-menu.js.map

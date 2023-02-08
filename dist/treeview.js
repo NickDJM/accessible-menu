@@ -1,5 +1,5 @@
 var Treeview = (function () {
-  'use strict';
+  "use strict";
 
   function _defineProperty(obj, key, value) {
     key = _toPropertyKey(key);
@@ -8,38 +8,28 @@ var Treeview = (function () {
         value: value,
         enumerable: true,
         configurable: true,
-        writable: true
+        writable: true,
       });
     } else {
       obj[key] = value;
     }
     return obj;
   }
-  function _toPrimitive(input, hint) {
-    if (typeof input !== "object" || input === null) return input;
-    var prim = input[Symbol.toPrimitive];
-    if (prim !== undefined) {
-      var res = prim.call(input, hint || "default");
-      if (typeof res !== "object") return res;
-      throw new TypeError("@@toPrimitive must return a primitive value.");
-    }
-    return (hint === "string" ? String : Number)(input);
-  }
-  function _toPropertyKey(arg) {
-    var key = _toPrimitive(arg, "string");
-    return typeof key === "symbol" ? key : String(key);
-  }
 
   function isValidInstance(contructor, elements) {
     try {
       if (typeof elements !== "object") {
         const elementsType = typeof elements;
-        throw new TypeError(`AccessibleMenu: Elements given to isValidInstance() must be inside of an object. ${elementsType} given.`);
+        throw new TypeError(
+          `AccessibleMenu: Elements given to isValidInstance() must be inside of an object. ${elementsType} given.`
+        );
       }
       for (const key in elements) {
         if (!(elements[key] instanceof contructor)) {
           const elementType = typeof elements[key];
-          throw new TypeError(`AccessibleMenu: ${key} must be an instance of ${contructor.name}. ${elementType} given.`);
+          throw new TypeError(
+            `AccessibleMenu: ${key} must be an instance of ${contructor.name}. ${elementType} given.`
+          );
         }
       }
       return true;
@@ -52,12 +42,16 @@ var Treeview = (function () {
     try {
       if (typeof values !== "object") {
         const valuesType = typeof values;
-        throw new TypeError(`AccessibleMenu: Values given to isValidType() must be inside of an object. ${valuesType} given.`);
+        throw new TypeError(
+          `AccessibleMenu: Values given to isValidType() must be inside of an object. ${valuesType} given.`
+        );
       }
       for (const key in values) {
         const valueType = typeof values[key];
         if (valueType !== type) {
-          throw new TypeError(`AccessibleMenu: ${key} must be a ${type}. ${valueType} given.`);
+          throw new TypeError(
+            `AccessibleMenu: ${key} must be a ${type}. ${valueType} given.`
+          );
         }
       }
       return true;
@@ -70,7 +64,9 @@ var Treeview = (function () {
     try {
       if (typeof values !== "object") {
         const type = typeof values;
-        throw new TypeError(`AccessibleMenu: Values given to isCSSSelector() must be inside of an object. ${type} given.`);
+        throw new TypeError(
+          `AccessibleMenu: Values given to isCSSSelector() must be inside of an object. ${type} given.`
+        );
       }
       for (const key in values) {
         try {
@@ -79,7 +75,9 @@ var Treeview = (function () {
           }
           document.querySelector(values[key]);
         } catch (error) {
-          throw new TypeError(`AccessibleMenu: ${key} must be a valid CSS selector. "${values[key]}" given.`);
+          throw new TypeError(
+            `AccessibleMenu: ${key} must be a valid CSS selector. "${values[key]}" given.`
+          );
         }
       }
       return true;
@@ -92,19 +90,25 @@ var Treeview = (function () {
     try {
       if (typeof values !== "object" || Array.isArray(values)) {
         const type = typeof values;
-        throw new TypeError(`AccessibleMenu: Values given to isValidClassList() must be inside of an object. ${type} given.`);
+        throw new TypeError(
+          `AccessibleMenu: Values given to isValidClassList() must be inside of an object. ${type} given.`
+        );
       }
       for (const key in values) {
         const type = typeof values[key];
         if (type !== "string") {
           if (Array.isArray(values[key])) {
-            values[key].forEach(value => {
+            values[key].forEach((value) => {
               if (typeof value !== "string") {
-                throw new TypeError(`AccessibleMenu: ${key} must be a string or an array of strings. An array containing non-strings given.`);
+                throw new TypeError(
+                  `AccessibleMenu: ${key} must be a string or an array of strings. An array containing non-strings given.`
+                );
               }
             });
           } else {
-            throw new TypeError(`AccessibleMenu: ${key} must be a string or an array of strings. ${type} given.`);
+            throw new TypeError(
+              `AccessibleMenu: ${key} must be a string or an array of strings. ${type} given.`
+            );
           }
         } else {
           const obj = {};
@@ -122,12 +126,18 @@ var Treeview = (function () {
     try {
       if (typeof values !== "object") {
         const type = typeof values;
-        throw new TypeError(`AccessibleMenu: Values given to isValidState() must be inside of an object. ${type} given.`);
+        throw new TypeError(
+          `AccessibleMenu: Values given to isValidState() must be inside of an object. ${type} given.`
+        );
       }
       const validStates = ["none", "self", "child"];
       for (const key in values) {
         if (!validStates.includes(values[key])) {
-          throw new TypeError(`AccessibleMenu: ${key} must be one of the following values: ${validStates.join(", ")}. "${values[key]}" given.`);
+          throw new TypeError(
+            `AccessibleMenu: ${key} must be one of the following values: ${validStates.join(
+              ", "
+            )}. "${values[key]}" given.`
+          );
         }
       }
       return true;
@@ -140,12 +150,18 @@ var Treeview = (function () {
     try {
       if (typeof values !== "object") {
         const type = typeof values;
-        throw new TypeError(`AccessibleMenu: Values given to isValidEvent() must be inside of an object. ${type} given.`);
+        throw new TypeError(
+          `AccessibleMenu: Values given to isValidEvent() must be inside of an object. ${type} given.`
+        );
       }
       const validEvents = ["none", "mouse", "keyboard", "character"];
       for (const key in values) {
         if (!validEvents.includes(values[key])) {
-          throw new TypeError(`AccessibleMenu: ${key} must be one of the following values: ${validEvents.join(", ")}. "${values[key]}" given.`);
+          throw new TypeError(
+            `AccessibleMenu: ${key} must be one of the following values: ${validEvents.join(
+              ", "
+            )}. "${values[key]}" given.`
+          );
         }
       }
       return true;
@@ -158,12 +174,18 @@ var Treeview = (function () {
     try {
       if (typeof values !== "object") {
         const type = typeof values;
-        throw new TypeError(`AccessibleMenu: Values given to isValidHoverType() must be inside of an object. ${type} given.`);
+        throw new TypeError(
+          `AccessibleMenu: Values given to isValidHoverType() must be inside of an object. ${type} given.`
+        );
       }
       const validTypes = ["off", "on", "dynamic"];
       for (const key in values) {
         if (!validTypes.includes(values[key])) {
-          throw new TypeError(`AccessibleMenu: ${key} must be one of the following values: ${validTypes.join(", ")}. "${values[key]}" given.`);
+          throw new TypeError(
+            `AccessibleMenu: ${key} must be one of the following values: ${validTypes.join(
+              ", "
+            )}. "${values[key]}" given.`
+          );
         }
       }
       return true;
@@ -173,9 +195,12 @@ var Treeview = (function () {
     }
   }
   function isTag(tagName, elements) {
-    if (isValidType("string", {
-      tagName
-    }) && isValidInstance(HTMLElement, elements)) {
+    if (
+      isValidType("string", {
+        tagName,
+      }) &&
+      isValidInstance(HTMLElement, elements)
+    ) {
       const tag = tagName.toLowerCase();
       let check = true;
       for (const key in elements) {
@@ -193,29 +218,37 @@ var Treeview = (function () {
         menuToggleElement,
         parentElement,
         controlledMenu,
-        parentMenu = null
+        parentMenu = null,
       } = _ref;
       _defineProperty(this, "_dom", {
         toggle: null,
-        parent: null
+        parent: null,
       });
       _defineProperty(this, "_elements", {
         controlledMenu: null,
-        parentMenu: null
+        parentMenu: null,
       });
       _defineProperty(this, "_open", false);
-      _defineProperty(this, "_expandEvent", new CustomEvent("accessibleMenuExpand", {
-        bubbles: true,
-        detail: {
-          toggle: this
-        }
-      }));
-      _defineProperty(this, "_collapseEvent", new CustomEvent("accessibleMenuCollapse", {
-        bubbles: true,
-        detail: {
-          toggle: this
-        }
-      }));
+      _defineProperty(
+        this,
+        "_expandEvent",
+        new CustomEvent("accessibleMenuExpand", {
+          bubbles: true,
+          detail: {
+            toggle: this,
+          },
+        })
+      );
+      _defineProperty(
+        this,
+        "_collapseEvent",
+        new CustomEvent("accessibleMenuCollapse", {
+          bubbles: true,
+          detail: {
+            toggle: this,
+          },
+        })
+      );
       this._dom.toggle = menuToggleElement;
       this._dom.parent = parentElement;
       this._elements.controlledMenu = controlledMenu;
@@ -224,17 +257,30 @@ var Treeview = (function () {
     initialize() {
       this.dom.toggle.setAttribute("aria-haspopup", "true");
       this.dom.toggle.setAttribute("aria-expanded", "false");
-      if (!isTag("button", {
-        toggle: this.dom.toggle
-      })) {
+      if (
+        !isTag("button", {
+          toggle: this.dom.toggle,
+        })
+      ) {
         this.dom.toggle.setAttribute("role", "button");
       }
-      if (this.dom.toggle.id === "" || this.elements.controlledMenu.dom.menu.id === "") {
-        const randomString = Math.random().toString(36).replace(/[^a-z]+/g, "").substr(0, 10);
+      if (
+        this.dom.toggle.id === "" ||
+        this.elements.controlledMenu.dom.menu.id === ""
+      ) {
+        const randomString = Math.random()
+          .toString(36)
+          .replace(/[^a-z]+/g, "")
+          .substr(0, 10);
         let id = this.dom.toggle.innerText.replace(/[^a-zA-Z0-9\s]/g, "");
         let finalID = randomString;
-        if (!id.replace(/\s/g, "").length && this.dom.toggle.getAttribute("aria-label")) {
-          id = this.dom.toggle.getAttribute("aria-label").replace(/[^a-zA-Z0-9\s]/g, "");
+        if (
+          !id.replace(/\s/g, "").length &&
+          this.dom.toggle.getAttribute("aria-label")
+        ) {
+          id = this.dom.toggle
+            .getAttribute("aria-label")
+            .replace(/[^a-zA-Z0-9\s]/g, "");
         }
         if (id.replace(/\s/g, "").length > 0) {
           id = id.toLowerCase().replace(/\s+/g, "-");
@@ -247,10 +293,17 @@ var Treeview = (function () {
           finalID = `${id}-${finalID}`;
         }
         this.dom.toggle.id = this.dom.toggle.id || `${finalID}-menu-button`;
-        this.elements.controlledMenu.dom.menu.id = this.elements.controlledMenu.dom.menu.id || `${finalID}-menu`;
+        this.elements.controlledMenu.dom.menu.id =
+          this.elements.controlledMenu.dom.menu.id || `${finalID}-menu`;
       }
-      this.elements.controlledMenu.dom.menu.setAttribute("aria-labelledby", this.dom.toggle.id);
-      this.dom.toggle.setAttribute("aria-controls", this.elements.controlledMenu.dom.menu.id);
+      this.elements.controlledMenu.dom.menu.setAttribute(
+        "aria-labelledby",
+        this.dom.toggle.id
+      );
+      this.dom.toggle.setAttribute(
+        "aria-controls",
+        this.elements.controlledMenu.dom.menu.id
+      );
       this._collapse(false);
     }
     get dom() {
@@ -264,16 +317,16 @@ var Treeview = (function () {
     }
     set isOpen(value) {
       isValidType("boolean", {
-        value
+        value,
       });
       this._open = value;
     }
     _expand() {
-      let emit = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
-      const {
-        closeClass,
-        openClass
-      } = this.elements.controlledMenu;
+      let emit =
+        arguments.length > 0 && arguments[0] !== undefined
+          ? arguments[0]
+          : true;
+      const { closeClass, openClass } = this.elements.controlledMenu;
       this.dom.toggle.setAttribute("aria-expanded", "true");
       if (openClass !== "") {
         if (typeof openClass === "string") {
@@ -294,11 +347,11 @@ var Treeview = (function () {
       }
     }
     _collapse() {
-      let emit = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
-      const {
-        closeClass,
-        openClass
-      } = this.elements.controlledMenu;
+      let emit =
+        arguments.length > 0 && arguments[0] !== undefined
+          ? arguments[0]
+          : true;
+      const { closeClass, openClass } = this.elements.controlledMenu;
       this.dom.toggle.setAttribute("aria-expanded", "false");
       if (closeClass !== "") {
         if (typeof closeClass === "string") {
@@ -350,13 +403,15 @@ var Treeview = (function () {
     }
     closeSiblings() {
       if (this.elements.parentMenu) {
-        this.elements.parentMenu.elements.submenuToggles.forEach(toggle => {
+        this.elements.parentMenu.elements.submenuToggles.forEach((toggle) => {
           if (toggle !== this) toggle.close();
         });
       }
     }
     closeChildren() {
-      this.elements.controlledMenu.elements.submenuToggles.forEach(toggle => toggle.close());
+      this.elements.controlledMenu.elements.submenuToggles.forEach((toggle) =>
+        toggle.close()
+      );
     }
   }
 
@@ -368,16 +423,16 @@ var Treeview = (function () {
         parentMenu,
         isSubmenuItem = false,
         childMenu = null,
-        toggle = null
+        toggle = null,
       } = _ref;
       _defineProperty(this, "_dom", {
         item: null,
-        link: null
+        link: null,
       });
       _defineProperty(this, "_elements", {
         parentMenu: null,
         childMenu: null,
-        toggle: null
+        toggle: null,
       });
       _defineProperty(this, "_submenu", false);
       this._dom.item = menuItemElement;
@@ -424,9 +479,9 @@ var Treeview = (function () {
         End: key === "End" || key === 35,
         Character: isNaN(key) && !!key.match(/^[a-zA-Z]{1}$/),
         Tab: key === "Tab" || key === 9,
-        Asterisk: key === "*" || key === 56
+        Asterisk: key === "*" || key === 56,
       };
-      return Object.keys(keys).find(key => keys[key] === true) || "";
+      return Object.keys(keys).find((key) => keys[key] === true) || "";
     } catch (error) {
       return "";
     }
@@ -452,7 +507,7 @@ var Treeview = (function () {
         isTopLevel = true,
         parentMenu = null,
         hoverType = "off",
-        hoverDelay = 250
+        hoverDelay = 250,
       } = _ref;
       _defineProperty(this, "_MenuType", BaseMenu);
       _defineProperty(this, "_MenuItemType", BaseMenuItem);
@@ -464,21 +519,21 @@ var Treeview = (function () {
         submenuToggles: [],
         submenus: [],
         controller: null,
-        container: null
+        container: null,
       });
       _defineProperty(this, "_selectors", {
         menuItems: "",
         menuLinks: "",
         submenuItems: "",
         submenuToggles: "",
-        submenus: ""
+        submenus: "",
       });
       _defineProperty(this, "_elements", {
         menuItems: [],
         submenuToggles: [],
         controller: null,
         parentMenu: null,
-        rootMenu: null
+        rootMenu: null,
       });
       _defineProperty(this, "_openClass", "show");
       _defineProperty(this, "_closeClass", "hide");
@@ -509,7 +564,9 @@ var Treeview = (function () {
     }
     initialize() {
       if (!this._validate()) {
-        throw new Error("AccesibleMenu: cannot initialize menu. See other error messages for more information.");
+        throw new Error(
+          "AccesibleMenu: cannot initialize menu. See other error messages for more information."
+        );
       }
       if (this.elements.rootMenu === null) this._findRootMenu(this);
       this._setDOMElements();
@@ -518,7 +575,7 @@ var Treeview = (function () {
           const toggle = new this._MenuToggleType({
             menuToggleElement: this.dom.controller,
             parentElement: this.dom.container,
-            controlledMenu: this
+            controlledMenu: this,
           });
           this._elements.controller = toggle;
         }
@@ -538,10 +595,14 @@ var Treeview = (function () {
       return this._root;
     }
     get openClass() {
-      return this.isTopLevel ? this._openClass : this.elements.rootMenu.openClass;
+      return this.isTopLevel
+        ? this._openClass
+        : this.elements.rootMenu.openClass;
     }
     get closeClass() {
-      return this.isTopLevel ? this._closeClass : this.elements.rootMenu.closeClass;
+      return this.isTopLevel
+        ? this._closeClass
+        : this.elements.rootMenu.closeClass;
     }
     get currentChild() {
       return this._currentChild;
@@ -563,7 +624,10 @@ var Treeview = (function () {
     }
     get shouldFocus() {
       let check = false;
-      if (this.currentEvent === "keyboard" || this.currentEvent === "character") {
+      if (
+        this.currentEvent === "keyboard" ||
+        this.currentEvent === "character"
+      ) {
         check = true;
       }
       if (this.currentEvent === "mouse" && this.hoverType === "dynamic") {
@@ -573,7 +637,7 @@ var Treeview = (function () {
     }
     set openClass(value) {
       isValidClassList({
-        openClass: value
+        openClass: value,
       });
       if (this._openClass !== value) {
         this._openClass = value;
@@ -581,7 +645,7 @@ var Treeview = (function () {
     }
     set closeClass(value) {
       isValidClassList({
-        closeClass: value
+        closeClass: value,
       });
       if (this._closeClass !== value) {
         this._closeClass = value;
@@ -589,16 +653,25 @@ var Treeview = (function () {
     }
     set currentChild(value) {
       isValidType("number", {
-        value
+        value,
       });
       function setParentChild(menu) {
         const updateEvents = ["mouse", "character"];
-        if (updateEvents.includes(menu.currentEvent) && menu.elements.parentMenu) {
+        if (
+          updateEvents.includes(menu.currentEvent) &&
+          menu.elements.parentMenu
+        ) {
           let index = 0;
           let found = false;
-          while (!found && index < menu.elements.parentMenu.elements.menuItems.length) {
+          while (
+            !found &&
+            index < menu.elements.parentMenu.elements.menuItems.length
+          ) {
             const menuItem = menu.elements.parentMenu.elements.menuItems[index];
-            if (menuItem.isSubmenuItem && menuItem.elements.toggle.elements.controlledMenu === menu) {
+            if (
+              menuItem.isSubmenuItem &&
+              menuItem.elements.toggle.elements.controlledMenu === menu
+            ) {
               found = true;
               menu.elements.parentMenu.currentEvent = menu.currentEvent;
               menu.elements.parentMenu.currentChild = index;
@@ -620,13 +693,16 @@ var Treeview = (function () {
     }
     set focusState(value) {
       isValidState({
-        value
+        value,
       });
       if (this._focusState !== value) {
         this._focusState = value;
       }
-      if (this.elements.submenuToggles.length > 0 && (value === "self" || value === "none")) {
-        this.elements.submenuToggles.forEach(toggle => {
+      if (
+        this.elements.submenuToggles.length > 0 &&
+        (value === "self" || value === "none")
+      ) {
+        this.elements.submenuToggles.forEach((toggle) => {
           toggle.elements.controlledMenu.focusState = "none";
         });
       }
@@ -636,12 +712,12 @@ var Treeview = (function () {
     }
     set currentEvent(value) {
       isValidEvent({
-        value
+        value,
       });
       if (this._currentEvent !== value) {
         this._currentEvent = value;
         if (this.elements.submenuToggles.length > 0) {
-          this.elements.submenuToggles.forEach(submenuToggle => {
+          this.elements.submenuToggles.forEach((submenuToggle) => {
             submenuToggle.elements.controlledMenu.currentEvent = value;
           });
         }
@@ -649,7 +725,7 @@ var Treeview = (function () {
     }
     set hoverType(value) {
       isValidHoverType({
-        value
+        value,
       });
       if (this._hoverType !== value) {
         this._hoverType = value;
@@ -657,7 +733,7 @@ var Treeview = (function () {
     }
     set hoverDelay(value) {
       isValidType("number", {
-        value
+        value,
       });
       if (this._hoverDelay !== value) {
         this._hoverDelay = value;
@@ -666,95 +742,140 @@ var Treeview = (function () {
     _validate() {
       let check = true;
       if (this._dom.container !== null || this._dom.controller !== null) {
-        if (!isValidInstance(HTMLElement, {
-          menuElement: this._dom.menu,
-          controllerElement: this._dom.controller,
-          containerElement: this._dom.container
-        })) {
+        if (
+          !isValidInstance(HTMLElement, {
+            menuElement: this._dom.menu,
+            controllerElement: this._dom.controller,
+            containerElement: this._dom.container,
+          })
+        ) {
           check = false;
         }
-      } else if (!isValidInstance(HTMLElement, {
-        menuElement: this._dom.menu
-      })) {
+      } else if (
+        !isValidInstance(HTMLElement, {
+          menuElement: this._dom.menu,
+        })
+      ) {
         check = false;
       }
       if (this._selectors.submenuItems !== "") {
-        if (!isCSSSelector({
-          menuItemSelector: this._selectors.menuItems,
-          menuLinkSelector: this._selectors.menuLinks,
-          submenuItemSelector: this._selectors.submenuItems,
-          submenuToggleSelector: this._selectors.submenuToggles,
-          submenuSelector: this._selectors.submenus
-        })) {
+        if (
+          !isCSSSelector({
+            menuItemSelector: this._selectors.menuItems,
+            menuLinkSelector: this._selectors.menuLinks,
+            submenuItemSelector: this._selectors.submenuItems,
+            submenuToggleSelector: this._selectors.submenuToggles,
+            submenuSelector: this._selectors.submenus,
+          })
+        ) {
           check = false;
         }
-      } else if (!isCSSSelector({
-        menuItemSelector: this._selectors.menuItems,
-        menuLinkSelector: this._selectors.menuLinks
-      })) {
+      } else if (
+        !isCSSSelector({
+          menuItemSelector: this._selectors.menuItems,
+          menuLinkSelector: this._selectors.menuLinks,
+        })
+      ) {
         check = false;
       }
-      if (this._openClass !== "" && !isValidClassList({
-        openClass: this._openClass
-      })) {
+      if (
+        this._openClass !== "" &&
+        !isValidClassList({
+          openClass: this._openClass,
+        })
+      ) {
         check = false;
       }
-      if (this._closeClass !== "" && !isValidClassList({
-        closeClass: this._closeClass
-      })) {
+      if (
+        this._closeClass !== "" &&
+        !isValidClassList({
+          closeClass: this._closeClass,
+        })
+      ) {
         check = false;
       }
-      if (!isValidType("boolean", {
-        isTopLevel: this._root
-      })) {
+      if (
+        !isValidType("boolean", {
+          isTopLevel: this._root,
+        })
+      ) {
         check = false;
       }
-      if (this._elements.parentMenu !== null && !isValidInstance(BaseMenu, {
-        parentMenu: this._elements.parentMenu
-      })) {
+      if (
+        this._elements.parentMenu !== null &&
+        !isValidInstance(BaseMenu, {
+          parentMenu: this._elements.parentMenu,
+        })
+      ) {
         check = false;
       }
-      if (!isValidHoverType({
-        hoverType: this._hoverType
-      })) {
+      if (
+        !isValidHoverType({
+          hoverType: this._hoverType,
+        })
+      ) {
         check = false;
       }
-      if (!isValidType("number", {
-        hoverDelay: this._hoverDelay
-      })) {
+      if (
+        !isValidType("number", {
+          hoverDelay: this._hoverDelay,
+        })
+      ) {
         check = false;
       }
       return check;
     }
     _setDOMElementType(elementType) {
-      let base = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.dom.menu;
-      let overwrite = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+      let base =
+        arguments.length > 1 && arguments[1] !== undefined
+          ? arguments[1]
+          : this.dom.menu;
+      let overwrite =
+        arguments.length > 2 && arguments[2] !== undefined
+          ? arguments[2]
+          : true;
       if (typeof this.selectors[elementType] === "string") {
         if (!Array.isArray(this.dom[elementType])) {
-          throw new Error(`AccessibleMenu: The "${elementType}" element cannot be set through _setDOMElementType.`);
+          throw new Error(
+            `AccessibleMenu: The "${elementType}" element cannot be set through _setDOMElementType.`
+          );
         }
-        if (base !== this.dom.menu) isValidInstance(HTMLElement, {
-          base
-        });
-        const domElements = Array.from(base.querySelectorAll(this.selectors[elementType]));
-        const filteredElements = domElements.filter(item => item.parentElement === base);
+        if (base !== this.dom.menu)
+          isValidInstance(HTMLElement, {
+            base,
+          });
+        const domElements = Array.from(
+          base.querySelectorAll(this.selectors[elementType])
+        );
+        const filteredElements = domElements.filter(
+          (item) => item.parentElement === base
+        );
         if (overwrite) {
           this._dom[elementType] = filteredElements;
         } else {
-          this._dom[elementType] = [...this._dom[elementType], ...filteredElements];
+          this._dom[elementType] = [
+            ...this._dom[elementType],
+            ...filteredElements,
+          ];
         }
       } else {
-        throw new Error(`AccessibleMenu: "${elementType}" is not a valid element type within the menu.`);
+        throw new Error(
+          `AccessibleMenu: "${elementType}" is not a valid element type within the menu.`
+        );
       }
     }
     _resetDOMElementType(elementType) {
       if (typeof this.dom[elementType] !== "undefined") {
         if (!Array.isArray(this.dom[elementType])) {
-          throw new Error(`AccessibleMenu: The "${elementType}" element cannot be reset through _resetDOMElementType.`);
+          throw new Error(
+            `AccessibleMenu: The "${elementType}" element cannot be reset through _resetDOMElementType.`
+          );
         }
         this._dom[elementType] = [];
       } else {
-        throw new Error(`AccessibleMenu: "${elementType}" is not a valid element type within the menu.`);
+        throw new Error(
+          `AccessibleMenu: "${elementType}" is not a valid element type within the menu.`
+        );
       }
     }
     _setDOMElements() {
@@ -763,7 +884,7 @@ var Treeview = (function () {
         this._setDOMElementType("submenuItems");
         this._resetDOMElementType("submenuToggles");
         this._resetDOMElementType("submenus");
-        this.dom.submenuItems.forEach(item => {
+        this.dom.submenuItems.forEach((item) => {
           this._setDOMElementType("submenuToggles", item, false);
           this._setDOMElementType("submenus", item, false);
         });
@@ -779,7 +900,7 @@ var Treeview = (function () {
       }
     }
     _createChildElements() {
-      this.dom.menuItems.forEach(element => {
+      this.dom.menuItems.forEach((element) => {
         let menuItem;
         if (this.dom.submenuItems.includes(element)) {
           const toggler = element.querySelector(this.selectors.submenuToggles);
@@ -796,13 +917,13 @@ var Treeview = (function () {
             isTopLevel: false,
             parentMenu: this,
             hoverType: this.hoverType,
-            hoverDelay: this.hoverDelay
+            hoverDelay: this.hoverDelay,
           });
           const toggle = new this._MenuToggleType({
             menuToggleElement: toggler,
             parentElement: element,
             controlledMenu: menu,
-            parentMenu: this
+            parentMenu: this,
           });
           this._elements.submenuToggles.push(toggle);
           menuItem = new this._MenuItemType({
@@ -811,14 +932,14 @@ var Treeview = (function () {
             parentMenu: this,
             isSubmenuItem: true,
             childMenu: menu,
-            toggle
+            toggle,
           });
         } else {
           const link = element.querySelector(this.selectors.menuLinks);
           menuItem = new this._MenuItemType({
             menuItemElement: element,
             menuLinkElement: link,
-            parentMenu: this
+            parentMenu: this,
           });
         }
         this._elements.menuItems.push(menuItem);
@@ -842,30 +963,40 @@ var Treeview = (function () {
         }
       }
       this.elements.menuItems.forEach((item, index) => {
-        item.dom.link.addEventListener("pointerdown", () => {
-          this.currentEvent = "mouse";
-          this.elements.rootMenu.blurChildren();
-          this.focusChild(index);
-        }, {
-          passive: true
-        });
-        if (item.isSubmenuItem) {
-          item.elements.toggle.dom.toggle.addEventListener("pointerup", event => {
+        item.dom.link.addEventListener(
+          "pointerdown",
+          () => {
             this.currentEvent = "mouse";
-            toggleToggle(this, item.elements.toggle, event);
-          });
+            this.elements.rootMenu.blurChildren();
+            this.focusChild(index);
+          },
+          {
+            passive: true,
+          }
+        );
+        if (item.isSubmenuItem) {
+          item.elements.toggle.dom.toggle.addEventListener(
+            "pointerup",
+            (event) => {
+              this.currentEvent = "mouse";
+              toggleToggle(this, item.elements.toggle, event);
+            }
+          );
         }
       });
       if (this.isTopLevel && this.elements.controller) {
-        this.elements.controller.dom.toggle.addEventListener("pointerup", event => {
-          this.currentEvent = "mouse";
-          toggleToggle(this, this.elements.controller, event);
-        });
+        this.elements.controller.dom.toggle.addEventListener(
+          "pointerup",
+          (event) => {
+            this.currentEvent = "mouse";
+            toggleToggle(this, this.elements.controller, event);
+          }
+        );
       }
     }
     _handleHover() {
       this.elements.menuItems.forEach((menuItem, index) => {
-        menuItem.dom.link.addEventListener("pointerenter", event => {
+        menuItem.dom.link.addEventListener("pointerenter", (event) => {
           if (event.pointerType === "pen" || event.pointerType === "touch") {
             return;
           }
@@ -876,7 +1007,9 @@ var Treeview = (function () {
               menuItem.elements.toggle.preview();
             }
           } else if (this.hoverType === "dynamic") {
-            const isOpen = this.elements.submenuToggles.some(toggle => toggle.isOpen);
+            const isOpen = this.elements.submenuToggles.some(
+              (toggle) => toggle.isOpen
+            );
             this.currentChild = index;
             if (!this.isTopLevel || this.focusState !== "none") {
               this.currentEvent = "mouse";
@@ -889,7 +1022,7 @@ var Treeview = (function () {
           }
         });
         if (menuItem.isSubmenuItem) {
-          menuItem.dom.item.addEventListener("pointerleave", event => {
+          menuItem.dom.item.addEventListener("pointerleave", (event) => {
             if (event.pointerType === "pen" || event.pointerType === "touch") {
               return;
             }
@@ -924,26 +1057,32 @@ var Treeview = (function () {
     }
     _handleKeydown() {
       if (this.isTopLevel && this.elements.controller) {
-        this.elements.controller.dom.toggle.addEventListener("keydown", event => {
-          this.currentEvent = "keyboard";
-          const key = keyPress(event);
-          if (key === "Space" || key === "Enter") {
-            preventEvent(event);
+        this.elements.controller.dom.toggle.addEventListener(
+          "keydown",
+          (event) => {
+            this.currentEvent = "keyboard";
+            const key = keyPress(event);
+            if (key === "Space" || key === "Enter") {
+              preventEvent(event);
+            }
           }
-        });
+        );
       }
     }
     _handleKeyup() {
       if (this.isTopLevel && this.elements.controller) {
-        this.elements.controller.dom.toggle.addEventListener("keyup", event => {
-          this.currentEvent = "keyboard";
-          const key = keyPress(event);
-          if (key === "Space" || key === "Enter") {
-            preventEvent(event);
-            this.elements.controller.open();
-            this.focusFirstChild();
+        this.elements.controller.dom.toggle.addEventListener(
+          "keyup",
+          (event) => {
+            this.currentEvent = "keyboard";
+            const key = keyPress(event);
+            if (key === "Space" || key === "Enter") {
+              preventEvent(event);
+              this.elements.controller.open();
+              this.focusFirstChild();
+            }
           }
-        });
+        );
       }
     }
     focus() {
@@ -1012,10 +1151,10 @@ var Treeview = (function () {
       }
     }
     closeChildren() {
-      this.elements.submenuToggles.forEach(toggle => toggle.close());
+      this.elements.submenuToggles.forEach((toggle) => toggle.close());
     }
     blurChildren() {
-      this.elements.menuItems.forEach(menuItem => {
+      this.elements.menuItems.forEach((menuItem) => {
         menuItem.blur();
         if (menuItem.isSubmenuItem) {
           menuItem.elements.childMenu.blurChildren();
@@ -1033,7 +1172,7 @@ var Treeview = (function () {
         isSubmenuItem = false,
         childMenu = null,
         toggle = null,
-        initialize = true
+        initialize = true,
       } = _ref;
       super({
         menuItemElement,
@@ -1041,7 +1180,7 @@ var Treeview = (function () {
         parentMenu,
         isSubmenuItem,
         childMenu,
-        toggle
+        toggle,
       });
       if (initialize) {
         this.initialize();
@@ -1070,13 +1209,13 @@ var Treeview = (function () {
         parentElement,
         controlledMenu,
         parentMenu = null,
-        initialize = true
+        initialize = true,
       } = _ref;
       super({
         menuToggleElement,
         parentElement,
         controlledMenu,
-        parentMenu
+        parentMenu,
       });
       if (initialize) {
         this.initialize();
@@ -1101,7 +1240,7 @@ var Treeview = (function () {
         parentMenu = null,
         hoverType = "off",
         hoverDelay = 250,
-        initialize = true
+        initialize = true,
       } = _ref;
       super({
         menuElement,
@@ -1117,7 +1256,7 @@ var Treeview = (function () {
         isTopLevel,
         parentMenu,
         hoverType,
-        hoverDelay
+        hoverDelay,
       });
       _defineProperty(this, "_MenuType", Treeview);
       _defineProperty(this, "_MenuItemType", TreeviewItem);
@@ -1146,7 +1285,7 @@ var Treeview = (function () {
     }
     _handleKeydown() {
       super._handleKeydown();
-      this.dom.menu.addEventListener("keydown", event => {
+      this.dom.menu.addEventListener("keydown", (event) => {
         this.currentEvent = "keyboard";
         const key = keyPress(event);
         if (key === "Tab") {
@@ -1157,12 +1296,23 @@ var Treeview = (function () {
           }
         }
         if (this.focusState === "self") {
-          const keys = ["Space", "ArrowUp", "ArrowDown", "ArrowLeft", "Asterisk", "Home", "End"];
+          const keys = [
+            "Space",
+            "ArrowUp",
+            "ArrowDown",
+            "ArrowLeft",
+            "Asterisk",
+            "Home",
+            "End",
+          ];
           const submenuKeys = ["Enter", "ArrowRight"];
           const controllerKeys = ["Escape"];
           if (keys.includes(key)) {
             preventEvent(event);
-          } else if (this.currentMenuItem.isSubmenuItem && submenuKeys.includes(key)) {
+          } else if (
+            this.currentMenuItem.isSubmenuItem &&
+            submenuKeys.includes(key)
+          ) {
             preventEvent(event);
           } else if (this.elements.controller && controllerKeys.includes(key)) {
             preventEvent(event);
@@ -1172,14 +1322,10 @@ var Treeview = (function () {
     }
     _handleKeyup() {
       super._handleKeyup();
-      this.dom.menu.addEventListener("keyup", event => {
+      this.dom.menu.addEventListener("keyup", (event) => {
         this.currentEvent = "keyboard";
         const key = keyPress(event);
-        const {
-          altKey,
-          crtlKey,
-          metaKey
-        } = event;
+        const { altKey, crtlKey, metaKey } = event;
         const modifier = altKey || crtlKey || metaKey;
         if (key === "Character" && !modifier) {
           preventEvent(event);
@@ -1198,28 +1344,45 @@ var Treeview = (function () {
               this.currentMenuItem.dom.link.click();
             }
           } else if (key === "Escape") {
-            if (this.isTopLevel && this.elements.controller && this.elements.controller.isOpen) {
+            if (
+              this.isTopLevel &&
+              this.elements.controller &&
+              this.elements.controller.isOpen
+            ) {
               this.elements.controller.close();
               this.focusController();
             }
           } else if (key === "ArrowDown") {
             preventEvent(event);
-            if (this.currentMenuItem.isSubmenuItem && this.currentMenuItem.elements.toggle.isOpen) {
+            if (
+              this.currentMenuItem.isSubmenuItem &&
+              this.currentMenuItem.elements.toggle.isOpen
+            ) {
               this.blurCurrentChild();
-              this.currentMenuItem.elements.childMenu.currentEvent = this.currentEvent;
+              this.currentMenuItem.elements.childMenu.currentEvent =
+                this.currentEvent;
               this.currentMenuItem.elements.childMenu.focusFirstChild();
-            } else if (!this.isTopLevel && this.currentChild === this.elements.menuItems.length - 1) {
+            } else if (
+              !this.isTopLevel &&
+              this.currentChild === this.elements.menuItems.length - 1
+            ) {
               this.focusParentsNextChild();
             } else {
               this.focusNextChild();
             }
           } else if (key === "ArrowUp") {
             preventEvent(event);
-            const previousMenuItem = this.elements.menuItems[this.currentChild - 1];
-            if (previousMenuItem && previousMenuItem.isSubmenuItem && previousMenuItem.elements.toggle.isOpen) {
+            const previousMenuItem =
+              this.elements.menuItems[this.currentChild - 1];
+            if (
+              previousMenuItem &&
+              previousMenuItem.isSubmenuItem &&
+              previousMenuItem.elements.toggle.isOpen
+            ) {
               this.blurCurrentChild();
               this.currentChild = this.currentChild - 1;
-              this.currentMenuItem.elements.childMenu.currentEvent = this.currentEvent;
+              this.currentMenuItem.elements.childMenu.currentEvent =
+                this.currentEvent;
               this.focusChildsLastNode();
             } else if (!this.isTopLevel && this.currentChild === 0) {
               this.blurCurrentChild();
@@ -1233,7 +1396,8 @@ var Treeview = (function () {
               preventEvent(event);
               if (this.currentMenuItem.elements.toggle.isOpen) {
                 this.blurCurrentChild();
-                this.currentMenuItem.elements.childMenu.currentEvent = this.currentEvent;
+                this.currentMenuItem.elements.childMenu.currentEvent =
+                  this.currentEvent;
                 this.currentMenuItem.elements.childMenu.focusFirstChild();
               } else {
                 this.currentMenuItem.elements.toggle.preview();
@@ -1241,7 +1405,10 @@ var Treeview = (function () {
             }
           } else if (key === "ArrowLeft") {
             preventEvent(event);
-            if (this.currentMenuItem.isSubmenuItem && this.currentMenuItem.elements.toggle.isOpen) {
+            if (
+              this.currentMenuItem.isSubmenuItem &&
+              this.currentMenuItem.elements.toggle.isOpen
+            ) {
               this.currentMenuItem.elements.childMenu.blurCurrentChild();
               this.currentMenuItem.elements.toggle.close();
             } else if (!this.isTopLevel) {
@@ -1276,15 +1443,20 @@ var Treeview = (function () {
       }
     }
     openChildren() {
-      this.elements.submenuToggles.forEach(toggle => toggle.preview());
+      this.elements.submenuToggles.forEach((toggle) => toggle.preview());
     }
     focusNextNodeWithCharacter(char) {
       function getOpenMenuItems(menu) {
         let menuItems = [];
-        menu.elements.menuItems.forEach(menuItem => {
+        menu.elements.menuItems.forEach((menuItem) => {
           menuItems.push(menuItem);
           if (menuItem.isSubmenuItem && menuItem.elements.toggle.isOpen) {
-            menuItems = [...menuItems, ...getOpenMenuItems(menuItem.elements.toggle.elements.controlledMenu)];
+            menuItems = [
+              ...menuItems,
+              ...getOpenMenuItems(
+                menuItem.elements.toggle.elements.controlledMenu
+              ),
+            ];
           }
         });
         return menuItems;
@@ -1292,7 +1464,10 @@ var Treeview = (function () {
       const match = char.toLowerCase();
       const menuItems = getOpenMenuItems(this.elements.rootMenu);
       const currentItem = menuItems.indexOf(this.currentMenuItem) + 1;
-      const sortedMenuItems = [...menuItems.slice(currentItem), ...menuItems.slice(0, currentItem)];
+      const sortedMenuItems = [
+        ...menuItems.slice(currentItem),
+        ...menuItems.slice(0, currentItem),
+      ];
       let ctr = 0;
       let found = false;
       while (!found && ctr < sortedMenuItems.length) {
@@ -1316,7 +1491,10 @@ var Treeview = (function () {
     focusParentsNextChild() {
       if (!this.elements.parentMenu) return;
       this.elements.parentMenu.currentEvent = this.currentEvent;
-      if (this.elements.parentMenu.currentChild === this.elements.parentMenu.elements.menuItems.length - 1) {
+      if (
+        this.elements.parentMenu.currentChild ===
+        this.elements.parentMenu.elements.menuItems.length - 1
+      ) {
         this.elements.parentMenu.blurCurrentChild();
         this.elements.parentMenu.focusParentsNextChild();
       } else {
@@ -1327,7 +1505,11 @@ var Treeview = (function () {
     focusChildsLastNode() {
       this.currentMenuItem.elements.childMenu.currentEvent = this.currentEvent;
       this.currentMenuItem.elements.childMenu.focusLastChild();
-      if (this.currentMenuItem.elements.childMenu.currentMenuItem.isSubmenuItem && this.currentMenuItem.elements.childMenu.currentMenuItem.elements.toggle.isOpen) {
+      if (
+        this.currentMenuItem.elements.childMenu.currentMenuItem.isSubmenuItem &&
+        this.currentMenuItem.elements.childMenu.currentMenuItem.elements.toggle
+          .isOpen
+      ) {
         this.currentMenuItem.elements.childMenu.blurCurrentChild();
         this.currentMenuItem.elements.childMenu.focusChildsLastNode();
       }
@@ -1335,6 +1517,5 @@ var Treeview = (function () {
   }
 
   return Treeview;
-
 })();
 //# sourceMappingURL=treeview.js.map

@@ -87,6 +87,38 @@ export default [
     ],
   },
   {
+    input: "./src/topLinkDisclosureMenu.js",
+    plugins: [babel({ babelHelpers: "bundled" }), cleanup()],
+    output: [
+      {
+        name: "TopLinkDisclosureMenu",
+        format: "iife",
+        sourcemap: true,
+        file: "dist/top-link-disclosure-menu.js",
+      },
+      {
+        name: "TopLinkDisclosureMenu",
+        format: "iife",
+        sourcemap: true,
+        file: "dist/top-link-disclosure-menu.min.js",
+        plugins: [terser()],
+      },
+      {
+        name: "TopLinkDisclosureMenu",
+        format: "esm",
+        sourcemap: true,
+        file: "dist/top-link-disclosure-menu.esm.js",
+      },
+      {
+        name: "TopLinkDisclosureMenu",
+        format: "esm",
+        sourcemap: true,
+        file: "dist/top-link-disclosure-menu.esm.min.js",
+        plugins: [terser()],
+      },
+    ],
+  },
+  {
     input: "./src/treeview.js",
     plugins: [babel({ babelHelpers: "bundled" }), cleanup()],
     output: [
