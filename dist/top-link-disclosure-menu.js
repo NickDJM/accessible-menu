@@ -1,4 +1,4 @@
-var Menubar = (function () {
+var TopLinkDisclosureMenu = (function () {
   'use strict';
 
   function _defineProperty(obj, key, value) {
@@ -1009,7 +1009,7 @@ var Menubar = (function () {
     }
   }
 
-  class MenubarItem extends BaseMenuItem {
+  class TopLinkDisclosureMenuItem extends BaseMenuItem {
     constructor(_ref) {
       let {
         menuItemElement,
@@ -1018,7 +1018,8 @@ var Menubar = (function () {
         isSubmenuItem = false,
         childMenu = null,
         toggle = null,
-        initialize = true
+        initialize = true,
+        submenuSibling = null
       } = _ref;
       super({
         menuItemElement,
@@ -1028,31 +1029,23 @@ var Menubar = (function () {
         childMenu,
         toggle
       });
+      _defineProperty(this, "_elements", {
+        parentMenu: null,
+        childMenu: null,
+        toggle: null,
+        sibling: null
+      });
+      this._elements.parentMenu = parentMenu;
+      this._elements.childMenu = childMenu;
+      this._elements.toggle = toggle;
+      this._elements.sibling = submenuSibling;
       if (initialize) {
         this.initialize();
       }
     }
-    initialize() {
-      super.initialize();
-      this.dom.item.setAttribute("role", "none");
-      this.dom.link.setAttribute("role", "menuitem");
-      this.dom.link.tabIndex = -1;
-    }
-    focus() {
-      super.focus();
-      if (this.elements.parentMenu.isTopLevel) {
-        this.dom.link.tabIndex = 0;
-      }
-    }
-    blur() {
-      super.blur();
-      if (this.elements.parentMenu.isTopLevel) {
-        this.dom.link.tabIndex = -1;
-      }
-    }
   }
 
-  class MenubarToggle extends BaseMenuToggle {
+  class TopLinkDisclosureMenuToggle extends BaseMenuToggle {
     constructor(_ref) {
       let {
         menuToggleElement,
@@ -1087,14 +1080,14 @@ var Menubar = (function () {
     }
   }
 
-  class Menubar extends BaseMenu {
+  class TopLinkDisclosureMenu extends BaseMenu {
     constructor(_ref) {
       let {
         menuElement,
         menuItemSelector = "li",
         menuLinkSelector = "a",
         submenuItemSelector = "",
-        submenuToggleSelector = "a",
+        submenuToggleSelector = "button",
         submenuSelector = "ul",
         controllerElement = null,
         containerElement = null,
@@ -1104,6 +1097,7 @@ var Menubar = (function () {
         parentMenu = null,
         hoverType = "off",
         hoverDelay = 250,
+        optionalKeySupport = false,
         initialize = true
       } = _ref;
       super({
@@ -1122,9 +1116,13 @@ var Menubar = (function () {
         hoverType,
         hoverDelay
       });
-      _defineProperty(this, "_MenuType", Menubar);
-      _defineProperty(this, "_MenuItemType", MenubarItem);
-      _defineProperty(this, "_MenuToggleType", MenubarToggle);
+      _defineProperty(this, "_MenuType", TopLinkDisclosureMenu);
+      _defineProperty(this, "_MenuItemType", TopLinkDisclosureMenuItem);
+      _defineProperty(this, "_MenuToggleType", TopLinkDisclosureMenuToggle);
+      _defineProperty(this, "_currentChild", -1);
+      _defineProperty(this, "_optionalSupport", false);
+      this._optionalSupport = optionalKeySupport;
+      this._selectors.menuLinks = [...new Set([menuLinkSelector, submenuToggleSelector])].join(",");
       if (initialize) {
         this.initialize();
       }
@@ -1132,18 +1130,87 @@ var Menubar = (function () {
     initialize() {
       try {
         super.initialize();
-        this.dom.menu.setAttribute("role", "menubar");
         this._handleFocus();
         this._handleClick();
         this._handleHover();
         this._handleKeydown();
         this._handleKeyup();
-        if (this.isTopLevel) {
-          this.elements.menuItems[0].dom.link.tabIndex = 0;
-        }
       } catch (error) {
         console.error(error);
       }
+    }
+    get optionalKeySupport() {
+      return this.isTopLevel ? this._optionalSupport : this.elements.rootMenu.optionalKeySupport;
+    }
+    set optionalKeySupport(value) {
+      isValidType("boolean", {
+        optionalKeySupport: value
+      });
+      this._optionalSupport = value;
+    }
+    _createChildElements() {
+      this.dom.menuItems.forEach(element => {
+        let menuItem, menuToggleItem;
+        const link = element.querySelector(this.selectors.menuLinks);
+        if (this.dom.submenuItems.includes(element)) {
+          const toggler = element.querySelector(this.selectors.submenuToggles);
+          const submenu = element.querySelector(this.selectors.submenus);
+          const menu = new this._MenuType({
+            menuElement: submenu,
+            menuItemSelector: this.selectors.menuItems,
+            menuLinkSelector: this.selectors.menuLinks,
+            submenuItemSelector: this.selectors.submenuItems,
+            submenuToggleSelector: this.selectors.submenuToggles,
+            submenuSelector: this.selectors.submenus,
+            openClass: this.openClass,
+            closeClass: this.closeClass,
+            isTopLevel: false,
+            parentMenu: this,
+            hoverType: this.hoverType,
+            hoverDelay: this.hoverDelay
+          });
+          const toggle = new this._MenuToggleType({
+            menuToggleElement: toggler,
+            parentElement: element,
+            controlledMenu: menu,
+            parentMenu: this
+          });
+          this._elements.submenuToggles.push(toggle);
+          menuToggleItem = new this._MenuItemType({
+            menuItemElement: element,
+            menuLinkElement: toggler,
+            parentMenu: this,
+            isSubmenuItem: true,
+            childMenu: menu,
+            toggle
+          });
+          menuItem = new this._MenuItemType({
+            menuItemElement: element,
+            menuLinkElement: link,
+            parentMenu: this,
+            submenuSibling: menuToggleItem
+          });
+        } else {
+          menuItem = new this._MenuItemType({
+            menuItemElement: element,
+            menuLinkElement: link,
+            parentMenu: this
+          });
+        }
+        this._elements.menuItems.push(menuItem);
+        if (typeof menuToggleItem !== "undefined") {
+          this._elements.menuItems.push(menuToggleItem);
+        }
+      });
+    }
+    _validate() {
+      let check = super._validate();
+      if (!isValidType("boolean", {
+        optionalKeySupport: this._optionalSupport
+      })) {
+        check = false;
+      }
+      return check;
     }
     _handleClick() {
       super._handleClick();
@@ -1160,40 +1227,90 @@ var Menubar = (function () {
         }
       });
     }
+    _handleHover() {
+      this.elements.menuItems.forEach((menuItem, index) => {
+        menuItem.dom.link.addEventListener("pointerenter", event => {
+          if (event.pointerType === "pen" || event.pointerType === "touch") {
+            return;
+          }
+          if (this.hoverType === "on") {
+            this.currentEvent = "mouse";
+            this.currentChild = index;
+            if (menuItem.isSubmenuItem) {
+              menuItem.elements.toggle.preview();
+            } else if (menuItem.elements.sibling !== null) {
+              menuItem.elements.sibling.elements.toggle.preview();
+            }
+          } else if (this.hoverType === "dynamic") {
+            const isOpen = this.elements.submenuToggles.some(toggle => toggle.isOpen);
+            this.currentChild = index;
+            if (!this.isTopLevel || this.focusState !== "none") {
+              this.currentEvent = "mouse";
+              this.focusCurrentChild();
+            }
+            if (!this.isTopLevel || isOpen) {
+              this.currentEvent = "mouse";
+              if (menuItem.isSubmenuItem) {
+                menuItem.elements.toggle.preview();
+              } else if (menuItem.elements.sibling !== null) {
+                menuItem.elements.sibling.elements.toggle.preview();
+              }
+            }
+          }
+        });
+        if (menuItem.isSubmenuItem) {
+          menuItem.dom.item.addEventListener("pointerleave", event => {
+            if (event.pointerType === "pen" || event.pointerType === "touch") {
+              return;
+            }
+            if (this.hoverType === "on") {
+              if (this.hoverDelay > 0) {
+                setTimeout(() => {
+                  this.currentEvent = "mouse";
+                  menuItem.elements.toggle.close();
+                }, this.hoverDelay);
+              } else {
+                this.currentEvent = "mouse";
+                menuItem.elements.toggle.close();
+              }
+            } else if (this.hoverType === "dynamic") {
+              if (!this.isTopLevel) {
+                if (this.hoverDelay > 0) {
+                  setTimeout(() => {
+                    this.currentEvent = "mouse";
+                    menuItem.elements.toggle.close();
+                    this.focusCurrentChild();
+                  }, this.hoverDelay);
+                } else {
+                  this.currentEvent = "mouse";
+                  menuItem.elements.toggle.close();
+                  this.focusCurrentChild();
+                }
+              }
+            }
+          });
+        }
+      });
+    }
     _handleKeydown() {
       super._handleKeydown();
       this.dom.menu.addEventListener("keydown", event => {
         this.currentEvent = "keyboard";
         const key = keyPress(event);
-        if (key === "Tab") {
-          if (this.elements.rootMenu.focusState !== "none") {
-            this.elements.rootMenu.blur();
-            this.elements.rootMenu.closeChildren();
-          } else {
-            this.elements.rootMenu.focus();
-          }
-        }
-        if (key === "Character") {
-          preventEvent(event);
-        } else if (this.isTopLevel) {
-          if (this.focusState === "self") {
-            const keys = ["ArrowRight", "ArrowLeft", "Home", "End"];
-            const submenuKeys = ["Space", "Enter", "ArrowDown", "ArrowUp"];
-            const controllerKeys = ["Escape"];
+        if (this.focusState === "self") {
+          const submenuKeys = ["Space", "Enter"];
+          const controllerKeys = ["Escape"];
+          const parentKeys = ["Escape"];
+          if (this.optionalKeySupport) {
+            const keys = ["ArrowUp", "ArrowRight", "ArrowDown", "ArrowLeft", "Home", "End"];
             if (keys.includes(key)) {
               preventEvent(event);
-            } else if (this.currentMenuItem.isSubmenuItem && submenuKeys.includes(key)) {
-              preventEvent(event);
-            } else if (this.elements.controller && controllerKeys.includes(key)) {
-              preventEvent(event);
             }
-          }
-        } else {
-          const keys = ["Escape", "ArrowRight", "ArrowLeft", "ArrowDown", "ArrowUp", "Home", "End"];
-          const submenuKeys = ["Space", "Enter"];
-          if (keys.includes(key)) {
-            preventEvent(event);
           } else if (this.currentMenuItem.isSubmenuItem && submenuKeys.includes(key)) {
+            preventEvent(event);
+          } else if (this.elements.controller && controllerKeys.includes(key)) {
+            preventEvent(event);
+          } else if (this.elements.parentMenu && parentKeys.includes(key)) {
             preventEvent(event);
           }
         }
@@ -1204,187 +1321,58 @@ var Menubar = (function () {
       this.dom.menu.addEventListener("keyup", event => {
         this.currentEvent = "keyboard";
         const key = keyPress(event);
-        const {
-          altKey,
-          crtlKey,
-          metaKey
-        } = event;
-        const modifier = altKey || crtlKey || metaKey;
-        if (key === "Character" && !modifier) {
-          preventEvent(event);
-          this.elements.rootMenu.currentEvent = "character";
-          this.focusNextChildWithCharacter(event.key);
-        } else if (this.isTopLevel) {
-          if (this.focusState === "self") {
-            if (key === "Space" || key === "Enter") {
-              if (this.currentMenuItem.isSubmenuItem) {
-                preventEvent(event);
-                this.currentMenuItem.elements.childMenu.currentEvent = "keyboard";
-                this.currentMenuItem.elements.toggle.open();
-                requestAnimationFrame(() => {
-                  this.currentMenuItem.elements.childMenu.focusFirstChild();
-                });
+        if (this.focusState === "self") {
+          if (key === "Space" || key === "Enter") {
+            if (this.currentMenuItem.isSubmenuItem && event.target.matches(this.selectors.submenuToggles)) {
+              preventEvent(event);
+              if (this.currentMenuItem.elements.toggle.isOpen) {
+                this.currentMenuItem.elements.toggle.close();
               } else {
-                this.currentMenuItem.dom.link.click();
+                this.currentMenuItem.elements.toggle.preview();
               }
-            } else if (key === "ArrowRight") {
+            } else {
+              this.currentMenuItem.dom.link.click();
+            }
+          } else if (key === "Escape") {
+            const hasOpenChild = this.elements.submenuToggles.some(toggle => toggle.isOpen);
+            if (hasOpenChild) {
               preventEvent(event);
-              const previousChildOpen = this.currentMenuItem.isSubmenuItem && this.currentMenuItem.elements.toggle.isOpen;
-              this.focusNextChild();
-              if (previousChildOpen) {
-                if (this.currentMenuItem.isSubmenuItem) {
-                  this.currentMenuItem.elements.childMenu.currentEvent = "keyboard";
-                  this.currentMenuItem.elements.toggle.preview();
-                } else {
-                  this.closeChildren();
-                }
+              this.closeChildren();
+            } else if (this.elements.parentMenu) {
+              preventEvent(event);
+              this.elements.parentMenu.currentEvent = this.currentEvent;
+              this.elements.parentMenu.closeChildren();
+              this.elements.parentMenu.focusCurrentChild();
+            } else if (this.isTopLevel && this.elements.controller && this.elements.controller.isOpen) {
+              this.elements.controller.close();
+              this.focusController();
+            }
+          } else if (this.optionalKeySupport) {
+            if (key === "ArrowDown" || key === "ArrowRight") {
+              preventEvent(event);
+              if (this.currentMenuItem.isSubmenuItem && this.currentMenuItem.elements.toggle.isOpen) {
+                this.currentMenuItem.elements.childMenu.currentEvent = "keyboard";
+                this.currentMenuItem.elements.childMenu.focusFirstChild();
+              } else {
+                this.focusNextChild();
               }
-            } else if (key === "ArrowLeft") {
+            } else if (key === "ArrowUp" || key === "ArrowLeft") {
               preventEvent(event);
-              const previousChildOpen = this.currentMenuItem.isSubmenuItem && this.currentMenuItem.elements.toggle.isOpen;
               this.focusPreviousChild();
-              if (previousChildOpen) {
-                if (this.currentMenuItem.isSubmenuItem) {
-                  this.currentMenuItem.elements.childMenu.currentEvent = "keyboard";
-                  this.currentMenuItem.elements.toggle.preview();
-                } else {
-                  this.closeChildren();
-                }
-              }
-            } else if (key === "ArrowDown") {
-              if (this.currentMenuItem.isSubmenuItem) {
-                preventEvent(event);
-                this.currentMenuItem.elements.childMenu.currentEvent = "keyboard";
-                this.currentMenuItem.elements.toggle.open();
-                requestAnimationFrame(() => {
-                  this.currentMenuItem.elements.childMenu.focusFirstChild();
-                });
-              }
-            } else if (key === "ArrowUp") {
-              if (this.currentMenuItem.isSubmenuItem) {
-                preventEvent(event);
-                this.currentMenuItem.elements.childMenu.currentEvent = "keyboard";
-                this.currentMenuItem.elements.toggle.open();
-                requestAnimationFrame(() => {
-                  this.currentMenuItem.elements.childMenu.focusLastChild();
-                });
-              }
             } else if (key === "Home") {
               preventEvent(event);
               this.focusFirstChild();
             } else if (key === "End") {
               preventEvent(event);
               this.focusLastChild();
-            } else if (key === "Escape") {
-              const hasOpenChild = this.elements.submenuToggles.some(toggle => toggle.isOpen);
-              if (hasOpenChild) {
-                preventEvent(event);
-                this.closeChildren();
-              } else if (this.isTopLevel && this.elements.controller && this.elements.controller.isOpen) {
-                preventEvent(event);
-                this.elements.controller.close();
-                this.focusController();
-              }
             }
-          }
-        } else {
-          if (key === "Space" || key === "Enter") {
-            if (this.currentMenuItem.isSubmenuItem) {
-              preventEvent(event);
-              this.currentMenuItem.elements.childMenu.currentEvent = "keyboard";
-              this.currentMenuItem.elements.toggle.open();
-              requestAnimationFrame(() => {
-                this.currentMenuItem.elements.childMenu.focusFirstChild();
-              });
-            } else {
-              this.currentMenuItem.dom.link.click();
-            }
-          } else if (key === "Escape") {
-            preventEvent(event);
-            this.elements.rootMenu.closeChildren();
-            this.elements.rootMenu.focusCurrentChild();
-          } else if (key === "ArrowRight") {
-            if (this.currentMenuItem.isSubmenuItem) {
-              preventEvent(event);
-              this.currentMenuItem.elements.childMenu.currentEvent = "keyboard";
-              this.currentMenuItem.elements.toggle.open();
-              requestAnimationFrame(() => {
-                this.currentMenuItem.elements.childMenu.focusFirstChild();
-              });
-            } else {
-              preventEvent(event);
-              this.elements.rootMenu.closeChildren();
-              this.elements.rootMenu.focusNextChild();
-              if (this.elements.rootMenu.currentMenuItem.isSubmenuItem) {
-                this.elements.rootMenu.currentMenuItem.elements.toggle.preview();
-              }
-            }
-          } else if (key === "ArrowLeft") {
-            if (this.elements.parentMenu.currentMenuItem.isSubmenuItem) {
-              preventEvent(event);
-              this.elements.parentMenu.currentMenuItem.elements.toggle.close();
-              this.elements.parentMenu.focusCurrentChild();
-              if (this.elements.parentMenu === this.elements.rootMenu) {
-                this.elements.rootMenu.closeChildren();
-                this.elements.rootMenu.focusPreviousChild();
-                if (this.elements.rootMenu.currentMenuItem.isSubmenuItem) {
-                  this.elements.rootMenu.currentMenuItem.elements.childMenu.currentEvent = "keyboard";
-                  this.elements.rootMenu.currentMenuItem.elements.toggle.preview();
-                }
-              }
-            }
-          } else if (key === "ArrowDown") {
-            preventEvent(event);
-            this.focusNextChild();
-          } else if (key === "ArrowUp") {
-            preventEvent(event);
-            this.focusPreviousChild();
-          } else if (key === "Home") {
-            preventEvent(event);
-            this.focusFirstChild();
-          } else if (key === "End") {
-            preventEvent(event);
-            this.focusLastChild();
           }
         }
       });
     }
-    focusNextChild() {
-      if (this.currentChild === this.elements.menuItems.length - 1) {
-        this.focusFirstChild();
-      } else {
-        this.focusChild(this.currentChild + 1);
-      }
-    }
-    focusPreviousChild() {
-      if (this.currentChild === 0) {
-        this.focusLastChild();
-      } else {
-        this.focusChild(this.currentChild - 1);
-      }
-    }
-    focusNextChildWithCharacter(char) {
-      const match = char.toLowerCase();
-      let index = this.currentChild + 1;
-      let found = false;
-      while (!found && index < this.elements.menuItems.length) {
-        let text = "";
-        if (this.elements.menuItems[index].dom.item.innerText) {
-          text = this.elements.menuItems[index].dom.item.innerText;
-        } else {
-          text = this.elements.menuItems[index].dom.item.textContent;
-        }
-        text = text.replace(/[\s]/g, "").toLowerCase().charAt(0);
-        if (text === match) {
-          found = true;
-          this.focusChild(index);
-        }
-        index++;
-      }
-    }
   }
 
-  return Menubar;
+  return TopLinkDisclosureMenu;
 
 })();
-//# sourceMappingURL=menubar.js.map
+//# sourceMappingURL=top-link-disclosure-menu.js.map

@@ -1006,7 +1006,7 @@ class BaseMenu {
   }
 }
 
-class TreeviewItem extends BaseMenuItem {
+class TopLinkDisclosureMenuItem extends BaseMenuItem {
   constructor(_ref) {
     let {
       menuItemElement,
@@ -1015,7 +1015,8 @@ class TreeviewItem extends BaseMenuItem {
       isSubmenuItem = false,
       childMenu = null,
       toggle = null,
-      initialize = true
+      initialize = true,
+      submenuSibling = null
     } = _ref;
     super({
       menuItemElement,
@@ -1025,27 +1026,23 @@ class TreeviewItem extends BaseMenuItem {
       childMenu,
       toggle
     });
+    _defineProperty(this, "_elements", {
+      parentMenu: null,
+      childMenu: null,
+      toggle: null,
+      sibling: null
+    });
+    this._elements.parentMenu = parentMenu;
+    this._elements.childMenu = childMenu;
+    this._elements.toggle = toggle;
+    this._elements.sibling = submenuSibling;
     if (initialize) {
       this.initialize();
     }
   }
-  initialize() {
-    super.initialize();
-    this.dom.item.setAttribute("role", "none");
-    this.dom.link.setAttribute("role", "treeitem");
-    this.dom.link.tabIndex = -1;
-  }
-  focus() {
-    super.focus();
-    this.dom.link.tabIndex = 0;
-  }
-  blur() {
-    super.blur();
-    this.dom.link.tabIndex = -1;
-  }
 }
 
-class TreeviewToggle extends BaseMenuToggle {
+class TopLinkDisclosureMenuToggle extends BaseMenuToggle {
   constructor(_ref) {
     let {
       menuToggleElement,
@@ -1064,16 +1061,30 @@ class TreeviewToggle extends BaseMenuToggle {
       this.initialize();
     }
   }
+  open() {
+    this.closeSiblings();
+    super.open();
+  }
+  preview() {
+    this.closeSiblings();
+    super.preview();
+  }
+  close() {
+    if (this.isOpen) {
+      this.closeChildren();
+    }
+    super.close();
+  }
 }
 
-class Treeview extends BaseMenu {
+class TopLinkDisclosureMenu extends BaseMenu {
   constructor(_ref) {
     let {
       menuElement,
       menuItemSelector = "li",
       menuLinkSelector = "a",
       submenuItemSelector = "",
-      submenuToggleSelector = "a",
+      submenuToggleSelector = "button",
       submenuSelector = "ul",
       controllerElement = null,
       containerElement = null,
@@ -1083,6 +1094,7 @@ class Treeview extends BaseMenu {
       parentMenu = null,
       hoverType = "off",
       hoverDelay = 250,
+      optionalKeySupport = false,
       initialize = true
     } = _ref;
     super({
@@ -1101,9 +1113,13 @@ class Treeview extends BaseMenu {
       hoverType,
       hoverDelay
     });
-    _defineProperty(this, "_MenuType", Treeview);
-    _defineProperty(this, "_MenuItemType", TreeviewItem);
-    _defineProperty(this, "_MenuToggleType", TreeviewToggle);
+    _defineProperty(this, "_MenuType", TopLinkDisclosureMenu);
+    _defineProperty(this, "_MenuItemType", TopLinkDisclosureMenuItem);
+    _defineProperty(this, "_MenuToggleType", TopLinkDisclosureMenuToggle);
+    _defineProperty(this, "_currentChild", -1);
+    _defineProperty(this, "_optionalSupport", false);
+    this._optionalSupport = optionalKeySupport;
+    this._selectors.menuLinks = [...new Set([menuLinkSelector, submenuToggleSelector])].join(",");
     if (initialize) {
       this.initialize();
     }
@@ -1111,12 +1127,6 @@ class Treeview extends BaseMenu {
   initialize() {
     try {
       super.initialize();
-      if (this.isTopLevel) {
-        this.dom.menu.setAttribute("role", "tree");
-        this.elements.menuItems[0].dom.link.tabIndex = 0;
-      } else {
-        this.dom.menu.setAttribute("role", "group");
-      }
       this._handleFocus();
       this._handleClick();
       this._handleHover();
@@ -1126,27 +1136,178 @@ class Treeview extends BaseMenu {
       console.error(error);
     }
   }
+  get optionalKeySupport() {
+    return this.isTopLevel ? this._optionalSupport : this.elements.rootMenu.optionalKeySupport;
+  }
+  set optionalKeySupport(value) {
+    isValidType("boolean", {
+      optionalKeySupport: value
+    });
+    this._optionalSupport = value;
+  }
+  _createChildElements() {
+    this.dom.menuItems.forEach(element => {
+      let menuItem, menuToggleItem;
+      const link = element.querySelector(this.selectors.menuLinks);
+      if (this.dom.submenuItems.includes(element)) {
+        const toggler = element.querySelector(this.selectors.submenuToggles);
+        const submenu = element.querySelector(this.selectors.submenus);
+        const menu = new this._MenuType({
+          menuElement: submenu,
+          menuItemSelector: this.selectors.menuItems,
+          menuLinkSelector: this.selectors.menuLinks,
+          submenuItemSelector: this.selectors.submenuItems,
+          submenuToggleSelector: this.selectors.submenuToggles,
+          submenuSelector: this.selectors.submenus,
+          openClass: this.openClass,
+          closeClass: this.closeClass,
+          isTopLevel: false,
+          parentMenu: this,
+          hoverType: this.hoverType,
+          hoverDelay: this.hoverDelay
+        });
+        const toggle = new this._MenuToggleType({
+          menuToggleElement: toggler,
+          parentElement: element,
+          controlledMenu: menu,
+          parentMenu: this
+        });
+        this._elements.submenuToggles.push(toggle);
+        menuToggleItem = new this._MenuItemType({
+          menuItemElement: element,
+          menuLinkElement: toggler,
+          parentMenu: this,
+          isSubmenuItem: true,
+          childMenu: menu,
+          toggle
+        });
+        menuItem = new this._MenuItemType({
+          menuItemElement: element,
+          menuLinkElement: link,
+          parentMenu: this,
+          submenuSibling: menuToggleItem
+        });
+      } else {
+        menuItem = new this._MenuItemType({
+          menuItemElement: element,
+          menuLinkElement: link,
+          parentMenu: this
+        });
+      }
+      this._elements.menuItems.push(menuItem);
+      if (typeof menuToggleItem !== "undefined") {
+        this._elements.menuItems.push(menuToggleItem);
+      }
+    });
+  }
+  _validate() {
+    let check = super._validate();
+    if (!isValidType("boolean", {
+      optionalKeySupport: this._optionalSupport
+    })) {
+      check = false;
+    }
+    return check;
+  }
+  _handleClick() {
+    super._handleClick();
+    document.addEventListener("pointerup", event => {
+      if (this.focusState !== "none") {
+        this.currentEvent = "mouse";
+        if (!this.dom.menu.contains(event.target) && !this.dom.menu !== event.target) {
+          this.closeChildren();
+          this.blur();
+          if (this.elements.controller) {
+            this.elements.controller.close();
+          }
+        }
+      }
+    });
+  }
+  _handleHover() {
+    this.elements.menuItems.forEach((menuItem, index) => {
+      menuItem.dom.link.addEventListener("pointerenter", event => {
+        if (event.pointerType === "pen" || event.pointerType === "touch") {
+          return;
+        }
+        if (this.hoverType === "on") {
+          this.currentEvent = "mouse";
+          this.currentChild = index;
+          if (menuItem.isSubmenuItem) {
+            menuItem.elements.toggle.preview();
+          } else if (menuItem.elements.sibling !== null) {
+            menuItem.elements.sibling.elements.toggle.preview();
+          }
+        } else if (this.hoverType === "dynamic") {
+          const isOpen = this.elements.submenuToggles.some(toggle => toggle.isOpen);
+          this.currentChild = index;
+          if (!this.isTopLevel || this.focusState !== "none") {
+            this.currentEvent = "mouse";
+            this.focusCurrentChild();
+          }
+          if (!this.isTopLevel || isOpen) {
+            this.currentEvent = "mouse";
+            if (menuItem.isSubmenuItem) {
+              menuItem.elements.toggle.preview();
+            } else if (menuItem.elements.sibling !== null) {
+              menuItem.elements.sibling.elements.toggle.preview();
+            }
+          }
+        }
+      });
+      if (menuItem.isSubmenuItem) {
+        menuItem.dom.item.addEventListener("pointerleave", event => {
+          if (event.pointerType === "pen" || event.pointerType === "touch") {
+            return;
+          }
+          if (this.hoverType === "on") {
+            if (this.hoverDelay > 0) {
+              setTimeout(() => {
+                this.currentEvent = "mouse";
+                menuItem.elements.toggle.close();
+              }, this.hoverDelay);
+            } else {
+              this.currentEvent = "mouse";
+              menuItem.elements.toggle.close();
+            }
+          } else if (this.hoverType === "dynamic") {
+            if (!this.isTopLevel) {
+              if (this.hoverDelay > 0) {
+                setTimeout(() => {
+                  this.currentEvent = "mouse";
+                  menuItem.elements.toggle.close();
+                  this.focusCurrentChild();
+                }, this.hoverDelay);
+              } else {
+                this.currentEvent = "mouse";
+                menuItem.elements.toggle.close();
+                this.focusCurrentChild();
+              }
+            }
+          }
+        });
+      }
+    });
+  }
   _handleKeydown() {
     super._handleKeydown();
     this.dom.menu.addEventListener("keydown", event => {
       this.currentEvent = "keyboard";
       const key = keyPress(event);
-      if (key === "Tab") {
-        if (this.elements.rootMenu.focusState !== "none") {
-          this.elements.rootMenu.blur();
-        } else {
-          this.elements.rootMenu.focus();
-        }
-      }
       if (this.focusState === "self") {
-        const keys = ["Space", "ArrowUp", "ArrowDown", "ArrowLeft", "Asterisk", "Home", "End"];
-        const submenuKeys = ["Enter", "ArrowRight"];
+        const submenuKeys = ["Space", "Enter"];
         const controllerKeys = ["Escape"];
-        if (keys.includes(key)) {
-          preventEvent(event);
+        const parentKeys = ["Escape"];
+        if (this.optionalKeySupport) {
+          const keys = ["ArrowUp", "ArrowRight", "ArrowDown", "ArrowLeft", "Home", "End"];
+          if (keys.includes(key)) {
+            preventEvent(event);
+          }
         } else if (this.currentMenuItem.isSubmenuItem && submenuKeys.includes(key)) {
           preventEvent(event);
         } else if (this.elements.controller && controllerKeys.includes(key)) {
+          preventEvent(event);
+        } else if (this.elements.parentMenu && parentKeys.includes(key)) {
           preventEvent(event);
         }
       }
@@ -1157,20 +1318,10 @@ class Treeview extends BaseMenu {
     this.dom.menu.addEventListener("keyup", event => {
       this.currentEvent = "keyboard";
       const key = keyPress(event);
-      const {
-        altKey,
-        crtlKey,
-        metaKey
-      } = event;
-      const modifier = altKey || crtlKey || metaKey;
-      if (key === "Character" && !modifier) {
-        preventEvent(event);
-        this.elements.rootMenu.currentEvent = "character";
-        this.focusNextNodeWithCharacter(event.key);
-      } else if (this.focusState === "self") {
-        if (key === "Enter" || key === "Space") {
-          preventEvent(event);
-          if (this.currentMenuItem.isSubmenuItem) {
+      if (this.focusState === "self") {
+        if (key === "Space" || key === "Enter") {
+          if (this.currentMenuItem.isSubmenuItem && event.target.matches(this.selectors.submenuToggles)) {
+            preventEvent(event);
             if (this.currentMenuItem.elements.toggle.isOpen) {
               this.currentMenuItem.elements.toggle.close();
             } else {
@@ -1180,141 +1331,43 @@ class Treeview extends BaseMenu {
             this.currentMenuItem.dom.link.click();
           }
         } else if (key === "Escape") {
-          if (this.isTopLevel && this.elements.controller && this.elements.controller.isOpen) {
+          const hasOpenChild = this.elements.submenuToggles.some(toggle => toggle.isOpen);
+          if (hasOpenChild) {
+            preventEvent(event);
+            this.closeChildren();
+          } else if (this.elements.parentMenu) {
+            preventEvent(event);
+            this.elements.parentMenu.currentEvent = this.currentEvent;
+            this.elements.parentMenu.closeChildren();
+            this.elements.parentMenu.focusCurrentChild();
+          } else if (this.isTopLevel && this.elements.controller && this.elements.controller.isOpen) {
             this.elements.controller.close();
             this.focusController();
           }
-        } else if (key === "ArrowDown") {
-          preventEvent(event);
-          if (this.currentMenuItem.isSubmenuItem && this.currentMenuItem.elements.toggle.isOpen) {
-            this.blurCurrentChild();
-            this.currentMenuItem.elements.childMenu.currentEvent = this.currentEvent;
-            this.currentMenuItem.elements.childMenu.focusFirstChild();
-          } else if (!this.isTopLevel && this.currentChild === this.elements.menuItems.length - 1) {
-            this.focusParentsNextChild();
-          } else {
-            this.focusNextChild();
-          }
-        } else if (key === "ArrowUp") {
-          preventEvent(event);
-          const previousMenuItem = this.elements.menuItems[this.currentChild - 1];
-          if (previousMenuItem && previousMenuItem.isSubmenuItem && previousMenuItem.elements.toggle.isOpen) {
-            this.blurCurrentChild();
-            this.currentChild = this.currentChild - 1;
-            this.currentMenuItem.elements.childMenu.currentEvent = this.currentEvent;
-            this.focusChildsLastNode();
-          } else if (!this.isTopLevel && this.currentChild === 0) {
-            this.blurCurrentChild();
-            this.elements.parentMenu.currentEvent = this.currentEvent;
-            this.elements.parentMenu.focusCurrentChild();
-          } else {
-            this.focusPreviousChild();
-          }
-        } else if (key === "ArrowRight") {
-          if (this.currentMenuItem.isSubmenuItem) {
+        } else if (this.optionalKeySupport) {
+          if (key === "ArrowDown" || key === "ArrowRight") {
             preventEvent(event);
-            if (this.currentMenuItem.elements.toggle.isOpen) {
-              this.blurCurrentChild();
-              this.currentMenuItem.elements.childMenu.currentEvent = this.currentEvent;
+            if (this.currentMenuItem.isSubmenuItem && this.currentMenuItem.elements.toggle.isOpen) {
+              this.currentMenuItem.elements.childMenu.currentEvent = "keyboard";
               this.currentMenuItem.elements.childMenu.focusFirstChild();
             } else {
-              this.currentMenuItem.elements.toggle.preview();
+              this.focusNextChild();
             }
+          } else if (key === "ArrowUp" || key === "ArrowLeft") {
+            preventEvent(event);
+            this.focusPreviousChild();
+          } else if (key === "Home") {
+            preventEvent(event);
+            this.focusFirstChild();
+          } else if (key === "End") {
+            preventEvent(event);
+            this.focusLastChild();
           }
-        } else if (key === "ArrowLeft") {
-          preventEvent(event);
-          if (this.currentMenuItem.isSubmenuItem && this.currentMenuItem.elements.toggle.isOpen) {
-            this.currentMenuItem.elements.childMenu.blurCurrentChild();
-            this.currentMenuItem.elements.toggle.close();
-          } else if (!this.isTopLevel) {
-            this.blurCurrentChild();
-            this.elements.parentMenu.currentEvent = this.currentEvent;
-            this.elements.parentMenu.focusCurrentChild();
-          }
-        } else if (key === "Home") {
-          preventEvent(event);
-          this.blurCurrentChild();
-          this.elements.rootMenu.focusFirstChild();
-        } else if (key === "End") {
-          preventEvent(event);
-          this.blurCurrentChild();
-          this.elements.rootMenu.focusLastNode();
-        } else if (key === "Asterisk") {
-          preventEvent(event);
-          this.openChildren();
         }
       }
     });
   }
-  focusLastNode() {
-    const numberOfItems = this.elements.menuItems.length - 1;
-    const lastChild = this.elements.menuItems[numberOfItems];
-    if (lastChild.isSubmenuItem && lastChild.elements.toggle.isOpen) {
-      this.currentChild = numberOfItems;
-      lastChild.elements.childMenu.currentEvent = this.currentEvent;
-      lastChild.elements.childMenu.focusLastNode();
-    } else {
-      this.focusLastChild();
-    }
-  }
-  openChildren() {
-    this.elements.submenuToggles.forEach(toggle => toggle.preview());
-  }
-  focusNextNodeWithCharacter(char) {
-    function getOpenMenuItems(menu) {
-      let menuItems = [];
-      menu.elements.menuItems.forEach(menuItem => {
-        menuItems.push(menuItem);
-        if (menuItem.isSubmenuItem && menuItem.elements.toggle.isOpen) {
-          menuItems = [...menuItems, ...getOpenMenuItems(menuItem.elements.toggle.elements.controlledMenu)];
-        }
-      });
-      return menuItems;
-    }
-    const match = char.toLowerCase();
-    const menuItems = getOpenMenuItems(this.elements.rootMenu);
-    const currentItem = menuItems.indexOf(this.currentMenuItem) + 1;
-    const sortedMenuItems = [...menuItems.slice(currentItem), ...menuItems.slice(0, currentItem)];
-    let ctr = 0;
-    let found = false;
-    while (!found && ctr < sortedMenuItems.length) {
-      let text = "";
-      if (sortedMenuItems[ctr].dom.item.innerText) {
-        text = sortedMenuItems[ctr].dom.item.innerText;
-      } else {
-        text = sortedMenuItems[ctr].dom.item.textContent;
-      }
-      text = text.replace(/[\s]/g, "").toLowerCase().charAt(0);
-      if (text === match) {
-        found = true;
-        const menu = sortedMenuItems[ctr].elements.parentMenu;
-        const index = menu.elements.menuItems.indexOf(sortedMenuItems[ctr]);
-        this.elements.rootMenu.blurChildren();
-        menu.focusChild(index);
-      }
-      ctr++;
-    }
-  }
-  focusParentsNextChild() {
-    if (!this.elements.parentMenu) return;
-    this.elements.parentMenu.currentEvent = this.currentEvent;
-    if (this.elements.parentMenu.currentChild === this.elements.parentMenu.elements.menuItems.length - 1) {
-      this.elements.parentMenu.blurCurrentChild();
-      this.elements.parentMenu.focusParentsNextChild();
-    } else {
-      this.blurChildren();
-      this.elements.parentMenu.focusNextChild();
-    }
-  }
-  focusChildsLastNode() {
-    this.currentMenuItem.elements.childMenu.currentEvent = this.currentEvent;
-    this.currentMenuItem.elements.childMenu.focusLastChild();
-    if (this.currentMenuItem.elements.childMenu.currentMenuItem.isSubmenuItem && this.currentMenuItem.elements.childMenu.currentMenuItem.elements.toggle.isOpen) {
-      this.currentMenuItem.elements.childMenu.blurCurrentChild();
-      this.currentMenuItem.elements.childMenu.focusChildsLastNode();
-    }
-  }
 }
 
-export { Treeview as default };
-//# sourceMappingURL=treeview.esm.js.map
+export { TopLinkDisclosureMenu as default };
+//# sourceMappingURL=top-link-disclosure-menu.esm.js.map

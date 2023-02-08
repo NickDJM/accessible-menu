@@ -2,12 +2,12 @@
  * Reusable internal menu function tests.
  */
 
-import { twoLevelMenu } from "./test-menus";
+import { twoLevelMenu, twoLevelTopLinkMenu } from "./test-menus";
 
 /**
  * A set of tests for the _setDOMElementType method.
  *
- * @param {(typeof DisclosureMenu|typeof Menubar|typeof Treeview)} MenuClass - The menu class to test.
+ * @param {(typeof DisclosureMenu|typeof Menubar|typeof Treeview|typeof TopLinkDisclosureMenu)} MenuClass - The menu class to test.
  */
 export function setDOMElements(MenuClass) {
   const menuType = MenuClass.name;
@@ -23,7 +23,10 @@ export function setDOMElements(MenuClass) {
 
     test.each(allowedSets)("can set '%s' elements", (type) => {
       // Set up the DOM.
-      document.body.innerHTML = twoLevelMenu;
+      document.body.innerHTML =
+        menuType === "TopLinkDisclosureMenu"
+          ? twoLevelTopLinkMenu
+          : twoLevelMenu;
       const menu = new MenuClass({
         menuElement: document.querySelector("#menu-0"),
         submenuItemSelector: "li.dropdown",
@@ -38,7 +41,10 @@ export function setDOMElements(MenuClass) {
 
     test.each(disallowedSets)("cannot set '%s' elements", (type) => {
       // Set up the DOM.
-      document.body.innerHTML = twoLevelMenu;
+      document.body.innerHTML =
+        menuType === "TopLinkDisclosureMenu"
+          ? twoLevelTopLinkMenu
+          : twoLevelMenu;
       const menu = new MenuClass({
         menuElement: document.querySelector("#menu-0"),
         submenuItemSelector: "li.dropdown",
@@ -49,13 +55,16 @@ export function setDOMElements(MenuClass) {
       expect(() => {
         menu._setDOMElementType(type);
       }).toThrow(
-        `AccessibleMenu: The "${type}" element cannot be set through _setDOMElementType.`
+        `The "${type}" element cannot be set through _setDOMElementType.`
       );
     });
 
     test("will fail if trying to set an element that doesn't have a selector", () => {
       // Set up the DOM.
-      document.body.innerHTML = twoLevelMenu;
+      document.body.innerHTML =
+        menuType === "TopLinkDisclosureMenu"
+          ? twoLevelTopLinkMenu
+          : twoLevelMenu;
       const menu = new MenuClass({
         menuElement: document.querySelector("#menu-0"),
         submenuItemSelector: "li.dropdown",
@@ -65,9 +74,7 @@ export function setDOMElements(MenuClass) {
 
       expect(() => {
         menu._setDOMElementType("menu");
-      }).toThrow(
-        'AccessibleMenu: "menu" is not a valid element type within the menu.'
-      );
+      }).toThrow('"menu" is not a valid element type within the menu.');
     });
   });
 }
@@ -75,7 +82,7 @@ export function setDOMElements(MenuClass) {
 /**
  * A set of tests for the _resetDOMElementType method.
  *
- * @param {(typeof DisclosureMenu|typeof Menubar|typeof Treeview)} MenuClass - The menu class to test.
+ * @param {(typeof DisclosureMenu|typeof Menubar|typeof Treeview|typeof TopLinkDisclosureMenu)} MenuClass - The menu class to test.
  */
 export function resetDOMElements(MenuClass) {
   const menuType = MenuClass.name;
@@ -91,7 +98,10 @@ export function resetDOMElements(MenuClass) {
 
     test.each(allowedSets)("can reset '%s' elements", (type) => {
       // Set up the DOM.
-      document.body.innerHTML = twoLevelMenu;
+      document.body.innerHTML =
+        menuType === "TopLinkDisclosureMenu"
+          ? twoLevelTopLinkMenu
+          : twoLevelMenu;
       const menu = new MenuClass({
         menuElement: document.querySelector("#menu-0"),
         submenuItemSelector: "li.dropdown",
@@ -106,7 +116,10 @@ export function resetDOMElements(MenuClass) {
 
     test.each(disallowedSets)("cannot reset '%s' elements", (type) => {
       // Set up the DOM.
-      document.body.innerHTML = twoLevelMenu;
+      document.body.innerHTML =
+        menuType === "TopLinkDisclosureMenu"
+          ? twoLevelTopLinkMenu
+          : twoLevelMenu;
       const menu = new MenuClass({
         menuElement: document.querySelector("#menu-0"),
         submenuItemSelector: "li.dropdown",
@@ -117,13 +130,16 @@ export function resetDOMElements(MenuClass) {
       expect(() => {
         menu._resetDOMElementType(type);
       }).toThrow(
-        `AccessibleMenu: The "${type}" element cannot be reset through _resetDOMElementType.`
+        `The "${type}" element cannot be reset through _resetDOMElementType.`
       );
     });
 
     test("will fail if trying to reset an element that doesn't exist", () => {
       // Set up the DOM.
-      document.body.innerHTML = twoLevelMenu;
+      document.body.innerHTML =
+        menuType === "TopLinkDisclosureMenu"
+          ? twoLevelTopLinkMenu
+          : twoLevelMenu;
       const menu = new MenuClass({
         menuElement: document.querySelector("#menu-0"),
         submenuItemSelector: "li.dropdown",
@@ -133,9 +149,7 @@ export function resetDOMElements(MenuClass) {
 
       expect(() => {
         menu._resetDOMElementType("otherMenu");
-      }).toThrow(
-        'AccessibleMenu: "otherMenu" is not a valid element type within the menu.'
-      );
+      }).toThrow('"otherMenu" is not a valid element type within the menu.');
     });
   });
 }
