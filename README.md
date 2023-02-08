@@ -170,11 +170,11 @@ const menu = new Treeview({
 
 ### Examples
 
-Looking for a working example of **accessible-menu**? Check out these jsfiddles:
+Looking for a working example of **accessible-menu**? Check out these codepens:
 
-- [Collapsible DisclosureMenu with optional key support](https://jsfiddle.net/NickDJM/boa82u0g/)
-- [Collapsible Menubar](https://jsfiddle.net/NickDJM/4hpmtnLc/)
-- [Treeview](https://jsfiddle.net/NickDJM/xzndc3u1/)
+- [Collapsible DisclosureMenu with optional key support](https://codepen.io/nickdjm/pen/LYBoOWX)
+- [Collapsible Menubar](https://codepen.io/nickdjm/pen/ZEjNoXw)
+- [Treeview](https://codepen.io/nickdjm/pen/wvxbjpy)
 
 #### Bootstrap support
 
