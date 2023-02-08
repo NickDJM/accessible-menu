@@ -4,6 +4,8 @@
  * version in the README file and updates them.
  */
 
+/* eslint-disable jsdoc/require-returns-check */
+
 /**
  * Get the current version of the README file.
  *
