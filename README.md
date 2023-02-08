@@ -9,7 +9,8 @@ A JavaScript library to help you generate WCAG accessible menus in the DOM.
 
 The supported menu types are:
 
-- [Disclosure Navigation Menus](https://www.w3.org/TR/wai-aria-practices-1.2/examples/disclosure/disclosure-navigation.html)
+- [Disclosure Navigation Menus](https://www.w3.org/TR/wai-aria-practices-1.2/examples/disclosure/disclosure-navigation.html),
+- [Disclosure Navigation Menus with Top-Level Links](https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/examples/disclosure-navigation-hybrid/),
 - [Navigation Menubar](https://www.w3.org/TR/wai-aria-practices-1.2/examples/menubar/menubar-navigation.html), and
 - [Navigation Treeview](https://www.w3.org/TR/wai-aria-practices-1.2/examples/treeview/treeview-navigation.html)
 
@@ -134,6 +135,27 @@ then
 
 ```js
 const menu = new Menubar({
+  menuElement: document.querySelector("#example-menu"),
+  submenuItemSelector: "li.dropdown",
+});
+```
+
+#### TopLinkDisclosureMenu usage
+
+```js
+import { TopLinkDisclosureMenu } from "accessible-menu";
+```
+
+or
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/accessible-menu@3.0.4/dist/top-link-disclosure-menu.min.js"></script>
+```
+
+then
+
+```js
+const menu = new TopLinkDisclosureMenu({
   menuElement: document.querySelector("#example-menu"),
   submenuItemSelector: "li.dropdown",
 });
