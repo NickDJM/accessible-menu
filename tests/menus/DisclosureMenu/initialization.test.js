@@ -2,6 +2,7 @@
  * Test the DisclosureMenu class to make sure it can initialize under various scenarios.
  */
 
+import { describe, test, expect } from "vitest";
 import { DisclosureMenu } from "../../../index";
 import { oneLevelMenu } from "../_common/test-menus";
 import {

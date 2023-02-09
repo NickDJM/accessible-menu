@@ -2,6 +2,7 @@
  * Test the Treeview class to make sure it functions correctly.
  */
 
+import { describe, test, expect } from "vitest";
 import { Treeview } from "../../../index";
 import {
   openClose,
@@ -164,7 +165,7 @@ describe("Treeview keypress tests", () => {
         simulateKeypress(key, subControlledMenu.dom.menu);
 
         // Toggle expectations.
-        expect(submenuToggle.isOpen).toBeTrue();
+        expect(submenuToggle.isOpen).toBeTruthy();
         expect(submenuToggle.dom.toggle.getAttribute("aria-expanded")).toBe(
           "true"
         );
@@ -173,10 +174,10 @@ describe("Treeview keypress tests", () => {
         expect(subControlledMenu.focusState).toBe("none");
         expect(
           subControlledMenu.dom.menu.classList.contains("show")
-        ).toBeTrue();
+        ).toBeTruthy();
         expect(
           subControlledMenu.dom.menu.classList.contains("hide")
-        ).toBeFalse();
+        ).toBeFalsy();
 
         toggleIsPreviewed(toggle);
         expect(menu.currentChild).toBe(2);

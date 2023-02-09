@@ -2,6 +2,7 @@
  * Test the keyPress() function in eventHandler.js to make sure the expected values are returned.
  */
 
+import { describe, test, expect } from "vitest";
 import { keyPress } from "../../src/eventHandlers.js";
 
 describe("keyPress", () => {

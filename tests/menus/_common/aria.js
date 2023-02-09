@@ -3,6 +3,7 @@
  */
 /* eslint-disable no-new */
 
+import { describe, test, expect } from "vitest";
 import { twoLevelMenu, twoLevelTopLinkMenu } from "./test-menus";
 
 /**

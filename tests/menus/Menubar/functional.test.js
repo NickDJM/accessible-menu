@@ -2,6 +2,7 @@
  * Test the Menubar class to make sure it functions correctly.
  */
 
+import { describe, test, expect } from "vitest";
 import { Menubar } from "../../../index";
 import {
   openClose,
@@ -340,11 +341,10 @@ describe("Menubar submenu keypress tests", () => {
       // Simluate the keypress.
       simulateKeypress(key, controlledMenu.dom.menu);
 
-      // Use requestAnimationFrame because the keypress itself it trigger the same.
-      requestAnimationFrame(() => {
+      setTimeout(() => {
         toggleIsOpen(toggle);
         expect(subControlledMenu.currentChild).toBe(0);
-      });
+      }, 500);
     });
   });
 
