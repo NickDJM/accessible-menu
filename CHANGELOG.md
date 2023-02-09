@@ -2,6 +2,69 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.0-beta.0](https://github.com/NickDJM/accessible-menu/compare/v3.0.5...v4.0.0-beta.0) (2023-02-09)
+
+
+### ⚠ BREAKING CHANGES
+
+* dist file names have changed to *.iife.js and *.es.js
+* **validation:** changes the return type of validation functions from boolean to object
+* isEventSupported will no longer be declared in validate
+* dist file names have changed to *.iife.js and *.es.js
+* **validation:** changes the return type of validation functions from boolean to object
+* isEventSupported will no longer be declared in validate
+* **validation:** changes the return type of validation functions from boolean to object
+* isEventSupported will no longer be declared in validate
+* isEventSupported will no longer be declared in validate
+* **validation:** changes the return type of validation functions from boolean to object
+
+### Features
+
+* add demo environment using vite ([07fb0ba](https://github.com/NickDJM/accessible-menu/commit/07fb0baf0f27e6374155fbd074dfcb747494a861)), closes [#201](https://github.com/NickDJM/accessible-menu/issues/201)
+* add demo environment using vite ([b9329bf](https://github.com/NickDJM/accessible-menu/commit/b9329bf8e6084f6a5c17ec7242ea65013d7c7472)), closes [#201](https://github.com/NickDJM/accessible-menu/issues/201)
+* **menu:** add new TopLinkDisclosureMenu sub-class ([93dbca1](https://github.com/NickDJM/accessible-menu/commit/93dbca18b4184f3b40d551348881285360eaa0ec)), closes [#168](https://github.com/NickDJM/accessible-menu/issues/168)
+* **menu:** add new TopLinkDisclosureMenu sub-class ([2481e91](https://github.com/NickDJM/accessible-menu/commit/2481e91d552c92e95cc5a7d8f36e1568c228008c)), closes [#168](https://github.com/NickDJM/accessible-menu/issues/168)
+
+
+### Miscellaneous Chores
+
+* remove deprecated validation function ([d710180](https://github.com/NickDJM/accessible-menu/commit/d7101809c2488f9b9d0956b791b40dfeb4660d04))
+* remove deprecated validation function ([418d95b](https://github.com/NickDJM/accessible-menu/commit/418d95b8b1fdd49cc319b56ecbed19c191903205))
+* remove deprecated validation function ([e746d54](https://github.com/NickDJM/accessible-menu/commit/e746d54f44f051f1a723aa2490c48a355893250b))
+* remove deprecated validation function ([01739ca](https://github.com/NickDJM/accessible-menu/commit/01739caa7e44104e2c14cf6abd917a831e4e395c))
+
+
+### Code Refactoring
+
+* **validation:** return a status and message when validation fails ([ec16bc5](https://github.com/NickDJM/accessible-menu/commit/ec16bc52c2d8719403f7955ce6a88caa28403564))
+* **validation:** return a status and message when validation fails ([4a490b3](https://github.com/NickDJM/accessible-menu/commit/4a490b3a761cb98373ec5e978edb1ad95aeb662f))
+* **validation:** return a status and message when validation fails ([8933f44](https://github.com/NickDJM/accessible-menu/commit/8933f444372ffce740a98c2124ac6f169bb9281e))
+* **validation:** return a status and message when validation fails ([4e2acb4](https://github.com/NickDJM/accessible-menu/commit/4e2acb4ffa7423cae2ef3b9dce10da63fc2f1fa6))
+* **validation:** update validation functions to take advantage of new error system ([aba9997](https://github.com/NickDJM/accessible-menu/commit/aba9997575b329446888f72d47f540d84739a958))
+* **validation:** update validation functions to take advantage of new error system ([81d048a](https://github.com/NickDJM/accessible-menu/commit/81d048a864ee4eb8f0dfab019085c65b5d841761))
+* **validation:** update validation functions to take advantage of new error system ([d97d7ae](https://github.com/NickDJM/accessible-menu/commit/d97d7aecbbc5f404b108ee2804e344b434512845))
+* **validation:** update validation functions to take advantage of new error system ([b1782b9](https://github.com/NickDJM/accessible-menu/commit/b1782b97c7d4cb96210c5fefb0760ac1c302d7e8))
+
+
+### Documentation
+
+* update references and security policy to reflext 4.x change ([f1c639d](https://github.com/NickDJM/accessible-menu/commit/f1c639d92fd3ea59b31f88b2540ddfba4eae11fd))
+* update references and security policy to reflext 4.x change ([c849693](https://github.com/NickDJM/accessible-menu/commit/c849693ed6fea9a886377b87f99db2a531b19bbe))
+* update references and security policy to reflext 4.x change ([78c2d68](https://github.com/NickDJM/accessible-menu/commit/78c2d684f011e2478232808e6adaab8eadf0dfbc))
+* update references and security policy to reflext 4.x change ([9792aeb](https://github.com/NickDJM/accessible-menu/commit/9792aeb8eb7c09ad4166ede1c7081ef791719000))
+
+
+### Build System
+
+* **github:** enable all workflows for 4.x ([a08dda1](https://github.com/NickDJM/accessible-menu/commit/a08dda134243d11b0adefe230bf5bab7bc280903))
+* **github:** enable all workflows for 4.x ([e8220fa](https://github.com/NickDJM/accessible-menu/commit/e8220fa6edc1fe5ec5e9e7fba80a9fad53d47206))
+* **github:** enable all workflows for 4.x ([10b6a96](https://github.com/NickDJM/accessible-menu/commit/10b6a9603d19ac5e488dfd572890ed774284aca6))
+* **github:** enable all workflows for 4.x ([f06a060](https://github.com/NickDJM/accessible-menu/commit/f06a060d1d493ec6f9027c704418aabd9ca5b2fc))
+* replace rollup with vite and update dist to match ([d7b6785](https://github.com/NickDJM/accessible-menu/commit/d7b6785390de58257870ba9400f333fb01e3964f))
+* replace rollup with vite and update dist to match ([304f0ac](https://github.com/NickDJM/accessible-menu/commit/304f0ac84ad3a2449b9ba89408a95293109d528e))
+* use test run script for prerelease ([9b33d1a](https://github.com/NickDJM/accessible-menu/commit/9b33d1a62e40dfc3d25f4d8219d75021e94379cd))
+* use test run script for prerelease ([6cc60a3](https://github.com/NickDJM/accessible-menu/commit/6cc60a34a45654c9166e136db95b98afdf060d23))
+
 ### [3.0.5](https://github.com/NickDJM/accessible-menu/compare/v3.0.4...v3.0.5) (2023-02-09)
 
 
