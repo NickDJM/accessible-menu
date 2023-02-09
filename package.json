@@ -14,7 +14,7 @@
     "lint": "npm run eslint -- --fix && npm run prettier -- --write",
     "eslint": "eslint --ext .js .",
     "prettier": "prettier '**/*.js' --ignore-path .eslintignore",
-    "prerelease": "npm run lint && npm run build && npm test",
+    "prerelease": "npm run lint && npm run build && npm test:run",
     "release": "git add dist/. && standard-version -a",
     "prebuild": "npm run build:docs",
     "build": "npm run build:default; npm run build:disclosure-menu; npm run build:menubar; npm run build:top-link-disclosure-menu; npm run build:treeview",
