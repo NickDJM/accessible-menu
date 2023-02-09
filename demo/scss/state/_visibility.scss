@@ -1,0 +1,13 @@
+/**
+ * Visibility state styles.
+ */
+
+.hide,
+%hide {
+  display: none !important;
+}
+
+.show,
+%show {
+  display: flex !important;
+}

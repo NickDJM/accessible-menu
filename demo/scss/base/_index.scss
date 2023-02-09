@@ -1,0 +1,18 @@
+/**
+ * Base styles.
+ *
+ * A Base rule is applied to an element using an element selector, a descendent selector, or a child selector, along with any pseudo-classes.
+ *
+ * See https://smacss.com/book/type-base for more information.
+ *
+ * Include all files found under the base/ directory.
+ */
+
+@forward "global";
+@forward "a";
+@forward "body";
+@forward "button";
+@forward "footer";
+@forward "header";
+@forward "main";
+@forward "nav";

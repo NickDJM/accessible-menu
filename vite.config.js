@@ -1,5 +1,6 @@
 import { resolve } from "path";
 import { defineConfig } from "vite";
+import BrowserSync from "vite-plugin-browser-sync";
 
 // The type of menu to build.
 const buildType = process.env.BUILD_TYPE ?? "default";
@@ -42,6 +43,7 @@ const lib = {
 };
 
 export default defineConfig({
+  plugins: [BrowserSync()],
   build: {
     lib: lib[buildType] || lib.default,
     emptyOutDir: false,

@@ -1,0 +1,12 @@
+/**
+ * Link base styles.
+ */
+
+a {
+  color: var(--link-color, var(--active-theme-primary));
+  text-decoration-thickness: 0.125em;
+
+  &:hover {
+    color: var(--link-hover-color, var(--active-theme-secondary));
+  }
+}

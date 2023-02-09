@@ -1,0 +1,18 @@
+/**
+ * CSS custom properties.
+ */
+
+:root {
+  /* Colours. */
+  --black: hsl(0, 0%, 5%);
+  --grey: hsl(0, 0%, 50%);
+  --grey-light: hsl(0, 0%, 75%);
+  --grey-dark: hsl(0, 0%, 25%);
+  --white: hsl(0, 0%, 95%);
+  --pink: hsl(329, 85%, 48%);
+  --pink-light: hsl(329, 85%, 60%);
+  --pink-dark: hsl(329, 85%, 40%);
+  --blue: hsl(224, 94%, 59%);
+  --blue-light: hsl(224, 94%, 70%);
+  --blue-dark: hsl(224, 94%, 35%);
+}

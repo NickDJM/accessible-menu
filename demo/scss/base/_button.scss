@@ -1,0 +1,35 @@
+/**
+ * Button base styles.
+ */
+
+@use "../mixins/target";
+
+button {
+  @include target.make-target();
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: var(--button-background, var(--active-theme-primary));
+  color: var(--button-color, var(--active-theme-light));
+  padding: var(--button-padding, var(--button-padding-y, 0.5rem) var(--button-padding-x, 1rem));
+  transition: background 250ms linear, color 250ms linear;
+
+  &:hover {
+    --button-background: var(--button-hover-background, var(--active-theme-primary-dark));
+    --button-color: var(--button-hover-color, var(--active-theme-light));
+
+    cursor: pointer;
+  }
+
+  &.active {
+    --button-background: var(--button-active-background, var(--active-theme-secondary));
+    --button-color: var(--button-active-color, var(--active-theme-light));
+
+    &:hover {
+      --button-background: var(--button-active-hover-background, var(--active-theme-secondary-dark));
+      --button-color: var(--button-active-color, var(--active-theme-light));
+    }
+  }
+}
