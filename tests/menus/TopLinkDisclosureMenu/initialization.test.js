@@ -2,6 +2,7 @@
  * Test the TopLinkDisclosureMenu class to make sure it can initialize under various scenarios.
  */
 
+import { describe, test, expect, vi } from "vitest";
 import { TopLinkDisclosureMenu } from "../../../index";
 import { oneLevelMenu } from "../_common/test-menus";
 import {
@@ -16,7 +17,7 @@ customizedMenu(TopLinkDisclosureMenu);
 
 describe("TopLinkDisclosureMenu-specific initialization", () => {
   // Mock console.error.
-  console.error = jest.fn((error) => {
+  console.error = vi.fn((error) => {
     throw new Error(error);
   });
 

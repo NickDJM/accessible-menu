@@ -2,6 +2,7 @@
  * Test the TopLinkDisclosureMenu class to make sure it functions correctly.
  */
 
+import { describe, test, expect } from "vitest";
 import { TopLinkDisclosureMenu } from "../../../index";
 import {
   openClose,

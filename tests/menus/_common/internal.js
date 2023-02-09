@@ -2,6 +2,7 @@
  * Reusable internal menu function tests.
  */
 
+import { describe, test, expect } from "vitest";
 import { twoLevelMenu, twoLevelTopLinkMenu } from "./test-menus";
 
 /**

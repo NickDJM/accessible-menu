@@ -2,6 +2,8 @@
  * Various help functions for testing.
  */
 
+import { expect } from "vitest";
+
 /**
  * Extends jsdom MouseEvent class as PointerEvent class
  *
@@ -28,7 +30,6 @@ window.PointerEvent = PointerEvent;
 export function simulatePointerEvent(eventType, element, options = {}) {
   try {
     const event = new PointerEvent(eventType, {
-      view: window,
       bubbles: true,
       cancelable: true,
       ...options,
@@ -49,7 +50,6 @@ export function simulatePointerEvent(eventType, element, options = {}) {
 export function simulateKeyboardEvent(eventType, element, options = {}) {
   try {
     const event = new KeyboardEvent(eventType, {
-      view: window,
       bubbles: true,
       cancelable: true,
       ...options,
@@ -97,7 +97,7 @@ export function toggleIsOpen(toggle) {
   const { parentMenu, controlledMenu } = toggle.elements;
 
   // Toggle expectations.
-  expect(toggle.isOpen).toBeTrue();
+  expect(toggle.isOpen).toBeTruthy();
   expect(toggle.dom.toggle.getAttribute("aria-expanded")).toBe("true");
 
   // Parent menu expectations.
@@ -107,8 +107,8 @@ export function toggleIsOpen(toggle) {
 
   // Controlled menu expectations.
   expect(controlledMenu.focusState).toBe("self");
-  expect(controlledMenu.dom.menu.classList.contains("show")).toBeTrue();
-  expect(controlledMenu.dom.menu.classList.contains("hide")).toBeFalse();
+  expect(controlledMenu.dom.menu.classList.contains("show")).toBeTruthy();
+  expect(controlledMenu.dom.menu.classList.contains("hide")).toBeFalsy();
 }
 
 /**
@@ -120,7 +120,7 @@ export function toggleIsPreviewed(toggle) {
   const { parentMenu, controlledMenu } = toggle.elements;
 
   // Toggle expectations.
-  expect(toggle.isOpen).toBeTrue();
+  expect(toggle.isOpen).toBeTruthy();
   expect(toggle.dom.toggle.getAttribute("aria-expanded")).toBe("true");
 
   // Parent menu expectations.
@@ -130,8 +130,8 @@ export function toggleIsPreviewed(toggle) {
 
   // Controlled menu expectations.
   expect(controlledMenu.focusState).toBe("none");
-  expect(controlledMenu.dom.menu.classList.contains("show")).toBeTrue();
-  expect(controlledMenu.dom.menu.classList.contains("hide")).toBeFalse();
+  expect(controlledMenu.dom.menu.classList.contains("show")).toBeTruthy();
+  expect(controlledMenu.dom.menu.classList.contains("hide")).toBeFalsy();
 }
 
 /**
@@ -143,7 +143,7 @@ export function toggleIsClosed(toggle) {
   const { parentMenu, controlledMenu } = toggle.elements;
 
   // Toggle expectations.
-  expect(toggle.isOpen).toBeFalse();
+  expect(toggle.isOpen).toBeFalsy();
   expect(toggle.dom.toggle.getAttribute("aria-expanded")).toBe("false");
 
   // Parent menu expectations.
@@ -153,6 +153,6 @@ export function toggleIsClosed(toggle) {
 
   // Controlled menu expectations.
   expect(controlledMenu.focusState).toBe("none");
-  expect(controlledMenu.dom.menu.classList.contains("show")).toBeFalse();
-  expect(controlledMenu.dom.menu.classList.contains("hide")).toBeTrue();
+  expect(controlledMenu.dom.menu.classList.contains("show")).toBeFalsy();
+  expect(controlledMenu.dom.menu.classList.contains("hide")).toBeTruthy();
 }
