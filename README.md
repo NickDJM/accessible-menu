@@ -189,3 +189,11 @@ For more detailed information about SemVer, please see the [official documentati
 ## Contributing
 
 If you're interested in contributing to the project, please read the [Contribution Guidelines](.github/CONTRIBUTING.md). Any and all contributions _must_ follow these guidelines or they will not be accepted.
+
+## Sponsors
+
+<p align="center">
+  <a href="https://coldfrontlabs.ca">
+    <img src="https://coldfrontlabs.ca/themes/custom/frosty/images/coldfrontlabs-flakkon-logo.png" alt="Coldfront Labs Inc." width="300px"/>
+  </a>
+</p>
