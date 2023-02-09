@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Accessible Menu Demo</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.css"/>
+    <link rel="stylesheet" href="./demo/scss/style.scss"/>
+  </head>
+  <body>
+    <header></header>
+    <main>
+      <h1>Hello Accessible Menu!</h1>
+      <p>This is a demo and manual testing application for <a href="https://github.com/NickDJM/accessible-menu" target="_blank">accessible-menu</a>.</p>
+      <p>This app allows you to swamp between one, two, and three levels of navigation for all supported types of menus provided by accessible-menu.</p>
+      <p>You can also swap between light and dark mode for ease of use on you if you find white screens too bright.</p>
+      <p>For more in-depth information about how accessible-menu works, please read <a href="https://accessible-menu.netlify.app/" target="_blank">the documentation</a>.</p>
+      <section aria-labelledby="themeSettings">
+        <h2 id="themeSettings">Theme Settings</h2>
+        <div class="button-container">
+          <button id="themeToggle">Dark Mode</button>
+        </div>
+      </section>
+      <section aria-labelledby="menuStructureSettings">
+        <h2 id="menuStructureSettings">Menu Structure Settings</h2>
+        <div id="domButtons" class="button-container">
+          <button id="buttonSingleLevel" data-menu-structure="one" class="active">Single-Level Menu</button>
+          <button id="buttonTwoLevel" data-menu-structure="two">Two-Level Menu</button>
+          <button id="buttonThreeLevel" data-menu-structure="three">Three-Level Menu</button>
+        </div>
+      </section>
+      <section aria-labelledby="menuTypeSettings">
+        <h2 id="menuTypeSettings">Menu Type Settings</h2>
+        <div id="menuButtons" class="button-container">
+          <button id="buttonReset" data-menu-type="" class="active">Native DOM</button>
+          <button id="buttonDisclosureMenu" data-menu-type="DisclosureMenu">Disclosure Menu</button>
+          <button id="buttonMenubar" data-menu-type="Menubar">Menubar</button>
+          <button id="buttonTreeview" data-menu-type="Treeview">Treeview</button>
+          <button id="buttonTopLinkDisclosureMenu" data-menu-type="TopLinkDisclosureMenu">Top Link Disclosure Menu</button>
+        </div>
+      </section>
+      <section aria-labelledby="hoverSettings">
+        <h2 id="hoverSettings">Hover Settings</h2>
+        <div id="hoverButtons" class="button-container">
+          <button id="buttonHoverOff" data-hover-type="off" class="active">Off</button>
+          <button id="buttonHoverOn" data-hover-type="on">On</button>
+          <button id="buttonHoverDynamic" data-hover-type="dynamic">Dynamic</button>
+        </div>
+      </section>
+    </main>
+    <footer id="disclaimer">
+      <p>Please note the menu provided in the header is for example purposes only. Links and link titles aren't actually related to the content of the page. It is only for demoing/testing accessible-menu's functionality.</p>
+    </footer>
+    <script type="module" src="./demo/main.js"></script>
+  </body>
+</html>

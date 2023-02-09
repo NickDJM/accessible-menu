@@ -1,0 +1,12 @@
+/**
+ * Theme styles.
+ *
+ * Theme styles are for colour and typograpy changes.
+ *
+ * See https://smacss.com/book/type-theme for more information.
+ *
+ * Include all files found under the theme/ directory.
+ */
+
+@forward "theme-variant";
+@forward "typography";

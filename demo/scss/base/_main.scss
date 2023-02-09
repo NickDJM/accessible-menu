@@ -1,0 +1,14 @@
+/**
+ * Main base styles.
+ */
+
+main {
+  grid-area: content;
+  width: 100%;
+  padding: 0 1rem;
+
+  > div {
+    margin: 1rem auto 0;
+    width: 100%;
+  }
+}

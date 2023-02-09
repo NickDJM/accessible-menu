@@ -1,0 +1,10 @@
+/**
+ * Mixing to make an element meet the minimum requirements for targetting.
+ */
+
+@use "../variables";
+
+@mixin make-target() {
+  min-width: variables.$interactive-min-width;
+  min-height: variables.$interactive-min-height;
+}
