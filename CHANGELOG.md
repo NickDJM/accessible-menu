@@ -2,6 +2,46 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.5](https://github.com/NickDJM/accessible-menu/compare/v3.0.4...v3.0.5) (2023-02-09)
+
+
+### Bug Fixes
+
+* enter/space should toggle submenu visibility ([6472c69](https://github.com/NickDJM/accessible-menu/commit/6472c6995cfa1f73a23d4c358b6d319f312d7ef1))
+* **tests:** add jest-jsdom-environment to project ([3a2a13a](https://github.com/NickDJM/accessible-menu/commit/3a2a13a68ab9781b7261e252284fb998fb93e4db))
+
+
+### Build System
+
+* bump @commitlint/cli from 15.0.0 to 16.0.1 ([692a10b](https://github.com/NickDJM/accessible-menu/commit/692a10b60bdf7091615dd0cf7a2161ba9bff326b))
+* bump @commitlint/cli from 16.3.0 to 17.0.0 ([f6aa717](https://github.com/NickDJM/accessible-menu/commit/f6aa717e1b261fb907d0c7f55c19f3ba466de033))
+* bump @commitlint/config-conventional from 15.0.0 to 16.0.0 ([9aeca1f](https://github.com/NickDJM/accessible-menu/commit/9aeca1ff3b63eee65ba22d1d5bd721b30d083c90))
+* bump @commitlint/config-conventional from 16.2.4 to 17.0.0 ([b8c93e2](https://github.com/NickDJM/accessible-menu/commit/b8c93e2edaa51b690835f2b30cadd01edd50c5ec))
+* bump @rollup/plugin-babel from 5.3.1 to 6.0.0 ([447f1af](https://github.com/NickDJM/accessible-menu/commit/447f1af7bf9255dbb1279b75dea1618b56347e1b))
+* bump docdash from 1.2.0 to 2.0.0 ([7346b0f](https://github.com/NickDJM/accessible-menu/commit/7346b0f50173dff2d7acb4ede1ca2fd30d5c168d))
+* bump eslint-plugin-jsdoc from 37.9.7 to 38.0.3 ([3d7666c](https://github.com/NickDJM/accessible-menu/commit/3d7666c0435aed0f2e200a4204bcbc28159c3b22))
+* bump eslint-plugin-jsdoc from 38.1.6 to 39.1.0 ([f5ef611](https://github.com/NickDJM/accessible-menu/commit/f5ef6113747f73638fe972525fd48ce995b674c6))
+* bump husky from 7.0.4 to 8.0.1 ([40ac409](https://github.com/NickDJM/accessible-menu/commit/40ac40966641e6f1b3e5d8c1d5b6aa22dc225865))
+* bump jest from 27.5.1 to 28.0.2 ([de25db8](https://github.com/NickDJM/accessible-menu/commit/de25db8885369a21945d0805ff21116e84828068))
+* bump jest from 28.1.3 to 29.0.0 ([9fae69c](https://github.com/NickDJM/accessible-menu/commit/9fae69cc8178995484292232137d4fb42673c8fb))
+* bump jest-environment-jsdom from 28.1.3 to 29.0.0 ([ad06a1f](https://github.com/NickDJM/accessible-menu/commit/ad06a1fce988b8907c87c0295fe2bea3e4341fa5))
+* bump jest-extended from 1.2.1 to 2.0.0 ([66491a2](https://github.com/NickDJM/accessible-menu/commit/66491a2dd6761dfb42845e52167e304794a93282))
+* bump jest-extended from 2.1.0 to 3.0.0 ([90eff49](https://github.com/NickDJM/accessible-menu/commit/90eff49ec6dd1e270ef88bcaf825d88eb5d66247))
+* bump jsdoc from 3.6.11 to 4.0.0 ([83f807e](https://github.com/NickDJM/accessible-menu/commit/83f807e57858596dbdbb258f65fb81e4299ffeb7))
+* bump lint-staged from 12.5.0 to 13.0.1 ([58058da](https://github.com/NickDJM/accessible-menu/commit/58058daf15543ebef2394dfcd262765a5bdd1b86))
+
+
+### Documentation
+
+* add Coldfront Labs Inc. as a sponsor ([a867085](https://github.com/NickDJM/accessible-menu/commit/a867085fe5dc935dcb21923062daf9a86b924bd7)), closes [#188](https://github.com/NickDJM/accessible-menu/issues/188)
+* **badges:** update path to workflow badges ([fdf72ea](https://github.com/NickDJM/accessible-menu/commit/fdf72ea72024500414a9b0030a0c6f0bc24fd103)), closes [#190](https://github.com/NickDJM/accessible-menu/issues/190)
+* correct incorrect default value for isTopLevel documentation ([a47662f](https://github.com/NickDJM/accessible-menu/commit/a47662fe227599bba29959767287a683a2038ff8))
+* correct type in link to DisclosureMenu ([a20bed1](https://github.com/NickDJM/accessible-menu/commit/a20bed1ae6119b5edc87a209160c34322531594b))
+* fix broken WAI ARIA example links ([853934e](https://github.com/NickDJM/accessible-menu/commit/853934e4990591754d5ec7e86436ae49f13b01fc))
+* update examples links to working codepens ([6837573](https://github.com/NickDJM/accessible-menu/commit/6837573eb08c932596086c108e58fa5e99aee7f9)), closes [#191](https://github.com/NickDJM/accessible-menu/issues/191)
+* update links to aria apg ([8f35759](https://github.com/NickDJM/accessible-menu/commit/8f357596066dd4b94c35d08919029af1c5dcd761))
+* update readme to mention accessible-menu-bootstrap-5 ([8516528](https://github.com/NickDJM/accessible-menu/commit/8516528e80cef9d97264599b17b25fe860665f2e))
+
 ### [3.0.4](https://github.com/NickDJM/accessible-menu/compare/v3.0.3...v3.0.4) (2021-11-30)
 
 
