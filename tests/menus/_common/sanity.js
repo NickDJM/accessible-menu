@@ -236,8 +236,6 @@ export function twoLevelSanity(MenuClass) {
           `${toggleIDBase}-3-0-0`,
           `${toggleIDBase}-5-0-0`,
         ];
-        console.log(expectedIDs);
-        console.log(menuLinks);
         expect(menu.dom.submenuToggles).toMatchObject(
           menuLinks.filter((item) => expectedIDs.includes(item.id))
         );
