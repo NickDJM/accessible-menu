@@ -4,11 +4,13 @@ export const singleLevel =
 <nav id="example-menu" aria-label="example" aria-describedby="disclaimer">
   <button id="example-toggle" aria-label="Toggle example menu">☰</button>
   <ul>
+    <li><a href="#">About</a></li>
     <li><a href="#">Mammals</a></li>
     <li><a href="#">Reptiles</a></li>
     <li><a href="#">Amphibians</a></li>
     <li><a href="#">Birds</a></li>
     <li><a href="#">Fish</a></li>
+    <li><a href="#">Contact</a></li>
   </ul>
 </nav>
 `;
@@ -19,41 +21,58 @@ export const twoLevel =
 <nav id="example-menu" aria-label="example" aria-describedby="disclaimer">
   <button id="example-toggle" aria-label="Toggle example menu">☰</button>
   <ul>
+    <li><a href="#">About</a></li>
     <li class="dropdown">
       <a href="#">Mammals</a>
       <ul>
+        <li><a href="#">About</a></li>
         <li><a href="#">Wild</a></li>
         <li><a href="#">Domesticated</a></li>
+        <li><a href="#">Habitats</a></li>
+        <li><a href="#">Food</a></li>
       </ul>
     </li>
     <li class="dropdown">
       <a href="#">Reptiles</a>
       <ul>
+        <li><a href="#">About</a></li>
         <li><a href="#">Wild</a></li>
         <li><a href="#">Domesticated</a></li>
+        <li><a href="#">Habitats</a></li>
+        <li><a href="#">Food</a></li>
       </ul>
     </li>
     <li class="dropdown">
       <a href="#">Amphibians</a>
       <ul>
+        <li><a href="#">About</a></li>
         <li><a href="#">Wild</a></li>
         <li><a href="#">Domesticated</a></li>
+        <li><a href="#">Habitats</a></li>
+        <li><a href="#">Food</a></li>
       </ul>
     </li>
     <li class="dropdown dropdown-left">
       <a href="#">Birds</a>
       <ul>
+        <li><a href="#">About</a></li>
         <li><a href="#">Wild</a></li>
         <li><a href="#">Domesticated</a></li>
+        <li><a href="#">Habitats</a></li>
+        <li><a href="#">Food</a></li>
       </ul>
     </li>
     <li class="dropdown dropdown-left">
       <a href="#">Fish</a>
       <ul>
+        <li><a href="#">About</a></li>
         <li><a href="#">Wild</a></li>
         <li><a href="#">Domesticated</a></li>
+        <li><a href="#">Habitats</a></li>
+        <li><a href="#">Food</a></li>
       </ul>
     </li>
+    <li><a href="#">Contact</a></li>
   </ul>
 </nav>
 `;
@@ -64,46 +83,63 @@ export const twoLevelTopLink =
 <nav id="example-menu"  aria-label="example" aria-describedby="disclaimer">
   <button id="example-toggle" aria-label="Toggle example menu">☰</button>
   <ul>
+    <li><a href="#">About</a></li>
     <li class="dropdown">
       <a href="#">Mammals</a>
       <button aria-label="Mammals submenu"></button>
       <ul>
+        <li><a href="#">About</a></li>
         <li><a href="#">Wild</a></li>
         <li><a href="#">Domesticated</a></li>
+        <li><a href="#">Habitats</a></li>
+        <li><a href="#">Food</a></li>
       </ul>
     </li>
     <li class="dropdown">
       <a href="#">Reptiles</a>
       <button aria-label="Reptiles submenu"></button>
       <ul>
+        <li><a href="#">About</a></li>
         <li><a href="#">Wild</a></li>
         <li><a href="#">Domesticated</a></li>
+        <li><a href="#">Habitats</a></li>
+        <li><a href="#">Food</a></li>
       </ul>
     </li>
     <li class="dropdown">
       <a href="#">Amphibians</a>
       <button aria-label="Amphibians submenu"></button>
       <ul>
+        <li><a href="#">About</a></li>
         <li><a href="#">Wild</a></li>
         <li><a href="#">Domesticated</a></li>
+        <li><a href="#">Habitats</a></li>
+        <li><a href="#">Food</a></li>
       </ul>
     </li>
     <li class="dropdown dropdown-left">
       <a href="#">Birds</a>
       <button aria-label="Birds submenu"></button>
       <ul>
+        <li><a href="#">About</a></li>
         <li><a href="#">Wild</a></li>
         <li><a href="#">Domesticated</a></li>
+        <li><a href="#">Habitats</a></li>
+        <li><a href="#">Food</a></li>
       </ul>
     </li>
     <li class="dropdown dropdown-left">
       <a href="#">Fish</a>
       <button aria-label="Fish submenu"></button>
       <ul>
+        <li><a href="#">About</a></li>
         <li><a href="#">Wild</a></li>
         <li><a href="#">Domesticated</a></li>
+        <li><a href="#">Habitats</a></li>
+        <li><a href="#">Food</a></li>
       </ul>
     </li>
+    <li><a href="#">Contact</a></li>
   </ul>
 </nav>
 `;
@@ -114,9 +150,11 @@ export const threeLevel =
 <nav id="example-menu"  aria-label="example" aria-describedby="disclaimer">
   <button id="example-toggle" aria-label="Toggle example menu">☰</button>
   <ul>
+    <li><a href="#">About</a></li>
     <li class="dropdown">
       <a href="#">Mammals</a>
       <ul>
+        <li><a href="#">About</a></li>
         <li class="dropdown">
           <a href="#">Wild</a>
           <ul>
@@ -133,11 +171,14 @@ export const threeLevel =
             <li><a href="#">Horses</a></li>
           </ul>
         </li>
+        <li><a href="#">Habitats</a></li>
+        <li><a href="#">Food</a></li>
       </ul>
     </li>
     <li class="dropdown">
       <a href="#">Reptiles</a>
       <ul>
+        <li><a href="#">About</a></li>
         <li class="dropdown">
           <a href="#">Wild</a>
           <ul>
@@ -154,11 +195,14 @@ export const threeLevel =
             <li><a href="#">Iguanas</a></li>
           </ul>
         </li>
+        <li><a href="#">Habitats</a></li>
+        <li><a href="#">Food</a></li>
       </ul>
     </li>
     <li class="dropdown">
       <a href="#">Amphibians</a>
       <ul>
+        <li><a href="#">About</a></li>
         <li class="dropdown">
           <a href="#">Wild</a>
           <ul>
@@ -175,11 +219,14 @@ export const threeLevel =
             <li><a href="#">Frogs</a></li>
           </ul>
         </li>
+        <li><a href="#">Habitats</a></li>
+        <li><a href="#">Food</a></li>
       </ul>
     </li>
     <li class="dropdown dropdown-left">
       <a href="#">Birds</a>
       <ul>
+        <li><a href="#">About</a></li>
         <li class="dropdown">
           <a href="#">Wild</a>
           <ul>
@@ -196,11 +243,14 @@ export const threeLevel =
             <li><a href="#">Chickens</a></li>
           </ul>
         </li>
+        <li><a href="#">Habitats</a></li>
+        <li><a href="#">Food</a></li>
       </ul>
     </li>
     <li class="dropdown dropdown-left">
       <a href="#">Fish</a>
       <ul>
+        <li><a href="#">About</a></li>
         <li class="dropdown">
           <a href="#">Wild</a>
           <ul>
@@ -217,8 +267,11 @@ export const threeLevel =
             <li><a href="#">Betta</a></li>
           </ul>
         </li>
+        <li><a href="#">Habitats</a></li>
+        <li><a href="#">Food</a></li>
       </ul>
     </li>
+    <li><a href="#">Contact</a></li>
   </ul>
 </nav>
 `;
@@ -229,10 +282,12 @@ export const threeLevelTopLink =
 <nav id="example-menu"  aria-label="example" aria-describedby="disclaimer">
   <button id="example-toggle" aria-label="Toggle example menu">☰</button>
   <ul>
+    <li><a href="#">About</a></li>
     <li class="dropdown">
       <a href="#">Mammals</a>
       <button aria-label="Mammals submenu"></button>
       <ul>
+        <li><a href="#">About</a></li>
         <li class="dropdown">
           <a href="#">Wild</a>
           <ul>
@@ -249,12 +304,15 @@ export const threeLevelTopLink =
             <li><a href="#">Horses</a></li>
           </ul>
         </li>
+        <li><a href="#">Habitats</a></li>
+        <li><a href="#">Food</a></li>
       </ul>
     </li>
     <li class="dropdown">
       <a href="#">Reptiles</a>
       <button aria-label="Reptiles submenu"></button>
       <ul>
+        <li><a href="#">About</a></li>
         <li class="dropdown">
           <a href="#">Wild</a>
           <ul>
@@ -271,12 +329,15 @@ export const threeLevelTopLink =
             <li><a href="#">Iguanas</a></li>
           </ul>
         </li>
+        <li><a href="#">Habitats</a></li>
+        <li><a href="#">Food</a></li>
       </ul>
     </li>
     <li class="dropdown">
       <a href="#">Amphibians</a>
       <button aria-label="Amphibians submenu"></button>
       <ul>
+        <li><a href="#">About</a></li>
         <li class="dropdown">
           <a href="#">Wild</a>
           <ul>
@@ -293,12 +354,15 @@ export const threeLevelTopLink =
             <li><a href="#">Frogs</a></li>
           </ul>
         </li>
+        <li><a href="#">Habitats</a></li>
+        <li><a href="#">Food</a></li>
       </ul>
     </li>
     <li class="dropdown dropdown-left">
       <a href="#">Birds</a>
       <button aria-label="Birds submenu"></button>
       <ul>
+        <li><a href="#">About</a></li>
         <li class="dropdown">
           <a href="#">Wild</a>
           <ul>
@@ -315,12 +379,15 @@ export const threeLevelTopLink =
             <li><a href="#">Chickens</a></li>
           </ul>
         </li>
+        <li><a href="#">Habitats</a></li>
+        <li><a href="#">Food</a></li>
       </ul>
     </li>
     <li class="dropdown dropdown-left">
       <a href="#">Fish</a>
       <button aria-label="Fish submenu"></button>
       <ul>
+        <li><a href="#">About</a></li>
         <li class="dropdown">
           <a href="#">Wild</a>
           <ul>
@@ -337,8 +404,11 @@ export const threeLevelTopLink =
             <li><a href="#">Betta</a></li>
           </ul>
         </li>
+        <li><a href="#">Habitats</a></li>
+        <li><a href="#">Food</a></li>
       </ul>
     </li>
+    <li><a href="#">Contact</a></li>
   </ul>
 </nav>
 `;
