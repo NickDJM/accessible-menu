@@ -21,7 +21,9 @@ module.exports = {
       "warn",
       "always",
       {
-        noEndLines: true,
+        applyToEndTag: false,
+        startLines: 1,
+        endLines: 0,
         tags: {
           property: { lines: "never" },
           param: { lines: "never" },
