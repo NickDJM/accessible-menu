@@ -110,7 +110,9 @@ class TopLinkDisclosureMenu extends BaseMenu {
    * @param {boolean}                      [options.isTopLevel = true]              - A flag to mark the root menu.
    * @param {(TopLinkDisclosureMenu|null)} [options.parentMenu = null]              - The parent menu to this menu.
    * @param {string}                       [options.hoverType = off]                - The type of hoverability a menu has.
-   * @param {number}                       [options.hoverDelay = 250]               - The delay for closing menus if the menu is hoverable (in miliseconds).
+   * @param {number}                       [options.hoverDelay = 250]               - The delay for opening and closing menus if the menu is hoverable (in miliseconds).
+   * @param {number}                       [options.enterDelay = -1]                - The delay for opening a menu if the menu is focusable (in miliseconds).
+   * @param {number}                       [options.leaveDelay = -1]                - The delay for closing a menu if the menu is focusable (in miliseconds).
    * @param {boolean}                      [options.optionalKeySupport = false]     - A flag to add optional keyboard support (Arrow keys, Home, and End) to the menu.
    * @param {boolean}                      [options.initialize = true]              - A flag to initialize the menu immediately upon creation.
    */
@@ -130,6 +132,8 @@ class TopLinkDisclosureMenu extends BaseMenu {
     parentMenu = null,
     hoverType = "off",
     hoverDelay = 250,
+    enterDelay = -1,
+    leaveDelay = -1,
     optionalKeySupport = false,
     initialize = true,
   }) {
@@ -148,6 +152,8 @@ class TopLinkDisclosureMenu extends BaseMenu {
       parentMenu,
       hoverType,
       hoverDelay,
+      enterDelay,
+      leaveDelay,
     });
 
     // Set optional key support.
@@ -431,11 +437,20 @@ class TopLinkDisclosureMenu extends BaseMenu {
           this.currentEvent = "mouse";
           this.currentChild = index;
 
+          let toggle = menuItem.isSubmenuItem ? menuItem.elements.toggle : null;
+
           // Hovering over both the menu item _and_ the toggle item should work.
-          if (menuItem.isSubmenuItem) {
-            menuItem.elements.toggle.preview();
-          } else if (menuItem.elements.sibling !== null) {
-            menuItem.elements.sibling.elements.toggle.preview();
+          if (menuItem.elements.sibling !== null) {
+            toggle = menuItem.elements.sibling.elements.toggle;
+          }
+
+          // If there is no toggle, exit out of the event.
+          if (toggle === null) return;
+
+          if (this.hoverDelay > 0) {
+            this._hoverTimout = setTimeout(() => {
+              toggle.preview();
+            }, this.enterDelay);
           }
         } else if (this.hoverType === "dynamic") {
           const isOpen = this.elements.submenuToggles.some(
@@ -451,11 +466,22 @@ class TopLinkDisclosureMenu extends BaseMenu {
           if (!this.isTopLevel || isOpen) {
             this.currentEvent = "mouse";
 
+            let toggle = menuItem.isSubmenuItem
+              ? menuItem.elements.toggle
+              : null;
+
             // Hovering over both the menu item _and_ the toggle item should work.
-            if (menuItem.isSubmenuItem) {
-              menuItem.elements.toggle.preview();
-            } else if (menuItem.elements.sibling !== null) {
-              menuItem.elements.sibling.elements.toggle.preview();
+            if (menuItem.elements.sibling !== null) {
+              toggle = menuItem.elements.sibling.elements.toggle;
+            }
+
+            // If there is no toggle, exit out of the event.
+            if (toggle === null) return;
+
+            if (this.hoverDelay > 0) {
+              this._hoverTimout = setTimeout(() => {
+                toggle.preview();
+              }, this.enterDelay);
             }
           }
         }
