@@ -178,7 +178,7 @@ class BaseMenu {
   _hoverType = "off";
 
   /**
-   * The delay time (in miliseconds) used for mouseout events to take place.
+   * The delay time (in miliseconds) used for pointerenter/pointerleave events to take place.
    *
    * @protected
    *
@@ -186,8 +186,22 @@ class BaseMenu {
    */
   _hoverDelay = 250;
 
+  /**
+   * The delay time (in miliseconds) used for pointerenter events to take place.
+   *
+   * @protected
+   *
+   * @type {number}
+   */
   _enterDelay = -1;
 
+  /**
+   * The delay time (in miliseconds) used for pointerleave events to take place.
+   *
+   * @protected
+   *
+   * @type {number}
+   */
   _leaveDelay = -1;
 
   /**
