@@ -275,5 +275,23 @@ export function customizedMenu(MenuClass) {
         });
       }).toThrow('hoverDelay must be a number. "string" given.');
     });
+
+    test("will fail if enterDelay is invalid", () => {
+      expect(() => {
+        new MenuClass({
+          menuElement,
+          enterDelay: "250",
+        });
+      }).toThrow('enterDelay must be a number. "string" given.');
+    });
+
+    test("will fail if leaveDelay is invalid", () => {
+      expect(() => {
+        new MenuClass({
+          menuElement,
+          leaveDelay: "250",
+        });
+      }).toThrow('leaveDelay must be a number. "string" given.');
+    });
   });
 }
