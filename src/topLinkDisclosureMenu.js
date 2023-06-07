@@ -447,8 +447,9 @@ class TopLinkDisclosureMenu extends BaseMenu {
           // If there is no toggle, exit out of the event.
           if (toggle === null) return;
 
-          if (this.hoverDelay > 0) {
-            this._hoverTimout = setTimeout(() => {
+          if (this.enterDelay > 0) {
+            clearTimeout(this._hoverTimeout);
+            this._hoverTimeout = setTimeout(() => {
               toggle.preview();
             }, this.enterDelay);
           }
@@ -478,8 +479,9 @@ class TopLinkDisclosureMenu extends BaseMenu {
             // If there is no toggle, exit out of the event.
             if (toggle === null) return;
 
-            if (this.hoverDelay > 0) {
-              this._hoverTimout = setTimeout(() => {
+            if (this.enterDelay > 0) {
+              clearTimeout(this._hoverTimeout);
+              this._hoverTimeout = setTimeout(() => {
                 toggle.preview();
               }, this.enterDelay);
             }
@@ -495,23 +497,25 @@ class TopLinkDisclosureMenu extends BaseMenu {
           }
 
           if (this.hoverType === "on") {
-            if (this.hoverDelay > 0) {
+            if (this.leaveDelay > 0) {
+              clearTimeout(this._hoverTimeout);
               setTimeout(() => {
                 this.currentEvent = "mouse";
                 menuItem.elements.toggle.close();
-              }, this.hoverDelay);
+              }, this.leaveDelay);
             } else {
               this.currentEvent = "mouse";
               menuItem.elements.toggle.close();
             }
           } else if (this.hoverType === "dynamic") {
             if (!this.isTopLevel) {
-              if (this.hoverDelay > 0) {
+              if (this.leaveDelay > 0) {
+                clearTimeout(this._hoverTimeout);
                 setTimeout(() => {
                   this.currentEvent = "mouse";
                   menuItem.elements.toggle.close();
                   this.focusCurrentChild();
-                }, this.hoverDelay);
+                }, this.leaveDelay);
               } else {
                 this.currentEvent = "mouse";
                 menuItem.elements.toggle.close();
