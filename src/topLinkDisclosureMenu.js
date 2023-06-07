@@ -452,6 +452,8 @@ class TopLinkDisclosureMenu extends BaseMenu {
             this._hoverTimeout = setTimeout(() => {
               toggle.preview();
             }, this.enterDelay);
+          } else {
+            toggle.preview();
           }
         } else if (this.hoverType === "dynamic") {
           const isOpen = this.elements.submenuToggles.some(
@@ -484,6 +486,8 @@ class TopLinkDisclosureMenu extends BaseMenu {
               this._hoverTimeout = setTimeout(() => {
                 toggle.preview();
               }, this.enterDelay);
+            } else {
+              toggle.preview();
             }
           }
         }
