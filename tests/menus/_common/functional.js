@@ -365,7 +365,7 @@ export function hoverTests(MenuClass) {
       toggleIsPreviewed(newToggle);
     });
 
-    test("submenus that are not direct children of the root menu with open when a mouse enters their controller", () => {
+    test("submenus that are not direct children of the root menu will open when a mouse enters their controller", () => {
       // Set up the DOM.
       document.body.innerHTML =
         menuType === "TopLinkDisclosureMenu" ? fullTopLinkMenu : fullMenu;
