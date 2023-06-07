@@ -825,6 +825,26 @@ class BaseMenu {
       check = false;
     }
 
+    // Enter delay check.
+    const enterDelayCheck = isValidType("number", {
+      enterDelay: this._enterDelay,
+    });
+
+    if (!enterDelayCheck.status) {
+      this._errors.push(enterDelayCheck.error.message);
+      check = false;
+    }
+
+    // Leave delay check.
+    const leaveDelayCheck = isValidType("number", {
+      leaveDelay: this._leaveDelay,
+    });
+
+    if (!leaveDelayCheck.status) {
+      this._errors.push(leaveDelayCheck.error.message);
+      check = false;
+    }
+
     return check;
   }
 
