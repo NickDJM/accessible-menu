@@ -1192,7 +1192,7 @@ class BaseMenu {
           if (this.hoverType === "on") {
             if (this.leaveDelay > 0) {
               clearTimeout(this._hoverTimeout);
-              this._hoverTimeout = setTimeout(() => {
+              setTimeout(() => {
                 this.currentEvent = "mouse";
                 menuItem.elements.toggle.close();
               }, this.leaveDelay);
