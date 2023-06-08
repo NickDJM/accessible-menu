@@ -245,7 +245,7 @@ class BaseMenu {
    * @param {?HTMLElement}       [options.containerElement = null]         - The element containing the menu in the DOM.
    * @param {?(string|string[])} [options.openClass = show]                - The class to apply when a menu is "open".
    * @param {?(string|string[])} [options.closeClass = hide]               - The class to apply when a menu is "closed".
-   * @param {?(string|string[])} [options.transitionClass = transitioning] - The class to apply when a menu is transitioning between open and closed states.
+   * @param {?(string|string[])} [options.transitionClass = transitioning] - The class to apply when a menu is transitioning between "open" and "closed" states.
    * @param {boolean}            [options.isTopLevel = false]              - A flag to mark the root menu.
    * @param {?BaseMenu}          [options.parentMenu = null]               - The parent menu to this menu.
    * @param {string}             [options.hoverType = off]                 - The type of hoverability a menu has.
