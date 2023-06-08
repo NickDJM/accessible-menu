@@ -53,24 +53,25 @@ class Menubar extends BaseMenu {
   /**
    * Constructs the menu.
    *
-   * @param {object}                 options                             - The options for generating the menu.
-   * @param {HTMLElement}            options.menuElement                 - The menu element in the DOM.
-   * @param {string}                 [options.menuItemSelector = li]     - The CSS selector string for menu items.
-   * @param {string}                 [options.menuLinkSelector = a]      - The CSS selector string for menu links.
-   * @param {string}                 [options.submenuItemSelector]       - The CSS selector string for menu items containing submenus.
-   * @param {string}                 [options.submenuToggleSelector = a] - The CSS selector string for submenu toggle buttons/links.
-   * @param {string}                 [options.submenuSelector = ul]      - The CSS selector string for submenus.
-   * @param {(HTMLElement|null)}     [options.controllerElement = null]  - The element controlling the menu in the DOM.
-   * @param {(HTMLElement|null)}     [options.containerElement = null]   - The element containing the menu in the DOM.
-   * @param {(string|string[]|null)} [options.openClass = show]          - The class to apply when a menu is "open".
-   * @param {(string|string[]|null)} [options.closeClass = hide]         - The class to apply when a menu is "closed".
-   * @param {boolean}                [options.isTopLevel = true]         - A flag to mark the root menu.
-   * @param {(Menubar|null)}         [options.parentMenu = null]         - The parent menu to this menu.
-   * @param {string}                 [options.hoverType = off]           - The type of hoverability a menu has.
-   * @param {number}                 [options.hoverDelay = 250]          - The delay for opening and closing menus if the menu is hoverable (in miliseconds).
-   * @param {number}                 [options.enterDelay = -1]           - The delay for opening a menu if the menu is focusable (in miliseconds).
-   * @param {number}                 [options.leaveDelay = -1]           - The delay for closing a menu if the menu is focusable (in miliseconds).
-   * @param {boolean}                [options.initialize = true]         - A flag to initialize the menu immediately upon creation.
+   * @param {object}             options                                   - The options for generating the menu.
+   * @param {HTMLElement}        options.menuElement                       - The menu element in the DOM.
+   * @param {string}             [options.menuItemSelector = li]           - The CSS selector string for menu items.
+   * @param {string}             [options.menuLinkSelector = a]            - The CSS selector string for menu links.
+   * @param {string}             [options.submenuItemSelector]             - The CSS selector string for menu items containing submenus.
+   * @param {string}             [options.submenuToggleSelector = a]       - The CSS selector string for submenu toggle buttons/links.
+   * @param {string}             [options.submenuSelector = ul]            - The CSS selector string for submenus.
+   * @param {?HTMLElement}       [options.controllerElement = null]        - The element controlling the menu in the DOM.
+   * @param {?HTMLElement}       [options.containerElement = null]         - The element containing the menu in the DOM.
+   * @param {?(string|string[])} [options.openClass = show]                - The class to apply when a menu is "open".
+   * @param {?(string|string[])} [options.closeClass = hide]               - The class to apply when a menu is "closed".
+   * @param {?(string|string[])} [options.transitionClass = transitioning] - The class to apply when a menu is transitioning between "open" and "closed" states.
+   * @param {boolean}            [options.isTopLevel = true]               - A flag to mark the root menu.
+   * @param {?Menubar}           [options.parentMenu = null]               - The parent menu to this menu.
+   * @param {string}             [options.hoverType = off]                 - The type of hoverability a menu has.
+   * @param {number}             [options.hoverDelay = 250]                - The delay for opening and closing menus if the menu is hoverable (in miliseconds).
+   * @param {number}             [options.enterDelay = -1]                 - The delay for opening a menu if the menu is focusable (in miliseconds).
+   * @param {number}             [options.leaveDelay = -1]                 - The delay for closing a menu if the menu is focusable (in miliseconds).
+   * @param {boolean}            [options.initialize = true]               - A flag to initialize the menu immediately upon creation.
    */
   constructor({
     menuElement,
@@ -83,6 +84,7 @@ class Menubar extends BaseMenu {
     containerElement = null,
     openClass = "show",
     closeClass = "hide",
+    transitionClass = "transitioning",
     isTopLevel = true,
     parentMenu = null,
     hoverType = "off",
@@ -102,6 +104,7 @@ class Menubar extends BaseMenu {
       containerElement,
       openClass,
       closeClass,
+      transitionClass,
       isTopLevel,
       parentMenu,
       hoverType,
