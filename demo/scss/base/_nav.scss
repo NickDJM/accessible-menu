@@ -8,7 +8,10 @@
 nav {
   --button-background: var(--nav-background, var(--active-theme-light));
   --button-color: var(--nav-color, var(--active-theme-dark));
-  --button-hover-background: var(--menu-item-hover-background, var(--active-theme-secondary));
+  --button-hover-background: var(
+    --menu-item-hover-background,
+    var(--active-theme-secondary)
+  );
   --button-hover-color: var(--menu-item-hover-color, var(--active-theme-light));
   --link-color: var(--nav-color, var(--active-theme-dark));
   --link-hover-color: var(--menu-item-hover-color, var(--active-theme-light));
@@ -27,15 +30,28 @@ nav {
     padding: 0;
     flex-direction: column;
     gap: var(--menu-item-spacing, 0.25rem);
-    background: var(--menu-background, var(--nav-background, var(--active-theme-light)));
+    background: var(
+      --menu-background,
+      var(--nav-background, var(--active-theme-light))
+    );
     color: var(--menu-background, var(--nav-color, var(--active-theme-dark)));
     width: 100%;
     min-width: max-content;
+    transition: opacity 100ms linear;
 
     ul {
-      --menu-background: var(--sub-menu-background, var(--active-theme-secondary-light));
-      --menu-item-background: var(--sub-menu-item-background, var(--active-theme-secondary-light));
-      --button-background: var(--sub-menu-item-background, var(--active-theme-secondary-light));
+      --menu-background: var(
+        --sub-menu-background,
+        var(--active-theme-secondary-light)
+      );
+      --menu-item-background: var(
+        --sub-menu-item-background,
+        var(--active-theme-secondary-light)
+      );
+      --button-background: var(
+        --sub-menu-item-background,
+        var(--active-theme-secondary-light)
+      );
     }
   }
 
@@ -50,31 +66,61 @@ nav {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: var(--menu-item-padding, var(--menu-item-padding-y, 0.5rem) var(--menu-item-padding-x, 1rem));
+      padding: var(
+        --menu-item-padding,
+        var(--menu-item-padding-y, 0.5rem) var(--menu-item-padding-x, 1rem)
+      );
       text-decoration: none;
-      background: var(--menu-item-background, var(--nav-background, var(--active-theme-light)));
+      background: var(
+        --menu-item-background,
+        var(--nav-background, var(--active-theme-light))
+      );
       color: var(--menu-item-color, var(--nav-color, var(--active-theme-dark)));
       transition: background 250ms linear, color 250ms linear;
       flex: 1 1;
 
       &:has(+ button[aria-expanded="true"]) {
-        --menu-item-background: var(--menu-item-indicator-background, var(--active-theme-secondary-light));
-        --menu-item-color: var(--menu-item-indicator-color, var(--active-theme-dark));
+        --menu-item-background: var(
+          --menu-item-indicator-background,
+          var(--active-theme-secondary-light)
+        );
+        --menu-item-color: var(
+          --menu-item-indicator-color,
+          var(--active-theme-dark)
+        );
       }
 
       &:hover {
-        --menu-item-background: var(--menu-item-hover-background, var(--active-theme-secondary));
-        --menu-item-color: var(--menu-item-hover-color, var(--active-theme-light));
+        --menu-item-background: var(
+          --menu-item-hover-background,
+          var(--active-theme-secondary)
+        );
+        --menu-item-color: var(
+          --menu-item-hover-color,
+          var(--active-theme-light)
+        );
 
         + button {
-          --button-background: var(--menu-item-indicator-background, var(--active-theme-secondary-light));
-          --button-color: var(--menu-item-indicator-color, var(--active-theme-dark));
+          --button-background: var(
+            --menu-item-indicator-background,
+            var(--active-theme-secondary-light)
+          );
+          --button-color: var(
+            --menu-item-indicator-color,
+            var(--active-theme-dark)
+          );
         }
       }
 
       &:has(+ button[aria-expanded="true"]):hover {
-        --menu-item-background: var(--menu-item-hover-background, var(--active-theme-secondary));
-        --menu-item-color: var(--menu-item-hover-color, var(--active-theme-light));
+        --menu-item-background: var(
+          --menu-item-hover-background,
+          var(--active-theme-secondary)
+        );
+        --menu-item-color: var(
+          --menu-item-hover-color,
+          var(--active-theme-light)
+        );
       }
     }
   }
@@ -90,8 +136,14 @@ nav {
     }
 
     &[aria-expanded="true"] {
-      --button-background: var(--menu-item-expanded-background, var(--active-theme-secondary-dark));
-      --button-color: var(--menu-item-expanded-color, var(--active-theme-light));
+      --button-background: var(
+        --menu-item-expanded-background,
+        var(--active-theme-secondary-dark)
+      );
+      --button-color: var(
+        --menu-item-expanded-color,
+        var(--active-theme-light)
+      );
     }
   }
 
