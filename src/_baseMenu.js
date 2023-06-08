@@ -133,6 +133,15 @@ class BaseMenu {
   _closeClass = "hide";
 
   /**
+   * The class(es) to apply when the menu is transitioning between states.
+   *
+   * @protected
+   *
+   * @type {string|string[]}
+   */
+  _transitionClass = "transitioning";
+
+  /**
    * A flag marking the root menu.
    *
    * @protected
@@ -225,23 +234,24 @@ class BaseMenu {
   /**
    * Constructs the menu.
    *
-   * @param {object}             options                             - The options for generating the menu.
-   * @param {HTMLElement}        options.menuElement                 - The menu element in the DOM.
-   * @param {string}             [options.menuItemSelector = li]     - The CSS selector string for menu items.
-   * @param {string}             [options.menuLinkSelector = a]      - The CSS selector string for menu links.
-   * @param {string}             [options.submenuItemSelector]       - The CSS selector string for menu items containing submenus.
-   * @param {string}             [options.submenuToggleSelector = a] - The CSS selector string for submenu toggle buttons/links.
-   * @param {string}             [options.submenuSelector = ul]      - The CSS selector string for submenus.
-   * @param {?HTMLElement}       [options.controllerElement = null]  - The element controlling the menu in the DOM.
-   * @param {?HTMLElement}       [options.containerElement = null]   - The element containing the menu in the DOM.
-   * @param {?(string|string[])} [options.openClass = show]          - The class to apply when a menu is "open".
-   * @param {?(string|string[])} [options.closeClass = hide]         - The class to apply when a menu is "closed".
-   * @param {boolean}            [options.isTopLevel = false]        - A flag to mark the root menu.
-   * @param {?BaseMenu}          [options.parentMenu = null]         - The parent menu to this menu.
-   * @param {string}             [options.hoverType = off]           - The type of hoverability a menu has.
-   * @param {number}             [options.hoverDelay = 250]          - The delay for opening and closing menus if the menu is hoverable (in miliseconds).
-   * @param {number}             [options.enterDelay = -1]           - The delay for opening menus if the menu is hoverable (in miliseconds).
-   * @param {number}             [options.leaveDelay = -1]           - The delay for closing menus if the menu is hoverable (in miliseconds).
+   * @param {object}             options                                   - The options for generating the menu.
+   * @param {HTMLElement}        options.menuElement                       - The menu element in the DOM.
+   * @param {string}             [options.menuItemSelector = li]           - The CSS selector string for menu items.
+   * @param {string}             [options.menuLinkSelector = a]            - The CSS selector string for menu links.
+   * @param {string}             [options.submenuItemSelector]             - The CSS selector string for menu items containing submenus.
+   * @param {string}             [options.submenuToggleSelector = a]       - The CSS selector string for submenu toggle buttons/links.
+   * @param {string}             [options.submenuSelector = ul]            - The CSS selector string for submenus.
+   * @param {?HTMLElement}       [options.controllerElement = null]        - The element controlling the menu in the DOM.
+   * @param {?HTMLElement}       [options.containerElement = null]         - The element containing the menu in the DOM.
+   * @param {?(string|string[])} [options.openClass = show]                - The class to apply when a menu is "open".
+   * @param {?(string|string[])} [options.closeClass = hide]               - The class to apply when a menu is "closed".
+   * @param {?(string|string[])} [options.transitionClass = transitioning] - The class to apply when a menu is transitioning between open and closed states.
+   * @param {boolean}            [options.isTopLevel = false]              - A flag to mark the root menu.
+   * @param {?BaseMenu}          [options.parentMenu = null]               - The parent menu to this menu.
+   * @param {string}             [options.hoverType = off]                 - The type of hoverability a menu has.
+   * @param {number}             [options.hoverDelay = 250]                - The delay for opening and closing menus if the menu is hoverable (in miliseconds).
+   * @param {number}             [options.enterDelay = -1]                 - The delay for opening menus if the menu is hoverable (in miliseconds).
+   * @param {number}             [options.leaveDelay = -1]                 - The delay for closing menus if the menu is hoverable (in miliseconds).
    */
   constructor({
     menuElement,
@@ -254,6 +264,7 @@ class BaseMenu {
     containerElement = null,
     openClass = "show",
     closeClass = "hide",
+    transitionClass = "transitioning",
     isTopLevel = true,
     parentMenu = null,
     hoverType = "off",
@@ -283,6 +294,7 @@ class BaseMenu {
     // Set open/close classes.
     this._openClass = openClass || "";
     this._closeClass = closeClass || "";
+    this._transitionClass = transitionClass || "";
 
     // Set root.
     this._root = isTopLevel;
@@ -418,6 +430,22 @@ class BaseMenu {
     return this.isTopLevel
       ? this._closeClass
       : this.elements.rootMenu.closeClass;
+  }
+
+  /**
+   * The class(es) to apply when the menu is transitioning between open and closed.
+   *
+   * This functions differently for root vs. submenus.
+   * Submenus will always inherit their root menu's transition class(es).
+   *
+   * @type {string|string[]}
+   *
+   * @see _transitionClass
+   */
+  get transitionClass() {
+    return this.isTopLevel
+      ? this._transitionClass
+      : this.elements.rootMenu.transitionClass;
   }
 
   /**
@@ -591,6 +619,14 @@ class BaseMenu {
 
     if (this._closeClass !== value) {
       this._closeClass = value;
+    }
+  }
+
+  set transitionClass(value) {
+    isValidClassList({ transitionClass: value });
+
+    if (this._transitionClass !== value) {
+      this._transitionClass = value;
     }
   }
 
@@ -783,6 +819,17 @@ class BaseMenu {
 
       if (!closeClassCheck.status) {
         this._errors.push(closeClassCheck.error.message);
+        check = false;
+      }
+    }
+
+    if (this._transitionClass !== "") {
+      const transitionClassCheck = isValidClassList({
+        transitionClass: this._transitionClass,
+      });
+
+      if (!transitionClassCheck.status) {
+        this._errors.push(transitionClassCheck.error.message);
         check = false;
       }
     }
