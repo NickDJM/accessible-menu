@@ -267,12 +267,14 @@ class BaseMenuToggle {
           removeClass(closeClass, this.elements.controlledMenu.dom.menu);
         }
 
-        if (openClass !== "") {
-          addClass(openClass, this.elements.controlledMenu.dom.menu);
-        }
-
         requestAnimationFrame(() => {
-          removeClass(transitionClass, this.elements.controlledMenu.dom.menu);
+          if (openClass !== "") {
+            addClass(openClass, this.elements.controlledMenu.dom.menu);
+          }
+
+          requestAnimationFrame(() => {
+            removeClass(transitionClass, this.elements.controlledMenu.dom.menu);
+          });
         });
       });
     } else {
@@ -325,12 +327,15 @@ class BaseMenuToggle {
         if (openClass !== "") {
           removeClass(openClass, this.elements.controlledMenu.dom.menu);
         }
-        if (closeClass !== "") {
-          addClass(closeClass, this.elements.controlledMenu.dom.menu);
-        }
 
         requestAnimationFrame(() => {
-          removeClass(transitionClass, this.elements.controlledMenu.dom.menu);
+          if (closeClass !== "") {
+            addClass(closeClass, this.elements.controlledMenu.dom.menu);
+          }
+
+          requestAnimationFrame(() => {
+            removeClass(transitionClass, this.elements.controlledMenu.dom.menu);
+          });
         });
       });
     } else {
