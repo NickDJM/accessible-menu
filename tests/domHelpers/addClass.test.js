@@ -2,10 +2,23 @@
  * Tests for the addClass() function.
  */
 
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { addClass } from "../../src/domHelpers.js";
 
 describe("addClass", () => {
+  // Test if classList.add is called.
+  it("should call classList.add", () => {
+    const element = {
+      classList: {
+        add: vi.fn(),
+      },
+    };
+
+    addClass("test", element);
+
+    expect(element.classList.add).toHaveBeenCalledWith("test");
+  });
+
   // Test adding a single class.
   it("should add a single class to an element", () => {
     const element = document.createElement("div");

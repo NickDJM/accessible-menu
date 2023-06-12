@@ -2,10 +2,23 @@
  * Tests for the removeClass() function.
  */
 
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { removeClass } from "../../src/domHelpers.js";
 
 describe("removeClass", () => {
+  // Test if classList.remove is called.
+  it("should call classList.remove", () => {
+    const element = {
+      classList: {
+        remove: vi.fn(),
+      },
+    };
+
+    removeClass("test", element);
+
+    expect(element.classList.remove).toHaveBeenCalledWith("test");
+  });
+
   // Test adding a single class.
   it("should add a single class to an element", () => {
     const element = document.createElement("div");
