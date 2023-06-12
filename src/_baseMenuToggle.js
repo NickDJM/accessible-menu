@@ -145,7 +145,7 @@ class BaseMenuToggle {
         .replace(/[^a-z]+/g, "")
         .substr(0, 10);
 
-      let id = this.dom.toggle.innerText.replace(/[^a-zA-Z0-9\s]/g, "");
+      let id = this.dom.toggle.innerText?.replace(/[^a-zA-Z0-9\s]/g, "") || "";
       let finalID = randomString;
 
       if (
