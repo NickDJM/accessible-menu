@@ -17,6 +17,7 @@ import {
 } from "vitest";
 import { singleLevel, twoLevel } from "../../../demo/menus.js";
 import BaseMenu from "../../../src/_baseMenu.js";
+import { initializeMenu } from "../helpers.js";
 
 beforeAll(() => {
   // Mock the console.error method.
@@ -54,7 +55,7 @@ describe("BaseMenu", () => {
 
     // Test that the menu initializes.
     expect(() => {
-      menu.initialize();
+      initializeMenu(menu);
     }).not.toThrow();
   });
 
@@ -65,7 +66,7 @@ describe("BaseMenu", () => {
 
     // Test that the menu throws an error.
     expect(() => {
-      menu.initialize();
+      initializeMenu(menu);
     }).toThrow(
       'menuElement must be an instance of HTMLElement. "undefined" given.'
     );
@@ -80,7 +81,7 @@ describe("BaseMenu", () => {
 
     // Test that the menu throws an error.
     expect(() => {
-      menu.initialize();
+      initializeMenu(menu);
     }).toThrow(
       'menuElement must be an instance of HTMLElement. "number" given.'
     );
@@ -103,7 +104,7 @@ describe("BaseMenu (controlled)", () => {
 
     // Test that the menu initializes.
     expect(() => {
-      menu.initialize();
+      initializeMenu(menu);
     }).not.toThrow();
   });
 
@@ -120,7 +121,7 @@ describe("BaseMenu (controlled)", () => {
 
     // Test that the menu throws an error.
     expect(() => {
-      menu.initialize();
+      initializeMenu(menu);
     }).toThrow(
       'menuElement must be an instance of HTMLElement. "undefined" given.'
     );
@@ -140,7 +141,7 @@ describe("BaseMenu (controlled)", () => {
 
     // Test that the menu throws an error.
     expect(() => {
-      menu.initialize();
+      initializeMenu(menu);
     }).toThrow(
       'menuElement must be an instance of HTMLElement. "number" given.'
     );
@@ -159,7 +160,7 @@ describe("BaseMenu (controlled)", () => {
 
     // Test that the menu throws an error.
     expect(() => {
-      menu.initialize();
+      initializeMenu(menu);
     }).toThrow(
       'containerElement must be an instance of HTMLElement. "object" given.'
     );
@@ -179,7 +180,7 @@ describe("BaseMenu (controlled)", () => {
 
     // Test that the menu throws an error.
     expect(() => {
-      menu.initialize();
+      initializeMenu(menu);
     }).toThrow(
       'containerElement must be an instance of HTMLElement. "number" given.'
     );
@@ -198,7 +199,7 @@ describe("BaseMenu (controlled)", () => {
 
     // Test that the menu throws an error.
     expect(() => {
-      menu.initialize();
+      initializeMenu(menu);
     }).toThrow(
       'controllerElement must be an instance of HTMLElement. "object" given.'
     );
@@ -218,7 +219,7 @@ describe("BaseMenu (controlled)", () => {
 
     // Test that the menu throws an error.
     expect(() => {
-      menu.initialize();
+      initializeMenu(menu);
     }).toThrow(
       'controllerElement must be an instance of HTMLElement. "number" given.'
     );
@@ -237,7 +238,7 @@ describe("BaseMenu (custom arguments)", () => {
 
     // Test that the menu initializes.
     expect(() => {
-      menu.initialize();
+      initializeMenu(menu);
     }).not.toThrow();
   });
 
@@ -251,7 +252,7 @@ describe("BaseMenu (custom arguments)", () => {
 
     // Test that the menu throws an error.
     expect(() => {
-      menu.initialize();
+      initializeMenu(menu);
     }).toThrow('menuItemSelector must be a valid CSS selector. "1" given.');
   });
 
@@ -265,7 +266,7 @@ describe("BaseMenu (custom arguments)", () => {
 
     // Test that the menu initializes.
     expect(() => {
-      menu.initialize();
+      initializeMenu(menu);
     }).not.toThrow();
   });
 
@@ -279,7 +280,7 @@ describe("BaseMenu (custom arguments)", () => {
 
     // Test that the menu throws an error.
     expect(() => {
-      menu.initialize();
+      initializeMenu(menu);
     }).toThrow('menuLinkSelector must be a valid CSS selector. "1" given.');
   });
 
@@ -293,7 +294,7 @@ describe("BaseMenu (custom arguments)", () => {
 
     // Test that the menu initializes.
     expect(() => {
-      menu.initialize();
+      initializeMenu(menu);
     }).not.toThrow();
   });
 
@@ -307,7 +308,7 @@ describe("BaseMenu (custom arguments)", () => {
 
     // Test that the menu throws an error.
     expect(() => {
-      menu.initialize();
+      initializeMenu(menu);
     }).toThrow('submenuItemSelector must be a valid CSS selector. "1" given.');
   });
 
@@ -322,7 +323,7 @@ describe("BaseMenu (custom arguments)", () => {
 
     // Test that the menu initializes.
     expect(() => {
-      menu.initialize();
+      initializeMenu(menu);
     }).not.toThrow();
   });
 
@@ -337,7 +338,7 @@ describe("BaseMenu (custom arguments)", () => {
 
     // Test that the menu throws an error.
     expect(() => {
-      menu.initialize();
+      initializeMenu(menu);
     }).toThrow(
       'submenuToggleSelector must be a valid CSS selector. "1" given.'
     );
@@ -354,7 +355,7 @@ describe("BaseMenu (custom arguments)", () => {
 
     // Test that the menu initializes.
     expect(() => {
-      menu.initialize();
+      initializeMenu(menu);
     }).not.toThrow();
   });
 
@@ -369,7 +370,7 @@ describe("BaseMenu (custom arguments)", () => {
 
     // Test that the menu throws an error.
     expect(() => {
-      menu.initialize();
+      initializeMenu(menu);
     }).toThrow('submenuSelector must be a valid CSS selector. "1" given.');
   });
 
@@ -388,7 +389,7 @@ describe("BaseMenu (custom arguments)", () => {
 
       // Test that the menu initializes.
       expect(() => {
-        menu.initialize();
+        initializeMenu(menu);
       }).not.toThrow();
     }
   );
@@ -405,7 +406,7 @@ describe("BaseMenu (custom arguments)", () => {
 
       // Test that the menu throws an error.
       expect(() => {
-        menu.initialize();
+        initializeMenu(menu);
       }).toThrow(
         `${classList} must be a string or an array of strings. "number" given.`
       );
@@ -422,7 +423,7 @@ describe("BaseMenu (custom arguments)", () => {
 
     // Test that the menu initializes.
     expect(() => {
-      menu.initialize();
+      initializeMenu(menu);
     }).not.toThrow();
   });
 
@@ -436,7 +437,7 @@ describe("BaseMenu (custom arguments)", () => {
 
     // Test that the menu throws an error.
     expect(() => {
-      menu.initialize();
+      initializeMenu(menu);
     }).toThrow('isTopLevel must be a boolean. "number" given.');
   });
 
@@ -450,7 +451,7 @@ describe("BaseMenu (custom arguments)", () => {
 
     // Test that the menu throws an error.
     expect(() => {
-      menu.initialize();
+      initializeMenu(menu);
     }).toThrow("Cannot find root menu.");
   });
 
@@ -469,7 +470,7 @@ describe("BaseMenu (custom arguments)", () => {
 
     // Test that the menu initializes.
     expect(() => {
-      menu.initialize();
+      initializeMenu(menu);
     }).not.toThrow();
   });
 
@@ -484,7 +485,7 @@ describe("BaseMenu (custom arguments)", () => {
 
     // Test that the menu throws an error.
     expect(() => {
-      menu.initialize();
+      initializeMenu(menu);
     }).toThrow('parentMenu must be an instance of BaseMenu. "number" given.');
   });
 
@@ -502,7 +503,7 @@ describe("BaseMenu (custom arguments)", () => {
 
     // Test that the menu initializes.
     expect(() => {
-      menu.initialize();
+      initializeMenu(menu);
     }).not.toThrow();
   });
 
@@ -516,7 +517,7 @@ describe("BaseMenu (custom arguments)", () => {
 
     // Test that the menu throws an error.
     expect(() => {
-      menu.initialize();
+      initializeMenu(menu);
     }).toThrow('parentMenu must be an instance of BaseMenu. "number" given.');
   });
 
@@ -533,7 +534,7 @@ describe("BaseMenu (custom arguments)", () => {
 
       // Test that the menu initializes.
       expect(() => {
-        menu.initialize();
+        initializeMenu(menu);
       }).not.toThrow();
     }
   );
@@ -548,7 +549,7 @@ describe("BaseMenu (custom arguments)", () => {
 
     // Test that the menu throws an error.
     expect(() => {
-      menu.initialize();
+      initializeMenu(menu);
     }).toThrow(
       'hoverType must be one of the following values: off, on, dynamic. "1" given.'
     );
@@ -564,7 +565,7 @@ describe("BaseMenu (custom arguments)", () => {
 
     // Test that the menu initializes.
     expect(() => {
-      menu.initialize();
+      initializeMenu(menu);
     }).not.toThrow();
   });
 
@@ -578,7 +579,7 @@ describe("BaseMenu (custom arguments)", () => {
 
     // Test that the menu throws an error.
     expect(() => {
-      menu.initialize();
+      initializeMenu(menu);
     }).toThrow('hoverDelay must be a number. "string" given.');
   });
 
@@ -592,7 +593,7 @@ describe("BaseMenu (custom arguments)", () => {
 
     // Test that the menu initializes.
     expect(() => {
-      menu.initialize();
+      initializeMenu(menu);
     }).not.toThrow();
   });
 
@@ -606,7 +607,7 @@ describe("BaseMenu (custom arguments)", () => {
 
     // Test that the menu throws an error.
     expect(() => {
-      menu.initialize();
+      initializeMenu(menu);
     }).toThrow('enterDelay must be a number. "string" given.');
   });
 
@@ -620,7 +621,7 @@ describe("BaseMenu (custom arguments)", () => {
 
     // Test that the menu initializes.
     expect(() => {
-      menu.initialize();
+      initializeMenu(menu);
     }).not.toThrow();
   });
 
@@ -634,7 +635,7 @@ describe("BaseMenu (custom arguments)", () => {
 
     // Test that the menu throws an error.
     expect(() => {
-      menu.initialize();
+      initializeMenu(menu);
     }).toThrow('leaveDelay must be a number. "string" given.');
   });
 });
