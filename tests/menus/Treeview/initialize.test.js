@@ -1,5 +1,8 @@
 /**
  * Initialization tests for the Treeview class.
+ *
+ * These tests are mostly covered by other tests, but are here just to ensure
+ * that the Treeview class can be initialized.
  */
 
 /* eslint-disable no-new */

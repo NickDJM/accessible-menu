@@ -1,5 +1,8 @@
 /**
  * Initialization tests for the BaseMenu class.
+ *
+ * These tests are mostly covered by other tests, but are here just to ensure
+ * that the BaseMenu class can be initialized.
  */
 
 import {

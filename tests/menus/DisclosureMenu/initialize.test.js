@@ -1,5 +1,8 @@
 /**
  * Initialization tests for the DisclosureMenu class.
+ *
+ * These tests are mostly covered by other tests, but are here just to ensure
+ * that the Disclosure class can be initialized.
  */
 
 /* eslint-disable no-new */
