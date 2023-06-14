@@ -3,368 +3,344 @@
  */
 
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
-import { twoLevel } from "../../../demo/menus.js";
 import Menubar from "../../../src/menubar.js";
+import { twoLevel } from "../../../demo/menus.js";
+import BaseMenu from "../../../src/_baseMenu.js";
 import * as validation from "../../../src/validate.js";
+import { initializeMenu } from "../helpers.js";
 
 beforeEach(() => {
-  // Create the test menu.
   document.body.innerHTML = twoLevel;
 });
 
 afterEach(() => {
-  // Remove the test menu.
   document.body.innerHTML = "";
 });
 
 // Test all getter methods in the Menubar class.
-describe("Menubar getters", () => {
-  // Test Menubar's dom getter.
-  it("should return the menu's DOM elements", () => {
-    // Create a new Menubar instance for testing.
-    const menu = new Menubar({
-      menuElement: document.querySelector("ul"),
+describe("Menubar getter/setters", () => {
+  // Test Menubar dom.
+  describe("dom", () => {
+    // Test that Menubar implements the BaseMenu dom getter.
+    it("should implement the BaseMenu dom", () => {
+      expect(Menubar.prototype.dom).toBe(BaseMenu.prototype.dom);
     });
-
-    expect(menu.dom).toEqual(menu._dom);
   });
 
-  // Test Menubar's selectors getter.
-  it("should return the menu's selectors", () => {
-    // Create a new Menubar instance for testing.
-    const menu = new Menubar({
-      menuElement: document.querySelector("ul"),
+  // Test Menubar selectors.
+  describe("selectors", () => {
+    // Test that Menubar implements the BaseMenu selectors getter.
+    it("should implement the BaseMenu selectors", () => {
+      expect(Menubar.prototype.selectors).toBe(BaseMenu.prototype.selectors);
     });
-
-    expect(menu.selectors).toEqual(menu._selectors);
   });
 
-  // Test Menubar's elements getter.
-  it("should return the menu's declared accessible-menu elements", () => {
-    // Create a new Menubar instance for testing.
-    const menu = new Menubar({
-      menuElement: document.querySelector("ul"),
+  // Test Menubar elements.
+  describe("elements", () => {
+    // Test that Menubar implements the BaseMenu elements getter.
+    it("should implement the BaseMenu elements", () => {
+      expect(Menubar.prototype.elements).toBe(BaseMenu.prototype.elements);
     });
-
-    expect(menu.elements).toEqual(menu._elements);
   });
 
-  // Test Menubar's isTopLevel getter.
-  it("should return the value of the menu's top-level status", () => {
-    // Create a new Menubar instance for testing.
-    const menu = new Menubar({
-      menuElement: document.querySelector("ul"),
+  // Test Menubar isTopLevel.
+  describe("isTopLevel", () => {
+    // Test that Menubar implements the BaseMenu isTopLevel getter.
+    it("should implement the BaseMenu isTopLevel", () => {
+      expect(Menubar.prototype.isTopLevel).toBe(BaseMenu.prototype.isTopLevel);
     });
-
-    expect(menu.isTopLevel).toBe(menu._root);
   });
 
-  // Test Menubar's openClass getter.
-  // @todo: Test that the open class for submenus defaults to the root menu's open class.
-  it("should return the menu's open class name", () => {
-    // Create a new Menubar instance for testing.
-    const menu = new Menubar({
-      menuElement: document.querySelector("ul"),
+  // Test BaseMenu openClass.
+  // todo: Test that the open class for submenus defaults to the root menu's open class.
+  describe("openClass", () => {
+    // Test that openClass gets the open class name.
+    it("should get the open class name", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      expect(menu.openClass).toBe(menu._openClass);
     });
 
-    expect(menu.openClass).toBe(menu._openClass);
+    // Test that openClass sets the open class name.
+    it("should set the open class name", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      // Set up to check for validation.
+      const spy = vi.spyOn(validation, "isValidClassList");
+
+      // Set the menu's open class name.
+      menu.openClass = "test-open";
+
+      expect(spy).toHaveBeenCalledWith({ openClass: "test-open" });
+      expect(menu._openClass).toBe("test-open");
+    });
   });
 
-  // Test Menubar's closeClass getter.
-  // @todo: Test that the close class for submenus defaults to the root menu's close class.
-  it("should return the menu's close class name", () => {
-    // Create a new Menubar instance for testing.
-    const menu = new Menubar({
-      menuElement: document.querySelector("ul"),
+  // Test Menubar closeClass.
+  // todo: Test that the close class for submenus defaults to the root menu's close class.
+  describe("closeClass", () => {
+    // Test that closeClass gets the close class name.
+    it("should get the close class name", () => {
+      // Create a new Menubar instance for testing.
+      const menu = new Menubar({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      expect(menu.closeClass).toBe(menu._closeClass);
     });
 
-    expect(menu.closeClass).toBe(menu._closeClass);
+    // Test that closeClass sets the close class name.
+    it("should set the close class name", () => {
+      // Create a new Menubar instance for testing.
+      const menu = new Menubar({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      // Set up to check for validation.
+      const spy = vi.spyOn(validation, "isValidClassList");
+
+      // Set the menu's close class name.
+      menu.closeClass = "test-close";
+
+      expect(spy).toHaveBeenCalledWith({ closeClass: "test-close" });
+      expect(menu._closeClass).toBe("test-close");
+    });
   });
 
-  // Test Menubar's transitionClass getter.
-  // @todo: Test that the transition class for submenus defaults to the root menu's transition class.
-  it("should return the menu's transition class name", () => {
-    // Create a new Menubar instance for testing.
-    const menu = new Menubar({
-      menuElement: document.querySelector("ul"),
+  // Test Menubar transitionClass.
+  // todo: Test that the transition class for submenus defaults to the root menu's transition class.
+  describe("transitionClass", () => {
+    // Test that transitionClass gets the transition class name.
+    it("should get the transition class name", () => {
+      // Create a new Menubar instance for testing.
+      const menu = new Menubar({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      expect(menu.transitionClass).toBe(menu._transitionClass);
     });
 
-    expect(menu.transitionClass).toBe(menu._transitionClass);
+    // Test that transitionClass sets the transition class name.
+    it("should set the transition class name", () => {
+      // Create a new Menubar instance for testing.
+      const menu = new Menubar({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      // Set up to check for validation.
+      const spy = vi.spyOn(validation, "isValidClassList");
+
+      // Set the menu's transition class name.
+      menu.transitionClass = "test-transition";
+
+      expect(spy).toHaveBeenCalledWith({ transitionClass: "test-transition" });
+      expect(menu._transitionClass).toBe("test-transition");
+    });
   });
 
-  // Test Menubar's currentChild getter.
-  it("should return the menu's current child index", () => {
-    // Create a new Menubar instance for testing.
-    const menu = new Menubar({
-      menuElement: document.querySelector("ul"),
+  // Test Menubar currentChild.
+  describe("currentChild", () => {
+    // Test that Menubar implements the BaseMenu currentChild getter.
+    it("should implement the BaseMenu currentChild", () => {
+      expect(Menubar.prototype.currentChild).toBe(
+        BaseMenu.prototype.currentChild
+      );
     });
-
-    expect(menu.currentChild).toBe(menu._currentChild);
   });
 
-  // Test Menubar's focusState getter.
-  it("should return the menu's focus state", () => {
-    // Create a new Menubar instance for testing.
-    const menu = new Menubar({
-      menuElement: document.querySelector("ul"),
+  // Test Menubar focusState.
+  describe("focusState", () => {
+    // Test that Menubar implements the BaseMenu focusState getter.
+    it("should implement the BaseMenu focusState", () => {
+      expect(Menubar.prototype.focusState).toBe(BaseMenu.prototype.focusState);
     });
-
-    expect(menu.focusState).toBe(menu._focusState);
   });
 
-  // Test Menubar's currentEvent getter.
-  it("should return the menu's current event type", () => {
-    // Create a new Menubar instance for testing.
-    const menu = new Menubar({
-      menuElement: document.querySelector("ul"),
+  // Test Menubar currentEvent.
+  describe("currentEvent", () => {
+    // Test that Menubar implements the BaseMenu currentEvent getter.
+    it("should implement the BaseMenu currentEvent", () => {
+      expect(Menubar.prototype.currentEvent).toBe(
+        BaseMenu.prototype.currentEvent
+      );
     });
-
-    expect(menu.currentEvent).toBe(menu._currentEvent);
   });
 
-  // Test Menubar's currentMenuItem getter.
-  it("should return the menu's current menu item", () => {
-    // Create a new Menubar instance for testing.
-    const menu = new Menubar({
-      menuElement: document.querySelector("ul"),
-    });
+  // Test Menubar currentMenuItem.
+  describe("currentMenuItem", () => {
+    // Test that currentMenuItem gets the current menu item.
+    it("should get the current menu item", () => {
+      // Create a new Menubar instance for testing.
+      const menu = new Menubar({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
 
-    expect(menu.currentMenuItem).toBe(
-      menu.elements.menuItems[menu.currentChild]
-    );
+      expect(menu.currentMenuItem).toBe(
+        menu.elements.menuItems[menu.currentChild]
+      );
+    });
   });
 
-  // Test Menubar's hoverType getter.
-  it("should return the menu's hover type", () => {
-    // Create a new Menubar instance for testing.
-    const menu = new Menubar({
-      menuElement: document.querySelector("ul"),
+  // Test Menubar hoverType.
+  describe("hoverType", () => {
+    // Test that hoverType gets the hover type.
+    it("should get the hover type", () => {
+      // Create a new Menubar instance for testing.
+      const menu = new Menubar({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      expect(menu.hoverType).toBe(menu._hoverType);
     });
 
-    expect(menu.hoverType).toBe(menu._hoverType);
+    // Test that hoverType sets the hover type.
+    it("should set the hover type", () => {
+      // Create a new Menubar instance for testing.
+      const menu = new Menubar({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      // Set up to check for validation.
+      const spy = vi.spyOn(validation, "isValidHoverType");
+
+      // Set the menu's hover type.
+      menu.hoverType = "on";
+
+      expect(spy).toHaveBeenCalledWith({ value: "on" });
+      expect(menu._hoverType).toBe("on");
+    });
   });
 
-  // Test Menubar's hoverDelay getter.
-  it("should return the menu's hover delay value", () => {
-    // Create a new Menubar instance for testing.
-    const menu = new Menubar({
-      menuElement: document.querySelector("ul"),
+  // Test Menubar hoverDelay.
+  describe("hoverDelay", () => {
+    // Test that hoverDelay gets the hover delay value.
+    it("should get the hover delay value", () => {
+      // Create a new Menubar instance for testing.
+      const menu = new Menubar({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      expect(menu.hoverDelay).toBe(menu._hoverDelay);
     });
 
-    expect(menu.hoverDelay).toBe(menu._hoverDelay);
+    // Test that hoverDelay sets the hover delay value.
+    it("should set the hover delay value", () => {
+      // Create a new Menubar instance for testing.
+      const menu = new Menubar({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      // Set up to check for validation.
+      const spy = vi.spyOn(validation, "isValidType");
+
+      // Set the menu's hover delay value.
+      menu.hoverDelay = 200;
+
+      expect(spy).toHaveBeenCalledWith("number", { value: 200 });
+      expect(menu._hoverDelay).toBe(200);
+    });
   });
 
-  // Test Menubar's enterDelay getter.
-  it("should return the menu's enter delay value", () => {
-    // Create a new Menubar instance for testing.
-    const menu = new Menubar({
-      menuElement: document.querySelector("ul"),
+  // Test Menubar enterDelay.
+  describe("enterDelay", () => {
+    // Test that enterDelay gets the enter delay value.
+    it("should get the enter delay value", () => {
+      // Create a new Menubar instance for testing.
+      const menu = new Menubar({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      // In this case, because we have not set the enter delay,
+      // it should be the same as the hover delay.
+      expect(menu.enterDelay).toBe(menu._hoverDelay);
     });
 
-    expect(menu.enterDelay).toBe(menu._hoverDelay);
+    // Test that enterDelay sets the enter delay value.
+    it("should set the enter delay value", () => {
+      // Create a new Menubar instance for testing.
+      const menu = new Menubar({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      // Set up to check for validation.
+      const spy = vi.spyOn(validation, "isValidType");
+
+      // Set the menu's enter delay value.
+      menu.enterDelay = 100;
+
+      expect(spy).toHaveBeenCalledWith("number", { value: 100 });
+      expect(menu._enterDelay).toBe(100);
+    });
   });
 
-  // Test Menubar's leaveDelay getter.
-  it("should return the menu's leave delay value", () => {
-    // Create a new Menubar instance for testing.
-    const menu = new Menubar({
-      menuElement: document.querySelector("ul"),
+  // Test Menubar leaveDelay.
+  describe("leaveDelay", () => {
+    // Test that leaveDelay gets the leave delay value.
+    it("should get the leave delay value", () => {
+      // Create a new Menubar instance for testing.
+      const menu = new Menubar({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      // In this case, because we have not set the leave delay,
+      // it should be the same as the hover delay.
+      expect(menu.leaveDelay).toBe(menu._hoverDelay);
     });
 
-    expect(menu.leaveDelay).toBe(menu._hoverDelay);
+    // Test that leaveDelay sets the leave delay value.
+    it("should set the leave delay value", () => {
+      // Create a new Menubar instance for testing.
+      const menu = new Menubar({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      // Set up to check for validation.
+      const spy = vi.spyOn(validation, "isValidType");
+
+      // Set the menu's leave delay value.
+      menu.leaveDelay = 100;
+
+      expect(spy).toHaveBeenCalledWith("number", { value: 100 });
+      expect(menu._leaveDelay).toBe(100);
+    });
   });
 
-  // Test Menubar's shouldFocus getter.
-  it("should return the menu's shouldFocus value", () => {
-    // Create a new Menubar instance for testing.
-    const menu = new Menubar({
-      menuElement: document.querySelector("ul"),
+  // Test Menubar shouldFocus.
+  describe("shouldFocus", () => {
+    // Test that Menubar implements the BaseMenu shouldFocus getter.
+    it("should implement the BaseMenu shouldFocus", () => {
+      expect(Menubar.prototype.shouldFocus).toBe(
+        BaseMenu.prototype.shouldFocus
+      );
     });
-
-    expect(menu.shouldFocus).toBeFalsy();
   });
 
-  // Test Menubar's errors getter.
-  it("should return the menu's errors array", () => {
-    // Create a new Menubar instance for testing.
-    const menu = new Menubar({
-      menuElement: document.querySelector("ul"),
+  // Test Menubar errors.
+  describe("errors", () => {
+    // Test that Menubar implements the BaseMenu errors getter.
+    it("should implement the BaseMenu errors", () => {
+      expect(Menubar.prototype.errors).toBe(BaseMenu.prototype.errors);
     });
-
-    expect(menu.errors).toEqual(menu._errors);
-  });
-});
-
-// Test all setter methods in the Menubar class.
-describe("Menubar setters", () => {
-  // Test Menubar's openClass setter.
-  it("should set the menu's open class name", () => {
-    // Create a new Menubar instance for testing.
-    const menu = new Menubar({
-      menuElement: document.querySelector("ul"),
-    });
-
-    // Set up to check for validation.
-    const spy = vi.spyOn(validation, "isValidClassList");
-
-    // Set the menu's open class name.
-    menu.openClass = "test-open";
-
-    expect(spy).toHaveBeenCalledWith({ openClass: "test-open" });
-    expect(menu._openClass).toBe("test-open");
-  });
-
-  // Test Menubar's closeClass setter.
-  it("should set the menu's close class name", () => {
-    // Create a new Menubar instance for testing.
-    const menu = new Menubar({
-      menuElement: document.querySelector("ul"),
-    });
-
-    // Set up to check for validation.
-    const spy = vi.spyOn(validation, "isValidClassList");
-
-    // Set the menu's close class name.
-    menu.closeClass = "test-close";
-
-    expect(spy).toHaveBeenCalledWith({ closeClass: "test-close" });
-    expect(menu._closeClass).toBe("test-close");
-  });
-
-  // Test Menubar's transitionClass setter.
-  it("should set the menu's transition class name", () => {
-    // Create a new Menubar instance for testing.
-    const menu = new Menubar({
-      menuElement: document.querySelector("ul"),
-    });
-
-    // Set up to check for validation.
-    const spy = vi.spyOn(validation, "isValidClassList");
-
-    // Set the menu's transition class name.
-    menu.transitionClass = "test-transition";
-
-    expect(spy).toHaveBeenCalledWith({ transitionClass: "test-transition" });
-    expect(menu._transitionClass).toBe("test-transition");
-  });
-
-  // Test Menubar's currentChild setter.
-  // @todo: Test this for scenarios that would envoke setParentChild().
-  it("should set the menu's current child index", () => {
-    // Create a new Menubar instance for testing.
-    const menu = new Menubar({
-      menuElement: document.querySelector("ul"),
-    });
-
-    // Set up to check for validation.
-    const spy = vi.spyOn(validation, "isValidType");
-
-    // Set the menu's current child index.
-    menu.currentChild = 2;
-
-    expect(spy).toHaveBeenCalledWith("number", { value: 2 });
-    expect(menu._currentChild).toBe(2);
-  });
-
-  // Test Menubar's focusState setter.
-  it("should set the menu's focus state", () => {
-    // Create a new Menubar instance for testing.
-    const menu = new Menubar({
-      menuElement: document.querySelector("ul"),
-    });
-
-    // Set up to check for validation.
-    const spy = vi.spyOn(validation, "isValidState");
-
-    // Set the menu's focus state.
-    menu.focusState = "child";
-
-    expect(spy).toHaveBeenCalledWith({ value: "child" });
-    expect(menu._focusState).toBe("child");
-  });
-
-  // Test Menubar's currentEvent setter.
-  it("should set the menu's current event type", () => {
-    // Create a new Menubar instance for testing.
-    const menu = new Menubar({
-      menuElement: document.querySelector("ul"),
-    });
-
-    // Set up to check for validation.
-    const spy = vi.spyOn(validation, "isValidEvent");
-
-    // Set the menu's current event type.
-    menu.currentEvent = "mouse";
-
-    expect(spy).toHaveBeenCalledWith({ value: "mouse" });
-    expect(menu._currentEvent).toBe("mouse");
-  });
-
-  // Test Menubar's hoverType setter.
-  it("should set the menu's hover type", () => {
-    // Create a new Menubar instance for testing.
-    const menu = new Menubar({
-      menuElement: document.querySelector("ul"),
-    });
-
-    // Set up to check for validation.
-    const spy = vi.spyOn(validation, "isValidHoverType");
-
-    // Set the menu's hover type.
-    menu.hoverType = "on";
-
-    expect(spy).toHaveBeenCalledWith({ value: "on" });
-    expect(menu._hoverType).toBe("on");
-  });
-
-  // Test Menubar's hoverDelay setter.
-  it("should set the menu's hover delay value", () => {
-    // Create a new Menubar instance for testing.
-    const menu = new Menubar({
-      menuElement: document.querySelector("ul"),
-    });
-
-    // Set up to check for validation.
-    const spy = vi.spyOn(validation, "isValidType");
-
-    // Set the menu's hover delay value.
-    menu.hoverDelay = 200;
-
-    expect(spy).toHaveBeenCalledWith("number", { value: 200 });
-    expect(menu._hoverDelay).toBe(200);
-  });
-
-  // Test Menubar's enterDelay setter.
-  it("should set the menu's enter delay value", () => {
-    // Create a new Menubar instance for testing.
-    const menu = new Menubar({
-      menuElement: document.querySelector("ul"),
-    });
-
-    // Set up to check for validation.
-    const spy = vi.spyOn(validation, "isValidType");
-
-    // Set the menu's enter delay value.
-    menu.enterDelay = 100;
-
-    expect(spy).toHaveBeenCalledWith("number", { value: 100 });
-    expect(menu._enterDelay).toBe(100);
-  });
-
-  // Test Menubar's leaveDelay setter.
-  it("should set the menu's leave delay value", () => {
-    // Create a new Menubar instance for testing.
-    const menu = new Menubar({
-      menuElement: document.querySelector("ul"),
-    });
-
-    // Set up to check for validation.
-    const spy = vi.spyOn(validation, "isValidType");
-
-    // Set the menu's leave delay value.
-    menu.leaveDelay = 100;
-
-    expect(spy).toHaveBeenCalledWith("number", { value: 100 });
-    expect(menu._leaveDelay).toBe(100);
   });
 });

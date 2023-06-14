@@ -7,345 +7,91 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { twoLevel } from "../../../demo/menus.js";
 import Menubar from "../../../src/menubar.js";
-
-beforeEach(() => {
-  document.body.innerHTML = twoLevel;
-});
-
-afterEach(() => {
-  document.body.innerHTML = "";
-});
+import BaseMenu from "../../../src/_baseMenu.js";
 
 // Test Menubar public methods.
 describe("Menubar public methods", () => {
   // Test Menubar focus().
   describe("focus", () => {
-    // Test that focus sets the focusState to self.
-    it("should set the focusState to self", () => {
-      // Create a new Menubar instance for testing.
-      const menu = new Menubar({
-        menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
-        containerElement: document.querySelector("nav"),
-        controllerElement: document.querySelector("button"),
-      });
-
-      menu.focus();
-
-      expect(menu.focusState).toBe("self");
-    });
-
-    // Test that focus does not call focus() on the menu element if shouldFocus is false.
-    it("should not call focus() on the menu element if shouldFocus is false", () => {
-      // Create a new Menubar instance for testing.
-      const menu = new Menubar({
-        menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
-        containerElement: document.querySelector("nav"),
-        controllerElement: document.querySelector("button"),
-      });
-
-      // Set up to check for focus.
-      const spy = vi.spyOn(menu.dom.menu, "focus");
-
-      menu.focus();
-
-      expect(spy).not.toHaveBeenCalled();
-    });
-
-    // Test that focus calls focus() on the menu element if shouldFocus is true.
-    it("should call focus() on the menu element if shouldFocus is true", () => {
-      // Create a new Menubar instance for testing.
-      const menu = new Menubar({
-        menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
-        containerElement: document.querySelector("nav"),
-        controllerElement: document.querySelector("button"),
-      });
-
-      // Set up to check for focus.
-      const spy = vi.spyOn(menu.dom.menu, "focus");
-
-      menu.currentEvent = "keyboard";
-      menu.focus();
-
-      expect(spy).toHaveBeenCalled();
+    // Test that Menubar implements the BaseMenu focus() method.
+    it("should implement the BaseMenu focus() method", () => {
+      expect(Menubar.prototype.focus).toBe(BaseMenu.prototype.focus);
     });
   });
 
   // Test Menubar blur().
   describe("blur", () => {
-    // Test that blur sets the focusState to none.
-    it("should set the focusState to none", () => {
-      // Create a new Menubar instance for testing.
-      const menu = new Menubar({
-        menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
-        containerElement: document.querySelector("nav"),
-        controllerElement: document.querySelector("button"),
-      });
-
-      menu.blur();
-
-      expect(menu.focusState).toBe("none");
-    });
-
-    // Test that blur does not call blur() on the menu element if shouldFocus is false.
-    it("should not call blur() on the menu element if shouldFocus is false", () => {
-      // Create a new Menubar instance for testing.
-      const menu = new Menubar({
-        menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
-        containerElement: document.querySelector("nav"),
-        controllerElement: document.querySelector("button"),
-      });
-
-      // Set up to check for blur.
-      const spy = vi.spyOn(menu.dom.menu, "blur");
-
-      menu.blur();
-
-      expect(spy).not.toHaveBeenCalled();
-    });
-
-    // Test that blur calls blur() on the menu element if shouldFocus is true.
-    it("should call blur() on the menu element if shouldFocus is true", () => {
-      // Create a new Menubar instance for testing.
-      const menu = new Menubar({
-        menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
-        containerElement: document.querySelector("nav"),
-        controllerElement: document.querySelector("button"),
-      });
-
-      // Set up to check for blur.
-      const spy = vi.spyOn(menu.dom.menu, "blur");
-
-      menu.currentEvent = "keyboard";
-      menu.blur();
-
-      expect(spy).toHaveBeenCalled();
+    // Test that Menubar implements the BaseMenu blur() method.
+    it("should implement the BaseMenu blur() method", () => {
+      expect(Menubar.prototype.blur).toBe(BaseMenu.prototype.blur);
     });
   });
 
   // Test Menubar focusCurrentChild().
   describe("focusCurrentChild", () => {
-    // Test that focusCurrentChild sets the focusState to self.
-    it("should set the focusState to self", () => {
-      // Create a new Menubar instance for testing.
-      const menu = new Menubar({
-        menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
-        containerElement: document.querySelector("nav"),
-        controllerElement: document.querySelector("button"),
-      });
-
-      menu.focusCurrentChild();
-
-      expect(menu.focusState).toBe("self");
-    });
-
-    // Test that focusCurrentChild calls focus() on the current child for all menu items in the menu.
-    it.each([0, 1, 2, 3, 4, 5, 6])("should call focus() on child %s", (i) => {
-      // Create a new Menubar instance for testing.
-      const menu = new Menubar({
-        menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
-        containerElement: document.querySelector("nav"),
-        controllerElement: document.querySelector("button"),
-      });
-
-      // Set the current child.
-      menu.currentChild = i;
-
-      // Set up to check for focus.
-      const spy = vi.spyOn(menu.currentMenuItem, "focus");
-
-      menu.focusCurrentChild();
-
-      expect(spy).toHaveBeenCalled();
-    });
-
-    // Test that focusCurrentChild does not call focus() on the current child it the currentChild index is -1.
-    it("should not call focus() on the current child it the currentChild index is -1", () => {
-      // Create a new Menubar instance for testing.
-      const menu = new Menubar({
-        menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
-        containerElement: document.querySelector("nav"),
-        controllerElement: document.querySelector("button"),
-      });
-
-      // Set the current child to -1.
-      menu.currentChild = -1;
-
-      // Set up to check for focus.
-      const spy = vi.spyOn(menu.elements.menuItems[0], "focus");
-
-      menu.focusCurrentChild();
-
-      expect(spy).not.toHaveBeenCalled();
+    // Test that Menubar implements the BaseMenu focusCurrentChild() method.
+    it("should implement the BaseMenu focusCurrentChild() method", () => {
+      expect(Menubar.prototype.focusCurrentChild).toBe(
+        BaseMenu.prototype.focusCurrentChild
+      );
     });
   });
 
   // Test Menubar blurCurrentChild().
   describe("blurCurrentChild", () => {
-    // Test that blurCurrentChild sets the focusState to none.
-    it("should set the focusState to none", () => {
-      // Create a new Menubar instance for testing.
-      const menu = new Menubar({
-        menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
-        containerElement: document.querySelector("nav"),
-        controllerElement: document.querySelector("button"),
-      });
-
-      menu.blurCurrentChild();
-
-      expect(menu.focusState).toBe("none");
-    });
-
-    // Test that blurCurrentChild calls blur() on the current child for all menu items in the menu.
-    it.each([0, 1, 2, 3, 4, 5, 6])("should call blur() on child %s", (i) => {
-      // Create a new Menubar instance for testing.
-      const menu = new Menubar({
-        menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
-        containerElement: document.querySelector("nav"),
-        controllerElement: document.querySelector("button"),
-      });
-
-      // Set the current child.
-      menu.currentChild = i;
-
-      // Set up to check for blur.
-      const spy = vi.spyOn(menu.currentMenuItem, "blur");
-
-      menu.blurCurrentChild();
-
-      expect(spy).toHaveBeenCalled();
-    });
-
-    // Test that blurCurrentChild does not call blur() on the current child it the currentChild index is -1.
-    it("should not call blur() on the current child it the currentChild index is -1", () => {
-      // Create a new Menubar instance for testing.
-      const menu = new Menubar({
-        menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
-        containerElement: document.querySelector("nav"),
-        controllerElement: document.querySelector("button"),
-      });
-
-      // Set the current child to -1.
-      menu.currentChild = -1;
-
-      // Set up to check for blur.
-      const spy = vi.spyOn(menu.elements.menuItems[0], "blur");
-
-      menu.blurCurrentChild();
-
-      expect(spy).not.toHaveBeenCalled();
+    // Test that Menubar implements the BaseMenu blurCurrentChild() method.
+    it("should implement the BaseMenu blurCurrentChild() method", () => {
+      expect(Menubar.prototype.blurCurrentChild).toBe(
+        BaseMenu.prototype.blurCurrentChild
+      );
     });
   });
 
   // Test Menubar focusChild().
   describe("focusChild", () => {
-    // Test that focusChild calls blurCurrentChild().
-    it("should call blurCurrentChild()", () => {
-      // Create a new Menubar instance for testing.
-      const menu = new Menubar({
-        menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
-        containerElement: document.querySelector("nav"),
-        controllerElement: document.querySelector("button"),
-      });
-
-      // Set up to check for blur.
-      const spy = vi.spyOn(menu, "blurCurrentChild");
-
-      menu.focusChild(1);
-
-      expect(spy).toHaveBeenCalled();
-    });
-
-    // Test that focusChild sets the currentChild index to the passed index.
-    it("should set the currentChild index to the passed index", () => {
-      // Create a new Menubar instance for testing.
-      const menu = new Menubar({
-        menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
-        containerElement: document.querySelector("nav"),
-        controllerElement: document.querySelector("button"),
-      });
-
-      menu.focusChild(1);
-
-      expect(menu.currentChild).toBe(1);
-    });
-
-    // Test that focusChild calls focusCurrentChild().
-    it("should call focusCurrentChild()", () => {
-      // Create a new Menubar instance for testing.
-      const menu = new Menubar({
-        menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
-        containerElement: document.querySelector("nav"),
-        controllerElement: document.querySelector("button"),
-      });
-
-      // Set up to check for focus.
-      const spy = vi.spyOn(menu, "focusCurrentChild");
-
-      menu.focusChild(1);
-
-      expect(spy).toHaveBeenCalled();
+    // Test that Menubar implements the BaseMenu focusChild() method.
+    it("should implement the BaseMenu focusChild() method", () => {
+      expect(Menubar.prototype.focusChild).toBe(BaseMenu.prototype.focusChild);
     });
   });
 
   // Test Menubar focusFirstChild().
   describe("focusFirstChild", () => {
-    // Test that focusFirstChild calls focusChild() with the index of the first menu item.
-    it("should call focusChild() with the index of the first menu item", () => {
-      // Create a new Menubar instance for testing.
-      const menu = new Menubar({
-        menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
-        containerElement: document.querySelector("nav"),
-        controllerElement: document.querySelector("button"),
-      });
-
-      // Set up to check for focus.
-      const spy = vi.spyOn(menu, "focusChild");
-
-      menu.focusFirstChild();
-
-      expect(spy).toHaveBeenCalledWith(0);
+    // Test that Menubar implements the BaseMenu focusFirstChild() method.
+    it("should implement the BaseMenu focusFirstChild() method", () => {
+      expect(Menubar.prototype.focusFirstChild).toBe(
+        BaseMenu.prototype.focusFirstChild
+      );
     });
   });
 
   // Test Menubar focusLastChild().
   describe("focusLastChild", () => {
-    // Test that focusLastChild calls focusChild() with the index of the last menu item.
-    it("should call focusChild() with the index of the last menu item", () => {
-      // Create a new Menubar instance for testing.
-      const menu = new Menubar({
-        menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
-        containerElement: document.querySelector("nav"),
-        controllerElement: document.querySelector("button"),
-      });
-
-      // Set up to check for focus.
-      const spy = vi.spyOn(menu, "focusChild");
-
-      menu.focusLastChild();
-
-      expect(spy).toHaveBeenCalledWith(6);
+    // Test that Menubar implements the BaseMenu focusLastChild() method.
+    it("should implement the BaseMenu focusLastChild() method", () => {
+      expect(Menubar.prototype.focusLastChild).toBe(
+        BaseMenu.prototype.focusLastChild
+      );
     });
   });
 
   // Test Menubar focusNextChild().
   describe("focusNextChild", () => {
+    beforeEach(() => {
+      document.body.innerHTML = twoLevel;
+    });
+
+    afterEach(() => {
+      document.body.innerHTML = "";
+    });
+
+    // Test that Menubar does not implement the BaseMenu focusNextChild() method.
+    it("should not implement the BaseMenu focusNextChild() method", () => {
+      expect(Menubar.prototype.focusNextChild).not.toBe(
+        BaseMenu.prototype.focusNextChild
+      );
+    });
+
     // Test that focusNextChild calls focusChild() with the index of the next menu item.
     it("should call focusChild() with the index of the next menu item", () => {
       // Create a new Menubar instance for testing.
@@ -390,6 +136,21 @@ describe("Menubar public methods", () => {
 
   // Test Menubar focusPreviousChild().
   describe("focusPreviousChild", () => {
+    beforeEach(() => {
+      document.body.innerHTML = twoLevel;
+    });
+
+    afterEach(() => {
+      document.body.innerHTML = "";
+    });
+
+    // Test that Menubar does not implement the BaseMenu focusPreviousChild() method.
+    it("should not implement the BaseMenu focusPreviousChild() method", () => {
+      expect(Menubar.prototype.focusPreviousChild).not.toBe(
+        BaseMenu.prototype.focusPreviousChild
+      );
+    });
+
     // Test that focusPreviousChild calls focusChild() with the index of the previous menu item.
     it("should call focusChild() with the index of the previous menu item", () => {
       // Create a new Menubar instance for testing.
@@ -434,246 +195,41 @@ describe("Menubar public methods", () => {
 
   // Test Menubar focusController().
   describe("focusController", () => {
-    // Test that focusController sets the focusState to none.
-    it("should set focusState to none", () => {
-      // Create a new Menubar instance for testing.
-      const menu = new Menubar({
-        menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
-        containerElement: document.querySelector("nav"),
-        controllerElement: document.querySelector("button"),
-      });
-
-      menu.focusController();
-
-      expect(menu.focusState).toBe("none");
-    });
-
-    // Test that focusController does not call focus() on the controller element if shouldFocus is false.
-    it("should not call focus() on the controller element if shouldFocus is false", () => {
-      // Create a new Menubar instance for testing.
-      const menu = new Menubar({
-        menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
-        containerElement: document.querySelector("nav"),
-        controllerElement: document.querySelector("button"),
-      });
-
-      // Set up to check for focus.
-      const spy = vi.spyOn(menu.dom.controller, "focus");
-
-      menu.focusController();
-
-      expect(spy).not.toHaveBeenCalled();
-    });
-
-    // Test that focusController calls focus() on the controller element if shouldFocus is true.
-    it("should call focus() on the controller element if shouldFocus is true", () => {
-      // Create a new Menubar instance for testing.
-      const menu = new Menubar({
-        menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
-        containerElement: document.querySelector("nav"),
-        controllerElement: document.querySelector("button"),
-      });
-
-      // Set up to check for focus.
-      const spy = vi.spyOn(menu.dom.controller, "focus");
-
-      menu.currentEvent = "keyboard";
-      menu.focusController();
-
-      expect(spy).toHaveBeenCalled();
-    });
-
-    // Test that focusController does nothing if the controller element is not defined.
-    it("should do nothing if the controller element is not defined", () => {
-      // Create a new Menubar instance for testing.
-      const menu = new Menubar({
-        menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
-      });
-
-      expect(() => {
-        menu.focusController();
-      }).not.toThrow();
+    // Test that Menubar implements the BaseMenu focusController() method.
+    it("should implement the BaseMenu focusController() method", () => {
+      expect(Menubar.prototype.focusController).toBe(
+        BaseMenu.prototype.focusController
+      );
     });
   });
 
   // Test Menubar focusContainer().
   describe("focusContainer", () => {
-    // Test that focusContainer sets the focusState to none.
-    it("should set focusState to none", () => {
-      // Create a new Menubar instance for testing.
-      const menu = new Menubar({
-        menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
-        containerElement: document.querySelector("nav"),
-        controllerElement: document.querySelector("button"),
-      });
-
-      menu.focusContainer();
-
-      expect(menu.focusState).toBe("none");
-    });
-
-    // Test that focusContainer does not call focus() on the container element if shouldFocus is false.
-    it("should not call focus() on the container element if shouldFocus is false", () => {
-      // Create a new Menubar instance for testing.
-      const menu = new Menubar({
-        menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
-        containerElement: document.querySelector("nav"),
-        controllerElement: document.querySelector("button"),
-      });
-
-      // Set up to check for focus.
-      const spy = vi.spyOn(menu.dom.container, "focus");
-
-      menu.focusContainer();
-
-      expect(spy).not.toHaveBeenCalled();
-    });
-
-    // Test that focusContainer calls focus() on the container element if shouldFocus is true.
-    it("should call focus() on the container element if shouldFocus is true", () => {
-      // Create a new Menubar instance for testing.
-      const menu = new Menubar({
-        menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
-        containerElement: document.querySelector("nav"),
-        controllerElement: document.querySelector("button"),
-      });
-
-      // Set up to check for focus.
-      const spy = vi.spyOn(menu.dom.container, "focus");
-
-      menu.currentEvent = "keyboard";
-      menu.focusContainer();
-
-      expect(spy).toHaveBeenCalled();
-    });
-
-    // Test that focusContainer does nothing if the container element is not defined.
-    it("should do nothing if the container element is not defined", () => {
-      // Create a new Menubar instance for testing.
-      const menu = new Menubar({
-        menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
-      });
-
-      expect(() => {
-        menu.focusContainer();
-      }).not.toThrow();
+    // Test that Menubar implements the BaseMenu focusContainer() method.
+    it("should implement the BaseMenu focusContainer() method", () => {
+      expect(Menubar.prototype.focusContainer).toBe(
+        BaseMenu.prototype.focusContainer
+      );
     });
   });
 
   // Test Menubar closeChildren().
   describe("closeChildren", () => {
-    // Test that closeChildren calls close() and all submenuToggles.
-    it("should call close() and all submenuToggles", () => {
-      // Create a new Menubar instance for testing.
-      const menu = new Menubar({
-        menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
-        containerElement: document.querySelector("nav"),
-        controllerElement: document.querySelector("button"),
-      });
-
-      // Spy on all submenuToggles and close() methods.
-      const spy1 = vi.spyOn(menu.elements.submenuToggles[0], "close");
-      const spy2 = vi.spyOn(menu.elements.submenuToggles[1], "close");
-      const spy3 = vi.spyOn(menu.elements.submenuToggles[2], "close");
-      const spy4 = vi.spyOn(menu.elements.submenuToggles[3], "close");
-      const spy5 = vi.spyOn(menu.elements.submenuToggles[4], "close");
-
-      menu.closeChildren();
-
-      expect(spy1).toHaveBeenCalled();
-      expect(spy2).toHaveBeenCalled();
-      expect(spy3).toHaveBeenCalled();
-      expect(spy4).toHaveBeenCalled();
-      expect(spy5).toHaveBeenCalled();
+    // Test that Menubar implements the BaseMenu closeChildren() method.
+    it("should implement the BaseMenu closeChildren() method", () => {
+      expect(Menubar.prototype.closeChildren).toBe(
+        BaseMenu.prototype.closeChildren
+      );
     });
   });
 
   // Test Menubar BlurChildren().
   describe("blurChildren", () => {
-    // Test that blurChildren calls blur() on all menu items.
-    it("should call blur() on all menu items", () => {
-      // Create a new Menubar instance for testing.
-      const menu = new Menubar({
-        menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
-        containerElement: document.querySelector("nav"),
-        controllerElement: document.querySelector("button"),
-      });
-
-      // Spy on all menu items.
-      const spy1 = vi.spyOn(menu.elements.menuItems[0], "blur");
-      const spy2 = vi.spyOn(menu.elements.menuItems[1], "blur");
-      const spy3 = vi.spyOn(menu.elements.menuItems[2], "blur");
-      const spy4 = vi.spyOn(menu.elements.menuItems[3], "blur");
-      const spy5 = vi.spyOn(menu.elements.menuItems[4], "blur");
-      const spy6 = vi.spyOn(menu.elements.menuItems[5], "blur");
-
-      menu.blurChildren();
-
-      expect(spy1).toHaveBeenCalled();
-      expect(spy2).toHaveBeenCalled();
-      expect(spy3).toHaveBeenCalled();
-      expect(spy4).toHaveBeenCalled();
-      expect(spy5).toHaveBeenCalled();
-      expect(spy6).toHaveBeenCalled();
+    // Test that Menubar implements the BaseMenu blurChildren() method.
+    it("should implement the BaseMenu blurChildren() method", () => {
+      expect(Menubar.prototype.blurChildren).toBe(
+        BaseMenu.prototype.blurChildren
+      );
     });
-
-    // Test that blurChildren calls blur() on all submenu menu items.
-    it.each([0, 1, 2, 3, 4])(
-      "should call blur() on all menu items is submenu %s",
-      (i) => {
-        // Create a new Menubar instance for testing.
-        const menu = new Menubar({
-          menuElement: document.querySelector("ul"),
-          submenuItemSelector: "li.dropdown",
-          containerElement: document.querySelector("nav"),
-          controllerElement: document.querySelector("button"),
-        });
-
-        // Spy on all submenu menu items.
-        const spy1 = vi.spyOn(
-          menu.elements.submenuToggles[i].elements.controlledMenu.elements
-            .menuItems[0],
-          "blur"
-        );
-        const spy2 = vi.spyOn(
-          menu.elements.submenuToggles[i].elements.controlledMenu.elements
-            .menuItems[1],
-          "blur"
-        );
-        const spy3 = vi.spyOn(
-          menu.elements.submenuToggles[i].elements.controlledMenu.elements
-            .menuItems[2],
-          "blur"
-        );
-        const spy4 = vi.spyOn(
-          menu.elements.submenuToggles[i].elements.controlledMenu.elements
-            .menuItems[3],
-          "blur"
-        );
-        const spy5 = vi.spyOn(
-          menu.elements.submenuToggles[i].elements.controlledMenu.elements
-            .menuItems[4],
-          "blur"
-        );
-
-        menu.blurChildren();
-
-        expect(spy1).toHaveBeenCalled();
-        expect(spy2).toHaveBeenCalled();
-        expect(spy3).toHaveBeenCalled();
-        expect(spy4).toHaveBeenCalled();
-        expect(spy5).toHaveBeenCalled();
-      }
-    );
   });
 });
