@@ -615,6 +615,7 @@ describe("BaseMenu public methods", () => {
       const spy3 = vi.spyOn(menu.elements.submenuToggles[2], "close");
       const spy4 = vi.spyOn(menu.elements.submenuToggles[3], "close");
       const spy5 = vi.spyOn(menu.elements.submenuToggles[4], "close");
+      const spy6 = vi.spyOn(menu.elements.submenuToggles[5], "close");
 
       menu.closeChildren();
 
@@ -623,6 +624,7 @@ describe("BaseMenu public methods", () => {
       expect(spy3).toHaveBeenCalled();
       expect(spy4).toHaveBeenCalled();
       expect(spy5).toHaveBeenCalled();
+      expect(spy6).toHaveBeenCalled();
     });
   });
 
