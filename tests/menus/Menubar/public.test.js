@@ -1,7 +1,5 @@
 /**
  * Tests for public methods of Menubar class.
- *
- * todo: Add tests for: focusNextChildWithCharacter().
  */
 
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
@@ -230,6 +228,53 @@ describe("Menubar public methods", () => {
       expect(Menubar.prototype.blurChildren).toBe(
         BaseMenu.prototype.blurChildren
       );
+    });
+  });
+
+  // Test Menubar focusNextChildWithCharacter().
+  describe("focusNextChildWithCharacter", () => {
+    beforeEach(() => {
+      document.body.innerHTML = twoLevel;
+    });
+
+    afterEach(() => {
+      document.body.innerHTML = "";
+    });
+
+    // Test that focusNextChildWithCharacter calls focusChild with the index of the item starting with a given character.
+    it("should call focusChild with the index of the item starting with a given character", () => {
+      // Create a new Menubar instance for testing.
+      const menu = new Menubar({
+        menuElement: document.querySelector("ul"),
+        submenuItemSelector: "li.dropdown",
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+
+      // Set up to check for focus.
+      const spy = vi.spyOn(menu, "focusChild");
+
+      menu.focusNextChildWithCharacter("B");
+
+      expect(spy).toHaveBeenCalledWith(4);
+    });
+
+    // Test that focusNextChildWithCharacter does not call focusChild if no item starts with a given character.
+    it("should not call focusChild if no item starts with a given character", () => {
+      // Create a new Menubar instance for testing.
+      const menu = new Menubar({
+        menuElement: document.querySelector("ul"),
+        submenuItemSelector: "li.dropdown",
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+
+      // Set up to check for focus.
+      const spy = vi.spyOn(menu, "focusChild");
+
+      menu.focusNextChildWithCharacter("Z");
+
+      expect(spy).not.toHaveBeenCalled();
     });
   });
 });
