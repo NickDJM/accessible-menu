@@ -2,7 +2,7 @@ export const singleLevel =
   /* html */
   `
 <nav id="example-menu" aria-label="example" aria-describedby="disclaimer">
-  <button id="example-toggle" class="menu-toggle" aria-label="Toggle example menu">☰</button>
+  <button id="example-toggle" class="menu-toggle" aria-label="Example menu">☰</button>
   <ul class="menu">
     <li class="menu-item"><a class="menu-link" href="#">About</a></li>
     <li class="menu-item"><a class="menu-link" href="#">Mammals</a></li>
@@ -19,7 +19,7 @@ export const twoLevel =
   /* html */
   `
 <nav id="example-menu" aria-label="example" aria-describedby="disclaimer">
-  <button id="example-toggle" class="menu-toggle" aria-label="Toggle example menu">☰</button>
+  <button id="example-toggle" class="menu-toggle" aria-label="Example menu">☰</button>
   <ul class="menu">
     <li class="menu-item"><a class="menu-link" href="#">About</a></li>
     <li class="menu-item dropdown">
@@ -52,7 +52,7 @@ export const twoLevel =
         <li class="menu-item"><a class="menu-link" href="#">Food</a></li>
       </ul>
     </li>
-    <li class="dropdown dropdown-left">
+    <li class="menu-item dropdown dropdown-left">
       <a class="menu-link dropdown-toggle" href="#">Birds</a>
       <ul class="dropdown-menu">
         <li class="menu-item"><a class="menu-link" href="#">About</a></li>
@@ -62,7 +62,7 @@ export const twoLevel =
         <li class="menu-item"><a class="menu-link" href="#">Food</a></li>
       </ul>
     </li>
-    <li class="dropdown dropdown-left">
+    <li class="menu-item dropdown dropdown-left">
       <a class="menu-link dropdown-toggle" href="#">Fish</a>
       <ul class="dropdown-menu">
         <li class="menu-item"><a class="menu-link" href="#">About</a></li>
@@ -72,7 +72,13 @@ export const twoLevel =
         <li class="menu-item"><a class="menu-link" href="#">Food</a></li>
       </ul>
     </li>
-    <li class="menu-item"><a class="menu-link" href="#">Contact</a></li>
+    <li class="menu-item dropdown dropdown-left">
+      <a class="menu-link dropdown-toggle" href="#">Contact</a>
+      <ul class="dropdown-menu">
+        <li class="menu-item"><a class="menu-link" href="#">Email</a></li>
+        <li class="menu-item"><a class="menu-link" href="#">Socials</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
 `;
@@ -81,7 +87,7 @@ export const twoLevelTopLink =
   /* html */
   `
 <nav id="example-menu"  aria-label="example" aria-describedby="disclaimer">
-  <button id="example-toggle" class="menu-toggle" aria-label="Toggle example menu">☰</button>
+  <button id="example-toggle" class="menu-toggle" aria-label="Example menu">☰</button>
   <ul class="menu">
     <li class="menu-item"><a class="menu-link" href="#">About</a></li>
     <li class="menu-item dropdown">
@@ -117,7 +123,7 @@ export const twoLevelTopLink =
         <li class="menu-item"><a class="menu-link" href="#">Food</a></li>
       </ul>
     </li>
-    <li class="dropdown dropdown-left">
+    <li class="menu-item dropdown dropdown-left">
       <a class="menu-link" href="#">Birds</a>
       <button class="dropdown-toggle" aria-label="Birds submenu"></button>
       <ul class="dropdown-menu">
@@ -128,7 +134,7 @@ export const twoLevelTopLink =
         <li class="menu-item"><a class="menu-link" href="#">Food</a></li>
       </ul>
     </li>
-    <li class="dropdown dropdown-left">
+    <li class="menu-item dropdown dropdown-left">
       <a class="menu-link" href="#">Fish</a>
       <button class="dropdown-toggle" aria-label="Fish submenu"></button>
       <ul class="dropdown-menu">
@@ -139,7 +145,14 @@ export const twoLevelTopLink =
         <li class="menu-item"><a class="menu-link" href="#">Food</a></li>
       </ul>
     </li>
-    <li class="menu-item"><a class="menu-link" href="#">Contact</a></li>
+    <li class="menu-item dropdown dropdown-left">
+      <a class="menu-link" href="#">Contact</a>
+      <button class="dropdown-toggle" aria-label="Contact submenu"></button>
+      <ul class="dropdown-menu">
+        <li class="menu-item"><a class="menu-link" href="#">Email</a></li>
+        <li class="menu-item"><a class="menu-link" href="#">Socials</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
 `;
@@ -148,7 +161,7 @@ export const threeLevel =
   /* html */
   `
 <nav id="example-menu"  aria-label="example" aria-describedby="disclaimer">
-  <button id="example-toggle" class="menu-toggle" aria-label="Toggle example menu">☰</button>
+  <button id="example-toggle" class="menu-toggle" aria-label="Example menu">☰</button>
   <ul class="menu">
     <li class="menu-item"><a class="menu-link" href="#">About</a></li>
     <li class="menu-item dropdown">
@@ -223,7 +236,7 @@ export const threeLevel =
         <li class="menu-item"><a class="menu-link" href="#">Food</a></li>
       </ul>
     </li>
-    <li class="dropdown dropdown-left">
+    <li class="menu-item dropdown dropdown-left">
       <a class="menu-link dropdown-toggle" href="#">Birds</a>
       <ul class="dropdown-menu">
         <li class="menu-item"><a class="menu-link" href="#">About</a></li>
@@ -247,7 +260,7 @@ export const threeLevel =
         <li class="menu-item"><a class="menu-link" href="#">Food</a></li>
       </ul>
     </li>
-    <li class="dropdown dropdown-left">
+    <li class="menu-item dropdown dropdown-left">
       <a class="menu-link dropdown-toggle" href="#">Fish</a>
       <ul class="dropdown-menu">
         <li class="menu-item"><a class="menu-link" href="#">About</a></li>
@@ -271,7 +284,20 @@ export const threeLevel =
         <li class="menu-item"><a class="menu-link" href="#">Food</a></li>
       </ul>
     </li>
-    <li class="menu-item"><a class="menu-link" href="#">Contact</a></li>
+    <li class="menu-item dropdown dropdown-left">
+      <a class="menu-link dropdown-toggle" href="#">Contact</a>
+      <ul class="dropdown-menu">
+        <li class="menu-item"><a class="menu-link" href="#">Email</a></li>
+        <li class="menu-item dropdown">
+          <a class="menu-link dropdown-toggle" href="#">Socials</a>
+          <ul class="dropdown-menu">
+            <li class="menu-item"><a class="menu-link" href="#">Twitter</a></li>
+            <li class="menu-item"><a class="menu-link" href="#">Facebook</a></li>
+            <li class="menu-item"><a class="menu-link" href="#">Instagram</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
   </ul>
 </nav>
 `;
@@ -280,7 +306,7 @@ export const threeLevelTopLink =
   /* html */
   `
 <nav id="example-menu"  aria-label="example" aria-describedby="disclaimer">
-  <button id="example-toggle" class="menu-toggle" aria-label="Toggle example menu">☰</button>
+  <button id="example-toggle" class="menu-toggle" aria-label="Example menu">☰</button>
   <ul class="menu">
     <li class="menu-item"><a class="menu-link" href="#">About</a></li>
     <li class="menu-item dropdown">
@@ -358,7 +384,7 @@ export const threeLevelTopLink =
         <li class="menu-item"><a class="menu-link" href="#">Food</a></li>
       </ul>
     </li>
-    <li class="dropdown dropdown-left">
+    <li class="menu-item dropdown dropdown-left">
       <a class="menu-link" href="#">Birds</a>
       <button class="dropdown-toggle" aria-label="Birds submenu"></button>
       <ul class="dropdown-menu">
@@ -383,7 +409,7 @@ export const threeLevelTopLink =
         <li class="menu-item"><a class="menu-link" href="#">Food</a></li>
       </ul>
     </li>
-    <li class="dropdown dropdown-left">
+    <li class="menu-item dropdown dropdown-left">
       <a class="menu-link" href="#">Fish</a>
       <button class="dropdown-toggle" aria-label="Fish submenu"></button>
       <ul class="dropdown-menu">
@@ -408,7 +434,22 @@ export const threeLevelTopLink =
         <li class="menu-item"><a class="menu-link" href="#">Food</a></li>
       </ul>
     </li>
-    <li class="menu-item"><a class="menu-link" href="#">Contact</a></li>
+    <li class="menu-item dropdown dropdown-left">
+      <a class="menu-link" href="#">Contact</a>
+      <button class="dropdown-toggle" aria-label="Contact submenu"></button>
+      <ul class="dropdown-menu">
+        <li class="menu-item"><a class="menu-link" href="#">Email</a></li>
+        <li class="menu-item dropdown">
+          <a class="menu-link" href="#">Socials</a>
+          <button class="dropdown-toggle" aria-label="Socials submenu"></button>
+          <ul class="dropdown-menu">
+            <li class="menu-item"><a class="menu-link" href="#">Twitter</a></li>
+            <li class="menu-item"><a class="menu-link" href="#">Facebook</a></li>
+            <li class="menu-item"><a class="menu-link" href="#">Instagram</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
   </ul>
 </nav>
 `;

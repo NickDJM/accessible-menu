@@ -1,11 +1,12 @@
 /**
  * Tests for public methods of Treeview class.
  *
- * todo: Add tests for: focusLastNode(), openChildren(), focusNextNodeWithCharacter(),
+ * todo: Add tests for: openChildren(), focusNextNodeWithCharacter(),
  * focusParentsNextChild(), and focusChildsLastNode().
  */
 
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
+import { twoLevel } from "../../../demo/menus.js";
 import Treeview from "../../../src/treeview.js";
 import BaseMenu from "../../../src/_baseMenu.js";
 
@@ -132,6 +133,85 @@ describe("Treeview public methods", () => {
       expect(Treeview.prototype.blurChildren).toBe(
         BaseMenu.prototype.blurChildren
       );
+    });
+  });
+
+  // Test Treeview focusLastNode().
+  describe("focusLastNode", () => {
+    beforeEach(() => {
+      document.body.innerHTML = twoLevel;
+    });
+
+    afterEach(() => {
+      document.body.innerHTML = "";
+    });
+
+    // Test that focusLastNode calls focusLastChild() when the last child is not open.
+    it("should call focusLastChild() when the last child is not open", () => {
+      // Create a new Menubar instance for testing.
+      const menu = new Treeview({
+        menuElement: document.querySelector("ul"),
+        submenuItemSelector: "li.dropdown",
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+
+      // Set up to check for focus.
+      const spy = vi.spyOn(menu, "focusLastChild");
+
+      menu.focusLastNode();
+
+      expect(spy).toHaveBeenCalled();
+    });
+
+    // Test that focusLastNode does not call focusLastChild() when the last child is open.
+    it("should not call focusLastChild() when the last child is open", () => {
+      // Create a new Menubar instance for testing.
+      const menu = new Treeview({
+        menuElement: document.querySelector("ul"),
+        submenuItemSelector: "li.dropdown",
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+
+      // Open the last child.
+      menu.elements.submenuToggles[
+        menu.elements.submenuToggles.length - 1
+      ].open();
+
+      // Set up to check for focus.
+      const spy = vi.spyOn(menu, "focusLastChild");
+
+      menu.focusLastNode();
+
+      expect(spy).not.toHaveBeenCalled();
+    });
+
+    // Test that focusLastNode calls focusLastChild() on the last open child's submenu.
+    it("should call focusLastChild() on the last open child's submenu", () => {
+      // Create a new Menubar instance for testing.
+      const menu = new Treeview({
+        menuElement: document.querySelector("ul"),
+        submenuItemSelector: "li.dropdown",
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+
+      // Open the last child.
+      menu.elements.submenuToggles[
+        menu.elements.submenuToggles.length - 1
+      ].open();
+
+      // Set up to check for focus.
+      const spy = vi.spyOn(
+        menu.elements.submenuToggles[menu.elements.submenuToggles.length - 1]
+          .elements.controlledMenu,
+        "focusLastChild"
+      );
+
+      menu.focusLastNode();
+
+      expect(spy).toHaveBeenCalled();
     });
   });
 });
