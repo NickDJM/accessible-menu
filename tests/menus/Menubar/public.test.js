@@ -276,5 +276,25 @@ describe("Menubar public methods", () => {
 
       expect(spy).not.toHaveBeenCalled();
     });
+
+    // Test that focusNextChildWithCharacter does not call focusChild if there _is_ an item starting with a given character, but it is before the currentChild.
+    it("should not call focusChild if there is an item starting with a given character, but it is before the currentChild", () => {
+      // Create a new Menubar instance for testing.
+      const menu = new Menubar({
+        menuElement: document.querySelector("ul"),
+        submenuItemSelector: "li.dropdown",
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+
+      menu.currentChild = 5;
+
+      // Set up to check for focus.
+      const spy = vi.spyOn(menu, "focusChild");
+
+      menu.focusNextChildWithCharacter("B");
+
+      expect(spy).not.toHaveBeenCalled();
+    });
   });
 });
