@@ -1,12 +1,11 @@
 /**
  * Tests for public methods of Treeview class.
  *
- * todo: Add tests for: openChildren(), focusNextNodeWithCharacter(),
- * focusParentsNextChild(), and focusChildsLastNode().
+ * todo: Add tests for: focusParentsNextChild(), and focusChildsLastNode().
  */
 
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
-import { twoLevel } from "../../../demo/menus.js";
+import { twoLevel, threeLevel } from "../../../demo/menus.js";
 import Treeview from "../../../src/treeview.js";
 import BaseMenu from "../../../src/_baseMenu.js";
 
@@ -148,7 +147,7 @@ describe("Treeview public methods", () => {
 
     // Test that focusLastNode calls focusLastChild() when the last child is not open.
     it("should call focusLastChild() when the last child is not open", () => {
-      // Create a new Menubar instance for testing.
+      // Create a new Treeview instance for testing.
       const menu = new Treeview({
         menuElement: document.querySelector("ul"),
         submenuItemSelector: "li.dropdown",
@@ -166,7 +165,7 @@ describe("Treeview public methods", () => {
 
     // Test that focusLastNode does not call focusLastChild() when the last child is open.
     it("should not call focusLastChild() when the last child is open", () => {
-      // Create a new Menubar instance for testing.
+      // Create a new Treeview instance for testing.
       const menu = new Treeview({
         menuElement: document.querySelector("ul"),
         submenuItemSelector: "li.dropdown",
@@ -189,7 +188,7 @@ describe("Treeview public methods", () => {
 
     // Test that focusLastNode calls focusLastChild() on the last open child's submenu.
     it("should call focusLastChild() on the last open child's submenu", () => {
-      // Create a new Menubar instance for testing.
+      // Create a new Treeview instance for testing.
       const menu = new Treeview({
         menuElement: document.querySelector("ul"),
         submenuItemSelector: "li.dropdown",
@@ -212,6 +211,213 @@ describe("Treeview public methods", () => {
       menu.focusLastNode();
 
       expect(spy).toHaveBeenCalled();
+    });
+  });
+
+  // Test openChildren().
+  describe("openChildren", () => {
+    beforeEach(() => {
+      document.body.innerHTML = twoLevel;
+    });
+
+    afterEach(() => {
+      document.body.innerHTML = "";
+    });
+
+    // Should call preview() on all submenu toggles in the menu.
+    it("should call preview() on all submenu toggles in the menu", () => {
+      // Create a new Treeview instance for testing.
+      const menu = new Treeview({
+        menuElement: document.querySelector("ul"),
+        submenuItemSelector: "li.dropdown",
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+
+      // Spy on all submenuToggles and preview() methods.
+      const spy1 = vi.spyOn(menu.elements.submenuToggles[0], "preview");
+      const spy2 = vi.spyOn(menu.elements.submenuToggles[1], "preview");
+      const spy3 = vi.spyOn(menu.elements.submenuToggles[2], "preview");
+      const spy4 = vi.spyOn(menu.elements.submenuToggles[3], "preview");
+      const spy5 = vi.spyOn(menu.elements.submenuToggles[4], "preview");
+      const spy6 = vi.spyOn(menu.elements.submenuToggles[5], "preview");
+
+      menu.openChildren();
+
+      expect(spy1).toHaveBeenCalled();
+      expect(spy2).toHaveBeenCalled();
+      expect(spy3).toHaveBeenCalled();
+      expect(spy4).toHaveBeenCalled();
+      expect(spy5).toHaveBeenCalled();
+      expect(spy6).toHaveBeenCalled();
+    });
+  });
+
+  // Test Treeview focusNextNodeWithCharacter().
+  describe("focusNextNodeWithCharacter", () => {
+    beforeEach(() => {
+      document.body.innerHTML = threeLevel;
+    });
+
+    afterEach(() => {
+      document.body.innerHTML = "";
+    });
+
+    // Test that focusNextNodeWithCharacter calls focusChild with the index of the item starting with a given character.
+    it("should call focusChild with the index of the item starting with a given character", () => {
+      // Create a new Treeview instance for testing.
+      const menu = new Treeview({
+        menuElement: document.querySelector("ul"),
+        submenuItemSelector: "li.dropdown",
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+
+      // Set up to check for focus.
+      const spy = vi.spyOn(menu, "focusChild");
+
+      menu.focusNextNodeWithCharacter("B");
+
+      expect(spy).toHaveBeenCalledWith(4);
+    });
+
+    // Test that focusNextNodeWithCharacter does not call focusChild if no item starts with a given character.
+    it("should not call focusChild if no item starts with a given character", () => {
+      // Create a new Treeview instance for testing.
+      const menu = new Treeview({
+        menuElement: document.querySelector("ul"),
+        submenuItemSelector: "li.dropdown",
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+
+      // Set up to check for focus.
+      const spy = vi.spyOn(menu, "focusChild");
+
+      menu.focusNextNodeWithCharacter("Z");
+
+      expect(spy).not.toHaveBeenCalled();
+    });
+
+    // Test that focusNextNodeWithCharacter does not call focusChild if there _is_ an item starting with a given character, but it is before the currentChild.
+    it("should call focusChild if there is an item starting with a given character before the currentChild", () => {
+      // Create a new Treeview instance for testing.
+      const menu = new Treeview({
+        menuElement: document.querySelector("ul"),
+        submenuItemSelector: "li.dropdown",
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+
+      menu.currentChild = 5;
+
+      // Set up to check for focus.
+      const spy = vi.spyOn(menu, "focusChild");
+
+      menu.focusNextNodeWithCharacter("B");
+
+      expect(spy).toHaveBeenCalledWith(4);
+    });
+
+    // Test that focusNextNodeWithCharacter will call focusChild on open submenus if it contains the next item starting with a given character.
+    it("should call focusChild on open submenu's if it contains the next item starting with a given character", () => {
+      // Create a new Treeview instance for testing.
+      const menu = new Treeview({
+        menuElement: document.querySelector("ul"),
+        submenuItemSelector: "li.dropdown",
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+
+      // Open the first submenu.
+      menu.elements.submenuToggles[0].open();
+
+      // Set up to check for focus.
+      const spy = vi.spyOn(
+        menu.elements.submenuToggles[0].elements.controlledMenu,
+        "focusChild"
+      );
+
+      menu.focusNextNodeWithCharacter("W");
+
+      expect(spy).toHaveBeenCalledWith(1);
+    });
+
+    // Test that focusNextNodeWithCharacter will call focusChild on open submenu's submenus if it contains the next item starting with a given character.
+    it("should call focusChild on open submenu's submenu's if it contains the next item starting with a given character", () => {
+      // Create a new Treeview instance for testing.
+      const menu = new Treeview({
+        menuElement: document.querySelector("ul"),
+        submenuItemSelector: "li.dropdown",
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+
+      // Open the first submenu.
+      menu.elements.submenuToggles[0].open();
+
+      // Open the first submenu's submenu.
+      menu.elements.submenuToggles[0].elements.controlledMenu.elements.submenuToggles[0].open();
+
+      // Set up to check for focus.
+      const spy = vi.spyOn(
+        menu.elements.submenuToggles[0].elements.controlledMenu.elements
+          .submenuToggles[0].elements.controlledMenu,
+        "focusChild"
+      );
+
+      menu.focusNextNodeWithCharacter("L");
+
+      expect(spy).toHaveBeenCalledWith(1);
+    });
+
+    // Test that focusNextNodeWithCharacter will call focusChild on a parent menu if it contains the next item starting with a given character.
+    it("should call focusChild on a parent menu if it contains the next item starting with a given character", () => {
+      // Create a new Treeview instance for testing.
+      const menu = new Treeview({
+        menuElement: document.querySelector("ul"),
+        submenuItemSelector: "li.dropdown",
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+
+      // Open the first submenu.
+      menu.elements.submenuToggles[0].open();
+
+      // Set up to check for focus.
+      const spy = vi.spyOn(menu, "focusChild");
+
+      menu.elements.submenuToggles[0].elements.controlledMenu.focusNextNodeWithCharacter(
+        "R"
+      );
+
+      expect(spy).toHaveBeenCalledWith(2);
+    });
+
+    // Test that focusNextNodeWithCharacter will call focusChild on a parent menu's parent menu if it contains the next item starting with a given character.
+    it("should call focusChild on a parent menu's parent menu if it contains the next item starting with a given character", () => {
+      // Create a new Treeview instance for testing.
+      const menu = new Treeview({
+        menuElement: document.querySelector("ul"),
+        submenuItemSelector: "li.dropdown",
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+
+      // Open the first submenu.
+      menu.elements.submenuToggles[0].open();
+
+      // Open the first submenu's submenu.
+      menu.elements.submenuToggles[0].elements.controlledMenu.elements.submenuToggles[0].open();
+
+      // Set up to check for focus.
+      const spy = vi.spyOn(menu, "focusChild");
+
+      menu.elements.submenuToggles[0].elements.controlledMenu.elements.submenuToggles[0].elements.controlledMenu.focusNextNodeWithCharacter(
+        "R"
+      );
+
+      expect(spy).toHaveBeenCalledWith(2);
     });
   });
 });
