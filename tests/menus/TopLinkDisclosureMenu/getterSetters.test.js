@@ -4,13 +4,13 @@
 
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import TopLinkDisclosureMenu from "../../../src/topLinkDisclosureMenu.js";
-import { twoLevel } from "../../../demo/menus.js";
+import { twoLevelTopLink } from "../../../demo/menus.js";
 import BaseMenu from "../../../src/_baseMenu.js";
 import * as validation from "../../../src/validate.js";
 import { initializeMenu } from "../helpers.js";
 
 beforeEach(() => {
-  document.body.innerHTML = twoLevel;
+  document.body.innerHTML = twoLevelTopLink;
 });
 
 afterEach(() => {
