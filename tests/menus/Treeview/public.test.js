@@ -1,7 +1,5 @@
 /**
  * Tests for public methods of Treeview class.
- *
- * todo: Add tests for: focusChildsLastNode().
  */
 
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
@@ -507,6 +505,77 @@ describe("Treeview public methods", () => {
       expect(() => {
         menu.focusParentsNextChild();
       }).not.toThrow();
+    });
+  });
+
+  // Test Treeview focusChildsLastNode.
+  describe("focusChildsLastNode", () => {
+    beforeEach(() => {
+      document.body.innerHTML = threeLevel;
+    });
+
+    afterEach(() => {
+      document.body.innerHTML = "";
+    });
+
+    // Test that focusChildsLastNode calls focusLastChild on the open child menu.
+    it("should call focusLastChild on the open child menu", () => {
+      // Create a new Treeview instance for testing.
+      const menu = new Treeview({
+        menuElement: document.querySelector("ul"),
+        submenuItemSelector: "li.dropdown",
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+
+      // Set the currentChild to 1.
+      menu.currentChild = 1;
+
+      // Open the first submenu.
+      menu.elements.submenuToggles[0].open();
+
+      // Set up to check for focus.
+      const spy = vi.spyOn(
+        menu.elements.submenuToggles[0].elements.controlledMenu,
+        "focusLastChild"
+      );
+
+      menu.focusChildsLastNode();
+
+      expect(spy).toHaveBeenCalled();
+    });
+
+    // Test that focusChildsLastNode calls focusChildsLastNode on the open child menu if it is focusing the last child that is also an open child menu.
+    it("should call focusChildsLastNode on the open child menu if it is focusing the last child that is also an open child menu", () => {
+      // Create a new Treeview instance for testing.
+      const menu = new Treeview({
+        menuElement: document.querySelector("ul"),
+        submenuItemSelector: "li.dropdown",
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+
+      // Set the currentChild to 1.
+      menu.currentChild = 1;
+
+      // Open the first submenu.
+      menu.elements.submenuToggles[0].open();
+
+      // Set the submenu's currentChild to 4.
+      menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 4;
+
+      // Open the third submenu in the first submenu.
+      menu.elements.submenuToggles[0].elements.controlledMenu.elements.submenuToggles[2].open();
+
+      // Set up to check for focus.
+      const spy = vi.spyOn(
+        menu.elements.submenuToggles[0].elements.controlledMenu,
+        "focusChildsLastNode"
+      );
+
+      menu.focusChildsLastNode();
+
+      expect(spy).toHaveBeenCalled();
     });
   });
 });
