@@ -185,7 +185,13 @@ export const threeLevel =
           </ul>
         </li>
         <li class="menu-item"><a class="menu-link" href="#">Habitats</a></li>
-        <li class="menu-item"><a class="menu-link" href="#">Food</a></li>
+        <li class="menu-item dropdown">
+          <a class="menu-link dropdown-toggle" href="#">Food</a>
+          <ul class="dropdown-menu">
+            <li class="menu-item"><a class="menu-link" href="#">Can Eat</a></li>
+            <li class="menu-item"><a class="menu-link" href="#">Can't Eat</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
     <li class="menu-item dropdown">
@@ -209,7 +215,13 @@ export const threeLevel =
           </ul>
         </li>
         <li class="menu-item"><a class="menu-link" href="#">Habitats</a></li>
-        <li class="menu-item"><a class="menu-link" href="#">Food</a></li>
+        <li class="menu-item dropdown">
+          <a class="menu-link dropdown-toggle" href="#">Food</a>
+          <ul class="dropdown-menu">
+            <li class="menu-item"><a class="menu-link" href="#">Can Eat</a></li>
+            <li class="menu-item"><a class="menu-link" href="#">Can't Eat</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
     <li class="menu-item dropdown">
@@ -233,7 +245,13 @@ export const threeLevel =
           </ul>
         </li>
         <li class="menu-item"><a class="menu-link" href="#">Habitats</a></li>
-        <li class="menu-item"><a class="menu-link" href="#">Food</a></li>
+        <li class="menu-item dropdown">
+          <a class="menu-link dropdown-toggle" href="#">Food</a>
+          <ul class="dropdown-menu">
+            <li class="menu-item"><a class="menu-link" href="#">Can Eat</a></li>
+            <li class="menu-item"><a class="menu-link" href="#">Can't Eat</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
     <li class="menu-item dropdown dropdown-left">
@@ -257,7 +275,13 @@ export const threeLevel =
           </ul>
         </li>
         <li class="menu-item"><a class="menu-link" href="#">Habitats</a></li>
-        <li class="menu-item"><a class="menu-link" href="#">Food</a></li>
+        <li class="menu-item dropdown">
+          <a class="menu-link dropdown-toggle" href="#">Food</a>
+          <ul class="dropdown-menu">
+            <li class="menu-item"><a class="menu-link" href="#">Can Eat</a></li>
+            <li class="menu-item"><a class="menu-link" href="#">Can't Eat</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
     <li class="menu-item dropdown dropdown-left">
@@ -281,7 +305,13 @@ export const threeLevel =
           </ul>
         </li>
         <li class="menu-item"><a class="menu-link" href="#">Habitats</a></li>
-        <li class="menu-item"><a class="menu-link" href="#">Food</a></li>
+        <li class="menu-item dropdown">
+          <a class="menu-link dropdown-toggle" href="#">Food</a>
+          <ul class="dropdown-menu">
+            <li class="menu-item"><a class="menu-link" href="#">Can Eat</a></li>
+            <li class="menu-item"><a class="menu-link" href="#">Can't Eat</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
     <li class="menu-item dropdown dropdown-left">
@@ -331,7 +361,13 @@ export const threeLevelTopLink =
           </ul>
         </li>
         <li class="menu-item"><a class="menu-link" href="#">Habitats</a></li>
-        <li class="menu-item"><a class="menu-link" href="#">Food</a></li>
+        <li class="menu-item dropdown">
+          <a class="menu-link dropdown-toggle" href="#">Food</a>
+          <ul class="dropdown-menu">
+            <li class="menu-item"><a class="menu-link" href="#">Can Eat</a></li>
+            <li class="menu-item"><a class="menu-link" href="#">Can't Eat</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
     <li class="menu-item dropdown">
@@ -356,7 +392,13 @@ export const threeLevelTopLink =
           </ul>
         </li>
         <li class="menu-item"><a class="menu-link" href="#">Habitats</a></li>
-        <li class="menu-item"><a class="menu-link" href="#">Food</a></li>
+        <li class="menu-item dropdown">
+          <a class="menu-link dropdown-toggle" href="#">Food</a>
+          <ul class="dropdown-menu">
+            <li class="menu-item"><a class="menu-link" href="#">Can Eat</a></li>
+            <li class="menu-item"><a class="menu-link" href="#">Can't Eat</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
     <li class="menu-item dropdown">
@@ -381,7 +423,13 @@ export const threeLevelTopLink =
           </ul>
         </li>
         <li class="menu-item"><a class="menu-link" href="#">Habitats</a></li>
-        <li class="menu-item"><a class="menu-link" href="#">Food</a></li>
+        <li class="menu-item dropdown">
+          <a class="menu-link dropdown-toggle" href="#">Food</a>
+          <ul class="dropdown-menu">
+            <li class="menu-item"><a class="menu-link" href="#">Can Eat</a></li>
+            <li class="menu-item"><a class="menu-link" href="#">Can't Eat</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
     <li class="menu-item dropdown dropdown-left">
@@ -406,7 +454,13 @@ export const threeLevelTopLink =
           </ul>
         </li>
         <li class="menu-item"><a class="menu-link" href="#">Habitats</a></li>
-        <li class="menu-item"><a class="menu-link" href="#">Food</a></li>
+        <li class="menu-item dropdown">
+          <a class="menu-link dropdown-toggle" href="#">Food</a>
+          <ul class="dropdown-menu">
+            <li class="menu-item"><a class="menu-link" href="#">Can Eat</a></li>
+            <li class="menu-item"><a class="menu-link" href="#">Can't Eat</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
     <li class="menu-item dropdown dropdown-left">
@@ -431,7 +485,13 @@ export const threeLevelTopLink =
           </ul>
         </li>
         <li class="menu-item"><a class="menu-link" href="#">Habitats</a></li>
-        <li class="menu-item"><a class="menu-link" href="#">Food</a></li>
+        <li class="menu-item dropdown">
+          <a class="menu-link dropdown-toggle" href="#">Food</a>
+          <ul class="dropdown-menu">
+            <li class="menu-item"><a class="menu-link" href="#">Can Eat</a></li>
+            <li class="menu-item"><a class="menu-link" href="#">Can't Eat</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
     <li class="menu-item dropdown dropdown-left">

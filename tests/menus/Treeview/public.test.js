@@ -1,7 +1,7 @@
 /**
  * Tests for public methods of Treeview class.
  *
- * todo: Add tests for: focusParentsNextChild(), and focusChildsLastNode().
+ * todo: Add tests for: focusChildsLastNode().
  */
 
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
@@ -418,6 +418,95 @@ describe("Treeview public methods", () => {
       );
 
       expect(spy).toHaveBeenCalledWith(2);
+    });
+  });
+
+  // Test Treeview focusParentsNextChild.
+  describe("focusParentsNextChild", () => {
+    beforeEach(() => {
+      document.body.innerHTML = threeLevel;
+    });
+
+    afterEach(() => {
+      document.body.innerHTML = "";
+    });
+
+    // Test that focusParentsNextChild calls focusNextChild on the parent menu.
+    it("should call focusNextChild on the parent menu", () => {
+      // Create a new Treeview instance for testing.
+      const menu = new Treeview({
+        menuElement: document.querySelector("ul"),
+        submenuItemSelector: "li.dropdown",
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+
+      // Set the currentChild to 1.
+      menu.currentChild = 1;
+
+      // Open the first submenu.
+      menu.elements.submenuToggles[0].open();
+
+      // Set up to check for focus.
+      const spy1 = vi.spyOn(menu, "focusNextChild");
+      const spy2 = vi.spyOn(menu, "focusChild");
+
+      menu.elements.submenuToggles[0].elements.controlledMenu.focusParentsNextChild();
+
+      expect(spy1).toHaveBeenCalled();
+      expect(spy2).toHaveBeenCalledWith(2);
+    });
+
+    // Test that focusParentsNextChild calls focusParentsNextChild on the parent menu if the parent menu is already focusing the last child.
+    it("should call focusParentsNextChild on the parent menu if the parent menu is already focusing the last child", () => {
+      // Create a new Treeview instance for testing.
+      const menu = new Treeview({
+        menuElement: document.querySelector("ul"),
+        submenuItemSelector: "li.dropdown",
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+
+      // Set the currentChild to 1.
+      menu.currentChild = 1;
+
+      // Open the first submenu.
+      menu.elements.submenuToggles[0].open();
+
+      // Set the submenu's currentChild to 4.
+      menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 4;
+
+      // Open the third submenu in the first submenu.
+      menu.elements.submenuToggles[0].elements.controlledMenu.elements.submenuToggles[2].open();
+
+      // Set up to check for focus.
+      const spy1 = vi.spyOn(
+        menu.elements.submenuToggles[0].elements.controlledMenu,
+        "focusNextChild"
+      );
+      const spy2 = vi.spyOn(
+        menu.elements.submenuToggles[0].elements.controlledMenu,
+        "focusParentsNextChild"
+      );
+
+      menu.elements.submenuToggles[0].elements.controlledMenu.elements.submenuToggles[2].elements.controlledMenu.focusParentsNextChild();
+
+      expect(spy1).not.toHaveBeenCalled();
+      expect(spy2).toHaveBeenCalled();
+    });
+
+    // Test that focusParentsNextChild doesn't call anything if there is no parent menu.
+    it("should not call anything if there is no parent menu", () => {
+      // Create a new Treeview instance for testing.
+      const menu = new Treeview({
+        menuElement: document.querySelector("ul"),
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+
+      expect(() => {
+        menu.focusParentsNextChild();
+      }).not.toThrow();
     });
   });
 });
