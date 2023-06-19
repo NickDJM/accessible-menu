@@ -329,6 +329,156 @@ describe("DisclosureMenu", () => {
 
       expect(menu.currentEvent).toBe("keyboard");
     });
+
+    // Test Spacebar and Enter.
+    describe.each(["Spacebar", "Enter"])("%s", (key) => {
+      // Test that the event is prevented on Spacebar and Enter keyup events if the focus state is self and the current menu item is a submenu item.
+      it("should prevent the Spacebar and Enter keyup events if the focus state is self and the current menu item is a submenu item", () => {
+        // Create a new DisclosureMenu instance for testing.
+        const menu = new DisclosureMenu({
+          menuElement: document.querySelector("ul"),
+          submenuItemSelector: "li.dropdown",
+          containerElement: document.querySelector("nav"),
+          controllerElement: document.querySelector("button"),
+        });
+
+        // Set up the menu.
+        menu.focusState = "self";
+        menu.currentChild = 1;
+
+        // Trigger a keyup event on the menu's controller.
+        const event = simulateKeyboardEvent("keyup", menu.dom.menu, {
+          key,
+        });
+
+        expect(event.defaultPrevented).toBeTruthy();
+      });
+
+      // Test that the event is not prevented on Spacebar and Enter keyup events if the focus state is not self and the current menu item is a submenu item.
+      it("should not prevent the Spacebar and Enter keyup events if the focus state is not self and the current menu item is a submenu item", () => {
+        // Create a new DisclosureMenu instance for testing.
+        const menu = new DisclosureMenu({
+          menuElement: document.querySelector("ul"),
+          submenuItemSelector: "li.dropdown",
+          containerElement: document.querySelector("nav"),
+          controllerElement: document.querySelector("button"),
+        });
+
+        // Set up the menu.
+        menu.currentChild = 1;
+
+        // Trigger a keyup event on the menu's controller.
+        const event = simulateKeyboardEvent("keyup", menu.dom.menu, {
+          key,
+        });
+
+        expect(event.defaultPrevented).toBeFalsy();
+      });
+
+      // Test that the event is not prevented on Spacebar and Enter keyup events if the focus state is self and the current menu item is not a submenu item.
+      it("should not prevent the Spacebar and Enter keyup events if the focus state is self and the current menu item is not a submenu item", () => {
+        // Create a new DisclosureMenu instance for testing.
+        const menu = new DisclosureMenu({
+          menuElement: document.querySelector("ul"),
+          submenuItemSelector: "li.dropdown",
+          containerElement: document.querySelector("nav"),
+          controllerElement: document.querySelector("button"),
+        });
+
+        // Set up the menu.
+        menu.focusState = "self";
+        menu.currentChild = 0;
+
+        // Trigger a keyup event on the menu's controller.
+        const event = simulateKeyboardEvent("keyup", menu.dom.menu, {
+          key,
+        });
+
+        expect(event.defaultPrevented).toBeFalsy();
+      });
+
+      // Test that the click method is called on the menu item's link if the focus state is self and the current menu item is not a submenu item.
+      it("should call the click method on the menu item's link if the focus state is self and the current menu item is not a submenu item", () => {
+        // Create a new DisclosureMenu instance for testing.
+        const menu = new DisclosureMenu({
+          menuElement: document.querySelector("ul"),
+          submenuItemSelector: "li.dropdown",
+          containerElement: document.querySelector("nav"),
+          controllerElement: document.querySelector("button"),
+        });
+
+        // Set up the menu.
+        menu.focusState = "self";
+        menu.currentChild = 0;
+
+        // Spy on the menu item's link's click method.
+        const spy = vi.spyOn(menu.elements.menuItems[0].dom.link, "click");
+
+        // Trigger a keyup event on the menu's controller.
+        simulateKeyboardEvent("keyup", menu.dom.menu, {
+          key,
+        });
+
+        expect(spy).toHaveBeenCalled();
+      });
+
+      // Test that the close method is called on the menu item's toggle if the focus state is self and the current menu item is an open submenu item.
+      it("should call the close method on the menu item's toggle if the focus state is self and the current menu item is an open submenu item", () => {
+        // Create a new DisclosureMenu instance for testing.
+        const menu = new DisclosureMenu({
+          menuElement: document.querySelector("ul"),
+          submenuItemSelector: "li.dropdown",
+          containerElement: document.querySelector("nav"),
+          controllerElement: document.querySelector("button"),
+        });
+
+        // Set up the menu.
+        menu.focusState = "self";
+        menu.currentChild = 1;
+        menu.elements.submenuToggles[0].preview();
+
+        // Spy on the menu item's toggle's close method.
+        const spy = vi.spyOn(
+          menu.elements.menuItems[1].elements.toggle,
+          "close"
+        );
+
+        // Trigger a keyup event on the menu's controller.
+        simulateKeyboardEvent("keyup", menu.dom.menu, {
+          key,
+        });
+
+        expect(spy).toHaveBeenCalled();
+      });
+
+      // Test that the preview method is called on the menu item's toggle if the focus state is self and the current menu item is a closed submenu item.
+      it("should call the preview method on the menu item's toggle if the focus state is self and the current menu item is a closed submenu item", () => {
+        // Create a new DisclosureMenu instance for testing.
+        const menu = new DisclosureMenu({
+          menuElement: document.querySelector("ul"),
+          submenuItemSelector: "li.dropdown",
+          containerElement: document.querySelector("nav"),
+          controllerElement: document.querySelector("button"),
+        });
+
+        // Set up the menu.
+        menu.focusState = "self";
+        menu.currentChild = 1;
+
+        // Spy on the menu item's toggle's preview method.
+        const spy = vi.spyOn(
+          menu.elements.menuItems[1].elements.toggle,
+          "preview"
+        );
+
+        // Trigger a keyup event on the menu's controller.
+        simulateKeyboardEvent("keyup", menu.dom.menu, {
+          key,
+        });
+
+        expect(spy).toHaveBeenCalled();
+      });
+    });
   });
 });
 
