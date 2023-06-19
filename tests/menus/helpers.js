@@ -14,6 +14,7 @@ import BaseMenu from "../../src/_baseMenu.js";
 export function initializeMenu(menu) {
   // Initialize the menu and its children.
   menu.initialize();
+
   menu.elements.menuItems.forEach((item) => {
     item.initialize();
   });
@@ -26,4 +27,10 @@ export function initializeMenu(menu) {
   if (menu.isTopLevel && menu.elements.controller) {
     menu.elements.controller.initialize();
   }
+
+  menu._handleFocus();
+  menu._handleClick();
+  menu._handleHover();
+  menu._handleKeydown();
+  menu._handleKeyup();
 }
