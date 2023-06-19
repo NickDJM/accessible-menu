@@ -110,7 +110,7 @@ describe("TopLinkDisclosureMenu", () => {
       });
 
       // Simulate a pointerup event.
-      simulatePointerEvent("pointerup", menu.elements.menuItems[1].dom.link);
+      simulatePointerEvent("pointerup", menu.elements.menuItems[2].dom.link);
 
       expect(menu.currentEvent).toBe("mouse");
     });
@@ -135,7 +135,7 @@ describe("TopLinkDisclosureMenu", () => {
       // Simulate a pointerup event.
       const event = simulatePointerEvent(
         "pointerup",
-        menu.elements.menuItems[1].dom.link
+        menu.elements.menuItems[2].dom.link
       );
 
       expect(spy).toHaveBeenCalledWith(event);
@@ -153,12 +153,12 @@ describe("TopLinkDisclosureMenu", () => {
 
       // Spy on toggle.
       const spy = vi.spyOn(
-        menu.elements.menuItems[1].elements.toggle,
+        menu.elements.menuItems[2].elements.toggle,
         "toggle"
       );
 
       // Simulate a pointerup event.
-      simulatePointerEvent("pointerup", menu.elements.menuItems[1].dom.link);
+      simulatePointerEvent("pointerup", menu.elements.menuItems[2].dom.link);
 
       expect(spy).toHaveBeenCalled();
     });
@@ -174,7 +174,7 @@ describe("TopLinkDisclosureMenu", () => {
       });
 
       // Simulate a pointerup event.
-      simulatePointerEvent("pointerup", menu.elements.menuItems[1].dom.link);
+      simulatePointerEvent("pointerup", menu.elements.menuItems[2].dom.link);
 
       expect(menu.focusState).toBe("self");
     });
@@ -190,7 +190,7 @@ describe("TopLinkDisclosureMenu", () => {
       });
 
       // Simulate a pointerup event.
-      simulatePointerEvent("pointerup", menu.elements.menuItems[1].dom.link);
+      simulatePointerEvent("pointerup", menu.elements.menuItems[2].dom.link);
 
       expect(
         menu.elements.submenuToggles[0].elements.controlledMenu.focusState
