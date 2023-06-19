@@ -20,6 +20,7 @@ afterEach(() => {
 // Test BaseMenuToggle protected methods.
 describe("BaseMenuToggle protected methods", () => {
   // Test BaseMenuToggle _expand().
+  // todo: See if we can test the order in which the classes are added and removed.
   describe("_expand", () => {
     // Test that expand sets the aria-expanded attribute on the toggle to true.
     it("should set the aria-expanded attribute on the toggle to true", () => {
@@ -227,6 +228,7 @@ describe("BaseMenuToggle protected methods", () => {
   });
 
   // Test BaseMenuToggle _collapse().
+  // todo: See if we can test the order in which the classes are added and removed.
   describe("_collapse", () => {
     // Test that collapse sets the aria-expanded attribute on the toggle to false.
     it("should set the aria-expanded attribute on the toggle to false", () => {
