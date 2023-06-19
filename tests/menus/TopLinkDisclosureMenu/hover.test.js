@@ -13,12 +13,7 @@ import {
 } from "vitest";
 import { threeLevelTopLink } from "../../../demo/menus.js";
 import TopLinkDisclosureMenu from "../../../src/topLinkDisclosureMenu.js";
-import {
-  initializeMenu,
-  simulatePointerEvent,
-  PointerEvent,
-  wait,
-} from "../helpers.js";
+import { simulatePointerEvent, PointerEvent, wait } from "../helpers.js";
 
 beforeAll(() => {
   // Extend jsdom MouseEvent class as PointerEvent class.
@@ -51,7 +46,6 @@ describe("TopLinkDisclosureMenu", () => {
           controllerElement: document.querySelector("button"),
           hoverType: "on",
         });
-        initializeMenu(menu);
 
         // Simulate the pointerenter event.
         simulatePointerEvent(
@@ -63,7 +57,7 @@ describe("TopLinkDisclosureMenu", () => {
       });
 
       // Test that the current child index is set to the hovered menu item's index.
-      it.each([0, 1, 2, 3, 4, 5, 6])(
+      it.each([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])(
         "should set the current child index to the menu item %s",
         (i) => {
           // Create a new TopLinkDisclosureMenu instance for testing.
@@ -74,7 +68,6 @@ describe("TopLinkDisclosureMenu", () => {
             controllerElement: document.querySelector("button"),
             hoverType: "on",
           });
-          initializeMenu(menu);
 
           // Simulate the pointerenter event.
           simulatePointerEvent(
@@ -99,7 +92,6 @@ describe("TopLinkDisclosureMenu", () => {
           hoverType: "on",
           hoverDelay,
         });
-        initializeMenu(menu);
 
         // Set up to watch for preview calls.
         const spy = vi.spyOn(menu.elements.submenuToggles[0], "preview");
@@ -126,7 +118,6 @@ describe("TopLinkDisclosureMenu", () => {
           hoverType: "on",
           hoverDelay: 0,
         });
-        initializeMenu(menu);
 
         // Set up to watch for preview calls.
         const spy = vi.spyOn(menu.elements.submenuToggles[0], "preview");
@@ -135,6 +126,58 @@ describe("TopLinkDisclosureMenu", () => {
         simulatePointerEvent(
           "pointerenter",
           menu.elements.menuItems[1].dom.link
+        );
+
+        expect(spy).toHaveBeenCalled();
+      });
+
+      // Test that preview is called after a delay when a menu item that is also a submenu toggle is hovered.
+      it("should call preview after a delay when a menu item that is also a submenu toggle is hovered", async () => {
+        const hoverDelay = 250;
+
+        // Create a new TopLinkDisclosureMenu instance for testing.
+        const menu = new TopLinkDisclosureMenu({
+          menuElement: document.querySelector("ul"),
+          submenuItemSelector: "li.dropdown",
+          containerElement: document.querySelector("nav"),
+          controllerElement: document.querySelector("button"),
+          hoverType: "on",
+          hoverDelay,
+        });
+
+        // Set up to watch for preview calls.
+        const spy = vi.spyOn(menu.elements.submenuToggles[0], "preview");
+
+        // Simulate the pointerenter event.
+        simulatePointerEvent(
+          "pointerenter",
+          menu.elements.menuItems[2].dom.link
+        );
+
+        await wait(hoverDelay);
+
+        expect(spy).toHaveBeenCalled();
+      });
+
+      // Test that preview is called immediately when a menu item that is also a submenu toggle is hovered and hoverDelay is set to 0.
+      it("should call preview immediately when a menu item that is also a submenu toggle is hovered and hoverDelay is set to 0", () => {
+        // Create a new TopLinkDisclosureMenu instance for testing.
+        const menu = new TopLinkDisclosureMenu({
+          menuElement: document.querySelector("ul"),
+          submenuItemSelector: "li.dropdown",
+          containerElement: document.querySelector("nav"),
+          controllerElement: document.querySelector("button"),
+          hoverType: "on",
+          hoverDelay: 0,
+        });
+
+        // Set up to watch for preview calls.
+        const spy = vi.spyOn(menu.elements.submenuToggles[0], "preview");
+
+        // Simulate the pointerenter event.
+        simulatePointerEvent(
+          "pointerenter",
+          menu.elements.menuItems[2].dom.link
         );
 
         expect(spy).toHaveBeenCalled();
@@ -153,7 +196,6 @@ describe("TopLinkDisclosureMenu", () => {
           controllerElement: document.querySelector("button"),
           hoverType: "on",
         });
-        initializeMenu(menu);
 
         // Set up to watch for clearTimeout calls.
         const spy = vi.spyOn(window, "clearTimeout");
@@ -180,7 +222,6 @@ describe("TopLinkDisclosureMenu", () => {
           hoverType: "on",
           hoverDelay,
         });
-        initializeMenu(menu);
 
         // Simulate the pointerleave event.
         simulatePointerEvent(
@@ -204,7 +245,6 @@ describe("TopLinkDisclosureMenu", () => {
           hoverType: "on",
           hoverDelay: 0,
         });
-        initializeMenu(menu);
 
         // Simulate the pointerleave event.
         simulatePointerEvent(
@@ -228,7 +268,6 @@ describe("TopLinkDisclosureMenu", () => {
           hoverType: "on",
           hoverDelay,
         });
-        initializeMenu(menu);
 
         // Set up to watch for close calls.
         const spy = vi.spyOn(menu.elements.submenuToggles[0], "close");
@@ -255,7 +294,6 @@ describe("TopLinkDisclosureMenu", () => {
           hoverType: "on",
           hoverDelay: 0,
         });
-        initializeMenu(menu);
 
         // Set up to watch for close calls.
         const spy = vi.spyOn(menu.elements.submenuToggles[0], "close");
@@ -287,7 +325,6 @@ describe("TopLinkDisclosureMenu", () => {
             controllerElement: document.querySelector("button"),
             hoverType: "dynamic",
           });
-          initializeMenu(menu);
 
           // Simulate the pointerenter event.
           simulatePointerEvent(
@@ -309,7 +346,6 @@ describe("TopLinkDisclosureMenu", () => {
           controllerElement: document.querySelector("button"),
           hoverType: "dynamic",
         });
-        initializeMenu(menu);
 
         // Set up the menu.
         menu.focusState = "self";
@@ -333,7 +369,6 @@ describe("TopLinkDisclosureMenu", () => {
           controllerElement: document.querySelector("button"),
           hoverType: "dynamic",
         });
-        initializeMenu(menu);
 
         // Simulate the pointerenter event.
         simulatePointerEvent(
@@ -354,7 +389,6 @@ describe("TopLinkDisclosureMenu", () => {
           controllerElement: document.querySelector("button"),
           hoverType: "dynamic",
         });
-        initializeMenu(menu);
 
         menu.elements.submenuToggles[0].open();
 
@@ -380,7 +414,6 @@ describe("TopLinkDisclosureMenu", () => {
           controllerElement: document.querySelector("button"),
           hoverType: "dynamic",
         });
-        initializeMenu(menu);
 
         // Set up the menu.
         menu.focusState = "self";
@@ -407,7 +440,6 @@ describe("TopLinkDisclosureMenu", () => {
           controllerElement: document.querySelector("button"),
           hoverType: "dynamic",
         });
-        initializeMenu(menu);
 
         // Set up to watch for focusCurrentChild calls.
         const spy = vi.spyOn(menu, "focusCurrentChild");
@@ -431,7 +463,6 @@ describe("TopLinkDisclosureMenu", () => {
           controllerElement: document.querySelector("button"),
           hoverType: "dynamic",
         });
-        initializeMenu(menu);
 
         // Set up the menu.
         menu.elements.submenuToggles[0].open();
@@ -462,7 +493,6 @@ describe("TopLinkDisclosureMenu", () => {
           controllerElement: document.querySelector("button"),
           hoverType: "dynamic",
         });
-        initializeMenu(menu);
 
         menu.elements.submenuToggles[0].open();
 
@@ -485,7 +515,6 @@ describe("TopLinkDisclosureMenu", () => {
           controllerElement: document.querySelector("button"),
           hoverType: "dynamic",
         });
-        initializeMenu(menu);
 
         // Simulate the pointerenter event.
         simulatePointerEvent(
@@ -506,7 +535,6 @@ describe("TopLinkDisclosureMenu", () => {
           controllerElement: document.querySelector("button"),
           hoverType: "dynamic",
         });
-        initializeMenu(menu);
 
         menu.elements.submenuToggles[0].open();
 
@@ -535,7 +563,6 @@ describe("TopLinkDisclosureMenu", () => {
           hoverType: "dynamic",
           hoverDelay,
         });
-        initializeMenu(menu);
 
         menu.elements.submenuToggles[0].open();
 
@@ -545,7 +572,7 @@ describe("TopLinkDisclosureMenu", () => {
         // Simulate the pointerenter event.
         simulatePointerEvent(
           "pointerenter",
-          menu.elements.menuItems[2].dom.link
+          menu.elements.menuItems[3].dom.link
         );
 
         await wait(hoverDelay);
@@ -564,7 +591,6 @@ describe("TopLinkDisclosureMenu", () => {
           hoverType: "dynamic",
           hoverDelay: 0,
         });
-        initializeMenu(menu);
 
         menu.elements.submenuToggles[0].open();
 
@@ -574,7 +600,63 @@ describe("TopLinkDisclosureMenu", () => {
         // Simulate the pointerenter event.
         simulatePointerEvent(
           "pointerenter",
-          menu.elements.menuItems[2].dom.link
+          menu.elements.menuItems[3].dom.link
+        );
+
+        expect(spy).toHaveBeenCalled();
+      });
+
+      // Test that preview is called after a delay when a submenu is already opened and a new summenu toggle is hovered and hoverDelay is not set to 0.
+      it("should call preview after a delay when a submenu is already opened and a new summenu toggle is hovered and hoverDelay is not set to 0", async () => {
+        const hoverDelay = 250;
+
+        // Create a new TopLinkDisclosureMenu instance for testing.
+        const menu = new TopLinkDisclosureMenu({
+          menuElement: document.querySelector("ul"),
+          submenuItemSelector: "li.dropdown",
+          containerElement: document.querySelector("nav"),
+          controllerElement: document.querySelector("button"),
+          hoverType: "dynamic",
+          hoverDelay,
+        });
+
+        menu.elements.submenuToggles[0].open();
+
+        // Set up to watch for preview calls.
+        const spy = vi.spyOn(menu.elements.submenuToggles[1], "preview");
+
+        // Simulate the pointerenter event.
+        simulatePointerEvent(
+          "pointerenter",
+          menu.elements.menuItems[4].dom.link
+        );
+
+        await wait(hoverDelay);
+
+        expect(spy).toHaveBeenCalled();
+      });
+
+      // Test that preview is called immediately when a submenu is already opened and a new summenu toggle is hovered and hoverDelay is set to 0.
+      it("should call preview immediately when a submenu is already opened and a new summenu toggle is hovered and hoverDelay is set to 0", () => {
+        // Create a new TopLinkDisclosureMenu instance for testing.
+        const menu = new TopLinkDisclosureMenu({
+          menuElement: document.querySelector("ul"),
+          submenuItemSelector: "li.dropdown",
+          containerElement: document.querySelector("nav"),
+          controllerElement: document.querySelector("button"),
+          hoverType: "dynamic",
+          hoverDelay: 0,
+        });
+
+        menu.elements.submenuToggles[0].open();
+
+        // Set up to watch for preview calls.
+        const spy = vi.spyOn(menu.elements.submenuToggles[1], "preview");
+
+        // Simulate the pointerenter event.
+        simulatePointerEvent(
+          "pointerenter",
+          menu.elements.menuItems[4].dom.link
         );
 
         expect(spy).toHaveBeenCalled();
@@ -593,7 +675,6 @@ describe("TopLinkDisclosureMenu", () => {
           hoverType: "dynamic",
           hoverDelay,
         });
-        initializeMenu(menu);
 
         menu.elements.submenuToggles[0].open();
 
@@ -627,7 +708,6 @@ describe("TopLinkDisclosureMenu", () => {
           hoverType: "dynamic",
           hoverDelay: 0,
         });
-        initializeMenu(menu);
 
         menu.elements.submenuToggles[0].open();
 
@@ -661,7 +741,6 @@ describe("TopLinkDisclosureMenu", () => {
           controllerElement: document.querySelector("button"),
           hoverType: "dynamic",
         });
-        initializeMenu(menu);
 
         // Set up to watch for clearTimeout calls.
         const spy = vi.spyOn(window, "clearTimeout");
@@ -685,7 +764,6 @@ describe("TopLinkDisclosureMenu", () => {
           controllerElement: document.querySelector("button"),
           hoverType: "dynamic",
         });
-        initializeMenu(menu);
 
         // Set up the menu.
         menu.elements.submenuToggles[0].open();
@@ -715,7 +793,6 @@ describe("TopLinkDisclosureMenu", () => {
           controllerElement: document.querySelector("button"),
           hoverType: "dynamic",
         });
-        initializeMenu(menu);
 
         // Set up to watch for setTimeout calls.
         const spy = vi.spyOn(window, "setTimeout");
@@ -740,7 +817,6 @@ describe("TopLinkDisclosureMenu", () => {
           hoverType: "dynamic",
           hoverDelay: 0,
         });
-        initializeMenu(menu);
 
         // Simulate the pointerleave event.
         simulatePointerEvent(
@@ -762,7 +838,6 @@ describe("TopLinkDisclosureMenu", () => {
           hoverType: "dynamic",
           hoverDelay: 0,
         });
-        initializeMenu(menu);
 
         // Set up the menu.
         menu.elements.submenuToggles[0].open();
@@ -790,7 +865,6 @@ describe("TopLinkDisclosureMenu", () => {
           hoverType: "dynamic",
           hoverDelay: 0,
         });
-        initializeMenu(menu);
 
         // Set up the menu.
         menu.elements.submenuToggles[0].open();
@@ -820,7 +894,6 @@ describe("TopLinkDisclosureMenu", () => {
           hoverType: "dynamic",
           hoverDelay,
         });
-        initializeMenu(menu);
 
         // Set up the menu.
         menu.elements.submenuToggles[0].open();
@@ -850,7 +923,6 @@ describe("TopLinkDisclosureMenu", () => {
           hoverType: "dynamic",
           hoverDelay: 0,
         });
-        initializeMenu(menu);
 
         // Set up the menu.
         menu.elements.submenuToggles[0].open();
@@ -880,7 +952,6 @@ describe("TopLinkDisclosureMenu", () => {
           hoverType: "dynamic",
           hoverDelay,
         });
-        initializeMenu(menu);
 
         // Set up the menu.
         menu.elements.submenuToggles[0].open();
@@ -915,7 +986,6 @@ describe("TopLinkDisclosureMenu", () => {
           hoverType: "dynamic",
           hoverDelay: 0,
         });
-        initializeMenu(menu);
 
         // Set up the menu.
         menu.elements.submenuToggles[0].open();
@@ -950,7 +1020,6 @@ describe("TopLinkDisclosureMenu", () => {
           hoverType: "dynamic",
           hoverDelay,
         });
-        initializeMenu(menu);
 
         // Set up the menu.
         menu.elements.submenuToggles[0].open();
@@ -984,7 +1053,6 @@ describe("TopLinkDisclosureMenu", () => {
           hoverType: "dynamic",
           hoverDelay: 0,
         });
-        initializeMenu(menu);
 
         // Set up the menu.
         menu.elements.submenuToggles[0].open();
