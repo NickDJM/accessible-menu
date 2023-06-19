@@ -27,4 +27,24 @@ describe("DisclosureMenu protected methods", () => {
       );
     });
   });
+
+  // Test DisclosureMenu _handleFocus().
+  describe("_handleFocus", () => {
+    // Test that DisclosureMenu implements the BaseMenu _handleFocus() method.
+    it("should implement the BaseMenu _handleFocus() method", () => {
+      expect(DisclosureMenu.prototype._handleFocus).toBe(
+        BaseMenu.prototype._handleFocus
+      );
+    });
+  });
+
+  // Test DisclosureMenu _handleHover().
+  describe("_handleHover", () => {
+    // Test that DisclosureMenu implements the BaseMenu _handleHover() method.
+    it("should implement the BaseMenu _handleHover() method", () => {
+      expect(DisclosureMenu.prototype._handleHover).toBe(
+        BaseMenu.prototype._handleHover
+      );
+    });
+  });
 });

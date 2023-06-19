@@ -27,4 +27,14 @@ describe("TopLinkDisclosureMenu protected methods", () => {
       );
     });
   });
+
+  // Test TopLinkDisclosureMenu _handleFocus().
+  describe("_handleFocus", () => {
+    // Test that TopLinkDisclosureMenu implements the BaseMenu _handleFocus() method.
+    it("should implement the BaseMenu _handleFocus() method", () => {
+      expect(TopLinkDisclosureMenu.prototype._handleFocus).toBe(
+        BaseMenu.prototype._handleFocus
+      );
+    });
+  });
 });

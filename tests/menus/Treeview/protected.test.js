@@ -27,4 +27,34 @@ describe("Treeview protected methods", () => {
       );
     });
   });
+
+  // Test Treeview _handleFocus().
+  describe("_handleFocus", () => {
+    // Test that Treeview implements the BaseMenu _handleFocus() method.
+    it("should implement the BaseMenu _handleFocus() method", () => {
+      expect(Treeview.prototype._handleFocus).toBe(
+        BaseMenu.prototype._handleFocus
+      );
+    });
+  });
+
+  // Test Treeview _handleClick().
+  describe("_handleClick", () => {
+    // Test that Treeview implements the BaseMenu _handleClick() method.
+    it("should implement the BaseMenu _handleClick() method", () => {
+      expect(Treeview.prototype._handleClick).toBe(
+        BaseMenu.prototype._handleClick
+      );
+    });
+  });
+
+  // Test Treeview _handleHover().
+  describe("_handleHover", () => {
+    // Test that Treeview implements the BaseMenu _handleHover() method.
+    it("should implement the BaseMenu _handleHover() method", () => {
+      expect(Treeview.prototype._handleHover).toBe(
+        BaseMenu.prototype._handleHover
+      );
+    });
+  });
 });

@@ -27,4 +27,24 @@ describe("Menubar protected methods", () => {
       );
     });
   });
+
+  // Test Menubar _handleFocus().
+  describe("_handleFocus", () => {
+    // Test that Menubar implements the BaseMenu _handleFocus() method.
+    it("should implement the BaseMenu _handleFocus() method", () => {
+      expect(Menubar.prototype._handleFocus).toBe(
+        BaseMenu.prototype._handleFocus
+      );
+    });
+  });
+
+  // Test Menubar _handleHover().
+  describe("_handleHover", () => {
+    // Test that Menubar implements the BaseMenu _handleHover() method.
+    it("should implement the BaseMenu _handleHover() method", () => {
+      expect(Menubar.prototype._handleHover).toBe(
+        BaseMenu.prototype._handleHover
+      );
+    });
+  });
 });
