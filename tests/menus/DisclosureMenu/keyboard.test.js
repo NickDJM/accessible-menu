@@ -5,7 +5,7 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { threeLevel } from "../../../demo/menus.js";
 import DisclosureMenu from "../../../src/disclosureMenu.js";
-import { initializeMenu, simulateKeyboardEvent } from "../helpers.js";
+import { simulateKeyboardEvent } from "../helpers.js";
 
 beforeEach(() => {
   // Create the test menu.
@@ -21,10 +21,10 @@ afterEach(() => {
 describe("DisclosureMenu", () => {
   // Test keydown.
   describe("keydown", () => {
-    // Test that the current event is set to keyboard on Spacebar and Enter keydown events triggered on the menu's controller.
-    it.each(["Spacebar", "Enter"])(
-      "should set the current event to keyboard on %s keydown events triggered on the menu's controller",
-      (key) => {
+    // Test Spacebar and Enter.
+    describe.each(["Spacebar", "Enter"])("%s", (key) => {
+      // Test that the current event is set to keyboard on Spacebar and Enter keydown events triggered on the menu's controller.
+      it("should set the current event to keyboard on %s keydown events triggered on the menu's controller", () => {
         // Create a new DisclosureMenu instance for testing.
         const menu = new DisclosureMenu({
           menuElement: document.querySelector("ul"),
@@ -32,7 +32,6 @@ describe("DisclosureMenu", () => {
           containerElement: document.querySelector("nav"),
           controllerElement: document.querySelector("button"),
         });
-        initializeMenu(menu);
 
         // Trigger a keydown event on the menu's controller.
         simulateKeyboardEvent("keydown", menu.elements.controller.dom.toggle, {
@@ -40,13 +39,10 @@ describe("DisclosureMenu", () => {
         });
 
         expect(menu.currentEvent).toBe("keyboard");
-      }
-    );
+      });
 
-    // Test that the event is prevented on Spacebar and Enter keydown events triggered on the menu's controller.
-    it.each(["Spacebar", "Enter"])(
-      "should prevent the event on %s keydown events triggered on the menu's controller",
-      (key) => {
+      // Test that the event is prevented on Spacebar and Enter keydown events triggered on the menu's controller.
+      it("should prevent the event on %s keydown events triggered on the menu's controller", () => {
         // Create a new DisclosureMenu instance for testing.
         const menu = new DisclosureMenu({
           menuElement: document.querySelector("ul"),
@@ -54,7 +50,6 @@ describe("DisclosureMenu", () => {
           containerElement: document.querySelector("nav"),
           controllerElement: document.querySelector("button"),
         });
-        initializeMenu(menu);
 
         // Trigger a keydown event on the menu's controller.
         const event = simulateKeyboardEvent(
@@ -66,16 +61,16 @@ describe("DisclosureMenu", () => {
         );
 
         expect(event.defaultPrevented).toBeTruthy();
-      }
-    );
+      });
+    });
   });
 
   // Test keyup.
   describe("keyup", () => {
-    // Test that the current event is set to keyboard on Spacebar and Enter keyup events triggered on the menu's controller.
-    it.each(["Spacebar", "Enter"])(
-      "should set the current event to keyboard on %s keyup events triggered on the menu's controller",
-      (key) => {
+    // Test Spacebar and Enter.
+    describe.each(["Spacebar", "Enter"])("%s", (key) => {
+      // Test that the current event is set to keyboard on Spacebar and Enter keyup events triggered on the menu's controller.
+      it("should set the current event to keyboard on %s keyup events triggered on the menu's controller", () => {
         // Create a new DisclosureMenu instance for testing.
         const menu = new DisclosureMenu({
           menuElement: document.querySelector("ul"),
@@ -83,7 +78,6 @@ describe("DisclosureMenu", () => {
           containerElement: document.querySelector("nav"),
           controllerElement: document.querySelector("button"),
         });
-        initializeMenu(menu);
 
         // Trigger a keyup event on the menu's controller.
         simulateKeyboardEvent("keyup", menu.elements.controller.dom.toggle, {
@@ -91,13 +85,10 @@ describe("DisclosureMenu", () => {
         });
 
         expect(menu.currentEvent).toBe("keyboard");
-      }
-    );
+      });
 
-    // Test that the event is prevented on Spacebar and Enter keyup events triggered on the menu's controller.
-    it.each(["Spacebar", "Enter"])(
-      "should prevent the event on %s keyup events triggered on the menu's controller",
-      (key) => {
+      // Test that the event is prevented on Spacebar and Enter keyup events triggered on the menu's controller.
+      it("should prevent the event on %s keyup events triggered on the menu's controller", () => {
         // Create a new DisclosureMenu instance for testing.
         const menu = new DisclosureMenu({
           menuElement: document.querySelector("ul"),
@@ -105,7 +96,6 @@ describe("DisclosureMenu", () => {
           containerElement: document.querySelector("nav"),
           controllerElement: document.querySelector("button"),
         });
-        initializeMenu(menu);
 
         // Trigger a keyup event on the menu's controller.
         const event = simulateKeyboardEvent(
@@ -117,13 +107,10 @@ describe("DisclosureMenu", () => {
         );
 
         expect(event.defaultPrevented).toBeTruthy();
-      }
-    );
+      });
 
-    // Test that open is called on the controller on Spacebar and Enter keyup events triggered on the menu's controller.
-    it.each(["Spacebar", "Enter"])(
-      "should call open on the controller on %s keyup events triggered on the menu's controller",
-      (key) => {
+      // Test that open is called on the controller on Spacebar and Enter keyup events triggered on the menu's controller.
+      it("should call open on the controller on %s keyup events triggered on the menu's controller", () => {
         // Create a new DisclosureMenu instance for testing.
         const menu = new DisclosureMenu({
           menuElement: document.querySelector("ul"),
@@ -131,7 +118,6 @@ describe("DisclosureMenu", () => {
           containerElement: document.querySelector("nav"),
           controllerElement: document.querySelector("button"),
         });
-        initializeMenu(menu);
 
         // Spy on the controller's open method.
         vi.spyOn(menu.elements.controller, "open");
@@ -142,13 +128,10 @@ describe("DisclosureMenu", () => {
         });
 
         expect(menu.elements.controller.open).toHaveBeenCalled();
-      }
-    );
+      });
 
-    // Test that focusFirstChild is called on the menu on Spacebar and Enter keyup events triggered on the menu's controller.
-    it.each(["Spacebar", "Enter"])(
-      "should call focusFirstChild on the menu on %s keyup events triggered on the menu's controller",
-      (key) => {
+      // Test that focusFirstChild is called on the menu on Spacebar and Enter keyup events triggered on the menu's controller.
+      it("should call focusFirstChild on the menu on %s keyup events triggered on the menu's controller", () => {
         // Create a new DisclosureMenu instance for testing.
         const menu = new DisclosureMenu({
           menuElement: document.querySelector("ul"),
@@ -156,7 +139,6 @@ describe("DisclosureMenu", () => {
           containerElement: document.querySelector("nav"),
           controllerElement: document.querySelector("button"),
         });
-        initializeMenu(menu);
 
         // Spy on the menu's focusFirstChild method.
         vi.spyOn(menu, "focusFirstChild");
@@ -167,7 +149,7 @@ describe("DisclosureMenu", () => {
         });
 
         expect(menu.focusFirstChild).toHaveBeenCalled();
-      }
-    );
+      });
+    });
   });
 });

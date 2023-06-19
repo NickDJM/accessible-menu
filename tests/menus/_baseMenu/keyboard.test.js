@@ -21,10 +21,10 @@ afterEach(() => {
 describe("BaseMenu", () => {
   // Test keydown.
   describe("keydown", () => {
-    // Test that the current event is set to keyboard on Spacebar and Enter keydown events triggered on the menu's controller.
-    it.each(["Spacebar", "Enter"])(
-      "should set the current event to keyboard on %s keydown events triggered on the menu's controller",
-      (key) => {
+    // Test Spacebar and Enter.
+    describe.each(["Spacebar", "Enter"])("%s", (key) => {
+      // Test that the current event is set to keyboard on Spacebar and Enter keydown events triggered on the menu's controller.
+      it("should set the current event to keyboard on %s keydown events triggered on the menu's controller", () => {
         // Create a new BaseMenu instance for testing.
         const menu = new BaseMenu({
           menuElement: document.querySelector("ul"),
@@ -40,13 +40,10 @@ describe("BaseMenu", () => {
         });
 
         expect(menu.currentEvent).toBe("keyboard");
-      }
-    );
+      });
 
-    // Test that the event is prevented on Spacebar and Enter keydown events triggered on the menu's controller.
-    it.each(["Spacebar", "Enter"])(
-      "should prevent the event on %s keydown events triggered on the menu's controller",
-      (key) => {
+      // Test that the event is prevented on Spacebar and Enter keydown events triggered on the menu's controller.
+      it("should prevent the event on %s keydown events triggered on the menu's controller", () => {
         // Create a new BaseMenu instance for testing.
         const menu = new BaseMenu({
           menuElement: document.querySelector("ul"),
@@ -66,16 +63,16 @@ describe("BaseMenu", () => {
         );
 
         expect(event.defaultPrevented).toBeTruthy();
-      }
-    );
+      });
+    });
   });
 
   // Test keyup.
   describe("keyup", () => {
-    // Test that the current event is set to keyboard on Spacebar and Enter keyup events triggered on the menu's controller.
-    it.each(["Spacebar", "Enter"])(
-      "should set the current event to keyboard on %s keyup events triggered on the menu's controller",
-      (key) => {
+    // Test Spacebar and Enter.
+    describe.each(["Spacebar", "Enter"])("%s", (key) => {
+      // Test that the current event is set to keyboard on Spacebar and Enter keyup events triggered on the menu's controller.
+      it("should set the current event to keyboard on %s keyup events triggered on the menu's controller", () => {
         // Create a new BaseMenu instance for testing.
         const menu = new BaseMenu({
           menuElement: document.querySelector("ul"),
@@ -91,13 +88,10 @@ describe("BaseMenu", () => {
         });
 
         expect(menu.currentEvent).toBe("keyboard");
-      }
-    );
+      });
 
-    // Test that the event is prevented on Spacebar and Enter keyup events triggered on the menu's controller.
-    it.each(["Spacebar", "Enter"])(
-      "should prevent the event on %s keyup events triggered on the menu's controller",
-      (key) => {
+      // Test that the event is prevented on Spacebar and Enter keyup events triggered on the menu's controller.
+      it("should prevent the event on %s keyup events triggered on the menu's controller", () => {
         // Create a new BaseMenu instance for testing.
         const menu = new BaseMenu({
           menuElement: document.querySelector("ul"),
@@ -117,13 +111,10 @@ describe("BaseMenu", () => {
         );
 
         expect(event.defaultPrevented).toBeTruthy();
-      }
-    );
+      });
 
-    // Test that open is called on the controller on Spacebar and Enter keyup events triggered on the menu's controller.
-    it.each(["Spacebar", "Enter"])(
-      "should call open on the controller on %s keyup events triggered on the menu's controller",
-      (key) => {
+      // Test that open is called on the controller on Spacebar and Enter keyup events triggered on the menu's controller.
+      it("should call open on the controller on %s keyup events triggered on the menu's controller", () => {
         // Create a new BaseMenu instance for testing.
         const menu = new BaseMenu({
           menuElement: document.querySelector("ul"),
@@ -142,13 +133,10 @@ describe("BaseMenu", () => {
         });
 
         expect(menu.elements.controller.open).toHaveBeenCalled();
-      }
-    );
+      });
 
-    // Test that focusFirstChild is called on the menu on Spacebar and Enter keyup events triggered on the menu's controller.
-    it.each(["Spacebar", "Enter"])(
-      "should call focusFirstChild on the menu on %s keyup events triggered on the menu's controller",
-      (key) => {
+      // Test that focusFirstChild is called on the menu on Spacebar and Enter keyup events triggered on the menu's controller.
+      it("should call focusFirstChild on the menu on %s keyup events triggered on the menu's controller", () => {
         // Create a new BaseMenu instance for testing.
         const menu = new BaseMenu({
           menuElement: document.querySelector("ul"),
@@ -167,7 +155,7 @@ describe("BaseMenu", () => {
         });
 
         expect(menu.focusFirstChild).toHaveBeenCalled();
-      }
-    );
+      });
+    });
   });
 });
