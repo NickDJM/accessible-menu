@@ -31,7 +31,7 @@ describe("DisclosureMenu", () => {
         controllerElement: document.querySelector("button"),
       });
 
-      // Trigger a keydown event on the menu's controller.
+      // Trigger a keydown event.
       simulateKeyboardEvent("keydown", menu.dom.menu);
 
       expect(menu.currentEvent).toBe("keyboard");
@@ -60,7 +60,7 @@ describe("DisclosureMenu", () => {
         // Set up the menu.
         menu.focusState = "self";
 
-        // Trigger a keydown event on the menu's controller.
+        // Trigger a keydown event.
         const event = simulateKeyboardEvent("keydown", menu.dom.menu, {
           key,
         });
@@ -82,7 +82,7 @@ describe("DisclosureMenu", () => {
         // Set up the menu.
         menu.focusState = "none";
 
-        // Trigger a keydown event on the menu's controller.
+        // Trigger a keydown event.
         const event = simulateKeyboardEvent("keydown", menu.dom.menu, {
           key,
         });
@@ -100,7 +100,7 @@ describe("DisclosureMenu", () => {
           controllerElement: document.querySelector("button"),
         });
 
-        // Trigger a keydown event on the menu's controller.
+        // Trigger a keydown event.
         const event = simulateKeyboardEvent("keydown", menu.dom.menu, {
           key,
         });
@@ -125,7 +125,7 @@ describe("DisclosureMenu", () => {
         menu.focusState = "self";
         menu.currentChild = 1;
 
-        // Trigger a keydown event on the menu's controller.
+        // Trigger a keydown event.
         const event = simulateKeyboardEvent("keydown", menu.dom.menu, {
           key,
         });
@@ -146,7 +146,7 @@ describe("DisclosureMenu", () => {
         // Set up the menu.
         menu.currentChild = 1;
 
-        // Trigger a keydown event on the menu's controller.
+        // Trigger a keydown event.
         const event = simulateKeyboardEvent("keydown", menu.dom.menu, {
           key,
         });
@@ -168,7 +168,7 @@ describe("DisclosureMenu", () => {
         menu.focusState = "self";
         menu.currentChild = 0;
 
-        // Trigger a keydown event on the menu's controller.
+        // Trigger a keydown event.
         const event = simulateKeyboardEvent("keydown", menu.dom.menu, {
           key,
         });
@@ -193,7 +193,7 @@ describe("DisclosureMenu", () => {
         menu.focusState = "self";
         menu.currentChild = 0;
 
-        // Trigger a keydown event on the menu's controller.
+        // Trigger a keydown event.
         const event = simulateKeyboardEvent("keydown", menu.dom.menu, {
           key: "Escape",
         });
@@ -214,7 +214,7 @@ describe("DisclosureMenu", () => {
         // Set up the menu.
         menu.currentChild = 0;
 
-        // Trigger a keydown event on the menu's controller.
+        // Trigger a keydown event.
         const event = simulateKeyboardEvent("keydown", menu.dom.menu, {
           key: "Escape",
         });
@@ -234,7 +234,7 @@ describe("DisclosureMenu", () => {
         menu.focusState = "self";
         menu.currentChild = 0;
 
-        // Trigger a keydown event on the menu's controller.
+        // Trigger a keydown event.
         const event = simulateKeyboardEvent("keydown", menu.dom.menu, {
           key: "Escape",
         });
@@ -255,7 +255,7 @@ describe("DisclosureMenu", () => {
           "self";
         menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 0;
 
-        // Trigger a keydown event on the menu's controller.
+        // Trigger a keydown event.
         const event = simulateKeyboardEvent(
           "keydown",
           menu.elements.submenuToggles[0].elements.controlledMenu.dom.menu,
@@ -278,7 +278,7 @@ describe("DisclosureMenu", () => {
         // Set up the menu.
         menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 0;
 
-        // Trigger a keydown event on the menu's controller.
+        // Trigger a keydown event.
         const event = simulateKeyboardEvent(
           "keydown",
           menu.elements.submenuToggles[0].elements.controlledMenu.dom.menu,
@@ -302,7 +302,7 @@ describe("DisclosureMenu", () => {
         menu.focusState = "self";
         menu.currentChild = 0;
 
-        // Trigger a keydown event on the menu's controller.
+        // Trigger a keydown event.
         const event = simulateKeyboardEvent("keydown", menu.dom.menu, {
           key: "Escape",
         });
@@ -346,7 +346,7 @@ describe("DisclosureMenu Controller", () => {
         controllerElement: document.querySelector("button"),
       });
 
-      // Trigger a keydown event on the menu's controller.
+      // Trigger a keydown event.
       simulateKeyboardEvent("keydown", menu.elements.controller.dom.toggle);
 
       expect(menu.currentEvent).toBe("keyboard");
@@ -364,7 +364,7 @@ describe("DisclosureMenu Controller", () => {
           controllerElement: document.querySelector("button"),
         });
 
-        // Trigger a keydown event on the menu's controller.
+        // Trigger a keydown event.
         const event = simulateKeyboardEvent(
           "keydown",
           menu.elements.controller.dom.toggle,
