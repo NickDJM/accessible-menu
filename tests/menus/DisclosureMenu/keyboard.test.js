@@ -479,6 +479,26 @@ describe("DisclosureMenu", () => {
         expect(spy).toHaveBeenCalled();
       });
     });
+
+    // Test Escape.
+    // todo: Write tests.
+    // describe("Escape", () => {});
+
+    // Test ArrowUp and ArrowRight.
+    // todo: Write tests.
+    // describe.each(["ArrowUp", "ArrowRight"])("%s", (key) => {});
+
+    // Test ArrowDown and ArrowLeft.
+    // todo: Write tests.
+    // describe.each(["ArrowDown", "ArrowLeft"])("%s", (key) => {});
+
+    // Test Home.
+    // todo: Write tests.
+    // describe("Home", () => {});
+
+    // Test End.
+    // todo: Write tests.
+    // describe("End", () => {});
   });
 });
 

@@ -488,6 +488,82 @@ describe("Menubar", () => {
 
       expect(menu.currentEvent).toBe("keyboard");
     });
+
+    // Test Character keys.
+    // todo: Write tests.
+    // describe("Character keys", () => {});
+
+    // Test top-level menus.
+    // todo: Write tests.
+    // describe("top-level menus", () => {
+    // Test Spacebar and Enter.
+    // todo: Write tests.
+    // describe.each(["Spacebar", "Enter"])("%s", (key) => {});
+
+    // Test ArrowRight.
+    // todo: Write tests.
+    // describe("ArrowRight", () => {});
+
+    // Test ArrowLeft.
+    // todo: Write tests.
+    // describe("ArrowLeft", () => {});
+
+    // Test ArrowDown.
+    // todo: Write tests.
+    // describe("ArrowDown", () => {});
+
+    // Test ArrowUp.
+    // todo: Write tests.
+    // describe("ArrowUp", () => {});
+
+    // Test Home.
+    // todo: Write tests.
+    // describe("Home", () => {});
+
+    // Test End.
+    // todo: Write tests.
+    // describe("End", () => {});
+
+    // Test Escape.
+    // todo: Write tests.
+    // describe("Escape", () => {});
+    // });
+
+    // Test submenus.
+    // todo: Write tests.
+    // describe("submenus", () => {
+    // Test Spacebar and Enter.
+    // todo: Write tests.
+    // describe.each(["Spacebar", "Enter"])("%s", (key) => {});
+
+    // Test Escape.
+    // todo: Write tests.
+    // describe("Escape", () => {});
+
+    // Test ArrowRight.
+    // todo: Write tests.
+    // describe("ArrowRight", () => {});
+
+    // Test ArrowLeft.
+    // todo: Write tests.
+    // describe("ArrowLeft", () => {});
+
+    // Test ArrowDown.
+    // todo: Write tests.
+    // describe("ArrowDown", () => {});
+
+    // Test ArrowUp.
+    // todo: Write tests.
+    // describe("ArrowUp", () => {});
+
+    // Test Home.
+    // todo: Write tests.
+    // describe("Home", () => {});
+
+    // Test End.
+    // todo: Write tests.
+    // describe("End", () => {});
+    // });
   });
 });
 

@@ -315,6 +315,46 @@ describe("Treeview", () => {
 
       expect(menu.currentEvent).toBe("keyboard");
     });
+
+    // Test Character keys.
+    // todo: Write tests.
+    // describe("Character keys", () => {});
+
+    // Test Spacebar and Enter.
+    // todo: Write tests.
+    // describe.each(["Spacebar", "Enter"])("%s", (key) => {});
+
+    // Test Escape.
+    // todo: Write tests.
+    // describe("Escape", () => {});
+
+    // Test ArrowDown.
+    // todo: Write tests.
+    // describe("ArrowDown", () => {});
+
+    // Test ArrowUp.
+    // todo: Write tests.
+    // describe("ArrowUp", () => {});
+
+    // Test ArrowRight.
+    // todo: Write tests.
+    // describe("ArrowRight", () => {});
+
+    // Test ArrowLeft.
+    // todo: Write tests.
+    // describe("ArrowLeft", () => {});
+
+    // Test Home.
+    // todo: Write tests.
+    // describe("Home", () => {});
+
+    // Test End.
+    // todo: Write tests.
+    // describe("End", () => {});
+
+    // Test Asterisk.
+    // todo: Write tests.
+    // describe("*", () => {});
   });
 });
 

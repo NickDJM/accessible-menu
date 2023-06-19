@@ -329,6 +329,30 @@ describe("TopLinkDisclosureMenu", () => {
 
       expect(menu.currentEvent).toBe("keyboard");
     });
+
+    // Test Spacebar and Enter.
+    // todo: Write tests.
+    // describe.each(["Spacebar", "Enter"])("%s", (key) => {});
+
+    // Test Escape.
+    // todo: Write tests.
+    // describe("Escape", () => {});
+
+    // Test ArrowDown and ArrowRight.
+    // todo: Write tests.
+    // describe.each(["ArrowDown", "ArrowRight"])("%s", (key) => {});
+
+    // Test ArrowUp and ArrowLeft.
+    // todo: Write tests.
+    // describe.each(["ArrowUp", "ArrowLeft"])("%s", (key) => {});
+
+    // Test Home.
+    // todo: Write tests.
+    // describe("Home", () => {});
+
+    // Test End.
+    // todo: Write tests.
+    // describe("End", () => {});
   });
 });
 
