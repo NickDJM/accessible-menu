@@ -21,26 +21,24 @@ afterEach(() => {
 describe("Treeview Controller", () => {
   // Test keydown.
   describe("keydown", () => {
-    // Test Spacebar and Enter.
-    describe.each(["Spacebar", "Enter"])("%s", (key) => {
-      // Test that the current event is set to keyboard on Spacebar and Enter keydown events.
-      it("should set the current event to keyboard on %s keydown events", () => {
-        // Create a new Treeview instance for testing.
-        const menu = new Treeview({
-          menuElement: document.querySelector("ul"),
-          submenuItemSelector: "li.dropdown",
-          containerElement: document.querySelector("nav"),
-          controllerElement: document.querySelector("button"),
-        });
-
-        // Trigger a keydown event on the menu's controller.
-        simulateKeyboardEvent("keydown", menu.elements.controller.dom.toggle, {
-          key,
-        });
-
-        expect(menu.currentEvent).toBe("keyboard");
+    // Test that keydown events set the current event to keyboard.
+    it("should set the current event to keyboard on keydown events", () => {
+      // Create a new Treeview instance for testing.
+      const menu = new Treeview({
+        menuElement: document.querySelector("ul"),
+        submenuItemSelector: "li.dropdown",
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
       });
 
+      // Trigger a keydown event on the menu's controller.
+      simulateKeyboardEvent("keydown", menu.elements.controller.dom.toggle);
+
+      expect(menu.currentEvent).toBe("keyboard");
+    });
+
+    // Test Spacebar and Enter.
+    describe.each(["Spacebar", "Enter"])("%s", (key) => {
       // Test that the event is prevented on Spacebar and Enter keydown events.
       it("should prevent the event on %s keydown events", () => {
         // Create a new Treeview instance for testing.
@@ -67,26 +65,24 @@ describe("Treeview Controller", () => {
 
   // Test keyup.
   describe("keyup", () => {
-    // Test Spacebar and Enter.
-    describe.each(["Spacebar", "Enter"])("%s", (key) => {
-      // Test that the current event is set to keyboard on Spacebar and Enter keyup events.
-      it("should set the current event to keyboard on %s keyup events", () => {
-        // Create a new Treeview instance for testing.
-        const menu = new Treeview({
-          menuElement: document.querySelector("ul"),
-          submenuItemSelector: "li.dropdown",
-          containerElement: document.querySelector("nav"),
-          controllerElement: document.querySelector("button"),
-        });
-
-        // Trigger a keyup event on the menu's controller.
-        simulateKeyboardEvent("keyup", menu.elements.controller.dom.toggle, {
-          key,
-        });
-
-        expect(menu.currentEvent).toBe("keyboard");
+    // Test that keyup events set the current event to keyboard.
+    it("should set the current event to keyboard on keyup events", () => {
+      // Create a new Treeview instance for testing.
+      const menu = new Treeview({
+        menuElement: document.querySelector("ul"),
+        submenuItemSelector: "li.dropdown",
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
       });
 
+      // Trigger a keyup event on the menu's controller.
+      simulateKeyboardEvent("keyup", menu.elements.controller.dom.toggle);
+
+      expect(menu.currentEvent).toBe("keyboard");
+    });
+
+    // Test Spacebar and Enter.
+    describe.each(["Spacebar", "Enter"])("%s", (key) => {
       // Test that the event is prevented on Spacebar and Enter keyup events.
       it("should prevent the event on %s keyup events", () => {
         // Create a new Treeview instance for testing.
