@@ -490,210 +490,1962 @@ describe("Menubar", () => {
     });
 
     // Test Character keys.
-    // todo: Write tests.
     describe("Character keys", () => {
       // Test that the event is prevented if no modifier is pressed.
+      it("should prevent the event if no modifier is pressed", () => {
+        // Create a new Menubar instance for testing.
+        const menu = new Menubar({
+          menuElement: document.querySelector("ul"),
+          submenuItemSelector: "li.dropdown",
+          containerElement: document.querySelector("nav"),
+          controllerElement: document.querySelector("button"),
+        });
+
+        // Trigger a keyup event.
+        const event = simulateKeyboardEvent("keyup", menu.dom.menu, {
+          key: "a",
+        });
+
+        expect(event.defaultPrevented).toBeTruthy();
+      });
       // Test that the event is not prevented if a modifier is pressed.
+      it("should not prevent the event if a modifier is pressed", () => {
+        // Create a new Menubar instance for testing.
+        const menu = new Menubar({
+          menuElement: document.querySelector("ul"),
+          submenuItemSelector: "li.dropdown",
+          containerElement: document.querySelector("nav"),
+          controllerElement: document.querySelector("button"),
+        });
+
+        // Trigger a keyup event.
+        const event = simulateKeyboardEvent("keyup", menu.dom.menu, {
+          key: "a",
+          metaKey: true,
+        });
+
+        expect(event.defaultPrevented).toBeFalsy();
+      });
       // Test that the root menu's current event is set to character.
+      it("should set the root menu's current event to character", () => {
+        // Create a new Menubar instance for testing.
+        const menu = new Menubar({
+          menuElement: document.querySelector("ul"),
+          submenuItemSelector: "li.dropdown",
+          containerElement: document.querySelector("nav"),
+          controllerElement: document.querySelector("button"),
+        });
+
+        // Trigger a keyup event.
+        simulateKeyboardEvent("keyup", menu.dom.menu, {
+          key: "a",
+        });
+
+        expect(menu.currentEvent).toBe("character");
+      });
       // Test that thet menu's focusNextChildWithCharacter method is called with the key that was pressed.
+      it("should call the menu's focusNextChildWithCharacter method with the key that was pressed", () => {
+        // Create a new Menubar instance for testing.
+        const menu = new Menubar({
+          menuElement: document.querySelector("ul"),
+          submenuItemSelector: "li.dropdown",
+          containerElement: document.querySelector("nav"),
+          controllerElement: document.querySelector("button"),
+        });
+
+        // Set up the menu.
+        menu.currentChild = 0;
+
+        // Spy on the menu's focusNextChildWithCharacter method.
+        const spy = vi.spyOn(menu, "focusNextChildWithCharacter");
+
+        // Trigger a keyup event.
+        simulateKeyboardEvent("keyup", menu.dom.menu, {
+          key: "a",
+        });
+
+        expect(spy).toHaveBeenCalledWith("a");
+      });
     });
 
     // Test top-level menus.
-    // todo: Write tests.
     describe("top-level menus", () => {
       // Test Spacebar and Enter.
-      // todo: Write tests.
       describe.each(["Spacebar", "Enter"])("%s", (key) => {
         describe("when the current menu item is a submenu item", () => {
           // Test that the event is prevented.
+          it("should prevent the event", () => {
+            // Create a new Menubar instance for testing.
+            const menu = new Menubar({
+              menuElement: document.querySelector("ul"),
+              submenuItemSelector: "li.dropdown",
+              containerElement: document.querySelector("nav"),
+              controllerElement: document.querySelector("button"),
+            });
+
+            // Set up the menu.
+            menu.focusState = "self";
+            menu.currentChild = 1;
+
+            // Trigger a keyup event.
+            const event = simulateKeyboardEvent("keyup", menu.dom.menu, {
+              key,
+            });
+
+            expect(event.defaultPrevented).toBeTruthy();
+          });
           // Test that the child menu's current event is set to keyboard.
+          it("should set the child menu's current event to keyboard", () => {
+            // Create a new Menubar instance for testing.
+            const menu = new Menubar({
+              menuElement: document.querySelector("ul"),
+              submenuItemSelector: "li.dropdown",
+              containerElement: document.querySelector("nav"),
+              controllerElement: document.querySelector("button"),
+            });
+
+            // Set up the menu.
+            menu.focusState = "self";
+            menu.currentChild = 1;
+
+            // Trigger a keyup event.
+            simulateKeyboardEvent("keyup", menu.dom.menu, {
+              key,
+            });
+
+            expect(
+              menu.elements.submenuToggles[0].elements.controlledMenu
+                .currentEvent
+            ).toBe("keyboard");
+          });
           // Test that the current menu toggle's open method is called.
-          // Test that the current menu's focusFirstChild method is called.
+          it("should call the current menu toggle's open method", () => {
+            // Create a new Menubar instance for testing.
+            const menu = new Menubar({
+              menuElement: document.querySelector("ul"),
+              submenuItemSelector: "li.dropdown",
+              containerElement: document.querySelector("nav"),
+              controllerElement: document.querySelector("button"),
+            });
+
+            // Set up the menu.
+            menu.focusState = "self";
+            menu.currentChild = 1;
+
+            // Spy on the menu toggle's open method.
+            const spy = vi.spyOn(menu.elements.submenuToggles[0], "open");
+
+            // Trigger a keyup event.
+            simulateKeyboardEvent("keyup", menu.dom.menu, {
+              key,
+            });
+
+            expect(spy).toHaveBeenCalled();
+          });
+          // Test that the child menu's focusFirstChild method is called.
+          it("should call the child menu's focusFirstChild method", () => {
+            // Mock requestAnimationFrame.
+            vi.spyOn(window, "requestAnimationFrame").mockImplementation(
+              (callback) => {
+                callback();
+              }
+            );
+
+            // Create a new Menubar instance for testing.
+            const menu = new Menubar({
+              menuElement: document.querySelector("ul"),
+              submenuItemSelector: "li.dropdown",
+              containerElement: document.querySelector("nav"),
+              controllerElement: document.querySelector("button"),
+            });
+
+            // Set up the menu.
+            menu.focusState = "self";
+            menu.currentChild = 1;
+
+            // Spy on the menu's focusFirstChild method.
+            const spy = vi.spyOn(
+              menu.elements.submenuToggles[0].elements.controlledMenu,
+              "focusFirstChild"
+            );
+
+            // Trigger a keyup event.
+            simulateKeyboardEvent("keyup", menu.dom.menu, {
+              key,
+            });
+
+            expect(spy).toHaveBeenCalled();
+          });
         });
         describe("when the current menu item is not a submenu item", () => {
           // Test that the event is not prevented.
+          it("should not prevent the event", () => {
+            // Create a new Menubar instance for testing.
+            const menu = new Menubar({
+              menuElement: document.querySelector("ul"),
+              submenuItemSelector: "li.dropdown",
+              containerElement: document.querySelector("nav"),
+              controllerElement: document.querySelector("button"),
+            });
+
+            // Set up the menu.
+            menu.focusState = "self";
+            menu.currentChild = 0;
+
+            // Trigger a keyup event.
+            const event = simulateKeyboardEvent("keyup", menu.dom.menu, {
+              key,
+            });
+
+            expect(event.defaultPrevented).toBeFalsy();
+          });
           // Test that the current menu link's click method is called.
+          it("should call the current menu link's click method", () => {
+            // Create a new Menubar instance for testing.
+            const menu = new Menubar({
+              menuElement: document.querySelector("ul"),
+              submenuItemSelector: "li.dropdown",
+              containerElement: document.querySelector("nav"),
+              controllerElement: document.querySelector("button"),
+            });
+
+            // Set up the menu.
+            menu.focusState = "self";
+            menu.currentChild = 0;
+
+            // Spy on the menu link's click method.
+            const spy = vi.spyOn(menu.elements.menuItems[0].dom.link, "click");
+
+            // Trigger a keyup event.
+            simulateKeyboardEvent("keyup", menu.dom.menu, {
+              key,
+            });
+
+            expect(spy).toHaveBeenCalled();
+          });
         });
       });
 
       // Test ArrowRight.
-      // todo: Write tests.
       describe("ArrowRight", () => {
         // Test that the event is prevented.
+        it("should prevent the event", () => {
+          // Create a new Menubar instance for testing.
+          const menu = new Menubar({
+            menuElement: document.querySelector("ul"),
+            submenuItemSelector: "li.dropdown",
+            containerElement: document.querySelector("nav"),
+            controllerElement: document.querySelector("button"),
+          });
+
+          // Set up the menu.
+          menu.focusState = "self";
+          menu.currentChild = 0;
+
+          // Trigger a keyup event.
+          const event = simulateKeyboardEvent("keyup", menu.dom.menu, {
+            key: "ArrowRight",
+          });
+
+          expect(event.defaultPrevented).toBeTruthy();
+        });
         // Test that the menu's focusNextChild method is called.
+        it("should call the menu's focusNextChild method", () => {
+          // Create a new Menubar instance for testing.
+          const menu = new Menubar({
+            menuElement: document.querySelector("ul"),
+            submenuItemSelector: "li.dropdown",
+            containerElement: document.querySelector("nav"),
+            controllerElement: document.querySelector("button"),
+          });
+
+          // Set up the menu.
+          menu.focusState = "self";
+          menu.currentChild = 0;
+
+          // Spy on the menu's focusNextChild method.
+          const spy = vi.spyOn(menu, "focusNextChild");
+
+          // Trigger a keyup event.
+          simulateKeyboardEvent("keyup", menu.dom.menu, {
+            key: "ArrowRight",
+          });
+
+          expect(spy).toHaveBeenCalled();
+        });
 
         describe("when the previous menu item was an open submenu item", () => {
-          // Test that the child menu's current event is set to keyboard.
-          // Test that the current menu toggle's preview method is called.
-        });
-        describe("when the previous menu item was not an open submenu item", () => {
-          // Test that the menu's closeChildren method is called.
+          // Test that the child menu's current event is set to keyboard if the current menu item is a submenu item.
+          it("should set the child menu's current event to keyboard if the current menu item is a submenu item", () => {
+            // Create a new Menubar instance for testing.
+            const menu = new Menubar({
+              menuElement: document.querySelector("ul"),
+              submenuItemSelector: "li.dropdown",
+              containerElement: document.querySelector("nav"),
+              controllerElement: document.querySelector("button"),
+            });
+
+            // Set up the menu.
+            menu.focusState = "self";
+            menu.currentChild = 1;
+            menu.elements.submenuToggles[0].preview();
+
+            // Trigger a keyup event.
+            simulateKeyboardEvent("keyup", menu.dom.menu, {
+              key: "ArrowRight",
+            });
+
+            expect(
+              menu.elements.submenuToggles[1].elements.controlledMenu
+                .currentEvent
+            ).toBe("keyboard");
+          });
+          // Test that the current menu toggle's preview method is called if the current menu item is a submenu item.
+          it("should call the current menu toggle's preview method if the current menu item is a submenu item", () => {
+            // Create a new Menubar instance for testing.
+            const menu = new Menubar({
+              menuElement: document.querySelector("ul"),
+              submenuItemSelector: "li.dropdown",
+              containerElement: document.querySelector("nav"),
+              controllerElement: document.querySelector("button"),
+            });
+
+            // Set up the menu.
+            menu.focusState = "self";
+            menu.currentChild = 1;
+            menu.elements.submenuToggles[0].preview();
+
+            // Spy on the current menu toggle's preview method.
+            const spy = vi.spyOn(menu.elements.submenuToggles[1], "preview");
+
+            // Trigger a keyup event.
+            simulateKeyboardEvent("keyup", menu.dom.menu, {
+              key: "ArrowRight",
+            });
+
+            expect(spy).toHaveBeenCalled();
+          });
+          // Test that the menu's closeChildren method is called if the current menu item is not a submenu item.
+          it("should call the menu's closeChildren method if the current menu item is not a submenu item", () => {
+            // Create a new Menubar instance for testing.
+            const menu = new Menubar({
+              menuElement: document.querySelector("ul"),
+              submenuItemSelector: "li.dropdown",
+              containerElement: document.querySelector("nav"),
+              controllerElement: document.querySelector("button"),
+            });
+
+            // Set up the menu.
+            menu.focusState = "self";
+            menu.currentChild = 5;
+            menu.elements.submenuToggles[4].preview();
+
+            // Spy on the menu's closeChildren method.
+            const spy = vi.spyOn(menu, "closeChildren");
+
+            // Trigger a keyup event.
+            simulateKeyboardEvent("keyup", menu.dom.menu, {
+              key: "ArrowRight",
+            });
+
+            expect(spy).toHaveBeenCalled();
+          });
         });
       });
 
       // Test ArrowLeft.
-      // todo: Write tests.
       describe("ArrowLeft", () => {
         // Test that the event is prevented.
+        it("should prevent the event", () => {
+          // Create a new Menubar instance for testing.
+          const menu = new Menubar({
+            menuElement: document.querySelector("ul"),
+            submenuItemSelector: "li.dropdown",
+            containerElement: document.querySelector("nav"),
+            controllerElement: document.querySelector("button"),
+          });
+
+          // Set up the menu.
+          menu.focusState = "self";
+          menu.currentChild = 0;
+
+          // Trigger a keyup event.
+          const event = simulateKeyboardEvent("keyup", menu.dom.menu, {
+            key: "ArrowLeft",
+          });
+
+          expect(event.defaultPrevented).toBeTruthy();
+        });
         // Test that the menu's focusPreviousChild method is called.
+        it("should call the menu's focusPreviousChild method", () => {
+          // Create a new Menubar instance for testing.
+          const menu = new Menubar({
+            menuElement: document.querySelector("ul"),
+            submenuItemSelector: "li.dropdown",
+            containerElement: document.querySelector("nav"),
+            controllerElement: document.querySelector("button"),
+          });
+
+          // Set up the menu.
+          menu.focusState = "self";
+          menu.currentChild = 0;
+
+          // Spy on the menu's focusPreviousChild method.
+          const spy = vi.spyOn(menu, "focusPreviousChild");
+
+          // Trigger a keyup event.
+          simulateKeyboardEvent("keyup", menu.dom.menu, {
+            key: "ArrowLeft",
+          });
+
+          expect(spy).toHaveBeenCalled();
+        });
 
         describe("when the previous menu item was an open submenu item", () => {
-          // Test that the child menu's current event is set to keyboard.
-          // Test that the current menu toggle's preview method is called.
-        });
-        describe("when the previous menu item was not an open submenu item", () => {
-          // Test that the menu's closeChildren method is called.
+          // Test that the child menu's current event is set to keyboard if the current menu item is a submenu item.
+          it("should set the child menu's current event to keyboard if the current menu item is a submenu item", () => {
+            // Create a new Menubar instance for testing.
+            const menu = new Menubar({
+              menuElement: document.querySelector("ul"),
+              submenuItemSelector: "li.dropdown",
+              containerElement: document.querySelector("nav"),
+              controllerElement: document.querySelector("button"),
+            });
+
+            // Set up the menu.
+            menu.focusState = "self";
+            menu.currentChild = 2;
+            menu.elements.submenuToggles[1].preview();
+
+            // Trigger a keyup event.
+            simulateKeyboardEvent("keyup", menu.dom.menu, {
+              key: "ArrowLeft",
+            });
+
+            expect(
+              menu.elements.submenuToggles[0].elements.controlledMenu
+                .currentEvent
+            ).toBe("keyboard");
+          });
+          // Test that the current menu toggle's preview method is called if the current menu item is a submenu item.
+          it("should call the current menu toggle's preview method if the current menu item is a submenu item", () => {
+            // Create a new Menubar instance for testing.
+            const menu = new Menubar({
+              menuElement: document.querySelector("ul"),
+              submenuItemSelector: "li.dropdown",
+              containerElement: document.querySelector("nav"),
+              controllerElement: document.querySelector("button"),
+            });
+
+            // Set up the menu.
+            menu.focusState = "self";
+            menu.currentChild = 2;
+            menu.elements.submenuToggles[1].preview();
+
+            // Spy on the current menu toggle's preview method.
+            const spy = vi.spyOn(menu.elements.submenuToggles[0], "preview");
+
+            // Trigger a keyup event.
+            simulateKeyboardEvent("keyup", menu.dom.menu, {
+              key: "ArrowLeft",
+            });
+
+            expect(spy).toHaveBeenCalled();
+          });
+          // Test that the menu's closeChildren method is called if the current menu item is not a submenu item.
+          it("should call the menu's closeChildren method if the current menu item is not a submenu item", () => {
+            // Create a new Menubar instance for testing.
+            const menu = new Menubar({
+              menuElement: document.querySelector("ul"),
+              submenuItemSelector: "li.dropdown",
+              containerElement: document.querySelector("nav"),
+              controllerElement: document.querySelector("button"),
+            });
+
+            // Set up the menu.
+            menu.focusState = "self";
+            menu.currentChild = 1;
+            menu.elements.submenuToggles[0].preview();
+
+            // Spy on the menu's closeChildren method.
+            const spy = vi.spyOn(menu, "closeChildren");
+
+            // Trigger a keyup event.
+            simulateKeyboardEvent("keyup", menu.dom.menu, {
+              key: "ArrowLeft",
+            });
+
+            expect(spy).toHaveBeenCalled();
+          });
         });
       });
 
       // Test ArrowDown.
-      // todo: Write tests.
       describe("ArrowDown", () => {
         describe("when the current menu item is a submenu item", () => {
           // Test that the event is prevented.
+          it("should prevent the event", () => {
+            // Create a new Menubar instance for testing.
+            const menu = new Menubar({
+              menuElement: document.querySelector("ul"),
+              submenuItemSelector: "li.dropdown",
+              containerElement: document.querySelector("nav"),
+              controllerElement: document.querySelector("button"),
+            });
+
+            // Set up the menu.
+            menu.focusState = "self";
+            menu.currentChild = 1;
+
+            // Trigger a keyup event.
+            const event = simulateKeyboardEvent("keyup", menu.dom.menu, {
+              key: "ArrowDown",
+            });
+
+            expect(event.defaultPrevented).toBeTruthy();
+          });
           // Test that the child menu's current event is set to keyboard.
+          it("should set the child menu's current event to keyboard", () => {
+            // Create a new Menubar instance for testing.
+            const menu = new Menubar({
+              menuElement: document.querySelector("ul"),
+              submenuItemSelector: "li.dropdown",
+              containerElement: document.querySelector("nav"),
+              controllerElement: document.querySelector("button"),
+            });
+
+            // Set up the menu.
+            menu.focusState = "self";
+            menu.currentChild = 1;
+
+            // Trigger a keyup event.
+            simulateKeyboardEvent("keyup", menu.dom.menu, {
+              key: "ArrowDown",
+            });
+
+            expect(
+              menu.elements.submenuToggles[0].elements.controlledMenu
+                .currentEvent
+            ).toBe("keyboard");
+          });
           // Test that the current menu toggle's open method is called.
-          // Test that the current menu's focusFirstChild method is called.
+          it("should call the current menu toggle's open method", () => {
+            // Create a new Menubar instance for testing.
+            const menu = new Menubar({
+              menuElement: document.querySelector("ul"),
+              submenuItemSelector: "li.dropdown",
+              containerElement: document.querySelector("nav"),
+              controllerElement: document.querySelector("button"),
+            });
+
+            // Set up the menu.
+            menu.focusState = "self";
+            menu.currentChild = 1;
+
+            // Spy on the current menu toggle's open method.
+            const spy = vi.spyOn(menu.elements.submenuToggles[0], "open");
+
+            // Trigger a keyup event.
+            simulateKeyboardEvent("keyup", menu.dom.menu, {
+              key: "ArrowDown",
+            });
+
+            expect(spy).toHaveBeenCalled();
+          });
+          // Test that the child menu's focusFirstChild method is called.
+          it("should call the child menu's focusFirstChild method", () => {
+            // Mock requestAnimationFrame.
+            vi.spyOn(window, "requestAnimationFrame").mockImplementation(
+              (callback) => {
+                callback();
+              }
+            );
+
+            // Create a new Menubar instance for testing.
+            const menu = new Menubar({
+              menuElement: document.querySelector("ul"),
+              submenuItemSelector: "li.dropdown",
+              containerElement: document.querySelector("nav"),
+              controllerElement: document.querySelector("button"),
+            });
+
+            // Set up the menu.
+            menu.focusState = "self";
+            menu.currentChild = 1;
+
+            // Spy on the child menu's focusFirstChild method.
+            const spy = vi.spyOn(
+              menu.elements.submenuToggles[0].elements.controlledMenu,
+              "focusFirstChild"
+            );
+
+            // Trigger a keyup event.
+            simulateKeyboardEvent("keyup", menu.dom.menu, {
+              key: "ArrowDown",
+            });
+
+            expect(spy).toHaveBeenCalled();
+          });
         });
         describe("when the current menu item is not a submenu item", () => {
           // Test that the event is not prevented.
+          it("should not prevent the event", () => {
+            // Create a new Menubar instance for testing.
+            const menu = new Menubar({
+              menuElement: document.querySelector("ul"),
+              submenuItemSelector: "li.dropdown",
+              containerElement: document.querySelector("nav"),
+              controllerElement: document.querySelector("button"),
+            });
+
+            // Set up the menu.
+            menu.focusState = "self";
+            menu.currentChild = 0;
+
+            // Trigger a keyup event.
+            const event = simulateKeyboardEvent("keyup", menu.dom.menu, {
+              key: "ArrowDown",
+            });
+
+            expect(event.defaultPrevented).toBeFalsy();
+          });
         });
       });
 
       // Test ArrowUp.
-      // todo: Write tests.
       describe("ArrowUp", () => {
         describe("when the current menu item is a submenu item", () => {
           // Test that the event is prevented.
+          it("should prevent the event", () => {
+            // Create a new Menubar instance for testing.
+            const menu = new Menubar({
+              menuElement: document.querySelector("ul"),
+              submenuItemSelector: "li.dropdown",
+              containerElement: document.querySelector("nav"),
+              controllerElement: document.querySelector("button"),
+            });
+
+            // Set up the menu.
+            menu.focusState = "self";
+            menu.currentChild = 1;
+
+            // Trigger a keyup event.
+            const event = simulateKeyboardEvent("keyup", menu.dom.menu, {
+              key: "ArrowUp",
+            });
+
+            expect(event.defaultPrevented).toBeTruthy();
+          });
           // Test that the child menu's current event is set to keyboard.
+          it("should set the child menu's current event to keyboard", () => {
+            // Create a new Menubar instance for testing.
+            const menu = new Menubar({
+              menuElement: document.querySelector("ul"),
+              submenuItemSelector: "li.dropdown",
+              containerElement: document.querySelector("nav"),
+              controllerElement: document.querySelector("button"),
+            });
+
+            // Set up the menu.
+            menu.focusState = "self";
+            menu.currentChild = 1;
+
+            // Trigger a keyup event.
+            simulateKeyboardEvent("keyup", menu.dom.menu, {
+              key: "ArrowUp",
+            });
+
+            expect(
+              menu.elements.submenuToggles[0].elements.controlledMenu
+                .currentEvent
+            ).toBe("keyboard");
+          });
           // Test that the current menu toggle's open method is called.
-          // Test that the current menu's focusLastChild method is called.
+          it("should call the current menu toggle's open method", () => {
+            // Create a new Menubar instance for testing.
+            const menu = new Menubar({
+              menuElement: document.querySelector("ul"),
+              submenuItemSelector: "li.dropdown",
+              containerElement: document.querySelector("nav"),
+              controllerElement: document.querySelector("button"),
+            });
+
+            // Set up the menu.
+            menu.focusState = "self";
+            menu.currentChild = 1;
+
+            // Spy on the current menu toggle's open method.
+            const spy = vi.spyOn(menu.elements.submenuToggles[0], "open");
+
+            // Trigger a keyup event.
+            simulateKeyboardEvent("keyup", menu.dom.menu, {
+              key: "ArrowUp",
+            });
+
+            expect(spy).toHaveBeenCalled();
+          });
+          // Test that the child menu's focusLastChild method is called.
+          it("should call the child menu's focusLastChild method", () => {
+            // Mock requestAnimationFrame.
+            vi.spyOn(window, "requestAnimationFrame").mockImplementation(
+              (callback) => {
+                callback();
+              }
+            );
+
+            // Create a new Menubar instance for testing.
+            const menu = new Menubar({
+              menuElement: document.querySelector("ul"),
+              submenuItemSelector: "li.dropdown",
+              containerElement: document.querySelector("nav"),
+              controllerElement: document.querySelector("button"),
+            });
+
+            // Set up the menu.
+            menu.focusState = "self";
+            menu.currentChild = 1;
+
+            // Spy on the child menu's focusLastChild method.
+            const spy = vi.spyOn(
+              menu.elements.submenuToggles[0].elements.controlledMenu,
+              "focusLastChild"
+            );
+
+            // Trigger a keyup event.
+            simulateKeyboardEvent("keyup", menu.dom.menu, {
+              key: "ArrowUp",
+            });
+
+            expect(spy).toHaveBeenCalled();
+          });
         });
         describe("when the current menu item is not a submenu item", () => {
           // Test that the event is not prevented.
+          it("should not prevent the event", () => {
+            // Create a new Menubar instance for testing.
+            const menu = new Menubar({
+              menuElement: document.querySelector("ul"),
+              submenuItemSelector: "li.dropdown",
+              containerElement: document.querySelector("nav"),
+              controllerElement: document.querySelector("button"),
+            });
+
+            // Set up the menu.
+            menu.focusState = "self";
+            menu.currentChild = 0;
+
+            // Trigger a keyup event.
+            const event = simulateKeyboardEvent("keyup", menu.dom.menu, {
+              key: "ArrowUp",
+            });
+
+            expect(event.defaultPrevented).toBeFalsy();
+          });
         });
       });
 
       // Test Home.
-      // todo: Write tests.
       describe("Home", () => {
         // Test that the event is prevented.
+        it("should prevent the event", () => {
+          // Create a new Menubar instance for testing.
+          const menu = new Menubar({
+            menuElement: document.querySelector("ul"),
+            submenuItemSelector: "li.dropdown",
+            containerElement: document.querySelector("nav"),
+            controllerElement: document.querySelector("button"),
+          });
+
+          // Set up the menu.
+          menu.focusState = "self";
+          menu.currentChild = 0;
+
+          // Trigger a keyup event.
+          const event = simulateKeyboardEvent("keyup", menu.dom.menu, {
+            key: "Home",
+          });
+
+          expect(event.defaultPrevented).toBeTruthy();
+        });
         // Test that the menu's focusFirstChild method is called.
+        it("should call the menu's focusFirstChild method", () => {
+          // Create a new Menubar instance for testing.
+          const menu = new Menubar({
+            menuElement: document.querySelector("ul"),
+            submenuItemSelector: "li.dropdown",
+            containerElement: document.querySelector("nav"),
+            controllerElement: document.querySelector("button"),
+          });
+
+          // Set up the menu.
+          menu.focusState = "self";
+          menu.currentChild = 0;
+
+          // Spy on the menu's focusFirstChild method.
+          const spy = vi.spyOn(menu, "focusFirstChild");
+
+          // Trigger a keyup event.
+          simulateKeyboardEvent("keyup", menu.dom.menu, {
+            key: "Home",
+          });
+
+          expect(spy).toHaveBeenCalled();
+        });
       });
 
       // Test End.
-      // todo: Write tests.
       describe("End", () => {
         // Test that the event is prevented.
+        it("should prevent the event", () => {
+          // Create a new Menubar instance for testing.
+          const menu = new Menubar({
+            menuElement: document.querySelector("ul"),
+            submenuItemSelector: "li.dropdown",
+            containerElement: document.querySelector("nav"),
+            controllerElement: document.querySelector("button"),
+          });
+
+          // Set up the menu.
+          menu.focusState = "self";
+          menu.currentChild = 0;
+
+          // Trigger a keyup event.
+          const event = simulateKeyboardEvent("keyup", menu.dom.menu, {
+            key: "End",
+          });
+
+          expect(event.defaultPrevented).toBeTruthy();
+        });
         // Test that the menu's focusLastChild method is called.
+        it("should call the menu's focusLastChild method", () => {
+          // Create a new Menubar instance for testing.
+          const menu = new Menubar({
+            menuElement: document.querySelector("ul"),
+            submenuItemSelector: "li.dropdown",
+            containerElement: document.querySelector("nav"),
+            controllerElement: document.querySelector("button"),
+          });
+
+          // Set up the menu.
+          menu.focusState = "self";
+          menu.currentChild = 0;
+
+          // Spy on the menu's focusLastChild method.
+          const spy = vi.spyOn(menu, "focusLastChild");
+
+          // Trigger a keyup event.
+          simulateKeyboardEvent("keyup", menu.dom.menu, {
+            key: "End",
+          });
+
+          expect(spy).toHaveBeenCalled();
+        });
       });
 
       // Test Escape.
-      // todo: Write tests.
       describe("Escape", () => {
         describe("when the menu has open submenu items", () => {
           // Test that the event is prevented.
+          it("should prevent the event", () => {
+            // Create a new Menubar instance for testing.
+            const menu = new Menubar({
+              menuElement: document.querySelector("ul"),
+              submenuItemSelector: "li.dropdown",
+              containerElement: document.querySelector("nav"),
+              controllerElement: document.querySelector("button"),
+            });
+
+            // Set up the menu.
+            menu.focusState = "self";
+            menu.currentChild = 0;
+            menu.elements.submenuToggles[0].preview();
+
+            // Trigger a keyup event.
+            const event = simulateKeyboardEvent("keyup", menu.dom.menu, {
+              key: "Escape",
+            });
+
+            expect(event.defaultPrevented).toBeTruthy();
+          });
           // Test that the menu's closeChildren method is called.
+          it("should call the menu's closeChildren method", () => {
+            // Create a new Menubar instance for testing.
+            const menu = new Menubar({
+              menuElement: document.querySelector("ul"),
+              submenuItemSelector: "li.dropdown",
+              containerElement: document.querySelector("nav"),
+              controllerElement: document.querySelector("button"),
+            });
+
+            // Set up the menu.
+            menu.focusState = "self";
+            menu.currentChild = 0;
+            menu.elements.submenuToggles[0].preview();
+
+            // Spy on the menu's closeChildren method.
+            const spy = vi.spyOn(menu, "closeChildren");
+
+            // Trigger a keyup event.
+            simulateKeyboardEvent("keyup", menu.dom.menu, {
+              key: "Escape",
+            });
+
+            expect(spy).toHaveBeenCalled();
+          });
         });
-        describe("when the menu does not have open submenu items and has a controller", () => {
+
+        describe("when the menu does not have open submenu items and has an open controller", () => {
           // Test that the event is prevented.
+          it("should prevent the event", () => {
+            // Create a new Menubar instance for testing.
+            const menu = new Menubar({
+              menuElement: document.querySelector("ul"),
+              submenuItemSelector: "li.dropdown",
+              containerElement: document.querySelector("nav"),
+              controllerElement: document.querySelector("button"),
+            });
+
+            // Set up the menu.
+            menu.focusState = "self";
+            menu.currentChild = 0;
+            menu.elements.controller.open();
+
+            // Trigger a keyup event.
+            const event = simulateKeyboardEvent("keyup", menu.dom.menu, {
+              key: "Escape",
+            });
+
+            expect(event.defaultPrevented).toBeTruthy();
+          });
           // Test that the controller's close method is called.
+          it("should call the controller's close method", () => {
+            // Create a new Menubar instance for testing.
+            const menu = new Menubar({
+              menuElement: document.querySelector("ul"),
+              submenuItemSelector: "li.dropdown",
+              containerElement: document.querySelector("nav"),
+              controllerElement: document.querySelector("button"),
+            });
+
+            // Set up the menu.
+            menu.focusState = "self";
+            menu.currentChild = 0;
+            menu.elements.controller.open();
+
+            // Spy on the controller's close method.
+            const spy = vi.spyOn(menu.elements.controller, "close");
+
+            // Trigger a keyup event.
+            simulateKeyboardEvent("keyup", menu.dom.menu, {
+              key: "Escape",
+            });
+
+            expect(spy).toHaveBeenCalled();
+          });
           // Test that the menu's focusController method is called.
-        });
-        describe("when the menu does not have open submenu items and does not have a controller", () => {
-          // Test that the event is not prevented.
+          it("should call the menu's focusController method", () => {
+            // Create a new Menubar instance for testing.
+            const menu = new Menubar({
+              menuElement: document.querySelector("ul"),
+              submenuItemSelector: "li.dropdown",
+              containerElement: document.querySelector("nav"),
+              controllerElement: document.querySelector("button"),
+            });
+
+            // Set up the menu.
+            menu.focusState = "self";
+            menu.currentChild = 0;
+            menu.elements.controller.open();
+
+            // Spy on the menu's focusController method.
+            const spy = vi.spyOn(menu, "focusController");
+
+            // Trigger a keyup event.
+            simulateKeyboardEvent("keyup", menu.dom.menu, {
+              key: "Escape",
+            });
+
+            expect(spy).toHaveBeenCalled();
+          });
         });
       });
     });
 
     // Test submenus.
-    // todo: Write tests.
     describe("submenus", () => {
       // Test Spacebar and Enter.
-      // todo: Write tests.
       describe.each(["Spacebar", "Enter"])("%s", (key) => {
         describe("when the current menu item is a submenu item", () => {
           // Test that the event is prevented.
+          it("should prevent the event", () => {
+            // Create a new Menubar instance for testing.
+            const menu = new Menubar({
+              menuElement: document.querySelector("ul"),
+              submenuItemSelector: "li.dropdown",
+              containerElement: document.querySelector("nav"),
+              controllerElement: document.querySelector("button"),
+            });
+
+            // Set up the menu.
+            menu.currentChild = 1;
+            menu.elements.submenuToggles[0].open();
+            menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 1;
+
+            // Trigger a keyup event.
+            const event = simulateKeyboardEvent(
+              "keyup",
+              menu.elements.submenuToggles[0].elements.controlledMenu.dom.menu,
+              {
+                key,
+              }
+            );
+
+            expect(event.defaultPrevented).toBeTruthy();
+          });
           // Test that the child menu's current event is set to keyboard.
+          it("should set the child menu's current event to keyboard", () => {
+            // Create a new Menubar instance for testing.
+            const menu = new Menubar({
+              menuElement: document.querySelector("ul"),
+              submenuItemSelector: "li.dropdown",
+              containerElement: document.querySelector("nav"),
+              controllerElement: document.querySelector("button"),
+            });
+
+            // Set up the menu.
+            menu.currentChild = 1;
+            menu.elements.submenuToggles[0].open();
+            menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 1;
+
+            // Trigger a keyup event.
+            simulateKeyboardEvent(
+              "keyup",
+              menu.elements.submenuToggles[0].elements.controlledMenu.dom.menu,
+              {
+                key,
+              }
+            );
+
+            expect(
+              menu.elements.submenuToggles[0].elements.controlledMenu.elements
+                .submenuToggles[0].elements.controlledMenu.currentEvent
+            ).toBe("keyboard");
+          });
           // Test that the current menu toggle's open method is called.
-          // Test that the current menu's focusFirstChild method is called.
+          it("should call the current menu toggle's open method", () => {
+            // Create a new Menubar instance for testing.
+            const menu = new Menubar({
+              menuElement: document.querySelector("ul"),
+              submenuItemSelector: "li.dropdown",
+              containerElement: document.querySelector("nav"),
+              controllerElement: document.querySelector("button"),
+            });
+
+            // Set up the menu.
+            menu.currentChild = 1;
+            menu.elements.submenuToggles[0].open();
+            menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 1;
+
+            // Spy on the current menu toggle's open method.
+            const spy = vi.spyOn(
+              menu.elements.submenuToggles[0].elements.controlledMenu.elements
+                .submenuToggles[0],
+              "open"
+            );
+
+            // Trigger a keyup event.
+            simulateKeyboardEvent(
+              "keyup",
+              menu.elements.submenuToggles[0].elements.controlledMenu.dom.menu,
+              {
+                key,
+              }
+            );
+
+            expect(spy).toHaveBeenCalled();
+          });
+          // Test that the child menu's focusFirstChild method is called.
+          it("should call the child menu's focusFirstChild method", () => {
+            // Create a new Menubar instance for testing.
+            const menu = new Menubar({
+              menuElement: document.querySelector("ul"),
+              submenuItemSelector: "li.dropdown",
+              containerElement: document.querySelector("nav"),
+              controllerElement: document.querySelector("button"),
+            });
+
+            // Set up the menu.
+            menu.currentChild = 1;
+            menu.elements.submenuToggles[0].open();
+            menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 1;
+
+            // Spy on the current menu's focusFirstChild method.
+            const spy = vi.spyOn(
+              menu.elements.submenuToggles[0].elements.controlledMenu.elements
+                .submenuToggles[0].elements.controlledMenu,
+              "focusFirstChild"
+            );
+
+            // Trigger a keyup event.
+            simulateKeyboardEvent(
+              "keyup",
+              menu.elements.submenuToggles[0].elements.controlledMenu.dom.menu,
+              {
+                key,
+              }
+            );
+
+            expect(spy).toHaveBeenCalled();
+          });
         });
         describe("when the current menu item is not a submenu item", () => {
           // Test that the event is not prevented.
+          it("should not prevent the event", () => {
+            // Create a new Menubar instance for testing.
+            const menu = new Menubar({
+              menuElement: document.querySelector("ul"),
+              submenuItemSelector: "li.dropdown",
+              containerElement: document.querySelector("nav"),
+              controllerElement: document.querySelector("button"),
+            });
+
+            // Set up the menu.
+            menu.currentChild = 0;
+            menu.elements.submenuToggles[0].open();
+            menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 0;
+
+            // Trigger a keyup event.
+            const event = simulateKeyboardEvent("keyup", menu.dom.menu, {
+              key,
+            });
+
+            expect(event.defaultPrevented).toBeFalsy();
+          });
           // Test that the current menu link's click method is called.
+          it("should call the current menu link's click method", () => {
+            // Create a new Menubar instance for testing.
+            const menu = new Menubar({
+              menuElement: document.querySelector("ul"),
+              submenuItemSelector: "li.dropdown",
+              containerElement: document.querySelector("nav"),
+              controllerElement: document.querySelector("button"),
+            });
+
+            // Set up the menu.
+            menu.currentChild = 0;
+            menu.elements.submenuToggles[0].open();
+            menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 0;
+
+            // Spy on the current menu link's click method.
+            const spy = vi.spyOn(
+              menu.elements.submenuToggles[0].elements.controlledMenu.elements
+                .menuItems[0].dom.link,
+              "click"
+            );
+
+            // Trigger a keyup event.
+            simulateKeyboardEvent(
+              "keyup",
+              menu.elements.submenuToggles[0].elements.controlledMenu.dom.menu,
+              {
+                key,
+              }
+            );
+
+            expect(spy).toHaveBeenCalled();
+          });
         });
       });
 
       // Test Escape.
-      // todo: Write tests.
       describe("Escape", () => {
         // Test that the event is prevented.
+        it("should prevent the event", () => {
+          // Create a new Menubar instance for testing.
+          const menu = new Menubar({
+            menuElement: document.querySelector("ul"),
+            submenuItemSelector: "li.dropdown",
+            containerElement: document.querySelector("nav"),
+            controllerElement: document.querySelector("button"),
+          });
+
+          // Set up the menu.
+          menu.currentChild = 1;
+          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 0;
+
+          // Trigger a keyup event.
+          const event = simulateKeyboardEvent(
+            "keyup",
+            menu.elements.submenuToggles[0].elements.controlledMenu.dom.menu,
+            {
+              key: "Escape",
+            }
+          );
+
+          expect(event.defaultPrevented).toBeTruthy();
+        });
         // Test that the root menu's closeChildren method is called.
+        it("should call the root menu's closeChildren method", () => {
+          // Create a new Menubar instance for testing.
+          const menu = new Menubar({
+            menuElement: document.querySelector("ul"),
+            submenuItemSelector: "li.dropdown",
+            containerElement: document.querySelector("nav"),
+            controllerElement: document.querySelector("button"),
+          });
+
+          // Set up the menu.
+          menu.currentChild = 1;
+          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 0;
+
+          // Spy on the root menu's closeChildren method.
+          const spy = vi.spyOn(menu, "closeChildren");
+
+          // Trigger a keyup event.
+          simulateKeyboardEvent(
+            "keyup",
+            menu.elements.submenuToggles[0].elements.controlledMenu.dom.menu,
+            {
+              key: "Escape",
+            }
+          );
+
+          expect(spy).toHaveBeenCalled();
+        });
         // Test that the root menu's focusCurrentChild method is called.
+        it("should call the root menu's focusCurrentChild method", () => {
+          // Create a new Menubar instance for testing.
+          const menu = new Menubar({
+            menuElement: document.querySelector("ul"),
+            submenuItemSelector: "li.dropdown",
+            containerElement: document.querySelector("nav"),
+            controllerElement: document.querySelector("button"),
+          });
+
+          // Set up the menu.
+          menu.currentChild = 1;
+          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 0;
+
+          // Spy on the root menu's focusCurrentChild method.
+          const spy = vi.spyOn(menu, "focusCurrentChild");
+
+          // Trigger a keyup event.
+          simulateKeyboardEvent(
+            "keyup",
+            menu.elements.submenuToggles[0].elements.controlledMenu.dom.menu,
+            {
+              key: "Escape",
+            }
+          );
+
+          expect(spy).toHaveBeenCalled();
+        });
       });
 
       // Test ArrowRight.
-      // todo: Write tests.
       describe("ArrowRight", () => {
         describe("when the current menu item is a submenu item", () => {
           // Test that the event is prevented.
+          it("should prevent the event", () => {
+            // Create a new Menubar instance for testing.
+            const menu = new Menubar({
+              menuElement: document.querySelector("ul"),
+              submenuItemSelector: "li.dropdown",
+              containerElement: document.querySelector("nav"),
+              controllerElement: document.querySelector("button"),
+            });
+
+            // Set up the menu.
+            menu.currentChild = 1;
+            menu.elements.submenuToggles[0].open();
+            menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 1;
+
+            // Trigger a keyup event.
+            const event = simulateKeyboardEvent(
+              "keyup",
+              menu.elements.submenuToggles[0].elements.controlledMenu.dom.menu,
+              {
+                key: "ArrowRight",
+              }
+            );
+
+            expect(event.defaultPrevented).toBeTruthy();
+          });
           // Test that the child menu's current event is set to keyboard.
+          it("should set the child menu's current event to keyboard", () => {
+            // Create a new Menubar instance for testing.
+            const menu = new Menubar({
+              menuElement: document.querySelector("ul"),
+              submenuItemSelector: "li.dropdown",
+              containerElement: document.querySelector("nav"),
+              controllerElement: document.querySelector("button"),
+            });
+
+            // Set up the menu.
+            menu.currentChild = 1;
+            menu.elements.submenuToggles[0].open();
+            menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 1;
+
+            // Trigger a keyup event.
+            simulateKeyboardEvent(
+              "keyup",
+              menu.elements.submenuToggles[0].elements.controlledMenu.dom.menu,
+              {
+                key: "ArrowRight",
+              }
+            );
+
+            expect(
+              menu.elements.submenuToggles[0].elements.controlledMenu.elements
+                .submenuToggles[0].elements.controlledMenu.currentEvent
+            ).toBe("keyboard");
+          });
           // Test that the current menu toggle's open method is called.
+          it("should call the current menu toggle's open method", () => {
+            // Create a new Menubar instance for testing.
+            const menu = new Menubar({
+              menuElement: document.querySelector("ul"),
+              submenuItemSelector: "li.dropdown",
+              containerElement: document.querySelector("nav"),
+              controllerElement: document.querySelector("button"),
+            });
+
+            // Set up the menu.
+            menu.currentChild = 1;
+            menu.elements.submenuToggles[0].open();
+            menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 1;
+
+            // Spy on the current menu toggle's open method.
+            const spy = vi.spyOn(
+              menu.elements.submenuToggles[0].elements.controlledMenu.elements
+                .submenuToggles[0],
+              "open"
+            );
+
+            // Trigger a keyup event.
+            simulateKeyboardEvent(
+              "keyup",
+              menu.elements.submenuToggles[0].elements.controlledMenu.dom.menu,
+              {
+                key: "ArrowRight",
+              }
+            );
+
+            expect(spy).toHaveBeenCalled();
+          });
           // Test that the child menu's focusFirstChild method is called.
+          it("should call the child menu's focusFirstChild method", () => {
+            // Create a new Menubar instance for testing.
+            const menu = new Menubar({
+              menuElement: document.querySelector("ul"),
+              submenuItemSelector: "li.dropdown",
+              containerElement: document.querySelector("nav"),
+              controllerElement: document.querySelector("button"),
+            });
+
+            // Set up the menu.
+            menu.currentChild = 1;
+            menu.elements.submenuToggles[0].open();
+            menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 1;
+
+            // Spy on the child menu's focusFirstChild method.
+            const spy = vi.spyOn(
+              menu.elements.submenuToggles[0].elements.controlledMenu.elements
+                .submenuToggles[0].elements.controlledMenu,
+              "focusFirstChild"
+            );
+
+            // Trigger a keyup event.
+            simulateKeyboardEvent(
+              "keyup",
+              menu.elements.submenuToggles[0].elements.controlledMenu.dom.menu,
+              {
+                key: "ArrowRight",
+              }
+            );
+
+            expect(spy).toHaveBeenCalled();
+          });
         });
         describe("when the current menu item is not a submenu item", () => {
           // Test that the event is prevented.
-          // Test that the menu's closeChildren method is called.
-          // Test that the menu's focusNextChild method is called.
+          it("should prevent the event", () => {
+            // Create a new Menubar instance for testing.
+            const menu = new Menubar({
+              menuElement: document.querySelector("ul"),
+              submenuItemSelector: "li.dropdown",
+              containerElement: document.querySelector("nav"),
+              controllerElement: document.querySelector("button"),
+            });
+
+            // Set up the menu.
+            menu.currentChild = 1;
+            menu.elements.submenuToggles[0].open();
+            menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 0;
+
+            // Trigger a keyup event.
+            const event = simulateKeyboardEvent(
+              "keyup",
+              menu.elements.submenuToggles[0].elements.controlledMenu.dom.menu,
+              {
+                key: "ArrowRight",
+              }
+            );
+
+            expect(event.defaultPrevented).toBeTruthy();
+          });
+          // Test that the root menu's closeChildren method is called.
+          it("should call the root menu's closeChildren method", () => {
+            // Create a new Menubar instance for testing.
+            const menu = new Menubar({
+              menuElement: document.querySelector("ul"),
+              submenuItemSelector: "li.dropdown",
+              containerElement: document.querySelector("nav"),
+              controllerElement: document.querySelector("button"),
+            });
+
+            // Set up the menu.
+            menu.currentChild = 1;
+            menu.elements.submenuToggles[0].open();
+            menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 0;
+
+            // Spy on the menu's closeChildren method.
+            const spy = vi.spyOn(menu, "closeChildren");
+
+            // Trigger a keyup event.
+            simulateKeyboardEvent(
+              "keyup",
+              menu.elements.submenuToggles[0].elements.controlledMenu.dom.menu,
+              {
+                key: "ArrowRight",
+              }
+            );
+
+            expect(spy).toHaveBeenCalled();
+          });
+          // Test that the root menu's focusNextChild method is called.
+          it("should call the root menu's focusNextChild method", () => {
+            // Create a new Menubar instance for testing.
+            const menu = new Menubar({
+              menuElement: document.querySelector("ul"),
+              submenuItemSelector: "li.dropdown",
+              containerElement: document.querySelector("nav"),
+              controllerElement: document.querySelector("button"),
+            });
+
+            // Set up the menu.
+            menu.currentChild = 1;
+            menu.elements.submenuToggles[0].open();
+            menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 0;
+
+            // Spy on the menu's focusNextChild method.
+            const spy = vi.spyOn(menu, "focusNextChild");
+
+            // Trigger a keyup event.
+            simulateKeyboardEvent(
+              "keyup",
+              menu.elements.submenuToggles[0].elements.controlledMenu.dom.menu,
+              {
+                key: "ArrowRight",
+              }
+            );
+
+            expect(spy).toHaveBeenCalled();
+          });
           // Test that the root menu's current menu item's preview method is called if the root menu's current menu item is a submenu item.
+          it("should call the root menu's current menu item's preview method if the root menu's current menu item is a submenu item", () => {
+            // Create a new Menubar instance for testing.
+            const menu = new Menubar({
+              menuElement: document.querySelector("ul"),
+              submenuItemSelector: "li.dropdown",
+              containerElement: document.querySelector("nav"),
+              controllerElement: document.querySelector("button"),
+            });
+
+            // Set up the menu.
+            menu.currentChild = 1;
+            menu.elements.submenuToggles[0].open();
+            menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 0;
+
+            // Spy on the menu item's preview method.
+            const spy = vi.spyOn(menu.elements.submenuToggles[1], "preview");
+
+            // Trigger a keyup event.
+            simulateKeyboardEvent(
+              "keyup",
+              menu.elements.submenuToggles[0].elements.controlledMenu.dom.menu,
+              {
+                key: "ArrowRight",
+              }
+            );
+
+            expect(spy).toHaveBeenCalled();
+          });
         });
       });
 
       // Test ArrowLeft.
-      // todo: Write tests.
       describe("ArrowLeft", () => {
         describe("when the parent menu's current menu item is a submenu item", () => {
           // Test that the event is prevented.
-          // Test that the parent menu's current menu toggle's close method is called.
-          // Test that the parent menu's focusCurrentChild method is called.
+          it("should prevent the event", () => {
+            // Create a new Menubar instance for testing.
+            const menu = new Menubar({
+              menuElement: document.querySelector("ul"),
+              submenuItemSelector: "li.dropdown",
+              containerElement: document.querySelector("nav"),
+              controllerElement: document.querySelector("button"),
+            });
 
-          describe("when the parent menu is also the root menu", () => {
-            // Test that the parent menu's closeChildren method is called.
-            // Test that the parent menu's focusPreviousChild method is called.
+            // Set up the menu.
+            menu.currentChild = 1;
+            menu.elements.submenuToggles[0].open();
+            menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 0;
 
-            describe("when the root menu's current menu item is a submenu item", () => {
-              // Test that the root menu's child menu's current event is set to keyboard.
-              // Test that the root menu's current menu toggle's preview method is called.
+            // Trigger a keyup event.
+            const event = simulateKeyboardEvent(
+              "keyup",
+              menu.elements.submenuToggles[0].elements.controlledMenu.dom.menu,
+              {
+                key: "ArrowLeft",
+              }
+            );
+
+            expect(event.defaultPrevented).toBeTruthy();
+          });
+        });
+        // Test that the parent menu's current menu toggle's close method is called.
+        it("should call the parent menu's current menu toggle's close method", () => {
+          // Create a new Menubar instance for testing.
+          const menu = new Menubar({
+            menuElement: document.querySelector("ul"),
+            submenuItemSelector: "li.dropdown",
+            containerElement: document.querySelector("nav"),
+            controllerElement: document.querySelector("button"),
+          });
+
+          // Set up the menu.
+          menu.currentChild = 1;
+          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 0;
+
+          // Spy on the menu toggle's close method.
+          const spy = vi.spyOn(menu.elements.submenuToggles[0], "close");
+
+          // Trigger a keyup event.
+          simulateKeyboardEvent(
+            "keyup",
+            menu.elements.submenuToggles[0].elements.controlledMenu.dom.menu,
+            {
+              key: "ArrowLeft",
+            }
+          );
+
+          expect(spy).toHaveBeenCalled();
+        });
+        // Test that the parent menu's focusCurrentChild method is called.
+        it("should call the parent menu's focusCurrentChild method", () => {
+          // Create a new Menubar instance for testing.
+          const menu = new Menubar({
+            menuElement: document.querySelector("ul"),
+            submenuItemSelector: "li.dropdown",
+            containerElement: document.querySelector("nav"),
+            controllerElement: document.querySelector("button"),
+          });
+
+          // Set up the menu.
+          menu.currentChild = 1;
+          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 0;
+
+          // Spy on the menu toggle's focusCurrentChild method.
+          const spy = vi.spyOn(menu, "focusCurrentChild");
+
+          // Trigger a keyup event.
+          simulateKeyboardEvent(
+            "keyup",
+            menu.elements.submenuToggles[0].elements.controlledMenu.dom.menu,
+            {
+              key: "ArrowLeft",
+            }
+          );
+
+          expect(spy).toHaveBeenCalled();
+        });
+
+        describe("when the parent menu is also the root menu", () => {
+          // Test that the parent menu's closeChildren method is called.
+          it("should call the parent menu's closeChildren method", () => {
+            // Create a new Menubar instance for testing.
+            const menu = new Menubar({
+              menuElement: document.querySelector("ul"),
+              submenuItemSelector: "li.dropdown",
+              containerElement: document.querySelector("nav"),
+              controllerElement: document.querySelector("button"),
+            });
+
+            // Set up the menu.
+            menu.currentChild = 1;
+            menu.elements.submenuToggles[0].open();
+            menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 0;
+
+            // Spy on the menu's closeChildren method.
+            const spy = vi.spyOn(menu, "closeChildren");
+
+            // Trigger a keyup event.
+            simulateKeyboardEvent(
+              "keyup",
+              menu.elements.submenuToggles[0].elements.controlledMenu.dom.menu,
+              {
+                key: "ArrowLeft",
+              }
+            );
+
+            expect(spy).toHaveBeenCalled();
+          });
+          // Test that the parent menu's focusPreviousChild method is called.
+          it("should call the parent menu's focusPreviousChild method", () => {
+            // Create a new Menubar instance for testing.
+            const menu = new Menubar({
+              menuElement: document.querySelector("ul"),
+              submenuItemSelector: "li.dropdown",
+              containerElement: document.querySelector("nav"),
+              controllerElement: document.querySelector("button"),
+            });
+
+            // Set up the menu.
+            menu.currentChild = 1;
+            menu.elements.submenuToggles[0].open();
+            menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 0;
+
+            // Spy on the menu's focusPreviousChild method.
+            const spy = vi.spyOn(menu, "focusPreviousChild");
+
+            // Trigger a keyup event.
+            simulateKeyboardEvent(
+              "keyup",
+              menu.elements.submenuToggles[0].elements.controlledMenu.dom.menu,
+              {
+                key: "ArrowLeft",
+              }
+            );
+
+            expect(spy).toHaveBeenCalled();
+          });
+
+          describe("when the root menu's current menu item is a submenu item", () => {
+            // Test that the root menu's child menu's current event is set to keyboard.
+            it("should set the root menu's child menu's current event to keyboard", () => {
+              // Create a new Menubar instance for testing.
+              const menu = new Menubar({
+                menuElement: document.querySelector("ul"),
+                submenuItemSelector: "li.dropdown",
+                containerElement: document.querySelector("nav"),
+                controllerElement: document.querySelector("button"),
+              });
+
+              // Set up the menu.
+              menu.currentChild = 2;
+              menu.elements.submenuToggles[1].open();
+              menu.elements.submenuToggles[1].elements.controlledMenu.currentChild = 0;
+
+              // Trigger a keyup event.
+              simulateKeyboardEvent(
+                "keyup",
+                menu.elements.submenuToggles[1].elements.controlledMenu.dom
+                  .menu,
+                {
+                  key: "ArrowLeft",
+                }
+              );
+
+              expect(
+                menu.elements.submenuToggles[0].elements.controlledMenu
+                  .currentEvent
+              ).toBe("keyboard");
+            });
+            // Test that the root menu's current menu toggle's preview method is called.
+            it("should call the root menu's current menu toggle's preview method", () => {
+              // Create a new Menubar instance for testing.
+              const menu = new Menubar({
+                menuElement: document.querySelector("ul"),
+                submenuItemSelector: "li.dropdown",
+                containerElement: document.querySelector("nav"),
+                controllerElement: document.querySelector("button"),
+              });
+
+              // Set up the menu.
+              menu.currentChild = 2;
+              menu.elements.submenuToggles[1].open();
+              menu.elements.submenuToggles[1].elements.controlledMenu.currentChild = 0;
+
+              // Spy on the menu toggle's preview method.
+              const spy = vi.spyOn(menu.elements.submenuToggles[0], "preview");
+
+              // Trigger a keyup event.
+              simulateKeyboardEvent(
+                "keyup",
+                menu.elements.submenuToggles[1].elements.controlledMenu.dom
+                  .menu,
+                {
+                  key: "ArrowLeft",
+                }
+              );
+
+              expect(spy).toHaveBeenCalled();
             });
           });
         });
+      });
 
-        // Test ArrowDown.
-        // todo: Write tests.
-        describe("ArrowDown", () => {
-          // Test that the event is prevented.
-          // Test that the menu's focusNextChild method is called.
+      // Test ArrowDown.
+      describe("ArrowDown", () => {
+        // Test that the event is prevented.
+        it("should prevent the default event", () => {
+          // Create a new Menubar instance for testing.
+          const menu = new Menubar({
+            menuElement: document.querySelector("ul"),
+            submenuItemSelector: "li.dropdown",
+            containerElement: document.querySelector("nav"),
+            controllerElement: document.querySelector("button"),
+          });
+
+          // Set up the menu.
+          menu.currentChild = 1;
+          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 0;
+
+          // Trigger a keyup event.
+          const event = simulateKeyboardEvent(
+            "keyup",
+            menu.elements.submenuToggles[0].elements.controlledMenu.dom.menu,
+            {
+              key: "ArrowDown",
+            }
+          );
+
+          expect(event.defaultPrevented).toBeTruthy();
         });
+        // Test that the menu's focusNextChild method is called.
+        it("should call the menu's focusNextChild method", () => {
+          // Create a new Menubar instance for testing.
+          const menu = new Menubar({
+            menuElement: document.querySelector("ul"),
+            submenuItemSelector: "li.dropdown",
+            containerElement: document.querySelector("nav"),
+            controllerElement: document.querySelector("button"),
+          });
 
-        // Test ArrowUp.
-        // todo: Write tests.
-        describe("ArrowUp", () => {
-          // Test that the event is prevented.
-          // Test that the menu's focusPreviousChild method is called.
+          // Set up the menu.
+          menu.currentChild = 1;
+          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 0;
+
+          // Spy on the menu's focusNextChild method.
+          const spy = vi.spyOn(
+            menu.elements.submenuToggles[0].elements.controlledMenu,
+            "focusNextChild"
+          );
+
+          // Trigger a keyup event.
+          simulateKeyboardEvent(
+            "keyup",
+            menu.elements.submenuToggles[0].elements.controlledMenu.dom.menu,
+            {
+              key: "ArrowDown",
+            }
+          );
+
+          expect(spy).toHaveBeenCalled();
         });
+      });
 
-        // Test Home.
-        // todo: Write tests.
-        describe("Home", () => {
-          // Test that the event is prevented.
-          // Test that the menu's focusFirstChild method is called.
+      // Test ArrowUp.
+      describe("ArrowUp", () => {
+        // Test that the event is prevented.
+        it("should prevent the default event", () => {
+          // Create a new Menubar instance for testing.
+          const menu = new Menubar({
+            menuElement: document.querySelector("ul"),
+            submenuItemSelector: "li.dropdown",
+            containerElement: document.querySelector("nav"),
+            controllerElement: document.querySelector("button"),
+          });
+
+          // Set up the menu.
+          menu.currentChild = 1;
+          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 0;
+
+          // Trigger a keyup event.
+          const event = simulateKeyboardEvent(
+            "keyup",
+            menu.elements.submenuToggles[0].elements.controlledMenu.dom.menu,
+            {
+              key: "ArrowUp",
+            }
+          );
+
+          expect(event.defaultPrevented).toBeTruthy();
         });
+        // Test that the menu's focusPreviousChild method is called.
+        it("should call the menu's focusPreviousChild method", () => {
+          // Create a new Menubar instance for testing.
+          const menu = new Menubar({
+            menuElement: document.querySelector("ul"),
+            submenuItemSelector: "li.dropdown",
+            containerElement: document.querySelector("nav"),
+            controllerElement: document.querySelector("button"),
+          });
 
-        // Test End.
-        // todo: Write tests.
-        describe("End", () => {
-          // Test that the event is prevented.
-          // Test that the menu's focusLastChild method is called.
+          // Set up the menu.
+          menu.currentChild = 1;
+          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 0;
+
+          // Spy on the menu's focusPreviousChild method.
+          const spy = vi.spyOn(
+            menu.elements.submenuToggles[0].elements.controlledMenu,
+            "focusPreviousChild"
+          );
+
+          // Trigger a keyup event.
+          simulateKeyboardEvent(
+            "keyup",
+            menu.elements.submenuToggles[0].elements.controlledMenu.dom.menu,
+            {
+              key: "ArrowUp",
+            }
+          );
+
+          expect(spy).toHaveBeenCalled();
+        });
+      });
+
+      // Test Home.
+      describe("Home", () => {
+        // Test that the event is prevented.
+        it("should prevent the default event", () => {
+          // Create a new Menubar instance for testing.
+          const menu = new Menubar({
+            menuElement: document.querySelector("ul"),
+            submenuItemSelector: "li.dropdown",
+            containerElement: document.querySelector("nav"),
+            controllerElement: document.querySelector("button"),
+          });
+
+          // Set up the menu.
+          menu.currentChild = 1;
+          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 0;
+
+          // Trigger a keyup event.
+          const event = simulateKeyboardEvent(
+            "keyup",
+            menu.elements.submenuToggles[0].elements.controlledMenu.dom.menu,
+            {
+              key: "Home",
+            }
+          );
+
+          expect(event.defaultPrevented).toBeTruthy();
+        });
+        // Test that the menu's focusFirstChild method is called.
+        it("should call the menu's focusFirstChild method", () => {
+          // Create a new Menubar instance for testing.
+          const menu = new Menubar({
+            menuElement: document.querySelector("ul"),
+            submenuItemSelector: "li.dropdown",
+            containerElement: document.querySelector("nav"),
+            controllerElement: document.querySelector("button"),
+          });
+
+          // Set up the menu.
+          menu.currentChild = 1;
+          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 0;
+
+          // Spy on the menu's focusFirstChild method.
+          const spy = vi.spyOn(
+            menu.elements.submenuToggles[0].elements.controlledMenu,
+            "focusFirstChild"
+          );
+
+          // Trigger a keyup event.
+          simulateKeyboardEvent(
+            "keyup",
+            menu.elements.submenuToggles[0].elements.controlledMenu.dom.menu,
+            {
+              key: "Home",
+            }
+          );
+
+          expect(spy).toHaveBeenCalled();
+        });
+      });
+
+      // Test End.
+      describe("End", () => {
+        // Test that the event is prevented.
+        it("should prevent the default event", () => {
+          // Create a new Menubar instance for testing.
+          const menu = new Menubar({
+            menuElement: document.querySelector("ul"),
+            submenuItemSelector: "li.dropdown",
+            containerElement: document.querySelector("nav"),
+            controllerElement: document.querySelector("button"),
+          });
+
+          // Set up the menu.
+          menu.currentChild = 1;
+          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 0;
+
+          // Trigger a keyup event.
+          const event = simulateKeyboardEvent(
+            "keyup",
+            menu.elements.submenuToggles[0].elements.controlledMenu.dom.menu,
+            {
+              key: "End",
+            }
+          );
+
+          expect(event.defaultPrevented).toBeTruthy();
+        });
+        // Test that the menu's focusLastChild method is called.
+        it("should call the menu's focusLastChild method", () => {
+          // Create a new Menubar instance for testing.
+          const menu = new Menubar({
+            menuElement: document.querySelector("ul"),
+            submenuItemSelector: "li.dropdown",
+            containerElement: document.querySelector("nav"),
+            controllerElement: document.querySelector("button"),
+          });
+
+          // Set up the menu.
+          menu.currentChild = 1;
+          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 0;
+
+          // Spy on the menu's focusLastChild method.
+          const spy = vi.spyOn(
+            menu.elements.submenuToggles[0].elements.controlledMenu,
+            "focusLastChild"
+          );
+
+          // Trigger a keyup event.
+          simulateKeyboardEvent(
+            "keyup",
+            menu.elements.submenuToggles[0].elements.controlledMenu.dom.menu,
+            {
+              key: "End",
+            }
+          );
+
+          expect(spy).toHaveBeenCalled();
         });
       });
     });
