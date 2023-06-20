@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.0-beta.1](https://github.com/NickDJM/accessible-menu/compare/v4.0.0-beta.0...v4.0.0-beta.1) (2023-06-20)
+
+
+### Features
+
+* add support for hoverDelay and transitions on pointerenter ([1a19215](https://github.com/NickDJM/accessible-menu/commit/1a19215b366cd73449d1579a80e6f2790588fb28)), closes [#211](https://github.com/NickDJM/accessible-menu/issues/211)
+
+
+### Documentation
+
+* update test docs to account for top-link disclosures ([de0a72b](https://github.com/NickDJM/accessible-menu/commit/de0a72b0720dad2590136e0fd2dff39aee330c3f))
+
+
+### Continuous Integration
+
+* **codeql:** upgrade to v2 ([6d14c98](https://github.com/NickDJM/accessible-menu/commit/6d14c986a5e298be90eb6e42521a594b15dc16bc)), closes [#214](https://github.com/NickDJM/accessible-menu/issues/214)
+
+
+### Build System
+
+* bump eslint-plugin-jsdoc from 39.9.1 to 40.0.0 ([056c0cd](https://github.com/NickDJM/accessible-menu/commit/056c0cdf14c697873ea4f2c1fd615d329dc3aa16))
+* bump eslint-plugin-jsdoc from 40.3.0 to 43.0.0 ([95e2b48](https://github.com/NickDJM/accessible-menu/commit/95e2b48adc970be3e60add08e4667860bf5472d2))
+* **eslint:** upgrade options for jsdoc plugin ([f3d96c5](https://github.com/NickDJM/accessible-menu/commit/f3d96c5b98dd96504f00917b1eef51cfc0e7915e))
+* **npm:** ensure latest version of vitest to fix issues with githun action tests ([a4488e8](https://github.com/NickDJM/accessible-menu/commit/a4488e848ae74fc873b61a7618ab9ea0ca2d6e41))
+
 ## [4.0.0-beta.0](https://github.com/NickDJM/accessible-menu/compare/v3.0.5...v4.0.0-beta.0) (2023-02-09)
 
 
