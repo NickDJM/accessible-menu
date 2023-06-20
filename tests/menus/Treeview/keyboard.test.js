@@ -301,7 +301,7 @@ describe("Treeview", () => {
   // Test keyup.
   describe("keyup", () => {
     // Test that keyup events set the current event to keyboard.
-    it("should set the current event to keyboard on keyup events", () => {
+    it("should set the current event to keyboard", () => {
       // Create a new Treeview instance for testing.
       const menu = new Treeview({
         menuElement: document.querySelector("ul"),
@@ -318,43 +318,140 @@ describe("Treeview", () => {
 
     // Test Character keys.
     // todo: Write tests.
-    // describe("Character keys", () => {});
+    describe("Character keys", () => {
+      // Test that the event is prevented if no modifier is pressed.
+      // Test that the event is not prevented if a modifier is pressed.
+      // Test that the root menu's current event is set to character.
+      // Test that thet menu's focusNextNodeWithCharacter method is called with the key that was pressed.
+    });
 
     // Test Spacebar and Enter.
     // todo: Write tests.
-    // describe.each(["Spacebar", "Enter"])("%s", (key) => {});
+    describe.each(["Spacebar", "Enter"])("%s", (key) => {
+      // Test that the event is prevented.
+
+      describe("when the current menu item is a submenu item", () => {
+        // Test that the current menu toggle's close method is called if the current menu item is an open submenu item.
+        // Test that the current menu toggle's preview method is called if the current menu item is a closed submenu item.
+      });
+      describe("when the current menu item is not a submenu item", () => {
+        // Test that the current menu link's click method is called.
+      });
+    });
 
     // Test Escape.
     // todo: Write tests.
-    // describe("Escape", () => {});
+    describe("Escape", () => {
+      describe("if the menu has a controller", () => {
+        // Test that the controller's close method is called.
+        // Test that the menu's focusController method is called.
+      });
+    });
 
     // Test ArrowDown.
     // todo: Write tests.
-    // describe("ArrowDown", () => {});
+    describe("ArrowDown", () => {
+      // Test that the event is prevented.
+
+      describe("if the current menu item is an open submenu item", () => {
+        // Test that the menu's blurCurrentChild method is called.
+        // Test that the child menu's current event is set to keyboard.
+        // Test that the child menu's focusFirstChild method is called.
+      });
+
+      describe("if the current menu not the root menu and the current menu item is the last menu item", () => {
+        // Test that the menu's focusParentsNextChild method is called.
+      });
+
+      describe("if the current menu is the root menu _or_ is not the root menu and the current menu item is not the last menu item", () => {
+        // Test that the menu's focusNextChild method is called.
+      });
+    });
 
     // Test ArrowUp.
     // todo: Write tests.
-    // describe("ArrowUp", () => {});
+    describe("ArrowUp", () => {
+      // Test that the event is prevented.
+
+      describe("if the current menu item is not the first item in the menu and the item before the current item is an open submenu item", () => {
+        // Test that the menu's blurCurrentChild method is called.
+        // Test that the current child is set to the item before the current item.
+        // Test that the child menu's current event is set to keyboard.
+        // Test that the menu's focusChildsLastNode method is called.
+      });
+
+      describe("if the current menu is not the root menu and then current menu item is the first item in the menu", () => {
+        // Test the the menu's blurCurrentChild method is called.
+        // Test that the parent menu's current event is set to keyboard.
+        // Test that the parent menu's focusCurrentChild method is called.
+      });
+
+      describe("if the current menu is the root menu _or_ is not the root menu and the current menu item is not the first item in the menu", () => {
+        // Test that the menu's focusPreviousChild method is called.
+      });
+    });
 
     // Test ArrowRight.
     // todo: Write tests.
-    // describe("ArrowRight", () => {});
+    describe("ArrowRight", () => {
+      describe("if the current menu item is a submenu item", () => {
+        // Test that the event is prevented.
+      });
+
+      describe("if the current menu item is aa open submenu item", () => {
+        // Test that the menu's blurCurrentChild method is called.
+        // Test that the child menu's current event is set to keyboard.
+        // Test that the child menu's focusFirstChild method is called.
+      });
+
+      describe("if the current menu item is a closed submenu item", () => {
+        // Test that the current menu toggle's preview method is called.
+      });
+
+      describe("if the current menu item is not a submenu item", () => {
+        // Test that the event is not prevented.
+      });
+    });
 
     // Test ArrowLeft.
     // todo: Write tests.
-    // describe("ArrowLeft", () => {});
+    describe("ArrowLeft", () => {
+      // Test that the event is prevented.
+
+      describe("if the current menu item is an open submenu item", () => {
+        // Test that the child menu's blurCurrentChild method is called.
+        // Test that the current menu toggle's close method is called.
+      });
+
+      describe("if the current menu is not the root menu", () => {
+        // Test that the menu's blurCurrentChild method is called.
+        // Test that the parent menu's current event is set to keyboard.
+        // Test that the parent menu's focusCurrentChild method is called.
+      });
+    });
 
     // Test Home.
     // todo: Write tests.
-    // describe("Home", () => {});
+    describe("Home", () => {
+      // Test that the event is prevented.
+      // Test that the menu's blurCurrentChild method is called.
+      // Test that the root menu's focusFirstChild method is called.
+    });
 
     // Test End.
     // todo: Write tests.
-    // describe("End", () => {});
+    describe("End", () => {
+      // Test that the event is prevented.
+      // Test that the menu's blurCurrentChild method is called.
+      // Test that the root menu's focusLastChild method is called.
+    });
 
     // Test Asterisk.
     // todo: Write tests.
-    // describe("*", () => {});
+    describe("*", () => {
+      // Test that the event is prevented.
+      // Test that the menu's openChildren method is called.
+    });
   });
 });
 
@@ -407,7 +504,7 @@ describe("Treeview Controller", () => {
   // Test keyup.
   describe("keyup", () => {
     // Test that keyup events set the current event to keyboard.
-    it("should set the current event to keyboard on keyup events", () => {
+    it("should set the current event to keyboard", () => {
       // Create a new Treeview instance for testing.
       const menu = new Treeview({
         menuElement: document.querySelector("ul"),
@@ -425,7 +522,7 @@ describe("Treeview Controller", () => {
     // Test Spacebar and Enter.
     describe.each(["Spacebar", "Enter"])("%s", (key) => {
       // Test that the event is prevented on Spacebar and Enter keyup events.
-      it("should prevent the event on %s keyup events", () => {
+      it("should prevent the event", () => {
         // Create a new Treeview instance for testing.
         const menu = new Treeview({
           menuElement: document.querySelector("ul"),
@@ -447,7 +544,7 @@ describe("Treeview Controller", () => {
       });
 
       // Test that open is called on the controller on Spacebar and Enter keyup events.
-      it("should call open on the controller on %s keyup events", () => {
+      it("should call open on the controller", () => {
         // Create a new Treeview instance for testing.
         const menu = new Treeview({
           menuElement: document.querySelector("ul"),
@@ -468,7 +565,7 @@ describe("Treeview Controller", () => {
       });
 
       // Test that focusFirstChild is called on the menu on Spacebar and Enter keyup events.
-      it("should call focusFirstChild on the menu on %s keyup events", () => {
+      it("should call focusFirstChild on the menu", () => {
         // Create a new Treeview instance for testing.
         const menu = new Treeview({
           menuElement: document.querySelector("ul"),

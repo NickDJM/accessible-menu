@@ -315,7 +315,7 @@ describe("TopLinkDisclosureMenu", () => {
   // Test keyup.
   describe("keyup", () => {
     // Test that keyup events set the current event to keyboard.
-    it("should set the current event to keyboard on keyup events", () => {
+    it("should set the current event to keyboard", () => {
       // Create a new TopLinkDisclosureMenu instance for testing.
       const menu = new TopLinkDisclosureMenu({
         menuElement: document.querySelector("ul"),
@@ -331,28 +331,77 @@ describe("TopLinkDisclosureMenu", () => {
     });
 
     // Test Spacebar and Enter.
-    // todo: Write tests.
-    // describe.each(["Spacebar", "Enter"])("%s", (key) => {});
+    // @todo: Write tests.
+    describe.each(["Spacebar", "Enter"])("%s", (key) => {
+      describe("when the current menu item is a submenu item", () => {
+        // Test that the event is prevented.
+        // Test that the current menu toggle's close method is called if the current menu item is an open submenu item.
+        // Test that the current menu toggle's preview method is called if the current menu item is a closed submenu item.
+      });
+      describe("when the current menu item is not a submenu item", () => {
+        // Test that the current menu link's click method is called.
+      });
+    });
 
     // Test Escape.
     // todo: Write tests.
-    // describe("Escape", () => {});
+    describe("Escape", () => {
+      describe("when the menu has an open submenu", () => {
+        // Test that the event is prevented.
+        // Test that the menu's closeChildren method is called.
+      });
 
-    // Test ArrowDown and ArrowRight.
-    // todo: Write tests.
-    // describe.each(["ArrowDown", "ArrowRight"])("%s", (key) => {});
+      describe("when the menu does not have an open submenu and has a parent menu", () => {
+        // Test that the event is prevented.
+        // Test that the parent menu's current event is set to keyboard.
+        // Test that the parent menu's closeChildren method is called.
+        // Test that the parent menu's focusCurrentChild method is called.
+      });
 
-    // Test ArrowUp and ArrowLeft.
+      describe("when the menu does not have an open submenu and has a controller", () => {
+        // Test that the controller's close method is called.
+        // Test that the focusController method is called.
+      });
+    });
+
+    // Test ArrowUp and ArrowRight.
     // todo: Write tests.
-    // describe.each(["ArrowUp", "ArrowLeft"])("%s", (key) => {});
+    describe.each(["ArrowUp", "ArrowRight"])("%s", (key) => {
+      // Test that the event is prevented if optionalKeySupport is true.
+      // Test that the event is not prevented if optionalKeySupport is false.
+
+      describe("when the current menu item is an open submenu item", () => {
+        // Test that the child menu's current event is set to keyboard.
+        // Test that the child menu's focusFirstChild method is called.
+      });
+      describe("when the current menu item is not an open submenu item", () => {
+        // Test that the menu's focusNextChild method is called.
+      });
+    });
+
+    // Test ArrowDown and ArrowLeft.
+    // todo: Write tests.
+    describe.each(["ArrowDown", "ArrowLeft"])("%s", (key) => {
+      // Test that the event is prevented if optionalKeySupport is true.
+      // Test that the even is not prevented if optionalKeySupport is false.
+      // Test the menu's focusPreviousChild method is called.
+    });
 
     // Test Home.
     // todo: Write tests.
-    // describe("Home", () => {});
+    describe("Home", () => {
+      // Test that the event is prevented if optionalKeySupport is true.
+      // Test that the even is not prevented if optionalKeySupport is false.
+      // Test that the menu's focusFirstChild method is called.
+    });
 
     // Test End.
     // todo: Write tests.
-    // describe("End", () => {});
+    describe("End", () => {
+      // Test that the event is prevented if optionalKeySupport is true.
+      // Test that the even is not prevented if optionalKeySupport is false.
+      // Test that the menu's focusLastChild method is called.
+    });
   });
 });
 
@@ -405,7 +454,7 @@ describe("TopLinkDisclosureMenu Controller", () => {
   // Test keyup.
   describe("keyup", () => {
     // Test that keyup events set the current event to keyboard.
-    it("should set the current event to keyboard on keyup events", () => {
+    it("should set the current event to keyboard", () => {
       // Create a new TopLinkDisclosureMenu instance for testing.
       const menu = new TopLinkDisclosureMenu({
         menuElement: document.querySelector("ul"),
@@ -423,7 +472,7 @@ describe("TopLinkDisclosureMenu Controller", () => {
     // Test Spacebar and Enter.
     describe.each(["Spacebar", "Enter"])("%s", (key) => {
       // Test that the event is prevented on Spacebar and Enter keyup events.
-      it("should prevent the event on %s keyup events", () => {
+      it("should prevent the event", () => {
         // Create a new TopLinkDisclosureMenu instance for testing.
         const menu = new TopLinkDisclosureMenu({
           menuElement: document.querySelector("ul"),
@@ -445,7 +494,7 @@ describe("TopLinkDisclosureMenu Controller", () => {
       });
 
       // Test that open is called on the controller on Spacebar and Enter keyup events.
-      it("should call open on the controller on %s keyup events", () => {
+      it("should call open on the controller", () => {
         // Create a new TopLinkDisclosureMenu instance for testing.
         const menu = new TopLinkDisclosureMenu({
           menuElement: document.querySelector("ul"),
@@ -466,7 +515,7 @@ describe("TopLinkDisclosureMenu Controller", () => {
       });
 
       // Test that focusFirstChild is called on the menu on Spacebar and Enter keyup events.
-      it("should call focusFirstChild on the menu on %s keyup events", () => {
+      it("should call focusFirstChild on the menu", () => {
         // Create a new TopLinkDisclosureMenu instance for testing.
         const menu = new TopLinkDisclosureMenu({
           menuElement: document.querySelector("ul"),

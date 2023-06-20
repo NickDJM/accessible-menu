@@ -315,7 +315,7 @@ describe("DisclosureMenu", () => {
   // Test keyup.
   describe("keyup", () => {
     // Test that keyup events set the current event to keyboard.
-    it("should set the current event to keyboard on keyup events", () => {
+    it("should set the current event to keyboard", () => {
       // Create a new DisclosureMenu instance for testing.
       const menu = new DisclosureMenu({
         menuElement: document.querySelector("ul"),
@@ -331,174 +331,77 @@ describe("DisclosureMenu", () => {
     });
 
     // Test Spacebar and Enter.
+    // @todo: Write tests.
     describe.each(["Spacebar", "Enter"])("%s", (key) => {
-      // Test that the event is prevented on Spacebar and Enter keyup events if the focus state is self and the current menu item is a submenu item.
-      it("should prevent the Spacebar and Enter keyup events if the focus state is self and the current menu item is a submenu item", () => {
-        // Create a new DisclosureMenu instance for testing.
-        const menu = new DisclosureMenu({
-          menuElement: document.querySelector("ul"),
-          submenuItemSelector: "li.dropdown",
-          containerElement: document.querySelector("nav"),
-          controllerElement: document.querySelector("button"),
-        });
-
-        // Set up the menu.
-        menu.focusState = "self";
-        menu.currentChild = 1;
-
-        // Trigger a keyup event on the menu's controller.
-        const event = simulateKeyboardEvent("keyup", menu.dom.menu, {
-          key,
-        });
-
-        expect(event.defaultPrevented).toBeTruthy();
+      describe("when the current menu item is a submenu item", () => {
+        // Test that the event is prevented.
+        // Test that the current menu toggle's close method is called if the current menu item is an open submenu item.
+        // Test that the current menu toggle's preview method is called if the current menu item is a closed submenu item.
       });
-
-      // Test that the event is not prevented on Spacebar and Enter keyup events if the focus state is not self and the current menu item is a submenu item.
-      it("should not prevent the Spacebar and Enter keyup events if the focus state is not self and the current menu item is a submenu item", () => {
-        // Create a new DisclosureMenu instance for testing.
-        const menu = new DisclosureMenu({
-          menuElement: document.querySelector("ul"),
-          submenuItemSelector: "li.dropdown",
-          containerElement: document.querySelector("nav"),
-          controllerElement: document.querySelector("button"),
-        });
-
-        // Set up the menu.
-        menu.currentChild = 1;
-
-        // Trigger a keyup event on the menu's controller.
-        const event = simulateKeyboardEvent("keyup", menu.dom.menu, {
-          key,
-        });
-
-        expect(event.defaultPrevented).toBeFalsy();
-      });
-
-      // Test that the event is not prevented on Spacebar and Enter keyup events if the focus state is self and the current menu item is not a submenu item.
-      it("should not prevent the Spacebar and Enter keyup events if the focus state is self and the current menu item is not a submenu item", () => {
-        // Create a new DisclosureMenu instance for testing.
-        const menu = new DisclosureMenu({
-          menuElement: document.querySelector("ul"),
-          submenuItemSelector: "li.dropdown",
-          containerElement: document.querySelector("nav"),
-          controllerElement: document.querySelector("button"),
-        });
-
-        // Set up the menu.
-        menu.focusState = "self";
-        menu.currentChild = 0;
-
-        // Trigger a keyup event on the menu's controller.
-        const event = simulateKeyboardEvent("keyup", menu.dom.menu, {
-          key,
-        });
-
-        expect(event.defaultPrevented).toBeFalsy();
-      });
-
-      // Test that the click method is called on the menu item's link if the focus state is self and the current menu item is not a submenu item.
-      it("should call the click method on the menu item's link if the focus state is self and the current menu item is not a submenu item", () => {
-        // Create a new DisclosureMenu instance for testing.
-        const menu = new DisclosureMenu({
-          menuElement: document.querySelector("ul"),
-          submenuItemSelector: "li.dropdown",
-          containerElement: document.querySelector("nav"),
-          controllerElement: document.querySelector("button"),
-        });
-
-        // Set up the menu.
-        menu.focusState = "self";
-        menu.currentChild = 0;
-
-        // Spy on the menu item's link's click method.
-        const spy = vi.spyOn(menu.elements.menuItems[0].dom.link, "click");
-
-        // Trigger a keyup event on the menu's controller.
-        simulateKeyboardEvent("keyup", menu.dom.menu, {
-          key,
-        });
-
-        expect(spy).toHaveBeenCalled();
-      });
-
-      // Test that the close method is called on the menu item's toggle if the focus state is self and the current menu item is an open submenu item.
-      it("should call the close method on the menu item's toggle if the focus state is self and the current menu item is an open submenu item", () => {
-        // Create a new DisclosureMenu instance for testing.
-        const menu = new DisclosureMenu({
-          menuElement: document.querySelector("ul"),
-          submenuItemSelector: "li.dropdown",
-          containerElement: document.querySelector("nav"),
-          controllerElement: document.querySelector("button"),
-        });
-
-        // Set up the menu.
-        menu.focusState = "self";
-        menu.currentChild = 1;
-        menu.elements.submenuToggles[0].preview();
-
-        // Spy on the menu item's toggle's close method.
-        const spy = vi.spyOn(
-          menu.elements.menuItems[1].elements.toggle,
-          "close"
-        );
-
-        // Trigger a keyup event on the menu's controller.
-        simulateKeyboardEvent("keyup", menu.dom.menu, {
-          key,
-        });
-
-        expect(spy).toHaveBeenCalled();
-      });
-
-      // Test that the preview method is called on the menu item's toggle if the focus state is self and the current menu item is a closed submenu item.
-      it("should call the preview method on the menu item's toggle if the focus state is self and the current menu item is a closed submenu item", () => {
-        // Create a new DisclosureMenu instance for testing.
-        const menu = new DisclosureMenu({
-          menuElement: document.querySelector("ul"),
-          submenuItemSelector: "li.dropdown",
-          containerElement: document.querySelector("nav"),
-          controllerElement: document.querySelector("button"),
-        });
-
-        // Set up the menu.
-        menu.focusState = "self";
-        menu.currentChild = 1;
-
-        // Spy on the menu item's toggle's preview method.
-        const spy = vi.spyOn(
-          menu.elements.menuItems[1].elements.toggle,
-          "preview"
-        );
-
-        // Trigger a keyup event on the menu's controller.
-        simulateKeyboardEvent("keyup", menu.dom.menu, {
-          key,
-        });
-
-        expect(spy).toHaveBeenCalled();
+      describe("when the current menu item is not a submenu item", () => {
+        // Test that the current menu link's click method is called.
       });
     });
 
     // Test Escape.
     // todo: Write tests.
-    // describe("Escape", () => {});
+    describe("Escape", () => {
+      describe("when the menu has an open submenu", () => {
+        // Test that the event is prevented.
+        // Test that the menu's closeChildren method is called.
+      });
+
+      describe("when the menu does not have an open submenu and has a parent menu", () => {
+        // Test that the event is prevented.
+        // Test that the parent menu's current event is set to keyboard.
+        // Test that the parent menu's closeChildren method is called.
+        // Test that the parent menu's focusCurrentChild method is called.
+      });
+
+      describe("when the menu does not have an open submenu and has a controller", () => {
+        // Test that the controller's close method is called.
+        // Test that the focusController method is called.
+      });
+    });
 
     // Test ArrowUp and ArrowRight.
     // todo: Write tests.
-    // describe.each(["ArrowUp", "ArrowRight"])("%s", (key) => {});
+    describe.each(["ArrowUp", "ArrowRight"])("%s", (key) => {
+      // Test that the event is prevented if optionalKeySupport is true.
+      // Test that the event is not prevented if optionalKeySupport is false.
+
+      describe("when the current menu item is an open submenu item", () => {
+        // Test that the child menu's current event is set to keyboard.
+        // Test that the child menu's focusFirstChild method is called.
+      });
+      describe("when the current menu item is not an open submenu item", () => {
+        // Test that the menu's focusNextChild method is called.
+      });
+    });
 
     // Test ArrowDown and ArrowLeft.
     // todo: Write tests.
-    // describe.each(["ArrowDown", "ArrowLeft"])("%s", (key) => {});
+    describe.each(["ArrowDown", "ArrowLeft"])("%s", (key) => {
+      // Test that the event is prevented if optionalKeySupport is true.
+      // Test that the even is not prevented if optionalKeySupport is false.
+      // Test the menu's focusPreviousChild method is called.
+    });
 
     // Test Home.
     // todo: Write tests.
-    // describe("Home", () => {});
+    describe("Home", () => {
+      // Test that the event is prevented if optionalKeySupport is true.
+      // Test that the even is not prevented if optionalKeySupport is false.
+      // Test that the menu's focusFirstChild method is called.
+    });
 
     // Test End.
     // todo: Write tests.
-    // describe("End", () => {});
+    describe("End", () => {
+      // Test that the event is prevented if optionalKeySupport is true.
+      // Test that the even is not prevented if optionalKeySupport is false.
+      // Test that the menu's focusLastChild method is called.
+    });
   });
 });
 
@@ -551,7 +454,7 @@ describe("DisclosureMenu Controller", () => {
   // Test keyup.
   describe("keyup", () => {
     // Test that keyup events set the current event to keyboard.
-    it("should set the current event to keyboard on keyup events", () => {
+    it("should set the current event to keyboard", () => {
       // Create a new DisclosureMenu instance for testing.
       const menu = new DisclosureMenu({
         menuElement: document.querySelector("ul"),
@@ -569,7 +472,7 @@ describe("DisclosureMenu Controller", () => {
     // Test Spacebar and Enter.
     describe.each(["Spacebar", "Enter"])("%s", (key) => {
       // Test that the event is prevented on Spacebar and Enter keyup events.
-      it("should prevent the event on %s keyup events", () => {
+      it("should prevent the event", () => {
         // Create a new DisclosureMenu instance for testing.
         const menu = new DisclosureMenu({
           menuElement: document.querySelector("ul"),
@@ -591,7 +494,7 @@ describe("DisclosureMenu Controller", () => {
       });
 
       // Test that open is called on the controller on Spacebar and Enter keyup events.
-      it("should call open on the controller on %s keyup events", () => {
+      it("should call open on the controller", () => {
         // Create a new DisclosureMenu instance for testing.
         const menu = new DisclosureMenu({
           menuElement: document.querySelector("ul"),
@@ -612,7 +515,7 @@ describe("DisclosureMenu Controller", () => {
       });
 
       // Test that focusFirstChild is called on the menu on Spacebar and Enter keyup events.
-      it("should call focusFirstChild on the menu on %s keyup events", () => {
+      it("should call focusFirstChild on the menu", () => {
         // Create a new DisclosureMenu instance for testing.
         const menu = new DisclosureMenu({
           menuElement: document.querySelector("ul"),
