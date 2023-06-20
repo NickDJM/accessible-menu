@@ -95,24 +95,27 @@ class TopLinkDisclosureMenu extends BaseMenu {
   /**
    * Constructs the menu.
    *
-   * @param {object}                       options                                  - The options for generating the menu.
-   * @param {HTMLElement}                  options.menuElement                      - The menu element in the DOM.
-   * @param {string}                       [options.menuItemSelector = li]          - The CSS selector string for menu items.
-   * @param {string}                       [options.menuLinkSelector = a]           - The CSS selector string for menu links.
-   * @param {string}                       [options.submenuItemSelector]            - The CSS selector string for menu items containing submenus.
-   * @param {string}                       [options.submenuToggleSelector = button] - The CSS selector string for submenu toggle buttons/links.
-   * @param {string}                       [options.submenuSelector = ul]           - The CSS selector string for submenus.
-   * @param {string}                       [options.submenuSubtoggleSelector = a]   - The CSS selector string for submenu toggle buttons/links below the top level.
-   * @param {(HTMLElement|null)}           [options.controllerElement = null]       - The element controlling the menu in the DOM.
-   * @param {(HTMLElement|null)}           [options.containerElement = null]        - The element containing the menu in the DOM.
-   * @param {(string|string[]|null)}       [options.openClass = show]               - The class to apply when a menu is "open".
-   * @param {(string|string[]|null)}       [options.closeClass = hide]              - The class to apply when a menu is "closed".
-   * @param {boolean}                      [options.isTopLevel = true]              - A flag to mark the root menu.
-   * @param {(TopLinkDisclosureMenu|null)} [options.parentMenu = null]              - The parent menu to this menu.
-   * @param {string}                       [options.hoverType = off]                - The type of hoverability a menu has.
-   * @param {number}                       [options.hoverDelay = 250]               - The delay for closing menus if the menu is hoverable (in miliseconds).
-   * @param {boolean}                      [options.optionalKeySupport = false]     - A flag to add optional keyboard support (Arrow keys, Home, and End) to the menu.
-   * @param {boolean}                      [options.initialize = true]              - A flag to initialize the menu immediately upon creation.
+   * @param {object}                 options                                   - The options for generating the menu.
+   * @param {HTMLElement}            options.menuElement                       - The menu element in the DOM.
+   * @param {string}                 [options.menuItemSelector = li]           - The CSS selector string for menu items.
+   * @param {string}                 [options.menuLinkSelector = a]            - The CSS selector string for menu links.
+   * @param {string}                 [options.submenuItemSelector]             - The CSS selector string for menu items containing submenus.
+   * @param {string}                 [options.submenuToggleSelector = button]  - The CSS selector string for submenu toggle buttons/links.
+   * @param {string}                 [options.submenuSelector = ul]            - The CSS selector string for submenus.
+   * @param {string}                 [options.submenuSubtoggleSelector = a]    - The CSS selector string for submenu toggle buttons/links below the top level.
+   * @param {?HTMLElement}           [options.controllerElement = null]        - The element controlling the menu in the DOM.
+   * @param {?HTMLElement}           [options.containerElement = null]         - The element containing the menu in the DOM.
+   * @param {?(string|string[])}     [options.openClass = show]                - The class to apply when a menu is "open".
+   * @param {?(string|string[])}     [options.closeClass = hide]               - The class to apply when a menu is "closed".
+   * @param {?(string|string[])}     [options.transitionClass = transitioning] - The class to apply when a menu is transitioning between "open" and "closed" states.
+   * @param {boolean}                [options.isTopLevel = true]               - A flag to mark the root menu.
+   * @param {?TopLinkDisclosureMenu} [options.parentMenu = null]               - The parent menu to this menu.
+   * @param {string}                 [options.hoverType = off]                 - The type of hoverability a menu has.
+   * @param {number}                 [options.hoverDelay = 250]                - The delay for opening and closing menus if the menu is hoverable (in miliseconds).
+   * @param {number}                 [options.enterDelay = -1]                 - The delay for opening a menu if the menu is focusable (in miliseconds).
+   * @param {number}                 [options.leaveDelay = -1]                 - The delay for closing a menu if the menu is focusable (in miliseconds).
+   * @param {boolean}                [options.optionalKeySupport = false]      - A flag to add optional keyboard support (Arrow keys, Home, and End) to the menu.
+   * @param {boolean}                [options.initialize = true]               - A flag to initialize the menu immediately upon creation.
    */
   constructor({
     menuElement,
@@ -126,10 +129,13 @@ class TopLinkDisclosureMenu extends BaseMenu {
     containerElement = null,
     openClass = "show",
     closeClass = "hide",
+    transitionClass = "transitioning",
     isTopLevel = true,
     parentMenu = null,
     hoverType = "off",
     hoverDelay = 250,
+    enterDelay = -1,
+    leaveDelay = -1,
     optionalKeySupport = false,
     initialize = true,
   }) {
@@ -144,10 +150,13 @@ class TopLinkDisclosureMenu extends BaseMenu {
       containerElement,
       openClass,
       closeClass,
+      transitionClass,
       isTopLevel,
       parentMenu,
       hoverType,
       hoverDelay,
+      enterDelay,
+      leaveDelay,
     });
 
     // Set optional key support.
@@ -431,11 +440,23 @@ class TopLinkDisclosureMenu extends BaseMenu {
           this.currentEvent = "mouse";
           this.currentChild = index;
 
+          let toggle = menuItem.isSubmenuItem ? menuItem.elements.toggle : null;
+
           // Hovering over both the menu item _and_ the toggle item should work.
-          if (menuItem.isSubmenuItem) {
-            menuItem.elements.toggle.preview();
-          } else if (menuItem.elements.sibling !== null) {
-            menuItem.elements.sibling.elements.toggle.preview();
+          if (menuItem.elements.sibling !== null) {
+            toggle = menuItem.elements.sibling.elements.toggle;
+          }
+
+          // If there is no toggle, exit out of the event.
+          if (toggle === null) return;
+
+          if (this.enterDelay > 0) {
+            clearTimeout(this._hoverTimeout);
+            this._hoverTimeout = setTimeout(() => {
+              toggle.preview();
+            }, this.enterDelay);
+          } else {
+            toggle.preview();
           }
         } else if (this.hoverType === "dynamic") {
           const isOpen = this.elements.submenuToggles.some(
@@ -451,11 +472,25 @@ class TopLinkDisclosureMenu extends BaseMenu {
           if (!this.isTopLevel || isOpen) {
             this.currentEvent = "mouse";
 
+            let toggle = menuItem.isSubmenuItem
+              ? menuItem.elements.toggle
+              : null;
+
             // Hovering over both the menu item _and_ the toggle item should work.
-            if (menuItem.isSubmenuItem) {
-              menuItem.elements.toggle.preview();
-            } else if (menuItem.elements.sibling !== null) {
-              menuItem.elements.sibling.elements.toggle.preview();
+            if (menuItem.elements.sibling !== null) {
+              toggle = menuItem.elements.sibling.elements.toggle;
+            }
+
+            // If there is no toggle, exit out of the event.
+            if (toggle === null) return;
+
+            if (this.enterDelay > 0) {
+              clearTimeout(this._hoverTimeout);
+              this._hoverTimeout = setTimeout(() => {
+                toggle.preview();
+              }, this.enterDelay);
+            } else {
+              toggle.preview();
             }
           }
         }
@@ -469,23 +504,25 @@ class TopLinkDisclosureMenu extends BaseMenu {
           }
 
           if (this.hoverType === "on") {
-            if (this.hoverDelay > 0) {
+            if (this.leaveDelay > 0) {
+              clearTimeout(this._hoverTimeout);
               setTimeout(() => {
                 this.currentEvent = "mouse";
                 menuItem.elements.toggle.close();
-              }, this.hoverDelay);
+              }, this.leaveDelay);
             } else {
               this.currentEvent = "mouse";
               menuItem.elements.toggle.close();
             }
           } else if (this.hoverType === "dynamic") {
             if (!this.isTopLevel) {
-              if (this.hoverDelay > 0) {
+              if (this.leaveDelay > 0) {
+                clearTimeout(this._hoverTimeout);
                 setTimeout(() => {
                   this.currentEvent = "mouse";
                   menuItem.elements.toggle.close();
                   this.focusCurrentChild();
-                }, this.hoverDelay);
+                }, this.leaveDelay);
               } else {
                 this.currentEvent = "mouse";
                 menuItem.elements.toggle.close();

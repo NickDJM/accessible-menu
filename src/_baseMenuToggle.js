@@ -1,5 +1,6 @@
 /* eslint-disable jsdoc/no-undefined-types */
 
+import { addClass, removeClass } from "./domHelpers.js";
 import { isTag, isValidType } from "./validate.js";
 
 /**
@@ -250,25 +251,41 @@ class BaseMenuToggle {
    * @param {boolean} [emit = true] - A toggle to emit the expand event once expanded.
    */
   _expand(emit = true) {
-    const { closeClass, openClass } = this.elements.controlledMenu;
+    const { closeClass, openClass, transitionClass } =
+      this.elements.controlledMenu;
 
     this.dom.toggle.setAttribute("aria-expanded", "true");
 
-    // Add the open class
-    if (openClass !== "") {
-      if (typeof openClass === "string") {
-        this.elements.controlledMenu.dom.menu.classList.add(openClass);
-      } else {
-        this.elements.controlledMenu.dom.menu.classList.add(...openClass);
-      }
-    }
+    // If we're dealing with transition classes, then we need to utilize
+    // requestAnimationFrame to add the transition class, remove the close class,
+    // add the open class, and finally remove the transition class.
+    if (transitionClass !== "") {
+      addClass(transitionClass, this.elements.controlledMenu.dom.menu);
 
-    // Remove the close class.
-    if (closeClass !== "") {
-      if (typeof closeClass === "string") {
-        this.elements.controlledMenu.dom.menu.classList.remove(closeClass);
-      } else {
-        this.elements.controlledMenu.dom.menu.classList.remove(...closeClass);
+      requestAnimationFrame(() => {
+        if (closeClass !== "") {
+          removeClass(closeClass, this.elements.controlledMenu.dom.menu);
+        }
+
+        requestAnimationFrame(() => {
+          if (openClass !== "") {
+            addClass(openClass, this.elements.controlledMenu.dom.menu);
+          }
+
+          requestAnimationFrame(() => {
+            removeClass(transitionClass, this.elements.controlledMenu.dom.menu);
+          });
+        });
+      });
+    } else {
+      // Add the open class
+      if (openClass !== "") {
+        addClass(openClass, this.elements.controlledMenu.dom.menu);
+      }
+
+      // Remove the close class.
+      if (closeClass !== "") {
+        removeClass(closeClass, this.elements.controlledMenu.dom.menu);
       }
     }
 
@@ -295,25 +312,41 @@ class BaseMenuToggle {
    * @param {boolean} [emit = true] - A toggle to emit the collapse event once collapsed.
    */
   _collapse(emit = true) {
-    const { closeClass, openClass } = this.elements.controlledMenu;
+    const { closeClass, openClass, transitionClass } =
+      this.elements.controlledMenu;
 
     this.dom.toggle.setAttribute("aria-expanded", "false");
 
-    // Add the close class
-    if (closeClass !== "") {
-      if (typeof closeClass === "string") {
-        this.elements.controlledMenu.dom.menu.classList.add(closeClass);
-      } else {
-        this.elements.controlledMenu.dom.menu.classList.add(...closeClass);
-      }
-    }
+    // If we're dealing with transition classes, then we need to utilize
+    // requestAnimationFrame to add the transition class, remove the open class,
+    // add the close class, and finally remove the transition class.
+    if (transitionClass !== "") {
+      addClass(transitionClass, this.elements.controlledMenu.dom.menu);
 
-    // Remove the open class.
-    if (openClass !== "") {
-      if (typeof openClass === "string") {
-        this.elements.controlledMenu.dom.menu.classList.remove(openClass);
-      } else {
-        this.elements.controlledMenu.dom.menu.classList.remove(...openClass);
+      requestAnimationFrame(() => {
+        if (openClass !== "") {
+          removeClass(openClass, this.elements.controlledMenu.dom.menu);
+        }
+
+        requestAnimationFrame(() => {
+          if (closeClass !== "") {
+            addClass(closeClass, this.elements.controlledMenu.dom.menu);
+          }
+
+          requestAnimationFrame(() => {
+            removeClass(transitionClass, this.elements.controlledMenu.dom.menu);
+          });
+        });
+      });
+    } else {
+      // Add the close class
+      if (closeClass !== "") {
+        addClass(closeClass, this.elements.controlledMenu.dom.menu);
+      }
+
+      // Remove the open class.
+      if (openClass !== "") {
+        removeClass(openClass, this.elements.controlledMenu.dom.menu);
       }
     }
 
