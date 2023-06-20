@@ -19,6 +19,8 @@ import {
   PointerEvent,
 } from "../helpers.js";
 
+vi.mock("../../../src/eventHandlers.js");
+
 beforeAll(() => {
   // Extend jsdom MouseEvent class as PointerEvent class.
   window.PointerEvent = PointerEvent;
@@ -124,7 +126,6 @@ describe("BaseMenu", () => {
     // Test that point up calls preventEvent with the current event if triggered on a submenu item.
     it("should call preventEvent with the current event if triggered on a submenu item", async () => {
       // Mock preventEvent.
-      vi.mock("../../../src/eventHandlers.js");
       const eventHandlers = await import("../../../src/eventHandlers.js");
       eventHandlers.preventEvent = vi.fn();
 
@@ -228,7 +229,6 @@ describe("BaseMenu", () => {
     // Test that pointerup calls preventEvent with the current event if triggered on the root menu's controller.
     it("should call preventEvent with the current event if triggered on the root menu's controller", async () => {
       // Mock preventEvent.
-      vi.mock("../../../src/eventHandlers.js");
       const eventHandlers = await import("../../../src/eventHandlers.js");
       eventHandlers.preventEvent = vi.fn();
 
