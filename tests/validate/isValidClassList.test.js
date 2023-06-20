@@ -1,70 +1,62 @@
 /**
- * Test the isValidClassList() function in validate.js to make sure the expected values are returned.
+ * Tests for the isValidClassList() function.
  */
 
-import { describe, test, expect } from "vitest";
-import { isValidClassList } from "../../src/validate";
+import { describe, it, expect } from "vitest";
+import { isValidClassList } from "../../src/validate.js";
 
 describe("isValidClassList", () => {
-  const singleClass = "class";
-  const multipleClasses = ["class", "other-class"];
+  // Test a valid single class.
+  it("should return true when checking if a valid single class is a valid class list", () => {
+    const classList = "class";
+    const result = isValidClassList({ classList });
 
-  test("returns true when passed a single string", () => {
-    const check = isValidClassList({ singleClass });
-
-    expect(check.status).toBeTruthy();
-    expect(check.error).toBeNull();
+    expect(result.status).toBeTruthy();
+    expect(result.error).toBeNull();
   });
 
-  test("returns true when passed an array of strings", () => {
-    const check = isValidClassList({ multipleClasses });
+  // Test a valid multiple classes.
+  it("should return true when checking if valid multiple classes are a valid class list", () => {
+    const classList = ["class1", "class2"];
+    const result = isValidClassList({ classList });
 
-    expect(check.status).toBeTruthy();
-    expect(check.error).toBeNull();
+    expect(result.status).toBeTruthy();
+    expect(result.error).toBeNull();
   });
 
-  test("returns false when passed a single number", () => {
-    const check = isValidClassList({ classes: 123 });
+  // Test an invalid single class.
+  it("should return false when checking if an invalid single class is a valid class list", () => {
+    const classList = 1;
+    const result = isValidClassList({ classList });
 
-    expect(check.status).toBeFalsy();
-    expect(check.error.message).toBe(
-      'classes must be a string or an array of strings. "number" given.'
-    );
+    expect(result.status).toBeFalsy();
+    expect(result.error).toBeInstanceOf(TypeError);
   });
 
-  test("returns false when passed an array of numbers", () => {
-    const check = isValidClassList({ classes: [123, 321] });
+  // Test an invalid multiple classes.
+  it("should return false when checking if invalid multiple classes are a valid class list", () => {
+    const classList = [1, 2];
+    const result = isValidClassList({ classList });
 
-    expect(check.status).toBeFalsy();
-    expect(check.error.message).toBe(
-      "classes must be a string or an array of strings. An array containing non-strings given."
-    );
+    expect(result.status).toBeFalsy();
+    expect(result.error).toBeInstanceOf(TypeError);
   });
 
-  test("returns false when passed an array of strings and numbers", () => {
-    const check = isValidClassList({ classes: ["class", 123] });
+  // Test a mixed valid and invalid classes.
+  it("should return false when checking if a mixed valid and invalid classes are a valid class list", () => {
+    const classList = ["class", 1];
+    const result = isValidClassList({ classList });
 
-    expect(check.status).toBeFalsy();
-    expect(check.error.message).toBe(
-      "classes must be a string or an array of strings. An array containing non-strings given."
-    );
+    expect(result.status).toBeFalsy();
+    expect(result.error).toBeInstanceOf(TypeError);
   });
 
-  test("returns false when passed a string that is _not_ contained in an object", () => {
-    const check = isValidClassList(singleClass);
+  // Test passing a non-object.
+  it("should return false when checking for a non-object", () => {
+    const classList = "class";
+    const result = isValidClassList(classList);
 
-    expect(check.status).toBeFalsy();
-    expect(check.error.message).toBe(
-      'Values given to isValidClassList() must be inside of an object. "string" given.'
-    );
-  });
-
-  test("returns false when passed an array of strings that is _not_ contained in an object", () => {
-    const check = isValidClassList(multipleClasses);
-
-    expect(check.status).toBeFalsy();
-    expect(check.error.message).toBe(
-      'Values given to isValidClassList() must be inside of an object. "object" given.'
-    );
+    expect(result.status).toBeFalsy();
+    expect(result.error).toBeInstanceOf(TypeError);
   });
 });

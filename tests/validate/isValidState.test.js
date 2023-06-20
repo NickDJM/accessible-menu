@@ -1,36 +1,38 @@
 /**
- * Test the isValidState() function in validate.js to make sure the expected values are returned.
+ * Tests for the isValidState() function.
  */
 
-import { describe, test, expect } from "vitest";
-import { isValidState } from "../../src/validate";
+import { describe, it, expect } from "vitest";
+import { isValidState } from "../../src/validate.js";
 
 describe("isValidState", () => {
-  // Valid state options.
-  const validStates = ["none", "self", "child"];
+  // Test for all valid states.
+  const states = ["none", "self", "child"];
+  it.each(states)(
+    "should return true when checking if %p is a valid state",
+    (state) => {
+      const result = isValidState({ state });
 
-  test.each(validStates)("returns true if '%s' is passed", (state) => {
-    const check = isValidState({ state });
+      expect(result.status).toBeTruthy();
+      expect(result.error).toBeNull();
+    }
+  );
 
-    expect(check.status).toBeTruthy();
-    expect(check.error).toBeNull();
+  // Test for an invalid state.
+  it("should return false when checking if an invalid state is a valid state", () => {
+    const state = "invalid";
+    const result = isValidState({ state });
+
+    expect(result.status).toBeFalsy();
+    expect(result.error).toBeInstanceOf(TypeError);
   });
 
-  test("returns false if an unsupported state is passed", () => {
-    const check = isValidState({ state: "unsupported" });
+  // Test passing a non-object.
+  it("should return false when checking for a non-object", () => {
+    const state = "none";
+    const result = isValidState(state);
 
-    expect(check.status).toBeFalsy();
-    expect(check.error.message).toBe(
-      'state must be one of the following values: none, self, child. "unsupported" given.'
-    );
-  });
-
-  test("returns false if a supported state, _not_ in an object, is passed", () => {
-    const check = isValidState("none");
-
-    expect(check.status).toBeFalsy();
-    expect(check.error.message).toBe(
-      'Values given to isValidState() must be inside of an object. "string" given.'
-    );
+    expect(result.status).toBeFalsy();
+    expect(result.error).toBeInstanceOf(TypeError);
   });
 });

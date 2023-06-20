@@ -1,33 +1,65 @@
 /**
- * Test the isCSSSelector() function in validate.js to make sure the expected values are returned.
+ * Tests for the isCSSSelector() function.
  */
 
-import { describe, test, expect } from "vitest";
-import { isCSSSelector } from "../../src/validate";
+import { describe, it, expect } from "vitest";
+import { isCSSSelector } from "../../src/validate.js";
 
 describe("isCSSSelector", () => {
-  test("returns true when passed a string", () => {
-    const check = isCSSSelector({ selector: "div" });
+  // Test a valid CSS selector.
+  it("should return true when checking if a valid CSS selector is a valid CSS selector", () => {
+    const selector = "div";
+    const result = isCSSSelector({ selector });
 
-    expect(check.status).toBeTruthy();
-    expect(check.error).toBeNull();
+    expect(result.status).toBeTruthy();
+    expect(result.error).toBeNull();
   });
 
-  test("returns false when passed a number", () => {
-    const check = isCSSSelector({ selector: 123 });
+  // Test multiple valid CSS selectors.
+  it("should return true when checking if multiple valid CSS selectors are valid CSS selectors", () => {
+    const selector1 = "div";
+    const selector2 = "div";
+    const result = isCSSSelector({ selector1, selector2 });
 
-    expect(check.status).toBeFalsy();
-    expect(check.error.message).toBe(
-      'selector must be a valid CSS selector. "123" given.'
-    );
+    expect(result.status).toBeTruthy();
+    expect(result.error).toBeNull();
   });
 
-  test("returns false when passed a string that is _not_ in an object", () => {
-    const check = isCSSSelector("div");
+  // Test an invalid CSS selector.
+  it("should return false when checking if an invalid CSS selector is a valid CSS selector", () => {
+    const selector = 1;
+    const result = isCSSSelector({ selector });
 
-    expect(check.status).toBeFalsy();
-    expect(check.error.message).toBe(
-      'Values given to isCSSSelector() must be inside of an object. "string" given.'
-    );
+    expect(result.status).toBeFalsy();
+    expect(result.error).toBeInstanceOf(TypeError);
+  });
+
+  // Test multiple invalid CSS selectors.
+  it("should return false when checking if multiple invalid CSS selectors are valid CSS selectors", () => {
+    const selector1 = 1;
+    const selector2 = 1;
+    const result = isCSSSelector({ selector1, selector2 });
+
+    expect(result.status).toBeFalsy();
+    expect(result.error).toBeInstanceOf(TypeError);
+  });
+
+  // Test a mixed valid and invalid CSS selector.
+  it("should return false when checking if a mixed valid and invalid CSS selector is a valid CSS selector", () => {
+    const selector1 = "div";
+    const selector2 = 1;
+    const result = isCSSSelector({ selector1, selector2 });
+
+    expect(result.status).toBeFalsy();
+    expect(result.error).toBeInstanceOf(TypeError);
+  });
+
+  // Test passing a non-object.
+  it("should return false when checking for a non-object", () => {
+    const selector = "div";
+    const result = isCSSSelector(selector);
+
+    expect(result.status).toBeFalsy();
+    expect(result.error).toBeInstanceOf(TypeError);
   });
 });

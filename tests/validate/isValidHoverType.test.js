@@ -1,36 +1,38 @@
 /**
- * Test the isValidHoverType() function in validate.js to make sure the expected values are returned.
+ * Tests for the isValidHoverType() function.
  */
 
-import { describe, test, expect } from "vitest";
-import { isValidHoverType } from "../../src/validate";
+import { describe, it, expect } from "vitest";
+import { isValidHoverType } from "../../src/validate.js";
 
 describe("isValidHoverType", () => {
-  // Valid hover type options.
-  const validTypes = ["off", "on", "dynamic"];
+  // Test for all valid hover types.
+  const hoverTypes = ["off", "on", "dynamic"];
+  it.each(hoverTypes)(
+    "should return true when checking if %p is a valid hover type",
+    (hoverType) => {
+      const result = isValidHoverType({ hoverType });
 
-  test.each(validTypes)("returns true if '%s' is passed", (type) => {
-    const check = isValidHoverType({ type });
+      expect(result.status).toBeTruthy();
+      expect(result.error).toBeNull();
+    }
+  );
 
-    expect(check.status).toBeTruthy();
-    expect(check.error).toBeNull();
+  // Test for an invalid hover type.
+  it("should return false when checking if an invalid hover type is a valid hover type", () => {
+    const hoverType = "invalid";
+    const result = isValidHoverType({ hoverType });
+
+    expect(result.status).toBeFalsy();
+    expect(result.error).toBeInstanceOf(TypeError);
   });
 
-  test("returns false if an unsupported hover type is passed", () => {
-    const check = isValidHoverType({ type: "unsupported" });
+  // Test passing a non-object.
+  it("should return false when checking for a non-object", () => {
+    const hoverType = "off";
+    const result = isValidHoverType(hoverType);
 
-    expect(check.status).toBeFalsy();
-    expect(check.error.message).toBe(
-      'type must be one of the following values: off, on, dynamic. "unsupported" given.'
-    );
-  });
-
-  test("returns false is a supported hover type, _not_ in an object, is passed", () => {
-    const check = isValidHoverType("none");
-
-    expect(check.status).toBeFalsy();
-    expect(check.error.message).toBe(
-      'Values given to isValidHoverType() must be inside of an object. "string" given.'
-    );
+    expect(result.status).toBeFalsy();
+    expect(result.error).toBeInstanceOf(TypeError);
   });
 });

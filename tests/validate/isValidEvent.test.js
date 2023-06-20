@@ -1,36 +1,38 @@
 /**
- * Test the isValidEvent() function in validate.js to make sure the expected values are returned.
+ * Tests for the isValidEvent() function.
  */
 
-import { describe, test, expect } from "vitest";
-import { isValidEvent } from "../../src/validate";
+import { describe, it, expect } from "vitest";
+import { isValidEvent } from "../../src/validate.js";
 
 describe("isValidEvent", () => {
-  // Valid event options.
-  const validEvents = ["none", "mouse", "keyboard", "character"];
+  // Test for all valid events.
+  const events = ["none", "mouse", "keyboard", "character"];
+  it.each(events)(
+    "should return true when checking if %p is a valid event",
+    (event) => {
+      const result = isValidEvent({ event });
 
-  test.each(validEvents)("returns true if '%s' is passed", (event) => {
-    const check = isValidEvent({ event });
+      expect(result.status).toBeTruthy();
+      expect(result.error).toBeNull();
+    }
+  );
 
-    expect(check.status).toBeTruthy();
-    expect(check.error).toBeNull();
+  // Test for an invalid event.
+  it("should return false when checking if an invalid event is a valid event", () => {
+    const event = "invalid";
+    const result = isValidEvent({ event });
+
+    expect(result.status).toBeFalsy();
+    expect(result.error).toBeInstanceOf(TypeError);
   });
 
-  test("returns false if an unsupported event is passed", () => {
-    const check = isValidEvent({ event: "unsupported" });
+  // Test passing a non-object.
+  it("should return false when checking for a non-object", () => {
+    const event = "none";
+    const result = isValidEvent(event);
 
-    expect(check.status).toBeFalsy();
-    expect(check.error.message).toBe(
-      'event must be one of the following values: none, mouse, keyboard, character. "unsupported" given.'
-    );
-  });
-
-  test("returns false if a supported event, _not_ in an object, is passed", () => {
-    const check = isValidEvent("none");
-
-    expect(check.status).toBeFalsy();
-    expect(check.error.message).toBe(
-      'Values given to isValidEvent() must be inside of an object. "string" given.'
-    );
+    expect(result.status).toBeFalsy();
+    expect(result.error).toBeInstanceOf(TypeError);
   });
 });

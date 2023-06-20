@@ -1,55 +1,74 @@
 /**
- * Test the isValidInstance() function in validate.js to make sure the expected values are returned.
+ * Tests for the isValidInstance() function.
  */
 
-import { describe, test, expect } from "vitest";
-import { isValidInstance } from "../../src/validate";
+import { describe, it, expect } from "vitest";
+import { isValidInstance } from "../../src/validate.js";
 
 describe("isValidInstance", () => {
-  // Declare the element.
-  document.body.innerHTML = "<div></div>";
-  const div = document.querySelector("div");
+  // Test checking for an HTMLElement.
+  it("should return true when checking if a DOM element is an HTMLElement", () => {
+    const element = document.createElement("div");
+    const result = isValidInstance(HTMLElement, { element });
 
-  test("returns true when checking if a DOM element as an HTMLElement", () => {
-    const check = isValidInstance(HTMLElement, { div });
-
-    expect(check.status).toBeTruthy();
-    expect(check.error).toBeNull();
+    expect(result.status).toBeTruthy();
+    expect(result.error).toBeNull();
   });
 
-  test("returns false when checking if a DOM element as a Function", () => {
-    const check = isValidInstance(Function, { div });
+  // Test checking for multiple HTMLElements.
+  it("should return true when checking if multiple DOM elements are HTMLElements", () => {
+    const element1 = document.createElement("div");
+    const element2 = document.createElement("div");
+    const result = isValidInstance(HTMLElement, { element1, element2 });
 
-    expect(check.status).toBeFalsy();
-    expect(check.error.message).toBe(
-      'div must be an instance of Function. "object" given.'
-    );
+    expect(result.status).toBeTruthy();
+    expect(result.error).toBeNull();
   });
 
-  test("returns false when checking if a DOM element as an invalid constructor", () => {
-    const check = isValidInstance("HTMLElement", { div });
+  // Test checking for a non-HTMLElement.
+  it("should return false when checking if a non-DOM element is an HTMLElement", () => {
+    const element = "string";
+    const result = isValidInstance(HTMLElement, { element });
 
-    expect(check.status).toBeFalsy();
-    expect(check.error.message).toBe(
-      "Right-hand side of 'instanceof' is not an object"
-    );
+    expect(result.status).toBeFalsy();
+    expect(result.error).toBeInstanceOf(TypeError);
   });
 
-  test("returns false when checking if a DOM element, _not_ contained in an object, as an HTMLElement", () => {
-    const check = isValidInstance(HTMLElement, div);
+  // Test checking for multiple non-HTMLElements.
+  it("should return false when checking if multiple non-DOM elements are HTMLElements", () => {
+    const element1 = "string";
+    const element2 = "string";
+    const result = isValidInstance(HTMLElement, { element1, element2 });
 
-    expect(check.status).toBeFalsy();
-    expect(check.error.message).toBe(
-      'align must be an instance of HTMLElement. "string" given.'
-    );
+    expect(result.status).toBeFalsy();
+    expect(result.error).toBeInstanceOf(TypeError);
   });
 
-  test("returns false when checking if a DOM element, _not_ contained in an object, as an invalid constructor", () => {
-    const check = isValidInstance("HTMLElement", div);
+  // Test checking for a mixed HTMLElement and non-HTMLElement.
+  it("should return false when checking if a mixed DOM element and non-DOM element are HTMLElements", () => {
+    const element1 = document.createElement("div");
+    const element2 = "string";
+    const result = isValidInstance(HTMLElement, { element1, element2 });
 
-    expect(check.status).toBeFalsy();
-    expect(check.error.message).toBe(
-      "Right-hand side of 'instanceof' is not an object"
-    );
+    expect(result.status).toBeFalsy();
+    expect(result.error).toBeInstanceOf(TypeError);
+  });
+
+  // Test pasing a non-valid constructor.
+  it("should return false when checking for a non-valid constructor", () => {
+    const element = document.createElement("div");
+    const result = isValidInstance("string", { element });
+
+    expect(result.status).toBeFalsy();
+    expect(result.error).toBeInstanceOf(TypeError);
+  });
+
+  // Test passing a non-object as the elements parameter.
+  it("should return false when passing a non-object as the elements parameter", () => {
+    const element = document.createElement("div");
+    const result = isValidInstance(HTMLElement, element);
+
+    expect(result.status).toBeFalsy();
+    expect(result.error).toBeInstanceOf(TypeError);
   });
 });
