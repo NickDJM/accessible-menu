@@ -10,6 +10,7 @@ export const singleLevel =
     <li class="menu-item"><a class="menu-link" href="#">Amphibians</a></li>
     <li class="menu-item"><a class="menu-link" href="#">Birds</a></li>
     <li class="menu-item"><a class="menu-link" href="#">Fish</a></li>
+    <li class="menu-item"><a class="menu-link" href="#">Map</a></li>
     <li class="menu-item"><a class="menu-link" href="#">Contact</a></li>
   </ul>
 </nav>
@@ -72,6 +73,7 @@ export const twoLevel =
         <li class="menu-item"><a class="menu-link" href="#">Food</a></li>
       </ul>
     </li>
+    <li class="menu-item"><a class="menu-link" href="#">Map</a></li>
     <li class="menu-item dropdown dropdown-left">
       <a class="menu-link dropdown-toggle" href="#">Contact</a>
       <ul class="dropdown-menu">
@@ -145,6 +147,7 @@ export const twoLevelTopLink =
         <li class="menu-item"><a class="menu-link" href="#">Food</a></li>
       </ul>
     </li>
+    <li class="menu-item"><a class="menu-link" href="#">Map</a></li>
     <li class="menu-item dropdown dropdown-left">
       <a class="menu-link" href="#">Contact</a>
       <button class="dropdown-toggle" aria-label="Contact submenu"></button>
@@ -314,6 +317,7 @@ export const threeLevel =
         </li>
       </ul>
     </li>
+    <li class="menu-item"><a class="menu-link" href="#">Map</a></li>
     <li class="menu-item dropdown dropdown-left">
       <a class="menu-link dropdown-toggle" href="#">Contact</a>
       <ul class="dropdown-menu">
@@ -494,6 +498,7 @@ export const threeLevelTopLink =
         </li>
       </ul>
     </li>
+    <li class="menu-item"><a class="menu-link" href="#">Map</a></li>
     <li class="menu-item dropdown dropdown-left">
       <a class="menu-link" href="#">Contact</a>
       <button class="dropdown-toggle" aria-label="Contact submenu"></button>

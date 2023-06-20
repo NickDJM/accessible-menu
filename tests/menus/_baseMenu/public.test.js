@@ -152,26 +152,29 @@ describe("BaseMenu public methods", () => {
     });
 
     // Test that focusCurrentChild calls focus() on the current child for all menu items in the menu.
-    it.each([0, 1, 2, 3, 4, 5, 6])("should call focus() on child %s", (i) => {
-      // Create a new BaseMenu instance for testing.
-      const menu = new BaseMenu({
-        menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
-        containerElement: document.querySelector("nav"),
-        controllerElement: document.querySelector("button"),
-      });
-      initializeMenu(menu);
+    it.each([0, 1, 2, 3, 4, 5, 6, 7])(
+      "should call focus() on child %s",
+      (i) => {
+        // Create a new BaseMenu instance for testing.
+        const menu = new BaseMenu({
+          menuElement: document.querySelector("ul"),
+          submenuItemSelector: "li.dropdown",
+          containerElement: document.querySelector("nav"),
+          controllerElement: document.querySelector("button"),
+        });
+        initializeMenu(menu);
 
-      // Set the current child.
-      menu.currentChild = i;
+        // Set the current child.
+        menu.currentChild = i;
 
-      // Set up to check for focus.
-      const spy = vi.spyOn(menu.currentMenuItem, "focus");
+        // Set up to check for focus.
+        const spy = vi.spyOn(menu.currentMenuItem, "focus");
 
-      menu.focusCurrentChild();
+        menu.focusCurrentChild();
 
-      expect(spy).toHaveBeenCalled();
-    });
+        expect(spy).toHaveBeenCalled();
+      }
+    );
 
     // Test that focusCurrentChild does not call focus() on the current child it the currentChild index is -1.
     it("should not call focus() on the current child it the currentChild index is -1", () => {
@@ -215,7 +218,7 @@ describe("BaseMenu public methods", () => {
     });
 
     // Test that blurCurrentChild calls blur() on the current child for all menu items in the menu.
-    it.each([0, 1, 2, 3, 4, 5, 6])("should call blur() on child %s", (i) => {
+    it.each([0, 1, 2, 3, 4, 5, 6, 7])("should call blur() on child %s", (i) => {
       // Create a new BaseMenu instance for testing.
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
@@ -356,7 +359,7 @@ describe("BaseMenu public methods", () => {
 
       menu.focusLastChild();
 
-      expect(spy).toHaveBeenCalledWith(6);
+      expect(spy).toHaveBeenCalledWith(7);
     });
   });
 
@@ -393,7 +396,7 @@ describe("BaseMenu public methods", () => {
       initializeMenu(menu);
 
       // Set the current child to the last menu item.
-      menu.currentChild = 6;
+      menu.currentChild = 7;
 
       // Set up to check for focus.
       const spy1 = vi.spyOn(menu, "focusCurrentChild");

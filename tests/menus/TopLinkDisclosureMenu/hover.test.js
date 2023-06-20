@@ -57,7 +57,7 @@ describe("TopLinkDisclosureMenu", () => {
       });
 
       // Test that the current child index is set to the hovered menu item's index.
-      it.each([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])(
+      it.each([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13])(
         "should set the current child index to the menu item %s",
         (i) => {
           // Create a new TopLinkDisclosureMenu instance for testing.
@@ -314,7 +314,7 @@ describe("TopLinkDisclosureMenu", () => {
     // Test pointerenter.
     describe("pointerenter", () => {
       // Test that the current child is set to the menu item that is hovered.
-      it.each([0, 1, 2, 3, 4, 5, 6])(
+      it.each([0, 1, 2, 3, 4, 5, 6, 7])(
         "should set the current child to menu item %s",
         (i) => {
           // Create a new TopLinkDisclosureMenu instance for testing.

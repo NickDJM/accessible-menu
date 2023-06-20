@@ -72,7 +72,7 @@ describe("TopLinkDisclosureMenu", () => {
     });
 
     // Test that pointerdown calls focusChild with the index of the clicked item.
-    it.each([0, 1, 2, 3, 4, 5, 6])(
+    it.each([0, 1, 2, 3, 4, 5, 6, 7])(
       "should call focusChild with the index of the item %s",
       (i) => {
         // Create a new TopLinkDisclosureMenu instance for testing.

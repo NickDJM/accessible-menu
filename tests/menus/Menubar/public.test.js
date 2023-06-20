@@ -119,7 +119,7 @@ describe("Menubar public methods", () => {
       });
 
       // Set the current child to the last menu item.
-      menu.currentChild = 6;
+      menu.currentChild = 7;
 
       // Set up to check for focus.
       const spy1 = vi.spyOn(menu, "focusFirstChild");
@@ -128,7 +128,7 @@ describe("Menubar public methods", () => {
       menu.focusNextChild();
 
       expect(spy1).toHaveBeenCalled();
-      expect(spy2).not.toHaveBeenCalledWith(7);
+      expect(spy2).not.toHaveBeenCalledWith(8);
     });
   });
 
