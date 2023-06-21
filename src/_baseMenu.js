@@ -1213,7 +1213,8 @@ class BaseMenu {
 
         if (this.hoverType === "on") {
           this.currentEvent = "mouse";
-          this.currentChild = index;
+          this.elements.rootMenu.blurChildren();
+          this.focusChild(index);
 
           if (menuItem.isSubmenuItem) {
             if (this.enterDelay > 0) {
@@ -1228,15 +1229,19 @@ class BaseMenu {
           const isOpen = this.elements.submenuToggles.some(
             (toggle) => toggle.isOpen
           );
+
           this.currentChild = index;
 
           if (!this.isTopLevel || this.focusState !== "none") {
             this.currentEvent = "mouse";
+            this.elements.rootMenu.blurChildren();
             this.focusCurrentChild();
           }
 
           if (menuItem.isSubmenuItem && (!this.isTopLevel || isOpen)) {
             this.currentEvent = "mouse";
+            this.elements.rootMenu.blurChildren();
+            this.focusCurrentChild();
 
             if (this.enterDelay > 0) {
               this._hoverTimeout = setTimeout(() => {
