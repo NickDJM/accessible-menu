@@ -7,7 +7,6 @@ import Menubar from "../../../src/menubar.js";
 import { twoLevel } from "../../../demo/menus.js";
 import BaseMenu from "../../../src/_baseMenu.js";
 import * as validation from "../../../src/validate.js";
-import { initializeMenu } from "../helpers.js";
 
 beforeEach(() => {
   document.body.innerHTML = twoLevel;
@@ -17,7 +16,7 @@ afterEach(() => {
   document.body.innerHTML = "";
 });
 
-// Test all getter methods in the Menubar class.
+// Test all getter/setter methods in the Menubar class.
 describe("Menubar getter/setters", () => {
   // Test Menubar dom.
   describe("dom", () => {
@@ -56,22 +55,20 @@ describe("Menubar getter/setters", () => {
   describe("openClass", () => {
     // Test that openClass gets the open class name.
     it("should get the open class name", () => {
-      // Create a new BaseMenu instance for testing.
-      const menu = new BaseMenu({
+      // Create a new Menubar instance for testing.
+      const menu = new Menubar({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
 
       expect(menu.openClass).toBe(menu._openClass);
     });
 
     // Test that openClass sets the open class name.
     it("should set the open class name", () => {
-      // Create a new BaseMenu instance for testing.
-      const menu = new BaseMenu({
+      // Create a new Menubar instance for testing.
+      const menu = new Menubar({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
 
       // Set up to check for validation.
       const spy = vi.spyOn(validation, "isValidClassList");
@@ -93,7 +90,6 @@ describe("Menubar getter/setters", () => {
       const menu = new Menubar({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
 
       expect(menu.closeClass).toBe(menu._closeClass);
     });
@@ -104,7 +100,6 @@ describe("Menubar getter/setters", () => {
       const menu = new Menubar({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
 
       // Set up to check for validation.
       const spy = vi.spyOn(validation, "isValidClassList");
@@ -126,7 +121,6 @@ describe("Menubar getter/setters", () => {
       const menu = new Menubar({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
 
       expect(menu.transitionClass).toBe(menu._transitionClass);
     });
@@ -137,7 +131,6 @@ describe("Menubar getter/setters", () => {
       const menu = new Menubar({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
 
       // Set up to check for validation.
       const spy = vi.spyOn(validation, "isValidClassList");
@@ -186,7 +179,6 @@ describe("Menubar getter/setters", () => {
       const menu = new Menubar({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
 
       expect(menu.currentMenuItem).toBe(
         menu.elements.menuItems[menu.currentChild]
@@ -202,7 +194,6 @@ describe("Menubar getter/setters", () => {
       const menu = new Menubar({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
 
       expect(menu.hoverType).toBe(menu._hoverType);
     });
@@ -213,7 +204,6 @@ describe("Menubar getter/setters", () => {
       const menu = new Menubar({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
 
       // Set up to check for validation.
       const spy = vi.spyOn(validation, "isValidHoverType");
@@ -234,7 +224,6 @@ describe("Menubar getter/setters", () => {
       const menu = new Menubar({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
 
       expect(menu.hoverDelay).toBe(menu._hoverDelay);
     });
@@ -245,7 +234,6 @@ describe("Menubar getter/setters", () => {
       const menu = new Menubar({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
 
       // Set up to check for validation.
       const spy = vi.spyOn(validation, "isValidType");
@@ -266,7 +254,6 @@ describe("Menubar getter/setters", () => {
       const menu = new Menubar({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
 
       // In this case, because we have not set the enter delay,
       // it should be the same as the hover delay.
@@ -279,7 +266,6 @@ describe("Menubar getter/setters", () => {
       const menu = new Menubar({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
 
       // Set up to check for validation.
       const spy = vi.spyOn(validation, "isValidType");
@@ -300,7 +286,6 @@ describe("Menubar getter/setters", () => {
       const menu = new Menubar({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
 
       // In this case, because we have not set the leave delay,
       // it should be the same as the hover delay.
@@ -313,7 +298,6 @@ describe("Menubar getter/setters", () => {
       const menu = new Menubar({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
 
       // Set up to check for validation.
       const spy = vi.spyOn(validation, "isValidType");

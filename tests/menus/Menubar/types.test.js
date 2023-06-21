@@ -1,5 +1,5 @@
 /**
- * Types test for Menubar component.
+ * Type tests for the Menubar class.
  */
 
 import { describe, it, expect } from "vitest";
@@ -32,6 +32,9 @@ describe("Menubar", () => {
   it("should have a _MenuToggleType of MenubarToggle", () => {
     expect(menu._MenuToggleType).toBe(MenubarToggle);
   });
+
+  // Clean up the test menu.
+  document.body.innerHTML = "";
 });
 
 // Test the Menubar custom class types for a multi-level menu.
@@ -42,6 +45,7 @@ describe("Menubar (multi-level)", () => {
   // Create a new Menubar instance for testing.
   const menu = new Menubar({
     menuElement: document.querySelector("ul"),
+    submenuItemSelector: ".dropdown",
   });
 
   // Test that the Menubar's _MenuType is Menubar.
@@ -64,9 +68,7 @@ describe("Menubar (multi-level)", () => {
   // Test that the Menubar's submenu's _MenuItemType is MenubarItem.
   it("should have all submenu's _MenuItemType be MenubarItem", () => {
     menu.elements.submenuToggles.forEach((toggle) => {
-      toggle.elements.controlledMenu.elements.menuItems.forEach((item) => {
-        expect(item._MenuItemType).toBe(MenubarItem);
-      });
+      expect(toggle.elements.controlledMenu._MenuItemType).toBe(MenubarItem);
     });
   });
 
@@ -78,7 +80,12 @@ describe("Menubar (multi-level)", () => {
   // Test that the Menubar's submenu's _MenuToggleType is MenubarToggle.
   it("should have all submenu's _MenuToggleType be MenubarToggle", () => {
     menu.elements.submenuToggles.forEach((toggle) => {
-      expect(toggle._MenuToggleType).toBe(MenubarToggle);
+      expect(toggle.elements.controlledMenu._MenuToggleType).toBe(
+        MenubarToggle
+      );
     });
   });
+
+  // Clean up the test menu.
+  document.body.innerHTML = "";
 });

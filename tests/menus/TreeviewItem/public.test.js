@@ -5,7 +5,6 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { twoLevel } from "../../../demo/menus.js";
 import Treeview from "../../../src/treeview.js";
-import { initializeMenu } from "../helpers.js";
 
 beforeEach(() => {
   // Create the test menu.
@@ -30,7 +29,6 @@ describe("TreeviewItem public methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
 
       const menuItem = menu.elements.menuItems[0];
 
@@ -51,7 +49,6 @@ describe("TreeviewItem public methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
 
       const menuItem = menu.elements.menuItems[0];
 
@@ -73,7 +70,6 @@ describe("TreeviewItem public methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
 
       const menuItem = menu.elements.menuItems[0];
 
@@ -94,7 +90,6 @@ describe("TreeviewItem public methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
 
       const menuItem = menu.elements.menuItems[0];
 
@@ -115,7 +110,6 @@ describe("TreeviewItem public methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
 
       const menuItem = menu.elements.menuItems[0];
 
@@ -137,7 +131,6 @@ describe("TreeviewItem public methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
 
       const menuItem = menu.elements.menuItems[0];
 

@@ -1,5 +1,5 @@
 /**
- * Types test for TopLinkDisclosureMenu component.
+ * Type tests for the TopLinkDisclosureMenu class.
  */
 
 import { describe, it, expect } from "vitest";
@@ -32,6 +32,9 @@ describe("TopLinkDisclosureMenu", () => {
   it("should have a _MenuToggleType of TopLinkDisclosureMenuToggle", () => {
     expect(menu._MenuToggleType).toBe(TopLinkDisclosureMenuToggle);
   });
+
+  // Clean up the test menu.
+  document.body.innerHTML = "";
 });
 
 // Test the TopLinkDisclosureMenu custom class types for a multi-level menu.
@@ -42,6 +45,7 @@ describe("TopLinkDisclosureMenu (multi-level)", () => {
   // Create a new TopLinkDisclosureMenu instance for testing.
   const menu = new TopLinkDisclosureMenu({
     menuElement: document.querySelector("ul"),
+    submenuItemSelector: ".dropdown",
   });
 
   // Test that the TopLinkDisclosureMenu's _MenuType is TopLinkDisclosureMenu.
@@ -66,9 +70,9 @@ describe("TopLinkDisclosureMenu (multi-level)", () => {
   // Test that the TopLinkDisclosureMenu's submenu's _MenuItemType is TopLinkDisclosureMenuItem.
   it("should have all submenu's _MenuItemType be TopLinkDisclosureMenuItem", () => {
     menu.elements.submenuToggles.forEach((toggle) => {
-      toggle.elements.controlledMenu.elements.menuItems.forEach((item) => {
-        expect(item._MenuItemType).toBe(TopLinkDisclosureMenuItem);
-      });
+      expect(toggle.elements.controlledMenu._MenuItemType).toBe(
+        TopLinkDisclosureMenuItem
+      );
     });
   });
 
@@ -80,7 +84,12 @@ describe("TopLinkDisclosureMenu (multi-level)", () => {
   // Test that the TopLinkDisclosureMenu's submenu's _MenuToggleType is TopLinkDisclosureMenuToggle.
   it("should have all submenu's _MenuToggleType be TopLinkDisclosureMenuToggle", () => {
     menu.elements.submenuToggles.forEach((toggle) => {
-      expect(toggle._MenuToggleType).toBe(TopLinkDisclosureMenuToggle);
+      expect(toggle.elements.controlledMenu._MenuToggleType).toBe(
+        TopLinkDisclosureMenuToggle
+      );
     });
   });
+
+  // Clean up the test menu.
+  document.body.innerHTML = "";
 });

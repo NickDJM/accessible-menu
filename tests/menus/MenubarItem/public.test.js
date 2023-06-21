@@ -5,7 +5,6 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { twoLevel } from "../../../demo/menus.js";
 import Menubar from "../../../src/menubar.js";
-import { initializeMenu } from "../helpers.js";
 
 beforeEach(() => {
   // Create the test menu.
@@ -30,7 +29,6 @@ describe("MenubarItem public methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
 
       const menuItem = menu.elements.menuItems[0];
 
@@ -51,7 +49,6 @@ describe("MenubarItem public methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
 
       const menuItem = menu.elements.menuItems[0];
 
@@ -73,7 +70,6 @@ describe("MenubarItem public methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
 
       const menuItem = menu.elements.menuItems[0];
 
@@ -91,7 +87,6 @@ describe("MenubarItem public methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
 
       const submenuItem =
         menu.elements.submenuToggles[0].elements.controlledMenu.elements
@@ -114,7 +109,6 @@ describe("MenubarItem public methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
 
       const menuItem = menu.elements.menuItems[0];
 
@@ -135,7 +129,6 @@ describe("MenubarItem public methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
 
       const menuItem = menu.elements.menuItems[0];
 
@@ -157,7 +150,6 @@ describe("MenubarItem public methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
 
       const menuItem = menu.elements.menuItems[0];
 

@@ -1,5 +1,5 @@
 /**
- * Types test for Treeview component.
+ * Type tests for the Treeview class.
  */
 
 import { describe, it, expect } from "vitest";
@@ -32,6 +32,9 @@ describe("Treeview", () => {
   it("should have a _MenuToggleType of TreeviewToggle", () => {
     expect(menu._MenuToggleType).toBe(TreeviewToggle);
   });
+
+  // Clean up the test menu.
+  document.body.innerHTML = "";
 });
 
 // Test the Treeview custom class types for a multi-level menu.
@@ -42,6 +45,7 @@ describe("Treeview (multi-level)", () => {
   // Create a new Treeview instance for testing.
   const menu = new Treeview({
     menuElement: document.querySelector("ul"),
+    submenuItemSelector: ".dropdown",
   });
 
   // Test that the Treeview's _MenuType is Treeview.
@@ -64,9 +68,7 @@ describe("Treeview (multi-level)", () => {
   // Test that the Treeview's submenu's _MenuItemType is TreeviewItem.
   it("should have all submenu's _MenuItemType be TreeviewItem", () => {
     menu.elements.submenuToggles.forEach((toggle) => {
-      toggle.elements.controlledMenu.elements.menuItems.forEach((item) => {
-        expect(item._MenuItemType).toBe(TreeviewItem);
-      });
+      expect(toggle.elements.controlledMenu._MenuItemType).toBe(TreeviewItem);
     });
   });
 
@@ -78,7 +80,12 @@ describe("Treeview (multi-level)", () => {
   // Test that the Treeview's submenu's _MenuToggleType is TreeviewToggle.
   it("should have all submenu's _MenuToggleType be TreeviewToggle", () => {
     menu.elements.submenuToggles.forEach((toggle) => {
-      expect(toggle._MenuToggleType).toBe(TreeviewToggle);
+      expect(toggle.elements.controlledMenu._MenuToggleType).toBe(
+        TreeviewToggle
+      );
     });
   });
+
+  // Clean up the test menu.
+  document.body.innerHTML = "";
 });

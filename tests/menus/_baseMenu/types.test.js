@@ -34,6 +34,9 @@ describe("BaseMenu", () => {
   it("should have a _MenuToggleType of BaseMenuToggle", () => {
     expect(menu._MenuToggleType).toBe(BaseMenuToggle);
   });
+
+  // Clean up the test menu.
+  document.body.innerHTML = "";
 });
 
 // Test the BaseMenu custom class types for a multi-level menu.
@@ -44,6 +47,7 @@ describe("BaseMenu (multi-level)", () => {
   // Create a new BaseMenu instance for testing.
   const menu = new BaseMenu({
     menuElement: document.querySelector("ul"),
+    submenuItemSelector: ".dropdown",
   });
   initializeMenu(menu);
 
@@ -79,7 +83,12 @@ describe("BaseMenu (multi-level)", () => {
   // Test that the BaseMenu's submenu's _MenuToggleType is BaseMenuToggle.
   it("should have all submenu's _MenuToggleType be BaseMenuToggle", () => {
     menu.elements.submenuToggles.forEach((toggle) => {
-      expect(toggle._MenuToggleType).toBe(BaseMenuToggle);
+      expect(toggle.elements.controlledMenu._MenuToggleType).toBe(
+        BaseMenuToggle
+      );
     });
   });
+
+  // Clean up the test menu.
+  document.body.innerHTML = "";
 });

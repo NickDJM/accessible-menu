@@ -1,5 +1,5 @@
 /**
- * Types test for DisclosureMenu component.
+ * Type tests for the DisclosureMenu class.
  */
 
 import { describe, it, expect } from "vitest";
@@ -32,6 +32,9 @@ describe("DisclosureMenu", () => {
   it("should have a _MenuToggleType of DisclosureMenuToggle", () => {
     expect(menu._MenuToggleType).toBe(DisclosureMenuToggle);
   });
+
+  // Clean up the test menu.
+  document.body.innerHTML = "";
 });
 
 // Test the DisclosureMenu custom class types for a multi-level menu.
@@ -42,6 +45,7 @@ describe("DisclosureMenu (multi-level)", () => {
   // Create a new DisclosureMenu instance for testing.
   const menu = new DisclosureMenu({
     menuElement: document.querySelector("ul"),
+    submenuItemSelector: ".dropdown",
   });
 
   // Test that the DisclosureMenu's _MenuType is DisclosureMenu.
@@ -64,9 +68,9 @@ describe("DisclosureMenu (multi-level)", () => {
   // Test that the DisclosureMenu's submenu's _MenuItemType is DisclosureMenuItem.
   it("should have all submenu's _MenuItemType be DisclosureMenuItem", () => {
     menu.elements.submenuToggles.forEach((toggle) => {
-      toggle.elements.controlledMenu.elements.menuItems.forEach((item) => {
-        expect(item._MenuItemType).toBe(DisclosureMenuItem);
-      });
+      expect(toggle.elements.controlledMenu._MenuItemType).toBe(
+        DisclosureMenuItem
+      );
     });
   });
 
@@ -78,7 +82,12 @@ describe("DisclosureMenu (multi-level)", () => {
   // Test that the DisclosureMenu's submenu's _MenuToggleType is DisclosureMenuToggle.
   it("should have all submenu's _MenuToggleType be DisclosureMenuToggle", () => {
     menu.elements.submenuToggles.forEach((toggle) => {
-      expect(toggle._MenuToggleType).toBe(DisclosureMenuToggle);
+      expect(toggle.elements.controlledMenu._MenuToggleType).toBe(
+        DisclosureMenuToggle
+      );
     });
   });
+
+  // Clean up the test menu.
+  document.body.innerHTML = "";
 });
