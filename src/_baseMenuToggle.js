@@ -405,7 +405,6 @@ class BaseMenuToggle {
   close() {
     if (this.isOpen) {
       // Reset controlled menu.
-      this.elements.controlledMenu.currentChild = 0;
       this.elements.controlledMenu.blur();
 
       // Set proper focus states on the parent.
