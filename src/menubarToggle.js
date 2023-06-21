@@ -73,6 +73,7 @@ class MenubarToggle extends BaseMenuToggle {
     if (this.isOpen) {
       // Close all children.
       this.closeChildren();
+      this.elements.parentMenu.focusCurrentChild();
     }
 
     super.close();
