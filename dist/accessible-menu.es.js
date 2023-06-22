@@ -458,7 +458,7 @@ class L {
    * the {@link BaseMenuToggle#isOpen|isOpen} value to `false`.
    */
   close() {
-    this.isOpen && (this.elements.controlledMenu.currentChild = 0, this.elements.controlledMenu.blur(), this.elements.parentMenu && (this.elements.parentMenu.focusState = "self"), this._collapse(), this.isOpen = !1);
+    this.isOpen && (this.elements.controlledMenu.blur(), this.elements.parentMenu && (this.elements.parentMenu.focusState = "self"), this._collapse(), this.isOpen = !1);
   }
   /**
    * Toggles the open state of the controlled menu between `true` and `false`.
@@ -657,8 +657,8 @@ class T {
     closeClass: a = "hide",
     transitionClass: d = "transitioning",
     isTopLevel: f = !0,
-    parentMenu: M = null,
-    hoverType: y = "off",
+    parentMenu: y = null,
+    hoverType: M = "off",
     hoverDelay: C = 250,
     enterDelay: b = -1,
     leaveDelay: _ = -1
@@ -671,6 +671,7 @@ class T {
      * @type {typeof BaseMenu}
      */
     u(this, "_MenuType", T);
+    // eslint-disable-line no-use-before-define
     /**
      * The class to use when generating menu items.
      *
@@ -855,7 +856,7 @@ class T {
      * @type {string[]}
      */
     u(this, "_errors", []);
-    this._dom.menu = t, this._dom.controller = h, this._dom.container = c, this._selectors.menuItems = e, this._selectors.menuLinks = s, this._selectors.submenuItems = n, this._selectors.submenuToggles = i, this._selectors.submenus = l, this._elements.menuItems = [], this._elements.submenuToggles = [], this._elements.controller = null, this._elements.parentMenu = M, this._elements.rootMenu = f ? this : null, this._openClass = m || "", this._closeClass = a || "", this._transitionClass = d || "", this._root = f, this._hoverType = y, this._hoverDelay = C, this._enterDelay = b, this._leaveDelay = _;
+    this._dom.menu = t, this._dom.controller = h, this._dom.container = c, this._selectors.menuItems = e, this._selectors.menuLinks = s, this._selectors.submenuItems = n, this._selectors.submenuToggles = i, this._selectors.submenus = l, this._elements.menuItems = [], this._elements.submenuToggles = [], this._elements.controller = null, this._elements.parentMenu = y, this._elements.rootMenu = f ? this : null, this._openClass = m || "", this._closeClass = a || "", this._transitionClass = d || "", this._root = f, this._hoverType = M, this._hoverDelay = C, this._enterDelay = b, this._leaveDelay = _;
   }
   /**
    * Initializes the menu.
@@ -1091,7 +1092,7 @@ class T {
    * - The menu's {@link BaseMenu#currentEvent|current event} is "keyboard".
    * - The menu's current event is "character".
    * - The menu's current event is "mouse" _and_ the menu's
-   *   {@link BaseMenu_hoverTypeType|hover type} is "dynamic".
+   *   {@link BaseMenu#_hoverType|hover type} is "dynamic".
    *
    * @type {boolean}
    */
@@ -1318,10 +1319,13 @@ class T {
           submenuSelector: this.selectors.submenus,
           openClass: this.openClass,
           closeClass: this.closeClass,
+          transitionClass: this.transitionClass,
           isTopLevel: !1,
           parentMenu: this,
           hoverType: this.hoverType,
-          hoverDelay: this.hoverDelay
+          hoverDelay: this.hoverDelay,
+          enterDelay: this.enterDelay,
+          leaveDelay: this.leaveDelay
         }), l = new this._MenuToggleType({
           menuToggleElement: s,
           parentElement: t,
@@ -1406,7 +1410,7 @@ class T {
    *
    * Adds `pointerenter` listeners to all menu items and `pointerleave` listeners
    * to all submenu items which function differently depending on
-   * the menu's {@link BaseMenu_hoverTypeType|hover type}.
+   * the menu's {@link BaseMenu#_hoverType|hover type}.
    *
    * Before executing anything, the event is checked to make sure the event wasn't
    * triggered by a pen or touch.
@@ -1420,7 +1424,7 @@ class T {
    *   toggle will be called.
    * - When a `pointerleave` event triggers on an open submenu item the
    *   {@link BaseMenuToggle#close|close method} for the submenu item's toggle
-   *   will be called after a delay set by the menu's {@link BaseMenu_hoverTypeDelay|hover delay}.
+   *   will be called after a delay set by the menu's {@link BaseMenu#_hoverDelay|hover delay}.
    *
    * <strong>Hover Type "dynamic"</strong>
    * - When a `pointerenter` event triggers on any menu item the menu's
@@ -1449,14 +1453,14 @@ class T {
       t.dom.link.addEventListener("pointerenter", (s) => {
         if (!(s.pointerType === "pen" || s.pointerType === "touch")) {
           if (this.hoverType === "on")
-            this.currentEvent = "mouse", this.currentChild = e, t.isSubmenuItem && (this.enterDelay > 0 ? this._hoverTimeout = setTimeout(() => {
+            this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusChild(e), t.isSubmenuItem && (this.enterDelay > 0 ? this._hoverTimeout = setTimeout(() => {
               t.elements.toggle.preview();
             }, this.enterDelay) : t.elements.toggle.preview());
           else if (this.hoverType === "dynamic") {
             const n = this.elements.submenuToggles.some(
               (i) => i.isOpen
             );
-            this.currentChild = e, (!this.isTopLevel || this.focusState !== "none") && (this.currentEvent = "mouse", this.focusCurrentChild()), t.isSubmenuItem && (!this.isTopLevel || n) && (this.currentEvent = "mouse", this.enterDelay > 0 ? this._hoverTimeout = setTimeout(() => {
+            this.currentChild = e, (!this.isTopLevel || this.focusState !== "none") && (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild()), t.isSubmenuItem && (!this.isTopLevel || n) && (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild(), this.enterDelay > 0 ? this._hoverTimeout = setTimeout(() => {
               t.elements.toggle.preview();
             }, this.enterDelay) : t.elements.toggle.preview());
           }
@@ -1494,7 +1498,7 @@ class T {
    * Handles keyup events throughout the menu for proper menu use.
    *
    * - Adds a `keyup` listener to the menu's controller (if the menu is the root menu).
-   *   - Opens the menu when the user hits "Space" or "Enter".
+   *   - Toggles the menu when the user hits "Space" or "Enter".
    *
    * @protected
    */
@@ -1502,7 +1506,7 @@ class T {
     this.isTopLevel && this.elements.controller && this.elements.controller.dom.toggle.addEventListener("keyup", (t) => {
       this.currentEvent = "keyboard";
       const e = g(t);
-      (e === "Space" || e === "Enter") && (o(t), this.elements.controller.open(), this.focusFirstChild());
+      (e === "Space" || e === "Enter") && (o(t), this.elements.controller.toggle(), this.elements.controller.isOpen && this.focusFirstChild());
     });
   }
   /**
@@ -1718,8 +1722,8 @@ class x extends T {
     openClass: a = "show",
     closeClass: d = "hide",
     transitionClass: f = "transitioning",
-    isTopLevel: M = !0,
-    parentMenu: y = null,
+    isTopLevel: y = !0,
+    parentMenu: M = null,
     hoverType: C = "off",
     hoverDelay: b = 250,
     enterDelay: _ = -1,
@@ -1739,8 +1743,8 @@ class x extends T {
       openClass: a,
       closeClass: d,
       transitionClass: f,
-      isTopLevel: M,
-      parentMenu: y,
+      isTopLevel: y,
+      parentMenu: M,
       hoverType: C,
       hoverDelay: b,
       enterDelay: _,
@@ -1754,6 +1758,7 @@ class x extends T {
      * @type {typeof DisclosureMenu}
      */
     u(this, "_MenuType", x);
+    // eslint-disable-line no-use-before-define
     /**
      * The class to use when generating menu items.
      *
@@ -1771,7 +1776,7 @@ class x extends T {
      */
     u(this, "_MenuToggleType", U);
     /**
-     * The index of the currently selected {@link BaseMenuItem|menu item} in the menu.
+     * The index of the currently selected {@link DisclosureMenu|menu item} in the menu.
      *
      * @protected
      *
@@ -2030,7 +2035,7 @@ class Z extends L {
    * and _then_ {@link BaseMenuToggle#close|BaseMenuToggle's close method}.
    */
   close() {
-    this.isOpen && this.closeChildren(), super.close();
+    this.isOpen && (this.closeChildren(), this.elements.parentMenu && this.elements.parentMenu.focusCurrentChild()), super.close();
   }
 }
 class K extends T {
@@ -2069,8 +2074,8 @@ class K extends T {
     openClass: a = "show",
     closeClass: d = "hide",
     transitionClass: f = "transitioning",
-    isTopLevel: M = !0,
-    parentMenu: y = null,
+    isTopLevel: y = !0,
+    parentMenu: M = null,
     hoverType: C = "off",
     hoverDelay: b = 250,
     enterDelay: _ = -1,
@@ -2089,8 +2094,8 @@ class K extends T {
       openClass: a,
       closeClass: d,
       transitionClass: f,
-      isTopLevel: M,
-      parentMenu: y,
+      isTopLevel: y,
+      parentMenu: M,
       hoverType: C,
       hoverDelay: b,
       enterDelay: _,
@@ -2104,6 +2109,7 @@ class K extends T {
      * @type {typeof Menubar}
      */
     u(this, "_MenuType", K);
+    // eslint-disable-line no-use-before-define
     /**
      * The class to use when generating menu items.
      *
@@ -2340,13 +2346,13 @@ class B extends A {
     /**
      * The declared accessible-menu elements within the menu item.
      *
-     * @type {Object<BaseMenu, BaseMenuToggle>}
+     * @type {Object<TopLinkDisclosureMenu, TopLinkDisclosureMenuToggle>}
      *
      * @protected
      *
-     * @property {BaseMenu}                   parentMenu - The menu containing this menu item.
-     * @property {?BaseMenu}                  childMenu  - The menu contained within this menu item.
-     * @property {?BaseMenuToggle}            toggle     - The menu toggle within this menu item that controls the `childMenu`.
+     * @property {TopLinkDisclosureMenu}                   parentMenu - The menu containing this menu item.
+     * @property {?TopLinkDisclosureMenu}                  childMenu  - The menu contained within this menu item.
+     * @property {?TopLinkDisclosureMenuToggle}            toggle     - The menu toggle within this menu item that controls the `childMenu`.
      * @property {?TopLinkDisclosureMenuItem} sibling    - The sibling menu item that is a submenu item.
      */
     u(this, "_elements", {
@@ -2449,8 +2455,8 @@ class F extends T {
     containerElement: a = null,
     openClass: d = "show",
     closeClass: f = "hide",
-    transitionClass: M = "transitioning",
-    isTopLevel: y = !0,
+    transitionClass: y = "transitioning",
+    isTopLevel: M = !0,
     parentMenu: C = null,
     hoverType: b = "off",
     hoverDelay: _ = 250,
@@ -2470,8 +2476,8 @@ class F extends T {
       containerElement: a,
       openClass: d,
       closeClass: f,
-      transitionClass: M,
-      isTopLevel: y,
+      transitionClass: y,
+      isTopLevel: M,
       parentMenu: C,
       hoverType: b,
       hoverDelay: _,
@@ -2486,6 +2492,7 @@ class F extends T {
      * @type {typeof TopLinkDisclosureMenu}
      */
     u(this, "_MenuType", F);
+    // eslint-disable-line no-use-before-define
     /**
      * The class to use when generating menu items.
      *
@@ -2503,7 +2510,7 @@ class F extends T {
      */
     u(this, "_MenuToggleType", G);
     /**
-     * The index of the currently selected {@link BaseMenuItem|menu item} in the menu.
+     * The index of the currently selected {@link TopLinkDisclosureMenuItem|menu item} in the menu.
      *
      * @protected
      *
@@ -2511,7 +2518,7 @@ class F extends T {
      */
     u(this, "_currentChild", -1);
     /**
-     * The CSS selectors used by the menu to populate the {@link BaseMenu#dom|dom}.
+     * The CSS selectors used by the menu to populate the {@link TopLinkDisclosureMenu#dom|dom}.
      *
      * @protected
      *
@@ -2600,10 +2607,13 @@ class F extends T {
           submenuSubtoggleSelector: this.selectors.submenuSubtoggles,
           openClass: this.openClass,
           closeClass: this.closeClass,
+          transitionClass: this.transitionClass,
           isTopLevel: !1,
           parentMenu: this,
           hoverType: this.hoverType,
-          hoverDelay: this.hoverDelay
+          hoverDelay: this.hoverDelay,
+          enterDelay: this.enterDelay,
+          leaveDelay: this.leaveDelay
         }), m = new this._MenuToggleType({
           menuToggleElement: l,
           parentElement: e,
@@ -2677,27 +2687,27 @@ class F extends T {
    *
    * Adds `pointerenter` listeners to all menu items and `pointerleave` listeners
    * to all submenu items which function differently depending on
-   * the menu's {@link BaseMenu_hoverTypeType|hover type}.
+   * the menu's {@link BaseMenu#_hoverType|hover type}.
    *
    * Before executing anything, the event is checked to make sure the event wasn't
    * triggered by a pen or touch.
    *
    * <strong>Hover Type "on"</strong>
    * - When a `pointerenter` event triggers on any menu item the menu's
-   *   {@link BaseMenu#currentChild| current child} value will change to that
+   *   {@link TopLinkDisclosureMenu#currentChild| current child} value will change to that
    *   menu item.
    * - When a `pointerenter` event triggers on a submenu item the
-   *   {@link BaseMenuToggle#preview|preview method} for the submenu item's
+   *   {@link TopLinkDisclosureMenuToggle#preview|preview method} for the submenu item's
    *   toggle will be called.
    * - When a `pointerleave` event triggers on an open submenu item the
-   *   {@link BaseMenuToggle#close|close method} for the submenu item's toggle
-   *   will be called after a delay set by the menu's {@link BaseMenu_hoverTypeDelay|hover delay}.
+   *   {@link TopLinkDisclosureMenuToggle#close|close method} for the submenu item's toggle
+   *   will be called after a delay set by the menu's {@link TopLinkDisclosureMenu#_hoverDelay|hover delay}.
    *
    * <strong>Hover Type "dynamic"</strong>
    * - When a `pointerenter` event triggers on any menu item the menu's
    *   current child value will change to that menu item.
    * - When a `pointerenter` event triggers on any menu item, and the menu's
-   *   {@link BaseMenu#focusState|focus state} is not "none", the menu item
+   *   {@link TopLinkDisclosureMenu#focusState|focus state} is not "none", the menu item
    *   will be focused.
    * - When a `pointerenter` event triggers on a submenu item, and a submenu is
    *   already open, the preview method for the submenu item's toggle will be called.
@@ -2720,7 +2730,7 @@ class F extends T {
       e.dom.link.addEventListener("pointerenter", (n) => {
         if (!(n.pointerType === "pen" || n.pointerType === "touch")) {
           if (this.hoverType === "on") {
-            this.currentEvent = "mouse", this.currentChild = s;
+            this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusChild(s);
             let i = e.isSubmenuItem ? e.elements.toggle : null;
             if (e.elements.sibling !== null && (i = e.elements.sibling.elements.toggle), i === null)
               return;
@@ -2731,8 +2741,8 @@ class F extends T {
             const i = this.elements.submenuToggles.some(
               (l) => l.isOpen
             );
-            if (this.currentChild = s, (!this.isTopLevel || this.focusState !== "none") && (this.currentEvent = "mouse", this.focusCurrentChild()), !this.isTopLevel || i) {
-              this.currentEvent = "mouse";
+            if (this.currentChild = s, (!this.isTopLevel || this.focusState !== "none") && (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild()), !this.isTopLevel || i) {
+              this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild();
               let l = e.isSubmenuItem ? e.elements.toggle : null;
               if (e.elements.sibling !== null && (l = e.elements.sibling.elements.toggle), l === null)
                 return;
@@ -2857,7 +2867,7 @@ class J extends A {
   }
   /**
    * Focuses the menu item's link if the parent menu's
-   * {@link Menubar#shouldFocus|shouldFocus} value is `true`.
+   * {@link Treeview#shouldFocus|shouldFocus} value is `true`.
    *
    * This will call the {@link BaseMenuItem#focus|BaseMenuItem's focus method}
    * as well as set the menu link's `tabIndex` to 0.
@@ -2867,7 +2877,7 @@ class J extends A {
   }
   /**
    * Blurs the menu item's link if the parent menu's
-   * {@link Menubar#shouldFocus|shouldFocus} value is `true`.
+   * {@link Treeview#shouldFocus|shouldFocus} value is `true`.
    *
    * This will call the {@link BaseMenuItem#blur|BaseMenuItem's blur method}
    * as well as set the menu link's `tabIndex` to -1.
@@ -2938,8 +2948,8 @@ class $ extends T {
     openClass: a = "show",
     closeClass: d = "hide",
     transitionClass: f = "transitioning",
-    isTopLevel: M = !0,
-    parentMenu: y = null,
+    isTopLevel: y = !0,
+    parentMenu: M = null,
     hoverType: C = "off",
     hoverDelay: b = 250,
     enterDelay: _ = -1,
@@ -2958,8 +2968,8 @@ class $ extends T {
       openClass: a,
       closeClass: d,
       transitionClass: f,
-      isTopLevel: M,
-      parentMenu: y,
+      isTopLevel: y,
+      parentMenu: M,
       hoverType: C,
       hoverDelay: b,
       enterDelay: _,
@@ -2973,6 +2983,7 @@ class $ extends T {
      * @type {typeof Treeview}
      */
     u(this, "_MenuType", $);
+    // eslint-disable-line no-use-before-define
     /**
      * The class to use when generating menu items.
      *

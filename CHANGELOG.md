@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.0-beta.3](https://github.com/NickDJM/accessible-menu/compare/v4.0.0-beta.2...v4.0.0-beta.3) (2023-06-22)
+
+
+### Bug Fixes
+
+* **controller:** use toggle for space and enter ([e5d7969](https://github.com/NickDJM/accessible-menu/commit/e5d79693e4d27ac554713f7a023244ab7a66c48d)), closes [#222](https://github.com/NickDJM/accessible-menu/issues/222)
+* **focus:** do not reset child menus to correct focusing issues ([b92fa0f](https://github.com/NickDJM/accessible-menu/commit/b92fa0fb1164696bbcfa765521deb5224d1d7117)), closes [#209](https://github.com/NickDJM/accessible-menu/issues/209)
+* **hover:** correct treeview focus and general hover delay bugs ([f613c84](https://github.com/NickDJM/accessible-menu/commit/f613c843b1488bc7c2e4ef2ca9e8bb28adb6e089))
+* **menubar:** properly focus parent menu current child when closing  ([0e42d2b](https://github.com/NickDJM/accessible-menu/commit/0e42d2bc5fa766bd4b5b4cfe9ed9b58d88799d34))
+
+
+### Build System
+
+* **npm:** update all dependencies to latest ([92506d1](https://github.com/NickDJM/accessible-menu/commit/92506d1ce5752df0be812a441a529a2a0e30a446))
+
 ## [4.0.0-beta.2](https://github.com/NickDJM/accessible-menu/compare/v4.0.0-beta.1...v4.0.0-beta.2) (2023-06-21)
 
 ## [4.0.0-beta.1](https://github.com/NickDJM/accessible-menu/compare/v4.0.0-beta.0...v4.0.0-beta.1) (2023-06-20)
