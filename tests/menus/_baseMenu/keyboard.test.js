@@ -109,8 +109,8 @@ describe("BaseMenu Controller", () => {
         expect(event.defaultPrevented).toBeTruthy();
       });
 
-      // Test that open is called on the controller on Spacebar and Enter keyup events.
-      it("should call open on the controller on %s keyup events", () => {
+      // Test that toggle is called on the controller on Spacebar and Enter keyup events.
+      it("should call toggle on the controller on %s keyup events", () => {
         // Create a new BaseMenu instance for testing.
         const menu = new BaseMenu({
           menuElement: document.querySelector("ul"),
@@ -120,19 +120,19 @@ describe("BaseMenu Controller", () => {
         });
         initializeMenu(menu);
 
-        // Spy on the controller's open method.
-        vi.spyOn(menu.elements.controller, "open");
+        // Spy on the controller's toggle method.
+        vi.spyOn(menu.elements.controller, "toggle");
 
         // Trigger a keyup event on the menu's controller.
         simulateKeyboardEvent("keyup", menu.elements.controller.dom.toggle, {
           key,
         });
 
-        expect(menu.elements.controller.open).toHaveBeenCalled();
+        expect(menu.elements.controller.toggle).toHaveBeenCalled();
       });
 
-      // Test that focusFirstChild is called on the menu on Spacebar and Enter keyup events.
-      it("should call focusFirstChild on the menu on %s keyup events", () => {
+      // Test that focusFirstChild is called on the menu on Spacebar and Enter keyup events if the controlled is open.
+      it("should call focusFirstChild on the menu on %s keyup events if the controlled is open", () => {
         // Create a new BaseMenu instance for testing.
         const menu = new BaseMenu({
           menuElement: document.querySelector("ul"),
@@ -151,6 +151,30 @@ describe("BaseMenu Controller", () => {
         });
 
         expect(menu.focusFirstChild).toHaveBeenCalled();
+      });
+
+      // Test that focusFirstChild is not called on the menu on Spacebar and Enter keyup events if the controlled is open.
+      it("should not call focusFirstChild on the menu on %s keyup events if the controlled is open", () => {
+        // Create a new BaseMenu instance for testing.
+        const menu = new BaseMenu({
+          menuElement: document.querySelector("ul"),
+          submenuItemSelector: "li.dropdown",
+          containerElement: document.querySelector("nav"),
+          controllerElement: document.querySelector("button"),
+        });
+        initializeMenu(menu);
+
+        menu.elements.controller.open();
+
+        // Spy on the menu's focusFirstChild method.
+        vi.spyOn(menu, "focusFirstChild");
+
+        // Trigger a keyup event on the menu's controller.
+        simulateKeyboardEvent("keyup", menu.elements.controller.dom.toggle, {
+          key,
+        });
+
+        expect(menu.focusFirstChild).not.toHaveBeenCalled();
       });
     });
   });
