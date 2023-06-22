@@ -255,10 +255,13 @@ class TopLinkDisclosureMenu extends BaseMenu {
           submenuSubtoggleSelector: this.selectors.submenuSubtoggles,
           openClass: this.openClass,
           closeClass: this.closeClass,
+          transitionClass: this.transitionClass,
           isTopLevel: false,
           parentMenu: this,
           hoverType: this.hoverType,
           hoverDelay: this.hoverDelay,
+          enterDelay: this.enterDelay,
+          leaveDelay: this.leaveDelay,
         });
 
         // Create the new menu toggle.
@@ -438,7 +441,8 @@ class TopLinkDisclosureMenu extends BaseMenu {
 
         if (this.hoverType === "on") {
           this.currentEvent = "mouse";
-          this.currentChild = index;
+          this.elements.rootMenu.blurChildren();
+          this.focusChild(index);
 
           let toggle = menuItem.isSubmenuItem ? menuItem.elements.toggle : null;
 
@@ -466,11 +470,14 @@ class TopLinkDisclosureMenu extends BaseMenu {
 
           if (!this.isTopLevel || this.focusState !== "none") {
             this.currentEvent = "mouse";
+            this.elements.rootMenu.blurChildren();
             this.focusCurrentChild();
           }
 
           if (!this.isTopLevel || isOpen) {
             this.currentEvent = "mouse";
+            this.elements.rootMenu.blurChildren();
+            this.focusCurrentChild();
 
             let toggle = menuItem.isSubmenuItem
               ? menuItem.elements.toggle
