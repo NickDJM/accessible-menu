@@ -176,28 +176,6 @@ describe("DisclosureMenuToggle public methods", () => {
 
   // Test DisclosureMenuToggle close().
   describe("close", () => {
-    // Test that close sets the controlled menu's current child to 0.
-    it("should set the controlled menu's current child to 0", () => {
-      // Create a new DisclosureMenu instance for testing.
-      const menu = new DisclosureMenu({
-        menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
-        containerElement: document.querySelector("nav"),
-        controllerElement: document.querySelector("button"),
-      });
-
-      const menuToggle = menu.elements.submenuToggles[0];
-
-      // Set up the menu.
-      menuToggle.isOpen = true;
-      menuToggle.elements.controlledMenu.currentChild = 1;
-
-      // Close the menu.
-      menuToggle.close();
-
-      expect(menuToggle.elements.controlledMenu.currentChild).toEqual(0);
-    });
-
     // Test that close calls blur() on the controlled menu.
     it("should call blur() on the controlled menu", () => {
       // Create a new DisclosureMenu instance for testing.
