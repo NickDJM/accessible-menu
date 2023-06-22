@@ -31,7 +31,7 @@ class DisclosureMenu extends BaseMenu {
    *
    * @type {typeof DisclosureMenu}
    */
-  _MenuType = DisclosureMenu;
+  _MenuType = DisclosureMenu; // eslint-disable-line no-use-before-define
 
   /**
    * The class to use when generating menu items.
@@ -52,7 +52,7 @@ class DisclosureMenu extends BaseMenu {
   _MenuToggleType = DisclosureMenuToggle;
 
   /**
-   * The index of the currently selected {@link BaseMenuItem|menu item} in the menu.
+   * The index of the currently selected {@link DisclosureMenu|menu item} in the menu.
    *
    * @protected
    *

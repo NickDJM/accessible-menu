@@ -31,7 +31,7 @@ class TopLinkDisclosureMenu extends BaseMenu {
    *
    * @type {typeof TopLinkDisclosureMenu}
    */
-  _MenuType = TopLinkDisclosureMenu;
+  _MenuType = TopLinkDisclosureMenu; // eslint-disable-line no-use-before-define
 
   /**
    * The class to use when generating menu items.
@@ -52,7 +52,7 @@ class TopLinkDisclosureMenu extends BaseMenu {
   _MenuToggleType = TopLinkDisclosureMenuToggle;
 
   /**
-   * The index of the currently selected {@link BaseMenuItem|menu item} in the menu.
+   * The index of the currently selected {@link TopLinkDisclosureMenuItem|menu item} in the menu.
    *
    * @protected
    *
@@ -61,7 +61,7 @@ class TopLinkDisclosureMenu extends BaseMenu {
   _currentChild = -1;
 
   /**
-   * The CSS selectors used by the menu to populate the {@link BaseMenu#dom|dom}.
+   * The CSS selectors used by the menu to populate the {@link TopLinkDisclosureMenu#dom|dom}.
    *
    * @protected
    *
@@ -393,27 +393,27 @@ class TopLinkDisclosureMenu extends BaseMenu {
    *
    * Adds `pointerenter` listeners to all menu items and `pointerleave` listeners
    * to all submenu items which function differently depending on
-   * the menu's {@link BaseMenu_hoverTypeType|hover type}.
+   * the menu's {@link BaseMenu#_hoverType|hover type}.
    *
    * Before executing anything, the event is checked to make sure the event wasn't
    * triggered by a pen or touch.
    *
    * <strong>Hover Type "on"</strong>
    * - When a `pointerenter` event triggers on any menu item the menu's
-   *   {@link BaseMenu#currentChild| current child} value will change to that
+   *   {@link TopLinkDisclosureMenu#currentChild| current child} value will change to that
    *   menu item.
    * - When a `pointerenter` event triggers on a submenu item the
-   *   {@link BaseMenuToggle#preview|preview method} for the submenu item's
+   *   {@link TopLinkDisclosureMenuToggle#preview|preview method} for the submenu item's
    *   toggle will be called.
    * - When a `pointerleave` event triggers on an open submenu item the
-   *   {@link BaseMenuToggle#close|close method} for the submenu item's toggle
-   *   will be called after a delay set by the menu's {@link BaseMenu_hoverTypeDelay|hover delay}.
+   *   {@link TopLinkDisclosureMenuToggle#close|close method} for the submenu item's toggle
+   *   will be called after a delay set by the menu's {@link TopLinkDisclosureMenu#_hoverDelay|hover delay}.
    *
    * <strong>Hover Type "dynamic"</strong>
    * - When a `pointerenter` event triggers on any menu item the menu's
    *   current child value will change to that menu item.
    * - When a `pointerenter` event triggers on any menu item, and the menu's
-   *   {@link BaseMenu#focusState|focus state} is not "none", the menu item
+   *   {@link TopLinkDisclosureMenu#focusState|focus state} is not "none", the menu item
    *   will be focused.
    * - When a `pointerenter` event triggers on a submenu item, and a submenu is
    *   already open, the preview method for the submenu item's toggle will be called.

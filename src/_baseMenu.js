@@ -1,3 +1,6 @@
+// eslint-disable-next-line no-unused-vars
+/* global DisclosureMenu, Menubar, TopLinkDisclosureMenu, Treeview */
+
 import BaseMenuToggle from "./_baseMenuToggle.js";
 import BaseMenuItem from "./_baseMenuItem.js";
 import {
@@ -17,7 +20,7 @@ import { preventEvent, keyPress } from "./eventHandlers.js";
  * This is intended to be used as a "base" to other menus and not to be used on
  * it's own in the DOM.
  *
- * Use a {@link DisclosureMenu}, {@link Menubar}, or {@link Treeview} instead.
+ * Use a {@link DisclosureMenu}, {@link Menubar}, {@link TopLinkDisclosureMenu}, or {@link Treeview} instead.
  */
 class BaseMenu {
   /**
@@ -27,7 +30,7 @@ class BaseMenu {
    *
    * @type {typeof BaseMenu}
    */
-  _MenuType = BaseMenu;
+  _MenuType = BaseMenu; // eslint-disable-line no-use-before-define
 
   /**
    * The class to use when generating menu items.
@@ -575,7 +578,7 @@ class BaseMenu {
    * - The menu's {@link BaseMenu#currentEvent|current event} is "keyboard".
    * - The menu's current event is "character".
    * - The menu's current event is "mouse" _and_ the menu's
-   *   {@link BaseMenu_hoverTypeType|hover type} is "dynamic".
+   *   {@link BaseMenu#_hoverType|hover type} is "dynamic".
    *
    * @type {boolean}
    */
@@ -1168,7 +1171,7 @@ class BaseMenu {
    *
    * Adds `pointerenter` listeners to all menu items and `pointerleave` listeners
    * to all submenu items which function differently depending on
-   * the menu's {@link BaseMenu_hoverTypeType|hover type}.
+   * the menu's {@link BaseMenu#_hoverType|hover type}.
    *
    * Before executing anything, the event is checked to make sure the event wasn't
    * triggered by a pen or touch.
@@ -1182,7 +1185,7 @@ class BaseMenu {
    *   toggle will be called.
    * - When a `pointerleave` event triggers on an open submenu item the
    *   {@link BaseMenuToggle#close|close method} for the submenu item's toggle
-   *   will be called after a delay set by the menu's {@link BaseMenu_hoverTypeDelay|hover delay}.
+   *   will be called after a delay set by the menu's {@link BaseMenu#_hoverDelay|hover delay}.
    *
    * <strong>Hover Type "dynamic"</strong>
    * - When a `pointerenter` event triggers on any menu item the menu's

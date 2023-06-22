@@ -1,4 +1,5 @@
-/* eslint-disable jsdoc/no-undefined-types */
+// eslint-disable-next-line no-unused-vars
+/* global TopLinkDisclosureMenu, TopLinkDisclosureMenuToggle */
 
 import BaseMenuItem from "./_baseMenuItem.js";
 
@@ -11,13 +12,13 @@ class TopLinkDisclosureMenuItem extends BaseMenuItem {
   /**
    * The declared accessible-menu elements within the menu item.
    *
-   * @type {Object<BaseMenu, BaseMenuToggle>}
+   * @type {Object<TopLinkDisclosureMenu, TopLinkDisclosureMenuToggle>}
    *
    * @protected
    *
-   * @property {BaseMenu}                   parentMenu - The menu containing this menu item.
-   * @property {?BaseMenu}                  childMenu  - The menu contained within this menu item.
-   * @property {?BaseMenuToggle}            toggle     - The menu toggle within this menu item that controls the `childMenu`.
+   * @property {TopLinkDisclosureMenu}                   parentMenu - The menu containing this menu item.
+   * @property {?TopLinkDisclosureMenu}                  childMenu  - The menu contained within this menu item.
+   * @property {?TopLinkDisclosureMenuToggle}            toggle     - The menu toggle within this menu item that controls the `childMenu`.
    * @property {?TopLinkDisclosureMenuItem} sibling    - The sibling menu item that is a submenu item.
    */
   _elements = {

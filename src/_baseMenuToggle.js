@@ -1,4 +1,5 @@
-/* eslint-disable jsdoc/no-undefined-types */
+// eslint-disable-next-line no-unused-vars
+/* global BaseMenu */
 
 import { addClass, removeClass } from "./domHelpers.js";
 import { isTag, isValidType } from "./validate.js";

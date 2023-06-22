@@ -39,7 +39,7 @@ export function isValidInstance(contructor, elements) {
   } catch (error) {
     return {
       status: false,
-      error: error,
+      error,
     };
   }
 }
@@ -84,7 +84,7 @@ export function isValidType(type, values) {
   } catch (error) {
     return {
       status: false,
-      error: error,
+      error,
     };
   }
 }
@@ -131,7 +131,7 @@ export function isCSSSelector(values) {
   } catch (error) {
     return {
       status: false,
-      error: error,
+      error,
     };
   }
 }
@@ -189,7 +189,7 @@ export function isValidClassList(values) {
   } catch (error) {
     return {
       status: false,
-      error: error,
+      error,
     };
   }
 }
@@ -234,7 +234,7 @@ export function isValidState(values) {
   } catch (error) {
     return {
       status: false,
-      error: error,
+      error,
     };
   }
 }
@@ -279,7 +279,7 @@ export function isValidEvent(values) {
   } catch (error) {
     return {
       status: false,
-      error: error,
+      error,
     };
   }
 }
@@ -324,7 +324,7 @@ export function isValidHoverType(values) {
   } catch (error) {
     return {
       status: false,
-      error: error,
+      error,
     };
   }
 }
