@@ -410,6 +410,25 @@ export function baseKeypressTests(MenuClass) {
         expect(menu.currentChild).toBe(0);
       });
 
+      test("Closes the menu when triggered on the open controller.", () => {
+        // Set up the DOM.
+        document.body.innerHTML = fullMenu;
+        const menu = new MenuClass({
+          menuElement: document.querySelector("#menu-0"),
+          submenuItemSelector: "li.dropdown",
+          containerElement: document.querySelector("nav"),
+          controllerElement: document.querySelector("#toggle-0"),
+        });
+        const toggle = menu.elements.controller;
+
+        toggle.open();
+
+        // Simluate the keypress.
+        simulateKeypress(key, toggle.dom.toggle);
+
+        toggleIsClosed(toggle);
+      });
+
       test("Activates 'clicks' root level menu item's link when not a submenu toggle", () => {
         // Set up the DOM.
         document.body.innerHTML = fullMenu;
