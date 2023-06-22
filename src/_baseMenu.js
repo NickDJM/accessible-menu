@@ -191,17 +191,17 @@ class BaseMenu {
    *
    * @param {object}                 options                             - The options for generating the menu.
    * @param {HTMLElement}            options.menuElement                 - The menu element in the DOM.
-   * @param {string}                 [options.menuItemSelector = li]     - The CSS selector string for menu items.
-   * @param {string}                 [options.menuLinkSelector = a]      - The CSS selector string for menu links.
+   * @param {string}                 [options.menuItemSelector]     - The CSS selector string for menu items.
+   * @param {string}                 [options.menuLinkSelector]      - The CSS selector string for menu links.
    * @param {string}                 [options.submenuItemSelector]       - The CSS selector string for menu items containing submenus.
-   * @param {string}                 [options.submenuToggleSelector = a] - The CSS selector string for submenu toggle buttons/links.
-   * @param {string}                 [options.submenuSelector = ul]      - The CSS selector string for submenus.
-   * @param {?HTMLElement}           [options.controllerElement = null]  - The element controlling the menu in the DOM.
-   * @param {?HTMLElement}           [options.containerElement = null]   - The element containing the menu in the DOM.
-   * @param {?(string|string[])}     [options.openClass = show]          - The class to apply when a menu is "open".
-   * @param {?(string|string[])}     [options.closeClass = hide]         - The class to apply when a menu is "closed".
-   * @param {boolean}                [options.isTopLevel = false]        - A flag to mark the root menu.
-   * @param {?BaseMenu}              [options.parentMenu = null]         - The parent menu to this menu.
+   * @param {string}                 [options.submenuToggleSelector] - The CSS selector string for submenu toggle buttons/links.
+   * @param {string}                 [options.submenuSelector]      - The CSS selector string for submenus.
+   * @param {?HTMLElement}           [options.controllerElement]  - The element controlling the menu in the DOM.
+   * @param {?HTMLElement}           [options.containerElement]   - The element containing the menu in the DOM.
+   * @param {?(string|string[])}     [options.openClass]          - The class to apply when a menu is "open".
+   * @param {?(string|string[])}     [options.closeClass]         - The class to apply when a menu is "closed".
+   * @param {boolean}                [options.isTopLevel]        - A flag to mark the root menu.
+   * @param {?BaseMenu}              [options.parentMenu]         - The parent menu to this menu.
    * @param {string}                 [options.hoverType = off]           - The type of hoverability a menu has.
    * @param {number}                 [options.hoverDelay = 250]          - The delay for closing menus if the menu is hoverable (in miliseconds).
    */
@@ -697,8 +697,8 @@ class BaseMenu {
    * @protected
    *
    * @param {string}      elementType            - The type of element to populate.
-   * @param {HTMLElement} [base = this.dom.menu] - The element used as the base for the querySelect.
-   * @param {boolean}     [overwrite = true]     - A flag to set if the existing elements will be overwritten.
+   * @param {HTMLElement} [base] - The element used as the base for the querySelect.
+   * @param {boolean}     [overwrite]     - A flag to set if the existing elements will be overwritten.
    */
   _setDOMElementType(elementType, base = this.dom.menu, overwrite = true) {
     if (typeof this.selectors[elementType] === "string") {
@@ -1098,7 +1098,7 @@ class BaseMenu {
    * Handles keyup events throughout the menu for proper menu use.
    *
    * - Adds a `keyup` listener to the menu's controller (if the menu is the root menu).
-   *   - Opens the menu when the user hits "Space" or "Enter".
+   *   - Toggles the menu when the user hits "Space" or "Enter".
    *
    * @protected
    */
@@ -1111,8 +1111,12 @@ class BaseMenu {
 
         if (key === "Space" || key === "Enter") {
           preventEvent(event);
-          this.elements.controller.open();
-          this.focusFirstChild();
+          this.elements.controller.toggle();
+
+          // If the menu is open, focus the first child.
+          if (this.elements.controller.isOpen) {
+            this.focusFirstChild();
+          }
         }
       });
     }
