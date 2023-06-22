@@ -1,4 +1,5 @@
-/* eslint-disable jsdoc/no-undefined-types */
+// eslint-disable-next-line no-unused-vars
+/* global BaseMenu BaseMenuToggle */
 
 /**
  * A basic navigation link contained inside of a {@link BaseMenu}.

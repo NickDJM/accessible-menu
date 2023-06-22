@@ -52,7 +52,7 @@ class DisclosureMenu extends BaseMenu {
   _MenuToggleType = DisclosureMenuToggle;
 
   /**
-   * The index of the currently selected {@link BaseMenuItem|menu item} in the menu.
+   * The index of the currently selected {@link DisclosureMenuItem|menu item} in the menu.
    *
    * @protected
    *

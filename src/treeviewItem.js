@@ -1,4 +1,5 @@
-/* eslint-disable jsdoc/no-undefined-types */
+// eslint-disable-next-line no-unused-vars
+/* global Treeview, TreeviewToggle */
 
 import BaseMenuItem from "./_baseMenuItem.js";
 
@@ -61,7 +62,7 @@ class TreeviewItem extends BaseMenuItem {
 
   /**
    * Focuses the menu item's link if the parent menu's
-   * {@link Menubar#shouldFocus|shouldFocus} value is `true`.
+   * {@link Treeview#shouldFocus|shouldFocus} value is `true`.
    *
    * This will call the {@link BaseMenuItem#focus|BaseMenuItem's focus method}
    * as well as set the menu link's `tabIndex` to 0.
@@ -74,7 +75,7 @@ class TreeviewItem extends BaseMenuItem {
 
   /**
    * Blurs the menu item's link if the parent menu's
-   * {@link Menubar#shouldFocus|shouldFocus} value is `true`.
+   * {@link Treeview#shouldFocus|shouldFocus} value is `true`.
    *
    * This will call the {@link BaseMenuItem#blur|BaseMenuItem's blur method}
    * as well as set the menu link's `tabIndex` to -1.
