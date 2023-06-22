@@ -17,6 +17,7 @@ module.exports = {
         allow: ["warn", "error"],
       },
     ],
+    "jsdoc/no-defaults": 0,
     "jsdoc/tag-lines": [
       "warn",
       "always",
