@@ -1032,10 +1032,13 @@ class BaseMenu {
           submenuSelector: this.selectors.submenus,
           openClass: this.openClass,
           closeClass: this.closeClass,
+          transitionClass: this.transitionClass,
           isTopLevel: false,
           parentMenu: this,
           hoverType: this.hoverType,
           hoverDelay: this.hoverDelay,
+          enterDelay: this.enterDelay,
+          leaveDelay: this.leaveDelay,
         });
 
         // Create the new menu toggle.
