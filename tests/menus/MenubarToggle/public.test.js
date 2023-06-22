@@ -310,6 +310,49 @@ describe("MenubarToggle public methods", () => {
 
       expect(spy).toHaveBeenCalled();
     });
+
+    // Test that close calls the parent menu's focusCurrentChild method.
+    it("should call the parent menu's focusCurrentChild method", () => {
+      // Create a new Menubar instance for testing.
+      const menu = new Menubar({
+        menuElement: document.querySelector("ul"),
+        submenuItemSelector: "li.dropdown",
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+
+      const menuToggle = menu.elements.submenuToggles[0];
+
+      // Set up to check for closeChildren() call.
+      const spy = vi.spyOn(menu, "focusCurrentChild");
+
+      // Set up the menu.
+      menuToggle.isOpen = true;
+
+      menuToggle.close();
+
+      expect(spy).toHaveBeenCalled();
+    });
+
+    // Test that close does not call the parent menu's focusCurrentChild method is the parent menu does not exist.
+    it("should not call the parent menu's focusCurrentChild method is the parent menu does not exist", () => {
+      // Create a new Menubar instance for testing.
+      const menu = new Menubar({
+        menuElement: document.querySelector("ul"),
+        submenuItemSelector: "li.dropdown",
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+
+      const menuToggle = menu.elements.controller;
+
+      // Set up the menu.
+      menuToggle.isOpen = true;
+
+      expect(() => {
+        menuToggle.close();
+      }).not.toThrow();
+    });
   });
 
   // Test MenubarToggle toggle().
