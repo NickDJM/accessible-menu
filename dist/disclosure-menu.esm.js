@@ -1,32 +1,3 @@
-function _defineProperty(obj, key, value) {
-  key = _toPropertyKey(key);
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-  return obj;
-}
-function _toPrimitive(input, hint) {
-  if (typeof input !== "object" || input === null) return input;
-  var prim = input[Symbol.toPrimitive];
-  if (prim !== undefined) {
-    var res = prim.call(input, hint || "default");
-    if (typeof res !== "object") return res;
-    throw new TypeError("@@toPrimitive must return a primitive value.");
-  }
-  return (hint === "string" ? String : Number)(input);
-}
-function _toPropertyKey(arg) {
-  var key = _toPrimitive(arg, "string");
-  return typeof key === "symbol" ? key : String(key);
-}
-
 function isValidInstance(contructor, elements) {
   try {
     if (typeof elements !== "object") {
@@ -185,6 +156,27 @@ function isTag(tagName, elements) {
 }
 
 class BaseMenuToggle {
+  _dom = {
+    toggle: null,
+    parent: null
+  };
+  _elements = {
+    controlledMenu: null,
+    parentMenu: null
+  };
+  _open = false;
+  _expandEvent = new CustomEvent("accessibleMenuExpand", {
+    bubbles: true,
+    detail: {
+      toggle: this
+    }
+  });
+  _collapseEvent = new CustomEvent("accessibleMenuCollapse", {
+    bubbles: true,
+    detail: {
+      toggle: this
+    }
+  });
   constructor(_ref) {
     let {
       menuToggleElement,
@@ -192,27 +184,6 @@ class BaseMenuToggle {
       controlledMenu,
       parentMenu = null
     } = _ref;
-    _defineProperty(this, "_dom", {
-      toggle: null,
-      parent: null
-    });
-    _defineProperty(this, "_elements", {
-      controlledMenu: null,
-      parentMenu: null
-    });
-    _defineProperty(this, "_open", false);
-    _defineProperty(this, "_expandEvent", new CustomEvent("accessibleMenuExpand", {
-      bubbles: true,
-      detail: {
-        toggle: this
-      }
-    }));
-    _defineProperty(this, "_collapseEvent", new CustomEvent("accessibleMenuCollapse", {
-      bubbles: true,
-      detail: {
-        toggle: this
-      }
-    }));
     this._dom.toggle = menuToggleElement;
     this._dom.parent = parentElement;
     this._elements.controlledMenu = controlledMenu;
@@ -358,6 +329,16 @@ class BaseMenuToggle {
 }
 
 class BaseMenuItem {
+  _dom = {
+    item: null,
+    link: null
+  };
+  _elements = {
+    parentMenu: null,
+    childMenu: null,
+    toggle: null
+  };
+  _submenu = false;
   constructor(_ref) {
     let {
       menuItemElement,
@@ -367,16 +348,6 @@ class BaseMenuItem {
       childMenu = null,
       toggle = null
     } = _ref;
-    _defineProperty(this, "_dom", {
-      item: null,
-      link: null
-    });
-    _defineProperty(this, "_elements", {
-      parentMenu: null,
-      childMenu: null,
-      toggle: null
-    });
-    _defineProperty(this, "_submenu", false);
     this._dom.item = menuItemElement;
     this._dom.link = menuLinkElement;
     this._elements.parentMenu = parentMenu;
@@ -434,6 +405,40 @@ function preventEvent(event) {
 }
 
 class BaseMenu {
+  _MenuType = BaseMenu;
+  _MenuItemType = BaseMenuItem;
+  _MenuToggleType = BaseMenuToggle;
+  _dom = {
+    menu: null,
+    menuItems: [],
+    submenuItems: [],
+    submenuToggles: [],
+    submenus: [],
+    controller: null,
+    container: null
+  };
+  _selectors = {
+    menuItems: "",
+    menuLinks: "",
+    submenuItems: "",
+    submenuToggles: "",
+    submenus: ""
+  };
+  _elements = {
+    menuItems: [],
+    submenuToggles: [],
+    controller: null,
+    parentMenu: null,
+    rootMenu: null
+  };
+  _openClass = "show";
+  _closeClass = "hide";
+  _root = true;
+  _currentChild = 0;
+  _focusState = "none";
+  _currentEvent = "none";
+  _hoverType = "off";
+  _hoverDelay = 250;
   constructor(_ref) {
     let {
       menuElement,
@@ -451,40 +456,6 @@ class BaseMenu {
       hoverType = "off",
       hoverDelay = 250
     } = _ref;
-    _defineProperty(this, "_MenuType", BaseMenu);
-    _defineProperty(this, "_MenuItemType", BaseMenuItem);
-    _defineProperty(this, "_MenuToggleType", BaseMenuToggle);
-    _defineProperty(this, "_dom", {
-      menu: null,
-      menuItems: [],
-      submenuItems: [],
-      submenuToggles: [],
-      submenus: [],
-      controller: null,
-      container: null
-    });
-    _defineProperty(this, "_selectors", {
-      menuItems: "",
-      menuLinks: "",
-      submenuItems: "",
-      submenuToggles: "",
-      submenus: ""
-    });
-    _defineProperty(this, "_elements", {
-      menuItems: [],
-      submenuToggles: [],
-      controller: null,
-      parentMenu: null,
-      rootMenu: null
-    });
-    _defineProperty(this, "_openClass", "show");
-    _defineProperty(this, "_closeClass", "hide");
-    _defineProperty(this, "_root", true);
-    _defineProperty(this, "_currentChild", 0);
-    _defineProperty(this, "_focusState", "none");
-    _defineProperty(this, "_currentEvent", "none");
-    _defineProperty(this, "_hoverType", "off");
-    _defineProperty(this, "_hoverDelay", 250);
     this._dom.menu = menuElement;
     this._dom.controller = controllerElement;
     this._dom.container = containerElement;
@@ -937,8 +908,10 @@ class BaseMenu {
         const key = keyPress(event);
         if (key === "Space" || key === "Enter") {
           preventEvent(event);
-          this.elements.controller.open();
-          this.focusFirstChild();
+          this.elements.controller.toggle();
+          if (this.elements.controller.isOpen) {
+            this.focusFirstChild();
+          }
         }
       });
     }
@@ -1082,6 +1055,11 @@ class DisclosureMenuToggle extends BaseMenuToggle {
 }
 
 class DisclosureMenu extends BaseMenu {
+  _MenuType = DisclosureMenu;
+  _MenuItemType = DisclosureMenuItem;
+  _MenuToggleType = DisclosureMenuToggle;
+  _currentChild = -1;
+  _optionalSupport = false;
   constructor(_ref) {
     let {
       menuElement,
@@ -1117,11 +1095,6 @@ class DisclosureMenu extends BaseMenu {
       hoverType,
       hoverDelay
     });
-    _defineProperty(this, "_MenuType", DisclosureMenu);
-    _defineProperty(this, "_MenuItemType", DisclosureMenuItem);
-    _defineProperty(this, "_MenuToggleType", DisclosureMenuToggle);
-    _defineProperty(this, "_currentChild", -1);
-    _defineProperty(this, "_optionalSupport", false);
     this._optionalSupport = optionalKeySupport;
     if (initialize) {
       this.initialize();

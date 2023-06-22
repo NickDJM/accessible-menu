@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.6](https://github.com/NickDJM/accessible-menu/compare/v3.0.5...v3.0.6) (2023-06-22)
+
+
+### Bug Fixes
+
+* **controller:** use toggle for space and enter ([bc20ffa](https://github.com/NickDJM/accessible-menu/commit/bc20ffaab2d619745a2fd1b60ed2b2624ea00731)), closes [#222](https://github.com/NickDJM/accessible-menu/issues/222)
+
+
+### Continuous Integration
+
+* **codeql:** upgrade to v2 ([4664bdd](https://github.com/NickDJM/accessible-menu/commit/4664bdd251f439559142f16a1c0e38610d79a1e4)), closes [#214](https://github.com/NickDJM/accessible-menu/issues/214)
+
+
+### Build System
+
+* bump eslint-plugin-jsdoc from 39.9.1 to 40.0.0 ([aa1560a](https://github.com/NickDJM/accessible-menu/commit/aa1560a149c57e4eaecd783c57d9a09e4f1a0dda))
+* bump eslint-plugin-jsdoc from 40.3.0 to 43.0.0 ([235cccd](https://github.com/NickDJM/accessible-menu/commit/235cccd1a501359bccc559221fad06d5328e5cc1))
+* bump eslint-plugin-jsdoc from 43.2.0 to 44.2.4 ([4635fa1](https://github.com/NickDJM/accessible-menu/commit/4635fa113a18c996a1a8d6a9fd7fa1c6893fd273))
+* bump eslint-plugin-jsdoc from 44.2.7 to 46.2.6 ([d3064c7](https://github.com/NickDJM/accessible-menu/commit/d3064c73012b81a902ac7e2004e9a8ab9256bcbc))
+* bump jest-extended from 3.2.4 to 4.0.0 ([93fb295](https://github.com/NickDJM/accessible-menu/commit/93fb295687c6eccdd4db0054a87016420add0d36))
+* **eslint:** upgrade options for jsdoc plugin ([fcbe473](https://github.com/NickDJM/accessible-menu/commit/fcbe473c7ad3637da7b0b3e033ad1a8e0105870b))
+
+
+### Documentation
+
+* properly handle menu types in documentation to ensure accuracy ([acd1053](https://github.com/NickDJM/accessible-menu/commit/acd10536a17817994f66f67b0761a62c2f308d28))
+
 ### [3.0.5](https://github.com/NickDJM/accessible-menu/compare/v3.0.4...v3.0.5) (2023-02-09)
 
 
