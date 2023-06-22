@@ -1032,10 +1032,13 @@ class BaseMenu {
           submenuSelector: this.selectors.submenus,
           openClass: this.openClass,
           closeClass: this.closeClass,
+          transitionClass: this.transitionClass,
           isTopLevel: false,
           parentMenu: this,
           hoverType: this.hoverType,
           hoverDelay: this.hoverDelay,
+          enterDelay: this.enterDelay,
+          leaveDelay: this.leaveDelay,
         });
 
         // Create the new menu toggle.
@@ -1213,7 +1216,8 @@ class BaseMenu {
 
         if (this.hoverType === "on") {
           this.currentEvent = "mouse";
-          this.currentChild = index;
+          this.elements.rootMenu.blurChildren();
+          this.focusChild(index);
 
           if (menuItem.isSubmenuItem) {
             if (this.enterDelay > 0) {
@@ -1228,15 +1232,19 @@ class BaseMenu {
           const isOpen = this.elements.submenuToggles.some(
             (toggle) => toggle.isOpen
           );
+
           this.currentChild = index;
 
           if (!this.isTopLevel || this.focusState !== "none") {
             this.currentEvent = "mouse";
+            this.elements.rootMenu.blurChildren();
             this.focusCurrentChild();
           }
 
           if (menuItem.isSubmenuItem && (!this.isTopLevel || isOpen)) {
             this.currentEvent = "mouse";
+            this.elements.rootMenu.blurChildren();
+            this.focusCurrentChild();
 
             if (this.enterDelay > 0) {
               this._hoverTimeout = setTimeout(() => {
@@ -1319,7 +1327,7 @@ class BaseMenu {
    * Handles keyup events throughout the menu for proper menu use.
    *
    * - Adds a `keyup` listener to the menu's controller (if the menu is the root menu).
-   *   - Opens the menu when the user hits "Space" or "Enter".
+   *   - Toggles the menu when the user hits "Space" or "Enter".
    *
    * @protected
    */
@@ -1332,8 +1340,12 @@ class BaseMenu {
 
         if (key === "Space" || key === "Enter") {
           preventEvent(event);
-          this.elements.controller.open();
-          this.focusFirstChild();
+          this.elements.controller.toggle();
+
+          // If the menu is open, focus the first child.
+          if (this.elements.controller.isOpen) {
+            this.focusFirstChild();
+          }
         }
       });
     }
