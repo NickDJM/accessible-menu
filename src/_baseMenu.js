@@ -1332,8 +1332,11 @@ class BaseMenu {
 
         if (key === "Space" || key === "Enter") {
           preventEvent(event);
-          this.elements.controller.open();
-          this.focusFirstChild();
+          this.elements.controller.toggle();
+
+          if (this.elements.controller.isOpen) {
+            this.focusFirstChild();
+          }
         }
       });
     }
