@@ -1319,7 +1319,7 @@ class BaseMenu {
    * Handles keyup events throughout the menu for proper menu use.
    *
    * - Adds a `keyup` listener to the menu's controller (if the menu is the root menu).
-   *   - Opens the menu when the user hits "Space" or "Enter".
+   *   - Toggles the menu when the user hits "Space" or "Enter".
    *
    * @protected
    */
@@ -1334,6 +1334,7 @@ class BaseMenu {
           preventEvent(event);
           this.elements.controller.toggle();
 
+          // If the menu is open, focus the first child.
           if (this.elements.controller.isOpen) {
             this.focusFirstChild();
           }
