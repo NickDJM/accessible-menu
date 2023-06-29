@@ -131,7 +131,12 @@ class Menubar extends BaseMenu {
     try {
       super.initialize();
 
-      this.dom.menu.setAttribute("role", "menubar");
+      // Set the role of the menu.
+      if (this.isTopLevel) {
+        this.dom.menu.setAttribute("role", "menubar");
+      } else {
+        this.dom.menu.setAttribute("role", "menu");
+      }
 
       this._handleFocus();
       this._handleClick();
