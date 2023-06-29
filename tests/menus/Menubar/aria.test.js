@@ -94,7 +94,7 @@ describe("Menubar", () => {
     // Test the submenu's role attribute.
     it("should set the submenu's role attribute", () => {
       expect(toggle.elements.controlledMenu.dom.menu.getAttribute("role")).toBe(
-        "menubar"
+        "menu"
       );
     });
 
