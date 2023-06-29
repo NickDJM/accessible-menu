@@ -1120,7 +1120,11 @@ var Menubar = (function () {
     initialize() {
       try {
         super.initialize();
-        this.dom.menu.setAttribute("role", "menubar");
+        if (this.isTopLevel) {
+          this.dom.menu.setAttribute("role", "menubar");
+        } else {
+          this.dom.menu.setAttribute("role", "menu");
+        }
         this._handleFocus();
         this._handleClick();
         this._handleHover();

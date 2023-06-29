@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.7](https://github.com/NickDJM/accessible-menu/compare/v3.0.6...v3.0.7) (2023-06-29)
+
+
+### Bug Fixes
+
+* **accessibility:** set sebmenu menubar roles to menu ([26b517f](https://github.com/NickDJM/accessible-menu/commit/26b517f1dafaf5d3757e904e1a444e43eaabbd98))
+
 ### [3.0.6](https://github.com/NickDJM/accessible-menu/compare/v3.0.5...v3.0.6) (2023-06-22)
 
 

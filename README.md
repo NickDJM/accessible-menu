@@ -43,7 +43,7 @@ For learning/prototyping purposes you can use the latest version with:
 For production environments, it is recommend to use a specific version to avoid unforseen breaking changes:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/accessible-menu@3.0.6/dist/accessible-menu.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/accessible-menu@3.0.7/dist/accessible-menu.min.js"></script>
 ```
 
 ## Upgrading from version 2 to version 3?
@@ -77,7 +77,7 @@ import AccessibleMenu from "accessible-menu";
 or
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/accessible-menu@3.0.6/dist/accessible-menu.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/accessible-menu@3.0.7/dist/accessible-menu.min.js"></script>
 ```
 
 Once you have **accessible-menu** loaded, declare a new menu object.
@@ -106,7 +106,7 @@ import { DisclosureMenu } from "accessible-menu";
 or
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/accessible-menu@3.0.6/dist/disclosure-menu.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/accessible-menu@3.0.7/dist/disclosure-menu.min.js"></script>
 ```
 
 then
@@ -127,7 +127,7 @@ import { Menubar } from "accessible-menu";
 or
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/accessible-menu@3.0.6/dist/menubar.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/accessible-menu@3.0.7/dist/menubar.min.js"></script>
 ```
 
 then
@@ -148,7 +148,7 @@ import { Treeview } from "accessible-menu";
 or
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/accessible-menu@3.0.6/dist/treeview.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/accessible-menu@3.0.7/dist/treeview.min.js"></script>
 ```
 
 then
