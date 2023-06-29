@@ -77,7 +77,7 @@ export function aria(MenuClass) {
         );
 
         if (menuType === "Menubar") {
-          expect(submenuElement.getAttribute("role")).toBe("menubar");
+          expect(submenuElement.getAttribute("role")).toBe("menu");
         } else if (menuType === "Treeview") {
           expect(submenuElement.getAttribute("role")).toBe("group");
         }
