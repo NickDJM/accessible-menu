@@ -9,12 +9,12 @@
   --light-theme-grey-light: var(--grey-light);
   --light-theme-grey: var(--grey);
   --light-theme-grey-dark: var(--grey-dark);
-  --light-theme-primary: var(--blue);
-  --light-theme-primary-light: var(--blue-light);
-  --light-theme-primary-dark: var(--blue-dark);
-  --light-theme-secondary: var(--pink);
-  --light-theme-secondary-light: var(--pink-light);
-  --light-theme-secondary-dark: var(--pink-dark);
+  --light-theme-primary: var(--blue-dark);
+  --light-theme-primary-light: var(--blue-pale);
+  --light-theme-primary-dark: var(--blue-shadow);
+  --light-theme-secondary: var(--pink-dark);
+  --light-theme-secondary-light: var(--pink-pale);
+  --light-theme-secondary-dark: var(--pink-shadow);
 
   /* Dark theme colours. */
   --dark-theme-light: var(--black);
@@ -22,12 +22,12 @@
   --dark-theme-grey-light: var(--grey-dark);
   --dark-theme-grey: var(--grey);
   --dark-theme-grey-dark: var(--grey-light);
-  --dark-theme-primary: var(--blue);
-  --dark-theme-primary-light: var(--blue-dark);
-  --dark-theme-primary-dark: var(--blue-light);
-  --dark-theme-secondary: var(--pink);
-  --dark-theme-secondary-light: var(--pink-dark);
-  --dark-theme-secondary-dark: var(--pink-light);
+  --dark-theme-primary: var(--blue-light);
+  --dark-theme-primary-light: var(--blue-shadow);
+  --dark-theme-primary-dark: var(--blue-pale);
+  --dark-theme-secondary: var(--pink-light);
+  --dark-theme-secondary-light: var(--pink-shadow);
+  --dark-theme-secondary-dark: var(--pink-pale);
 
   /* Active theme colours. */
   --active-theme-light: var(--light-theme-light);
