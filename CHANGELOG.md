@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.0-beta.4](https://github.com/NickDJM/accessible-menu/compare/v4.0.0-beta.3...v4.0.0-beta.4) (2023-06-29)
+
+
+### Bug Fixes
+
+* **accessibility:** set submenu menubar roles to menu ([c25652c](https://github.com/NickDJM/accessible-menu/commit/c25652c331ab48761feaa106a37a7fb9ca27ef61))
+
 ## [4.0.0-beta.3](https://github.com/NickDJM/accessible-menu/compare/v4.0.0-beta.2...v4.0.0-beta.3) (2023-06-22)
 
 
