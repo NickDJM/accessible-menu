@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.8](https://github.com/NickDJM/accessible-menu/compare/v3.0.7...v3.0.8) (2023-06-30)
+
+
+### Build System
+
+* **npm:** update all dependencies to latest ([af2bd4a](https://github.com/NickDJM/accessible-menu/commit/af2bd4ab4d71f80c68d8661a42af1c53a763ddc8))
+
 ### [3.0.7](https://github.com/NickDJM/accessible-menu/compare/v3.0.6...v3.0.7) (2023-06-29)
 
 
