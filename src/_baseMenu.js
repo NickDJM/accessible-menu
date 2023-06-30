@@ -30,7 +30,7 @@ class BaseMenu {
    *
    * @type {typeof BaseMenu}
    */
-  _MenuType = BaseMenu;
+  _MenuType = BaseMenu; // eslint-disable-line no-use-before-define
 
   /**
    * The class to use when generating menu items.

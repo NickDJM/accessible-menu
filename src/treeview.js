@@ -30,7 +30,7 @@ class Treeview extends BaseMenu {
    *
    * @type {typeof Treeview}
    */
-  _MenuType = Treeview;
+  _MenuType = Treeview; // eslint-disable-line no-use-before-define
 
   /**
    * The class to use when generating menu items.

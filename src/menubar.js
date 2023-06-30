@@ -30,7 +30,7 @@ class Menubar extends BaseMenu {
    *
    * @type {typeof Menubar}
    */
-  _MenuType = Menubar;
+  _MenuType = Menubar; // eslint-disable-line no-use-before-define
 
   /**
    * The class to use when generating menu items.
