@@ -9,4 +9,5 @@ node_modules
 package-lock.json
 
 # Auto generated docs
-docs/dist
+docs/.vitepress/dist
+docs/.vitepress/cache

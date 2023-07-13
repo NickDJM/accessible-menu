@@ -16,9 +16,8 @@
     "prettier": "prettier '**/*.js' --ignore-path .eslintignore",
     "prerelease": "npm run lint && npm run build && npm run test:run",
     "release": "git add dist/. && standard-version -a",
-    "prebuild": "npm run build:docs",
+    "prebuild": "npm run docs:build",
     "build": "npm run build:default; npm run build:disclosure-menu; npm run build:menubar; npm run build:top-link-disclosure-menu; npm run build:treeview",
-    "build:docs": "jsdoc -c jsdoc.config.js",
     "build:default": "BUILD_TYPE=default vite build",
     "build:disclosure-menu": "BUILD_TYPE=DisclosureMenu vite build",
     "build:menubar": "BUILD_TYPE=Menubar vite build",
@@ -27,7 +26,10 @@
     "dev": "vite",
     "test": "vitest",
     "test:ui": "vitest --ui",
-    "test:run": "vitest run"
+    "test:run": "vitest run",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
   },
   "repository": {
     "type": "git",
