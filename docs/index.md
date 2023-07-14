@@ -1,25 +1,22 @@
 ---
-# https://vitepress.dev/reference/default-theme-home-page
 layout: home
 
 hero:
   name: "Accessible Menu"
-  text: "A documentation and api site for accessible-menu."
-  tagline: My great project tagline
+  tagline: "A JavaScript library to help you generate WCAG accessible menus in the DOM."
   actions:
     - theme: brand
-      text: Markdown Examples
-      link: /markdown-examples
+      text: Get started
+      link: /getting-started
     - theme: alt
-      text: API Examples
-      link: /api-examples
+      text: Menu types
+      link: /menu-types
 
 features:
-  - title: Feature A
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature B
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature C
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+  - title: Easy to use
+    details: Initialize a menu with a single query selector.
+  - title: ARIA compliant
+    details: All menus follow the ARIA Authoring Practice Guide.
+  - title: CSS framework agnostic
+    details: Menus use customizable CSS classes and aria attributes for all transitions.
 ---
-

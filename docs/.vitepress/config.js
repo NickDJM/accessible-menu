@@ -1,11 +1,11 @@
 import { defineConfig } from "vitepress";
 
-// https://vitepress.dev/reference/site-config
 export default defineConfig({
+  lang: "en-US",
   title: "Accessible Menu",
-  description: "A documentation and api site for accessible-menu.",
+  description:
+    "A JavaScript library to help you generate WCAG accessible menus in the DOM.",
   themeConfig: {
-    // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: "Home", link: "/" },
       { text: "Examples", link: "/markdown-examples" },
@@ -13,16 +13,16 @@ export default defineConfig({
 
     sidebar: [
       {
-        text: "Examples",
+        text: "Introduction",
         items: [
-          { text: "Markdown Examples", link: "/markdown-examples" },
-          { text: "Runtime API Examples", link: "/api-examples" },
+          { text: "Getting started", link: "/getting-started" },
+          { text: "Browser support", link: "/browser-support" },
         ],
       },
     ],
 
     socialLinks: [
-      { icon: "github", link: "https://github.com/vuejs/vitepress" },
+      { icon: "github", link: "https://github.com/nickdjm/accessible-menu" },
     ],
   },
 });
