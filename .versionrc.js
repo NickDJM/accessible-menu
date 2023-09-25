@@ -68,4 +68,4 @@ config.bumpFiles = [
   },
 ];
 
-module.exports = config;
+export default config;

@@ -1,14 +1,22 @@
-module.exports = {
+import jsdoc from "eslint-plugin-jsdoc";
+import babelParser from "@babel/eslint-parser";
+import globals from "globals";
+import js from "@eslint/js";
+import prettier from "eslint-config-prettier";
+
+const config = {
   root: true,
-  env: {
-    browser: true,
-    es2021: true,
-  },
   extends: ["standard", "plugin:jsdoc/recommended", "prettier"],
-  plugins: ["jsdoc"],
-  parser: "@babel/eslint-parser",
-  parserOptions: {
-    sourceType: "module",
+  plugins: [jsdoc],
+  languageOptions: {
+    globals: {
+      ...globals.browser,
+    parser: babelParser,
+    parserOptions: {
+      ecmaVersion: 2022,
+      sourceType: "module",
+    }
+  },
   },
   rules: {
     "no-console": [
@@ -45,3 +53,9 @@ module.exports = {
     },
   },
 };
+
+export default [
+  js.configs.recommended,
+  prettier.rules,
+  config,
+];
