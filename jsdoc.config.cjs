@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   source: {
     include: ["src", "README.md"],
     includePattern: ".js$",
