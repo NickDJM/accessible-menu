@@ -2,12 +2,38 @@
   "name": "accessible-menu",
   "version": "4.0.0-beta.4",
   "description": "A JavaScript library to help you generate WCAG accessible menus in the DOM.",
-  "main": "index.js",
+  "jsdelivr": "dist/accessible-menu.iife.js",
+  "unpkg": "dist/accessible-menu.iife.js",
+  "browser": "dist/accessible-menu.iife.js",
+  "main": "dist/accessible-menu.cjs.js",
+  "module": "dist/accessible-menu.es.js",
   "files": [
     "index.js",
     "dist/",
     "src/"
   ],
+  "exports": {
+    ".": {
+      "import": "./dist/accessible-menu.es.js",
+      "require": "./dist/accessible-menu.cjs.js"
+    },
+    "./disclosure-menu": {
+      "import": "./dist/disclosure-menu.es.js",
+      "require": "./dist/disclosure-menu.cjs.js"
+    },
+    "./menubar": {
+      "import": "./dist/menubar.es.js",
+      "require": "./dist/menubar.cjs.js"
+    },
+    "./top-link-disclosure-menu": {
+      "import": "./dist/top-link-disclosure-menu.es.js",
+      "require": "./dist/top-link-disclosure-menu.cjs.js"
+    },
+    "./treeview": {
+      "import": "./dist/treeview.es.js",
+      "require": "./dist/treeview.cjs.js"
+    }
+  },
   "scripts": {
     "prepare": "husky install",
     "commit": "git-cz",

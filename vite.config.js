@@ -6,7 +6,7 @@ import BrowserSync from "vite-plugin-browser-sync";
 const buildType = process.env.BUILD_TYPE ?? "default";
 
 // Supported build types.
-const formats = ["iife", "es"];
+const formats = ["iife", "es", "cjs"];
 
 // The library options for the different menus.
 const lib = {
