@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.0-beta.5](https://github.com/NickDJM/accessible-menu/compare/v4.0.0-beta.4...v4.0.0-beta.5) (2023-09-26)
+
+
+### Features
+
+* add cjs support and define exports ([2d9d33f](https://github.com/NickDJM/accessible-menu/commit/2d9d33f32b23a4b09634dc3558f0357f09a3bbcf))
+
+
+### Build System
+
+* **actions:** update checkout to v4 ([a481c5f](https://github.com/NickDJM/accessible-menu/commit/a481c5f47374d8d688981db960369880cdb99984))
+
+
+### Documentation
+
+* **readme:** correct test badge name ([f5cb292](https://github.com/NickDJM/accessible-menu/commit/f5cb292a6855ae293327d6725fe6670f2059976b))
+
+
+### Continuous Integration
+
+* update push and pr rules ([15cbe9f](https://github.com/NickDJM/accessible-menu/commit/15cbe9f72ea188d484ff338e9dad30ba22d1307c))
+
 ## [4.0.0-beta.4](https://github.com/NickDJM/accessible-menu/compare/v4.0.0-beta.3...v4.0.0-beta.4) (2023-06-29)
 
 
