@@ -43,7 +43,7 @@
     "commit": "git-cz",
     "lint": "npm run eslint -- --fix && npm run prettier -- --write",
     "eslint": "eslint .",
-    "prettier": "prettier **/*.js",
+    "prettier": "prettier **/*.{js,cjs,mjs}",
     "prerelease": "npm run lint && npm run build && npm run test:run",
     "release": "git add dist/. && standard-version -a",
     "build": "npm run build:default; npm run build:disclosure-menu; npm run build:menubar; npm run build:top-link-disclosure-menu; npm run build:treeview",
