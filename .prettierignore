@@ -2,8 +2,8 @@
 .DS_Store
 
 # Auto-generated directories.
-**/node_modules/*
-**/dist/*
+node_modules
+dist
 
 # Lock files.
 package-lock.json

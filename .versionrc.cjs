@@ -64,7 +64,7 @@ config.bumpFiles = [
   ...config.packageFiles,
   {
     filename: "README.md",
-    updater: "./updater-readme.js",
+    updater: "./updater-readme.cjs",
   },
 ];
 
