@@ -2,7 +2,7 @@
 
 [![Latest release](https://img.shields.io/npm/v/accessible-menu?label=RELEASE&style=for-the-badge)](https://www.npmjs.com/package/accessible-menu)
 [![License](https://img.shields.io/github/license/NickDJM/accessible-menu?style=for-the-badge)](/LICENSE)
-[![Jest tests](https://img.shields.io/github/actions/workflow/status/nickdjm/accessible-menu/test.yml?branch=4.x&label=Tests&style=for-the-badge)](https://github.com/NickDJM/accessible-menu/actions/workflows/test.yml)
+[![Tests](https://img.shields.io/github/actions/workflow/status/nickdjm/accessible-menu/test.yml?branch=4.x&label=Tests&style=for-the-badge)](https://github.com/NickDJM/accessible-menu/actions/workflows/test.yml)
 [![GitHub CodeQL](https://img.shields.io/github/actions/workflow/status/nickdjm/accessible-menu/codeql-analysis.yml?branch=4.x&label=CodeQL&style=for-the-badge)](https://github.com/NickDJM/accessible-menu/actions/workflows/codeql-analysis.yml)
 
 A JavaScript library to help you generate WCAG accessible menus in the DOM.
