@@ -1,8 +1,14 @@
 import { resolve } from "path";
 import { defineConfig } from "vite";
 import BrowserSync from "vite-plugin-browser-sync";
+import { fileURLToPath, URL } from "url";
+import process from "process";
 
-// The type of menu to build.
+// Get the current directory path.
+const __dirname = fileURLToPath(new URL(".", import.meta.url));
+
+// The type of menu to build from the BUILD_TYPE environment variable.
+// If BUILD_TYPE is not set, the default build is used
 const buildType = process.env.BUILD_TYPE ?? "default";
 
 // Supported build types.
@@ -42,6 +48,7 @@ const lib = {
   },
 };
 
+// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [BrowserSync()],
   build: {
