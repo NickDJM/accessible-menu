@@ -2,7 +2,7 @@
 
 [![Latest release](https://img.shields.io/npm/v/accessible-menu?label=RELEASE&style=for-the-badge)](https://www.npmjs.com/package/accessible-menu)
 [![License](https://img.shields.io/github/license/NickDJM/accessible-menu?style=for-the-badge)](/LICENSE)
-[![Jest tests](https://img.shields.io/github/actions/workflow/status/nickdjm/accessible-menu/test.yml?branch=4.x&label=Tests&style=for-the-badge)](https://github.com/NickDJM/accessible-menu/actions/workflows/test.yml)
+[![Tests](https://img.shields.io/github/actions/workflow/status/nickdjm/accessible-menu/test.yml?branch=4.x&label=Tests&style=for-the-badge)](https://github.com/NickDJM/accessible-menu/actions/workflows/test.yml)
 [![GitHub CodeQL](https://img.shields.io/github/actions/workflow/status/nickdjm/accessible-menu/codeql-analysis.yml?branch=4.x&label=CodeQL&style=for-the-badge)](https://github.com/NickDJM/accessible-menu/actions/workflows/codeql-analysis.yml)
 
 A JavaScript library to help you generate WCAG accessible menus in the DOM.
@@ -44,7 +44,7 @@ For learning/prototyping purposes you can use the latest version with:
 For production environments, it is recommend to use a specific version to avoid unforseen breaking changes:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/accessible-menu@4.0.0-beta.4/dist/accessible-menu.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/accessible-menu@4.0.0-beta.5/dist/accessible-menu.min.js"></script>
 ```
 
 ## Upgrading from version 2 to version 3?
@@ -78,7 +78,7 @@ import AccessibleMenu from "accessible-menu";
 or
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/accessible-menu@4.0.0-beta.4/dist/accessible-menu.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/accessible-menu@4.0.0-beta.5/dist/accessible-menu.min.js"></script>
 ```
 
 Once you have **accessible-menu** loaded, declare a new menu object.
@@ -107,7 +107,7 @@ import { DisclosureMenu } from "accessible-menu";
 or
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/accessible-menu@4.0.0-beta.4/dist/disclosure-menu.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/accessible-menu@4.0.0-beta.5/dist/disclosure-menu.min.js"></script>
 ```
 
 then
@@ -128,7 +128,7 @@ import { Menubar } from "accessible-menu";
 or
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/accessible-menu@4.0.0-beta.4/dist/menubar.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/accessible-menu@4.0.0-beta.5/dist/menubar.min.js"></script>
 ```
 
 then
@@ -149,7 +149,7 @@ import { TopLinkDisclosureMenu } from "accessible-menu";
 or
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/accessible-menu@4.0.0-beta.4/dist/top-link-disclosure-menu.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/accessible-menu@4.0.0-beta.5/dist/top-link-disclosure-menu.min.js"></script>
 ```
 
 then
@@ -170,7 +170,7 @@ import { Treeview } from "accessible-menu";
 or
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/accessible-menu@4.0.0-beta.4/dist/treeview.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/accessible-menu@4.0.0-beta.5/dist/treeview.min.js"></script>
 ```
 
 then
