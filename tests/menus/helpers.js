@@ -2,7 +2,8 @@
  * Helper functions for testing menus.
  */
 
-import BaseMenu from "../../src/_baseMenu.js";
+// eslint-disable-next-line no-unused-vars
+// global BaseMenu
 
 /**
  * Extends jsdom MouseEvent class as PointerEvent class

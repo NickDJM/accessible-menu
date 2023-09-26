@@ -12,7 +12,7 @@
  * @param  {string} contents - The contents of the file.
  * @return {string}          - The version number.
  */
-module.exports.readVersion = (contents) => {
+export const readVersion = (contents) => {
   try {
     const version = contents
       .match(/\/accessible-menu@\d+\.\d+\.\d+(-.*?\.\d+)?\//)[0]
@@ -31,7 +31,7 @@ module.exports.readVersion = (contents) => {
  * @param  {string} version  - The new version number.
  * @return {string}          - The new contents of the file.
  */
-module.exports.writeVersion = (contents, version) => {
+export const writeVersion = (contents, version) => {
   return contents.replace(
     /\/accessible-menu@\d+\.\d+\.\d+(-.*?\.\d+)?\//g,
     `/accessible-menu@${version}/`
