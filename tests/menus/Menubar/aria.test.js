@@ -133,7 +133,7 @@ describe("Menubar", () => {
         index,
         item,
       }))
-    )("Submenu item $index", ({ index, item }) => {
+    )("Submenu item $index", ({ item }) => {
       // Test the submenu item's role attribute.
       it("should set the submenu item's role attribute", () => {
         expect(item.dom.item.getAttribute("role")).toBe("none");

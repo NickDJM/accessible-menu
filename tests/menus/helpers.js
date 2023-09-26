@@ -3,7 +3,7 @@
  */
 
 // eslint-disable-next-line no-unused-vars
-// global BaseMenu
+/* global BaseMenu */
 
 /**
  * Extends jsdom MouseEvent class as PointerEvent class
