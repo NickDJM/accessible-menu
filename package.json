@@ -68,7 +68,7 @@
     "jest-extended": "^4.0.0",
     "jsdoc": "^4.0.2",
     "jsdoc-typeof-plugin": "^1.0.0",
-    "lint-staged": "^13.2.3",
+    "lint-staged": "^15.0.1",
     "prettier": "^2.8.8",
     "rollup": "^2.79.1",
     "rollup-plugin-cleanup": "^3.2.1",
