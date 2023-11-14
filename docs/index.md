@@ -3,14 +3,14 @@ layout: home
 
 hero:
   name: "Accessible Menu"
-  tagline: "A JavaScript library to help you generate WCAG accessible menus in the DOM."
+  tagline: "A JavaScript library to help you effortlessly create WCAG-compliant menus in the DOM."
   actions:
     - theme: brand
       text: Get started
-      link: /getting-started
-    - theme: alt
-      text: Menu types
-      link: /menu-types
+      link: /introduction
+    # - theme: alt
+    #   text: Menu types
+    #   link: /menu-types
 
 features:
   - title: Easy to use

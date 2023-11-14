@@ -6,18 +6,19 @@ export default defineConfig({
   description:
     "A JavaScript library to help you generate WCAG accessible menus in the DOM.",
   themeConfig: {
-    nav: [
-      { text: "Home", link: "/" },
-      { text: "Examples", link: "/markdown-examples" },
-    ],
+    nav: [{ text: "Home", link: "/" }],
 
     sidebar: [
       {
-        text: "Introduction",
+        text: "Getting Started",
         items: [
-          { text: "Getting started", link: "/getting-started" },
-          { text: "Browser support", link: "/browser-support" },
+          { text: "Introduction", link: "/introduction" },
+          { text: "Quick Start", link: "/quick-start" },
         ],
+      },
+      {
+        text: "Other Topics",
+        items: [{ text: "Browser support", link: "/browser-support" }],
       },
     ],
 
