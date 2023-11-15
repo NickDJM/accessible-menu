@@ -14,6 +14,7 @@ export default defineConfig({
         items: [
           { text: "Introduction", link: "/introduction" },
           { text: "Quick Start", link: "/quick-start" },
+          { text: "Supported Menus", link: "/supported-menus" },
         ],
       },
       {
