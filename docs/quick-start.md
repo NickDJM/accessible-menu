@@ -17,7 +17,7 @@ You can use Accessible Menu directly from a CDN via a script tag.
 <script src="https://cdn.jsdelivr.net/npm/accessible-menu/dist/accessible-menu.iife.js"></script>
 ```
 
-We use [jsdelivr](https://www.jsdelivr.com/package/npm/accessible-menu) is used as the example, but you can use any cdn you prefer, such as [unpkg](https://unpkg.com). You can also download the files listed in the CDN and host them yourself if preferred.
+We use [jsdelivr](https://www.jsdelivr.com/package/npm/accessible-menu) as the example, but you can use any cdn you prefer, such as [unpkg](https://unpkg.com). You can also download the files listed in the CDN and host them yourself if preferred.
 
 ## Setup
 
