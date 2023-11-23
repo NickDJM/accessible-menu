@@ -235,7 +235,7 @@ class BaseMenu {
   _errors = [];
 
   /**
-   * Constructs the menu.
+   * Constructs a new `BaseMenu`.
    *
    * @param {object}             options                                   - The options for generating the menu.
    * @param {HTMLElement}        options.menuElement                       - The menu element in the DOM.
@@ -501,6 +501,8 @@ class BaseMenu {
   /**
    * The currently selected menu item.
    *
+   * @readonly
+   *
    * @type {BaseMenuItem}
    */
   get currentMenuItem() {
@@ -579,6 +581,8 @@ class BaseMenu {
    * - The menu's current event is "character".
    * - The menu's current event is "mouse" _and_ the menu's
    *   {@link BaseMenu#_hoverType|hover type} is "dynamic".
+   *
+   * @readonly
    *
    * @type {boolean}
    */
