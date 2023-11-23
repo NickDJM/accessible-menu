@@ -6,7 +6,7 @@ import BaseMenuItem from "./_baseMenuItem.js";
 import {
   isValidInstance,
   isValidType,
-  isCSSSelector,
+  isQuerySelector,
   isValidClassList,
   isValidState,
   isValidEvent,
@@ -76,17 +76,17 @@ class BaseMenu {
   };
 
   /**
-   * The CSS selectors used by the menu to populate the {@link BaseMenu#dom|dom}.
+   * The query selectors used by the menu to populate the {@link BaseMenu#dom|dom}.
    *
    * @protected
    *
    * @type {Object<string>}
    *
-   * @property {string} menuItems      - The CSS selector for menu items.
-   * @property {string} menuLinks      - The CSS selector for menu links.
-   * @property {string} submenuItems   - The CSS selector for menu items containing submenus.
-   * @property {string} submenuToggles - The CSS selector for menu links that function as submenu toggles.
-   * @property {string} submenus       - The CSS selector for for submenus.
+   * @property {string} menuItems      - The query selector for menu items.
+   * @property {string} menuLinks      - The query selector for menu links.
+   * @property {string} submenuItems   - The query selector for menu items containing submenus.
+   * @property {string} submenuToggles - The query selector for menu links that function as submenu toggles.
+   * @property {string} submenus       - The query selector for for submenus.
    */
   _selectors = {
     menuItems: "",
@@ -239,11 +239,11 @@ class BaseMenu {
    *
    * @param {object}             options                                   - The options for generating the menu.
    * @param {HTMLElement}        options.menuElement                       - The menu element in the DOM.
-   * @param {string}             [options.menuItemSelector = li]           - The CSS selector string for menu items.
-   * @param {string}             [options.menuLinkSelector = a]            - The CSS selector string for menu links.
-   * @param {string}             [options.submenuItemSelector]             - The CSS selector string for menu items containing submenus.
-   * @param {string}             [options.submenuToggleSelector = a]       - The CSS selector string for submenu toggle buttons/links.
-   * @param {string}             [options.submenuSelector = ul]            - The CSS selector string for submenus.
+   * @param {string}             [options.menuItemSelector = li]           - The query selector string for menu items.
+   * @param {string}             [options.menuLinkSelector = a]            - The query selector string for menu links.
+   * @param {string}             [options.submenuItemSelector]             - The query selector string for menu items containing submenus.
+   * @param {string}             [options.submenuToggleSelector = a]       - The query selector string for submenu toggle buttons/links.
+   * @param {string}             [options.submenuSelector = ul]            - The query selector string for submenus.
    * @param {?HTMLElement}       [options.controllerElement = null]        - The element controlling the menu in the DOM.
    * @param {?HTMLElement}       [options.containerElement = null]         - The element containing the menu in the DOM.
    * @param {?(string|string[])} [options.openClass = show]                - The class to apply when a menu is "open".
@@ -367,7 +367,7 @@ class BaseMenu {
   }
 
   /**
-   * The CSS selectors used by the menu to populate the {@link BaseMenu#dom|dom}.
+   * The query selectors used by the menu to populate the {@link BaseMenu#dom|dom}.
    *
    * @readonly
    *
@@ -782,11 +782,11 @@ class BaseMenu {
       check = false;
     }
 
-    // CSS Selector Checks.
-    let cssSelectorChecks;
+    // Query selector checks.
+    let querySelectorChecks;
 
     if (this._selectors.submenuItems !== "") {
-      cssSelectorChecks = isCSSSelector({
+      querySelectorChecks = isQuerySelector({
         menuItemSelector: this._selectors.menuItems,
         menuLinkSelector: this._selectors.menuLinks,
         submenuItemSelector: this._selectors.submenuItems,
@@ -794,14 +794,14 @@ class BaseMenu {
         submenuSelector: this._selectors.submenus,
       });
     } else {
-      cssSelectorChecks = isCSSSelector({
+      querySelectorChecks = isQuerySelector({
         menuItemSelector: this._selectors.menuItems,
         menuLinkSelector: this._selectors.menuLinks,
       });
     }
 
-    if (!cssSelectorChecks.status) {
-      this._errors.push(cssSelectorChecks.error.message);
+    if (!querySelectorChecks.status) {
+      this._errors.push(querySelectorChecks.error.message);
       check = false;
     }
 
