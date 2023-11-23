@@ -62,7 +62,7 @@ function k(n) {
     if (typeof n != "object") {
       const e = typeof n;
       throw new TypeError(
-        `Values given to isCSSSelector() must be inside of an object. "${e}" given.`
+        `Values given to isQuerySelector() must be inside of an object. "${e}" given.`
       );
     }
     for (const e in n)
@@ -72,7 +72,7 @@ function k(n) {
         document.querySelector(n[e]);
       } catch {
         throw new TypeError(
-          `${e} must be a valid CSS selector. "${n[e]}" given.`
+          `${e} must be a valid query selector. "${n[e]}" given.`
         );
       }
     return {
@@ -205,7 +205,7 @@ function D(n) {
     };
   }
 }
-function z(n, e) {
+function q(n, e) {
   if (a("string", { tagName: n }).status && g(HTMLElement, e).status) {
     const t = n.toLowerCase();
     let s = !0;
@@ -324,7 +324,7 @@ class I {
    */
   initialize() {
     var e;
-    if (this.dom.toggle.setAttribute("aria-haspopup", "true"), this.dom.toggle.setAttribute("aria-expanded", "false"), z("button", { toggle: this.dom.toggle }) || this.dom.toggle.setAttribute("role", "button"), this.dom.toggle.id === "" || this.elements.controlledMenu.dom.menu.id === "") {
+    if (this.dom.toggle.setAttribute("aria-haspopup", "true"), this.dom.toggle.setAttribute("aria-expanded", "false"), q("button", { toggle: this.dom.toggle }) || this.dom.toggle.setAttribute("role", "button"), this.dom.toggle.id === "" || this.elements.controlledMenu.dom.menu.id === "") {
       const t = Math.random().toString(36).replace(/[^a-z]+/g, "").substr(0, 10);
       let s = ((e = this.dom.toggle.innerText) == null ? void 0 : e.replace(/[^a-zA-Z0-9\s]/g, "")) || "", i = t;
       !s.replace(/\s/g, "").length && this.dom.toggle.getAttribute("aria-label") && (s = this.dom.toggle.getAttribute("aria-label").replace(/[^a-zA-Z0-9\s]/g, "")), s.replace(/\s/g, "").length > 0 && (s = s.toLowerCase().replace(/\s+/g, "-"), s.startsWith("-") && (s = s.substring(1)), s.endsWith("-") && (s = s.slice(0, -1)), i = `${s}-${i}`), this.dom.toggle.id = this.dom.toggle.id || `${i}-menu-button`, this.elements.controlledMenu.dom.menu.id = this.elements.controlledMenu.dom.menu.id || `${i}-menu`;
@@ -627,11 +627,11 @@ class b {
    *
    * @param {object}             options                                   - The options for generating the menu.
    * @param {HTMLElement}        options.menuElement                       - The menu element in the DOM.
-   * @param {string}             [options.menuItemSelector = li]           - The CSS selector string for menu items.
-   * @param {string}             [options.menuLinkSelector = a]            - The CSS selector string for menu links.
-   * @param {string}             [options.submenuItemSelector]             - The CSS selector string for menu items containing submenus.
-   * @param {string}             [options.submenuToggleSelector = a]       - The CSS selector string for submenu toggle buttons/links.
-   * @param {string}             [options.submenuSelector = ul]            - The CSS selector string for submenus.
+   * @param {string}             [options.menuItemSelector = li]           - The query selector string for menu items.
+   * @param {string}             [options.menuLinkSelector = a]            - The query selector string for menu links.
+   * @param {string}             [options.submenuItemSelector]             - The query selector string for menu items containing submenus.
+   * @param {string}             [options.submenuToggleSelector = a]       - The query selector string for submenu toggle buttons/links.
+   * @param {string}             [options.submenuSelector = ul]            - The query selector string for submenus.
    * @param {?HTMLElement}       [options.controllerElement = null]        - The element controlling the menu in the DOM.
    * @param {?HTMLElement}       [options.containerElement = null]         - The element containing the menu in the DOM.
    * @param {?(string|string[])} [options.openClass = show]                - The class to apply when a menu is "open".
@@ -713,17 +713,17 @@ class b {
       container: null
     });
     /**
-     * The CSS selectors used by the menu to populate the {@link BaseMenu#dom|dom}.
+     * The query selectors used by the menu to populate the {@link BaseMenu#dom|dom}.
      *
      * @protected
      *
      * @type {Object<string>}
      *
-     * @property {string} menuItems      - The CSS selector for menu items.
-     * @property {string} menuLinks      - The CSS selector for menu links.
-     * @property {string} submenuItems   - The CSS selector for menu items containing submenus.
-     * @property {string} submenuToggles - The CSS selector for menu links that function as submenu toggles.
-     * @property {string} submenus       - The CSS selector for for submenus.
+     * @property {string} menuItems      - The query selector for menu items.
+     * @property {string} menuLinks      - The query selector for menu links.
+     * @property {string} submenuItems   - The query selector for menu items containing submenus.
+     * @property {string} submenuToggles - The query selector for menu links that function as submenu toggles.
+     * @property {string} submenus       - The query selector for for submenus.
      */
     r(this, "_selectors", {
       menuItems: "",
@@ -903,7 +903,7 @@ class b {
     return this._dom;
   }
   /**
-   * The CSS selectors used by the menu to populate the {@link BaseMenu#dom|dom}.
+   * The query selectors used by the menu to populate the {@link BaseMenu#dom|dom}.
    *
    * @readonly
    *
@@ -1600,7 +1600,7 @@ class b {
     });
   }
 }
-class H extends L {
+class z extends L {
   /**
    * Constructs the menu item.
    *
@@ -1632,7 +1632,7 @@ class H extends L {
     }), c && this.initialize();
   }
 }
-class q extends I {
+class H extends I {
   /**
    * Constructs the menu toggle.
    *
@@ -1691,11 +1691,11 @@ class A extends b {
    *
    * @param {object}             options                                   - The options for generating the menu.
    * @param {HTMLElement}        options.menuElement                       - The menu element in the DOM.
-   * @param {string}             [options.menuItemSelector = li]           - The CSS selector string for menu items.
-   * @param {string}             [options.menuLinkSelector = a]            - The CSS selector string for menu links.
-   * @param {string}             [options.submenuItemSelector]             - The CSS selector string for menu items containing submenus.
-   * @param {string}             [options.submenuToggleSelector = a]       - The CSS selector string for submenu toggle buttons/links.
-   * @param {string}             [options.submenuSelector = ul]            - The CSS selector string for submenus.
+   * @param {string}             [options.menuItemSelector = li]           - The query selector string for menu items.
+   * @param {string}             [options.menuLinkSelector = a]            - The query selector string for menu links.
+   * @param {string}             [options.submenuItemSelector]             - The query selector string for menu items containing submenus.
+   * @param {string}             [options.submenuToggleSelector = a]       - The query selector string for submenu toggle buttons/links.
+   * @param {string}             [options.submenuSelector = ul]            - The query selector string for submenus.
    * @param {?HTMLElement}       [options.controllerElement = null]        - The element controlling the menu in the DOM.
    * @param {?HTMLElement}       [options.containerElement = null]         - The element containing the menu in the DOM.
    * @param {?(string|string[])} [options.openClass = show]                - The class to apply when a menu is "open".
@@ -1766,7 +1766,7 @@ class A extends b {
      *
      * @type {typeof DisclosureMenuItem}
      */
-    r(this, "_MenuItemType", H);
+    r(this, "_MenuItemType", z);
     /**
      * The class to use when generating submenu toggles.
      *
@@ -1774,7 +1774,7 @@ class A extends b {
      *
      * @type {typeof DisclosureMenuToggle}
      */
-    r(this, "_MenuToggleType", q);
+    r(this, "_MenuToggleType", H);
     /**
      * The index of the currently selected {@link DisclosureMenu|menu item} in the menu.
      *

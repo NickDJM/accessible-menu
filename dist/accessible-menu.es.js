@@ -62,7 +62,7 @@ function D(r) {
     if (typeof r != "object") {
       const t = typeof r;
       throw new TypeError(
-        `Values given to isCSSSelector() must be inside of an object. "${t}" given.`
+        `Values given to isQuerySelector() must be inside of an object. "${t}" given.`
       );
     }
     for (const t in r)
@@ -72,7 +72,7 @@ function D(r) {
         document.querySelector(r[t]);
       } catch {
         throw new TypeError(
-          `${t} must be a valid CSS selector. "${r[t]}" given.`
+          `${t} must be a valid query selector. "${r[t]}" given.`
         );
       }
     return {
@@ -627,11 +627,11 @@ class T {
    *
    * @param {object}             options                                   - The options for generating the menu.
    * @param {HTMLElement}        options.menuElement                       - The menu element in the DOM.
-   * @param {string}             [options.menuItemSelector = li]           - The CSS selector string for menu items.
-   * @param {string}             [options.menuLinkSelector = a]            - The CSS selector string for menu links.
-   * @param {string}             [options.submenuItemSelector]             - The CSS selector string for menu items containing submenus.
-   * @param {string}             [options.submenuToggleSelector = a]       - The CSS selector string for submenu toggle buttons/links.
-   * @param {string}             [options.submenuSelector = ul]            - The CSS selector string for submenus.
+   * @param {string}             [options.menuItemSelector = li]           - The query selector string for menu items.
+   * @param {string}             [options.menuLinkSelector = a]            - The query selector string for menu links.
+   * @param {string}             [options.submenuItemSelector]             - The query selector string for menu items containing submenus.
+   * @param {string}             [options.submenuToggleSelector = a]       - The query selector string for submenu toggle buttons/links.
+   * @param {string}             [options.submenuSelector = ul]            - The query selector string for submenus.
    * @param {?HTMLElement}       [options.controllerElement = null]        - The element controlling the menu in the DOM.
    * @param {?HTMLElement}       [options.containerElement = null]         - The element containing the menu in the DOM.
    * @param {?(string|string[])} [options.openClass = show]                - The class to apply when a menu is "open".
@@ -713,17 +713,17 @@ class T {
       container: null
     });
     /**
-     * The CSS selectors used by the menu to populate the {@link BaseMenu#dom|dom}.
+     * The query selectors used by the menu to populate the {@link BaseMenu#dom|dom}.
      *
      * @protected
      *
      * @type {Object<string>}
      *
-     * @property {string} menuItems      - The CSS selector for menu items.
-     * @property {string} menuLinks      - The CSS selector for menu links.
-     * @property {string} submenuItems   - The CSS selector for menu items containing submenus.
-     * @property {string} submenuToggles - The CSS selector for menu links that function as submenu toggles.
-     * @property {string} submenus       - The CSS selector for for submenus.
+     * @property {string} menuItems      - The query selector for menu items.
+     * @property {string} menuLinks      - The query selector for menu links.
+     * @property {string} submenuItems   - The query selector for menu items containing submenus.
+     * @property {string} submenuToggles - The query selector for menu links that function as submenu toggles.
+     * @property {string} submenus       - The query selector for for submenus.
      */
     u(this, "_selectors", {
       menuItems: "",
@@ -903,7 +903,7 @@ class T {
     return this._dom;
   }
   /**
-   * The CSS selectors used by the menu to populate the {@link BaseMenu#dom|dom}.
+   * The query selectors used by the menu to populate the {@link BaseMenu#dom|dom}.
    *
    * @readonly
    *
@@ -1691,11 +1691,11 @@ class x extends T {
    *
    * @param {object}             options                                   - The options for generating the menu.
    * @param {HTMLElement}        options.menuElement                       - The menu element in the DOM.
-   * @param {string}             [options.menuItemSelector = li]           - The CSS selector string for menu items.
-   * @param {string}             [options.menuLinkSelector = a]            - The CSS selector string for menu links.
-   * @param {string}             [options.submenuItemSelector]             - The CSS selector string for menu items containing submenus.
-   * @param {string}             [options.submenuToggleSelector = a]       - The CSS selector string for submenu toggle buttons/links.
-   * @param {string}             [options.submenuSelector = ul]            - The CSS selector string for submenus.
+   * @param {string}             [options.menuItemSelector = li]           - The query selector string for menu items.
+   * @param {string}             [options.menuLinkSelector = a]            - The query selector string for menu links.
+   * @param {string}             [options.submenuItemSelector]             - The query selector string for menu items containing submenus.
+   * @param {string}             [options.submenuToggleSelector = a]       - The query selector string for submenu toggle buttons/links.
+   * @param {string}             [options.submenuSelector = ul]            - The query selector string for submenus.
    * @param {?HTMLElement}       [options.controllerElement = null]        - The element controlling the menu in the DOM.
    * @param {?HTMLElement}       [options.containerElement = null]         - The element containing the menu in the DOM.
    * @param {?(string|string[])} [options.openClass = show]                - The class to apply when a menu is "open".
@@ -2044,11 +2044,11 @@ class K extends T {
    *
    * @param {object}             options                                   - The options for generating the menu.
    * @param {HTMLElement}        options.menuElement                       - The menu element in the DOM.
-   * @param {string}             [options.menuItemSelector = li]           - The CSS selector string for menu items.
-   * @param {string}             [options.menuLinkSelector = a]            - The CSS selector string for menu links.
-   * @param {string}             [options.submenuItemSelector]             - The CSS selector string for menu items containing submenus.
-   * @param {string}             [options.submenuToggleSelector = a]       - The CSS selector string for submenu toggle buttons/links.
-   * @param {string}             [options.submenuSelector = ul]            - The CSS selector string for submenus.
+   * @param {string}             [options.menuItemSelector = li]           - The query selector string for menu items.
+   * @param {string}             [options.menuLinkSelector = a]            - The query selector string for menu links.
+   * @param {string}             [options.submenuItemSelector]             - The query selector string for menu items containing submenus.
+   * @param {string}             [options.submenuToggleSelector = a]       - The query selector string for submenu toggle buttons/links.
+   * @param {string}             [options.submenuSelector = ul]            - The query selector string for submenus.
    * @param {?HTMLElement}       [options.controllerElement = null]        - The element controlling the menu in the DOM.
    * @param {?HTMLElement}       [options.containerElement = null]         - The element containing the menu in the DOM.
    * @param {?(string|string[])} [options.openClass = show]                - The class to apply when a menu is "open".
@@ -2311,7 +2311,7 @@ class K extends T {
     }
   }
 }
-class B extends A {
+class Q extends A {
   /**
    * Constructs the menu item.
    *
@@ -2364,7 +2364,7 @@ class B extends A {
     this._elements.parentMenu = n, this._elements.childMenu = l, this._elements.toggle = h, this._elements.sibling = m, c && this.initialize();
   }
 }
-class G extends L {
+class B extends L {
   /**
    * Constructs the menu toggle.
    *
@@ -2423,12 +2423,12 @@ class F extends T {
    *
    * @param {object}                 options                                   - The options for generating the menu.
    * @param {HTMLElement}            options.menuElement                       - The menu element in the DOM.
-   * @param {string}                 [options.menuItemSelector = li]           - The CSS selector string for menu items.
-   * @param {string}                 [options.menuLinkSelector = a]            - The CSS selector string for menu links.
-   * @param {string}                 [options.submenuItemSelector]             - The CSS selector string for menu items containing submenus.
-   * @param {string}                 [options.submenuToggleSelector = button]  - The CSS selector string for submenu toggle buttons/links.
-   * @param {string}                 [options.submenuSelector = ul]            - The CSS selector string for submenus.
-   * @param {string}                 [options.submenuSubtoggleSelector = a]    - The CSS selector string for submenu toggle buttons/links below the top level.
+   * @param {string}                 [options.menuItemSelector = li]           - The query selector string for menu items.
+   * @param {string}                 [options.menuLinkSelector = a]            - The query selector string for menu links.
+   * @param {string}                 [options.submenuItemSelector]             - The query selector string for menu items containing submenus.
+   * @param {string}                 [options.submenuToggleSelector = button]  - The query selector string for submenu toggle buttons/links.
+   * @param {string}                 [options.submenuSelector = ul]            - The query selector string for submenus.
+   * @param {string}                 [options.submenuSubtoggleSelector = a]    - The query selector string for submenu toggle buttons/links below the top level.
    * @param {?HTMLElement}           [options.controllerElement = null]        - The element controlling the menu in the DOM.
    * @param {?HTMLElement}           [options.containerElement = null]         - The element containing the menu in the DOM.
    * @param {?(string|string[])}     [options.openClass = show]                - The class to apply when a menu is "open".
@@ -2500,7 +2500,7 @@ class F extends T {
      *
      * @type {typeof TopLinkDisclosureMenuItem}
      */
-    u(this, "_MenuItemType", B);
+    u(this, "_MenuItemType", Q);
     /**
      * The class to use when generating submenu toggles.
      *
@@ -2508,7 +2508,7 @@ class F extends T {
      *
      * @type {typeof TopLinkDisclosureMenuToggle}
      */
-    u(this, "_MenuToggleType", G);
+    u(this, "_MenuToggleType", B);
     /**
      * The index of the currently selected {@link TopLinkDisclosureMenuItem|menu item} in the menu.
      *
@@ -2518,18 +2518,18 @@ class F extends T {
      */
     u(this, "_currentChild", -1);
     /**
-     * The CSS selectors used by the menu to populate the {@link TopLinkDisclosureMenu#dom|dom}.
+     * The query selectors used by the menu to populate the {@link TopLinkDisclosureMenu#dom|dom}.
      *
      * @protected
      *
      * @type {Object<string>}
      *
-     * @property {string} menuItems         - The CSS selector for menu items.
-     * @property {string} menuLinks         - The CSS selector for menu links.
-     * @property {string} submenuItems      - The CSS selector for menu items containing submenus.
-     * @property {string} submenuToggles    - The CSS selector for menu links that function as submenu toggles.
-     * @property {string} submenus          - The CSS selector for for submenus.
-     * @property {string} submenuSubtoggles - The CSS selector for menu links that function as submenu toggles below the top level.
+     * @property {string} menuItems         - The query selector for menu items.
+     * @property {string} menuLinks         - The query selector for menu links.
+     * @property {string} submenuItems      - The query selector for menu items containing submenus.
+     * @property {string} submenuToggles    - The query selector for menu links that function as submenu toggles.
+     * @property {string} submenus          - The query selector for for submenus.
+     * @property {string} submenuSubtoggles - The query selector for menu links that function as submenu toggles below the top level.
      */
     u(this, "_selectors", {
       menuItems: "",
@@ -2823,7 +2823,7 @@ class F extends T {
     });
   }
 }
-class J extends A {
+class G extends A {
   /**
    * Constructs the menu item.
    *
@@ -2886,7 +2886,7 @@ class J extends A {
     super.blur(), this.dom.link.tabIndex = -1;
   }
 }
-class Q extends L {
+class J extends L {
   /**
    * Constructs the menu toggle.
    *
@@ -2918,11 +2918,11 @@ class $ extends T {
    *
    * @param {object}             options                                   - The options for generating the menu.
    * @param {HTMLElement}        options.menuElement                       - The menu element in the DOM.
-   * @param {string}             [options.menuItemSelector = li]           - The CSS selector string for menu items.
-   * @param {string}             [options.menuLinkSelector = a]            - The CSS selector string for menu links.
-   * @param {string}             [options.submenuItemSelector]             - The CSS selector string for menu items containing submenus.
-   * @param {string}             [options.submenuToggleSelector = a]       - The CSS selector string for submenu toggle buttons/links.
-   * @param {string}             [options.submenuSelector = ul]            - The CSS selector string for submenus.
+   * @param {string}             [options.menuItemSelector = li]           - The query selector string for menu items.
+   * @param {string}             [options.menuLinkSelector = a]            - The query selector string for menu links.
+   * @param {string}             [options.submenuItemSelector]             - The query selector string for menu items containing submenus.
+   * @param {string}             [options.submenuToggleSelector = a]       - The query selector string for submenu toggle buttons/links.
+   * @param {string}             [options.submenuSelector = ul]            - The query selector string for submenus.
    * @param {?HTMLElement}       [options.controllerElement = null]        - The element controlling the menu in the DOM.
    * @param {?HTMLElement}       [options.containerElement = null]         - The element containing the menu in the DOM.
    * @param {?(string|string[])} [options.openClass = show]                - The class to apply when a menu is "open".
@@ -2991,7 +2991,7 @@ class $ extends T {
      *
      * @type {typeof TreeviewItem}
      */
-    u(this, "_MenuItemType", J);
+    u(this, "_MenuItemType", G);
     /**
      * The class to use when generating submenu toggles.
      *
@@ -2999,7 +2999,7 @@ class $ extends T {
      *
      * @type {typeof TreeviewToggle}
      */
-    u(this, "_MenuToggleType", Q);
+    u(this, "_MenuToggleType", J);
     I && this.initialize();
   }
   /**

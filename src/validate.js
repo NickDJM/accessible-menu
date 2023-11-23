@@ -90,7 +90,7 @@ export function isValidType(type, values) {
 }
 
 /**
- * Checks to see if the provided values are valid CSS selectors.
+ * Checks to see if the provided values are valid query selectors.
  *
  * The values must be provided inside of an object
  * so the variable name can be retrieved in case of errors.
@@ -100,13 +100,13 @@ export function isValidType(type, values) {
  * @param  {Object<string>}          values - The value(s) to check.
  * @return {Object<boolean, string>}        - The result of the check.
  */
-export function isCSSSelector(values) {
+export function isQuerySelector(values) {
   try {
     if (typeof values !== "object") {
       const type = typeof values;
 
       throw new TypeError(
-        `Values given to isCSSSelector() must be inside of an object. "${type}" given.`
+        `Values given to isQuerySelector() must be inside of an object. "${type}" given.`
       );
     }
 
@@ -119,7 +119,7 @@ export function isCSSSelector(values) {
         document.querySelector(values[key]);
       } catch (error) {
         throw new TypeError(
-          `${key} must be a valid CSS selector. "${values[key]}" given.`
+          `${key} must be a valid query selector. "${values[key]}" given.`
         );
       }
     }
@@ -178,7 +178,7 @@ export function isValidClassList(values) {
         const obj = {};
         obj[key] = values[key];
 
-        isCSSSelector(obj);
+        isQuerySelector(obj);
       }
     }
 

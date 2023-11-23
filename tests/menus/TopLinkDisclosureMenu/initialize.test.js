@@ -230,7 +230,7 @@ describe("TopLinkDisclosureMenu (custom arguments)", () => {
         menuElement: document.querySelector("ul"),
         menuItemSelector: 1,
       });
-    }).toThrow('menuItemSelector must be a valid CSS selector. "1" given.');
+    }).toThrow('menuItemSelector must be a valid query selector. "1" given.');
   });
 
   // Test that the TopLinkDisclosureMenu will initialize if a valid menuLinkSelector is passed.
@@ -255,7 +255,7 @@ describe("TopLinkDisclosureMenu (custom arguments)", () => {
         menuLinkSelector: 1,
       });
     }).toThrow(
-      'menuLinkSelector must be a valid CSS selector. "1,button" given.'
+      'menuLinkSelector must be a valid query selector. "1,button" given.'
     );
   });
 
@@ -280,7 +280,9 @@ describe("TopLinkDisclosureMenu (custom arguments)", () => {
         menuElement: document.querySelector("ul"),
         submenuItemSelector: 1,
       });
-    }).toThrow('submenuItemSelector must be a valid CSS selector. "1" given.');
+    }).toThrow(
+      'submenuItemSelector must be a valid query selector. "1" given.'
+    );
   });
 
   // Test that the TopLinkDisclosureMenu will initialize if a valid submenuToggleSelector is passed when the submenuItemSelector is also passed.
@@ -306,7 +308,7 @@ describe("TopLinkDisclosureMenu (custom arguments)", () => {
         submenuToggleSelector: 1,
         submenuItemSelector: ".menu-item.dropdown",
       });
-    }).toThrow('menuLinkSelector must be a valid CSS selector. "a,1" given.');
+    }).toThrow('menuLinkSelector must be a valid query selector. "a,1" given.');
   });
 
   // Test that the TopLinkDisclosureMenu will initialize if a valid submenuSelector is passed when the submenuItemSelector is also passed.
@@ -332,7 +334,7 @@ describe("TopLinkDisclosureMenu (custom arguments)", () => {
         submenuSelector: 1,
         submenuItemSelector: ".menu-item.dropdown",
       });
-    }).toThrow('submenuSelector must be a valid CSS selector. "1" given.');
+    }).toThrow('submenuSelector must be a valid query selector. "1" given.');
   });
 
   // Class list tests.
