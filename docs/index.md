@@ -8,6 +8,9 @@ hero:
     - theme: brand
       text: Get started
       link: /introduction
+    - theme: alt
+      text: Install
+      link: /quick-start
     # - theme: alt
     #   text: Menu types
     #   link: /menu-types
