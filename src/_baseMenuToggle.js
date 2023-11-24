@@ -5,7 +5,7 @@ import { addClass, removeClass } from "./domHelpers.js";
 import { isTag, isValidType } from "./validate.js";
 
 /**
- * A link or button that controls the visibility of a {@link BaseMenu}.
+ * A link or button that controls the visibility of a BaseMenu.
  */
 class BaseMenuToggle {
   /**
@@ -48,7 +48,7 @@ class BaseMenuToggle {
   _open = false;
 
   /**
-   * Expand event.
+   * The event that is triggered when the menu toggle expands.
    *
    * @protected
    *
@@ -64,7 +64,7 @@ class BaseMenuToggle {
   });
 
   /**
-   * Collapse event.
+   * The event that is triggered when the menu toggle collapses.
    *
    * @protected
    *
@@ -80,7 +80,7 @@ class BaseMenuToggle {
   });
 
   /**
-   * Constructs the menu toggle.
+   * Constructs a new `BaseMenuToggle`.
    *
    * @param {object}        options                     - The options for generating the menu toggle.
    * @param {HTMLElement}   options.menuToggleElement   - The toggle element in the DOM.
@@ -192,7 +192,7 @@ class BaseMenuToggle {
   }
 
   /**
-   * Get the DOM elements within the toggle.
+   * The DOM elements within the toggle.
    *
    * @readonly
    *
@@ -205,7 +205,7 @@ class BaseMenuToggle {
   }
 
   /**
-   * Get the declared accessible-menu elements within the menu toggle.
+   * The declared accessible-menu elements within the toggle.
    *
    * @readonly
    *
@@ -218,7 +218,7 @@ class BaseMenuToggle {
   }
 
   /**
-   * Get the open state on the menu.
+   * The open state on the toggle.
    *
    * @type {boolean}
    *
@@ -238,12 +238,12 @@ class BaseMenuToggle {
    * Expands the controlled menu.
    *
    * Sets the toggle's `aria-expanded` to "true", adds the
-   * {@link BaseMenu#openClass|open class} to the toggle's parent menu item
-   * and controlled menu, and removed the {@link BaseMenu#closeClass|closed class}
+   * open class to the toggle's parent menu item
+   * and controlled menu, and removes the closed class
    * from the toggle's parent menu item and controlled menu.
    *
    * If `emit` is set to `true`, this will also emit a custom event
-   * called {@link accessibleMenuExpand}
+   * called accessibleMenuExpand
    *
    * @protected
    *
@@ -299,12 +299,12 @@ class BaseMenuToggle {
    * Collapses the controlled menu.
    *
    * Sets the toggle's `aria-expanded` to "false", adds the
-   * {@link BaseMenu#closeClass|closed class} to the toggle's parent menu item
-   * and controlled menu, and removes the {@link BaseMenu#openClass|open class}
+   * closed class to the toggle's parent menu item
+   * and controlled menu, and removes the open class
    * from the toggle's parent menu item and controlled menu.
    *
    * If `emit` is set to `true`, this will also emit a custom event
-   * called {@link accessibleMenuCollapse}
+   * called accessibleMenuCollapse
    *
    * @protected
    *
@@ -359,9 +359,11 @@ class BaseMenuToggle {
   /**
    * Opens the controlled menu.
    *
-   * Sets the controlled menu's {@link BaseMenu#focusState|focus state} to "self"
-   * and the parent menu's focus state to "child", calls {@link BaseMenuToggle#expand|expand},
-   * and sets the {@link BaseMenuToggle#isOpen|isOpen} value to `true`.
+   * Sets the controlled menu's focus state to "self"
+   * and the parent menu's focus state to "child", calls expand,
+   * and sets the isOpen value to `true`.
+   *
+   * @public
    */
   open() {
     // Set proper focus state on the child.
@@ -377,9 +379,11 @@ class BaseMenuToggle {
   /**
    * Opens the controlled menu without the current focus entering it.
    *
-   * Sets the controlled menu's {@link BaseMenu#focusState|focus state} to "self"
+   * Sets the controlled menu's focus state to "self"
    * and the parent menu's focus state to "child",
-   * and calls {@link BaseMenuToggle#expand|expand}.
+   * and calls expand.
+   *
+   * @public
    */
   preview() {
     // Set proper focus state on the parent.
@@ -397,11 +401,13 @@ class BaseMenuToggle {
   /**
    * Closes the controlled menu.
    *
-   * Sets the controlled menu's {@link BaseMenu#focusState|focus state} to "none"
+   * Sets the controlled menu's focus state to "none"
    * and the parent menu's focus state to "self", blurs the controlled menu
-   * and sets it's {@link BaseMenu#currentChild|current child index} to 0,
-   * calls {@link BaseMenuToggle#collapse|collapse}, and sets
-   * the {@link BaseMenuToggle#isOpen|isOpen} value to `false`.
+   * and sets it's current child index to 0,
+   * calls collapse, and sets
+   * the isOpen value to `false`.
+   *
+   * @public
    */
   close() {
     if (this.isOpen) {
@@ -423,6 +429,8 @@ class BaseMenuToggle {
 
   /**
    * Toggles the open state of the controlled menu between `true` and `false`.
+   *
+   * @public
    */
   toggle() {
     if (this.isOpen) {
@@ -434,6 +442,8 @@ class BaseMenuToggle {
 
   /**
    * Closes all sibling menus.
+   *
+   * @public
    */
   closeSiblings() {
     if (this.elements.parentMenu) {
@@ -445,6 +455,8 @@ class BaseMenuToggle {
 
   /**
    * Closes all child menus.
+   *
+   * @public
    */
   closeChildren() {
     this.elements.controlledMenu.elements.submenuToggles.forEach((toggle) =>

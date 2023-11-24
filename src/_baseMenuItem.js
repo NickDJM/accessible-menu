@@ -2,15 +2,15 @@
 /* global BaseMenu, BaseMenuToggle */
 
 /**
- * A basic navigation link contained inside of a {@link BaseMenu}.
+ * A basic navigation link contained inside of a BaseMenu.
  */
 class BaseMenuItem {
   /**
    * The DOM elements within the menu item.
    *
-   * @type {Object<HTMLElement>}
-   *
    * @protected
+   *
+   * @type {Object<HTMLElement>}
    *
    * @property {HTMLElement} item - The menu item.
    * @property {HTMLElement} link - The menu item's link.
@@ -23,9 +23,9 @@ class BaseMenuItem {
   /**
    * The declared accessible-menu elements within the menu item.
    *
-   * @type {Object<BaseMenu, BaseMenuToggle>}
-   *
    * @protected
+   *
+   * @type {Object<BaseMenu, BaseMenuToggle>}
    *
    * @property {BaseMenu}        parentMenu - The menu containing this menu item.
    * @property {?BaseMenu}       childMenu  - The menu contained within this menu item.
@@ -40,12 +40,14 @@ class BaseMenuItem {
   /**
    * A flag marking a submenu item.
    *
+   * @protected
+   *
    * @type {boolean}
    */
   _submenu = false;
 
   /**
-   * Constructs the menu item.
+   * Constructs a new `BaseMenuItem`.
    *
    * @param {object}          options                         - The options for generating the menu item.
    * @param {HTMLElement}     options.menuItemElement         - The menu item in the DOM.
@@ -83,9 +85,9 @@ class BaseMenuItem {
   /**
    * The DOM elements within the menu item.
    *
-   * @type {Object<HTMLElement>}
-   *
    * @readonly
+   *
+   * @type {Object<HTMLElement>}
    *
    * @see _dom
    */
@@ -96,9 +98,9 @@ class BaseMenuItem {
   /**
    * The declared accessible-menu elements within the menu item.
    *
-   * @type {Object<BaseMenu, BaseMenuToggle>}
-   *
    * @readonly
+   *
+   * @type {Object<BaseMenu, BaseMenuToggle>}
    *
    * @see _elements
    */
@@ -109,9 +111,9 @@ class BaseMenuItem {
   /**
    * A flag marking a submenu item.
    *
-   * @type {boolean}
-   *
    * @readonly
+   *
+   * @type {boolean}
    *
    * @see _submenu
    */
@@ -121,7 +123,9 @@ class BaseMenuItem {
 
   /**
    * Focuses the menu item's link if the parent menu's
-   * {@link BaseMenu#shouldFocus|shouldFocus} value is `true`.
+   * shouldFocus value is `true`.
+   *
+   * @public
    */
   focus() {
     if (this.elements.parentMenu.shouldFocus) {
@@ -131,7 +135,9 @@ class BaseMenuItem {
 
   /**
    * Blurs the menu item's link if the parent menu's
-   * {@link BaseMenu#shouldFocus|shouldFocus} value is `true`.
+   * shouldFocus value is `true`.
+   *
+   * @public
    */
   blur() {
     if (this.elements.parentMenu.shouldFocus) {

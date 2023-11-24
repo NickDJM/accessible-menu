@@ -19,8 +19,6 @@ import { preventEvent, keyPress } from "./eventHandlers.js";
  *
  * This is intended to be used as a "base" to other menus and not to be used on
  * it's own in the DOM.
- *
- * Use a {@link DisclosureMenu}, {@link Menubar}, {@link TopLinkDisclosureMenu}, or {@link Treeview} instead.
  */
 class BaseMenu {
   /**
@@ -76,7 +74,7 @@ class BaseMenu {
   };
 
   /**
-   * The query selectors used by the menu to populate the {@link BaseMenu#dom|dom}.
+   * The query selectors used by the menu to populate the dom.
    *
    * @protected
    *
@@ -154,7 +152,7 @@ class BaseMenu {
   _root = true;
 
   /**
-   * The index of the currently selected {@link BaseMenuItem|menu item} in the menu.
+   * The index of the currently selected menu item in the menu.
    *
    * @protected
    *
@@ -217,7 +215,7 @@ class BaseMenu {
   _leaveDelay = -1;
 
   /**
-   * An variable to hold the hover timeout function.
+   * A variable to hold the hover timeout function.
    *
    * @protected
    *
@@ -313,12 +311,12 @@ class BaseMenu {
    * Initializes the menu.
    *
    * The following steps will be taken to initialize the menu:
-   * - {@link BaseMenu#validate|Validate} that the menu can initialize,
+   * - Validate that the menu can initialize,
    * - find the root menu of the menu tree if it isn't already set,
-   * - populate all DOM elements within the {@link BaseMenu#dom|dom},
+   * - populate all DOM elements within the dom,
    * - if the current menu is the root menu _and_ has a controller, initialize
    *   the controller, and
-   * - populate the menu elements within the {@link BaseMenu#elements|elements}
+   * - populate the menu elements within the elements
    *
    * @public
    *
@@ -369,7 +367,7 @@ class BaseMenu {
   }
 
   /**
-   * The query selectors used by the menu to populate the {@link BaseMenu#dom|dom}.
+   * The query selectors used by the menu to populate the dom.
    *
    * @readonly
    *
@@ -454,14 +452,14 @@ class BaseMenu {
   }
 
   /**
-   * The index of the currently selected {@link BaseMenuItem|menu item} in the menu.
+   * The index of the currently selected menu item in the menu.
    *
    * - Attempting to set a value less than -1 will set the current child to -1.
    * - Attempting to set a value greater than or equal to the number of menu items
    *   will set the current child to the index of the last menu item in the menu.
    *
    * If the current menu has a parent menu _and_ the menu's
-   * {@link BaseMenu#currentEvent|current event} is "mouse", The parent menu
+   * current event is "mouse", The parent menu
    * will have it's current child updated as well to help with transitioning
    * between mouse and keyboard naviation.
    *
@@ -579,10 +577,10 @@ class BaseMenu {
    * A flag to check if the menu's focus methods should _actually_ move the focus in the DOM.
    *
    * This will be `false` unless any of the following criteria are met:
-   * - The menu's {@link BaseMenu#currentEvent|current event} is "keyboard".
+   * - The menu's current event is "keyboard".
    * - The menu's current event is "character".
    * - The menu's current event is "mouse" _and_ the menu's
-   *   {@link BaseMenu#_hoverType|hover type} is "dynamic".
+   *   hover type is "dynamic".
    *
    * @readonly
    *
@@ -978,8 +976,8 @@ class BaseMenu {
   /**
    * Sets all DOM elements within the menu.
    *
-   * Utiliizes {@link BaseMenu#_setDOMElementType|_setDOMElementType} and
-   * {@link BaseMenu#_resetDOMElementType|_resetDOMElementType}.
+   * Utiliizes _setDOMElementType and
+   * _resetDOMElementType.
    *
    * @protected
    */
@@ -1089,7 +1087,7 @@ class BaseMenu {
    * Handles focus events throughout the menu for proper menu use.
    *
    * - Adds a `focus` listener to every menu item so when it gains focus,
-   *   it will set the item's containing menu's {@link BaseMenu#focusState|focus state}
+   *   it will set the item's containing menu's focus state
    *   to "self".
    *
    * @protected
@@ -1177,27 +1175,27 @@ class BaseMenu {
    *
    * Adds `pointerenter` listeners to all menu items and `pointerleave` listeners
    * to all submenu items which function differently depending on
-   * the menu's {@link BaseMenu#_hoverType|hover type}.
+   * the menu's hover type.
    *
    * Before executing anything, the event is checked to make sure the event wasn't
    * triggered by a pen or touch.
    *
    * <strong>Hover Type "on"</strong>
    * - When a `pointerenter` event triggers on any menu item the menu's
-   *   {@link BaseMenu#currentChild| current child} value will change to that
+   *    current child value will change to that
    *   menu item.
    * - When a `pointerenter` event triggers on a submenu item the
-   *   {@link BaseMenuToggle#preview|preview method} for the submenu item's
+   *   preview method for the submenu item's
    *   toggle will be called.
    * - When a `pointerleave` event triggers on an open submenu item the
-   *   {@link BaseMenuToggle#close|close method} for the submenu item's toggle
-   *   will be called after a delay set by the menu's {@link BaseMenu#_hoverDelay|hover delay}.
+   *   close method for the submenu item's toggle
+   *   will be called after a delay set by the menu's hover delay.
    *
    * <strong>Hover Type "dynamic"</strong>
    * - When a `pointerenter` event triggers on any menu item the menu's
    *   current child value will change to that menu item.
    * - When a `pointerenter` event triggers on any menu item, and the menu's
-   *   {@link BaseMenu#focusState|focus state} is not "none", the menu item
+   *   focus state is not "none", the menu item
    *   will be focused.
    * - When a `pointerenter` event triggers on a submenu item, and a submenu is
    *   already open, the preview method for the submenu item's toggle will be called.
@@ -1308,7 +1306,7 @@ class BaseMenu {
   /**
    * Handles keydown events throughout the menu for proper menu use.
    *
-   * This method exists to assit the {@link BaseMenu#_handleKeyup|_handleKeyup method}.
+   * This method exists to assit the _handleKeyup method.
    *
    * - Adds a `keydown` listener to the menu's controller (if the menu is the root menu).
    *   - Blocks propagation on "Space", "Enter", and "Escape" keys.
@@ -1363,8 +1361,8 @@ class BaseMenu {
   /**
    * Focus the menu.
    *
-   * Sets the menu's {@link BaseMenu#focusState|focus state} to "self" and
-   * focusses the menu if the menu's {@link BaseMenu#shouldFocus|shouldFocus}
+   * Sets the menu's focus state to "self" and
+   * focusses the menu if the menu's shouldFocus
    * value is `true`.
    *
    * @public
@@ -1380,8 +1378,8 @@ class BaseMenu {
   /**
    * Unfocus the menu.
    *
-   * Sets the menu's {@link BaseMenu#focusState|focus state} to "none"
-   * and blurs the menu if the menu's {@link BaseMenu#shouldFocus|shouldFocus}
+   * Sets the menu's focus state to "none"
+   * and blurs the menu if the menu's shouldFocus
    * vallue is `true`.
    *
    * @public
