@@ -32,6 +32,6 @@ Getters and setters are inherited from the [BaseMenuItem](./base-menu-item#gette
 
 ::: info Note
 
-Methods are inherited from the [BaseMenuItem](./base-menu-item#methods) class. The following methods are unique to the MenubarItem class.
+Methods are inherited from the [BaseMenuItem](./base-menu-item#methods) class. The following methods are unique to or overwritten in the MenubarItem class.
 
 :::

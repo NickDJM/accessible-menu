@@ -77,7 +77,7 @@ this will catch it and log it to the console.
 
 ::: info Note
 
-Properties are inherited from the [BaseMenu](./base-menu#properties) class. The following properties are unique to the DisclosureMenu class.
+Properties are inherited from the [BaseMenu](./base-menu#properties) class. The following properties are unique to or overwritten in the DisclosureMenu class.
 
 :::
 
@@ -150,7 +150,7 @@ DisclosureMenu._optionalSupport; // false.
 
 ::: info Note
 
-Getters and setters are inherited from the [BaseMenu](./base-menu#getters-and-setters) class. The following getters and setters are unique to the DisclosureMenu class.
+Getters and setters are inherited from the [BaseMenu](./base-menu#getters-and-setters) class. The following getters and setters are unique to or overwritten in the DisclosureMenu class.
 
 :::
 
@@ -184,7 +184,7 @@ This functions differently for root vs. submenus. Submenus will always inherit t
 
 ::: info Note
 
-Methods are inherited from the [BaseMenu](./base-menu#methods) class. The following methods are unique to the DisclosureMenu class.
+Methods are inherited from the [BaseMenu](./base-menu#methods) class. The following methods are unique to or overwritten in the DisclosureMenu class.
 
 :::
 

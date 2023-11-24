@@ -38,6 +38,6 @@ Getters and setters are inherited from the [BaseMenuToggle](./base-menu-toggle#g
 
 ::: info Note
 
-Methods are inherited from the [BaseMenuToggle](./base-menu-toggle#methods) class. The following methods are unique to the MenubarToggle class.
+Methods are inherited from the [BaseMenuToggle](./base-menu-toggle#methods) class. The following methods are unique to or overwritten in the MenubarToggle class.
 
 :::

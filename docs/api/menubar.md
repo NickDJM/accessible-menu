@@ -8,7 +8,7 @@
 
 ::: info Note
 
-Properties are inherited from the [BaseMenu](./base-menu#properties) class. The following properties are unique to the Menubar class.
+Properties are inherited from the [BaseMenu](./base-menu#properties) class. The following properties are unique to or overwritten in the Menubar class.
 
 :::
 
@@ -55,7 +55,7 @@ Menubar._MenuToggleType; // MenubarToggle.
 
 ::: info Note
 
-Getters and setters are inherited from the [BaseMenu](./base-menu#getters-and-setters) class. The following getters and setters are unique to the Menubar class.
+Getters and setters are inherited from the [BaseMenu](./base-menu#getters-and-setters) class. The following getters and setters are unique to or overwritten in the Menubar class.
 
 :::
 
@@ -63,6 +63,6 @@ Getters and setters are inherited from the [BaseMenu](./base-menu#getters-and-se
 
 ::: info Note
 
-Methods are inherited from the [BaseMenu](./base-menu#methods) class. The following methods are unique to the Menubar class.
+Methods are inherited from the [BaseMenu](./base-menu#methods) class. The following methods are unique to or overwritten in the Menubar class.
 
 :::

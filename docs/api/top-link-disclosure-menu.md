@@ -14,7 +14,7 @@ The initialize method is inherited from the [BaseMenuToggle](./base-menu-toggle#
 
 ::: info Note
 
-Properties are inherited from the [BaseMenu](./base-menu#properties) class. The following properties are unique to the TopLinkDisclosureMenu class.
+Properties are inherited from the [BaseMenu](./base-menu#properties) class. The following properties are unique to or overwritten in the TopLinkDisclosureMenu class.
 
 :::
 
@@ -61,7 +61,7 @@ TopLinkDisclosureMenu._MenuToggleType; // TopLinkDisclosureMenuToggle.
 
 ::: info Note
 
-Getters and setters are inherited from the [BaseMenu](./base-menu#getters-and-setters) class. The following getters and setters are unique to the TopLinkDisclosureMenu class.
+Getters and setters are inherited from the [BaseMenu](./base-menu#getters-and-setters) class. The following getters and setters are unique to or overwritten in the TopLinkDisclosureMenu class.
 
 :::
 
@@ -69,6 +69,6 @@ Getters and setters are inherited from the [BaseMenu](./base-menu#getters-and-se
 
 ::: info Note
 
-Methods are inherited from the [BaseMenu](./base-menu#methods) class. The following methods are unique to the TopLinkDisclosureMenu class.
+Methods are inherited from the [BaseMenu](./base-menu#methods) class. The following methods are unique to or overwritten in the TopLinkDisclosureMenu class.
 
 :::
