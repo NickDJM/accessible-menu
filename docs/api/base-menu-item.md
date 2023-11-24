@@ -85,7 +85,7 @@ A flag marking a submenu item.
  *
  * @type {boolean}
  */
-BaseMenuItem._submenu;
+BaseMenuItem._submenu; // false.
 ```
 
 ## Getters and Setters

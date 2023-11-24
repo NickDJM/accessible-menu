@@ -311,12 +311,12 @@ class BaseMenu {
    * Initializes the menu.
    *
    * The following steps will be taken to initialize the menu:
-   * - Validate that the menu can initialize,
-   * - find the root menu of the menu tree if it isn't already set,
-   * - populate all DOM elements within the dom,
-   * - if the current menu is the root menu _and_ has a controller, initialize
-   *   the controller, and
-   * - populate the menu elements within the elements
+   * - Validate that the menu can initialize.
+   * - Find the root menu of the menu tree if it isn't already set.
+   * - Populate all DOM elements within the dom.
+   * - If the current menu is the root menu _and_ has a controller, initialize
+   *   the controller.
+   * - Populate the menu elements within the elements.
    *
    * @public
    *

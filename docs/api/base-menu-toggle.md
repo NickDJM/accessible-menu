@@ -95,7 +95,7 @@ The open state of the menu toggle.
  *
  * @type {boolean}
  */
-BaseMenuToggle._open;
+BaseMenuToggle._open; // false.
 ```
 
 ### _expandEvent
