@@ -144,6 +144,32 @@ export default defineConfig({
           ],
         },
         {
+          text: "DOM Helpers",
+          items: [
+            {
+              text: "addClass",
+              link: "/api/dom-helpers#addclass",
+            },
+            {
+              text: "removeClass",
+              link: "/api/dom-helpers#removeclass",
+            },
+          ],
+        },
+        {
+          text: "Event Handlers",
+          items: [
+            {
+              text: "keyPress",
+              link: "/api/event-handlers#keypress",
+            },
+            {
+              text: "preventEvent",
+              link: "/api/event-handlers#preventevent",
+            },
+          ],
+        },
+        {
           text: "Validation",
           items: [
             {
