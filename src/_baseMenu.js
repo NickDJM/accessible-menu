@@ -320,6 +320,8 @@ class BaseMenu {
    *   the controller, and
    * - populate the menu elements within the {@link BaseMenu#elements|elements}
    *
+   * @public
+   *
    * @throws {Error} Will throw an Error if validate returns `false`.
    */
   initialize() {
@@ -1364,6 +1366,8 @@ class BaseMenu {
    * Sets the menu's {@link BaseMenu#focusState|focus state} to "self" and
    * focusses the menu if the menu's {@link BaseMenu#shouldFocus|shouldFocus}
    * value is `true`.
+   *
+   * @public
    */
   focus() {
     this.focusState = "self";
@@ -1379,6 +1383,8 @@ class BaseMenu {
    * Sets the menu's {@link BaseMenu#focusState|focus state} to "none"
    * and blurs the menu if the menu's {@link BaseMenu#shouldFocus|shouldFocus}
    * vallue is `true`.
+   *
+   * @public
    */
   blur() {
     this.focusState = "none";
@@ -1390,6 +1396,8 @@ class BaseMenu {
 
   /**
    * Focus the menu's current child.
+   *
+   * @public
    */
   focusCurrentChild() {
     this.focusState = "self";
@@ -1402,6 +1410,8 @@ class BaseMenu {
   /**
    * Focuses the menu's child at a given index.
    *
+   * @public
+   *
    * @param {number} index - The index of the child to focus.
    */
   focusChild(index) {
@@ -1412,6 +1422,8 @@ class BaseMenu {
 
   /**
    * Focues the menu's first child.
+   *
+   * @public
    */
   focusFirstChild() {
     this.focusChild(0);
@@ -1419,6 +1431,8 @@ class BaseMenu {
 
   /**
    * Focus the menu's last child.
+   *
+   * @public
    */
   focusLastChild() {
     this.focusChild(this.elements.menuItems.length - 1);
@@ -1426,6 +1440,8 @@ class BaseMenu {
 
   /**
    * Focus the menu's next child.
+   *
+   * @public
    */
   focusNextChild() {
     if (this.currentChild < this.elements.menuItems.length - 1) {
@@ -1437,6 +1453,8 @@ class BaseMenu {
 
   /**
    * Focus the menu's previous child.
+   *
+   * @public
    */
   focusPreviousChild() {
     if (this.currentChild > 0) {
@@ -1448,6 +1466,8 @@ class BaseMenu {
 
   /**
    * Blurs the menu's current child.
+   *
+   * @public
    */
   blurCurrentChild() {
     this.focusState = "none";
@@ -1459,6 +1479,8 @@ class BaseMenu {
 
   /**
    * Focus the menu's controller.
+   *
+   * @public
    */
   focusController() {
     if (this.dom.controller) {
@@ -1472,6 +1494,8 @@ class BaseMenu {
 
   /**
    * Focus the menu's container.
+   *
+   * @public
    */
   focusContainer() {
     if (this.dom.container) {
@@ -1485,6 +1509,8 @@ class BaseMenu {
 
   /**
    * Close all submenu children.
+   *
+   * @public
    */
   closeChildren() {
     this.elements.submenuToggles.forEach((toggle) => toggle.close());
@@ -1492,6 +1518,8 @@ class BaseMenu {
 
   /**
    * Blurs all children and submenu's children.
+   *
+   * @public
    */
   blurChildren() {
     this.elements.menuItems.forEach((menuItem) => {

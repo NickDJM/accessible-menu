@@ -576,3 +576,255 @@ Adds a `pointerdown` listener to every menu item that will blur all menu items i
 Adds a `pointerup` listener to every submenu item that will properly toggle the submenu open/closed.
 
 Adds a `pointerup` listener to the menu's controller (if the menu is the root menu) so when it is clicked it will properly toggle open/closed.
+
+### handleHover
+
+Handles hover events throughout the menu for proper use.
+
+```js
+/**
+ * Handles hover events throughout the menu for proper use.
+ *
+ * @protected
+ */
+BaseMenu._handleHover();
+```
+
+Adds `pointerenter` listeners to all menu items and `pointerleave` listeners to all submenu items which function differently depending on the menu's [hover type](../hover-types).
+
+Before executing anything, the event is checked to make sure the event wasn't triggered by a pen or touch.
+
+The method will add the following behaviour:
+
+#### Hover Type "on"
+
+- When a `pointerenter` event triggers on any menu item the menu's currentChild value will change to that menu item.
+- When a `pointerenter` event triggers on a submenu item the preview method for the submenu item's toggle will be called.
+- When a `pointerleave` event triggers on an open submenu item the close method for the submenu item's toggle will be called after a delay set by the menu's hover delay.
+
+#### Hover Type "dynamic"
+
+- When a `pointerenter` event triggers on any menu item the menu's current child value will change to that menu item.
+- When a `pointerenter` event triggers on any menu item, and the menu's focus state is not "none", the menu item will be focused.
+- When a `pointerenter` event triggers on a submenu item, and a submenu is already open, the preview method for the submenu item's toggle will be called.
+- When a `pointerenter` event triggers on a submenu item, and no submenu is open, no submenu-specific methods will be called.
+- When a `pointerleave` event triggers on an open submenu item that is not a root-level submenu item the close method for the submenu item's toggle will be called and the submenu item will be focused after a delay set by the menu's hover delay.
+- When a `pointerleave` event triggers on an open submenu item that is a root-level submenu item no submenu-specific methods will be called.
+
+#### Hover Type "off"
+
+All `pointerenter` and `pointerleave` events are ignored.
+
+### handleKeydown
+
+Handles keydown events throughout the menu for proper menu use.
+
+```js
+/**
+ * Handles keydown events throughout the menu for proper menu use.
+ *
+ * @protected
+ */
+BaseMenu._handleKeydown();
+```
+
+This method exists to assit the [_handleKeyup](#handlekeyup) method.
+
+The method will do the following:
+
+- Adds a `keydown` listener to the menu's controller (if the menu is the root menu).
+  - Blocks propagation on "Space", "Enter", and "Escape" keys.
+
+### handleKeyup
+
+Handles keyup events throughout the menu for proper menu use.
+
+```js
+/**
+ * Handles keyup events throughout the menu for proper menu use.
+ *
+ * @protected
+ */
+BaseMenu._handleKeyup();
+```
+
+The method will do the following:
+
+- Adds a `keyup` listener to the menu's controller (if the menu is the root menu).
+  - Toggles the menu when the user hits "Space" or "Enter".
+
+### focus
+
+Focus the menu.
+
+```js
+/**
+ * Focus the menu.
+ *
+ * @public
+ */
+BaseMenu.focus();
+```
+
+Sets the menu's focus state to "self" and focusses the menu if the menu's shouldFocus value is `true`.
+
+### blur
+
+Unfocus the menu.
+
+```js
+/**
+ * Unfocus the menu.
+ *
+ * @public
+ */
+BaseMenu.blur();
+```
+
+Sets the menu's focus state to "none" and blurs the menu if the menu's shouldFocus value is `true`.
+
+### focusCurrentChild
+
+Focuses the menu's current child.
+
+```js
+/**
+ * Focuses the menu's current child.
+ *
+ * @public
+ */
+BaseMenu.focusCurrentChild();
+```
+
+### focusChild
+
+Focuses the menu's child at a given index.
+
+```js
+/**
+ * Focuses the menu's child at a given index.
+ *
+ * @public
+ *
+ * @param {number} index - The index of the child to focus.
+ */
+BaseMenu.focusChild(index);
+```
+
+### focusFirstChild
+
+Focus the menu's first child.
+
+```js
+/**
+ * Focus the menu's first child.
+ *
+ * @public
+ */
+BaseMenu.focusFirstChild();
+```
+
+
+### focusLastChild
+
+Focus the menu's last child.
+
+```js
+/**
+ * Focus the menu's last child.
+ *
+ * @public
+ */
+BaseMenu.focusLastChild();
+```
+
+### focusNextChild
+
+Focus the menu's next child.
+
+```js
+/**
+ * Focus the menu's next child.
+ *
+ * @public
+ */
+BaseMenu.focusNextChild();
+```
+
+### focusPreviousChild
+
+Focus the menu's previous child.
+
+```js
+/**
+ * Focus the menu's previous child.
+ *
+ * @public
+ */
+BaseMenu.focusPreviousChild();
+```
+
+### blurCurrentChild
+
+Blurs the menu's current child.
+
+```js
+/**
+ * Blurs the menu's current child.
+ *
+ * @public
+ */
+BaseMenu.blurCurrentChild();
+```
+
+### focusController
+
+Focus the menu's controller.
+
+```js
+/**
+ * Focus the menu's controller.
+ *
+ * @public
+ */
+BaseMenu.focusController();
+```
+
+### focusContainer
+
+Focus the menu's container.
+
+```js
+/**
+ * Focus the menu's container.
+ *
+ * @public
+ */
+BaseMenu.focusContainer();
+```
+
+### closeChildren
+
+Close all submenu children.
+
+```js
+/**
+ * Close all submenu children.
+ *
+ * @public
+ */
+BaseMenu.closeChildren();
+```
+
+### blurChildren
+
+Blurs all children and submenu's children.
+
+```js
+/**
+ * Blurs all children and submenu's children.
+ *
+ * @public
+ */
+BaseMenu.blurChildren();
+```
