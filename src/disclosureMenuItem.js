@@ -4,13 +4,13 @@
 import BaseMenuItem from "./_baseMenuItem.js";
 
 /**
- * A basic navigation link contained inside of a {@link DisclosureMenu}.
+ * A basic navigation link contained inside of a DisclosureMenu.
  *
  * @extends BaseMenuItem
  */
 class DisclosureMenuItem extends BaseMenuItem {
   /**
-   * Constructs the menu item.
+   * Constructs a new `DisclosureMenuItem`.
    *
    * @param {object}                    options                         - The options for generating the menu item.
    * @param {HTMLElement}               options.menuItemElement         - The menu item in the DOM.

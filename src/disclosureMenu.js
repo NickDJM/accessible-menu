@@ -7,21 +7,9 @@ import { isValidType } from "./validate.js";
 /**
  * An accessible disclosure menu in the DOM.
  *
- * See {@link https://www.w3.org/TR/wai-aria-practices-1.2/examples/disclosure/disclosure-navigation.html|Example Disclosure for Navigation Menus}
+ * See Example Disclosure for Navigation Menus
  *
  * @extends BaseMenu
- *
- * @example
- * // Import the class.
- * import { DisclosureMenu } from "accessible-menu";
- *
- * // Select the desired menu element.
- * const menuElement = document.querySelector("nav ul");
- *
- * // Create the menu.
- * const menu = new DisclosureMenu({
- *   menuElement,
- * });
  */
 class DisclosureMenu extends BaseMenu {
   /**
@@ -52,7 +40,7 @@ class DisclosureMenu extends BaseMenu {
   _MenuToggleType = DisclosureMenuToggle;
 
   /**
-   * The index of the currently selected {@link DisclosureMenu|menu item} in the menu.
+   * The index of the currently selected menu item in the menu.
    *
    * @protected
    *
@@ -70,7 +58,7 @@ class DisclosureMenu extends BaseMenu {
   _optionalSupport = false;
 
   /**
-   * Constructs the menu.
+   * Constructs a new `DisclosureMenu`.
    *
    * @param {object}             options                                   - The options for generating the menu.
    * @param {HTMLElement}        options.menuElement                       - The menu element in the DOM.
@@ -145,12 +133,12 @@ class DisclosureMenu extends BaseMenu {
   /**
    * Initializes the menu.
    *
-   * Initialize will call the {@link BaseMenu#initialize|BaseMenu's initialize method}
-   * as well as set up {@link DisclosureMenu#_handleFocus|focus},
-   * {@link DisclosureMenu#_handleClick|click},
-   * {@link DisclosureMenu#_handleHover|hover},
-   * {@link DisclosureMenu#_handleKeydown|keydown}, and
-   * {@link DisclosureMenu#_handleKeyup|keyup} events for the menu.
+   * Initialize will call BaseMenu's initialize method
+   * as well as set up focus,
+   * click,
+   * hover,
+   * keydown, and
+   * keyup events for the menu.
    *
    * If the BaseMenu's initialize method throws an error,
    * this will catch it and log it to the console.
@@ -218,8 +206,8 @@ class DisclosureMenu extends BaseMenu {
    * Handles click events throughout the menu for proper use.
    *
    * - Adds all event listeners listed in
-   *   {@link BaseMenu#_handleClick|BaseMenu's _handleClick method}, and
-   * - adds a `pointerup` listener to the `document` so if the user
+   *   BaseMenu's _handleClick method.
+   * - Adds a `pointerup` listener to the `document` so if the user
    *   clicks outside of the menu it will close if it is open.
    *
    * @protected
@@ -250,11 +238,11 @@ class DisclosureMenu extends BaseMenu {
   /**
    * Handles keydown events throughout the menu for proper menu use.
    *
-   * This method exists to assist the {@link DisclosureMenu#_handleKeyup|_handleKeyup method}.
-   * - Adds all `keydown` listeners from {@link BaseMenu#_handleKeydown|BaseMenu's _handleKeydown method}
+   * This method exists to assist the _handleKeyup method.
+   * - Adds all `keydown` listeners from BaseMenu's _handleKeydown method
    * - Adds a `keydown` listener to the menu/all submenus.
    *   - Blocks propagation on the following keys: "Space", "Enter", and "Escape".
-   *   - _If_ {@link DisclosureMenu#optionalKeySupport|optional keyboard support}
+   *   - _If_ optional keyboard support
    *     is enabled, blocks propagation on the following keys:
    *     "ArrowUp", "ArrowRight", "ArrowDown", "ArrowLeft", "Home", and "End".
    *
@@ -303,10 +291,10 @@ class DisclosureMenu extends BaseMenu {
   /**
    * Handles keyup events throughout the menu for proper menu use.
    *
-   * Adds all `keyup` listeners from {@link BaseMenu#_handleKeyup|BaseMenu's _handleKeyup method}.
+   * Adds all `keyup` listeners from BaseMenu's _handleKeyup method.
    *
    * Adds the following keybindings (explanations are taken from the
-   * {@link https://www.w3.org/TR/wai-aria-practices-1.2/examples/disclosure/disclosure-navigation.html#kbd_label|WAI ARIA Pracitices Example Disclosure for Navigation Menus}):
+   * WAI ARIA Pracitices Example Disclosure for Navigation Menus):
    *
    * | Key | Function |
    * | --- | --- |
@@ -315,10 +303,10 @@ class DisclosureMenu extends BaseMenu {
    * | _Escape_ | If a dropdown is open, closes it and sets focus on the button that controls that dropdown. |
    * | _Down Arrow_ or _Right Arrow_ (Optional}) | <ul><li>If focus is on a button and its dropdown is collapsed, and it is not the last button, moves focus to the next button.</li><li>if focus is on a button and its dropdown is expanded, moves focus to the first link in the dropdown.</li><li>If focus is on a link, and it is not the last link, moves focus to the next link.</li></ul> |
    * | _Up Arrow_ or _Left Arrow_ (Optional}) | <ul><li>If focus is on a button, and it is not the first button, moves focus to the previous button.</li><li>If focus is on a link, and it is not the first link, moves focus to the previous link.</li></ul> |
-   * | _Home_ (Optional}) | <ul><li>If focus is on a button, and it is not the first button, moves focus to the first button.</li><li>If focus is on a link, and it is not the first link, moves focus to the first link.</li></ul> |
-   * | _End_ (Optional}) | <ul><li>If focus is on a button, and it is not the last button, moves focus to the last button.</li><li>If focus is on a link, and it is not the last link, moves focus to the last link.</li></ul> |
+   * | _Home_ (Optional) | <ul><li>If focus is on a button, and it is not the first button, moves focus to the first button.</li><li>If focus is on a link, and it is not the first link, moves focus to the first link.</li></ul> |
+   * | _End_ (Optional) | <ul><li>If focus is on a button, and it is not the last button, moves focus to the last button.</li><li>If focus is on a link, and it is not the last link, moves focus to the last link.</li></ul> |
    *
-   * The optional keybindings are controlled by the menu's {@link DisclosureMenu#optionalKeySupport|optionalKeySupport} value.
+   * The optional keybindings are controlled by the menu's optionalKeySupport value.
    *
    * @protected
    */
