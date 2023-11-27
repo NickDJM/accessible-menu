@@ -4,13 +4,13 @@
 import BaseMenuItem from "./_baseMenuItem.js";
 
 /**
- * A basic navigation link contained inside of a {@link Menubar}.
+ * A basic navigation link contained inside of a Menubar.
  *
  * @extends BaseMenuItem
  */
 class MenubarItem extends BaseMenuItem {
   /**
-   * Constructs the menu item.
+   * Constructs a new `MenubarItem`.
    *
    * @param {object}             options                         - The options for generating the menu item.
    * @param {HTMLElement}        options.menuItemElement         - The menu item in the DOM.
@@ -47,7 +47,7 @@ class MenubarItem extends BaseMenuItem {
   /**
    * Initialize the menu item.
    *
-   * Initialize will call the {@link BaseMenuItem#initialize|BaseMenuItem's initialize method}
+   * Initialize will call the BaseMenuItem's initialize method
    * as well as set the menu item's `role` to "none",
    * the menu link's `role` to "menuitem", and
    * the menu link's `tabIndex` to -1 in the DOM.
@@ -62,11 +62,13 @@ class MenubarItem extends BaseMenuItem {
 
   /**
    * Focuses the menu item's link if the parent menu's
-   * {@link Menubar#shouldFocus|shouldFocus} value is `true`.
+   * shouldFocus value is `true`.
    *
-   * This will call the {@link BaseMenuItem#focus|BaseMenuItem's focus method}
+   * This will call the BaseMenuItem's focus method
    * as well as set the menu link's `tabIndex` to 0 if the parent menu
    * is the root menu.
+   *
+   * @public
    */
   focus() {
     super.focus();
@@ -78,11 +80,13 @@ class MenubarItem extends BaseMenuItem {
 
   /**
    * Blurs the menu item's link if the parent menu's
-   * {@link Menubar#shouldFocus|shouldFocus} value is `true`.
+   * shouldFocus value is `true`.
    *
-   * This will call the {@link BaseMenuItem#blur|BaseMenuItem's blur method}
+   * This will call the BaseMenuItem's blur method
    * as well as set the menu link's `tabIndex` to -1 if the parent menu
    * is the root menu.
+   *
+   * @public
    */
   blur() {
     super.blur();
