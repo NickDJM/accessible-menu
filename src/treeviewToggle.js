@@ -4,13 +4,13 @@
 import BaseMenuToggle from "./_baseMenuToggle.js";
 
 /**
- * A link or button that controls the visibility of a {@link Treeview}.
+ * A link or button that controls the visibility of a Treeview.
  *
  * @extends BaseMenuToggle
  */
 class TreeviewToggle extends BaseMenuToggle {
   /**
-   * Constructs the menu toggle.
+   * Constructs a new `TreeviewToggle`.
    *
    * @param {object}        options                     - The options for generating the menu toggle.
    * @param {HTMLElement}   options.menuToggleElement   - The toggle element in the DOM.
