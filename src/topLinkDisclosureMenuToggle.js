@@ -4,13 +4,13 @@
 import BaseMenuToggle from "./_baseMenuToggle.js";
 
 /**
- * A link or button that controls the visibility of a {@link TopLinkDisclosureMenu}.
+ * A link or button that controls the visibility of a TopLinkDisclosureMenu.
  *
  * @extends BaseMenuToggle
  */
 class TopLinkDisclosureMenuToggle extends BaseMenuToggle {
   /**
-   * Constructs the menu toggle.
+   * Constructs a new `TopLinkDisclosureMenuToggle`.
    *
    * @param {object}                     options                     - The options for generating the menu toggle.
    * @param {HTMLElement}                options.menuToggleElement   - The toggle element in the DOM.
@@ -41,8 +41,8 @@ class TopLinkDisclosureMenuToggle extends BaseMenuToggle {
   /**
    * Opens the controlled menu.
    *
-   * Calls the {@link TopLinkDisclosureMenuToggle#closeSiblings| closeSiblings method}
-   * and _then_ {@link BaseMenuToggle#open|BaseMenuToggle's open method}.
+   * Calls the  closeSiblings method
+   * and _then_ BaseMenuToggle's open method.
    */
   open() {
     // Close all siblings.
@@ -54,8 +54,8 @@ class TopLinkDisclosureMenuToggle extends BaseMenuToggle {
   /**
    * Opens the controlled menu without the current focus entering it.
    *
-   * Calls the {@link TopLinkDisclosureMenuToggle#closeSiblings| closeSiblings method}
-   * and _then_ {@link BaseMenuToggle#preview|BaseMenuToggle's preview method}.
+   * Calls the  closeSiblings method
+   * and _then_ BaseMenuToggle's preview method.
    */
   preview() {
     // Close all siblings.
@@ -67,8 +67,8 @@ class TopLinkDisclosureMenuToggle extends BaseMenuToggle {
   /**
    * Closes the controlled menu.
    *
-   * Calls the {@link TopLinkDisclosureMenuToggle#closeChildren| closeChildren method}
-   * and _then_ {@link BaseMenuToggle#close|BaseMenuToggle's close method}.
+   * Calls the  closeChildren method
+   * and _then_ BaseMenuToggle's close method.
    */
   close() {
     if (this.isOpen) {

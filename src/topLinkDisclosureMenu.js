@@ -7,7 +7,7 @@ import { isQuerySelector, isValidType } from "./validate.js";
 /**
  * An accessible disclosure menu with top-level links in the DOM.
  *
- * See {@link https://www.w3.org/TR/wai-aria-practices-1.2/examples/disclosure/disclosure-navigation-hybrid.html#mythical-page-content|Example Disclosure Navigation Menu with Top-Level Links}
+ * See Example Disclosure Navigation Menu with Top-Level Links
  *
  * @extends BaseMenu
  *
@@ -52,7 +52,7 @@ class TopLinkDisclosureMenu extends BaseMenu {
   _MenuToggleType = TopLinkDisclosureMenuToggle;
 
   /**
-   * The index of the currently selected {@link TopLinkDisclosureMenuItem|menu item} in the menu.
+   * The index of the currently selected menu item in the menu.
    *
    * @protected
    *
@@ -61,7 +61,7 @@ class TopLinkDisclosureMenu extends BaseMenu {
   _currentChild = -1;
 
   /**
-   * The query selectors used by the menu to populate the {@link TopLinkDisclosureMenu#dom|dom}.
+   * The query selectors used by the menu to populate the dom.
    *
    * @protected
    *
@@ -93,7 +93,7 @@ class TopLinkDisclosureMenu extends BaseMenu {
   _optionalSupport = false;
 
   /**
-   * Constructs the menu.
+   * Constructs a new `TopLinkDisclosureMenu`.
    *
    * @param {object}                 options                                   - The options for generating the menu.
    * @param {HTMLElement}            options.menuElement                       - The menu element in the DOM.
@@ -182,12 +182,12 @@ class TopLinkDisclosureMenu extends BaseMenu {
   /**
    * Initializes the menu.
    *
-   * Initialize will call the {@link BaseMenu#initialize|BaseMenu's initialize method}
-   * as well as set up {@link TopLinkDisclosureMenu#_handleFocus|focus},
-   * {@link TopLinkDisclosureMenu#_handleClick|click},
-   * {@link TopLinkDisclosureMenu#_handleHover|hover},
-   * {@link TopLinkDisclosureMenu#_handleKeydown|keydown}, and
-   * {@link TopLinkDisclosureMenu#_handleKeyup|keyup} events for the menu.
+   * Initialize will call the BaseMenu's initialize method
+   * as well as set up focus,
+   * click,
+   * hover,
+   * keydown, and
+   * keyup events for the menu.
    *
    * If the BaseMenu's initialize method throws an error,
    * this will catch it and log it to the console.
@@ -359,7 +359,7 @@ class TopLinkDisclosureMenu extends BaseMenu {
    * Handles click events throughout the menu for proper use.
    *
    * - Adds all event listeners listed in
-   *   {@link BaseMenu#_handleClick|BaseMenu's _handleClick method}, and
+   *   BaseMenu's _handleClick method, and
    * - adds a `pointerup` listener to the `document` so if the user
    *   clicks outside of the menu it will close if it is open.
    *
@@ -393,27 +393,27 @@ class TopLinkDisclosureMenu extends BaseMenu {
    *
    * Adds `pointerenter` listeners to all menu items and `pointerleave` listeners
    * to all submenu items which function differently depending on
-   * the menu's {@link BaseMenu#_hoverType|hover type}.
+   * the menu's hover type.
    *
    * Before executing anything, the event is checked to make sure the event wasn't
    * triggered by a pen or touch.
    *
    * <strong>Hover Type "on"</strong>
    * - When a `pointerenter` event triggers on any menu item the menu's
-   *   {@link TopLinkDisclosureMenu#currentChild| current child} value will change to that
+   *    current child value will change to that
    *   menu item.
    * - When a `pointerenter` event triggers on a submenu item the
-   *   {@link TopLinkDisclosureMenuToggle#preview|preview method} for the submenu item's
+   *   preview method for the submenu item's
    *   toggle will be called.
    * - When a `pointerleave` event triggers on an open submenu item the
-   *   {@link TopLinkDisclosureMenuToggle#close|close method} for the submenu item's toggle
-   *   will be called after a delay set by the menu's {@link TopLinkDisclosureMenu#_hoverDelay|hover delay}.
+   *   close method for the submenu item's toggle
+   *   will be called after a delay set by the menu's hover delay.
    *
    * <strong>Hover Type "dynamic"</strong>
    * - When a `pointerenter` event triggers on any menu item the menu's
    *   current child value will change to that menu item.
    * - When a `pointerenter` event triggers on any menu item, and the menu's
-   *   {@link TopLinkDisclosureMenu#focusState|focus state} is not "none", the menu item
+   *   focus state is not "none", the menu item
    *   will be focused.
    * - When a `pointerenter` event triggers on a submenu item, and a submenu is
    *   already open, the preview method for the submenu item's toggle will be called.
@@ -545,11 +545,11 @@ class TopLinkDisclosureMenu extends BaseMenu {
   /**
    * Handles keydown events throughout the menu for proper menu use.
    *
-   * This method exists to assist the {@link TopLinkDisclosureMenu#_handleKeyup|_handleKeyup method}.
-   * - Adds all `keydown` listeners from {@link BaseMenu#_handleKeydown|BaseMenu's _handleKeydown method}
+   * This method exists to assist the _handleKeyup method.
+   * - Adds all `keydown` listeners from BaseMenu's _handleKeydown method
    * - Adds a `keydown` listener to the menu/all submenus.
    *   - Blocks propagation on the following keys: "Space", "Enter", and "Escape".
-   *   - _If_ {@link TopLinkDisclosureMenu#optionalKeySupport|optional keyboard support}
+   *   - _If_ optional keyboard support
    *     is enabled, blocks propagation on the following keys:
    *     "ArrowUp", "ArrowRight", "ArrowDown", "ArrowLeft", "Home", and "End".
    *
@@ -598,10 +598,10 @@ class TopLinkDisclosureMenu extends BaseMenu {
   /**
    * Handles keyup events throughout the menu for proper menu use.
    *
-   * Adds all `keyup` listeners from {@link BaseMenu#_handleKeyup|BaseMenu's _handleKeyup method}.
+   * Adds all `keyup` listeners from BaseMenu's _handleKeyup method.
    *
    * Adds the following keybindings (explanations are taken from the
-   * {@link https://www.w3.org/TR/wai-aria-practices-1.2/examples/disclosure/disclosure-navigation.html#kbd_label|WAI ARIA Pracitices Example Disclosure for Navigation Menus}):
+   * WAI ARIA Pracitices Example Disclosure for Navigation Menus):
    *
    * | Key | Function |
    * | --- | --- |
@@ -613,7 +613,7 @@ class TopLinkDisclosureMenu extends BaseMenu {
    * | _Home_ (Optional}) | <ul><li>If focus is on a button, and it is not the first button, moves focus to the first button.</li><li>If focus is on a link, and it is not the first link, moves focus to the first link.</li></ul> |
    * | _End_ (Optional}) | <ul><li>If focus is on a button, and it is not the last button, moves focus to the last button.</li><li>If focus is on a link, and it is not the last link, moves focus to the last link.</li></ul> |
    *
-   * The optional keybindings are controlled by the menu's {@link TopLinkDisclosureMenu#optionalKeySupport|optionalKeySupport} value.
+   * The optional keybindings are controlled by the menu's optionalKeySupport value.
    *
    * @protected
    */

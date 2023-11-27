@@ -4,7 +4,7 @@
 import BaseMenuItem from "./_baseMenuItem.js";
 
 /**
- * A basic navigation link contained inside of a {@link TopLinkDisclosureMenu}.
+ * A basic navigation link contained inside of a TopLinkDisclosureMenu.
  *
  * @extends BaseMenuItem
  */
@@ -19,7 +19,7 @@ class TopLinkDisclosureMenuItem extends BaseMenuItem {
    * @property {TopLinkDisclosureMenu}                   parentMenu - The menu containing this menu item.
    * @property {?TopLinkDisclosureMenu}                  childMenu  - The menu contained within this menu item.
    * @property {?TopLinkDisclosureMenuToggle}            toggle     - The menu toggle within this menu item that controls the `childMenu`.
-   * @property {?TopLinkDisclosureMenuItem} sibling    - The sibling menu item that is a submenu item.
+   * @property {?TopLinkDisclosureMenuItem}              sibling    - The sibling menu item that is a submenu item.
    */
   _elements = {
     parentMenu: null,
@@ -29,7 +29,7 @@ class TopLinkDisclosureMenuItem extends BaseMenuItem {
   };
 
   /**
-   * Constructs the menu item.
+   * Constructs a new `TopLinkDisclosureMenuItem`.
    *
    * @param {object}                           options                         - The options for generating the menu item.
    * @param {HTMLElement}                      options.menuItemElement         - The menu item in the DOM.
