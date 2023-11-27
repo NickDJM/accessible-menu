@@ -74,8 +74,6 @@ If the menu is a root menu the first menu item's `tabIndex` will be set to 0 in 
 
 If the BaseMenu's initialize method throws an error, this will catch it and log it to the console.
 
-
-
 ## Properties
 
 ::: info Note
