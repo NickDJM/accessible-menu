@@ -9,6 +9,7 @@ export default defineConfig({
   title: "Accessible Menu",
   description:
     "A JavaScript library to help you generate WCAG accessible menus in the DOM.",
+  base: "/accessible-menu/",
   themeConfig: {
     nav: [
       {
