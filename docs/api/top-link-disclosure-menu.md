@@ -1,5 +1,13 @@
 # Top Link Disclosure Menu
 
+An accessible disclosure menu with top-level links in the DOM.
+
+::: info Note
+
+This is a subclass of [BaseMenu](./base-menu).
+
+:::
+
 ## Constructor
 
 ## Initialize

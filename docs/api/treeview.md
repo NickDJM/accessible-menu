@@ -1,5 +1,13 @@
 # Treeview
 
+An accessible treeview navigation in the DOM.
+
+::: info Note
+
+This is a subclass of [BaseMenu](./base-menu).
+
+:::
+
 ## Constructor
 
 ## Initialize

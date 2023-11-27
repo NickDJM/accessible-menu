@@ -58,7 +58,7 @@ new DisclosureMenu({
 });
 ```
 
-The constructor will call [BaseMenu's constructor](./base-menu#constructor) with the provided options. It will also populate the optionalSupport property and initialize the menu if the initialize flag is set to true.
+The constructor will call [BaseMenu's constructor](./base-menu#constructor) with the provided options. It will also populate the optionalSupport property and initialize the menu if the initialize flag is set to `true`.
 
 ## Initialize
 
@@ -68,7 +68,7 @@ Initializes the menu.
 DisclosureMenu.initialize();
 ```
 
-Initialize will call [BaseMenu's initialize method](./base-menu#initialize) as well as set up [focus](#handlefocus), [click](#handleclick), [hover](#handlehover), [keydown](#handlekeydown), and [keyup](#handlekeyup) events for the menu.
+Initialize will call [BaseMenu's initialize method](./base-menu#initialize) as well as set up [focus (inherited)](./base-menu#handlefocus), [click](#handleclick), [hover (inherited)](./base-menu#handlehover), [keydown](#handlekeydown), and [keyup](#handlekeyup) events for the menu.
 
 If the BaseMenu's initialize method throws an error,
 this will catch it and log it to the console.
