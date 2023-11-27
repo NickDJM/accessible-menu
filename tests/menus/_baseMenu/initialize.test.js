@@ -253,7 +253,7 @@ describe("BaseMenu (custom arguments)", () => {
     // Test that the menu throws an error.
     expect(() => {
       initializeMenu(menu);
-    }).toThrow('menuItemSelector must be a valid CSS selector. "1" given.');
+    }).toThrow('menuItemSelector must be a valid query selector. "1" given.');
   });
 
   // Test that the BaseMenu will initialize if a valid menuLinkSelector is passed.
@@ -281,7 +281,7 @@ describe("BaseMenu (custom arguments)", () => {
     // Test that the menu throws an error.
     expect(() => {
       initializeMenu(menu);
-    }).toThrow('menuLinkSelector must be a valid CSS selector. "1" given.');
+    }).toThrow('menuLinkSelector must be a valid query selector. "1" given.');
   });
 
   // Test that the BaseMenu will initialize if a valid submenuItemSelector is passed.
@@ -309,7 +309,9 @@ describe("BaseMenu (custom arguments)", () => {
     // Test that the menu throws an error.
     expect(() => {
       initializeMenu(menu);
-    }).toThrow('submenuItemSelector must be a valid CSS selector. "1" given.');
+    }).toThrow(
+      'submenuItemSelector must be a valid query selector. "1" given.'
+    );
   });
 
   // Test that the BaseMenu will initialize if a valid submenuToggleSelector is passed when the submenuItemSelector is also passed.
@@ -340,7 +342,7 @@ describe("BaseMenu (custom arguments)", () => {
     expect(() => {
       initializeMenu(menu);
     }).toThrow(
-      'submenuToggleSelector must be a valid CSS selector. "1" given.'
+      'submenuToggleSelector must be a valid query selector. "1" given.'
     );
   });
 
@@ -371,7 +373,7 @@ describe("BaseMenu (custom arguments)", () => {
     // Test that the menu throws an error.
     expect(() => {
       initializeMenu(menu);
-    }).toThrow('submenuSelector must be a valid CSS selector. "1" given.');
+    }).toThrow('submenuSelector must be a valid query selector. "1" given.');
   });
 
   // Class list tests.
