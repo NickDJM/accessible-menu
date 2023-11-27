@@ -75,7 +75,7 @@ Opens and controlled menu.
 DisclosureMenuToggle.open();
 ```
 
-Calls the [BaseMenuToggle's closeSiblings method](./base-menu-toggle#closesiblings) and _then_ [BaseMenuToggle's open method](./base-menu-toggle#open).
+Calls the [closeSiblings (inherited) method](./base-menu-toggle#closesiblings) and _then_ [BaseMenuToggle's open method](./base-menu-toggle#open).
 
 ### preview
 
@@ -88,7 +88,7 @@ Opens the controlled menu without the current focus entering it.
 DisclosureMenuToggle.preview();
 ```
 
-Calls the [BaseMenuToggle's closeSiblings method](./base-menu-toggle#closesiblings) and _then_ [BaseMenuToggle's preview method](./base-menu-toggle#preview).
+Calls the [closeSiblings (inherited) method](./base-menu-toggle#closesiblings) and _then_ [BaseMenuToggle's preview method](./base-menu-toggle#preview).
 
 
 ### close
@@ -102,4 +102,4 @@ Closes the controlled menu.
 DisclosureMenuToggle.close();
 ```
 
-Calls the [BaseMenuToggle's closeChildren method](./base-menu-toggle#closechildren) and _then_ [BaseMenuToggle's close method](./base-menu-toggle#close).
+Calls the [closeChildren (inherited) method](./base-menu-toggle#closechildren) and _then_ [BaseMenuToggle's close method](./base-menu-toggle#close).

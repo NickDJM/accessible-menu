@@ -811,7 +811,7 @@ Finds the root menu element.
 BaseMenu._findRootMenu(menu);
 ```
 
-### _createChildMenu
+### _createChildElements
 
 Creates and initializes all menu items and submenus.
 
