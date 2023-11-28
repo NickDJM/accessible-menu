@@ -7,6 +7,7 @@ const version = pkg.version;
 export default defineConfig({
   lang: "en-US",
   title: "Accessible Menu",
+  base: "/accessible-menu/",
   description:
     "A JavaScript library to help you generate WCAG accessible menus in the DOM.",
   themeConfig: {
