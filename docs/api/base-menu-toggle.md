@@ -198,7 +198,6 @@ BaseMenuToggle.isOpen = true;
 
 ## Methods
 
-
 ### _expand
 
 Expands the controlled menu.

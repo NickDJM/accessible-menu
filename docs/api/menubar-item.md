@@ -48,27 +48,15 @@ Initialize will call the [BaseMenuItem's initialize method](./base-menu-item#ini
 
 ## Properties
 
-::: info Note
-
 Properties are inherited from the [BaseMenuItem](./base-menu-item#properties) class. There are no custom properties for the MenubarItem class.
-
-:::
 
 ## Getters and Setters
 
-::: info Note
-
 Getters and setters are inherited from the [BaseMenuItem](./base-menu-item#getters-and-setters) class. There are no custom getters and setters for the MenubarItem class.
-
-:::
 
 ## Methods
 
-::: info Note
-
 Methods are inherited from the [BaseMenuItem](./base-menu-item#methods) class. The following methods are unique to or overwritten in the MenubarItem class.
-
-:::
 
 ### focus
 

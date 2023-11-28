@@ -34,35 +34,21 @@ The constructor will call [BaseMenuToggle's constructor](./base-menu-toggle#cons
 
 ## Initialize
 
-::: info Note
-
 The initialize method is inherited from the [BaseMenuToggle](./base-menu-toggle#initialize) class. There are no customizations for the TopLinkDisclosureMenuToggle class.
-
-:::
 
 ## Properties
 
-::: info Note
-
 Properties are inherited from the [BaseMenuToggle](./base-menu-toggle#properties) class. There are no custom properties for the TopLinkDisclosureMenuToggle class.
-
-:::
 
 ## Getters and Setters
 
-::: info Note
-
 Getters and setters are inherited from the [BaseMenuToggle](./base-menu-toggle#getters-and-setters) class. There are no custom getters and setters for the TopLinkDisclosureMenuToggle class.
-
-:::
 
 ## Methods
 
-::: info Note
-
 Methods are inherited from the [BaseMenuToggle](./base-menu-toggle#methods) class. The following methods are unique to or overwritten in the TopLinkDisclosureMenuToggle class.
 
-:::### open
+### open
 
 Opens and controlled menu.
 
@@ -88,7 +74,6 @@ TopLinkDisclosureMenuToggle.preview();
 
 Calls the [closeSiblings (inherited) method](./base-menu-toggle#closesiblings) and _then_ [BaseMenuToggle's preview method](./base-menu-toggle#preview).
 
-
 ### close
 
 Closes the controlled menu.
@@ -101,4 +86,3 @@ TopLinkDisclosureMenuToggle.close();
 ```
 
 Calls the [closeChildren (inherited) method](./base-menu-toggle#closechildren) and _then_ [BaseMenuToggle's close method](./base-menu-toggle#close).
-

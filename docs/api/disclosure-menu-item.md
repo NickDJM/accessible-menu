@@ -38,32 +38,16 @@ The constructor will call [BaseMenuItem's constructor](./base-menu-item#construc
 
 ## Initialize
 
-::: info Note
-
 The initialize method is inherited from the [BaseMenuItem](./base-menu-item#initialize) class. There are no customizations for the DisclosureMenuItem class.
-
-:::
 
 ## Properties
 
-::: info Note
-
 Properties are inherited from the [BaseMenuItem](./base-menu-item#properties) class. There are no custom properties for the DisclosureMenuItem class.
-
-:::
 
 ## Getters and Setters
 
-::: info Note
-
 Getters and setters are inherited from the [BaseMenuItem](./base-menu-item#getters-and-setters) class. There are no custom getters and setters for the DisclosureMenuItem class.
-
-:::
 
 ## Methods
 
-::: info Note
-
 Methods are inherited from the [BaseMenuItem](./base-menu-item#methods) class. There are no custom methods for the DisclosureMenuItem class.
-
-:::

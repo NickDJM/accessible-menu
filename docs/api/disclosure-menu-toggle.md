@@ -34,35 +34,19 @@ The constructor will call [BaseMenuToggle's constructor](./base-menu-toggle#cons
 
 ## Initialize
 
-::: info Note
-
 The initialize method is inherited from the [BaseMenuToggle](./base-menu-toggle#initialize) class. There are no customizations for the DisclosureMenuToggle class.
-
-:::
 
 ## Properties
 
-::: info Note
-
 Properties are inherited from the [BaseMenuToggle](./base-menu-toggle#properties) class. There are no custom properties for the DisclosureMenuToggle class.
-
-:::
 
 ## Getters and Setters
 
-::: info Note
-
 Getters and setters are inherited from the [BaseMenuToggle](./base-menu-toggle#getters-and-setters) class. There are no custom getters and setters for the DisclosureMenuToggle class.
-
-:::
 
 ## Methods
 
-::: info Note
-
 Methods are inherited from the [BaseMenuToggle](./base-menu-toggle#methods) class. The following methods are unique to or overwritten in the DisclosureMenuToggle class.
-
-:::
 
 ### open
 
@@ -89,7 +73,6 @@ DisclosureMenuToggle.preview();
 ```
 
 Calls the [closeSiblings (inherited) method](./base-menu-toggle#closesiblings) and _then_ [BaseMenuToggle's preview method](./base-menu-toggle#preview).
-
 
 ### close
 

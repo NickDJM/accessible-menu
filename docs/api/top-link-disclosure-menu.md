@@ -77,11 +77,7 @@ this will catch it and log it to the console.
 
 ## Properties
 
-::: info Note
-
 Properties are inherited from the [BaseMenu](./base-menu#properties) class. The following properties are unique to or overwritten in the TopLinkDisclosureMenu class.
-
-:::
 
 ### _MenuType
 
@@ -170,11 +166,7 @@ TopLinkDisclosureMenu._optionalSupport; // false.
 
 ## Getters and Setters
 
-::: info Note
-
 Getters and setters are inherited from the [BaseMenu](./base-menu#getters-and-setters) class. The following getters and setters are unique to or overwritten in the TopLinkDisclosureMenu class.
-
-:::
 
 ### optionalKeySupport
 
@@ -204,11 +196,7 @@ This functions differently for root vs. submenus. Submenus will always inherit t
 
 ## Methods
 
-::: info Note
-
 Methods are inherited from the [BaseMenu](./base-menu#methods) class. The following methods are unique to or overwritten in the TopLinkDisclosureMenu class.
-
-:::
 
 ### _createChildElements
 

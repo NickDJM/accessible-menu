@@ -76,11 +76,7 @@ If the BaseMenu's initialize method throws an error, this will catch it and log 
 
 ## Properties
 
-::: info Note
-
 Properties are inherited from the [BaseMenu](./base-menu#properties) class. The following properties are unique to or overwritten in the Menubar class.
-
-:::
 
 ### _MenuType
 
@@ -123,19 +119,11 @@ Menubar._MenuToggleType; // MenubarToggle.
 
 ## Getters and Setters
 
-::: info Note
-
 Getters and setters are inherited from the [BaseMenu](./base-menu#getters-and-setters) class. The following getters and setters are unique to or overwritten in the Menubar class.
-
-:::
 
 ## Methods
 
-::: info Note
-
 Methods are inherited from the [BaseMenu](./base-menu#methods) class. The following methods are unique to or overwritten in the Menubar class.
-
-:::
 
 ### _handleClick
 
@@ -152,7 +140,6 @@ This method will do the following:
 
 - Adds all event listeners listed in [BaseMenu's _handleClick method](./base-menu#handleclick).
 - Adds a `pointerup` listener to the `document` so if the user clicks outside of the menu it will close if it is open.
-
 
 ### _handleKeydown
 
@@ -175,7 +162,6 @@ This method will do the following:
     "ArrowDown", "ArrowLeft", "Home", "End", "Space", "Enter", "Escape",
     and "A" through "Z".
   - Completely closes the menu and moves focus out if the "Tab" key is pressed.
-
 
 ### _handleKeyup
 
@@ -231,7 +217,6 @@ Menubar.focusNextChild();
 ```
 
 If the currently focussed child in the menu is the last child then this will focus the first child in the menu.
-
 
 ### focusPreviousChild
 

@@ -989,7 +989,6 @@ Focus the menu's first child.
 BaseMenu.focusFirstChild();
 ```
 
-
 ### focusLastChild
 
 Focus the menu's last child.

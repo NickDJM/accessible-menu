@@ -40,19 +40,11 @@ The constructor will call [BaseMenuItem's constructor](./base-menu-item#construc
 
 ## Initialize
 
-::: info Note
-
 The initialize method is inherited from the [BaseMenuItem](./base-menu-item#initialize) class. There are no customizations for the TopLinkDisclosureMenuItem class.
-
-:::
 
 ## Properties
 
-::: info Note
-
 Properties are inherited from the [BaseMenuItem](./base-menu-item#properties) class. The following properties are unique to or overwritten in the TopLinkDisclosureMenuItem class.
-
-:::
 
 ### _elements
 
@@ -74,16 +66,8 @@ TopLinkDisclosureMenuItem._elements;
 
 ## Getters and Setters
 
-::: info Note
-
 Getters and setters are inherited from the [BaseMenuItem](./base-menu-item#getters-and-setters) class. There are no custom getters and setters for the TopLinkDisclosureMenuItem class.
-
-:::
 
 ## Methods
 
-::: info Note
-
 Methods are inherited from the [BaseMenuItem](./base-menu-item#getters-and-setters) class. There are no custom methods for the TopLinkDisclosureMenuItem class.
-
-:::
