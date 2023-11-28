@@ -7,7 +7,7 @@
  * This is essentially just a wrapper function around checking instanceof with
  * more descriptive error message to help debugging.
  *
- * Will return true is the check is successful.
+ * Will return `{ status: true }` if the check is successful.
  *
  * @param  {object}                  contructor - The constructor to check for.
  * @param  {object}                  elements   - The element(s) to check.
@@ -53,7 +53,7 @@ export function isValidInstance(contructor, elements) {
  * This is essentially just a wrapper function around checking typeof with
  * more descriptive error message to help debugging.
  *
- * Will return true is the check is successful.
+ * Will return `{ status: true }` if the check is successful.
  *
  * @param  {string}                  type   - The type to check for.
  * @param  {object}                  values - The value(s) to check.
@@ -95,7 +95,7 @@ export function isValidType(type, values) {
  * The values must be provided inside of an object
  * so the variable name can be retrieved in case of errors.
  *
- * Will return true is the check is successful.
+ * Will return `{ status: true }` if the check is successful.
  *
  * @param  {Object<string>}          values - The value(s) to check.
  * @return {Object<boolean, string>}        - The result of the check.
@@ -142,7 +142,7 @@ export function isQuerySelector(values) {
  * The values must be provided inside of an object
  * so the variable name can be retrieved in case of errors.
  *
- * Will return true is the check is successful.
+ * Will return `{ status: true }` if the check is successful.
  *
  * @param  {Object<string, string[]>} values - The value(s) to check.
  * @return {Object<boolean, string>}         - The result of the check.
@@ -197,10 +197,12 @@ export function isValidClassList(values) {
 /**
  * Check to see if the provided values are valid focus states for a menu.
  *
+ * Available states are: `"none"`, `"self"`, and `"child"`.
+ *
  * The values must be provided inside of an object
  * so the variable name can be retrieved in case of errors.
  *
- * Will return true is the check is successful.
+ * Will return `{ status: true }` if the check is successful.
  *
  * @param  {Object<string>}          values - The value(s) to check.
  * @return {Object<boolean, string>}        - The result of the check.
@@ -242,10 +244,12 @@ export function isValidState(values) {
 /**
  * Check to see if the provided values are valid event types for a menu.
  *
+ * Available events are: `"none"`, `"mouse"`, `"keyboard"`, and `"character"`.
+ *
  * The values must be provided inside of an object
  * so the variable name can be retrieved in case of errors.
  *
- * Will return true is the check is successful.
+ * Will return `{ status: true }` if the check is successful.
  *
  * @param  {Object<string>}          values - The value(s) to check.
  * @return {Object<boolean, string>}        - The result of the check.
@@ -287,10 +291,12 @@ export function isValidEvent(values) {
 /**
  * Check to see if the provided values are valid hover types for a menu.
  *
+ * Available types are: `"off"`, `"on"`, and `"dynamic"`.
+ *
  * The values must be provided inside of an object
  * so the variable name can be retrieved in case of errors.
  *
- * Will return true is the check is successful.
+ * Will return `{ status: true }` if the check is successful.
  *
  * @param  {Object<string>}          values - The value(s) to check.
  * @return {Object<boolean, string>}        - The result of the check.
@@ -334,6 +340,8 @@ export function isValidHoverType(values) {
  *
  * The elements must be provided inside of an object
  * so the variable name can be retrieved in case of errors.
+ *
+ * Will return `true` if the check is successful.
  *
  * @param  {string}               tagName - The name of the tag.
  * @param  {Object<HTMLElement>} elements - The element(s) to check.

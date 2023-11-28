@@ -248,6 +248,8 @@ The current state of the menu's focus.
 BaseMenu._focusState; // "none".
 ```
 
+Available states are: `"none"`, `"self"`, and `"child"`.
+
 ### _currentEvent
 
 The last event triggered on the menu.
@@ -261,6 +263,8 @@ The last event triggered on the menu.
 BaseMenu._currentEvent; // "none".
 ```
 
+Available events are: `"none"`, `"mouse"`, `"keyboard"`, and `"character"`.
+
 ### _hoverType
 
 The type of hoverability for the menu.
@@ -273,6 +277,8 @@ The type of hoverability for the menu.
  */
 BaseMenu._hoverType; // "off".
 ```
+
+Available types are: `"off"`, `"on"`, and `"dynamic"`.
 
 You can read more about [supported hover types](../hover-types) in the docs.
 

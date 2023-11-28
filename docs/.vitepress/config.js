@@ -173,6 +173,10 @@ export default defineConfig({
           text: "Validation",
           items: [
             {
+              text: "Overview",
+              link: "/api/validation",
+            },
+            {
               text: "isValidInstance",
               link: "/api/validation#isvalidinstance",
             },
