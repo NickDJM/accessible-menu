@@ -1,15 +1,7 @@
 :root {
-  /* Custom colors. */
-  --am-pink: hsl(329, 85%, 48%);
-  --am-pink-light: hsl(329, 85%, 56%);
-  --am-pink-lighter: hsl(329, 85%, 66%);
-  --am-pink-dark: hsl(329, 85%, 40%);
-  --am-pink-darker: hsl(329, 85%, 30%);
+  --vp-layout-max-width: 70%;
+}
 
-  /* Overwrite VitePress. */
-  --vp-c-brand: var(--am-pink);
-  --vp-c-brand-light: var(--am-pink-light);
-  --vp-c-brand-lighter: var(--am-pink-lighter);
-  --vp-c-brand-dark: var(--am-pink-dark);
-  --vp-c-brand-darker: var(--am-pink-darker);
+.VPContent .VPDoc.has-aside .content-container {
+  max-width: 100%;
 }
