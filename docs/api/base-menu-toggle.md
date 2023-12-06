@@ -28,10 +28,10 @@ The constructor populates the dom and elements properties. It will _not_ initial
 
 | Name | Type | Description | Default |
 | --- | --- | --- | --- |
-| options | `object` | The options for generating the menu toggle. | |
-| options.menuToggleElement | `HTMLElement` | The toggle element in the DOM. | |
-| options.parentElement | `HTMLElement` | The element containing the controlled menu. | |
-| options.controlledMenu | `BaseMenu` | The menu controlled by this toggle. | |
+| options | `object` | The options for generating the menu toggle. | `undefined` |
+| options.menuToggleElement | `HTMLElement` | The toggle element in the DOM. | `undefined` |
+| options.parentElement | `HTMLElement` | The element containing the controlled menu. | `undefined` |
+| options.controlledMenu | `BaseMenu` | The menu controlled by this toggle. | `undefined` |
 | options.parentMenu | `BaseMenu|null` | The menu containing this toggle. | `null` |
 
 ## Initialize

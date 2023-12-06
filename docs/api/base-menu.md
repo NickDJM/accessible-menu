@@ -58,11 +58,11 @@ The constructor populates the dom, selector, CSS class, and hover related proper
 
 | Param | Type | Description | Default |
 | --- | --- | --- | --- |
-| options | `object` | The options for generating the menu. |  |
-| options.menuElement | `HTMLElement` | The menu element in the DOM. |  |
+| options | `object` | The options for generating the menu. | `undefined` |
+| options.menuElement | `HTMLElement` | The menu element in the DOM. | `undefined` |
 | options.menuItemSelector | `string` | The query selector string for menu items. | `li` |
 | options.menuLinkSelector | `string` | The query selector string for menu links. | `a` |
-| options.submenuItemSelector | `string` | The query selector string for menu items containing submenus. |  |
+| options.submenuItemSelector | `string` | The query selector string for menu items containing submenus. | `undefined` |
 | options.submenuToggleSelector | `string` | The query selector string for submenu toggle buttons/links. | `a` |
 | options.submenuSelector | `string` | The query selector string for submenus. | `ul` |
 | options.controllerElement | `HTMLElement` | The element controlling the menu in the DOM. | `null` |
@@ -803,7 +803,7 @@ Elements that are not stored inside an array cannot be set through this method.
 
 | Param | Type | Description | Default |
 | --- | --- | --- | --- |
-| elementType | `string` | The type of element to populate. |  |
+| elementType | `string` | The type of element to populate. | `undefined` |
 | base | `HTMLElement` | The element used as the base for the querySelect. | `this.dom.menu` |
 | overwrite | `boolean` | A flag to set if the existing elements will be overwritten. | `true` |
 
@@ -826,7 +826,7 @@ Elements that are not stored inside an array cannot be reset through this method
 
 | Param | Type | Description | Default |
 | --- | --- | --- | --- |
-| elementType | `string` | The type of element to clear. |  |
+| elementType | `string` | The type of element to clear. | `undefined` |
 
 ### _setDOMElements <badge type="tip" text="protected" /> {#method--setdomelements}
 
@@ -858,7 +858,7 @@ BaseMenu._findRootMenu(menu);
 
 | Param | Type | Description | Default |
 | --- | --- | --- | --- |
-| menu | `BaseMenu` | The menu to check. |  |
+| menu | `BaseMenu` | The menu to check. | `undefined` |
 
 ### _createChildElements <badge type="tip" text="protected" /> {#method--createchildelements}
 
@@ -1025,7 +1025,7 @@ BaseMenu.focusChild(index);
 
 | Param | Type | Description | Default |
 | --- | --- | --- | --- |
-| index | `number` | The index of the child to focus. |  |
+| index | `number` | The index of the child to focus. | `undefined` |
 
 ### focusFirstChild {#method--focusfirstchild}
 
