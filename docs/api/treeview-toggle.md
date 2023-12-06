@@ -13,14 +13,6 @@ This is a subclass of [BaseMenuToggle](./base-menu-toggle).
 Constructs a new `TreeviewToggle`.
 
 ```js
-/**
- * @param {object}      options                     - The options for generating the menu toggle.
- * @param {HTMLElement} options.menuToggleElement   - The toggle element in the DOM.
- * @param {HTMLElement} options.parentElement       - The element containing the controlled menu.
- * @param {Treeview}    options.controlledMenu      - The menu controlled by this toggle.
- * @param {?Treeview}   [options.parentMenu = null] - The menu containing this toggle.
- * @param {boolean}     [options.initialize = true] - A flag to initialize the menu toggle immediately upon creation.
- */
 new TreeviewToggle({
   menuToggleElement,
   parentElement,

@@ -13,16 +13,6 @@ This is a subclass of [BaseMenuItem](./base-menu-item).
 Constructs a new `MenubarItem`.
 
 ```js
-/**
- * @param {object}         options                         - The options for generating the menu item.
- * @param {HTMLElement}    options.menuItemElement         - The menu item in the DOM.
- * @param {HTMLElement}    options.menuLinkElement         - The menu item's link in the DOM.
- * @param {Menubar}        options.parentMenu              - The parent menu.
- * @param {boolean}        [options.isSubmenuItem = false] - A flag to mark if the menu item is controlling a submenu.
- * @param {?Menubar}       [options.childMenu = null]      - The child menu.
- * @param {?MenubarToggle} [options.toggle = null]         - The controller for the child menu.
- * @param {boolean}        [options.initialize = true]     - A flag to initialize the menu item immediately upon creation.
- */
 new MenubarItem({
   menuItemElement,
   menuLinkElement,
@@ -76,9 +66,6 @@ Methods are inherited from the [BaseMenuItem](./base-menu-item#methods) class. T
 Focuses the menu item's link if the parent menu's [shouldFocus](./base-menu.md#getter--shouldfocus) value is `true`.
 
 ```js
-/**
- * @public
- */
 MenubarItem.focus();
 ```
 
@@ -89,9 +76,6 @@ This will call the [BaseMenuItem's focus method](./base-menu-item#method--focus)
 Blurs the menu item's link if the parent menu's [shouldFocus](./base-menu.md#getter-shouldfocus) value is `true`.
 
 ```js
-/**
- * @public
- */
 MenubarItem.blur();
 ```
 

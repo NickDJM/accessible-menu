@@ -13,27 +13,6 @@ This is a subclass of [BaseMenu](./base-menu).
 Constructs a new `Menubar`.
 
 ```js
-/**
- * @param {object}             options                                   - The options for generating the menu.
- * @param {HTMLElement}        options.menuElement                       - The menu element in the DOM.
- * @param {string}             [options.menuItemSelector = li]           - The query selector string for menu items.
- * @param {string}             [options.menuLinkSelector = a]            - The query selector string for menu links.
- * @param {string}             [options.submenuItemSelector]             - The query selector string for menu items containing submenus.
- * @param {string}             [options.submenuToggleSelector = a]       - The query selector string for submenu toggle buttons/links.
- * @param {string}             [options.submenuSelector = ul]            - The query selector string for submenus.
- * @param {?HTMLElement}       [options.controllerElement = null]        - The element controlling the menu in the DOM.
- * @param {?HTMLElement}       [options.containerElement = null]         - The element containing the menu in the DOM.
- * @param {?(string|string[])} [options.openClass = show]                - The class to apply when a menu is "open".
- * @param {?(string|string[])} [options.closeClass = hide]               - The class to apply when a menu is "closed".
- * @param {?(string|string[])} [options.transitionClass = transitioning] - The class to apply when a menu is transitioning between "open" and "closed" states.
- * @param {boolean}            [options.isTopLevel = true]               - A flag to mark the root menu.
- * @param {?Menubar}           [options.parentMenu = null]               - The parent menu to this menu.
- * @param {string}             [options.hoverType = off]                 - The type of hoverability a menu has.
- * @param {number}             [options.hoverDelay = 250]                - The delay for opening and closing menus if the menu is hoverable (in miliseconds).
- * @param {number}             [options.enterDelay = -1]                 - The delay for opening a menu if the menu is focusable (in miliseconds).
- * @param {number}             [options.leaveDelay = -1]                 - The delay for closing a menu if the menu is focusable (in miliseconds).
- * @param {boolean}            [options.initialize = true]               - A flag to initialize the menu immediately upon creation.
- */
 new Menubar({
   menuElement,
   menuItemSelector,
@@ -107,39 +86,36 @@ Properties are inherited from the [BaseMenu](./base-menu#properties) class. The 
 The class to use when generating submenus.
 
 ```js
-/**
- * @protected
- *
- * @type {typeof Menubar}
- */
-Menubar._MenuType; // Menubar.
+Menubar._MenuType; // Default: `Menubar`.
 ```
+
+#### Type {#property--menutype--type}
+
+`Class`
 
 ### _MenuItemType <badge type="warning" text="protected" /> {#property--menuitemtype}
 
 The class to use when generating menu items.
 
 ```js
-/**
- * @protected
- *
- * @type {typeof MenubarItem}
- */
-Menubar._MenuItemType; // MenubarItem.
+Menubar._MenuItemType; // Default: `MenubarItem`.
 ```
+
+#### Type {#property--menuitemtype--type}
+
+`Class`
 
 ### _MenuToggleType <badge type="warning" text="protected" /> {#property--menutoggletype}
 
 The class to use when generating menu toggles.
 
 ```js
-/**
- * @protected
- *
- * @type {typeof MenubarToggle}
- */
-Menubar._MenuToggleType; // MenubarToggle.
+Menubar._MenuToggleType; // Default: `MenubarToggle`.
 ```
+
+#### Type {#property--menutoggletype--type}
+
+`Class`
 
 ## Getters and Setters
 
@@ -154,9 +130,6 @@ Methods are inherited from the [BaseMenu](./base-menu#methods) class. The follow
 Handles click events throughout the menu for proper use.
 
 ```js
-/**
- * @protected
- */
 Menubar._handleClick();
 ```
 
@@ -170,9 +143,6 @@ This method will do the following:
 Handles keydown events throughout the menu for proper menu use.
 
 ```js
-/**
- * @protected
- */
 Menubar._handleKeydown();
 ```
 
@@ -192,9 +162,6 @@ This method will do the following:
 Handles keyup events throughout the menu for proper menu use.
 
 ```js
-/**
- * @protected
- */
 Menubar._handleKeyup();
 ```
 
@@ -234,9 +201,6 @@ Adds the following keybindings (explanations are taken from the [Navigation Menu
 Focus the menu's next child.
 
 ```js
-/**
- * @public
- */
 Menubar.focusNextChild();
 ```
 
@@ -247,9 +211,6 @@ If the currently focussed child in the menu is the last child then this will foc
 Focus the menu's previous child.
 
 ```js
-/**
- * @public
- */
 Menubar.focusPreviousChild();
 ```
 
@@ -260,11 +221,6 @@ If the currently focussed child in the menu is the first child then this will fo
 Focus the menu's next child starting with a specific letter.
 
 ```js
-/**
- * @public
- *
- * @param {string} char - The character to look for.
- */
 Menubar.focusNextChildWithCharacter(char);
 ```
 

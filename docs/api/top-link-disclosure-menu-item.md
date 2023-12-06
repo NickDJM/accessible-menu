@@ -13,17 +13,6 @@ This is a subclass of [BaseMenuItem](./base-menu-item).
 Constructs a new `TopLinkDisclosureMenuItem`.
 
 ```js
-/**
- * @param {object}                       options                         - The options for generating the menu item.
- * @param {HTMLElement}                  options.menuItemElement         - The menu item in the DOM.
- * @param {HTMLElement}                  options.menuLinkElement         - The menu item's link in the DOM.
- * @param {TopLinkDisclosureMenu}        options.parentMenu              - The parent menu.
- * @param {boolean}                      [options.isSubmenuItem = false] - A flag to mark if the menu item is controlling a submenu.
- * @param {?TopLinkDisclosureMenu}       [options.childMenu = null]      - The child menu.
- * @param {?TopLinkDisclosureMenuToggle} [options.toggle = null]         - The controller for the child menu.
- * @param {boolean}                      [options.initialize = true]     - A flag to initialize the menu item immediately upon creation.
- * @param {?TopLinkDisclosureMenuItem}   [options.submenuSibling = null] - The sibling menu item that controls a submenu.
- */
 new TopLinkDisclosureMenuItem({
   menuItemElement,
   menuLinkElement,
@@ -60,23 +49,26 @@ The initialize method is inherited from the [BaseMenuItem](./base-menu-item#init
 
 Properties are inherited from the [BaseMenuItem](./base-menu-item#properties) class. The following properties are unique to or overwritten in the TopLinkDisclosureMenuItem class.
 
-### _elements <badge type="warning" text="protected" /> {#property--elements}
+### _elements <Badge type="tip" text="protected" /> {#property--elements}
 
 The declared accessible-menu elements within the menu item.
 
 ```js
-/**
- * @type {Object<TopLinkDisclosureMenu, TopLinkDisclosureMenuToggle>}
- *
- * @protected
- *
- * @property {TopLinkDisclosureMenu}                   parentMenu - The menu containing this menu item.
- * @property {?TopLinkDisclosureMenu}                  childMenu  - The menu contained within this menu item.
- * @property {?TopLinkDisclosureMenuToggle}            toggle     - The menu toggle within this menu item that controls the `childMenu`.
- * @property {?TopLinkDisclosureMenuItem}              sibling    - The sibling menu item that is a submenu item.
- */
 TopLinkDisclosureMenuItem._elements;
 ```
+
+#### Type {#property--elements--type}
+
+`Object<TopLinkDisclosureMenu, TopLinkDisclosureMenuToggle>`
+
+#### Properties {#property--elements--properties}
+
+| Name | Type | Description | Default |
+| --- | --- | --- | --- |
+| parentMenu | `TopLinkDisclosureMenu` | The menu containing this menu item. | `null` |
+| childMenu | `TopLinkDisclosureMenu`, `null` | The menu contained within this menu item. | `null` |
+| toggle | `TopLinkDisclosureMenuToggle`, `null` | The menu toggle within this menu item that controls the `childMenu`. | `null` |
+| sibling | `TopLinkDisclosureMenuItem`, `null` | The sibling menu item that is a submenu item. | `null` |
 
 ## Getters and Setters
 

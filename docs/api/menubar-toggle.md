@@ -13,14 +13,6 @@ This is a subclass of [BaseMenuToggle](./base-menu-toggle).
 Constructs a new `MenubarToggle`.
 
 ```js
-/**
- * @param {object}      options                     - The options for generating the menu toggle.
- * @param {HTMLElement} options.menuToggleElement   - The toggle element in the DOM.
- * @param {HTMLElement} options.parentElement       - The element containing the controlled menu.
- * @param {Menubar}     options.controlledMenu      - The menu controlled by this toggle.
- * @param {?Menubar}    [options.parentMenu = null] - The menu containing this toggle.
- * @param {boolean}     [options.initialize = true] - A flag to initialize the menu toggle immediately upon creation.
- */
 new MenubarToggle({
   menuToggleElement,
   parentElement,
@@ -64,9 +56,6 @@ Methods are inherited from the [BaseMenuToggle](./base-menu-toggle#methods) clas
 Opens the controlled menu.
 
 ```js
-/**
- * @public
- */
 MenubarToggle.open();
 ```
 
@@ -77,9 +66,6 @@ Calls the [closeSiblings (inherited)](./base-menu-toggle#method--closesiblings) 
 Opens the controlled menu without the current focus entering it.
 
 ```js
-/**
- * @public
- */
 MenubarToggle.preview();
 ```
 
@@ -90,9 +76,6 @@ Calls the [closeSiblings (inherited)](./base-menu-toggle#method--closesiblings) 
 Closes the controlled menu.
 
 ```js
-/**
- * @public
- */
 MenubarToggle.close();
 ```
 

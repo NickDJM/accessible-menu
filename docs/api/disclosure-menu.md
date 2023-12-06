@@ -13,28 +13,6 @@ This is a subclass of [BaseMenu](./base-menu).
 Constructs a new `DisclosureMenu`.
 
 ```js
-/**
- * @param {object}             options                                   - The options for generating the menu.
- * @param {HTMLElement}        options.menuElement                       - The menu element in the DOM.
- * @param {string}             [options.menuItemSelector = li]           - The query selector string for menu items.
- * @param {string}             [options.menuLinkSelector = a]            - The query selector string for menu links.
- * @param {string}             [options.submenuItemSelector]             - The query selector string for menu items containing submenus.
- * @param {string}             [options.submenuToggleSelector = a]       - The query selector string for submenu toggle buttons/links.
- * @param {string}             [options.submenuSelector = ul]            - The query selector string for submenus.
- * @param {?HTMLElement}       [options.controllerElement = null]        - The element controlling the menu in the DOM.
- * @param {?HTMLElement}       [options.containerElement = null]         - The element containing the menu in the DOM.
- * @param {?(string|string[])} [options.openClass = show]                - The class to apply when a menu is "open".
- * @param {?(string|string[])} [options.closeClass = hide]               - The class to apply when a menu is "closed".
- * @param {?(string|string[])} [options.transitionClass = transitioning] - The class to apply when a menu is transitioning between "open" and "closed" states.
- * @param {boolean}            [options.isTopLevel = true]               - A flag to mark the root menu.
- * @param {?DisclosureMenu}    [options.parentMenu = null]               - The parent menu to this menu.
- * @param {string}             [options.hoverType = off]                 - The type of hoverability a menu has.
- * @param {number}             [options.hoverDelay = 250]                - The delay for opening and closing menus if the menu is hoverable (in miliseconds).
- * @param {number}             [options.enterDelay = -1]                 - The delay for opening a menu if the menu is focusable (in miliseconds).
- * @param {number}             [options.leaveDelay = -1]                 - The delay for closing a menu if the menu is focusable (in miliseconds).
- * @param {boolean}            [options.optionalKeySupport = false]      - A flag to add optional keyboard support (Arrow keys, Home, and End) to the menu.
- * @param {boolean}            [options.initialize = true]               - A flag to initialize the menu immediately upon creation.
- */
 new DisclosureMenu({
   menuElement,
   menuItemSelector,
@@ -107,65 +85,60 @@ Properties are inherited from the [BaseMenu](./base-menu#properties) class. The 
 The class to use when generating submenus.
 
 ```js
-/**
- * @protected
- *
- * @type {typeof DisclosureMenu}
- */
-DisclosureMenu._MenuType; // DisclosureMenu.
+DisclosureMenu._MenuType; // Default: `DisclosureMenu`.
 ```
+
+#### Type {#property--menutype--type}
+
+`Class`
 
 ### _MenuItemType <badge type="warning" text="protected" /> {#property--menuitemtype}
 
 The class to use when generating menu items.
 
 ```js
-/**
- * @protected
- *
- * @type {typeof DisclosureMenuItem}
- */
-DisclosureMenu._MenuItemType; // DisclosureMenuItem.
+DisclosureMenu._MenuItemType; // Default: `DisclosureMenuItem`.
 ```
+
+#### Type {#property--menuitemtype--type}
+
+`Class`
 
 ### _MenuToggleType <badge type="warning" text="protected" /> {#property--menutoggletype}
 
 The class to use when generating menu toggles.
 
 ```js
-/**
- * @protected
- *
- * @type {typeof DisclosureMenuToggle}
- */
-DisclosureMenu._MenuToggleType; // DisclosureMenuToggle.
+DisclosureMenu._MenuToggleType; // Default: `DisclosureMenuToggle`.
 ```
+
+#### Type {#property--menutoggletype--type}
+
+`Class`
 
 ### _currentChild <badge type="warning" text="protected" /> {#property--currentchild}
 
 The index of the currently selected [menu item](./disclosure-menu-item) in the menu.
 
 ```js
-/**
- * @protected
- *
- * @type {number}
- */
-DisclosureMenu._currentChild; // -1.
+DisclosureMenu._currentChild; // Default: `-1`.
 ```
+
+#### Type {#property--currentchild--type}
+
+`number`
 
 ### _optionalSupport <badge type="warning" text="protected" /> {#property--optionalsupport}
 
 A flag to add optional keyboard support (Arrow keys, "Home", and "End") to the menu.
 
 ```js
-/**
- * @protected
- *
- * @type {boolean}
- */
-DisclosureMenu._optionalSupport; // false.
+DisclosureMenu._optionalSupport; // Default: `false`.
 ```
+
+#### Type {#property--optionalsupport--type}
+
+`boolean`
 
 ## Getters and Setters
 
@@ -206,24 +179,22 @@ Methods are inherited from the [BaseMenu](./base-menu#methods) class. The follow
 Validates all aspects of the menu to ensure proper functionality.
 
 ```js
-/**
- * @protected
- *
- * @returns {boolean} - The result of the validation.
- */
 DisclosureMenu._validate();
 ```
 
 The validation method will call [BaseMenu's validation method](./base-menu#method--validate) as well as validate the optionalKeySupport property.
+
+#### Returns {#method--validate--returns}
+
+| Type | Description |
+| --- | --- |
+| `boolean` | The result of the validation. |
 
 ### _handleClick <badge type="warning" text="protected" /> {#method--handleclick}
 
 Handles click events throughout the menu for proper use.
 
 ```js
-/**
- * @protected
- */
 DisclosureMenu._handleClick();
 ```
 
@@ -237,9 +208,6 @@ This method will do the following:
 Handles keydown events throughout the menu for proper menu use.
 
 ```js
-/**
- * @protected
- */
 DisclosureMenu._handleKeydown();
 ```
 
@@ -256,9 +224,6 @@ This method will do the following:
 Handles keyup events throughout the menu for proper menu use.
 
 ```js
-/**
- * @protected
- */
 DisclosureMenu._handleKeyup();
 ```
 

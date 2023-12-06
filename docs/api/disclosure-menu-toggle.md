@@ -13,14 +13,6 @@ This is a subclass of [BaseMenuToggle](./base-menu-toggle).
 Constructs a new `DisclosureMenuToggle`.
 
 ```js
-/**
- * @param {object}          options                     - The options for generating the menu toggle.
- * @param {HTMLElement}     options.menuToggleElement   - The toggle element in the DOM.
- * @param {HTMLElement}     options.parentElement       - The element containing the controlled menu.
- * @param {DisclosureMenu}  options.controlledMenu      - The menu controlled by this toggle.
- * @param {?DisclosureMenu} [options.parentMenu = null] - The menu containing this toggle.
- * @param {boolean}         [options.initialize = true] - A flag to initialize the menu toggle immediately upon creation.
- */
 new DisclosureMenuToggle({
   menuToggleElement,
   parentElement,
@@ -64,9 +56,6 @@ Methods are inherited from the [BaseMenuToggle](./base-menu-toggle#methods) clas
 Opens and controlled menu.
 
 ```js
-/**
- * @public
- */
 DisclosureMenuToggle.open();
 ```
 
@@ -77,9 +66,6 @@ Calls the [closeSiblings (inherited) method](./base-menu-toggle#method--closesib
 Opens the controlled menu without the current focus entering it.
 
 ```js
-/**
- * @public
- */
 DisclosureMenuToggle.preview();
 ```
 
@@ -90,9 +76,6 @@ Calls the [closeSiblings (inherited) method](./base-menu-toggle#method--closesib
 Closes the controlled menu.
 
 ```js
-/**
- * @public
- */
 DisclosureMenuToggle.close();
 ```
 
