@@ -51,6 +51,13 @@ export default defineConfig({
           ],
         },
         {
+          text: "Menu Options",
+          items: [
+            { text: "Supported Hover Types", link: "/hover-types" },
+            { text: "State Classes", link: "/state-classes" },
+          ],
+        },
+        {
           text: "Other Topics",
           items: [
             { text: "Bootstrap support", link: "/bootstrap-support" },
