@@ -54,7 +54,7 @@ This method is a placeholder for subclasses to expand upon. The BaseMenuItem's i
 
 ## Properties
 
-### _dom {#property--dom}
+### _dom <badge type="tip" text="protected" /> {#property--dom}
 
 The DOM elements within the menu item.
 
@@ -70,7 +70,7 @@ The DOM elements within the menu item.
 BaseMenuItem._dom;
 ```
 
-### _elements {#property--elements}
+### _elements <badge type="tip" text="protected" /> {#property--elements}
 
 The declared accessible-menu elements within the menu item.
 
@@ -87,7 +87,7 @@ The declared accessible-menu elements within the menu item.
 BaseMenuItem._elements;
 ```
 
-### _submenu {#property--submenu}
+### _submenu <badge type="tip" text="protected" /> {#property--submenu}
 
 A flag marking a submenu item.
 

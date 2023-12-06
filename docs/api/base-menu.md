@@ -95,7 +95,7 @@ The following steps will be taken to initialize the menu:
 
 ## Properties
 
-### _MenuType {#property--menutype}
+### _MenuType <badge type="tip" text="protected" /> {#property--menutype}
 
 The class to use when generating submenus.
 
@@ -108,7 +108,7 @@ The class to use when generating submenus.
 BaseMenu._MenuType; // BaseMenu.
 ```
 
-### _MenuItemType {#property--menuitemtype}
+### _MenuItemType <badge type="tip" text="protected" /> {#property--menuitemtype}
 
 The class to use when generating menu items.
 
@@ -121,7 +121,7 @@ The class to use when generating menu items.
 BaseMenu._MenuItemType; // BaseMenuItem.
 ```
 
-### _MenuToggleType {#property--menutoggletype}
+### _MenuToggleType <badge type="tip" text="protected" /> {#property--menutoggletype}
 
 The class to use when generating menu toggles.
 
@@ -134,7 +134,7 @@ The class to use when generating menu toggles.
 BaseMenu._MenuToggleType; // BaseMenuToggle.
 ```
 
-### _dom {#property--dom}
+### _dom <badge type="tip" text="protected" /> {#property--dom}
 
 The DOM elements within the menu.
 
@@ -155,7 +155,7 @@ The DOM elements within the menu.
 BaseMenu._dom;
 ```
 
-### _selectors {#property--selectors}
+### _selectors <badge type="tip" text="protected" /> {#property--selectors}
 
 The query selectors used by the menu to populate the dom.
 
@@ -174,7 +174,7 @@ The query selectors used by the menu to populate the dom.
 BaseMenu._selectors;
 ```
 
-### _elements {#property--elements}
+### _elements <badge type="tip" text="protected" /> {#property--elements}
 
 The declared accessible-menu elements within the menu.
 
@@ -193,7 +193,7 @@ The declared accessible-menu elements within the menu.
 BaseMenu._elements;
 ```
 
-### _openClass {#property--openclass}
+### _openClass <badge type="tip" text="protected" /> {#property--openclass}
 
 The class(es) to apply when the menu is open.
 
@@ -206,7 +206,7 @@ The class(es) to apply when the menu is open.
 BaseMenu._openClass; // "show".
 ```
 
-### _closeClass {#property--closeclass}
+### _closeClass <badge type="tip" text="protected" /> {#property--closeclass}
 
 The class(es) to apply when the menu is closed.
 
@@ -219,7 +219,7 @@ The class(es) to apply when the menu is closed.
 BaseMenu._closeClass; // "hide".
 ```
 
-### _transitionClass {#property--transitionclass}
+### _transitionClass <badge type="tip" text="protected" /> {#property--transitionclass}
 
 The class(es) to apply when the menu is transitioning between states.
 
@@ -232,7 +232,7 @@ The class(es) to apply when the menu is transitioning between states.
 BaseMenu._transitionClass; // "transitioning"
 ```
 
-### _root {#property--root}
+### _root <badge type="tip" text="protected" /> {#property--root}
 
 A flag marking the root menu.
 
@@ -245,7 +245,7 @@ A flag marking the root menu.
 BaseMenu._root; // true.
 ```
 
-### _currentChild {#property--currentchild}
+### _currentChild <badge type="tip" text="protected" /> {#property--currentchild}
 
 The index of the currently selected [menu item](./base-menu-item) in the menu.
 
@@ -258,7 +258,7 @@ The index of the currently selected [menu item](./base-menu-item) in the menu.
 BaseMenu._currentChild; // 0.
 ```
 
-### _focusState {#property--focusstate}
+### _focusState <badge type="tip" text="protected" /> {#property--focusstate}
 
 The current state of the menu's focus.
 
@@ -273,7 +273,7 @@ BaseMenu._focusState; // "none".
 
 Available states are: `"none"`, `"self"`, and `"child"`.
 
-### _currentEvent {#property--currentevent}
+### _currentEvent <badge type="tip" text="protected" /> {#property--currentevent}
 
 The last event triggered on the menu.
 
@@ -288,7 +288,7 @@ BaseMenu._currentEvent; // "none".
 
 Available events are: `"none"`, `"mouse"`, `"keyboard"`, and `"character"`.
 
-### _hoverType {#property--hovertype}
+### _hoverType <badge type="tip" text="protected" /> {#property--hovertype}
 
 The type of hoverability for the menu.
 
@@ -305,7 +305,7 @@ Available types are: `"off"`, `"on"`, and `"dynamic"`.
 
 You can read more about [supported hover types](../hover-types) in the docs.
 
-### _hoverDelay {#property--hoverdelay}
+### _hoverDelay <badge type="tip" text="protected" /> {#property--hoverdelay}
 
 The delay time (in miliseconds) used for pointerenter/pointerleave events to take place.
 
@@ -318,7 +318,7 @@ The delay time (in miliseconds) used for pointerenter/pointerleave events to tak
 BaseMenu._hoverDelay; // 250.
 ```
 
-### _enterDelay {#property--enterdelay}
+### _enterDelay <badge type="tip" text="protected" /> {#property--enterdelay}
 
 The delay time (in miliseconds) used for pointerenter events to take place.
 
@@ -331,7 +331,7 @@ The delay time (in miliseconds) used for pointerenter events to take place.
 BaseMenu._enterDelay; // -1.
 ```
 
-### _leaveDelay {#property--leavedelay}
+### _leaveDelay <badge type="tip" text="protected" /> {#property--leavedelay}
 
 The delay time (in miliseconds) used for pointerleave events to take place.
 
@@ -344,7 +344,7 @@ The delay time (in miliseconds) used for pointerleave events to take place.
 BaseMenu._leaveDelay; // -1.
 ```
 
-### _hoverTimeout {#property--hovertimeout}
+### _hoverTimeout <badge type="tip" text="protected" /> {#property--hovertimeout}
 
 A variable to hold the hover timeout function.
 
@@ -357,7 +357,7 @@ A variable to hold the hover timeout function.
 BaseMenu._hoverTimeout; // null.
 ```
 
-### _errors {#property--errors}
+### _errors <badge type="tip" text="protected" /> {#property--errors}
 
 An array of error messages generated by the menu.
 
@@ -769,7 +769,7 @@ BaseMenu.errors;
 
 ## Methods
 
-### _validate {#method--validate}
+### _validate <badge type="tip" text="protected" /> {#method--validate}
 
 Validates all aspects of the menu to ensure proper functionality.
 
@@ -782,7 +782,7 @@ Validates all aspects of the menu to ensure proper functionality.
 BaseMenu._validate();
 ```
 
-### _setDOMElementType {#method--setdomelementtype}
+### _setDOMElementType <badge type="tip" text="protected" /> {#method--setdomelementtype}
 
 Sets DOM elements within the menu.
 
@@ -807,7 +807,7 @@ Elements that are not stored inside an array cannot be set through this method.
 | base | `HTMLElement` | The element used as the base for the querySelect. | `this.dom.menu` |
 | overwrite | `boolean` | A flag to set if the existing elements will be overwritten. | `true` |
 
-### _resetDOMElementType {#method--resetdomelementtype}
+### _resetDOMElementType <badge type="tip" text="protected" /> {#method--resetdomelementtype}
 
 Resets DOM elements within the menu.
 
@@ -828,7 +828,7 @@ Elements that are not stored inside an array cannot be reset through this method
 | --- | --- | --- | --- |
 | elementType | `string` | The type of element to clear. |  |
 
-### _setDOMElements {#method--setdomelements}
+### _setDOMElements <badge type="tip" text="protected" /> {#method--setdomelements}
 
 Sets all DOM elements within the menu.
 
@@ -841,7 +841,7 @@ BaseMenu._setDOMElements();
 
 Utilizes [`_setDOMElementType`](#method--setdomelementtype) and [`_resetDOMElementType`](#method--resetdomelementtype).
 
-### _findRootMenu {#method--findrootmenu}
+### _findRootMenu <badge type="tip" text="protected" /> {#method--findrootmenu}
 
 Finds the root menu element.
 
@@ -860,7 +860,7 @@ BaseMenu._findRootMenu(menu);
 | --- | --- | --- | --- |
 | menu | `BaseMenu` | The menu to check. |  |
 
-### _createChildElements {#method--createchildelements}
+### _createChildElements <badge type="tip" text="protected" /> {#method--createchildelements}
 
 Creates and initializes all menu items and submenus.
 
@@ -871,7 +871,7 @@ Creates and initializes all menu items and submenus.
 BaseMenu._createChildMenu();
 ```
 
-### _handleFocus {#method--handlefocus}
+### _handleFocus <badge type="tip" text="protected" /> {#method--handlefocus}
 
 Handles focus events throughout the menu for proper menu use.
 
@@ -901,7 +901,7 @@ This method will do the following:
 - Adds a `pointerup` listener to every submenu item that will properly toggle the submenu open/closed.
 - Adds a `pointerup` listener to the menu's controller (if the menu is the root menu) so when it is clicked it will properly toggle open/closed.
 
-### _handleHover {#method--handlehover}
+### _handleHover <badge type="tip" text="protected" /> {#method--handlehover}
 
 Handles hover events throughout the menu for proper use.
 
@@ -937,7 +937,7 @@ This method will add the following behaviour:
 
 All `pointerenter` and `pointerleave` events are ignored.
 
-### _handleKeydown {#method--handlekeydown}
+### _handleKeydown <badge type="tip" text="protected" /> {#method--handlekeydown}
 
 Handles keydown events throughout the menu for proper menu use.
 
@@ -955,7 +955,7 @@ This method will do the following:
 - Adds a `keydown` listener to the menu's controller (if the menu is the root menu).
   - Blocks propagation on "Space", "Enter", and "Escape" keys.
 
-### _handleKeyup {#method--handlekeyup}
+### _handleKeyup <badge type="tip" text="protected" /> {#method--handlekeyup}
 
 Handles keyup events throughout the menu for proper menu use.
 

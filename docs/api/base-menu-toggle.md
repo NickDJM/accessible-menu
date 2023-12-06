@@ -61,7 +61,7 @@ Finally, the [collapse](#method--collapse) method is called to make sure the sub
 
 ## Properties
 
-### _dom {#property--dom}
+### _dom <badge type="tip" text="protected" /> {#property--dom}
 
 The DOM elements within the menu toggle.
 
@@ -77,7 +77,7 @@ The DOM elements within the menu toggle.
 BaseMenuToggle._dom;
 ```
 
-### _elements {#property--elements}
+### _elements <badge type="tip" text="protected" /> {#property--elements}
 
 The declared accessible-menu elements within the menu toggle.
 
@@ -95,7 +95,7 @@ The declared accessible-menu elements within the menu toggle.
 BaseMenuToggle._elements;
 ```
 
-### _open {#property--open}
+### _open <badge type="tip" text="protected" /> {#property--open}
 
 The open state of the menu toggle.
 
@@ -108,7 +108,7 @@ The open state of the menu toggle.
 BaseMenuToggle._open; // false.
 ```
 
-### _expandEvent {#property--expandEvent}
+### _expandEvent <badge type="tip" text="protected" /> {#property--expandEvent}
 
 The event that is triggered when the menu toggle expands.
 
@@ -125,7 +125,7 @@ The event that is triggered when the menu toggle expands.
 BaseMenuToggle._expandEvent;
 ```
 
-### _collapseEvent {#property--collapseEvent}
+### _collapseEvent <badge type="tip" text="protected" /> {#property--collapseEvent}
 
 The event that is triggered when the menu toggle collapses.
 
@@ -208,7 +208,7 @@ BaseMenuToggle.isOpen = true;
 
 ## Methods
 
-### _expand {#method--expand}
+### _expand <badge type="tip" text="protected" /> {#method--expand}
 
 Expands the controlled menu.
 
@@ -233,7 +233,7 @@ If `emit` is set to `true`, this will also emit a custom event called [accessibl
 | --- | --- | --- | --- |
 | emit | `boolean` | A toggle to emit the expand event once expanded. | `true` |
 
-### _collapse {#method--collapse}
+### _collapse <badge type="tip" text="protected" /> {#method--collapse}
 
 Collapses the controlled menu.
 
