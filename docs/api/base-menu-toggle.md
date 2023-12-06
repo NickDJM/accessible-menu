@@ -24,6 +24,16 @@ new BaseMenuToggle({
 
 The constructor populates the dom and elements properties. It will _not_ initialize the menu toggle; this is left to the subclasses to envoke.
 
+### Parameters {#constructor--parameters}
+
+| Name | Type | Description | Default |
+| --- | --- | --- | --- |
+| options | `object` | The options for generating the menu toggle. | |
+| options.menuToggleElement | `HTMLElement` | The toggle element in the DOM. | |
+| options.parentElement | `HTMLElement` | The element containing the controlled menu. | |
+| options.controlledMenu | `BaseMenu` | The menu controlled by this toggle. | |
+| options.parentMenu | `BaseMenu|null` | The menu containing this toggle. | `null` |
+
 ## Initialize
 
 Initializes the menu toggle.
@@ -47,11 +57,11 @@ If they do not, the following steps take place:
 
 Once the ID's have been generated, the menu's `aria-labelledby` is set to the toggle's ID, and the toggle's `aria-controls` is set to the menu's ID.
 
-Finally, the [collapse](#collapse) method is called to make sure the submenu is closed.
+Finally, the [collapse](#method--collapse) method is called to make sure the submenu is closed.
 
 ## Properties
 
-### _dom
+### _dom {#property--dom}
 
 The DOM elements within the menu toggle.
 
@@ -67,7 +77,7 @@ The DOM elements within the menu toggle.
 BaseMenuToggle._dom;
 ```
 
-### _elements
+### _elements {#property--elements}
 
 The declared accessible-menu elements within the menu toggle.
 
@@ -85,7 +95,7 @@ The declared accessible-menu elements within the menu toggle.
 BaseMenuToggle._elements;
 ```
 
-### _open
+### _open {#property--open}
 
 The open state of the menu toggle.
 
@@ -98,7 +108,7 @@ The open state of the menu toggle.
 BaseMenuToggle._open; // false.
 ```
 
-### _expandEvent
+### _expandEvent {#property--expandEvent}
 
 The event that is triggered when the menu toggle expands.
 
@@ -115,7 +125,7 @@ The event that is triggered when the menu toggle expands.
 BaseMenuToggle._expandEvent;
 ```
 
-### _collapseEvent
+### _collapseEvent {#property--collapseEvent}
 
 The event that is triggered when the menu toggle collapses.
 
@@ -134,7 +144,7 @@ BaseMenuToggle._collapseEvent;
 
 ## Getters and Setters
 
-### dom
+### dom {#getter--dom}
 
 The DOM elements within the toggle.
 
@@ -153,7 +163,7 @@ BaseMenuToggle.dom;
 
 :::
 
-### elements
+### elements {#getter--elements}
 
 The declared accessible-menu elements within the toggle.
 
@@ -172,7 +182,7 @@ BaseMenuToggle.elements;
 
 :::
 
-### isOpen
+### isOpen {#getter-setter--isopen}
 
 The open state of the toggle.
 
@@ -198,7 +208,7 @@ BaseMenuToggle.isOpen = true;
 
 ## Methods
 
-### _expand
+### _expand {#method--expand}
 
 Expands the controlled menu.
 
@@ -213,11 +223,17 @@ Expands the controlled menu.
 BaseMenuToggle._expand(emit);
 ```
 
-Sets the toggle's `aria-expanded` to "true", adds the [open class](./base-menu#openclass) to the toggle's parent menu item and controlled menu, and removes the [closed class](./base-menu#closedclass) from the toggle's parent menu item and controlled menu.
+Sets the toggle's `aria-expanded` to "true", adds the [open class](./base-menu#getter-setter--openclass) to the toggle's parent menu item and controlled menu, and removes the [closed class](./base-menu#getter-setter--closeclass) from the toggle's parent menu item and controlled menu.
 
-If `emit` is set to `true`, this will also emit a custom event called [accessibleMenuExpand](#expandEvent).
+If `emit` is set to `true`, this will also emit a custom event called [accessibleMenuExpand](#property--expandEvent).
 
-### _collapse
+#### Parameters {#method--expand--parameters}
+
+| Name | Type | Description | Default |
+| --- | --- | --- | --- |
+| emit | `boolean` | A toggle to emit the expand event once expanded. | `true` |
+
+### _collapse {#method--collapse}
 
 Collapses the controlled menu.
 
@@ -232,11 +248,17 @@ Collapses the controlled menu.
 BaseMenuToggle._collapse(emit);
 ```
 
-Sets the toggle's `aria-expanded` to "false", adds the [closed class](./base-menu#closedclass) to the toggle's parent menu item and controlled menu, and removes the [open class](./base-menu#openclass) from the toggle's parent menu item and controlled menu.
+Sets the toggle's `aria-expanded` to "false", adds the [closed class](./base-menu#getter-setter--closeclass) to the toggle's parent menu item and controlled menu, and removes the [open class](./base-menu#getter-setter--openclass) from the toggle's parent menu item and controlled menu.
 
-If `emit` is set to `true`, this will also emit a custom event called [accessibleMenuCollapse](#collapseEvent).
+If `emit` is set to `true`, this will also emit a custom event called [accessibleMenuCollapse](#property--collapseEvent).
 
-### open
+#### Parameters {#method--collapse--parameters}
+
+| Name | Type | Description | Default |
+| --- | --- | --- | --- |
+| emit | `boolean` | A toggle to emit the collapse event once collapsed. | `true` |
+
+### open {#method--open}
 
 Opens the controlled menu.
 
@@ -247,9 +269,9 @@ Opens the controlled menu.
 BaseMenuToggle.open();
 ```
 
-Sets the controlled menu's [focus state](./base-menu#focusstate) to "self" and the parent menu's focus state to "child", calls [_expand](#expand), and sets the [isOpen](#isOpen) value to `true`.
+Sets the controlled menu's [focus state](./base-menu#getter-setter--focusstate) to "self" and the parent menu's focus state to "child", calls [_expand](#method--expand), and sets the [isOpen](#getter-setter--isopen) value to `true`.
 
-### preview
+### preview {#method--preview}
 
 Opens the controlled menu without the current focus entering it.
 
@@ -260,9 +282,9 @@ Opens the controlled menu without the current focus entering it.
 BaseMenuToggle.preview();
 ```
 
-Sets the controlled menu's [focus state](./base-menu#focusstate) to "self" and the parent menu's focus state to "child", and calls [_expand](#expand).
+Sets the controlled menu's [focus state](./base-menu#getter-setter--focusstate) to "self" and the parent menu's focus state to "child", and calls [_expand](#method--expand).
 
-### close
+### close {#method--close}
 
 Closes the controlled menu.
 
@@ -273,9 +295,9 @@ Closes the controlled menu.
 BaseMenuToggle.close();
 ```
 
-Sets the controlled menu's [focus state](./base-menu#focusstate) to "none" and the parent menu's focus state to "self", blurs the controlled menu and sets it's [currentChild](./base-menu#currentchild) to 0, calls [_collapse](#collapse), and sets the [isOpen](#isOpen) value to `false`.
+Sets the controlled menu's [focus state](./base-menu#getter-setter--focusstate) to "none" and the parent menu's focus state to "self", blurs the controlled menu and sets it's [currentChild](./base-menu#getter-setter--currentchild) to 0, calls [_collapse](#method--collapse), and sets the [isOpen](#getter-setter--isopen) value to `false`.
 
-### toggle
+### toggle {#method--toggle}
 
 Toggles the open state of the controlled menu between `true` and `false`.
 
@@ -286,7 +308,7 @@ Toggles the open state of the controlled menu between `true` and `false`.
 BaseMenuToggle.toggle();
 ```
 
-### closeSiblings
+### closeSiblings {#method--closesiblings}
 
 Closes all subling menus.
 
@@ -297,7 +319,7 @@ Closes all subling menus.
 BaseMenuToggle.closeSiblings();
 ```
 
-### closeChildren
+### closeChildren {#method--closechildren}
 
 Closes all child menus.
 

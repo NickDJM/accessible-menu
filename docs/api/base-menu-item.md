@@ -30,6 +30,18 @@ new BaseMenuItem({
 
 The constructor populates the dom, elements, and submenu properties. It will _not_ initialize the menu item; this is left to the subclasses to envoke.
 
+### Parameters {#constructor--parameters}
+
+| Name | Type | Description | Default |
+| --- | --- | --- | --- |
+| options | `object` | The options for generating the menu item. | |
+| options.menuItemElement | `HTMLElement` | The menu item in the DOM. | |
+| options.menuLinkElement | `HTMLElement` | The menu item's link in the DOM. | |
+| options.parentMenu | `BaseMenu` | The parent menu. | |
+| options.isSubmenuItem | `boolean` | A flag to mark if the menu item is controlling a submenu. | `false` |
+| options.childMenu | `BaseMenu|null` | The child menu. | `null` |
+| options.toggle | `BaseMenuToggle|null` | The controller for the child menu. | `null` |
+
 ## Initialize
 
 Initialize the menu item.
@@ -42,7 +54,7 @@ This method is a placeholder for subclasses to expand upon. The BaseMenuItem's i
 
 ## Properties
 
-### _dom
+### _dom {#property--dom}
 
 The DOM elements within the menu item.
 
@@ -58,7 +70,7 @@ The DOM elements within the menu item.
 BaseMenuItem._dom;
 ```
 
-### _elements
+### _elements {#property--elements}
 
 The declared accessible-menu elements within the menu item.
 
@@ -75,7 +87,7 @@ The declared accessible-menu elements within the menu item.
 BaseMenuItem._elements;
 ```
 
-### _submenu
+### _submenu {#property--submenu}
 
 A flag marking a submenu item.
 
@@ -90,7 +102,7 @@ BaseMenuItem._submenu; // false.
 
 ## Getters and Setters
 
-### dom
+### dom {#getter--dom}
 
 The DOM elements within the menu item.
 
@@ -107,7 +119,7 @@ BaseMenuItem.dom;
 
 :::
 
-### elements
+### elements {#getter--elements}
 
 The declared accessible-menu elements within the menu item.
 
@@ -124,7 +136,7 @@ BaseMenuItem.elements;
 
 :::
 
-### isSubmenuItem
+### isSubmenuItem {#getter--issubmenuitem}
 
 A flag marking a submenu item.
 
@@ -143,9 +155,9 @@ BaseMenuItem.isSubmenuItem;
 
 ## Methods
 
-### focus
+### focus {#method--focus}
 
-Focuses the menu item's link if the parent menu's [shouldFocus](./base-menu.md#shouldfocus) value is `true`.
+Focuses the menu item's link if the parent menu's [shouldFocus](./base-menu.md#getter--shouldfocus) value is `true`.
 
 ```js
 /**
@@ -154,9 +166,9 @@ Focuses the menu item's link if the parent menu's [shouldFocus](./base-menu.md#s
 BaseMenuItem.focus();
 ```
 
-### blur
+### blur {#method--blur}
 
-Blurs the menu item's link if the parent menu's [shouldFocus](./base-menu.md#shouldfocus) value is `true`.
+Blurs the menu item's link if the parent menu's [shouldFocus](./base-menu.md#getter--shouldfocus) value is `true`.
 
 ```js
 /**

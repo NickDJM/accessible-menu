@@ -54,6 +54,29 @@ Constructs a new `BaseMenu`.
 
 The constructor populates the dom, selector, CSS class, and hover related properties. It will _not_ initialize the menu automatically; this is left to the subclasses to envoke.
 
+### Parameters {#constructor--parameters}
+
+| Param | Type | Description | Default |
+| --- | --- | --- | --- |
+| options | `object` | The options for generating the menu. |  |
+| options.menuElement | `HTMLElement` | The menu element in the DOM. |  |
+| options.menuItemSelector | `string` | The query selector string for menu items. | `li` |
+| options.menuLinkSelector | `string` | The query selector string for menu links. | `a` |
+| options.submenuItemSelector | `string` | The query selector string for menu items containing submenus. |  |
+| options.submenuToggleSelector | `string` | The query selector string for submenu toggle buttons/links. | `a` |
+| options.submenuSelector | `string` | The query selector string for submenus. | `ul` |
+| options.controllerElement | `HTMLElement` | The element controlling the menu in the DOM. | `null` |
+| options.containerElement | `HTMLElement` | The element containing the menu in the DOM. | `null` |
+| options.openClass | `string` \| `string[]` | The class to apply when a menu is "open". | `show` |
+| options.closeClass | `string` \| `string[]` | The class to apply when a menu is "closed". | `hide` |
+| options.transitionClass | `string` \| `string[]` | The class to apply when a menu is transitioning between "open" and "closed" states. | `transitioning` |
+| options.isTopLevel | `boolean` | A flag to mark the root menu. | `false` |
+| options.parentMenu | `BaseMenu` | The parent menu to this menu. | `null` |
+| options.hoverType | `string` | The type of hoverability a menu has. | `off` |
+| options.hoverDelay | `number` | The delay for opening and closing menus if the menu is hoverable (in miliseconds). | `250` |
+| options.enterDelay | `number` | The delay for opening menus if the menu is hoverable (in miliseconds). | `-1` |
+| options.leaveDelay | `number` | The delay for closing menus if the menu is hoverable (in miliseconds). | `-1` |
+
 ## Initialize
 
 Initializes the menu.
@@ -66,13 +89,13 @@ The following steps will be taken to initialize the menu:
 
 - [Validate](#validate) that the menu can initialize,
 - Find the root menu of the menu tree if it isn't already set.
-- Populate all DOM elements within the [dom](#dom).
+- Populate all DOM elements within the [dom](#property--dom).
 - If the current menu is the root menu _and_ has a controller, initialize the controller.
-- Populate the menu elements within the [elements](#elements).
+- Populate the menu elements within the [elements](#property--elements).
 
 ## Properties
 
-### _MenuType
+### _MenuType {#property--menutype}
 
 The class to use when generating submenus.
 
@@ -85,7 +108,7 @@ The class to use when generating submenus.
 BaseMenu._MenuType; // BaseMenu.
 ```
 
-### _MenuItemType
+### _MenuItemType {#property--menuitemtype}
 
 The class to use when generating menu items.
 
@@ -98,7 +121,7 @@ The class to use when generating menu items.
 BaseMenu._MenuItemType; // BaseMenuItem.
 ```
 
-### _MenuToggleType
+### _MenuToggleType {#property--menutoggletype}
 
 The class to use when generating menu toggles.
 
@@ -111,7 +134,7 @@ The class to use when generating menu toggles.
 BaseMenu._MenuToggleType; // BaseMenuToggle.
 ```
 
-### _dom
+### _dom {#property--dom}
 
 The DOM elements within the menu.
 
@@ -132,7 +155,7 @@ The DOM elements within the menu.
 BaseMenu._dom;
 ```
 
-### _selectors
+### _selectors {#property--selectors}
 
 The query selectors used by the menu to populate the dom.
 
@@ -151,7 +174,7 @@ The query selectors used by the menu to populate the dom.
 BaseMenu._selectors;
 ```
 
-### _elements
+### _elements {#property--elements}
 
 The declared accessible-menu elements within the menu.
 
@@ -170,7 +193,7 @@ The declared accessible-menu elements within the menu.
 BaseMenu._elements;
 ```
 
-### _openClass
+### _openClass {#property--openclass}
 
 The class(es) to apply when the menu is open.
 
@@ -183,7 +206,7 @@ The class(es) to apply when the menu is open.
 BaseMenu._openClass; // "show".
 ```
 
-### _closeClass
+### _closeClass {#property--closeclass}
 
 The class(es) to apply when the menu is closed.
 
@@ -196,7 +219,7 @@ The class(es) to apply when the menu is closed.
 BaseMenu._closeClass; // "hide".
 ```
 
-### _transitionClass
+### _transitionClass {#property--transitionclass}
 
 The class(es) to apply when the menu is transitioning between states.
 
@@ -209,7 +232,7 @@ The class(es) to apply when the menu is transitioning between states.
 BaseMenu._transitionClass; // "transitioning"
 ```
 
-### _root
+### _root {#property--root}
 
 A flag marking the root menu.
 
@@ -222,7 +245,7 @@ A flag marking the root menu.
 BaseMenu._root; // true.
 ```
 
-### _currentChild
+### _currentChild {#property--currentchild}
 
 The index of the currently selected [menu item](./base-menu-item) in the menu.
 
@@ -235,7 +258,7 @@ The index of the currently selected [menu item](./base-menu-item) in the menu.
 BaseMenu._currentChild; // 0.
 ```
 
-### _focusState
+### _focusState {#property--focusstate}
 
 The current state of the menu's focus.
 
@@ -250,7 +273,7 @@ BaseMenu._focusState; // "none".
 
 Available states are: `"none"`, `"self"`, and `"child"`.
 
-### _currentEvent
+### _currentEvent {#property--currentevent}
 
 The last event triggered on the menu.
 
@@ -265,7 +288,7 @@ BaseMenu._currentEvent; // "none".
 
 Available events are: `"none"`, `"mouse"`, `"keyboard"`, and `"character"`.
 
-### _hoverType
+### _hoverType {#property--hovertype}
 
 The type of hoverability for the menu.
 
@@ -282,7 +305,7 @@ Available types are: `"off"`, `"on"`, and `"dynamic"`.
 
 You can read more about [supported hover types](../hover-types) in the docs.
 
-### _hoverDelay
+### _hoverDelay {#property--hoverdelay}
 
 The delay time (in miliseconds) used for pointerenter/pointerleave events to take place.
 
@@ -295,7 +318,7 @@ The delay time (in miliseconds) used for pointerenter/pointerleave events to tak
 BaseMenu._hoverDelay; // 250.
 ```
 
-### _enterDelay
+### _enterDelay {#property--enterdelay}
 
 The delay time (in miliseconds) used for pointerenter events to take place.
 
@@ -308,7 +331,7 @@ The delay time (in miliseconds) used for pointerenter events to take place.
 BaseMenu._enterDelay; // -1.
 ```
 
-### _leaveDelay
+### _leaveDelay {#property--leavedelay}
 
 The delay time (in miliseconds) used for pointerleave events to take place.
 
@@ -321,7 +344,7 @@ The delay time (in miliseconds) used for pointerleave events to take place.
 BaseMenu._leaveDelay; // -1.
 ```
 
-### _hoverTimeout
+### _hoverTimeout {#property--hovertimeout}
 
 A variable to hold the hover timeout function.
 
@@ -334,7 +357,7 @@ A variable to hold the hover timeout function.
 BaseMenu._hoverTimeout; // null.
 ```
 
-### _errors
+### _errors {#property--errors}
 
 An array of error messages generated by the menu.
 
@@ -349,7 +372,7 @@ BaseMenu._errors; // [].
 
 ## Getters and Setters
 
-### dom
+### dom {#getter--dom}
 
 The DOM elements within the menu.
 
@@ -368,9 +391,9 @@ BaseMenu.dom;
 
 :::
 
-### selectors
+### selectors {#getter--selectors}
 
-The query selectors used by the menu to populate the [dom](#dom).
+The query selectors used by the menu to populate the [dom](#property--dom).
 
 ::: code-group
 
@@ -387,7 +410,7 @@ BaseMenu.selectors;
 
 :::
 
-### elements
+### elements {#getter--elements}
 
 The declared accessible-menu elements within the menu.
 
@@ -406,7 +429,7 @@ BaseMenu.elements;
 
 :::
 
-### isTopLevel
+### isTopLevel {#getter--istoplevel}
 
 The flag marking the root menu.
 
@@ -425,7 +448,7 @@ BaseMenu.isTopLevel;
 
 :::
 
-### openClass
+### openClass {#getter-setter--openclass}
 
 The class(es) to apply when the menu is open.
 
@@ -451,7 +474,7 @@ BaseMenu.openClass = "show";
 
 This functions differently for root vs. submenus. Submenus will always inherit their root menu's open class(es).
 
-### closeClass
+### closeClass {#getter-setter--closeclass}
 
 The class(es) to apply when the menu is closed.
 
@@ -477,7 +500,7 @@ BaseMenu.closeClass = "hide";
 
 This functions differently for root vs. submenus. Submenus will always inherit their root menu's close class(es).
 
-### transitionClass
+### transitionClass {#getter-setter--transitionclass}
 
 The class(es) to apply when the menu is transitioning between open and closed.
 
@@ -503,7 +526,7 @@ BaseMenu.transitionClass = "transitioning";
 
 This functions differently for root vs. submenus. Submenus will always inherit their root menu's transition class(es).
 
-### currentChild
+### currentChild {#getter-setter--currentchild}
 
 The index of the currently selected [menu item](./base-menu-item) in the menu.
 
@@ -529,9 +552,9 @@ Attempting to set the current child to a value less than -1 will set the current
 
 Attempting to set the current child to a value greater than or equal to the number of menu items will set the current child to the index of the last menu item in the menu.
 
-If the current menu has a parent menu _and_ the menu's [current event](#currentevent) is "mouse", The parent menu will have it's current child updated as well to help with transitioning between mouse and keyboard naviation.
+If the current menu has a parent menu _and_ the menu's [current event](#property--currentevent) is "mouse", The parent menu will have it's current child updated as well to help with transitioning between mouse and keyboard naviation.
 
-### focusState
+### focusState {#getter-setter--focusstate}
 
 The current state of the menu's focus.
 
@@ -559,7 +582,7 @@ If the menu has submenus, setting the focus state to "none" or "self" will updat
 
 If the menu has a parent menu, setting the focus state to "self" or "child" will update all parent menus to have the focus state of "child".
 
-### currentEvent
+### currentEvent {#getter-setter--currentevent}
 
 The last event triggered on the menu.
 
@@ -583,7 +606,7 @@ BaseMenu.currentEvent = "mouse";
 
 Available events are: `"none"`, `"mouse"`, `"keyboard"`, and `"character"`.
 
-### currentMenuItem
+### currentMenuItem {#getter--currentmenuitem}
 
 The currently selected menu item.
 
@@ -600,7 +623,7 @@ BaseMenu.currentMenuItem;
 
 :::
 
-### hoverType
+### hoverType {#getter-setter--hovertype}
 
 The type of hoverability for the menu.
 
@@ -628,7 +651,7 @@ This functions differently for root vs. submenus. Submenus will always inherit t
 
 You can read more about [supported hover types](../hover-types) in the docs.
 
-### hoverDelay
+### hoverDelay {#getter-setter--hoverdelay}
 
 The delay time (in miliseconds) used for pointerenter/pointerleave events to take place.
 
@@ -652,7 +675,7 @@ BaseMenu.hoverDelay = 250;
 
 This functions differently for root vs. submenus. Submenus will always inherit their root menu's hover delay.
 
-### enterDelay
+### enterDelay {#getter-setter--enterdelay}
 
 The delay time (in miliseconds) used for pointerenter events to take place.
 
@@ -678,7 +701,7 @@ If enterDelay is set to -1, the hoverDelay value will be used instead.
 
 This functions differently for root vs. submenus. Submenus will always inherit their root menu's enter delay.
 
-### leaveDelay
+### leaveDelay {#getter-setter--leavedelay}
 
 The delay time (in miliseconds) used for pointerleave events to take place.
 
@@ -704,7 +727,7 @@ If leaveDelay is set to -1, the hoverDelay value will be used instead.
 
 This functions differently for root vs. submenus. Submenus will always inherit their root menu's leave delay.
 
-### shouldFocus
+### shouldFocus {#getter--shouldfocus}
 
 A flag to check if the menu's focus methods should _actually_ move the focus in the DOM.
 
@@ -723,11 +746,11 @@ BaseMenu.shouldFocus;
 
 This will be `false` unless any of the following criteria are met:
 
-- The menu's [current event](#currentevent) is "keyboard".
+- The menu's [current event](#property--currentevent) is "keyboard".
 - The menu's current event is "character".
-- The menu's current event is "mouse" _and_ the menu's [hover type](#hovertype) is "dynamic".
+- The menu's current event is "mouse" _and_ the menu's [hover type](#property--hovertype) is "dynamic".
 
-### errors
+### errors {#getter--errors}
 
 An array of error messages generated by the menu.
 
@@ -746,7 +769,7 @@ BaseMenu.errors;
 
 ## Methods
 
-### _validate
+### _validate {#method--validate}
 
 Validates all aspects of the menu to ensure proper functionality.
 
@@ -759,7 +782,7 @@ Validates all aspects of the menu to ensure proper functionality.
 BaseMenu._validate();
 ```
 
-### _setDOMElementType
+### _setDOMElementType {#method--setdomelementtype}
 
 Sets DOM elements within the menu.
 
@@ -776,7 +799,15 @@ BaseMenu._setDOMElementType(elementType, base, overwrite);
 
 Elements that are not stored inside an array cannot be set through this method.
 
-### _resetDOMElementType
+#### Parameters {#method--setdomelementtype--parameters}
+
+| Param | Type | Description | Default |
+| --- | --- | --- | --- |
+| elementType | `string` | The type of element to populate. |  |
+| base | `HTMLElement` | The element used as the base for the querySelect. | `this.dom.menu` |
+| overwrite | `boolean` | A flag to set if the existing elements will be overwritten. | `true` |
+
+### _resetDOMElementType {#method--resetdomelementtype}
 
 Resets DOM elements within the menu.
 
@@ -791,7 +822,13 @@ BaseMenu._resetDOMElementType(elementType);
 
 Elements that are not stored inside an array cannot be reset through this method.
 
-### _setDOMElements
+#### Parameters {#method--resetdomelementtype--parameters}
+
+| Param | Type | Description | Default |
+| --- | --- | --- | --- |
+| elementType | `string` | The type of element to clear. |  |
+
+### _setDOMElements {#method--setdomelements}
 
 Sets all DOM elements within the menu.
 
@@ -802,9 +839,9 @@ Sets all DOM elements within the menu.
 BaseMenu._setDOMElements();
 ```
 
-Utilizes [`_setDOMElementType`](#setdomelementtype) and [`_resetDOMElementType`](#resetdomelementtype).
+Utilizes [`_setDOMElementType`](#method--setdomelementtype) and [`_resetDOMElementType`](#method--resetdomelementtype).
 
-### _findRootMenu
+### _findRootMenu {#method--findrootmenu}
 
 Finds the root menu element.
 
@@ -817,7 +854,13 @@ Finds the root menu element.
 BaseMenu._findRootMenu(menu);
 ```
 
-### _createChildElements
+#### Parameters {#method--findrootmenu--parameters}
+
+| Param | Type | Description | Default |
+| --- | --- | --- | --- |
+| menu | `BaseMenu` | The menu to check. |  |
+
+### _createChildElements {#method--createchildelements}
 
 Creates and initializes all menu items and submenus.
 
@@ -828,7 +871,7 @@ Creates and initializes all menu items and submenus.
 BaseMenu._createChildMenu();
 ```
 
-### _handleFocus
+### _handleFocus {#method--handlefocus}
 
 Handles focus events throughout the menu for proper menu use.
 
@@ -839,9 +882,9 @@ Handles focus events throughout the menu for proper menu use.
 BaseMenu._handleFocus();
 ```
 
-Adds a `focus` listener to every menu item so when it gains focus, it will set the item's containing menu's [focus state](#focusstate) to "self".
+Adds a `focus` listener to every menu item so when it gains focus, it will set the item's containing menu's [focus state](#property--focusstate) to "self".
 
-### _handleClick
+### _handleClick {#method--handleclick}
 
 Handles click events throughout the menu for proper use.
 
@@ -858,7 +901,7 @@ This method will do the following:
 - Adds a `pointerup` listener to every submenu item that will properly toggle the submenu open/closed.
 - Adds a `pointerup` listener to the menu's controller (if the menu is the root menu) so when it is clicked it will properly toggle open/closed.
 
-### _handleHover
+### _handleHover {#method--handlehover}
 
 Handles hover events throughout the menu for proper use.
 
@@ -869,32 +912,32 @@ Handles hover events throughout the menu for proper use.
 BaseMenu._handleHover();
 ```
 
-Adds `pointerenter` listeners to all menu items and `pointerleave` listeners to all submenu items which function differently depending on the menu's [hover type](#hovertype).
+Adds `pointerenter` listeners to all menu items and `pointerleave` listeners to all submenu items which function differently depending on the menu's [hover type](#property--hovertype).
 
 Before executing anything, the event is checked to make sure the event wasn't triggered by a pen or touch.
 
 This method will add the following behaviour:
 
-#### Hover Type "on"
+#### Hover Type "on" {#method--handlefover--hovertype-on}
 
-- When a `pointerenter` event triggers on any menu item the menu's [current child](#currentchild) value will change to that menu item.
-- When a `pointerenter` event triggers on a submenu item the [preview method](#preview) for the submenu item's toggle will be called.
-- When a `pointerleave` event triggers on an open submenu item the [close method](#close) for the submenu item's toggle will be called after a delay set by the menu's hover delay.
+- When a `pointerenter` event triggers on any menu item the menu's [current child](#property--currentchild) value will change to that menu item.
+- When a `pointerenter` event triggers on a submenu item the [preview method](./base-menu-toggle#method--preview) for the submenu item's toggle will be called.
+- When a `pointerleave` event triggers on an open submenu item the [close method](./base-menu-toggle#method--close) for the submenu item's toggle will be called after a delay set by the menu's hover delay.
 
-#### Hover Type "dynamic"
+#### Hover Type "dynamic" {#method--handlefover--hovertype-dynamic}
 
 - When a `pointerenter` event triggers on any menu item the menu's current child value will change to that menu item.
-- When a `pointerenter` event triggers on any menu item, and the menu's [focus state](#focusstate) is not "none", the menu item will be focused.
+- When a `pointerenter` event triggers on any menu item, and the menu's [focus state](#property--focusstate) is not "none", the menu item will be focused.
 - When a `pointerenter` event triggers on a submenu item, and a submenu is already open, the preview method for the submenu item's toggle will be called.
 - When a `pointerenter` event triggers on a submenu item, and no submenu is open, no submenu-specific methods will be called.
 - When a `pointerleave` event triggers on an open submenu item that is not a root-level submenu item the close method for the submenu item's toggle will be called and the submenu item will be focused after a delay set by the menu's hover delay.
 - When a `pointerleave` event triggers on an open submenu item that is a root-level submenu item no submenu-specific methods will be called.
 
-#### Hover Type "off"
+#### Hover Type "off" {#method--handlefover--hovertype-off}
 
 All `pointerenter` and `pointerleave` events are ignored.
 
-### _handleKeydown
+### _handleKeydown {#method--handlekeydown}
 
 Handles keydown events throughout the menu for proper menu use.
 
@@ -905,14 +948,14 @@ Handles keydown events throughout the menu for proper menu use.
 BaseMenu._handleKeydown();
 ```
 
-This method exists to assit the [_handleKeyup](#handlekeyup) method.
+This method exists to assit the [_handleKeyup](#method--handlekeyup) method.
 
 This method will do the following:
 
 - Adds a `keydown` listener to the menu's controller (if the menu is the root menu).
   - Blocks propagation on "Space", "Enter", and "Escape" keys.
 
-### _handleKeyup
+### _handleKeyup {#method--handlekeyup}
 
 Handles keyup events throughout the menu for proper menu use.
 
@@ -928,7 +971,7 @@ This method will do the following:
 - Adds a `keyup` listener to the menu's controller (if the menu is the root menu).
   - Toggles the menu when the user hits "Space" or "Enter".
 
-### focus
+### focus {#method--focus}
 
 Focus the menu.
 
@@ -939,9 +982,9 @@ Focus the menu.
 BaseMenu.focus();
 ```
 
-Sets the menu's [focus state](#focusstate) to "self" and focusses the menu if the menu's [shouldFocus](#shouldfocus) value is `true`.
+Sets the menu's [focus state](#property--focusstate) to "self" and focusses the menu if the menu's [shouldFocus](#getter--shouldfocus) value is `true`.
 
-### blur
+### blur {#method--blur}
 
 Unfocus the menu.
 
@@ -954,7 +997,7 @@ BaseMenu.blur();
 
 Sets the menu's focus state to "none" and blurs the menu if the menu's shouldFocus value is `true`.
 
-### focusCurrentChild
+### focusCurrentChild {#method--focuscurrentchild}
 
 Focuses the menu's current child.
 
@@ -965,7 +1008,7 @@ Focuses the menu's current child.
 BaseMenu.focusCurrentChild();
 ```
 
-### focusChild
+### focusChild {#method--focuschild}
 
 Focuses the menu's child at a given index.
 
@@ -978,7 +1021,13 @@ Focuses the menu's child at a given index.
 BaseMenu.focusChild(index);
 ```
 
-### focusFirstChild
+#### Parameters {#method--focuschild--parameters}
+
+| Param | Type | Description | Default |
+| --- | --- | --- | --- |
+| index | `number` | The index of the child to focus. |  |
+
+### focusFirstChild {#method--focusfirstchild}
 
 Focus the menu's first child.
 
@@ -989,7 +1038,7 @@ Focus the menu's first child.
 BaseMenu.focusFirstChild();
 ```
 
-### focusLastChild
+### focusLastChild {#method--focuslastchild}
 
 Focus the menu's last child.
 
@@ -1000,7 +1049,7 @@ Focus the menu's last child.
 BaseMenu.focusLastChild();
 ```
 
-### focusNextChild
+### focusNextChild {#method--focusnextchild}
 
 Focus the menu's next child.
 
@@ -1011,7 +1060,7 @@ Focus the menu's next child.
 BaseMenu.focusNextChild();
 ```
 
-### focusPreviousChild
+### focusPreviousChild {#method--focuspreviouschild}
 
 Focus the menu's previous child.
 
@@ -1022,7 +1071,7 @@ Focus the menu's previous child.
 BaseMenu.focusPreviousChild();
 ```
 
-### blurCurrentChild
+### blurCurrentChild {#method--blurcurrentchild}
 
 Blurs the menu's current child.
 
@@ -1033,7 +1082,7 @@ Blurs the menu's current child.
 BaseMenu.blurCurrentChild();
 ```
 
-### focusController
+### focusController {#method--focuscontroller}
 
 Focus the menu's controller.
 
@@ -1044,7 +1093,7 @@ Focus the menu's controller.
 BaseMenu.focusController();
 ```
 
-### focusContainer
+### focusContainer {#method--focuscontainer}
 
 Focus the menu's container.
 
@@ -1055,7 +1104,7 @@ Focus the menu's container.
 BaseMenu.focusContainer();
 ```
 
-### closeChildren
+### closeChildren {#method--closechildren}
 
 Close all submenu children.
 
@@ -1066,7 +1115,7 @@ Close all submenu children.
 BaseMenu.closeChildren();
 ```
 
-### blurChildren
+### blurChildren {#method--blurchildren}
 
 Blurs all children and submenu's children.
 
