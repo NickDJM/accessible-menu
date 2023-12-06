@@ -8,11 +8,11 @@ Constructs a new `BaseMenuToggle`
 
 ```js
 /**
- * @param {object}        options                     - The options for generating the menu toggle.
- * @param {HTMLElement}   options.menuToggleElement   - The toggle element in the DOM.
- * @param {HTMLElement}   options.parentElement       - The element containing the controlled menu.
- * @param {BaseMenu}      options.controlledMenu      - The menu controlled by this toggle.
- * @param {BaseMenu|null} [options.parentMenu = null] - The menu containing this toggle.
+ * @param {object}      options                     - The options for generating the menu toggle.
+ * @param {HTMLElement} options.menuToggleElement   - The toggle element in the DOM.
+ * @param {HTMLElement} options.parentElement       - The element containing the controlled menu.
+ * @param {BaseMenu}    options.controlledMenu      - The menu controlled by this toggle.
+ * @param {?BaseMenu}   [options.parentMenu = null] - The menu containing this toggle.
  */
 new BaseMenuToggle({
   menuToggleElement,
@@ -32,7 +32,7 @@ The constructor populates the dom and elements properties. It will _not_ initial
 | options.menuToggleElement | `HTMLElement` | The toggle element in the DOM. | `undefined` |
 | options.parentElement | `HTMLElement` | The element containing the controlled menu. | `undefined` |
 | options.controlledMenu | `BaseMenu` | The menu controlled by this toggle. | `undefined` |
-| options.parentMenu | `BaseMenu\|null` | The menu containing this toggle. | `null` |
+| options.parentMenu | `BaseMenu`, `null` | The menu containing this toggle. | `null` |
 
 ## Initialize
 

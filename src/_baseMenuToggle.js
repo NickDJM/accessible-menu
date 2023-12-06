@@ -82,11 +82,11 @@ class BaseMenuToggle {
   /**
    * Constructs a new `BaseMenuToggle`.
    *
-   * @param {object}        options                     - The options for generating the menu toggle.
-   * @param {HTMLElement}   options.menuToggleElement   - The toggle element in the DOM.
-   * @param {HTMLElement}   options.parentElement       - The element containing the controlled menu.
-   * @param {BaseMenu}      options.controlledMenu      - The menu controlled by this toggle.
-   * @param {BaseMenu|null} [options.parentMenu = null] - The menu containing this toggle.
+   * @param {object}      options                     - The options for generating the menu toggle.
+   * @param {HTMLElement} options.menuToggleElement   - The toggle element in the DOM.
+   * @param {HTMLElement} options.parentElement       - The element containing the controlled menu.
+   * @param {BaseMenu}    options.controlledMenu      - The menu controlled by this toggle.
+   * @param {?BaseMenu}   [options.parentMenu = null] - The menu containing this toggle.
    */
   constructor({
     menuToggleElement,
