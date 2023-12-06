@@ -56,6 +56,7 @@ class BaseMenuToggle {
    *
    * @type {CustomEvent}
    *
+   * @property {boolean}                bubbles - A flag to bubble the event.
    * @property {Object<BaseMenuToggle>} details - The details object containing the BaseMenuToggle itself.
    */
   _expandEvent = new CustomEvent("accessibleMenuExpand", {
@@ -72,6 +73,7 @@ class BaseMenuToggle {
    *
    * @type {CustomEvent}
    *
+   * @property {boolean}                bubbles - A flag to bubble the event.
    * @property {Object<BaseMenuToggle>} details - The details object containing the BaseMenuToggle itself.
    */
   _collapseEvent = new CustomEvent("accessibleMenuCollapse", {

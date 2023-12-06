@@ -10,27 +10,6 @@ it's own in the DOM.
 Constructs a new `BaseMenu`.
 
 ```js
-
-  /**
-   * @param {object}             options                                   - The options for generating the menu.
-   * @param {HTMLElement}        options.menuElement                       - The menu element in the DOM.
-   * @param {string}             [options.menuItemSelector = li]           - The query selector string for menu items.
-   * @param {string}             [options.menuLinkSelector = a]            - The query selector string for menu links.
-   * @param {string}             [options.submenuItemSelector]             - The query selector string for menu items containing submenus.
-   * @param {string}             [options.submenuToggleSelector = a]       - The query selector string for submenu toggle buttons/links.
-   * @param {string}             [options.submenuSelector = ul]            - The query selector string for submenus.
-   * @param {?HTMLElement}       [options.controllerElement = null]        - The element controlling the menu in the DOM.
-   * @param {?HTMLElement}       [options.containerElement = null]         - The element containing the menu in the DOM.
-   * @param {?(string|string[])} [options.openClass = show]                - The class to apply when a menu is "open".
-   * @param {?(string|string[])} [options.closeClass = hide]               - The class to apply when a menu is "closed".
-   * @param {?(string|string[])} [options.transitionClass = transitioning] - The class to apply when a menu is transitioning between "open" and "closed" states.
-   * @param {boolean}            [options.isTopLevel = false]              - A flag to mark the root menu.
-   * @param {?BaseMenu}          [options.parentMenu = null]               - The parent menu to this menu.
-   * @param {string}             [options.hoverType = off]                 - The type of hoverability a menu has.
-   * @param {number}             [options.hoverDelay = 250]                - The delay for opening and closing menus if the menu is hoverable (in miliseconds).
-   * @param {number}             [options.enterDelay = -1]                 - The delay for opening menus if the menu is hoverable (in miliseconds).
-   * @param {number}             [options.leaveDelay = -1]                 - The delay for closing menus if the menu is hoverable (in miliseconds).
-   */
   new BaseMenu({
     menuElement,
     menuItemSelector,
@@ -100,353 +79,326 @@ The following steps will be taken to initialize the menu:
 The class to use when generating submenus.
 
 ```js
-/**
- * @protected
- *
- * @type {typeof BaseMenu}
- */
-BaseMenu._MenuType; // BaseMenu.
+BaseMenu._MenuType; // Default: `BaseMenu`.
 ```
+
+#### Type {#property--menutype--type}
+
+`Class`
 
 ### _MenuItemType <badge type="warning" text="protected" /> {#property--menuitemtype}
 
 The class to use when generating menu items.
 
 ```js
-/**
- * @protected
- *
- * @type {typeof BaseMenuItem}
- */
-BaseMenu._MenuItemType; // BaseMenuItem.
+BaseMenu._MenuItemType; // Default: `BaseMenuItem`.
 ```
+
+#### Type {#property--menuitemtype--type}
+
+`Class`
 
 ### _MenuToggleType <badge type="warning" text="protected" /> {#property--menutoggletype}
 
 The class to use when generating menu toggles.
 
 ```js
-/**
- * @protected
- *
- * @type {typeof BaseMenuToggle}
- */
-BaseMenu._MenuToggleType; // BaseMenuToggle.
+BaseMenu._MenuToggleType; // Default: `BaseMenuToggle`.
 ```
+
+#### Type {#property--menutoggletype--type}
+
+`Class`
 
 ### _dom <badge type="warning" text="protected" /> {#property--dom}
 
 The DOM elements within the menu.
 
 ```js
-/**
- * @protected
- *
- * @type {Object<HTMLElement, HTMLElement[]>}
- *
- * @property {HTMLElement}   menu           - The menu element.
- * @property {HTMLElement[]} menuItems      - An array of menu items.
- * @property {HTMLElement[]} submenuItems   - An array of menu items that also contain submenu elements.
- * @property {HTMLElement[]} submenuToggles - An array of menu links that function as submenu toggles.
- * @property {HTMLElement[]} submenus       - An array of submenu elements.
- * @property {HTMLElement}   controller     - The toggle for this menu.
- * @property {HTMLElement}   container      - The container for this menu.
- */
 BaseMenu._dom;
 ```
+
+#### Type {#property--dom--type}
+
+`Object<HTMLElement,HTMLElement[]>`
+
+#### Properties {#property--dom--properties}
+
+| Name | Type | Description | Default |
+| --- | --- | --- | --- |
+| menu | `HTMLElement` | The menu element. | `null` |
+| menuItems | `HTMLElement[]` | An array of menu items. | `[]` |
+| submenuItems | `HTMLElement[]` | An array of menu items that also contain submenu elements. | `[]` |
+| submenuToggles | `HTMLElement[]` | An array of menu links that function as submenu toggles. | `[]` |
+| submenus | `HTMLElement[]` | An array of submenu elements. | `[]` |
+| controller | `HTMLElement` | The toggle for this menu. | `null` |
+| container | `HTMLElement` | The container for this menu. | `null` |
 
 ### _selectors <badge type="warning" text="protected" /> {#property--selectors}
 
 The query selectors used by the menu to populate the dom.
 
 ```js
-/**
- * @protected
- *
- * @type {Object<string>}
- *
- * @property {string} menuItems      - The query selector for menu items.
- * @property {string} menuLinks      - The query selector for menu links.
- * @property {string} submenuItems   - The query selector for menu items containing submenus.
- * @property {string} submenuToggles - The query selector for menu links that function as submenu toggles.
- * @property {string} submenus       - The query selector for for submenus.
- */
 BaseMenu._selectors;
 ```
+
+#### Type {#property--selectors--type}
+
+`Object<string>`
+
+#### Properties {#property--selectors--properties}
+
+| Name | Type | Description | Default |
+| --- | --- | --- | --- |
+| menuItems | `string` | The query selector for menu items. | `""` |
+| menuLinks | `string` | The query selector for menu links. | `""` |
+| submenuItems | `string` | The query selector for menu items containing submenus. | `""` |
+| submenuToggles | `string` | The query selector for menu links that function as submenu toggles. | `""` |
+| submenus | `string` | The query selector for for submenus. | `""` |
 
 ### _elements <badge type="warning" text="protected" /> {#property--elements}
 
 The declared accessible-menu elements within the menu.
 
 ```js
-/**
- * @protected
- *
- * @type {Object<BaseMenu, BaseMenuToggle, BaseMenuItem[], BaseMenuToggle[]>}
- *
- * @property {BaseMenuItem[]}   menuItems      - An array of menu items.
- * @property {BaseMenuToggle[]} submenuToggles - An array of menu toggles.
- * @property {?BaseMenuToggle}  controller     - A menu toggle that controls this menu.
- * @property {?BaseMenu}        parentMenu     - The parent menu.
- * @property {?BaseMenu}        rootMenu       - The root menu of the menu tree.
- */
 BaseMenu._elements;
 ```
+
+#### Type {#property--elements--type}
+
+`Object<BaseMenu, BaseMenuToggle, BaseMenuItem[], BaseMenuToggle[]`
+
+#### Properties {#property--elements--properties}
+
+| Name | Type | Description | Default |
+| --- | --- | --- | --- |
+| menuItems | `BaseMenuItem[]` | An array of menu items. | `[]` |
+| submenuToggles | `BaseMenuToggle[]` | An array of menu toggles. | `[]` |
+| controller | `BaseMenuToggle`, `null` | A menu toggle that controls this menu. | `null` |
+| parentMenu | `BaseMenu`, `null` | The parent menu. | `null` |
+| rootMenu | `BaseMenu`, `null` | The root menu of the menu tree. | `null` |
 
 ### _openClass <badge type="warning" text="protected" /> {#property--openclass}
 
 The class(es) to apply when the menu is open.
 
 ```js
-/**
- * @protected
- *
- * @type {string|string[]}
- */
-BaseMenu._openClass; // "show".
+BaseMenu._openClass; // Default: `"show"`.
 ```
+
+#### Type {#property--openclass--type}
+
+`string`, `string[]`
 
 ### _closeClass <badge type="warning" text="protected" /> {#property--closeclass}
 
 The class(es) to apply when the menu is closed.
 
 ```js
-/**
- * @protected
- *
- * @type {string|string[]}
- */
-BaseMenu._closeClass; // "hide".
+BaseMenu._closeClass; // Default: `"hide"`.
 ```
+
+#### Type {#property--closeclass--type}
+
+`string`, `string[]`
 
 ### _transitionClass <badge type="warning" text="protected" /> {#property--transitionclass}
 
 The class(es) to apply when the menu is transitioning between states.
 
 ```js
-/**
- * @protected
- *
- * @type {string|string[]}
- */
-BaseMenu._transitionClass; // "transitioning"
+BaseMenu._transitionClass; // Default: `"transitioning`"
 ```
+
+#### Type {#property--transitionclass--type}
+
+`string`, `string[]`
 
 ### _root <badge type="warning" text="protected" /> {#property--root}
 
 A flag marking the root menu.
 
 ```js
-/**
- * @protected
- *
- * @type {boolean}
- */
-BaseMenu._root; // true.
+BaseMenu._root; // Default: `true`.
 ```
+
+#### Type {#property--root--type}
+
+`boolean`
 
 ### _currentChild <badge type="warning" text="protected" /> {#property--currentchild}
 
 The index of the currently selected [menu item](./base-menu-item) in the menu.
 
 ```js
-/**
- * @protected
- *
- * @type {number}
- */
-BaseMenu._currentChild; // 0.
+BaseMenu._currentChild; // Default: `0`.
 ```
+
+#### Type {#property--currentchild--type}
+
+`number`
 
 ### _focusState <badge type="warning" text="protected" /> {#property--focusstate}
 
 The current state of the menu's focus.
 
 ```js
-/**
- * @protected
- *
- * @type {string}
- */
-BaseMenu._focusState; // "none".
+BaseMenu._focusState; // Default: `"none"`.
 ```
 
 Available states are: `"none"`, `"self"`, and `"child"`.
+
+#### Type {#property--focusstate--type}
+
+`string`
 
 ### _currentEvent <badge type="warning" text="protected" /> {#property--currentevent}
 
 The last event triggered on the menu.
 
 ```js
-/**
- * @protected
- *
- * @type {string}
- */
-BaseMenu._currentEvent; // "none".
+BaseMenu._currentEvent; // Default: `"none"`.
 ```
 
 Available events are: `"none"`, `"mouse"`, `"keyboard"`, and `"character"`.
+
+#### Type {#property--currentevent--type}
+
+`string`
 
 ### _hoverType <badge type="warning" text="protected" /> {#property--hovertype}
 
 The type of hoverability for the menu.
 
 ```js
-/**
- * @protected
- *
- * @type {string}
- */
-BaseMenu._hoverType; // "off".
+BaseMenu._hoverType; // Default: `"off"`.
 ```
 
 Available types are: `"off"`, `"on"`, and `"dynamic"`.
 
 You can read more about [supported hover types](../hover-types) in the docs.
 
+#### Type {#property--hovertype--type}
+
+`string`
+
 ### _hoverDelay <badge type="warning" text="protected" /> {#property--hoverdelay}
 
 The delay time (in miliseconds) used for pointerenter/pointerleave events to take place.
 
 ```js
-/**
- * @protected
- *
- * @type {number}
- */
-BaseMenu._hoverDelay; // 250.
+BaseMenu._hoverDelay; // Default: `250`.
 ```
+
+#### Type {#property--hoverdelay--type}
+
+`number`
 
 ### _enterDelay <badge type="warning" text="protected" /> {#property--enterdelay}
 
 The delay time (in miliseconds) used for pointerenter events to take place.
 
 ```js
-/**
- * @protected
- *
- * @type {number}
- */
-BaseMenu._enterDelay; // -1.
+BaseMenu._enterDelay; // Default: `-1`.
 ```
+
+#### Type {#property--enterdelay--type}
+
+`number`
 
 ### _leaveDelay <badge type="warning" text="protected" /> {#property--leavedelay}
 
 The delay time (in miliseconds) used for pointerleave events to take place.
 
 ```js
-/**
- * @protected
- *
- * @type {number}
- */
-BaseMenu._leaveDelay; // -1.
+BaseMenu._leaveDelay; // Default: `-1`.
 ```
+
+#### Type {#property--leavedelay--type}
+
+`number`
 
 ### _hoverTimeout <badge type="warning" text="protected" /> {#property--hovertimeout}
 
 A variable to hold the hover timeout function.
 
 ```js
-/**
- * @protected
- *
- * @type {?Function}
- */
-BaseMenu._hoverTimeout; // null.
+BaseMenu._hoverTimeout; // Default: `null`.
 ```
+
+#### Type {#property--hovertimeout--type}
+
+`Function`
 
 ### _errors <badge type="warning" text="protected" /> {#property--errors}
 
 An array of error messages generated by the menu.
 
 ```js
-/**
- * @protected
- *
- * @type {string[]}
- */
-BaseMenu._errors; // [].
+BaseMenu._errors; // Default: `[]`.
 ```
+
+#### Type {#property--errors--type}
+
+`string[]`
 
 ## Getters and Setters
 
-### dom {#getter--dom}
+### dom <badge type="warning" text="readonly" /> {#getter--dom}
 
 The DOM elements within the menu.
 
 ::: code-group
 
 ```js [getter]
-/**
- * @readonly
- *
- * @type {Object<HTMLElement, HTMLElement[]>}
- *
- * @see _dom
- */
 BaseMenu.dom;
 ```
 
 :::
 
-### selectors {#getter--selectors}
+See [_dom](#property--dom) for more information.
+
+### selectors <badge type="warning" text="readonly" /> {#getter--selectors}
 
 The query selectors used by the menu to populate the [dom](#property--dom).
 
 ::: code-group
 
 ```js [getter]
-/**
- * @readonly
- *
- * @type {Object<string>}
- *
- * @see _selectors
- */
 BaseMenu.selectors;
 ```
 
 :::
 
-### elements {#getter--elements}
+See [_selectors](#property--selectors) for more information.
+
+### elements <badge type="warning" text="readonly" /> {#getter--elements}
 
 The declared accessible-menu elements within the menu.
 
 ::: code-group
 
 ```js [getter]
-/**
- * @readonly
- *
- * @type {Object<BaseMenu, BaseMenuToggle, BaseMenuItem[], BaseMenuToggle[]>}
- *
- * @see _elements
- */
 BaseMenu.elements;
 ```
 
 :::
 
-### isTopLevel {#getter--istoplevel}
+See [_elements](#property--elements) for more information.
+
+### isTopLevel <badge type="warning" text="readonly" /> {#getter--istoplevel}
 
 The flag marking the root menu.
 
 ::: code-group
 
 ```js [getter]
-/**
- * @readonly
- *
- * @type {boolean}
- *
- * @see _root
- */
 BaseMenu.isTopLevel;
 ```
 
 :::
+
+See [_root](#property--root) for more information.
 
 ### openClass {#getter-setter--openclass}
 
@@ -455,24 +407,18 @@ The class(es) to apply when the menu is open.
 ::: code-group
 
 ```js [getter]
-/**
- * @type {string|string[]}
- *
- * @see _openClass
- */
 BaseMenu.openClass;
 ```
 
 ```js [setter]
-/**
- * @type {string|string[]}
- */
 BaseMenu.openClass = "show";
 ```
 
 :::
 
 This functions differently for root vs. submenus. Submenus will always inherit their root menu's open class(es).
+
+See [_openClass](#property--openclass) for more information.
 
 ### closeClass {#getter-setter--closeclass}
 
@@ -481,24 +427,18 @@ The class(es) to apply when the menu is closed.
 ::: code-group
 
 ```js [getter]
-/**
- * @type {string|string[]}
- *
- * @see _closeClass
- */
 BaseMenu.closeClass;
 ```
 
 ```js [setter]
-/**
- * @type {string|string[]}
- */
 BaseMenu.closeClass = "hide";
 ```
 
 :::
 
 This functions differently for root vs. submenus. Submenus will always inherit their root menu's close class(es).
+
+See [_closeClass](#property--closeclass) for more information.
 
 ### transitionClass {#getter-setter--transitionclass}
 
@@ -507,24 +447,18 @@ The class(es) to apply when the menu is transitioning between open and closed.
 ::: code-group
 
 ```js [getter]
-/**
- * @type {string|string[]}
- *
- * @see _transitionClass
- */
 BaseMenu.transitionClass;
 ```
 
 ```js [setter]
-/**
- * @type {string|string[]}
- */
 BaseMenu.transitionClass = "transitioning";
 ```
 
 :::
 
 This functions differently for root vs. submenus. Submenus will always inherit their root menu's transition class(es).
+
+See [_transitionClass](#property--transitionclass) for more information.
 
 ### currentChild {#getter-setter--currentchild}
 
@@ -533,16 +467,10 @@ The index of the currently selected [menu item](./base-menu-item) in the menu.
 ::: code-group
 
 ```js [getter]
-/**
- * @type {number}
- */
 BaseMenu.currentChild;
 ```
 
 ```js [setter]
-/**
- * @type {number}
- */
 BaseMenu.currentChild = 0;
 ```
 
@@ -554,6 +482,8 @@ Attempting to set the current child to a value greater than or equal to the numb
 
 If the current menu has a parent menu _and_ the menu's [current event](#property--currentevent) is "mouse", The parent menu will have it's current child updated as well to help with transitioning between mouse and keyboard naviation.
 
+See [_currentChild](#property--currentchild) for more information.
+
 ### focusState {#getter-setter--focusstate}
 
 The current state of the menu's focus.
@@ -561,16 +491,10 @@ The current state of the menu's focus.
 ::: code-group
 
 ```js [getter]
-/**
- * @type {string}
- */
 BaseMenu.focusState;
 ```
 
 ```js [setter]
-/**
- * @type {string}
- */
 BaseMenu.focusState = "self";
 ```
 
@@ -582,6 +506,8 @@ If the menu has submenus, setting the focus state to "none" or "self" will updat
 
 If the menu has a parent menu, setting the focus state to "self" or "child" will update all parent menus to have the focus state of "child".
 
+See [_focusState](#property--focusstate) for more information.
+
 ### currentEvent {#getter-setter--currentevent}
 
 The last event triggered on the menu.
@@ -589,16 +515,10 @@ The last event triggered on the menu.
 ::: code-group
 
 ```js [getter]
-/**
- * @type {string}
- */
 BaseMenu.currentEvent;
 ```
 
 ```js [setter]
-/**
- * @type {string}
- */
 BaseMenu.currentEvent = "mouse";
 ```
 
@@ -606,18 +526,15 @@ BaseMenu.currentEvent = "mouse";
 
 Available events are: `"none"`, `"mouse"`, `"keyboard"`, and `"character"`.
 
-### currentMenuItem {#getter--currentmenuitem}
+See [_currentEvent](#property--currentevent) for more information.
+
+### currentMenuItem <badge type="warning" text="readonly" /> {#getter--currentmenuitem}
 
 The currently selected menu item.
 
 ::: code-group
 
 ```js [getter]
-/**
- * @readonly
- *
- * @type {BaseMenuItem}
- */
 BaseMenu.currentMenuItem;
 ```
 
@@ -630,16 +547,10 @@ The type of hoverability for the menu.
 ::: code-group
 
 ```js [getter]
-/**
- * @type {string}
- */
 BaseMenu.hoverType;
 ```
 
 ```js [setter]
-/**
- * @type {string}
- */
 BaseMenu.hoverType = "off";
 ```
 
@@ -649,7 +560,7 @@ Available types are: `"off"`, `"on"`, and `"dynamic"`.
 
 This functions differently for root vs. submenus. Submenus will always inherit their root menu's hoverability.
 
-You can read more about [supported hover types](../hover-types) in the docs.
+See [_hoverType](#property--hovertype) for more information.
 
 ### hoverDelay {#getter-setter--hoverdelay}
 
@@ -658,22 +569,18 @@ The delay time (in miliseconds) used for pointerenter/pointerleave events to tak
 ::: code-group
 
 ```js [getter]
-/**
- * @type {number}
- */
 BaseMenu.hoverDelay;
 ```
 
 ```js [setter]
-/**
- * @type {number}
- */
 BaseMenu.hoverDelay = 250;
 ```
 
 :::
 
 This functions differently for root vs. submenus. Submenus will always inherit their root menu's hover delay.
+
+See [_hoverDelay](#property--hoverdelay) for more information.
 
 ### enterDelay {#getter-setter--enterdelay}
 
@@ -682,16 +589,10 @@ The delay time (in miliseconds) used for pointerenter events to take place.
 ::: code-group
 
 ```js [getter]
-/**
- * @type {number}
- */
 BaseMenu.enterDelay;
 ```
 
 ```js [setter]
-/**
- * @type {number}
- */
 BaseMenu.enterDelay = 250;
 ```
 
@@ -701,6 +602,8 @@ If enterDelay is set to -1, the hoverDelay value will be used instead.
 
 This functions differently for root vs. submenus. Submenus will always inherit their root menu's enter delay.
 
+See [_enterDelay](#property--enterdelay) for more information.
+
 ### leaveDelay {#getter-setter--leavedelay}
 
 The delay time (in miliseconds) used for pointerleave events to take place.
@@ -708,16 +611,10 @@ The delay time (in miliseconds) used for pointerleave events to take place.
 ::: code-group
 
 ```js [getter]
-/**
- * @type {number}
- */
 BaseMenu.leaveDelay;
 ```
 
 ```js [setter]
-/**
- * @type {number}
- */
 BaseMenu.leaveDelay = 250;
 ```
 
@@ -727,18 +624,15 @@ If leaveDelay is set to -1, the hoverDelay value will be used instead.
 
 This functions differently for root vs. submenus. Submenus will always inherit their root menu's leave delay.
 
-### shouldFocus {#getter--shouldfocus}
+See [_leaveDelay](#property--leavedelay) for more information.
+
+### shouldFocus <badge type="warning" text="readonly" /> {#getter--shouldfocus}
 
 A flag to check if the menu's focus methods should _actually_ move the focus in the DOM.
 
 ::: code-group
 
 ```js [getter]
-/**
- * @readonly
- *
- * @type {boolean}
- */
 BaseMenu.shouldFocus;
 ```
 
@@ -750,22 +644,19 @@ This will be `false` unless any of the following criteria are met:
 - The menu's current event is "character".
 - The menu's current event is "mouse" _and_ the menu's [hover type](#property--hovertype) is "dynamic".
 
-### errors {#getter--errors}
+### errors <badge type="warning" text="readonly" /> {#getter--errors}
 
 An array of error messages generated by the menu.
 
 ::: code-group
 
 ```js [getter]
-/**
- * @readonly
- *
- * @type {string[]}
- */
 BaseMenu.errors;
 ```
 
 :::
+
+See [_errors](#property--errors) for more information.
 
 ## Methods
 
@@ -774,26 +665,20 @@ BaseMenu.errors;
 Validates all aspects of the menu to ensure proper functionality.
 
 ```js
-/**
- * @protected
- *
- * @return {boolean} - The result of the validation.
- */
 BaseMenu._validate();
 ```
+
+#### Returns {#method--validate--returns}
+
+| Type | Description |
+| --- | --- |
+| `boolean` | The result of the validation. |
 
 ### _setDOMElementType <badge type="warning" text="protected" /> {#method--setdomelementtype}
 
 Sets DOM elements within the menu.
 
 ```js
-/**
- * @protected
- *
- * @param {string}      elementType            - The type of element to populate.
- * @param {HTMLElement} [base = this.dom.menu] - The element used as the base for the querySelect.
- * @param {boolean}     [overwrite = true]     - A flag to set if the existing elements will be overwritten.
- */
 BaseMenu._setDOMElementType(elementType, base, overwrite);
 ```
 
@@ -812,11 +697,6 @@ Elements that are not stored inside an array cannot be set through this method.
 Resets DOM elements within the menu.
 
 ```js
-/**
- * @protected
- *
- * @param {string} elementType - The type of element to clear.
- */
 BaseMenu._resetDOMElementType(elementType);
 ```
 
@@ -833,9 +713,6 @@ Elements that are not stored inside an array cannot be reset through this method
 Sets all DOM elements within the menu.
 
 ```js
-/**
- * @protected
- */
 BaseMenu._setDOMElements();
 ```
 
@@ -846,11 +723,6 @@ Utilizes [`_setDOMElementType`](#method--setdomelementtype) and [`_resetDOMEleme
 Finds the root menu element.
 
 ```js
-/**
- * @protected
- *
- * @param {BaseMenu} menu - The menu to check.
- */
 BaseMenu._findRootMenu(menu);
 ```
 
@@ -865,9 +737,6 @@ BaseMenu._findRootMenu(menu);
 Creates and initializes all menu items and submenus.
 
 ```js
-/**
- * @protected
- */
 BaseMenu._createChildMenu();
 ```
 
@@ -876,9 +745,6 @@ BaseMenu._createChildMenu();
 Handles focus events throughout the menu for proper menu use.
 
 ```js
-/**
- * @protected
- */
 BaseMenu._handleFocus();
 ```
 
@@ -889,9 +755,6 @@ Adds a `focus` listener to every menu item so when it gains focus, it will set t
 Handles click events throughout the menu for proper use.
 
 ```js
-/**
- * @protected
- */
 BaseMenu._handleClick();
 ```
 
@@ -906,9 +769,6 @@ This method will do the following:
 Handles hover events throughout the menu for proper use.
 
 ```js
-/**
- * @protected
- */
 BaseMenu._handleHover();
 ```
 
@@ -942,9 +802,6 @@ All `pointerenter` and `pointerleave` events are ignored.
 Handles keydown events throughout the menu for proper menu use.
 
 ```js
-/**
- * @protected
- */
 BaseMenu._handleKeydown();
 ```
 
@@ -960,9 +817,6 @@ This method will do the following:
 Handles keyup events throughout the menu for proper menu use.
 
 ```js
-/**
- * @protected
- */
 BaseMenu._handleKeyup();
 ```
 
@@ -976,9 +830,6 @@ This method will do the following:
 Focus the menu.
 
 ```js
-/**
- * @public
- */
 BaseMenu.focus();
 ```
 
@@ -989,9 +840,6 @@ Sets the menu's [focus state](#property--focusstate) to "self" and focusses the 
 Unfocus the menu.
 
 ```js
-/**
- * @public
- */
 BaseMenu.blur();
 ```
 
@@ -1002,9 +850,6 @@ Sets the menu's focus state to "none" and blurs the menu if the menu's shouldFoc
 Focuses the menu's current child.
 
 ```js
-/**
- * @public
- */
 BaseMenu.focusCurrentChild();
 ```
 
@@ -1013,11 +858,6 @@ BaseMenu.focusCurrentChild();
 Focuses the menu's child at a given index.
 
 ```js
-/**
- * @public
- *
- * @param {number} index - The index of the child to focus.
- */
 BaseMenu.focusChild(index);
 ```
 
@@ -1032,9 +872,6 @@ BaseMenu.focusChild(index);
 Focus the menu's first child.
 
 ```js
-/**
- * @public
- */
 BaseMenu.focusFirstChild();
 ```
 
@@ -1043,9 +880,6 @@ BaseMenu.focusFirstChild();
 Focus the menu's last child.
 
 ```js
-/**
- * @public
- */
 BaseMenu.focusLastChild();
 ```
 
@@ -1054,9 +888,6 @@ BaseMenu.focusLastChild();
 Focus the menu's next child.
 
 ```js
-/**
- * @public
- */
 BaseMenu.focusNextChild();
 ```
 
@@ -1065,9 +896,6 @@ BaseMenu.focusNextChild();
 Focus the menu's previous child.
 
 ```js
-/**
- * @public
- */
 BaseMenu.focusPreviousChild();
 ```
 
@@ -1076,9 +904,6 @@ BaseMenu.focusPreviousChild();
 Blurs the menu's current child.
 
 ```js
-/**
- * @public
- */
 BaseMenu.blurCurrentChild();
 ```
 
@@ -1087,9 +912,6 @@ BaseMenu.blurCurrentChild();
 Focus the menu's controller.
 
 ```js
-/**
- * @public
- */
 BaseMenu.focusController();
 ```
 
@@ -1098,9 +920,6 @@ BaseMenu.focusController();
 Focus the menu's container.
 
 ```js
-/**
- * @public
- */
 BaseMenu.focusContainer();
 ```
 
@@ -1109,9 +928,6 @@ BaseMenu.focusContainer();
 Close all submenu children.
 
 ```js
-/**
- * @public
- */
 BaseMenu.closeChildren();
 ```
 
@@ -1120,8 +936,5 @@ BaseMenu.closeChildren();
 Blurs all children and submenu's children.
 
 ```js
-/**
- * @public
- */
 BaseMenu.blurChildren();
 ```

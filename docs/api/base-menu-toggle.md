@@ -7,13 +7,6 @@ A link or button that controls the visibility of a [BaseMenu](./base-menu).
 Constructs a new `BaseMenuToggle`
 
 ```js
-/**
- * @param {object}      options                     - The options for generating the menu toggle.
- * @param {HTMLElement} options.menuToggleElement   - The toggle element in the DOM.
- * @param {HTMLElement} options.parentElement       - The element containing the controlled menu.
- * @param {BaseMenu}    options.controlledMenu      - The menu controlled by this toggle.
- * @param {?BaseMenu}   [options.parentMenu = null] - The menu containing this toggle.
- */
 new BaseMenuToggle({
   menuToggleElement,
   parentElement,
@@ -66,121 +59,118 @@ Finally, the [collapse](#method--collapse) method is called to make sure the sub
 The DOM elements within the menu toggle.
 
 ```js
-/**
- * @protected
- *
- * @type {Object<HTMLElement>}
- *
- * @property {HTMLElement} toggle - The menu toggle.
- * @property {HTMLElement} parent - The menu containing this toggle.
- */
 BaseMenuToggle._dom;
 ```
+
+#### Type {#property--dom--type}
+
+`Object<HTMLElement>`
+
+#### Properties {#property--dom--properties}
+
+| Name | Type | Description | Default |
+| --- | --- | --- | --- |
+| toggle | `HTMLElement` | The menu toggle. | `null` |
+| parent | `HTMLElement` | The menu containing this toggle. | `null` |
 
 ### _elements <badge type="warning" text="protected" /> {#property--elements}
 
 The declared accessible-menu elements within the menu toggle.
 
 ```js
-/**
- * The declared accessible-menu elements within the menu toggle.
- *
- * @protected
- *
- * @type {Object<BaseMenu>}
- *
- * @property {BaseMenu} controlledMenu - The menu controlled by this toggle.
- * @property {BaseMenu} parentMenu     - The menu containing this toggle.
- */
 BaseMenuToggle._elements;
 ```
+
+#### Type {#property--elements--type}
+
+`Object<BaseMenu>`
+
+#### Properties {#property--elements--properties}
+
+| Name | Type | Description | Default |
+| --- | --- | --- | --- |
+| controlledMenu | `BaseMenu` | The menu controlled by this toggle. | `null` |
+| parentMenu | `BaseMenu` | The menu containing this toggle. | `null` |
 
 ### _open <badge type="warning" text="protected" /> {#property--open}
 
 The open state of the menu toggle.
 
 ```js
-/**
- * @protected
- *
- * @type {boolean}
- */
-BaseMenuToggle._open; // false.
+BaseMenuToggle._open; // Default: `false`.
 ```
+
+#### Type {#property--open--type}
+
+`boolean`
 
 ### _expandEvent <badge type="warning" text="protected" /> {#property--expandEvent}
 
 The event that is triggered when the menu toggle expands.
 
 ```js
-/**
- * @protected
- *
- * @event accessibleMenuExpand
- *
- * @type {CustomEvent}
- *
- * @property {Object<BaseMenuToggle>} details - The details object containing the BaseMenuToggle itself.
- */
 BaseMenuToggle._expandEvent;
 ```
+
+#### Type {#property--expandEvent--type}
+
+`CustomEvent`
+
+#### Properties {#property--expandEvent--properties}
+
+| Name | Type | Description | Default |
+| --- | --- | --- | --- |
+| bubbles | `boolean` | A flag to bubble the event. | `true` |
+| detail | `Object<BaseMenuToggle>` | The details object containing the BaseMenuToggle itself. | `{ toggle: this }` |
 
 ### _collapseEvent <badge type="warning" text="protected" /> {#property--collapseEvent}
 
 The event that is triggered when the menu toggle collapses.
 
 ```js
-/**
- * @protected
- *
- * @event accessibleMenuCollapse
- *
- * @type {CustomEvent}
- *
- * @property {Object<BaseMenuToggle>} details - The details object containing the BaseMenuToggle itself.
- */
 BaseMenuToggle._collapseEvent;
 ```
 
+#### Type {#property--collapseEvent--type}
+
+`CustomEvent`
+
+#### Properties {#property--collapseEvent--properties}
+
+| Name | Type | Description | Default |
+| --- | --- | --- | --- |
+| bubbles | `boolean` | A flag to bubble the event. | `true` |
+| detail | `Object<BaseMenuToggle>` | The details object containing the BaseMenuToggle itself. | `{ toggle: this }` |
+
 ## Getters and Setters
 
-### dom {#getter--dom}
+### dom <badge type="warning" text="readonly" /> {#getter--dom}
 
 The DOM elements within the toggle.
 
 ::: code-group
 
 ```js [getter]
-/**
- * @readonly
- *
- * @type {Object<HTMLElement>}
- *
- * @see _dom
- */
 BaseMenuToggle.dom;
 ```
 
 :::
 
-### elements {#getter--elements}
+See [_dom](#property--dom) for more information.
+
+### elements <badge type="warning" text="readonly" /> {#getter--elements}
 
 The declared accessible-menu elements within the toggle.
 
 ::: code-group
 
 ```js [getter]
-/**
- * @readonly
- *
- * @type {Object<BaseMenu>}
- *
- * @see _elements
- */
 BaseMenuToggle.elements;
 ```
 
 :::
+
+See [_elements](#property--elements) for more information.
 
 ### isOpen {#getter-setter--isopen}
 
@@ -189,22 +179,16 @@ The open state of the toggle.
 ::: code-group
 
 ```js [getter]
-/**
- * @type {boolean}
- *
- * @see _open
- */
 BaseMenuToggle.isOpen;
 ```
 
 ```js [setter]
-/**
- * @type {boolean}
- */
 BaseMenuToggle.isOpen = true;
 ```
 
 :::
+
+See [_open](#property--open) for more information.
 
 ## Methods
 
@@ -213,13 +197,6 @@ BaseMenuToggle.isOpen = true;
 Expands the controlled menu.
 
 ```js
-/**
- * @protected
- *
- * @fires accessibleMenuExpand
- *
- * @param {boolean} [emit = true] - A toggle to emit the expand event once expanded.
- */
 BaseMenuToggle._expand(emit);
 ```
 
@@ -238,13 +215,6 @@ If `emit` is set to `true`, this will also emit a custom event called [accessibl
 Collapses the controlled menu.
 
 ```js
-/**
- * @protected
- *
- * @fires accessibleMenuCollapse
- *
- * @param {boolean} [emit = true] - A toggle to emit the collapse event once collapsed.
- */
 BaseMenuToggle._collapse(emit);
 ```
 
@@ -263,9 +233,6 @@ If `emit` is set to `true`, this will also emit a custom event called [accessibl
 Opens the controlled menu.
 
 ```js
-/**
- * @public
- */
 BaseMenuToggle.open();
 ```
 
@@ -276,9 +243,6 @@ Sets the controlled menu's [focus state](./base-menu#getter-setter--focusstate) 
 Opens the controlled menu without the current focus entering it.
 
 ```js
-/**
- * @public
- */
 BaseMenuToggle.preview();
 ```
 
@@ -289,9 +253,6 @@ Sets the controlled menu's [focus state](./base-menu#getter-setter--focusstate) 
 Closes the controlled menu.
 
 ```js
-/**
- * @public
- */
 BaseMenuToggle.close();
 ```
 
@@ -302,9 +263,6 @@ Sets the controlled menu's [focus state](./base-menu#getter-setter--focusstate) 
 Toggles the open state of the controlled menu between `true` and `false`.
 
 ```js
-/**
- * @public
- */
 BaseMenuToggle.toggle();
 ```
 
@@ -313,9 +271,6 @@ BaseMenuToggle.toggle();
 Closes all subling menus.
 
 ```js
-/**
- * @public
- */
 BaseMenuToggle.closeSiblings();
 ```
 
@@ -324,8 +279,5 @@ BaseMenuToggle.closeSiblings();
 Closes all child menus.
 
 ```js
-/**
- * @public
- */
 BaseMenuToggle.closeChildren();
 ```
