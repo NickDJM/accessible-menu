@@ -14,12 +14,12 @@ Constructs a new `DisclosureMenuToggle`.
 
 ```js
 /**
- * @param {object}              options                     - The options for generating the menu toggle.
- * @param {HTMLElement}         options.menuToggleElement   - The toggle element in the DOM.
- * @param {HTMLElement}         options.parentElement       - The element containing the controlled menu.
- * @param {DisclosureMenu}      options.controlledMenu      - The menu controlled by this toggle.
- * @param {DisclosureMenu|null} [options.parentMenu = null] - The menu containing this toggle.
- * @param {boolean}             [options.initialize = true] - A flag to initialize the menu toggle immediately upon creation.
+ * @param {object}          options                     - The options for generating the menu toggle.
+ * @param {HTMLElement}     options.menuToggleElement   - The toggle element in the DOM.
+ * @param {HTMLElement}     options.parentElement       - The element containing the controlled menu.
+ * @param {DisclosureMenu}  options.controlledMenu      - The menu controlled by this toggle.
+ * @param {?DisclosureMenu} [options.parentMenu = null] - The menu containing this toggle.
+ * @param {boolean}         [options.initialize = true] - A flag to initialize the menu toggle immediately upon creation.
  */
 new DisclosureMenuToggle({
   menuToggleElement,
@@ -31,6 +31,17 @@ new DisclosureMenuToggle({
 ```
 
 The constructor will call [BaseMenuToggle's constructor](./base-menu-toggle#constructor) with the provided options. It will also initialize the menu toggle if the initialize flag is set to true.
+
+### Parameters {#constructor--parameters}
+
+| Name | Type | Description | Default |
+| --- | --- | --- | --- |
+| options | `object` | The options for generating the menu toggle. | `undefined` |
+| options.menuToggleElement | `HTMLElement` | The toggle element in the DOM. | `undefined` |
+| options.parentElement | `HTMLElement` | The element containing the controlled menu. | `undefined` |
+| options.controlledMenu | `DisclosureMenu` | The menu controlled by this toggle. | `undefined` |
+| options.parentMenu | `DisclosureMenu`, `null` | The menu containing this toggle. | `null` |
+| options.initialize | `boolean` | A flag to initialize the menu toggle immediately upon creation. | `true` |
 
 ## Initialize
 
@@ -48,7 +59,7 @@ Getters and setters are inherited from the [BaseMenuToggle](./base-menu-toggle#g
 
 Methods are inherited from the [BaseMenuToggle](./base-menu-toggle#methods) class. The following methods are unique to or overwritten in the DisclosureMenuToggle class.
 
-### open
+### open {#method--open}
 
 Opens and controlled menu.
 
@@ -59,9 +70,9 @@ Opens and controlled menu.
 DisclosureMenuToggle.open();
 ```
 
-Calls the [closeSiblings (inherited) method](./base-menu-toggle#closesiblings) and _then_ [BaseMenuToggle's open method](./base-menu-toggle#open).
+Calls the [closeSiblings (inherited) method](./base-menu-toggle#method--closesiblings) and _then_ [BaseMenuToggle's open method](./base-menu-toggle#method--open).
 
-### preview
+### preview {#method--preview}
 
 Opens the controlled menu without the current focus entering it.
 
@@ -72,9 +83,9 @@ Opens the controlled menu without the current focus entering it.
 DisclosureMenuToggle.preview();
 ```
 
-Calls the [closeSiblings (inherited) method](./base-menu-toggle#closesiblings) and _then_ [BaseMenuToggle's preview method](./base-menu-toggle#preview).
+Calls the [closeSiblings (inherited) method](./base-menu-toggle#method--closesiblings) and _then_ [BaseMenuToggle's preview method](./base-menu-toggle#method--preview).
 
-### close
+### close {#method--close}
 
 Closes the controlled menu.
 
@@ -85,4 +96,4 @@ Closes the controlled menu.
 DisclosureMenuToggle.close();
 ```
 
-Calls the [closeChildren (inherited) method](./base-menu-toggle#closechildren) and _then_ [BaseMenuToggle's close method](./base-menu-toggle#close).
+Calls the [closeChildren (inherited) method](./base-menu-toggle#method--closechildren) and _then_ [BaseMenuToggle's close method](./base-menu-toggle#method--close).

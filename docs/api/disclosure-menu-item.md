@@ -14,14 +14,14 @@ Constructs a new `DisclosureMenuItem`.
 
 ```js
 /**
- * @param {object}                    options                         - The options for generating the menu item.
- * @param {HTMLElement}               options.menuItemElement         - The menu item in the DOM.
- * @param {HTMLElement}               options.menuLinkElement         - The menu item's link in the DOM.
- * @param {DisclosureMenu}            options.parentMenu              - The parent menu.
- * @param {boolean}                   [options.isSubmenuItem = false] - A flag to mark if the menu item is controlling a submenu.
- * @param {DisclosureMenu|null}       [options.childMenu = null]      - The child menu.
- * @param {DisclosureMenuToggle|null} [options.toggle = null]         - The controller for the child menu.
- * @param {boolean}                   [options.initialize = true]     - A flag to initialize the menu item immediately upon creation.
+ * @param {object}                options                         - The options for generating the menu item.
+ * @param {HTMLElement}           options.menuItemElement         - The menu item in the DOM.
+ * @param {HTMLElement}           options.menuLinkElement         - The menu item's link in the DOM.
+ * @param {DisclosureMenu}        options.parentMenu              - The parent menu.
+ * @param {boolean}               [options.isSubmenuItem = false] - A flag to mark if the menu item is controlling a submenu.
+ * @param {?DisclosureMenu}       [options.childMenu = null]      - The child menu.
+ * @param {?DisclosureMenuToggle} [options.toggle = null]         - The controller for the child menu.
+ * @param {boolean}               [options.initialize = true]     - A flag to initialize the menu item immediately upon creation.
  */
 new DisclosureMenuItem({
   menuItemElement,
@@ -35,6 +35,19 @@ new DisclosureMenuItem({
 ```
 
 The constructor will call [BaseMenuItem's constructor](./base-menu-item#constructor) with the provided options. It will also initialize the menu item if the initialize flag is set to true.
+
+### Parameters {#constructor--parameters}
+
+| Name | Type | Description | Default |
+| --- | --- | --- | --- |
+| options | `object` | The options for generating the menu item. | `undefined` |
+| options.menuItemElement | `HTMLElement` | The menu item in the DOM. | `undefined` |
+| options.menuLinkElement | `HTMLElement` | The menu item's link in the DOM. | `undefined` |
+| options.parentMenu | `DisclosureMenu` | The parent menu. | `undefined` |
+| options.isSubmenuItem | `boolean` | A flag to mark if the menu item is controlling a submenu. | `false` |
+| options.childMenu | `DisclosureMenu`, `null` | The child menu. | `null` |
+| options.toggle | `DisclosureMenuToggle`, `null` | The controller for the child menu. | `null` |
+| options.initialize | `boolean` | A flag to initialize the menu item immediately upon creation. | `true` |
 
 ## Initialize
 

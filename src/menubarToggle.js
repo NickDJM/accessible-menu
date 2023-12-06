@@ -12,12 +12,12 @@ class MenubarToggle extends BaseMenuToggle {
   /**
    * Constructs a new `MenubarToggle`.
    *
-   * @param {object}       options                     - The options for generating the menu toggle.
-   * @param {HTMLElement}  options.menuToggleElement   - The toggle element in the DOM.
-   * @param {HTMLElement}  options.parentElement       - The element containing the controlled menu.
-   * @param {Menubar}      options.controlledMenu      - The menu controlled by this toggle.
-   * @param {Menubar|null} [options.parentMenu = null] - The menu containing this toggle.
-   * @param {boolean}      [options.initialize = true] - A flag to initialize the menu toggle immediately upon creation.
+   * @param {object}      options                     - The options for generating the menu toggle.
+   * @param {HTMLElement} options.menuToggleElement   - The toggle element in the DOM.
+   * @param {HTMLElement} options.parentElement       - The element containing the controlled menu.
+   * @param {Menubar}     options.controlledMenu      - The menu controlled by this toggle.
+   * @param {?Menubar}    [options.parentMenu = null] - The menu containing this toggle.
+   * @param {boolean}     [options.initialize = true] - A flag to initialize the menu toggle immediately upon creation.
    */
   constructor({
     menuToggleElement,

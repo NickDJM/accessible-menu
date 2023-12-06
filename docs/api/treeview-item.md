@@ -14,14 +14,14 @@ Constructs a new `TreeviewItem`.
 
 ```js
 /**
- * @param {object}              options                         - The options for generating the menu item.
- * @param {HTMLElement}         options.menuItemElement         - The menu item in the DOM.
- * @param {HTMLElement}         options.menuLinkElement         - The menu item's link in the DOM.
- * @param {Treeview}            options.parentMenu              - The parent menu.
- * @param {boolean}             [options.isSubmenuItem = false] - A flag to mark if the menu item is controlling a submenu.
- * @param {Treeview|null}       [options.childMenu = null]      - The child menu.
- * @param {TreeviewToggle|null} [options.toggle = null]         - The controller for the child menu.
- * @param {boolean}             [options.initialize = true]     - A flag to initialize the menu item immediately upon creation.
+ * @param {object}          options                         - The options for generating the menu item.
+ * @param {HTMLElement}     options.menuItemElement         - The menu item in the DOM.
+ * @param {HTMLElement}     options.menuLinkElement         - The menu item's link in the DOM.
+ * @param {Treeview}        options.parentMenu              - The parent menu.
+ * @param {boolean}         [options.isSubmenuItem = false] - A flag to mark if the menu item is controlling a submenu.
+ * @param {?Treeview}       [options.childMenu = null]      - The child menu.
+ * @param {?TreeviewToggle} [options.toggle = null]         - The controller for the child menu.
+ * @param {boolean}         [options.initialize = true]     - A flag to initialize the menu item immediately upon creation.
  */
 new TreeviewItem({
   menuItemElement,
@@ -35,6 +35,19 @@ new TreeviewItem({
 ```
 
 The constructor will call [BaseMenuItem's constructor](./base-menu-item#constructor) with the provided options. It will also initialize the menu item if the initialize flag is set to true.
+
+### Parameters {#constructor--parameters}
+
+| Name | Type | Description | Default |
+| --- | --- | --- | --- |
+| options | `object` | The options for generating the menu item. | `undefined` |
+| options.menuItemElement | `HTMLElement` | The menu item in the DOM. | `undefined` |
+| options.menuLinkElement | `HTMLElement` | The menu item's link in the DOM. | `undefined` |
+| options.parentMenu | `Treeview` | The parent menu. | `undefined` |
+| options.isSubmenuItem | `boolean` | A flag to mark if the menu item is controlling a submenu. | `false` |
+| options.childMenu | `Treeview`, `null` | The child menu. | `null` |
+| options.toggle | `TreeviewToggle`, `null` | The controller for the child menu. | `null` |
+| options.initialize | `boolean` | A flag to initialize the menu item immediately upon creation. | `true` |
 
 ## Initialize
 
@@ -60,7 +73,7 @@ Methods are inherited from the [BaseMenuItem](./base-menu-item#methods) class. T
 
 ### focus
 
-Focuses the menu item's link if the parent menu's [shouldFocus](./base-menu.md#shouldfocus) value is `true`.
+Focuses the menu item's link if the parent menu's [shouldFocus](./base-menu.md#getter--shouldfocus) value is `true`.
 
 ```js
 /**
@@ -69,11 +82,11 @@ Focuses the menu item's link if the parent menu's [shouldFocus](./base-menu.md#s
 TreeviewItem.focus();
 ```
 
-This will call the [BaseMenuItem's focus method](./base-menu-item#focus) as well as set the menu link's `tabIndex` to 0 if the parent menu is the root menu.
+This will call the [BaseMenuItem's focus method](./base-menu-item#method--focus) as well as set the menu link's `tabIndex` to 0 if the parent menu is the root menu.
 
 ### blur
 
-Blurs the menu item's link if the parent menu's [shouldFocus](./base-menu.md#shouldfocus) value is `true`.
+Blurs the menu item's link if the parent menu's [shouldFocus](./base-menu.md#getter--shouldfocus) value is `true`.
 
 ```js
 /**
@@ -82,4 +95,4 @@ Blurs the menu item's link if the parent menu's [shouldFocus](./base-menu.md#sho
 TreeviewItem.blur();
 ```
 
-This will call the [BaseMenuItem's focus method](./base-menu-item#focus) as well as set the menu link's `tabIndex` to -1 if the parent menu is the root menu.
+This will call the [BaseMenuItem's focus method](./base-menu-item#method--focus) as well as set the menu link's `tabIndex` to -1 if the parent menu is the root menu.

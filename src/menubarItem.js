@@ -12,14 +12,14 @@ class MenubarItem extends BaseMenuItem {
   /**
    * Constructs a new `MenubarItem`.
    *
-   * @param {object}             options                         - The options for generating the menu item.
-   * @param {HTMLElement}        options.menuItemElement         - The menu item in the DOM.
-   * @param {HTMLElement}        options.menuLinkElement         - The menu item's link in the DOM.
-   * @param {Menubar}            options.parentMenu              - The parent menu.
-   * @param {boolean}            [options.isSubmenuItem = false] - A flag to mark if the menu item is controlling a submenu.
-   * @param {Menubar|null}       [options.childMenu = null]      - The child menu.
-   * @param {MenubarToggle|null} [options.toggle = null]         - The controller for the child menu.
-   * @param {boolean}            [options.initialize = true]     - A flag to initialize the menu item immediately upon creation.
+   * @param {object}         options                         - The options for generating the menu item.
+   * @param {HTMLElement}    options.menuItemElement         - The menu item in the DOM.
+   * @param {HTMLElement}    options.menuLinkElement         - The menu item's link in the DOM.
+   * @param {Menubar}        options.parentMenu              - The parent menu.
+   * @param {boolean}        [options.isSubmenuItem = false] - A flag to mark if the menu item is controlling a submenu.
+   * @param {?Menubar}       [options.childMenu = null]      - The child menu.
+   * @param {?MenubarToggle} [options.toggle = null]         - The controller for the child menu.
+   * @param {boolean}        [options.initialize = true]     - A flag to initialize the menu item immediately upon creation.
    */
   constructor({
     menuItemElement,

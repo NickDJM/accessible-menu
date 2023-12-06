@@ -14,12 +14,12 @@ Constructs a new `MenubarToggle`.
 
 ```js
 /**
- * @param {object}       options                     - The options for generating the menu toggle.
- * @param {HTMLElement}  options.menuToggleElement   - The toggle element in the DOM.
- * @param {HTMLElement}  options.parentElement       - The element containing the controlled menu.
- * @param {Menubar}      options.controlledMenu      - The menu controlled by this toggle.
- * @param {Menubar|null} [options.parentMenu = null] - The menu containing this toggle.
- * @param {boolean}      [options.initialize = true] - A flag to initialize the menu toggle immediately upon creation.
+ * @param {object}      options                     - The options for generating the menu toggle.
+ * @param {HTMLElement} options.menuToggleElement   - The toggle element in the DOM.
+ * @param {HTMLElement} options.parentElement       - The element containing the controlled menu.
+ * @param {Menubar}     options.controlledMenu      - The menu controlled by this toggle.
+ * @param {?Menubar}    [options.parentMenu = null] - The menu containing this toggle.
+ * @param {boolean}     [options.initialize = true] - A flag to initialize the menu toggle immediately upon creation.
  */
 new MenubarToggle({
   menuToggleElement,
@@ -31,6 +31,17 @@ new MenubarToggle({
 ```
 
 The constructor will call [BaseMenuToggle's constructor](./base-menu-toggle#constructor) with the provided options. It will also initialize the menu toggle if the initialize flag is set to true.
+
+### Parameters {#constructor--parameters}
+
+| Name | Type | Description | Default |
+| --- | --- | --- | --- |
+| options | `object` | The options for generating the menu toggle. | `undefined` |
+| options.menuToggleElement | `HTMLElement` | The toggle element in the DOM. | `undefined` |
+| options.parentElement | `HTMLElement` | The element containing the controlled menu. | `undefined` |
+| options.controlledMenu | `Menubar` | The menu controlled by this toggle. | `undefined` |
+| options.parentMenu | `Menubar`, `null` | The menu containing this toggle. | `null` |
+| options.initialize | `boolean` | A flag to initialize the menu toggle immediately upon creation. | `true` |
 
 ## Initialize
 
@@ -48,7 +59,7 @@ Getters and setters are inherited from the [BaseMenuToggle](./base-menu-toggle#g
 
 Methods are inherited from the [BaseMenuToggle](./base-menu-toggle#methods) class. The following methods are unique to or overwritten in the MenubarToggle class.
 
-### open
+### open {#method--open}
 
 Opens the controlled menu.
 
@@ -59,9 +70,9 @@ Opens the controlled menu.
 MenubarToggle.open();
 ```
 
-Calls the [closeSiblings (inherited)](./base-menu-toggle#closesiblings) method and _then_ [BaseMenuToggle's open method](./base-menu-toggle#open).
+Calls the [closeSiblings (inherited)](./base-menu-toggle#method--closesiblings) method and _then_ [BaseMenuToggle's open method](./base-menu-toggle#method--open).
 
-### preview
+### preview {#method--preview}
 
 Opens the controlled menu without the current focus entering it.
 
@@ -72,9 +83,9 @@ Opens the controlled menu without the current focus entering it.
 MenubarToggle.preview();
 ```
 
-Calls the [closeSiblings (inherited)](./base-menu-toggle#closesiblings) method and _then_ [BaseMenuToggle's preview method](./base-menu-toggle#preview).
+Calls the [closeSiblings (inherited)](./base-menu-toggle#method--closesiblings) method and _then_ [BaseMenuToggle's preview method](./base-menu-toggle#method--preview).
 
-### close
+### close {#method--close}
 
 Closes the controlled menu.
 
@@ -85,4 +96,4 @@ Closes the controlled menu.
 MenubarToggle.close();
 ```
 
-Calls the [closeChildren (inherited)](./base-menu-toggle#closechildren) method and _then_ [BaseMenuToggle's close method](./base-menu-toggle#close).
+Calls the [closeChildren (inherited)](./base-menu-toggle#method--closechildren) method and _then_ [BaseMenuToggle's close method](./base-menu-toggle#method--close).

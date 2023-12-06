@@ -14,12 +14,12 @@ Constructs a new `TreeviewToggle`.
 
 ```js
 /**
- * @param {object}        options                     - The options for generating the menu toggle.
- * @param {HTMLElement}   options.menuToggleElement   - The toggle element in the DOM.
- * @param {HTMLElement}   options.parentElement       - The element containing the controlled menu.
- * @param {Treeview}      options.controlledMenu      - The menu controlled by this toggle.
- * @param {Treeview|null} [options.parentMenu = null] - The menu containing this toggle.
- * @param {boolean}       [options.initialize = true] - A flag to initialize the menu toggle immediately upon creation.
+ * @param {object}      options                     - The options for generating the menu toggle.
+ * @param {HTMLElement} options.menuToggleElement   - The toggle element in the DOM.
+ * @param {HTMLElement} options.parentElement       - The element containing the controlled menu.
+ * @param {Treeview}    options.controlledMenu      - The menu controlled by this toggle.
+ * @param {?Treeview}   [options.parentMenu = null] - The menu containing this toggle.
+ * @param {boolean}     [options.initialize = true] - A flag to initialize the menu toggle immediately upon creation.
  */
 new TreeviewToggle({
   menuToggleElement,
@@ -31,6 +31,17 @@ new TreeviewToggle({
 ```
 
 The constructor will call [BaseMenuToggle's constructor](./base-menu-toggle#constructor) with the provided options. It will also initialize the menu toggle if the initialize flag is set to true.
+
+### Parameters {#constructor--parameters}
+
+| Name | Type | Description | Default |
+| --- | --- | --- | --- |
+| options | `object` | The options for generating the menu toggle. | `undefined` |
+| options.menuToggleElement | `HTMLElement` | The toggle element in the DOM. | `undefined` |
+| options.parentElement | `HTMLElement` | The element containing the controlled menu. | `undefined` |
+| options.controlledMenu | `Treeview` | The menu controlled by this toggle. | `undefined` |
+| options.parentMenu | `Treeview`, `null` | The menu containing this toggle. | `null` |
+| options.initialize | `boolean` | A flag to initialize the menu toggle immediately upon creation. | `true` |
 
 ## Initialize
 
