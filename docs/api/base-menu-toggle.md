@@ -32,7 +32,7 @@ The constructor populates the dom and elements properties. It will _not_ initial
 | options.menuToggleElement | `HTMLElement` | The toggle element in the DOM. | `undefined` |
 | options.parentElement | `HTMLElement` | The element containing the controlled menu. | `undefined` |
 | options.controlledMenu | `BaseMenu` | The menu controlled by this toggle. | `undefined` |
-| options.parentMenu | `BaseMenu|null` | The menu containing this toggle. | `null` |
+| options.parentMenu | `BaseMenu\|null` | The menu containing this toggle. | `null` |
 
 ## Initialize
 

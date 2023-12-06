@@ -39,8 +39,8 @@ The constructor populates the dom, elements, and submenu properties. It will _no
 | options.menuLinkElement | `HTMLElement` | The menu item's link in the DOM. | `undefined` |
 | options.parentMenu | `BaseMenu` | The parent menu. | `undefined` |
 | options.isSubmenuItem | `boolean` | A flag to mark if the menu item is controlling a submenu. | `false` |
-| options.childMenu | `BaseMenu|null` | The child menu. | `null` |
-| options.toggle | `BaseMenuToggle|null` | The controller for the child menu. | `null` |
+| options.childMenu | `BaseMenu\|null` | The child menu. | `null` |
+| options.toggle | `BaseMenuToggle\|null` | The controller for the child menu. | `null` |
 
 ## Initialize
 

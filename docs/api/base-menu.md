@@ -60,19 +60,19 @@ The constructor populates the dom, selector, CSS class, and hover related proper
 | --- | --- | --- | --- |
 | options | `object` | The options for generating the menu. | `undefined` |
 | options.menuElement | `HTMLElement` | The menu element in the DOM. | `undefined` |
-| options.menuItemSelector | `string` | The query selector string for menu items. | `li` |
-| options.menuLinkSelector | `string` | The query selector string for menu links. | `a` |
+| options.menuItemSelector | `string` | The query selector string for menu items. | `"li"` |
+| options.menuLinkSelector | `string` | The query selector string for menu links. | `"a"` |
 | options.submenuItemSelector | `string` | The query selector string for menu items containing submenus. | `undefined` |
-| options.submenuToggleSelector | `string` | The query selector string for submenu toggle buttons/links. | `a` |
-| options.submenuSelector | `string` | The query selector string for submenus. | `ul` |
+| options.submenuToggleSelector | `string` | The query selector string for submenu toggle buttons/links. | `"a"` |
+| options.submenuSelector | `string` | The query selector string for submenus. | `"ul"` |
 | options.controllerElement | `HTMLElement` | The element controlling the menu in the DOM. | `null` |
 | options.containerElement | `HTMLElement` | The element containing the menu in the DOM. | `null` |
-| options.openClass | `string` \| `string[]` | The class to apply when a menu is "open". | `show` |
-| options.closeClass | `string` \| `string[]` | The class to apply when a menu is "closed". | `hide` |
-| options.transitionClass | `string` \| `string[]` | The class to apply when a menu is transitioning between "open" and "closed" states. | `transitioning` |
+| options.openClass | `string\|string[]` | The class to apply when a menu is "open". | `"show"` |
+| options.closeClass | `string\|string[]` | The class to apply when a menu is "closed". | `"hide"` |
+| options.transitionClass | `string\|string[]` | The class to apply when a menu is transitioning between "open" and "closed" states. | `transitioning` |
 | options.isTopLevel | `boolean` | A flag to mark the root menu. | `false` |
 | options.parentMenu | `BaseMenu` | The parent menu to this menu. | `null` |
-| options.hoverType | `string` | The type of hoverability a menu has. | `off` |
+| options.hoverType | `string` | The type of hoverability a menu has. | `"off"` |
 | options.hoverDelay | `number` | The delay for opening and closing menus if the menu is hoverable (in miliseconds). | `250` |
 | options.enterDelay | `number` | The delay for opening menus if the menu is hoverable (in miliseconds). | `-1` |
 | options.leaveDelay | `number` | The delay for closing menus if the menu is hoverable (in miliseconds). | `-1` |
