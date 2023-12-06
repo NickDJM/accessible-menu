@@ -72,7 +72,7 @@ BaseMenuItem._elements;
 
 #### Type {#property--elements--type}
 
-`Object<BaseMenu,BaseMenuToggle>`
+`Object<BaseMenu, BaseMenuToggle>`
 
 #### Properties {#property--elements--properties}
 

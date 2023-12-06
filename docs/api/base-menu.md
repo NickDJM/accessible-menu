@@ -120,7 +120,7 @@ BaseMenu._dom;
 
 #### Type {#property--dom--type}
 
-`Object<HTMLElement,HTMLElement[]>`
+`Object<HTMLElement, HTMLElement[]>`
 
 #### Properties {#property--dom--properties}
 
