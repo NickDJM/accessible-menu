@@ -54,7 +54,7 @@ This method is a placeholder for subclasses to expand upon. The BaseMenuItem's i
 
 ## Properties
 
-### _dom <badge type="tip" text="protected" /> {#property--dom}
+### _dom <badge type="warning" text="protected" /> {#property--dom}
 
 The DOM elements within the menu item.
 
@@ -70,7 +70,7 @@ The DOM elements within the menu item.
 BaseMenuItem._dom;
 ```
 
-### _elements <badge type="tip" text="protected" /> {#property--elements}
+### _elements <badge type="warning" text="protected" /> {#property--elements}
 
 The declared accessible-menu elements within the menu item.
 
@@ -87,7 +87,7 @@ The declared accessible-menu elements within the menu item.
 BaseMenuItem._elements;
 ```
 
-### _submenu <badge type="tip" text="protected" /> {#property--submenu}
+### _submenu <badge type="warning" text="protected" /> {#property--submenu}
 
 A flag marking a submenu item.
 
@@ -155,7 +155,7 @@ BaseMenuItem.isSubmenuItem;
 
 ## Methods
 
-### focus {#method--focus}
+### focus <badge type="tip" text="public" /> {#method--focus}
 
 Focuses the menu item's link if the parent menu's [shouldFocus](./base-menu.md#getter--shouldfocus) value is `true`.
 
@@ -166,7 +166,7 @@ Focuses the menu item's link if the parent menu's [shouldFocus](./base-menu.md#g
 BaseMenuItem.focus();
 ```
 
-### blur {#method--blur}
+### blur <badge type="tip" text="public" /> {#method--blur}
 
 Blurs the menu item's link if the parent menu's [shouldFocus](./base-menu.md#getter--shouldfocus) value is `true`.
 

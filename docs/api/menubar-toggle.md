@@ -59,7 +59,7 @@ Getters and setters are inherited from the [BaseMenuToggle](./base-menu-toggle#g
 
 Methods are inherited from the [BaseMenuToggle](./base-menu-toggle#methods) class. The following methods are unique to or overwritten in the MenubarToggle class.
 
-### open {#method--open}
+### open <badge type="tip" text="public" /> {#method--open}
 
 Opens the controlled menu.
 
@@ -72,7 +72,7 @@ MenubarToggle.open();
 
 Calls the [closeSiblings (inherited)](./base-menu-toggle#method--closesiblings) method and _then_ [BaseMenuToggle's open method](./base-menu-toggle#method--open).
 
-### preview {#method--preview}
+### preview <badge type="tip" text="public" /> {#method--preview}
 
 Opens the controlled menu without the current focus entering it.
 
@@ -85,7 +85,7 @@ MenubarToggle.preview();
 
 Calls the [closeSiblings (inherited)](./base-menu-toggle#method--closesiblings) method and _then_ [BaseMenuToggle's preview method](./base-menu-toggle#method--preview).
 
-### close {#method--close}
+### close <badge type="tip" text="public" /> {#method--close}
 
 Closes the controlled menu.
 

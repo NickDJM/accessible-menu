@@ -102,7 +102,7 @@ this will catch it and log it to the console.
 
 Properties are inherited from the [BaseMenu](./base-menu#properties) class. The following properties are unique to or overwritten in the DisclosureMenu class.
 
-### _MenuType <Badge type="tip" text="protected" /> {#property--menutype}
+### _MenuType <badge type="warning" text="protected" /> {#property--menutype}
 
 The class to use when generating submenus.
 
@@ -115,7 +115,7 @@ The class to use when generating submenus.
 DisclosureMenu._MenuType; // DisclosureMenu.
 ```
 
-### _MenuItemType <Badge type="tip" text="protected" /> {#property--menuitemtype}
+### _MenuItemType <badge type="warning" text="protected" /> {#property--menuitemtype}
 
 The class to use when generating menu items.
 
@@ -128,7 +128,7 @@ The class to use when generating menu items.
 DisclosureMenu._MenuItemType; // DisclosureMenuItem.
 ```
 
-### _MenuToggleType <Badge type="tip" text="protected" /> {#property--menutoggletype}
+### _MenuToggleType <badge type="warning" text="protected" /> {#property--menutoggletype}
 
 The class to use when generating menu toggles.
 
@@ -141,7 +141,7 @@ The class to use when generating menu toggles.
 DisclosureMenu._MenuToggleType; // DisclosureMenuToggle.
 ```
 
-### _currentChild <Badge type="tip" text="protected" /> {#property--currentchild}
+### _currentChild <badge type="warning" text="protected" /> {#property--currentchild}
 
 The index of the currently selected [menu item](./disclosure-menu-item) in the menu.
 
@@ -154,7 +154,7 @@ The index of the currently selected [menu item](./disclosure-menu-item) in the m
 DisclosureMenu._currentChild; // -1.
 ```
 
-### _optionalSupport <Badge type="tip" text="protected" /> {#property--optionalsupport}
+### _optionalSupport <badge type="warning" text="protected" /> {#property--optionalsupport}
 
 A flag to add optional keyboard support (Arrow keys, "Home", and "End") to the menu.
 
@@ -201,7 +201,7 @@ This functions differently for root vs. submenus. Submenus will always inherit t
 
 Methods are inherited from the [BaseMenu](./base-menu#methods) class. The following methods are unique to or overwritten in the DisclosureMenu class.
 
-### _validate <Badge type="tip" text="protected" /> {#method--validate}
+### _validate <badge type="warning" text="protected" /> {#method--validate}
 
 Validates all aspects of the menu to ensure proper functionality.
 
@@ -216,7 +216,7 @@ DisclosureMenu._validate();
 
 The validation method will call [BaseMenu's validation method](./base-menu#method--validate) as well as validate the optionalKeySupport property.
 
-### _handleClick <Badge type="tip" text="protected" /> {#method--handleclick}
+### _handleClick <badge type="warning" text="protected" /> {#method--handleclick}
 
 Handles click events throughout the menu for proper use.
 
@@ -232,7 +232,7 @@ This method will do the following:
 - Adds all event listeners listed in [BaseMenu's _handleClick method](./base-menu#method--handleclick).
 - Adds a `pointerup` listener to the `document` so if the user clicks outside of the menu it will close if it is open.
 
-### _handleKeydown <Badge type="tip" text="protected" /> {#method--handlekeydown}
+### _handleKeydown <badge type="warning" text="protected" /> {#method--handlekeydown}
 
 Handles keydown events throughout the menu for proper menu use.
 
@@ -251,7 +251,7 @@ This method will do the following:
   - Blocks propagation on the following keys: "Space", "Enter", and "Escape".
   - _If_ [optional keyboard support](#getter-setter--optionalkeysupport) is enabled, blocks propagation on the following keys: "ArrowUp", "ArrowRight", "ArrowDown", "ArrowLeft", "Home", and "End".
 
-### _handleKeyup <Badge type="tip" text="protected" /> {#method--handlekeyup}
+### _handleKeyup <badge type="warning" text="protected" /> {#method--handlekeyup}
 
 Handles keyup events throughout the menu for proper menu use.
 

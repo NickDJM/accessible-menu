@@ -95,7 +95,7 @@ The following steps will be taken to initialize the menu:
 
 ## Properties
 
-### _MenuType <badge type="tip" text="protected" /> {#property--menutype}
+### _MenuType <badge type="warning" text="protected" /> {#property--menutype}
 
 The class to use when generating submenus.
 
@@ -108,7 +108,7 @@ The class to use when generating submenus.
 BaseMenu._MenuType; // BaseMenu.
 ```
 
-### _MenuItemType <badge type="tip" text="protected" /> {#property--menuitemtype}
+### _MenuItemType <badge type="warning" text="protected" /> {#property--menuitemtype}
 
 The class to use when generating menu items.
 
@@ -121,7 +121,7 @@ The class to use when generating menu items.
 BaseMenu._MenuItemType; // BaseMenuItem.
 ```
 
-### _MenuToggleType <badge type="tip" text="protected" /> {#property--menutoggletype}
+### _MenuToggleType <badge type="warning" text="protected" /> {#property--menutoggletype}
 
 The class to use when generating menu toggles.
 
@@ -134,7 +134,7 @@ The class to use when generating menu toggles.
 BaseMenu._MenuToggleType; // BaseMenuToggle.
 ```
 
-### _dom <badge type="tip" text="protected" /> {#property--dom}
+### _dom <badge type="warning" text="protected" /> {#property--dom}
 
 The DOM elements within the menu.
 
@@ -155,7 +155,7 @@ The DOM elements within the menu.
 BaseMenu._dom;
 ```
 
-### _selectors <badge type="tip" text="protected" /> {#property--selectors}
+### _selectors <badge type="warning" text="protected" /> {#property--selectors}
 
 The query selectors used by the menu to populate the dom.
 
@@ -174,7 +174,7 @@ The query selectors used by the menu to populate the dom.
 BaseMenu._selectors;
 ```
 
-### _elements <badge type="tip" text="protected" /> {#property--elements}
+### _elements <badge type="warning" text="protected" /> {#property--elements}
 
 The declared accessible-menu elements within the menu.
 
@@ -193,7 +193,7 @@ The declared accessible-menu elements within the menu.
 BaseMenu._elements;
 ```
 
-### _openClass <badge type="tip" text="protected" /> {#property--openclass}
+### _openClass <badge type="warning" text="protected" /> {#property--openclass}
 
 The class(es) to apply when the menu is open.
 
@@ -206,7 +206,7 @@ The class(es) to apply when the menu is open.
 BaseMenu._openClass; // "show".
 ```
 
-### _closeClass <badge type="tip" text="protected" /> {#property--closeclass}
+### _closeClass <badge type="warning" text="protected" /> {#property--closeclass}
 
 The class(es) to apply when the menu is closed.
 
@@ -219,7 +219,7 @@ The class(es) to apply when the menu is closed.
 BaseMenu._closeClass; // "hide".
 ```
 
-### _transitionClass <badge type="tip" text="protected" /> {#property--transitionclass}
+### _transitionClass <badge type="warning" text="protected" /> {#property--transitionclass}
 
 The class(es) to apply when the menu is transitioning between states.
 
@@ -232,7 +232,7 @@ The class(es) to apply when the menu is transitioning between states.
 BaseMenu._transitionClass; // "transitioning"
 ```
 
-### _root <badge type="tip" text="protected" /> {#property--root}
+### _root <badge type="warning" text="protected" /> {#property--root}
 
 A flag marking the root menu.
 
@@ -245,7 +245,7 @@ A flag marking the root menu.
 BaseMenu._root; // true.
 ```
 
-### _currentChild <badge type="tip" text="protected" /> {#property--currentchild}
+### _currentChild <badge type="warning" text="protected" /> {#property--currentchild}
 
 The index of the currently selected [menu item](./base-menu-item) in the menu.
 
@@ -258,7 +258,7 @@ The index of the currently selected [menu item](./base-menu-item) in the menu.
 BaseMenu._currentChild; // 0.
 ```
 
-### _focusState <badge type="tip" text="protected" /> {#property--focusstate}
+### _focusState <badge type="warning" text="protected" /> {#property--focusstate}
 
 The current state of the menu's focus.
 
@@ -273,7 +273,7 @@ BaseMenu._focusState; // "none".
 
 Available states are: `"none"`, `"self"`, and `"child"`.
 
-### _currentEvent <badge type="tip" text="protected" /> {#property--currentevent}
+### _currentEvent <badge type="warning" text="protected" /> {#property--currentevent}
 
 The last event triggered on the menu.
 
@@ -288,7 +288,7 @@ BaseMenu._currentEvent; // "none".
 
 Available events are: `"none"`, `"mouse"`, `"keyboard"`, and `"character"`.
 
-### _hoverType <badge type="tip" text="protected" /> {#property--hovertype}
+### _hoverType <badge type="warning" text="protected" /> {#property--hovertype}
 
 The type of hoverability for the menu.
 
@@ -305,7 +305,7 @@ Available types are: `"off"`, `"on"`, and `"dynamic"`.
 
 You can read more about [supported hover types](../hover-types) in the docs.
 
-### _hoverDelay <badge type="tip" text="protected" /> {#property--hoverdelay}
+### _hoverDelay <badge type="warning" text="protected" /> {#property--hoverdelay}
 
 The delay time (in miliseconds) used for pointerenter/pointerleave events to take place.
 
@@ -318,7 +318,7 @@ The delay time (in miliseconds) used for pointerenter/pointerleave events to tak
 BaseMenu._hoverDelay; // 250.
 ```
 
-### _enterDelay <badge type="tip" text="protected" /> {#property--enterdelay}
+### _enterDelay <badge type="warning" text="protected" /> {#property--enterdelay}
 
 The delay time (in miliseconds) used for pointerenter events to take place.
 
@@ -331,7 +331,7 @@ The delay time (in miliseconds) used for pointerenter events to take place.
 BaseMenu._enterDelay; // -1.
 ```
 
-### _leaveDelay <badge type="tip" text="protected" /> {#property--leavedelay}
+### _leaveDelay <badge type="warning" text="protected" /> {#property--leavedelay}
 
 The delay time (in miliseconds) used for pointerleave events to take place.
 
@@ -344,7 +344,7 @@ The delay time (in miliseconds) used for pointerleave events to take place.
 BaseMenu._leaveDelay; // -1.
 ```
 
-### _hoverTimeout <badge type="tip" text="protected" /> {#property--hovertimeout}
+### _hoverTimeout <badge type="warning" text="protected" /> {#property--hovertimeout}
 
 A variable to hold the hover timeout function.
 
@@ -357,7 +357,7 @@ A variable to hold the hover timeout function.
 BaseMenu._hoverTimeout; // null.
 ```
 
-### _errors <badge type="tip" text="protected" /> {#property--errors}
+### _errors <badge type="warning" text="protected" /> {#property--errors}
 
 An array of error messages generated by the menu.
 
@@ -769,7 +769,7 @@ BaseMenu.errors;
 
 ## Methods
 
-### _validate <badge type="tip" text="protected" /> {#method--validate}
+### _validate <badge type="warning" text="protected" /> {#method--validate}
 
 Validates all aspects of the menu to ensure proper functionality.
 
@@ -782,7 +782,7 @@ Validates all aspects of the menu to ensure proper functionality.
 BaseMenu._validate();
 ```
 
-### _setDOMElementType <badge type="tip" text="protected" /> {#method--setdomelementtype}
+### _setDOMElementType <badge type="warning" text="protected" /> {#method--setdomelementtype}
 
 Sets DOM elements within the menu.
 
@@ -807,7 +807,7 @@ Elements that are not stored inside an array cannot be set through this method.
 | base | `HTMLElement` | The element used as the base for the querySelect. | `this.dom.menu` |
 | overwrite | `boolean` | A flag to set if the existing elements will be overwritten. | `true` |
 
-### _resetDOMElementType <badge type="tip" text="protected" /> {#method--resetdomelementtype}
+### _resetDOMElementType <badge type="warning" text="protected" /> {#method--resetdomelementtype}
 
 Resets DOM elements within the menu.
 
@@ -828,7 +828,7 @@ Elements that are not stored inside an array cannot be reset through this method
 | --- | --- | --- | --- |
 | elementType | `string` | The type of element to clear. | `undefined` |
 
-### _setDOMElements <badge type="tip" text="protected" /> {#method--setdomelements}
+### _setDOMElements <badge type="warning" text="protected" /> {#method--setdomelements}
 
 Sets all DOM elements within the menu.
 
@@ -841,7 +841,7 @@ BaseMenu._setDOMElements();
 
 Utilizes [`_setDOMElementType`](#method--setdomelementtype) and [`_resetDOMElementType`](#method--resetdomelementtype).
 
-### _findRootMenu <badge type="tip" text="protected" /> {#method--findrootmenu}
+### _findRootMenu <badge type="warning" text="protected" /> {#method--findrootmenu}
 
 Finds the root menu element.
 
@@ -860,7 +860,7 @@ BaseMenu._findRootMenu(menu);
 | --- | --- | --- | --- |
 | menu | `BaseMenu` | The menu to check. | `undefined` |
 
-### _createChildElements <badge type="tip" text="protected" /> {#method--createchildelements}
+### _createChildElements <badge type="warning" text="protected" /> {#method--createchildelements}
 
 Creates and initializes all menu items and submenus.
 
@@ -871,7 +871,7 @@ Creates and initializes all menu items and submenus.
 BaseMenu._createChildMenu();
 ```
 
-### _handleFocus <badge type="tip" text="protected" /> {#method--handlefocus}
+### _handleFocus <badge type="warning" text="protected" /> {#method--handlefocus}
 
 Handles focus events throughout the menu for proper menu use.
 
@@ -901,7 +901,7 @@ This method will do the following:
 - Adds a `pointerup` listener to every submenu item that will properly toggle the submenu open/closed.
 - Adds a `pointerup` listener to the menu's controller (if the menu is the root menu) so when it is clicked it will properly toggle open/closed.
 
-### _handleHover <badge type="tip" text="protected" /> {#method--handlehover}
+### _handleHover <badge type="warning" text="protected" /> {#method--handlehover}
 
 Handles hover events throughout the menu for proper use.
 
@@ -937,7 +937,7 @@ This method will add the following behaviour:
 
 All `pointerenter` and `pointerleave` events are ignored.
 
-### _handleKeydown <badge type="tip" text="protected" /> {#method--handlekeydown}
+### _handleKeydown <badge type="warning" text="protected" /> {#method--handlekeydown}
 
 Handles keydown events throughout the menu for proper menu use.
 
@@ -955,7 +955,7 @@ This method will do the following:
 - Adds a `keydown` listener to the menu's controller (if the menu is the root menu).
   - Blocks propagation on "Space", "Enter", and "Escape" keys.
 
-### _handleKeyup <badge type="tip" text="protected" /> {#method--handlekeyup}
+### _handleKeyup <badge type="warning" text="protected" /> {#method--handlekeyup}
 
 Handles keyup events throughout the menu for proper menu use.
 
@@ -971,7 +971,7 @@ This method will do the following:
 - Adds a `keyup` listener to the menu's controller (if the menu is the root menu).
   - Toggles the menu when the user hits "Space" or "Enter".
 
-### focus {#method--focus}
+### focus <badge type="tip" text="public" /> {#method--focus}
 
 Focus the menu.
 
@@ -984,7 +984,7 @@ BaseMenu.focus();
 
 Sets the menu's [focus state](#property--focusstate) to "self" and focusses the menu if the menu's [shouldFocus](#getter--shouldfocus) value is `true`.
 
-### blur {#method--blur}
+### blur <badge type="tip" text="public" /> {#method--blur}
 
 Unfocus the menu.
 
@@ -997,7 +997,7 @@ BaseMenu.blur();
 
 Sets the menu's focus state to "none" and blurs the menu if the menu's shouldFocus value is `true`.
 
-### focusCurrentChild {#method--focuscurrentchild}
+### focusCurrentChild <badge type="tip" text="public" /> {#method--focuscurrentchild}
 
 Focuses the menu's current child.
 
@@ -1008,7 +1008,7 @@ Focuses the menu's current child.
 BaseMenu.focusCurrentChild();
 ```
 
-### focusChild {#method--focuschild}
+### focusChild <badge type="tip" text="public" /> {#method--focuschild}
 
 Focuses the menu's child at a given index.
 
@@ -1027,7 +1027,7 @@ BaseMenu.focusChild(index);
 | --- | --- | --- | --- |
 | index | `number` | The index of the child to focus. | `undefined` |
 
-### focusFirstChild {#method--focusfirstchild}
+### focusFirstChild <badge type="tip" text="public" /> {#method--focusfirstchild}
 
 Focus the menu's first child.
 
@@ -1038,7 +1038,7 @@ Focus the menu's first child.
 BaseMenu.focusFirstChild();
 ```
 
-### focusLastChild {#method--focuslastchild}
+### focusLastChild <badge type="tip" text="public" /> {#method--focuslastchild}
 
 Focus the menu's last child.
 
@@ -1049,7 +1049,7 @@ Focus the menu's last child.
 BaseMenu.focusLastChild();
 ```
 
-### focusNextChild {#method--focusnextchild}
+### focusNextChild <badge type="tip" text="public" /> {#method--focusnextchild}
 
 Focus the menu's next child.
 
@@ -1060,7 +1060,7 @@ Focus the menu's next child.
 BaseMenu.focusNextChild();
 ```
 
-### focusPreviousChild {#method--focuspreviouschild}
+### focusPreviousChild <badge type="tip" text="public" /> {#method--focuspreviouschild}
 
 Focus the menu's previous child.
 
@@ -1071,7 +1071,7 @@ Focus the menu's previous child.
 BaseMenu.focusPreviousChild();
 ```
 
-### blurCurrentChild {#method--blurcurrentchild}
+### blurCurrentChild <badge type="tip" text="public" /> {#method--blurcurrentchild}
 
 Blurs the menu's current child.
 
@@ -1082,7 +1082,7 @@ Blurs the menu's current child.
 BaseMenu.blurCurrentChild();
 ```
 
-### focusController {#method--focuscontroller}
+### focusController <badge type="tip" text="public" /> {#method--focuscontroller}
 
 Focus the menu's controller.
 
@@ -1093,7 +1093,7 @@ Focus the menu's controller.
 BaseMenu.focusController();
 ```
 
-### focusContainer {#method--focuscontainer}
+### focusContainer <badge type="tip" text="public" /> {#method--focuscontainer}
 
 Focus the menu's container.
 
@@ -1104,7 +1104,7 @@ Focus the menu's container.
 BaseMenu.focusContainer();
 ```
 
-### closeChildren {#method--closechildren}
+### closeChildren <badge type="tip" text="public" /> {#method--closechildren}
 
 Close all submenu children.
 
@@ -1115,7 +1115,7 @@ Close all submenu children.
 BaseMenu.closeChildren();
 ```
 
-### blurChildren {#method--blurchildren}
+### blurChildren <badge type="tip" text="public" /> {#method--blurchildren}
 
 Blurs all children and submenu's children.
 

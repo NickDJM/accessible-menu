@@ -71,7 +71,7 @@ Getters and setters are inherited from the [BaseMenuItem](./base-menu-item#gette
 
 Methods are inherited from the [BaseMenuItem](./base-menu-item#methods) class. The following methods are unique to or overwritten in the MenubarItem class.
 
-### focus {#method--focus}
+### focus <badge type="tip" text="public" /> {#method--focus}
 
 Focuses the menu item's link if the parent menu's [shouldFocus](./base-menu.md#getter--shouldfocus) value is `true`.
 
@@ -84,7 +84,7 @@ MenubarItem.focus();
 
 This will call the [BaseMenuItem's focus method](./base-menu-item#method--focus) as well as set the menu link's `tabIndex` to 0 if the parent menu is the root menu.
 
-### blur {#method--blur}
+### blur <badge type="tip" text="public" /> {#method--blur}
 
 Blurs the menu item's link if the parent menu's [shouldFocus](./base-menu.md#getter-shouldfocus) value is `true`.
 

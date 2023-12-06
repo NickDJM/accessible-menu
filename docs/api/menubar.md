@@ -102,7 +102,7 @@ If the BaseMenu's initialize method throws an error, this will catch it and log 
 
 Properties are inherited from the [BaseMenu](./base-menu#properties) class. The following properties are unique to or overwritten in the Menubar class.
 
-### _MenuType <Badge type="tip" text="protected" /> {#property--menutype}
+### _MenuType <badge type="warning" text="protected" /> {#property--menutype}
 
 The class to use when generating submenus.
 
@@ -115,7 +115,7 @@ The class to use when generating submenus.
 Menubar._MenuType; // Menubar.
 ```
 
-### _MenuItemType <Badge type="tip" text="protected" /> {#property--menuitemtype}
+### _MenuItemType <badge type="warning" text="protected" /> {#property--menuitemtype}
 
 The class to use when generating menu items.
 
@@ -128,7 +128,7 @@ The class to use when generating menu items.
 Menubar._MenuItemType; // MenubarItem.
 ```
 
-### _MenuToggleType <Badge type="tip" text="protected" /> {#property--menutoggletype}
+### _MenuToggleType <badge type="warning" text="protected" /> {#property--menutoggletype}
 
 The class to use when generating menu toggles.
 
@@ -149,7 +149,7 @@ Getters and setters are inherited from the [BaseMenu](./base-menu#getters-and-se
 
 Methods are inherited from the [BaseMenu](./base-menu#methods) class. The following methods are unique to or overwritten in the Menubar class.
 
-### _handleClick <Badge type="tip" text="protected" /> {#method--handleclick}
+### _handleClick <badge type="warning" text="protected" /> {#method--handleclick}
 
 Handles click events throughout the menu for proper use.
 
@@ -165,7 +165,7 @@ This method will do the following:
 - Adds all event listeners listed in [BaseMenu's _handleClick method](./base-menu#method--handleclick).
 - Adds a `pointerup` listener to the `document` so if the user clicks outside of the menu it will close if it is open.
 
-### _handleKeydown <Badge type="tip" text="protected" /> {#method--handlekeydown}
+### _handleKeydown <badge type="warning" text="protected" /> {#method--handlekeydown}
 
 Handles keydown events throughout the menu for proper menu use.
 
@@ -187,7 +187,7 @@ This method will do the following:
     and "A" through "Z".
   - Completely closes the menu and moves focus out if the "Tab" key is pressed.
 
-### _handleKeyup <Badge type="tip" text="protected" /> {#method--handlekeyup}
+### _handleKeyup <badge type="warning" text="protected" /> {#method--handlekeyup}
 
 Handles keyup events throughout the menu for proper menu use.
 
@@ -229,7 +229,7 @@ Adds the following keybindings (explanations are taken from the [Navigation Menu
 | End | Moves focus to the last item in the submenu. |
 | _Character_ | <ul><li>Moves focus to the next item having a name that starts with the typed character.</li><li>If none of the items have a name starting with the typed character, focus does not move.</li></ul> |
 
-### focusNextChild {#method--focusnextchild}
+### focusNextChild <badge type="tip" text="public" /> {#method--focusnextchild}
 
 Focus the menu's next child.
 
@@ -242,7 +242,7 @@ Menubar.focusNextChild();
 
 If the currently focussed child in the menu is the last child then this will focus the first child in the menu.
 
-### focusPreviousChild {#method--focuspreviouschild}
+### focusPreviousChild <badge type="tip" text="public" /> {#method--focuspreviouschild}
 
 Focus the menu's previous child.
 
@@ -255,7 +255,7 @@ Menubar.focusPreviousChild();
 
 If the currently focussed child in the menu is the first child then this will focus the last child in the menu.
 
-### focusNextChildWithCharacter {#method--focusnextchildwithcharacter}
+### focusNextChildWithCharacter <badge type="tip" text="public" /> {#method--focusnextchildwithcharacter}
 
 Focus the menu's next child starting with a specific letter.
 

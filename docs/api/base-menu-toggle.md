@@ -61,7 +61,7 @@ Finally, the [collapse](#method--collapse) method is called to make sure the sub
 
 ## Properties
 
-### _dom <badge type="tip" text="protected" /> {#property--dom}
+### _dom <badge type="warning" text="protected" /> {#property--dom}
 
 The DOM elements within the menu toggle.
 
@@ -77,7 +77,7 @@ The DOM elements within the menu toggle.
 BaseMenuToggle._dom;
 ```
 
-### _elements <badge type="tip" text="protected" /> {#property--elements}
+### _elements <badge type="warning" text="protected" /> {#property--elements}
 
 The declared accessible-menu elements within the menu toggle.
 
@@ -95,7 +95,7 @@ The declared accessible-menu elements within the menu toggle.
 BaseMenuToggle._elements;
 ```
 
-### _open <badge type="tip" text="protected" /> {#property--open}
+### _open <badge type="warning" text="protected" /> {#property--open}
 
 The open state of the menu toggle.
 
@@ -108,7 +108,7 @@ The open state of the menu toggle.
 BaseMenuToggle._open; // false.
 ```
 
-### _expandEvent <badge type="tip" text="protected" /> {#property--expandEvent}
+### _expandEvent <badge type="warning" text="protected" /> {#property--expandEvent}
 
 The event that is triggered when the menu toggle expands.
 
@@ -125,7 +125,7 @@ The event that is triggered when the menu toggle expands.
 BaseMenuToggle._expandEvent;
 ```
 
-### _collapseEvent <badge type="tip" text="protected" /> {#property--collapseEvent}
+### _collapseEvent <badge type="warning" text="protected" /> {#property--collapseEvent}
 
 The event that is triggered when the menu toggle collapses.
 
@@ -208,7 +208,7 @@ BaseMenuToggle.isOpen = true;
 
 ## Methods
 
-### _expand <badge type="tip" text="protected" /> {#method--expand}
+### _expand <badge type="warning" text="protected" /> {#method--expand}
 
 Expands the controlled menu.
 
@@ -233,7 +233,7 @@ If `emit` is set to `true`, this will also emit a custom event called [accessibl
 | --- | --- | --- | --- |
 | emit | `boolean` | A toggle to emit the expand event once expanded. | `true` |
 
-### _collapse <badge type="tip" text="protected" /> {#method--collapse}
+### _collapse <badge type="warning" text="protected" /> {#method--collapse}
 
 Collapses the controlled menu.
 
@@ -258,7 +258,7 @@ If `emit` is set to `true`, this will also emit a custom event called [accessibl
 | --- | --- | --- | --- |
 | emit | `boolean` | A toggle to emit the collapse event once collapsed. | `true` |
 
-### open {#method--open}
+### open <badge type="tip" text="public" /> {#method--open}
 
 Opens the controlled menu.
 
@@ -271,7 +271,7 @@ BaseMenuToggle.open();
 
 Sets the controlled menu's [focus state](./base-menu#getter-setter--focusstate) to "self" and the parent menu's focus state to "child", calls [_expand](#method--expand), and sets the [isOpen](#getter-setter--isopen) value to `true`.
 
-### preview {#method--preview}
+### preview <badge type="tip" text="public" /> {#method--preview}
 
 Opens the controlled menu without the current focus entering it.
 
@@ -284,7 +284,7 @@ BaseMenuToggle.preview();
 
 Sets the controlled menu's [focus state](./base-menu#getter-setter--focusstate) to "self" and the parent menu's focus state to "child", and calls [_expand](#method--expand).
 
-### close {#method--close}
+### close <badge type="tip" text="public" /> {#method--close}
 
 Closes the controlled menu.
 
@@ -297,7 +297,7 @@ BaseMenuToggle.close();
 
 Sets the controlled menu's [focus state](./base-menu#getter-setter--focusstate) to "none" and the parent menu's focus state to "self", blurs the controlled menu and sets it's [currentChild](./base-menu#getter-setter--currentchild) to 0, calls [_collapse](#method--collapse), and sets the [isOpen](#getter-setter--isopen) value to `false`.
 
-### toggle {#method--toggle}
+### toggle <badge type="tip" text="public" /> {#method--toggle}
 
 Toggles the open state of the controlled menu between `true` and `false`.
 
@@ -308,7 +308,7 @@ Toggles the open state of the controlled menu between `true` and `false`.
 BaseMenuToggle.toggle();
 ```
 
-### closeSiblings {#method--closesiblings}
+### closeSiblings <badge type="tip" text="public" /> {#method--closesiblings}
 
 Closes all subling menus.
 
@@ -319,7 +319,7 @@ Closes all subling menus.
 BaseMenuToggle.closeSiblings();
 ```
 
-### closeChildren {#method--closechildren}
+### closeChildren <badge type="tip" text="public" /> {#method--closechildren}
 
 Closes all child menus.
 

@@ -104,7 +104,7 @@ this will catch it and log it to the console.
 
 Properties are inherited from the [BaseMenu](./base-menu#properties) class. The following properties are unique to or overwritten in the Treeview class.
 
-### _MenuType <Badge type="tip" text="protected" /> {#property--menutype}
+### _MenuType <badge type="warning" text="protected" /> {#property--menutype}
 
 The class to use when generating submenus.
 
@@ -117,7 +117,7 @@ The class to use when generating submenus.
 Treeview._MenuType; // Treeview.
 ```
 
-### _MenuItemType <Badge type="tip" text="protected" /> {#property--menuitemtype}
+### _MenuItemType <badge type="warning" text="protected" /> {#property--menuitemtype}
 
 The class to use when generating menu items.
 
@@ -130,7 +130,7 @@ The class to use when generating menu items.
 Treeview._MenuItemType; // TreeviewItem.
 ```
 
-### _MenuToggleType <Badge type="tip" text="protected" /> {#property--menutoggletype}
+### _MenuToggleType <badge type="warning" text="protected" /> {#property--menutoggletype}
 
 The class to use when generating menu toggles.
 
@@ -151,7 +151,7 @@ Getters and setters are inherited from the [BaseMenu](./base-menu#getters-and-se
 
 Methods are inherited from the [BaseMenu](./base-menu#methods) class. The following methods are unique to or overwritten in the Treeview class.
 
-### _handleKeydown <Badge type="tip" text="protected" /> {#method--handlekeydown}
+### _handleKeydown <badge type="warning" text="protected" /> {#method--handlekeydown}
 
 Handles keydown events throughout the menu for proper menu use.
 
@@ -173,7 +173,7 @@ This method will do the following:
     "*" (asterisk), and "A" through "Z".
   - Moves focus out if the "Tab" key is pressed.
 
-### _handleKeyup <Badge type="tip" text="protected" /> {#method--handlekeyup}
+### _handleKeyup <badge type="warning" text="protected" /> {#method--handlekeyup}
 
 Handles keyup events throughout the menu for proper menu use.
 
@@ -201,7 +201,7 @@ Adds the following keybindings (explanations are taken from the [Navigation Tree
 | _* (asterisk)_ | <ul><li>Expands all closed sibling nodes that are at the same level as the focused node.</li><li>Focus does not move.</li></ul> |
 | _Escape_ | If the root menu is collapsible, collapses the menu and focuses the menu's controlling element. |
 
-### focusLastNode {#method--focuslastnode}
+### focusLastNode <badge type="tip" text="public" /> {#method--focuslastnode}
 
 Focus the menu's last node of the entire expanded menu.
 
@@ -214,7 +214,7 @@ Treeview.focusLastNode();
 
 This includes all _open_ child menu items.
 
-### openChildren {#method--openchildren}
+### openChildren <badge type="tip" text="public" /> {#method--openchildren}
 
 Open all submenu children.
 
@@ -225,7 +225,7 @@ Open all submenu children.
 Treeview.openChildren();
 ```
 
-### focusNextNodeWithCharacter {#method--focusnextnodewithcharacter}
+### focusNextNodeWithCharacter <badge type="tip" text="public" /> {#method--focusnextnodewithcharacter}
 
 Focus the menu's next node starting with a specific letter.
 
@@ -248,7 +248,7 @@ Wraps to the first node if no match is found after the current node.
 | --- | --- | --- | --- |
 | char | `string` | The character to look for. | `undefined` |
 
-### focusParentsNextChild {#method--focusparentsnextchild}
+### focusParentsNextChild <badge type="tip" text="public" /> {#method--focusparentsnextchild}
 
 Focus the parent menu's next child.
 
@@ -261,7 +261,7 @@ Treeview.focusParentsNextChild();
 
 This will cascade up through to the root menu.
 
-### focusChildsLastNode {#method--focuschildslastnode}
+### focusChildsLastNode <badge type="tip" text="public" /> {#method--focuschildslastnode}
 
 Focus the last child of the current child's submenu.
 
