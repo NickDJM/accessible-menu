@@ -51,6 +51,18 @@ export default defineConfig({
           ],
         },
         {
+          text: "Menus",
+          items: [
+            { text: "Disclosure Menus", link: "/disclosure-menus" },
+            { text: "Menubars", link: "/menubars" },
+            {
+              text: "Top Link Disclosure Menus",
+              link: "/top-link-disclosure-menus",
+            },
+            { text: "Treeviews", link: "/treeviews" },
+          ],
+        },
+        {
           text: "Menu Options",
           items: [
             { text: "Supported Hover Types", link: "/hover-types" },
