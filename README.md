@@ -16,7 +16,7 @@ The supported menu types are:
 
 ## Getting Started
 
-Please follow the [documentation]().
+Please follow the [documentation](https://accessible-menu.dev/).
 
 ## Sponsors
 
