@@ -16,7 +16,7 @@ The supported menu types are:
 
 ## Getting Started
 
-Please follow the documentation at [placeholderwebsite.domain]().
+Please follow the [documentation]().
 
 ## Sponsors
 

@@ -7,7 +7,7 @@ const version = pkg.version;
 export default defineConfig({
   lang: "en-US",
   title: "Accessible Menu",
-  base: "/accessible-menu/",
+  // base: "/accessible-menu/",
   description:
     "A JavaScript library to help you generate WCAG accessible menus in the DOM.",
   themeConfig: {
@@ -65,8 +65,16 @@ export default defineConfig({
         {
           text: "Menu Options",
           items: [
-            { text: "Supported Hover Types", link: "/hover-types" },
-            { text: "State Classes", link: "/state-classes" },
+            {
+              text: "Opening and Closing the Menu",
+              link: "/opening-and-closing",
+            },
+            { text: "Hover Types", link: "/hover-types" },
+            { text: "Hover Delay", link: "/hover-delay" },
+            {
+              text: "Optional Keyboard Support",
+              link: "/optional-keyboard-support",
+            },
           ],
         },
         {

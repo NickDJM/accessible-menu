@@ -2,4 +2,106 @@
 
 Treeviews are Accessible Menu's implementation of the [Navigation Treeviews](https://www.w3.org/WAI/ARIA/apg/patterns/treeview/examples/treeview-navigation/).
 
-@todo: Write a basic description of what this menu is, and provide examples of how to set up a single-level menu, a multi-level menu, a collapsible menu, and other variations.
+## Single-level Treeview {#single-level}
+
+The following is an example of how you would set up a single-level Treeview.
+
+::: code-group
+
+```html
+<nav id="creature-menu" aria-label="Creature Classifications">
+  <ul>
+    <li><a href="#">Humanoids</a></li>
+    <li><a href="#">Beasts</a></li>
+    <li><a href="#">Dragons</a></li>
+    <li><a href="#">Fey</a></li>
+    <li><a href="#">Undead</a></li>
+  </ul>
+</nav>
+
+```
+
+```js
+import { Treeview } from "accessible-menu";
+
+const menu = document.querySelector("#creature-menu ul");
+
+const disclosureMenu = new Treeview({
+  menuElement: menu,
+});
+```
+
+:::
+
+## Multi-level Treeview {#multi-level}
+
+The following is an example of how you would set up a multi-level Treeview.
+
+::: code-group
+
+```html
+<nav id="creature-menu" aria-label="Creature Classifications">
+  <ul>
+    <li><a href="#">Humanoids</a></li>
+    <li><a href="#">Beasts</a></li>
+    <li class="dropdown">
+      <a href="#">Dragons</a>
+      <ul>
+        <li><a href="#">Chromatic</a></li>
+        <li><a href="#">Metallic</a></li>
+        <li><a href="#">Gem</a></li>
+      </ul>
+    </li>
+    <li><a href="#">Fey</a></li>
+    <li><a href="#">Undead</a></li>
+  </ul>
+</nav>
+```
+
+```js
+import { Treeview } from "accessible-menu";
+
+const menu = document.querySelector("#creature-menu ul");
+
+const disclosureMenu = new Treeview({
+  menuElement: menu,
+  submenuItemSelector: ".dropdown",
+});
+```
+
+:::
+
+## Collapsible Treeview {#collapsible}
+
+The following is an example of how you would set up a collapsible Treeview.
+
+::: code-group
+
+```html
+<nav id="creature-menu" aria-label="Creature Classifications">
+  <button>Toggle Menu</button>
+  <ul>
+    <li><a href="#">Humanoids</a></li>
+    <li><a href="#">Beasts</a></li>
+    <li><a href="#">Dragons</a></li>
+    <li><a href="#">Fey</a></li>
+    <li><a href="#">Undead</a></li>
+  </ul>
+</nav>
+```
+
+```js
+import { Treeview } from "accessible-menu";
+
+const nav = document.querySelector("#creature-menu");
+const menu = document.querySelector("#creature-menu ul");
+const toggle = document.querySelector("#creature-menu button");
+
+const disclosureMenu = new Treeview({
+  menuElement: menu,
+  containerElement: nav,
+  controllerElement: toggle,
+});
+```
+
+:::
