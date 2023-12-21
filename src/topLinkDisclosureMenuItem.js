@@ -4,7 +4,7 @@
 import BaseMenuItem from "./_baseMenuItem.js";
 
 /**
- * A basic navigation link contained inside of a {@link TopLinkDisclosureMenu}.
+ * A basic navigation link contained inside of a TopLinkDisclosureMenu.
  *
  * @extends BaseMenuItem
  */
@@ -19,7 +19,7 @@ class TopLinkDisclosureMenuItem extends BaseMenuItem {
    * @property {TopLinkDisclosureMenu}                   parentMenu - The menu containing this menu item.
    * @property {?TopLinkDisclosureMenu}                  childMenu  - The menu contained within this menu item.
    * @property {?TopLinkDisclosureMenuToggle}            toggle     - The menu toggle within this menu item that controls the `childMenu`.
-   * @property {?TopLinkDisclosureMenuItem} sibling    - The sibling menu item that is a submenu item.
+   * @property {?TopLinkDisclosureMenuItem}              sibling    - The sibling menu item that is a submenu item.
    */
   _elements = {
     parentMenu: null,
@@ -29,17 +29,17 @@ class TopLinkDisclosureMenuItem extends BaseMenuItem {
   };
 
   /**
-   * Constructs the menu item.
+   * Constructs a new `TopLinkDisclosureMenuItem`.
    *
-   * @param {object}                           options                         - The options for generating the menu item.
-   * @param {HTMLElement}                      options.menuItemElement         - The menu item in the DOM.
-   * @param {HTMLElement}                      options.menuLinkElement         - The menu item's link in the DOM.
-   * @param {TopLinkDisclosureMenu}            options.parentMenu              - The parent menu.
-   * @param {boolean}                          [options.isSubmenuItem = false] - A flag to mark if the menu item is controlling a submenu.
-   * @param {TopLinkDisclosureMenu|null}       [options.childMenu = null]      - The child menu.
-   * @param {TopLinkDisclosureMenuToggle|null} [options.toggle = null]         - The controller for the child menu.
-   * @param {boolean}                          [options.initialize = true]     - A flag to initialize the menu item immediately upon creation.
-   * @param {TopLinkDisclosureMenuItem|null}   [options.submenuSibling = null] - The sibling menu item that controls a submenu.
+   * @param {object}                       options                         - The options for generating the menu item.
+   * @param {HTMLElement}                  options.menuItemElement         - The menu item in the DOM.
+   * @param {HTMLElement}                  options.menuLinkElement         - The menu item's link in the DOM.
+   * @param {TopLinkDisclosureMenu}        options.parentMenu              - The parent menu.
+   * @param {boolean}                      [options.isSubmenuItem = false] - A flag to mark if the menu item is controlling a submenu.
+   * @param {?TopLinkDisclosureMenu}       [options.childMenu = null]      - The child menu.
+   * @param {?TopLinkDisclosureMenuToggle} [options.toggle = null]         - The controller for the child menu.
+   * @param {boolean}                      [options.initialize = true]     - A flag to initialize the menu item immediately upon creation.
+   * @param {?TopLinkDisclosureMenuItem}   [options.submenuSibling = null] - The sibling menu item that controls a submenu.
    */
   constructor({
     menuItemElement,

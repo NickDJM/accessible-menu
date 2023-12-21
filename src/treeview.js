@@ -6,7 +6,7 @@ import { keyPress, preventEvent } from "./eventHandlers.js";
 /**
  * An accessible treeview navigation in the DOM.
  *
- * See {@link https://www.w3.org/TR/wai-aria-practices-1.2/examples/treeview/treeview-2/treeview-2a.html|Navigation Treeview Example Using Computed Properties}
+ * See Navigation Treeview Example Using Computed Properties
  *
  * @extends BaseMenu
  *
@@ -51,7 +51,7 @@ class Treeview extends BaseMenu {
   _MenuToggleType = TreeviewToggle;
 
   /**
-   * Constructs the menu.
+   * Constructs a new `Treeview`.
    *
    * @param {object}             options                                   - The options for generating the menu.
    * @param {HTMLElement}        options.menuElement                       - The menu element in the DOM.
@@ -121,12 +121,12 @@ class Treeview extends BaseMenu {
   /**
    * Initializes the menu.
    *
-   * Initialize will call the {@link BaseMenu#initialize|BaseMenu's initialize method}
-   * as well as set up {@link Treeview#_handleFocus|focus},
-   * {@link Treeview#_handleClick|click},
-   * {@link Treeview#_handleHover|hover},
-   * {@link Treeview#_handleKeydown|keydown}, and
-   * {@link Treeview#_handleKeyup|keyup} events for the menu.
+   * Initialize will call the BaseMenu's initialize method
+   * as well as set up focus,
+   * click,
+   * hover,
+   * keydown, and
+   * keyup events for the menu.
    *
    * If the menu is a root menu it's `role` will be set to "tree" and the first
    * menu item's `tabIndex` will be set to 0 in the DOM.
@@ -160,8 +160,8 @@ class Treeview extends BaseMenu {
   /**
    * Handles keydown events throughout the menu for proper menu use.
    *
-   * This method exists to assist the {@link Treeview#_handleKeyup|_handleKeyup method}.
-   * - Adds all `keydown` listeners from {@link BaseMenu#_handleKeydown|BaseMenu's _handleKeydown method}
+   * This method exists to assist the _handleKeyup method.
+   * - Adds all `keydown` listeners from BaseMenu's _handleKeydown method
    * - Adds a `keydown` listener to the menu/all submenus.
    *   - Blocks propagation on the following keys: "ArrowUp", "ArrowRight",
    *     "ArrowDown", "ArrowLeft", "Home", "End", "Space", "Enter", "Escape",
@@ -218,10 +218,10 @@ class Treeview extends BaseMenu {
   /**
    * Handles keyup events throughout the menu for proper menu use.
    *
-   * Adds all `keyup` listeners from {@link BaseMenu#_handleKeyup|BaseMenu's _handleKeyup method}.
+   * Adds all `keyup` listeners from BaseMenu's _handleKeyup method.
    *
    * Adds the following keybindings (explanations are taken from the
-   * {@link https://www.w3.org/TR/2019/WD-wai-aria-practices-1.2-20191218/examples/treeview/treeview-2/treeview-2a.html#kbd_label|Navigation Treeview Example Using Computed Properties}):
+   * Navigation Treeview Example Using Computed Properties):
    *
    * | Key | Function |
    * | --- | --- |
@@ -391,6 +391,8 @@ class Treeview extends BaseMenu {
    * Focus the menu's last node of the entire expanded menu.
    *
    * This includes all _open_ child menu items.
+   *
+   * @public
    */
   focusLastNode() {
     const numberOfItems = this.elements.menuItems.length - 1;
@@ -407,6 +409,8 @@ class Treeview extends BaseMenu {
 
   /**
    * Open all submenu children.
+   *
+   * @public
    */
   openChildren() {
     this.elements.submenuToggles.forEach((toggle) => toggle.preview());
@@ -418,6 +422,8 @@ class Treeview extends BaseMenu {
    * This includes all _open_ child menu items.
    *
    * Wraps to the first node if no match is found after the current node.
+   *
+   * @public
    *
    * @param {string} char - The character to look for.
    */
@@ -490,6 +496,8 @@ class Treeview extends BaseMenu {
    * Focus the parent menu's next child.
    *
    * This will cascade up through to the root menu.
+   *
+   * @public
    */
   focusParentsNextChild() {
     if (!this.elements.parentMenu) return;
@@ -512,6 +520,8 @@ class Treeview extends BaseMenu {
    * Focus the last child of the current child's submenu.
    *
    * This will cascade down through to the last open menu.
+   *
+   * @public
    */
   focusChildsLastNode() {
     this.currentMenuItem.elements.childMenu.currentEvent = this.currentEvent;

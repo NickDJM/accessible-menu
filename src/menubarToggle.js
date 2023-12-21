@@ -4,20 +4,20 @@
 import BaseMenuToggle from "./_baseMenuToggle.js";
 
 /**
- * A link or button that controls the visibility of a {@link Menubar}.
+ * A link or button that controls the visibility of a Menubar.
  *
  * @extends BaseMenuToggle
  */
 class MenubarToggle extends BaseMenuToggle {
   /**
-   * Constructs the menu toggle.
+   * Constructs a new `MenubarToggle`.
    *
-   * @param {object}       options                     - The options for generating the menu toggle.
-   * @param {HTMLElement}  options.menuToggleElement   - The toggle element in the DOM.
-   * @param {HTMLElement}  options.parentElement       - The element containing the controlled menu.
-   * @param {Menubar}      options.controlledMenu      - The menu controlled by this toggle.
-   * @param {Menubar|null} [options.parentMenu = null] - The menu containing this toggle.
-   * @param {boolean}      [options.initialize = true] - A flag to initialize the menu toggle immediately upon creation.
+   * @param {object}      options                     - The options for generating the menu toggle.
+   * @param {HTMLElement} options.menuToggleElement   - The toggle element in the DOM.
+   * @param {HTMLElement} options.parentElement       - The element containing the controlled menu.
+   * @param {Menubar}     options.controlledMenu      - The menu controlled by this toggle.
+   * @param {?Menubar}    [options.parentMenu = null] - The menu containing this toggle.
+   * @param {boolean}     [options.initialize = true] - A flag to initialize the menu toggle immediately upon creation.
    */
   constructor({
     menuToggleElement,
@@ -41,8 +41,10 @@ class MenubarToggle extends BaseMenuToggle {
   /**
    * Opens the controlled menu.
    *
-   * Calls the {@link MenubarToggle#closeSiblings| closeSiblings method}
-   * and _then_ {@link BaseMenuToggle#open|BaseMenuToggle's open method}.
+   * Calls the  closeSiblings method
+   * and _then_ BaseMenuToggle's open method.
+   *
+   * @public
    */
   open() {
     // Close all siblings.
@@ -54,8 +56,10 @@ class MenubarToggle extends BaseMenuToggle {
   /**
    * Opens the controlled menu without the current focus entering it.
    *
-   * Calls the {@link MenubarToggle#closeSiblings| closeSiblings method}
-   * and _then_ {@link BaseMenuToggle#preview|BaseMenuToggle's preview method}.
+   * Calls the  closeSiblings method
+   * and _then_ BaseMenuToggle's preview method.
+   *
+   * @public
    */
   preview() {
     // Close all siblings.
@@ -67,8 +71,10 @@ class MenubarToggle extends BaseMenuToggle {
   /**
    * Closes the controlled menu.
    *
-   * Calls the {@link MenubarToggle#closeChildren| closeChildren method}
-   * and _then_ {@link BaseMenuToggle#close|BaseMenuToggle's close method}.
+   * Calls the  closeChildren method
+   * and _then_ BaseMenuToggle's close method.
+   *
+   * @public
    */
   close() {
     if (this.isOpen) {

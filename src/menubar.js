@@ -6,7 +6,7 @@ import { keyPress, preventEvent } from "./eventHandlers.js";
 /**
  * An accessible menubar navigation in the DOM.
  *
- * See {@link https://www.w3.org/TR/wai-aria-practices-1.2/examples/menubar/menubar-1/menubar-1.html|Navigation Menubar Example}
+ * See Navigation Menubar Example
  *
  * @extends BaseMenu
  *
@@ -51,7 +51,7 @@ class Menubar extends BaseMenu {
   _MenuToggleType = MenubarToggle;
 
   /**
-   * Constructs the menu.
+   * Constructs a new `Menubar`.
    *
    * @param {object}             options                                   - The options for generating the menu.
    * @param {HTMLElement}        options.menuElement                       - The menu element in the DOM.
@@ -121,12 +121,12 @@ class Menubar extends BaseMenu {
   /**
    * Initializes the menu.
    *
-   * Initialize will call the {@link BaseMenu#initialize|BaseMenu's initialize method}
-   * as well as set up {@link Menubar#_handleFocus|focus},
-   * {@link Menubar#_handleClick|click},
-   * {@link Menubar#_handleHover|hover},
-   * {@link Menubar#_handleKeydown|keydown}, and
-   * {@link Menubar#_handleKeyup|keyup} events for the menu.
+   * Initialize will call the BaseMenu's initialize method
+   * as well as set up focus,
+   * click,
+   * hover,
+   * keydown, and
+   * keyup events for the menu.
    *
    * This will also set the menu's `role` to "menubar" in the DOM.
    *
@@ -165,8 +165,8 @@ class Menubar extends BaseMenu {
    * Handles click events throughout the menu for proper use.
    *
    * - Adds all event listeners listed in
-   *   {@link BaseMenu#_handleClick|BaseMenu's _handleClick method}, and
-   * - adds a `pointerup` listener to the `document` so if the user
+   *   BaseMenu's _handleClick method.
+   * - Adds a `pointerup` listener to the `document` so if the user
    *   clicks outside of the menu it will close if it is open.
    *
    * @protected
@@ -197,8 +197,8 @@ class Menubar extends BaseMenu {
   /**
    * Handles keydown events throughout the menu for proper menu use.
    *
-   * This method exists to assist the {@link Menubar#_handleKeyup|_handleKeyup method}.
-   * - Adds all `keydown` listeners from {@link BaseMenu#_handleKeydown|BaseMenu's _handleKeydown method}
+   * This method exists to assist the _handleKeyup method.
+   * - Adds all `keydown` listeners from BaseMenu's _handleKeydown method
    * - Adds a `keydown` listener to the menu/all submenus.
    *   - Blocks propagation on the following keys: "ArrowUp", "ArrowRight",
    *     "ArrowDown", "ArrowLeft", "Home", "End", "Space", "Enter", "Escape",
@@ -273,10 +273,10 @@ class Menubar extends BaseMenu {
   /**
    * Handles keyup events throughout the menu for proper menu use.
    *
-   * Adds all `keyup` listeners from {@link BaseMenu#_handleKeyup|BaseMenu's _handleKeyup method}.
+   * Adds all `keyup` listeners from BaseMenu's _handleKeyup method.
    *
    * Adds the following keybindings (explanations are taken from the
-   * {@link https://www.w3.org/TR/2019/WD-wai-aria-practices-1.2-20191218/examples/menubar/menubar-1/menubar-1.html#kbd_label|Navigation Menubar Example}):
+   * Navigation Menubar Example):
    *
    * <strong>Menubar</strong>
    *
@@ -543,6 +543,8 @@ class Menubar extends BaseMenu {
    *
    * If the currently focussed child in the menu is the last child then this will
    * focus the first child in the menu.
+   *
+   * @public
    */
   focusNextChild() {
     // If the current child is the last child of the menu, focus the menu's first child.
@@ -558,6 +560,8 @@ class Menubar extends BaseMenu {
    *
    * If the currently focussed child in the menu is the first child then this will
    * focus the last child in the menu.
+   *
+   * @public
    */
   focusPreviousChild() {
     // If the current child is the first child of the menu, focus the menu's last child.
@@ -570,6 +574,8 @@ class Menubar extends BaseMenu {
 
   /**
    * Focus the menu's next child starting with a specific letter.
+   *
+   * @public
    *
    * @param {string} char - The character to look for.
    */
