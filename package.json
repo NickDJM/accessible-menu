@@ -111,6 +111,7 @@
     "vite": "^4.3.9",
     "vite-plugin-browser-sync": "^1.0.3",
     "vitepress": "^1.0.0-rc.20",
-    "vitest": "^0.32.2"
+    "vitest": "^0.32.2",
+    "vitest-axe": "^0.1.0"
   }
 }
