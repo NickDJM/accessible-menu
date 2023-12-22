@@ -3,7 +3,7 @@
  */
 
 import { describe, it, expect } from "vitest";
-import { singleLevel, twoLevel } from "../../../demo/menus.js";
+import { singleLevel, twoLevelTopLink } from "../../../demo/menus.js";
 import TopLinkDisclosureMenu from "../../../src/topLinkDisclosureMenu.js";
 import TopLinkDisclosureMenuItem from "../../../src/topLinkDisclosureMenuItem.js";
 import TopLinkDisclosureMenuToggle from "../../../src/topLinkDisclosureMenuToggle.js";
@@ -40,7 +40,7 @@ describe("TopLinkDisclosureMenu", () => {
 // Test the TopLinkDisclosureMenu custom class types for a multi-level menu.
 describe("TopLinkDisclosureMenu (multi-level)", () => {
   // Create the test menu.
-  document.body.innerHTML = twoLevel;
+  document.body.innerHTML = twoLevelTopLink;
 
   // Create a new TopLinkDisclosureMenu instance for testing.
   const menu = new TopLinkDisclosureMenu({
