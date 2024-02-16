@@ -3,14 +3,14 @@
  */
 
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
-import { threeLevel } from "../../../demo/menus.js";
+import { threeLevelDisclosure } from "../../../demo/menus.js";
 import DisclosureMenu from "../../../src/disclosureMenu.js";
 import DisclosureMenuToggle from "../../../src/disclosureMenuToggle.js";
 import BaseMenuToggle from "../../../src/_baseMenuToggle.js";
 
 beforeEach(() => {
   // Create the test menu.
-  document.body.innerHTML = threeLevel;
+  document.body.innerHTML = threeLevelDisclosure;
 });
 
 afterEach(() => {

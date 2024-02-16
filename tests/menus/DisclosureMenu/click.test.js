@@ -11,7 +11,7 @@ import {
   beforeAll,
   vi,
 } from "vitest";
-import { twoLevel } from "../../../demo/menus.js";
+import { twoLevelDisclosure } from "../../../demo/menus.js";
 import DisclosureMenu from "../../../src/disclosureMenu.js";
 import { simulatePointerEvent, PointerEvent } from "../helpers.js";
 
@@ -24,7 +24,7 @@ beforeAll(() => {
 
 beforeEach(() => {
   // Create the test menu.
-  document.body.innerHTML = twoLevel;
+  document.body.innerHTML = twoLevelDisclosure;
 });
 
 afterEach(() => {

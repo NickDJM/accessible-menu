@@ -3,12 +3,12 @@
  */
 
 import { describe, it, expect } from "vitest";
-import { twoLevelTopLink } from "../../../demo/menus.js";
+import { twoLevelDisclosureTopLink } from "../../../demo/menus.js";
 import TopLinkDisclosureMenu from "../../../src/topLinkDisclosureMenu.js";
 
 describe("TopLinkDisclosureMenu", () => {
   // Create the test menu.
-  document.body.innerHTML = twoLevelTopLink;
+  document.body.innerHTML = twoLevelDisclosureTopLink;
 
   // Create a new TopLinkDisclosureMenu instance for testing.
   const menu = new TopLinkDisclosureMenu({

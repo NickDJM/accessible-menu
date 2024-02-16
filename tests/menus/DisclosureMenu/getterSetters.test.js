@@ -4,12 +4,12 @@
 
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import DisclosureMenu from "../../../src/disclosureMenu.js";
-import { twoLevel } from "../../../demo/menus.js";
+import { twoLevelDisclosure } from "../../../demo/menus.js";
 import BaseMenu from "../../../src/_baseMenu.js";
 import * as validation from "../../../src/validate.js";
 
 beforeEach(() => {
-  document.body.innerHTML = twoLevel;
+  document.body.innerHTML = twoLevelDisclosure;
 });
 
 afterEach(() => {

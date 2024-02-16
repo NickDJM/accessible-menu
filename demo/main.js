@@ -2,9 +2,11 @@ import AccessibleMenu from "../index";
 import {
   singleLevel,
   twoLevel,
-  twoLevelTopLink,
+  twoLevelDisclosure,
+  twoLevelDisclosureTopLink,
   threeLevel,
-  threeLevelTopLink,
+  threeLevelDisclosure,
+  threeLevelDisclosureTopLink,
 } from "./menus";
 
 /**
@@ -23,6 +25,8 @@ function generateMenu(type, structure, hover, container, options = {}) {
 
   if (type === "TopLinkDisclosureMenu") {
     container.innerHTML = menuDOM.topLink;
+  } else if (type === "DisclosureMenu") {
+    container.innerHTML = menuDOM.disclosure;
   } else {
     container.innerHTML = menuDOM.default;
   }
@@ -59,7 +63,6 @@ function generateMenu(type, structure, hover, container, options = {}) {
 
     const menu = new MenuClass({
       menuElement: nav.querySelector("ul"),
-      submenuToggleSelector: ".dropdown-toggle",
       submenuItemSelector: ".dropdown",
       containerElement: nav,
       controllerElement: nav.querySelector("button"),
@@ -80,15 +83,18 @@ const hoverButtons = document.querySelectorAll("#hoverButtons button");
 const menuStructures = {
   one: {
     default: singleLevel,
+    disclosure: singleLevel,
     topLink: singleLevel,
   },
   two: {
     default: twoLevel,
-    topLink: twoLevelTopLink,
+    disclosure: twoLevelDisclosure,
+    topLink: twoLevelDisclosureTopLink,
   },
   three: {
     default: threeLevel,
-    topLink: threeLevelTopLink,
+    disclosure: threeLevelDisclosure,
+    topLink: threeLevelDisclosureTopLink,
   },
 };
 const menuOptions = {

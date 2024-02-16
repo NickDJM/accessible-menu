@@ -60,7 +60,8 @@ nav {
     padding: 0;
     min-width: max-content;
 
-    > a {
+    > a,
+    > button {
       @include target.make-target();
 
       display: flex;
@@ -127,6 +128,7 @@ nav {
 
   .dropdown > button,
   &:not(.top-link-disclosure-menu) .dropdown > a,
+  &:not(.top-link-disclosure-menu) .dropdown > button,
   &.top-link-disclosure-menu .dropdown .dropdown > a {
     &::after {
       content: "▾";
@@ -148,6 +150,7 @@ nav {
   }
 
   &:not(.top-link-disclosure-menu) .dropdown > a,
+  &:not(.top-link-disclosure-menu) .dropdown > button,
   &.top-link-disclosure-menu .dropdown .dropdown > a {
     &::after {
       padding-left: calc(var(--menu-item-padding-x, 1rem) * 2);
