@@ -65,7 +65,7 @@ class DisclosureMenu extends BaseMenu {
    * @param {string}             [options.menuItemSelector = li]           - The query selector string for menu items.
    * @param {string}             [options.menuLinkSelector = a]            - The query selector string for menu links.
    * @param {string}             [options.submenuItemSelector]             - The query selector string for menu items containing submenus.
-   * @param {string}             [options.submenuToggleSelector = a]       - The query selector string for submenu toggle buttons/links.
+   * @param {string}             [options.submenuToggleSelector = button]  - The query selector string for submenu toggle buttons/links.
    * @param {string}             [options.submenuSelector = ul]            - The query selector string for submenus.
    * @param {?HTMLElement}       [options.controllerElement = null]        - The element controlling the menu in the DOM.
    * @param {?HTMLElement}       [options.containerElement = null]         - The element containing the menu in the DOM.
@@ -86,7 +86,7 @@ class DisclosureMenu extends BaseMenu {
     menuItemSelector = "li",
     menuLinkSelector = "a",
     submenuItemSelector = "",
-    submenuToggleSelector = "a",
+    submenuToggleSelector = "button",
     submenuSelector = "ul",
     controllerElement = null,
     containerElement = null,

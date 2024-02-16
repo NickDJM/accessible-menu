@@ -11,7 +11,7 @@ import {
   beforeAll,
   vi,
 } from "vitest";
-import { threeLevelTopLink } from "../../../demo/menus.js";
+import { threeLevelDisclosureTopLink } from "../../../demo/menus.js";
 import TopLinkDisclosureMenu from "../../../src/topLinkDisclosureMenu.js";
 import { simulatePointerEvent, PointerEvent, wait } from "../helpers.js";
 
@@ -22,7 +22,7 @@ beforeAll(() => {
 
 beforeEach(() => {
   // Create the test menu.
-  document.body.innerHTML = threeLevelTopLink;
+  document.body.innerHTML = threeLevelDisclosureTopLink;
 });
 
 afterEach(() => {

@@ -17,7 +17,7 @@ import {
   beforeEach,
   afterEach,
 } from "vitest";
-import { singleLevel, twoLevelTopLink } from "../../../demo/menus.js";
+import { singleLevel, twoLevelDisclosureTopLink } from "../../../demo/menus.js";
 import TopLinkDisclosureMenu from "../../../src/topLinkDisclosureMenu.js";
 
 beforeAll(() => {
@@ -34,7 +34,7 @@ afterAll(() => {
 
 beforeEach(() => {
   // Create the test menu.
-  document.body.innerHTML = twoLevelTopLink;
+  document.body.innerHTML = twoLevelDisclosureTopLink;
 });
 
 afterEach(() => {
