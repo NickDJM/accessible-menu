@@ -217,13 +217,13 @@ function V(n, e) {
 }
 class D {
   /**
-   * Constructs the menu toggle.
+   * Constructs a new `BaseMenuToggle`.
    *
-   * @param {object}        options                     - The options for generating the menu toggle.
-   * @param {HTMLElement}   options.menuToggleElement   - The toggle element in the DOM.
-   * @param {HTMLElement}   options.parentElement       - The element containing the controlled menu.
-   * @param {BaseMenu}      options.controlledMenu      - The menu controlled by this toggle.
-   * @param {BaseMenu|null} [options.parentMenu = null] - The menu containing this toggle.
+   * @param {object}      options                     - The options for generating the menu toggle.
+   * @param {HTMLElement} options.menuToggleElement   - The toggle element in the DOM.
+   * @param {HTMLElement} options.parentElement       - The element containing the controlled menu.
+   * @param {BaseMenu}    options.controlledMenu      - The menu controlled by this toggle.
+   * @param {?BaseMenu}   [options.parentMenu = null] - The menu containing this toggle.
    */
   constructor({
     menuToggleElement: e,
@@ -268,7 +268,7 @@ class D {
      */
     o(this, "_open", !1);
     /**
-     * Expand event.
+     * The event that is triggered when the menu toggle expands.
      *
      * @protected
      *
@@ -276,6 +276,7 @@ class D {
      *
      * @type {CustomEvent}
      *
+     * @property {boolean}                bubbles - A flag to bubble the event.
      * @property {Object<BaseMenuToggle>} details - The details object containing the BaseMenuToggle itself.
      */
     o(this, "_expandEvent", new CustomEvent("accessibleMenuExpand", {
@@ -283,7 +284,7 @@ class D {
       detail: { toggle: this }
     }));
     /**
-     * Collapse event.
+     * The event that is triggered when the menu toggle collapses.
      *
      * @protected
      *
@@ -291,6 +292,7 @@ class D {
      *
      * @type {CustomEvent}
      *
+     * @property {boolean}                bubbles - A flag to bubble the event.
      * @property {Object<BaseMenuToggle>} details - The details object containing the BaseMenuToggle itself.
      */
     o(this, "_collapseEvent", new CustomEvent("accessibleMenuCollapse", {
@@ -338,7 +340,7 @@ class D {
     ), this._collapse(!1);
   }
   /**
-   * Get the DOM elements within the toggle.
+   * The DOM elements within the toggle.
    *
    * @readonly
    *
@@ -350,7 +352,7 @@ class D {
     return this._dom;
   }
   /**
-   * Get the declared accessible-menu elements within the menu toggle.
+   * The declared accessible-menu elements within the toggle.
    *
    * @readonly
    *
@@ -362,7 +364,7 @@ class D {
     return this._elements;
   }
   /**
-   * Get the open state on the menu.
+   * The open state on the toggle.
    *
    * @type {boolean}
    *
@@ -378,12 +380,12 @@ class D {
    * Expands the controlled menu.
    *
    * Sets the toggle's `aria-expanded` to "true", adds the
-   * {@link BaseMenu#openClass|open class} to the toggle's parent menu item
-   * and controlled menu, and removed the {@link BaseMenu#closeClass|closed class}
+   * open class to the toggle's parent menu item
+   * and controlled menu, and removes the closed class
    * from the toggle's parent menu item and controlled menu.
    *
    * If `emit` is set to `true`, this will also emit a custom event
-   * called {@link accessibleMenuExpand}
+   * called accessibleMenuExpand
    *
    * @protected
    *
@@ -405,12 +407,12 @@ class D {
    * Collapses the controlled menu.
    *
    * Sets the toggle's `aria-expanded` to "false", adds the
-   * {@link BaseMenu#closeClass|closed class} to the toggle's parent menu item
-   * and controlled menu, and removes the {@link BaseMenu#openClass|open class}
+   * closed class to the toggle's parent menu item
+   * and controlled menu, and removes the open class
    * from the toggle's parent menu item and controlled menu.
    *
    * If `emit` is set to `true`, this will also emit a custom event
-   * called {@link accessibleMenuCollapse}
+   * called accessibleMenuCollapse
    *
    * @protected
    *
@@ -431,9 +433,11 @@ class D {
   /**
    * Opens the controlled menu.
    *
-   * Sets the controlled menu's {@link BaseMenu#focusState|focus state} to "self"
-   * and the parent menu's focus state to "child", calls {@link BaseMenuToggle#expand|expand},
-   * and sets the {@link BaseMenuToggle#isOpen|isOpen} value to `true`.
+   * Sets the controlled menu's focus state to "self"
+   * and the parent menu's focus state to "child", calls expand,
+   * and sets the isOpen value to `true`.
+   *
+   * @public
    */
   open() {
     this.elements.controlledMenu.focusState = "self", this._expand(), this.isOpen = !0;
@@ -441,9 +445,11 @@ class D {
   /**
    * Opens the controlled menu without the current focus entering it.
    *
-   * Sets the controlled menu's {@link BaseMenu#focusState|focus state} to "self"
+   * Sets the controlled menu's focus state to "self"
    * and the parent menu's focus state to "child",
-   * and calls {@link BaseMenuToggle#expand|expand}.
+   * and calls expand.
+   *
+   * @public
    */
   preview() {
     this.elements.parentMenu && (this.elements.parentMenu.focusState = "self"), this._expand(), this.isOpen = !0;
@@ -451,23 +457,29 @@ class D {
   /**
    * Closes the controlled menu.
    *
-   * Sets the controlled menu's {@link BaseMenu#focusState|focus state} to "none"
+   * Sets the controlled menu's focus state to "none"
    * and the parent menu's focus state to "self", blurs the controlled menu
-   * and sets it's {@link BaseMenu#currentChild|current child index} to 0,
-   * calls {@link BaseMenuToggle#collapse|collapse}, and sets
-   * the {@link BaseMenuToggle#isOpen|isOpen} value to `false`.
+   * and sets it's current child index to 0,
+   * calls collapse, and sets
+   * the isOpen value to `false`.
+   *
+   * @public
    */
   close() {
     this.isOpen && (this.elements.controlledMenu.blur(), this.elements.parentMenu && (this.elements.parentMenu.focusState = "self"), this._collapse(), this.isOpen = !1);
   }
   /**
    * Toggles the open state of the controlled menu between `true` and `false`.
+   *
+   * @public
    */
   toggle() {
     this.isOpen ? this.close() : this.open();
   }
   /**
    * Closes all sibling menus.
+   *
+   * @public
    */
   closeSiblings() {
     this.elements.parentMenu && this.elements.parentMenu.elements.submenuToggles.forEach((e) => {
@@ -476,6 +488,8 @@ class D {
   }
   /**
    * Closes all child menus.
+   *
+   * @public
    */
   closeChildren() {
     this.elements.controlledMenu.elements.submenuToggles.forEach(
@@ -485,7 +499,7 @@ class D {
 }
 class L {
   /**
-   * Constructs the menu item.
+   * Constructs a new `BaseMenuItem`.
    *
    * @param {object}          options                         - The options for generating the menu item.
    * @param {HTMLElement}     options.menuItemElement         - The menu item in the DOM.
@@ -506,9 +520,9 @@ class L {
     /**
      * The DOM elements within the menu item.
      *
-     * @type {Object<HTMLElement>}
-     *
      * @protected
+     *
+     * @type {Object<HTMLElement>}
      *
      * @property {HTMLElement} item - The menu item.
      * @property {HTMLElement} link - The menu item's link.
@@ -520,9 +534,9 @@ class L {
     /**
      * The declared accessible-menu elements within the menu item.
      *
-     * @type {Object<BaseMenu, BaseMenuToggle>}
-     *
      * @protected
+     *
+     * @type {Object<BaseMenu, BaseMenuToggle>}
      *
      * @property {BaseMenu}        parentMenu - The menu containing this menu item.
      * @property {?BaseMenu}       childMenu  - The menu contained within this menu item.
@@ -535,6 +549,8 @@ class L {
     });
     /**
      * A flag marking a submenu item.
+     *
+     * @protected
      *
      * @type {boolean}
      */
@@ -549,9 +565,9 @@ class L {
   /**
    * The DOM elements within the menu item.
    *
-   * @type {Object<HTMLElement>}
-   *
    * @readonly
+   *
+   * @type {Object<HTMLElement>}
    *
    * @see _dom
    */
@@ -561,9 +577,9 @@ class L {
   /**
    * The declared accessible-menu elements within the menu item.
    *
-   * @type {Object<BaseMenu, BaseMenuToggle>}
-   *
    * @readonly
+   *
+   * @type {Object<BaseMenu, BaseMenuToggle>}
    *
    * @see _elements
    */
@@ -573,9 +589,9 @@ class L {
   /**
    * A flag marking a submenu item.
    *
-   * @type {boolean}
-   *
    * @readonly
+   *
+   * @type {boolean}
    *
    * @see _submenu
    */
@@ -584,14 +600,18 @@ class L {
   }
   /**
    * Focuses the menu item's link if the parent menu's
-   * {@link BaseMenu#shouldFocus|shouldFocus} value is `true`.
+   * shouldFocus value is `true`.
+   *
+   * @public
    */
   focus() {
     this.elements.parentMenu.shouldFocus && this.dom.link.focus();
   }
   /**
    * Blurs the menu item's link if the parent menu's
-   * {@link BaseMenu#shouldFocus|shouldFocus} value is `true`.
+   * shouldFocus value is `true`.
+   *
+   * @public
    */
   blur() {
     this.elements.parentMenu.shouldFocus && this.dom.link.blur();
@@ -623,7 +643,7 @@ function u(n) {
 }
 class M {
   /**
-   * Constructs the menu.
+   * Constructs a new `BaseMenu`.
    *
    * @param {object}             options                                   - The options for generating the menu.
    * @param {HTMLElement}        options.menuElement                       - The menu element in the DOM.
@@ -713,7 +733,7 @@ class M {
       container: null
     });
     /**
-     * The query selectors used by the menu to populate the {@link BaseMenu#dom|dom}.
+     * The query selectors used by the menu to populate the dom.
      *
      * @protected
      *
@@ -785,7 +805,7 @@ class M {
      */
     o(this, "_root", !0);
     /**
-     * The index of the currently selected {@link BaseMenuItem|menu item} in the menu.
+     * The index of the currently selected menu item in the menu.
      *
      * @protected
      *
@@ -841,7 +861,7 @@ class M {
      */
     o(this, "_leaveDelay", -1);
     /**
-     * An variable to hold the hover timeout function.
+     * A variable to hold the hover timeout function.
      *
      * @protected
      *
@@ -862,12 +882,14 @@ class M {
    * Initializes the menu.
    *
    * The following steps will be taken to initialize the menu:
-   * - {@link BaseMenu#validate|Validate} that the menu can initialize,
-   * - find the root menu of the menu tree if it isn't already set,
-   * - populate all DOM elements within the {@link BaseMenu#dom|dom},
-   * - if the current menu is the root menu _and_ has a controller, initialize
-   *   the controller, and
-   * - populate the menu elements within the {@link BaseMenu#elements|elements}
+   * - Validate that the menu can initialize.
+   * - Find the root menu of the menu tree if it isn't already set.
+   * - Populate all DOM elements within the dom.
+   * - If the current menu is the root menu _and_ has a controller, initialize
+   *   the controller.
+   * - Populate the menu elements within the elements.
+   *
+   * @public
    *
    * @throws {Error} Will throw an Error if validate returns `false`.
    */
@@ -903,7 +925,7 @@ class M {
     return this._dom;
   }
   /**
-   * The query selectors used by the menu to populate the {@link BaseMenu#dom|dom}.
+   * The query selectors used by the menu to populate the dom.
    *
    * @readonly
    *
@@ -978,14 +1000,14 @@ class M {
     return this.isTopLevel ? this._transitionClass : this.elements.rootMenu.transitionClass;
   }
   /**
-   * The index of the currently selected {@link BaseMenuItem|menu item} in the menu.
+   * The index of the currently selected menu item in the menu.
    *
    * - Attempting to set a value less than -1 will set the current child to -1.
    * - Attempting to set a value greater than or equal to the number of menu items
    *   will set the current child to the index of the last menu item in the menu.
    *
    * If the current menu has a parent menu _and_ the menu's
-   * {@link BaseMenu#currentEvent|current event} is "mouse", The parent menu
+   * current event is "mouse", The parent menu
    * will have it's current child updated as well to help with transitioning
    * between mouse and keyboard naviation.
    *
@@ -1023,6 +1045,8 @@ class M {
   }
   /**
    * The currently selected menu item.
+   *
+   * @readonly
    *
    * @type {BaseMenuItem}
    */
@@ -1089,10 +1113,12 @@ class M {
    * A flag to check if the menu's focus methods should _actually_ move the focus in the DOM.
    *
    * This will be `false` unless any of the following criteria are met:
-   * - The menu's {@link BaseMenu#currentEvent|current event} is "keyboard".
+   * - The menu's current event is "keyboard".
    * - The menu's current event is "character".
    * - The menu's current event is "mouse" _and_ the menu's
-   *   {@link BaseMenu#_hoverType|hover type} is "dynamic".
+   *   hover type is "dynamic".
+   *
+   * @readonly
    *
    * @type {boolean}
    */
@@ -1276,8 +1302,8 @@ class M {
   /**
    * Sets all DOM elements within the menu.
    *
-   * Utiliizes {@link BaseMenu#_setDOMElementType|_setDOMElementType} and
-   * {@link BaseMenu#_resetDOMElementType|_resetDOMElementType}.
+   * Utiliizes _setDOMElementType and
+   * _resetDOMElementType.
    *
    * @protected
    */
@@ -1355,7 +1381,7 @@ class M {
    * Handles focus events throughout the menu for proper menu use.
    *
    * - Adds a `focus` listener to every menu item so when it gains focus,
-   *   it will set the item's containing menu's {@link BaseMenu#focusState|focus state}
+   *   it will set the item's containing menu's focus state
    *   to "self".
    *
    * @protected
@@ -1410,27 +1436,27 @@ class M {
    *
    * Adds `pointerenter` listeners to all menu items and `pointerleave` listeners
    * to all submenu items which function differently depending on
-   * the menu's {@link BaseMenu#_hoverType|hover type}.
+   * the menu's hover type.
    *
    * Before executing anything, the event is checked to make sure the event wasn't
    * triggered by a pen or touch.
    *
    * <strong>Hover Type "on"</strong>
    * - When a `pointerenter` event triggers on any menu item the menu's
-   *   {@link BaseMenu#currentChild| current child} value will change to that
+   *    current child value will change to that
    *   menu item.
    * - When a `pointerenter` event triggers on a submenu item the
-   *   {@link BaseMenuToggle#preview|preview method} for the submenu item's
+   *   preview method for the submenu item's
    *   toggle will be called.
    * - When a `pointerleave` event triggers on an open submenu item the
-   *   {@link BaseMenuToggle#close|close method} for the submenu item's toggle
-   *   will be called after a delay set by the menu's {@link BaseMenu#_hoverDelay|hover delay}.
+   *   close method for the submenu item's toggle
+   *   will be called after a delay set by the menu's hover delay.
    *
    * <strong>Hover Type "dynamic"</strong>
    * - When a `pointerenter` event triggers on any menu item the menu's
    *   current child value will change to that menu item.
    * - When a `pointerenter` event triggers on any menu item, and the menu's
-   *   {@link BaseMenu#focusState|focus state} is not "none", the menu item
+   *   focus state is not "none", the menu item
    *   will be focused.
    * - When a `pointerenter` event triggers on a submenu item, and a submenu is
    *   already open, the preview method for the submenu item's toggle will be called.
@@ -1477,7 +1503,7 @@ class M {
   /**
    * Handles keydown events throughout the menu for proper menu use.
    *
-   * This method exists to assit the {@link BaseMenu#_handleKeyup|_handleKeyup method}.
+   * This method exists to assit the _handleKeyup method.
    *
    * - Adds a `keydown` listener to the menu's controller (if the menu is the root menu).
    *   - Blocks propagation on "Space", "Enter", and "Escape" keys.
@@ -1512,9 +1538,11 @@ class M {
   /**
    * Focus the menu.
    *
-   * Sets the menu's {@link BaseMenu#focusState|focus state} to "self" and
-   * focusses the menu if the menu's {@link BaseMenu#shouldFocus|shouldFocus}
+   * Sets the menu's focus state to "self" and
+   * focusses the menu if the menu's shouldFocus
    * value is `true`.
+   *
+   * @public
    */
   focus() {
     this.focusState = "self", this.shouldFocus && this.dom.menu.focus();
@@ -1522,21 +1550,27 @@ class M {
   /**
    * Unfocus the menu.
    *
-   * Sets the menu's {@link BaseMenu#focusState|focus state} to "none"
-   * and blurs the menu if the menu's {@link BaseMenu#shouldFocus|shouldFocus}
+   * Sets the menu's focus state to "none"
+   * and blurs the menu if the menu's shouldFocus
    * vallue is `true`.
+   *
+   * @public
    */
   blur() {
     this.focusState = "none", this.shouldFocus && this.dom.menu.blur();
   }
   /**
    * Focus the menu's current child.
+   *
+   * @public
    */
   focusCurrentChild() {
     this.focusState = "self", this.currentChild !== -1 && this.currentMenuItem.focus();
   }
   /**
    * Focuses the menu's child at a given index.
+   *
+   * @public
    *
    * @param {number} index - The index of the child to focus.
    */
@@ -1545,54 +1579,72 @@ class M {
   }
   /**
    * Focues the menu's first child.
+   *
+   * @public
    */
   focusFirstChild() {
     this.focusChild(0);
   }
   /**
    * Focus the menu's last child.
+   *
+   * @public
    */
   focusLastChild() {
     this.focusChild(this.elements.menuItems.length - 1);
   }
   /**
    * Focus the menu's next child.
+   *
+   * @public
    */
   focusNextChild() {
     this.currentChild < this.elements.menuItems.length - 1 ? this.focusChild(this.currentChild + 1) : this.focusCurrentChild();
   }
   /**
    * Focus the menu's previous child.
+   *
+   * @public
    */
   focusPreviousChild() {
     this.currentChild > 0 ? this.focusChild(this.currentChild - 1) : this.focusCurrentChild();
   }
   /**
    * Blurs the menu's current child.
+   *
+   * @public
    */
   blurCurrentChild() {
     this.focusState = "none", this.currentChild !== -1 && this.currentMenuItem.blur();
   }
   /**
    * Focus the menu's controller.
+   *
+   * @public
    */
   focusController() {
     this.dom.controller && (this.shouldFocus && this.dom.controller.focus(), this.focusState = "none");
   }
   /**
    * Focus the menu's container.
+   *
+   * @public
    */
   focusContainer() {
     this.dom.container && (this.shouldFocus && this.dom.container.focus(), this.focusState = "none");
   }
   /**
    * Close all submenu children.
+   *
+   * @public
    */
   closeChildren() {
     this.elements.submenuToggles.forEach((e) => e.close());
   }
   /**
    * Blurs all children and submenu's children.
+   *
+   * @public
    */
   blurChildren() {
     this.elements.menuItems.forEach((e) => {
@@ -1602,16 +1654,16 @@ class M {
 }
 class z extends L {
   /**
-   * Constructs the menu item.
+   * Constructs a new `MenubarItem`.
    *
-   * @param {object}             options                         - The options for generating the menu item.
-   * @param {HTMLElement}        options.menuItemElement         - The menu item in the DOM.
-   * @param {HTMLElement}        options.menuLinkElement         - The menu item's link in the DOM.
-   * @param {Menubar}            options.parentMenu              - The parent menu.
-   * @param {boolean}            [options.isSubmenuItem = false] - A flag to mark if the menu item is controlling a submenu.
-   * @param {Menubar|null}       [options.childMenu = null]      - The child menu.
-   * @param {MenubarToggle|null} [options.toggle = null]         - The controller for the child menu.
-   * @param {boolean}            [options.initialize = true]     - A flag to initialize the menu item immediately upon creation.
+   * @param {object}         options                         - The options for generating the menu item.
+   * @param {HTMLElement}    options.menuItemElement         - The menu item in the DOM.
+   * @param {HTMLElement}    options.menuLinkElement         - The menu item's link in the DOM.
+   * @param {Menubar}        options.parentMenu              - The parent menu.
+   * @param {boolean}        [options.isSubmenuItem = false] - A flag to mark if the menu item is controlling a submenu.
+   * @param {?Menubar}       [options.childMenu = null]      - The child menu.
+   * @param {?MenubarToggle} [options.toggle = null]         - The controller for the child menu.
+   * @param {boolean}        [options.initialize = true]     - A flag to initialize the menu item immediately upon creation.
    */
   constructor({
     menuItemElement: e,
@@ -1634,7 +1686,7 @@ class z extends L {
   /**
    * Initialize the menu item.
    *
-   * Initialize will call the {@link BaseMenuItem#initialize|BaseMenuItem's initialize method}
+   * Initialize will call the BaseMenuItem's initialize method
    * as well as set the menu item's `role` to "none",
    * the menu link's `role` to "menuitem", and
    * the menu link's `tabIndex` to -1 in the DOM.
@@ -1644,22 +1696,26 @@ class z extends L {
   }
   /**
    * Focuses the menu item's link if the parent menu's
-   * {@link Menubar#shouldFocus|shouldFocus} value is `true`.
+   * shouldFocus value is `true`.
    *
-   * This will call the {@link BaseMenuItem#focus|BaseMenuItem's focus method}
+   * This will call the BaseMenuItem's focus method
    * as well as set the menu link's `tabIndex` to 0 if the parent menu
    * is the root menu.
+   *
+   * @public
    */
   focus() {
     super.focus(), this.elements.parentMenu.isTopLevel && (this.dom.link.tabIndex = 0);
   }
   /**
    * Blurs the menu item's link if the parent menu's
-   * {@link Menubar#shouldFocus|shouldFocus} value is `true`.
+   * shouldFocus value is `true`.
    *
-   * This will call the {@link BaseMenuItem#blur|BaseMenuItem's blur method}
+   * This will call the BaseMenuItem's blur method
    * as well as set the menu link's `tabIndex` to -1 if the parent menu
    * is the root menu.
+   *
+   * @public
    */
   blur() {
     super.blur(), this.elements.parentMenu.isTopLevel && (this.dom.link.tabIndex = -1);
@@ -1667,14 +1723,14 @@ class z extends L {
 }
 class H extends D {
   /**
-   * Constructs the menu toggle.
+   * Constructs a new `MenubarToggle`.
    *
-   * @param {object}       options                     - The options for generating the menu toggle.
-   * @param {HTMLElement}  options.menuToggleElement   - The toggle element in the DOM.
-   * @param {HTMLElement}  options.parentElement       - The element containing the controlled menu.
-   * @param {Menubar}      options.controlledMenu      - The menu controlled by this toggle.
-   * @param {Menubar|null} [options.parentMenu = null] - The menu containing this toggle.
-   * @param {boolean}      [options.initialize = true] - A flag to initialize the menu toggle immediately upon creation.
+   * @param {object}      options                     - The options for generating the menu toggle.
+   * @param {HTMLElement} options.menuToggleElement   - The toggle element in the DOM.
+   * @param {HTMLElement} options.parentElement       - The element containing the controlled menu.
+   * @param {Menubar}     options.controlledMenu      - The menu controlled by this toggle.
+   * @param {?Menubar}    [options.parentMenu = null] - The menu containing this toggle.
+   * @param {boolean}     [options.initialize = true] - A flag to initialize the menu toggle immediately upon creation.
    */
   constructor({
     menuToggleElement: e,
@@ -1693,8 +1749,10 @@ class H extends D {
   /**
    * Opens the controlled menu.
    *
-   * Calls the {@link MenubarToggle#closeSiblings| closeSiblings method}
-   * and _then_ {@link BaseMenuToggle#open|BaseMenuToggle's open method}.
+   * Calls the  closeSiblings method
+   * and _then_ BaseMenuToggle's open method.
+   *
+   * @public
    */
   open() {
     this.closeSiblings(), super.open();
@@ -1702,8 +1760,10 @@ class H extends D {
   /**
    * Opens the controlled menu without the current focus entering it.
    *
-   * Calls the {@link MenubarToggle#closeSiblings| closeSiblings method}
-   * and _then_ {@link BaseMenuToggle#preview|BaseMenuToggle's preview method}.
+   * Calls the  closeSiblings method
+   * and _then_ BaseMenuToggle's preview method.
+   *
+   * @public
    */
   preview() {
     this.closeSiblings(), super.preview();
@@ -1711,8 +1771,10 @@ class H extends D {
   /**
    * Closes the controlled menu.
    *
-   * Calls the {@link MenubarToggle#closeChildren| closeChildren method}
-   * and _then_ {@link BaseMenuToggle#close|BaseMenuToggle's close method}.
+   * Calls the  closeChildren method
+   * and _then_ BaseMenuToggle's close method.
+   *
+   * @public
    */
   close() {
     this.isOpen && (this.closeChildren(), this.elements.parentMenu && this.elements.parentMenu.focusCurrentChild()), super.close();
@@ -1720,7 +1782,7 @@ class H extends D {
 }
 class A extends M {
   /**
-   * Constructs the menu.
+   * Constructs a new `Menubar`.
    *
    * @param {object}             options                                   - The options for generating the menu.
    * @param {HTMLElement}        options.menuElement                       - The menu element in the DOM.
@@ -1811,12 +1873,12 @@ class A extends M {
   /**
    * Initializes the menu.
    *
-   * Initialize will call the {@link BaseMenu#initialize|BaseMenu's initialize method}
-   * as well as set up {@link Menubar#_handleFocus|focus},
-   * {@link Menubar#_handleClick|click},
-   * {@link Menubar#_handleHover|hover},
-   * {@link Menubar#_handleKeydown|keydown}, and
-   * {@link Menubar#_handleKeyup|keyup} events for the menu.
+   * Initialize will call the BaseMenu's initialize method
+   * as well as set up focus,
+   * click,
+   * hover,
+   * keydown, and
+   * keyup events for the menu.
    *
    * This will also set the menu's `role` to "menubar" in the DOM.
    *
@@ -1837,8 +1899,8 @@ class A extends M {
    * Handles click events throughout the menu for proper use.
    *
    * - Adds all event listeners listed in
-   *   {@link BaseMenu#_handleClick|BaseMenu's _handleClick method}, and
-   * - adds a `pointerup` listener to the `document` so if the user
+   *   BaseMenu's _handleClick method.
+   * - Adds a `pointerup` listener to the `document` so if the user
    *   clicks outside of the menu it will close if it is open.
    *
    * @protected
@@ -1851,8 +1913,8 @@ class A extends M {
   /**
    * Handles keydown events throughout the menu for proper menu use.
    *
-   * This method exists to assist the {@link Menubar#_handleKeyup|_handleKeyup method}.
-   * - Adds all `keydown` listeners from {@link BaseMenu#_handleKeydown|BaseMenu's _handleKeydown method}
+   * This method exists to assist the _handleKeyup method.
+   * - Adds all `keydown` listeners from BaseMenu's _handleKeydown method
    * - Adds a `keydown` listener to the menu/all submenus.
    *   - Blocks propagation on the following keys: "ArrowUp", "ArrowRight",
    *     "ArrowDown", "ArrowLeft", "Home", "End", "Space", "Enter", "Escape",
@@ -1889,10 +1951,10 @@ class A extends M {
   /**
    * Handles keyup events throughout the menu for proper menu use.
    *
-   * Adds all `keyup` listeners from {@link BaseMenu#_handleKeyup|BaseMenu's _handleKeyup method}.
+   * Adds all `keyup` listeners from BaseMenu's _handleKeyup method.
    *
    * Adds the following keybindings (explanations are taken from the
-   * {@link https://www.w3.org/TR/2019/WD-wai-aria-practices-1.2-20191218/examples/menubar/menubar-1/menubar-1.html#kbd_label|Navigation Menubar Example}):
+   * Navigation Menubar Example):
    *
    * <strong>Menubar</strong>
    *
@@ -1964,6 +2026,8 @@ class A extends M {
    *
    * If the currently focussed child in the menu is the last child then this will
    * focus the first child in the menu.
+   *
+   * @public
    */
   focusNextChild() {
     this.currentChild === this.elements.menuItems.length - 1 ? this.focusFirstChild() : this.focusChild(this.currentChild + 1);
@@ -1973,12 +2037,16 @@ class A extends M {
    *
    * If the currently focussed child in the menu is the first child then this will
    * focus the last child in the menu.
+   *
+   * @public
    */
   focusPreviousChild() {
     this.currentChild === 0 ? this.focusLastChild() : this.focusChild(this.currentChild - 1);
   }
   /**
    * Focus the menu's next child starting with a specific letter.
+   *
+   * @public
    *
    * @param {string} char - The character to look for.
    */
