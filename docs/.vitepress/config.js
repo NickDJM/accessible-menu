@@ -25,6 +25,10 @@ export default defineConfig({
         text: version,
         items: [
           {
+            text: "Current release",
+            link: `https://github.com/NickDJM/accessible-menu/releases/tag/v${version}`,
+          },
+          {
             text: "Changelog",
             link: "https://github.com/nickdjm/accessible-menu/blob/4.x/CHANGELOG.md",
           },
