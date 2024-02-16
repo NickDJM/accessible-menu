@@ -4,7 +4,14 @@ import js from "@eslint/js";
 import prettier from "eslint-config-prettier";
 
 const files = ["*.js", "*.mjs", "*.cjs"];
-const ignores = ["dist/", "!.*.js", "!.*.mjs", "!.*.cjs"];
+const ignores = [
+  "dist/",
+  "docs/.vitepress/cache/",
+  "docs/.vitepress/dist/",
+  "!.*.js",
+  "!.*.mjs",
+  "!.*.cjs",
+];
 
 const config = {
   plugins: {
