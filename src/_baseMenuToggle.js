@@ -129,36 +129,19 @@ class BaseMenuToggle {
    * Finally, the collapse method is called to make sure the submenu is closed.
    */
   initialize() {
-    // Add WAI-ARIA properties.
-    this.dom.toggle.setAttribute("aria-haspopup", "true");
-    this.dom.toggle.setAttribute("aria-expanded", "false");
-
-    // If the toggle element is a button, there's no need to add a role.
-    if (!isTag("button", { toggle: this.dom.toggle })) {
-      this.dom.toggle.setAttribute("role", "button");
-    }
-
     // Ensure both toggle and menu have IDs.
-    // @todo Can this be split into 2 separate methods?
-    if (
-      this.dom.toggle.id === "" ||
-      this.elements.controlledMenu.dom.menu.id === ""
-    ) {
-      this._generateIDs();
+    this._setIds();
+
+    // Set ARIA attributes.
+    this._setAriaAttributes();
+
+    // If the aria-expanded attribute is set to true, then we need to make sure the menu is opened.
+    // Otherwise, make sure the menu is collapsed silently.
+    if (this.dom.toggle.getAttribute("aria-expanded") === "true") {
+      this.open();
+    } else {
+      this._collapse(false);
     }
-
-    // Set up proper aria label and control.
-    this.elements.controlledMenu.dom.menu.setAttribute(
-      "aria-labelledby",
-      this.dom.toggle.id
-    );
-    this.dom.toggle.setAttribute(
-      "aria-controls",
-      this.elements.controlledMenu.dom.menu.id
-    );
-
-    // Make sure the menu is collapsed on initialization, but do not emit the collapse event.
-    this._collapse(false);
   }
 
   /**
@@ -205,45 +188,80 @@ class BaseMenuToggle {
   }
 
   /**
-   * Generates unique IDs for the toggle and controlled menu.
+   * Sets unique IDs for the toggle and controlled menu.
    *
    * @protected
    */
-  _generateIDs() {
-    const randomString = Math.random()
-      .toString(36)
-      .replace(/[^a-z]+/g, "")
-      .substr(0, 10);
-
-    let id = this.dom.toggle.innerText?.replace(/[^a-zA-Z0-9\s]/g, "") || "";
-    let finalID = randomString;
-
+  _setIds() {
     if (
-      !id.replace(/\s/g, "").length &&
-      this.dom.toggle.getAttribute("aria-label")
+      this.dom.toggle.id === "" ||
+      this.elements.controlledMenu.dom.menu.id === ""
     ) {
-      id = this.dom.toggle
-        .getAttribute("aria-label")
-        .replace(/[^a-zA-Z0-9\s]/g, "");
-    }
+      const randomString = Math.random()
+        .toString(36)
+        .replace(/[^a-z]+/g, "")
+        .substr(0, 10);
 
-    if (id.replace(/\s/g, "").length > 0) {
-      id = id.toLowerCase().replace(/\s+/g, "-");
+      let id = this.dom.toggle.innerText?.replace(/[^a-zA-Z0-9\s]/g, "") || "";
+      let finalID = randomString;
 
-      if (id.startsWith("-")) {
-        id = id.substring(1);
+      if (
+        !id.replace(/\s/g, "").length &&
+        this.dom.toggle.getAttribute("aria-label")
+      ) {
+        id = this.dom.toggle
+          .getAttribute("aria-label")
+          .replace(/[^a-zA-Z0-9\s]/g, "");
       }
 
-      if (id.endsWith("-")) {
-        id = id.slice(0, -1);
+      if (id.replace(/\s/g, "").length > 0) {
+        id = id.toLowerCase().replace(/\s+/g, "-");
+
+        if (id.startsWith("-")) {
+          id = id.substring(1);
+        }
+
+        if (id.endsWith("-")) {
+          id = id.slice(0, -1);
+        }
+
+        finalID = `${id}-${finalID}`;
       }
 
-      finalID = `${id}-${finalID}`;
+      this.dom.toggle.id = this.dom.toggle.id || `menu-button-${finalID}`;
+      this.elements.controlledMenu.dom.menu.id =
+        this.elements.controlledMenu.dom.menu.id || `menu-${finalID}`;
+    }
+  }
+
+  /**
+   * Sets the ARIA attributes on the toggle and controlled menu.
+   *
+   * @protected
+   */
+  _setAriaAttributes() {
+    this.dom.toggle.setAttribute("aria-haspopup", "true");
+
+    // If the aria-expanded attribute is not set explicitly to true,
+    // then we need to set it to false.
+    if (this.dom.toggle.getAttribute("aria-expanded") !== "true") {
+      this.dom.toggle.setAttribute("aria-expanded", "false");
     }
 
-    this.dom.toggle.id = this.dom.toggle.id || `${finalID}-menu-button`;
-    this.elements.controlledMenu.dom.menu.id =
-      this.elements.controlledMenu.dom.menu.id || `${finalID}-menu`;
+    // If the toggle element is a button, there's no need to add a role.
+    if (!isTag("button", { toggle: this.dom.toggle })) {
+      this.dom.toggle.setAttribute("role", "button");
+    }
+
+    // Set up proper aria label and control.
+    this.elements.controlledMenu.dom.menu.setAttribute(
+      "aria-labelledby",
+      this.dom.toggle.id
+    );
+    this.dom.toggle.setAttribute(
+      "aria-controls",
+      this.elements.controlledMenu.dom.menu.id
+    );
   }
 
   /**
