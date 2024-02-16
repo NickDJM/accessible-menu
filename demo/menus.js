@@ -505,8 +505,7 @@ export const threeLevelTopLink =
       <ul class="dropdown-menu">
         <li class="menu-item"><a class="menu-link" href="#">Email</a></li>
         <li class="menu-item dropdown">
-          <a class="menu-link" href="#">Socials</a>
-          <button class="dropdown-toggle" aria-label="Socials submenu"></button>
+          <a class="menu-link dropdown-toggle" href="#">Socials</a>
           <ul class="dropdown-menu">
             <li class="menu-item"><a class="menu-link" href="#">Twitter</a></li>
             <li class="menu-item"><a class="menu-link" href="#">Facebook</a></li>

@@ -47,7 +47,7 @@ The constructor will call [BaseMenu's constructor](./base-menu#constructor) with
 | options.menuItemSelector | `string` | The query selector string for menu items. | `"li"` |
 | options.menuLinkSelector | `string` | The query selector string for menu links. | `"a"` |
 | options.submenuItemSelector | `string` | The query selector string for menu items containing submenus. | `undefined` |
-| options.submenuToggleSelector | `string` | The query selector string for submenu toggle buttons/links. | `"a"` |
+| options.submenuToggleSelector | `string` | The query selector string for submenu toggle buttons/links. | `"button"` |
 | options.submenuSelector | `string` | The query selector string for submenus. | `"ul"` |
 | options.controllerElement | `HTMLElement`, `null` | The element controlling the menu in the DOM. | `null` |
 | options.containerElement | `HTMLElement`, `null` | The element containing the menu in the DOM. | `null` |
