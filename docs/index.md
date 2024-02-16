@@ -21,5 +21,5 @@ features:
   - title: ARIA compliant
     details: All menus follow the ARIA Authoring Practice Guide.
   - title: CSS framework agnostic
-    details: Menus use customizable CSS classes and aria attributes for all transitions.
+    details: Menus use customizable CSS classes and ARIA attributes for all transitions.
 ---
