@@ -35,22 +35,9 @@ Initializes the menu toggle.
 BaseMenuToggle.initialize();
 ```
 
-Initialize does a lot of setup on the menu toggle.
+The first steps are to ensure that the toggle and controlled menu have IDs using the [setIds](#method--setIds) method, and to set the ARIA attributes on the toggle and controlled menu using the [setAriaAttributes](#method--setAriaAttributes) method.
 
-The most basic setup steps are to ensure that the toggle has `aria-haspopup` set to "true", `aria-expanded` initially set to "false" and, if the toggle element is not a `<button>`, set the `role` to "button".
-
-The next step to the initialization is to ensure both the toggle and the menu it controlls have IDs.
-
-If they do not, the following steps take place:
-
-- Generate a random 10 character string,
-- Get the innerText of the toggle,
-- Set the toggle's ID to: `${toggle-inner-text}-${the-random-string}-menu-button`
-- Set the menu's ID to: `${toggle-inner-text}-${the-random-string}-menu`
-
-Once the ID's have been generated, the menu's `aria-labelledby` is set to the toggle's ID, and the toggle's `aria-controls` is set to the menu's ID.
-
-Finally, the [collapse](#method--collapse) method is called to make sure the submenu is closed.
+Then the [collapse](#method--collapse) method is called to make sure the submenu is closed.
 
 ## Properties
 
@@ -191,6 +178,33 @@ BaseMenuToggle.isOpen = true;
 See [_open](#property--open) for more information.
 
 ## Methods
+
+### _setIds <badge type="warning" text="protected" /> {#method--setIds}
+
+Sets unique IDs for the toggle and controlled menu.
+
+```js
+BaseMenuToggle._setIds();
+```
+
+If the toggle and controlled menu do not have IDs, the following steps take place:
+
+- Generate a random 10 character string,
+- Get the innerText of the toggle,
+- Set the toggle's ID to: `${toggle-inner-text}-${the-random-string}-menu-button`
+- Set the menu's ID to: `${toggle-inner-text}-${the-random-string}-menu`
+
+### _setAriaAttributes <badge type="warning" text="protected" /> {#method--setAriaAttributes}
+
+Sets the ARIA attributes on the toggle and controlled menu.
+
+```js
+BaseMenuToggle._setAriaAttributes();
+```
+
+The first steps are to ensure that the toggle has `aria-haspopup` set to "true", `aria-expanded` is initially set to "false" and, if the toggle element is not a `<button>`, set the `role` to "button".
+
+Then using the toggle and menu's IDs, the menu's `aria-labelledby` is set to the toggle's ID, and the toggle's `aria-controls` is set to the menu's ID.
 
 ### _expand <badge type="warning" text="protected" /> {#method--expand}
 
