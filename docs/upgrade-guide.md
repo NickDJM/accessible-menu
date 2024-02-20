@@ -26,7 +26,7 @@ You may now use `import` and `require` to import accessible menu without needing
 
 #### Top Link Disclousre Menus
 
-- Added new menu type for [top link disclosure menus](/top-link-disclousre-menus ).
+- Added new menu type for [top link disclosure menus](/top-link-disclosure-menus).
 
 ### Developer changes
 
@@ -36,7 +36,7 @@ Error handling in v4 has been improved significantly. The [validation functions]
 
 #### Menu toggle initialization
 
-The menu toggle initialization method had been split out into parts: [`_setIds`](/api/base-menu-toggle#method--setIds), and [`_setAriaAttributes`](/api/base-menu/toggle#method--setAriaAttributes). This allows for more granular control over the initialization process, but will require reworking of custom initialization methods you may have written.
+The menu toggle initialization method had been split out into parts: [`_setIds`](/api/base-menu-toggle#method--setIds), and [`_setAriaAttributes`](/api/base-menu-toggle#method--setAriaAttributes). This allows for more granular control over the initialization process, but will require reworking of custom initialization methods you may have written.
 
 #### CSS Selectors
 

@@ -18,7 +18,7 @@ Version 3 of accessible-menu has completely overhauled the class system used to 
 The most important change with this is the creation of "base" menu item and toggle classes with each subclass of menu having it's own subclasses for menu times and toggles. This allows for easier one-off customization per-menu subclass without affecting all other menus.
 
 - `menuItem.js` has been replaced with `_baseMenuItem.js` and exports the [`BaseMenuItem`](/api/base-menu-item) class.
-- `menuToggle.js` has been replaced with `_baseMenuToggle.js` and exports the [`BaseMenuToggle`](/api/base-menu/toggle) class.
+- `menuToggle.js` has been replaced with `_baseMenuToggle.js` and exports the [`BaseMenuToggle`](/api/base-menu-toggle) class.
 - [`BaseMenu`](/api/base-menu) now uses the `BaseMenuItem` and `BaseMenuToggle` classes.
 - [`DisclosureMenu`](/api/disclosure-menu) now uses the [`DisclosureMenuItem`](/api/disclosure-menu-item) and [`DisclosureMenuToggle`](/api/disclosure-menu-toggle) classes.
 - [`Menubar`](/api/menubar) now uses the [`MenubarItem`](/api/menubar-item) and [`MenubarToggle`](/api/menubar-toggle) classes.
