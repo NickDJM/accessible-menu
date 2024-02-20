@@ -1,6 +1,6 @@
 # Upgrade guide
 
-## Upgrading from v3 to v4
+## Upgrading from v3
 
 The following information is intended to help you upgrade from v3 to v4 of accessible-menu. It is not an exhaustive list of changes, but should cover the most common changes you will need to make.
 
