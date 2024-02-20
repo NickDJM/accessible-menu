@@ -108,25 +108,11 @@ class BaseMenuToggle {
   /**
    * Initializes the menu toggle.
    *
-   * Initialize does a lot of setup on the menu toggle.
+   * The first steps are to ensure that the toggle and controlled menu have IDs
+   * using the setIds method, and to set the ARIA attributes on the toggle
+   * and controlled menu using the setAriaAttributes method.
    *
-   * The most basic setup steps are to ensure that the toggle has `aria-haspopup`
-   * set to "true", `aria-expanded` initially set to "false" and, if the toggle
-   * element is not a `<button>`, set the `role` to "button".
-   *
-   * The next step to the initialization is to ensure both the toggle and the
-   * menu it controlls have IDs.
-   *
-   * If they do not, the following steps take place:
-   * - Generate a random 10 character string,
-   * - Get the innerText of the toggle,
-   * - Set the toggle's ID to: `${toggle-inner-text}-${the-random-string}-menu-button`
-   * - Set the menu's ID to: `${toggle-inner-text}-${the-random-string}-menu`
-   *
-   * Once the ID's have been generated, the menu's `aria-labelledby` is set to
-   * the toggle's ID, and the toggle's `aria-controls` is set to the menu's ID.
-   *
-   * Finally, the collapse method is called to make sure the submenu is closed.
+   * Then the collapse method is called to make sure the submenu is closed.
    */
   initialize() {
     // Ensure both toggle and menu have IDs.
@@ -135,13 +121,8 @@ class BaseMenuToggle {
     // Set ARIA attributes.
     this._setAriaAttributes();
 
-    // If the aria-expanded attribute is set to true, then we need to make sure the menu is opened.
-    // Otherwise, make sure the menu is collapsed silently.
-    if (this.dom.toggle.getAttribute("aria-expanded") === "true") {
-      this.open();
-    } else {
-      this._collapse(false);
-    }
+    // Collapse the menu.
+    this._collapse(false);
   }
 
   /**
@@ -190,6 +171,12 @@ class BaseMenuToggle {
   /**
    * Sets unique IDs for the toggle and controlled menu.
    *
+   * If the toggle and controlled menu do not have IDs, the following steps take place:
+   * - Generate a random 10 character string,
+   * - Get the innerText of the toggle,
+   * - Set the toggle's ID to: `${toggle-inner-text}-${the-random-string}-menu-button`
+   * - Set the menu's ID to: `${toggle-inner-text}-${the-random-string}-menu`
+   *
    * @protected
    */
   _setIds() {
@@ -237,16 +224,19 @@ class BaseMenuToggle {
   /**
    * Sets the ARIA attributes on the toggle and controlled menu.
    *
+   * The first steps are to ensure that the toggle has `aria-haspopup`
+   * set to "true", `aria-expanded` is initially set to "false" and,
+   * if the toggle element is not a `<button>`, set the `role` to "button".
+   *
+   * Then using the toggle and menu's IDs, the menu's `aria-labelledby` is set to
+   * the toggle's ID, and the toggle's `aria-controls` is set to the menu's ID.
+   *
    * @protected
    */
   _setAriaAttributes() {
+    // Set up proper aria attributes.
     this.dom.toggle.setAttribute("aria-haspopup", "true");
-
-    // If the aria-expanded attribute is not set explicitly to true,
-    // then we need to set it to false.
-    if (this.dom.toggle.getAttribute("aria-expanded") !== "true") {
-      this.dom.toggle.setAttribute("aria-expanded", "false");
-    }
+    this.dom.toggle.setAttribute("aria-expanded", "false");
 
     // If the toggle element is a button, there's no need to add a role.
     if (!isTag("button", { toggle: this.dom.toggle })) {
