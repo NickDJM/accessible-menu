@@ -1,0 +1,81 @@
+:root {
+  --am-primary: #e70853;
+  --am-light: #e0e0ff;
+  --am-dark: #00001f;
+
+  --am-light-theme-primary: var(--am-primary);
+  --am-light-theme-light: var(--am-light);
+  --am-light-theme-dark: var(--am-dark);
+
+  --am-dark-theme-primary: var(--am-primary);
+  --am-dark-theme-light: var(--am-dark);
+  --am-dark-theme-dark: var(--am-light);
+
+  --am-active-theme-primary: var(--am-light-theme-primary);
+  --am-active-theme-light: var(--am-light-theme-light);
+  --am-active-theme-dark: var(--am-light-theme-dark);
+}
+
+.dark-mode {
+  --am-active-theme-primary: var(--am-dark-theme-primary);
+  --am-active-theme-light: var(--am-dark-theme-light);
+  --am-active-theme-dark: var(--am-dark-theme-dark);
+}
+
+* {
+  box-sizing: border-box;
+
+  &:focus-visible {
+    outline-color: var(
+      --am-focus-outline-color,
+      var(--am-active-theme-dark)
+    ) !important;
+    outline-offset: var(
+      --am-focus-outline-offset,
+      calc(var(--am-focus-width, 2px) * -1)
+    ) !important;
+    outline-style: var(
+      --am-focus-outline-style,
+      dotted
+    ) !important;
+    outline-width: var(--am-focus-width, 2px) !important;
+    box-shadow:
+      var(--am-focus-width, 2px)
+        var(--am-focus-width, 2px) 0 0
+        var(--am-focus-box-shadow-style, solid)
+        var(--am-focus-box-shadow-color, var(--am-active-theme-light)),
+      0 0 0 var(--am-focus-width, 2px)
+        var(--am-focus-box-shadow-style, solid)
+        var(--am-focus-box-shadow-color, var(--am-active-theme-light)) !important;
+  }
+}
+
+body {
+  font-family: 'system-ui', sans-serif;
+  font-size: 1rem;
+  color: var(--am-active-theme-dark);
+  background-color: var(--am-active-theme-light);
+}
+
+a {
+  color: var(--am-primary);
+  text-decoration-thickness: 0.125rem;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+button {
+  color: var(--am-active-theme-dark);
+  background-color: var(--am-active-theme-light);
+  border: 0.125rem solid var(--am-active-theme-primary);
+  border-radius: 0.25rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--am-active-theme-primary);
+    color: var(--am-active-theme-light);
+  }
+}
