@@ -37,26 +37,34 @@ function generateMenu(type, structure, hover, container, options = {}) {
   nav.classList.remove("menubar");
   nav.classList.remove("top-link-disclosure-menu");
   nav.classList.remove("treeview");
+  document.body.classList.remove("disclosure-menu");
+  document.body.classList.remove("menubar");
+  document.body.classList.remove("top-link-disclosure-menu");
+  document.body.classList.remove("treeview");
 
   if (MenuClass !== null) {
     switch (type) {
       case "TopLinkDisclosureMenu":
         nav.classList.add("top-link-disclosure-menu");
+        document.body.classList.add("top-link-disclosure-menu");
 
         break;
 
       case "DisclosureMenu":
         nav.classList.add("disclosure-menu");
+        document.body.classList.add("disclosure-menu");
 
         break;
 
       case "Menubar":
         nav.classList.add("menubar");
+        document.body.classList.add("menubar");
 
         break;
 
       case "Treeview":
         nav.classList.add("treeview");
+        document.body.classList.add("treeview");
 
         break;
     }
