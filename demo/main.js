@@ -171,7 +171,7 @@ hoverButtons.forEach((button) => {
 });
 
 // Set up theme switching.
-document.querySelector("#themeToggle").addEventListener("click", () => {
+themeToggle.addEventListener("click", () => {
   if (document.body.classList.contains("dark-mode")) {
     document.body.classList.remove("dark-mode");
     window.localStorage.setItem("setTheme", "light");
