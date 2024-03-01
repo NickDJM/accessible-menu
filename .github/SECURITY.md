@@ -22,8 +22,7 @@ Given that accessible-menu does not have any production dependencies, any vulner
 A higher priority will be given to dev dependencies that are directly responsible for compiling the project:
 
 - [babel](https://github.com/babel/babel),
-- [rollup](https://github.com/rollup/rollup),
-- [terser](https://github.com/terser/terser), and
+- [vite](https://github.com/vitejs/vite), and
 - all related plugins
 
 If a vulnerability is found and resolved within one of these dependencies, a new release will be made.
