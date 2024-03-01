@@ -105,3 +105,7 @@ const disclosureMenu = new DisclosureMenu({
 ```
 
 :::
+
+## Interactive Example {#interactive-example}
+
+You can find an interactive example of a Disclosure Menu [here in this codepen](https://codepen.io/nickdjm/pen/NWmWMea).
