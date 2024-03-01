@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.9](https://github.com/NickDJM/accessible-menu/compare/v3.0.8...v3.0.9) (2024-03-01)
+
+
+### Build System
+
+* **actions:** update checkout to v4 ([f036ac1](https://github.com/NickDJM/accessible-menu/commit/f036ac1cb0de85d0df0a646452cadc7d7e41a9fa))
+* bump @commitlint/cli from 17.8.1 to 18.4.3 ([255b300](https://github.com/NickDJM/accessible-menu/commit/255b30003a53577571a13f2d4eefb5aad13df003))
+* bump @commitlint/cli from 18.6.1 to 19.0.3 ([315f933](https://github.com/NickDJM/accessible-menu/commit/315f933a22c87ea67650156694659c46047e3a20))
+* bump @commitlint/config-conventional from 17.8.1 to 18.4.3 ([60b8568](https://github.com/NickDJM/accessible-menu/commit/60b8568b3df1a6eebe78f5352890c04196ac89eb))
+* bump @commitlint/config-conventional from 18.6.2 to 19.0.3 ([18cfecd](https://github.com/NickDJM/accessible-menu/commit/18cfecd347c84c2f4c6cfcbc0ece6f16af232232))
+* bump eslint-config-prettier from 8.10.0 to 9.1.0 ([0adc7b7](https://github.com/NickDJM/accessible-menu/commit/0adc7b7a8f01acfec98808cf4df8cc5f95a01eae))
+* bump eslint-plugin-jsdoc from 46.10.1 to 48.0.2 ([98bcf4a](https://github.com/NickDJM/accessible-menu/commit/98bcf4a6b87d9f4dfd3582659eaa928b14105866))
+* bump husky from 8.0.3 to 9.0.11 ([935a097](https://github.com/NickDJM/accessible-menu/commit/935a097b80a0423457a1a8e338d81d51761aacc3))
+* bump lint-staged from 13.3.0 to 15.2.0 ([432c9d9](https://github.com/NickDJM/accessible-menu/commit/432c9d924365e873543b8348b9a2caa713941ac0))
+* bump prettier from 2.8.8 to 3.1.1 ([8e2969e](https://github.com/NickDJM/accessible-menu/commit/8e2969e64bb958a2f2335832b3ae830b946a276d))
+
 ### [3.0.8](https://github.com/NickDJM/accessible-menu/compare/v3.0.7...v3.0.8) (2023-06-30)
 
 
