@@ -2,6 +2,50 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.0](https://github.com/NickDJM/accessible-menu/compare/v4.0.0-beta.5...v4.0.0) (2024-03-01)
+
+
+### ⚠ BREAKING CHANGES
+
+* **toggles:** any subclasses with custom initialize methods will need to add new setup methods
+* **validate:** renamed isCSSSelector to isQuerySelector
+* using new es module config will render any old versions incompatible
+
+### Features
+
+* **toggles:** split initialize method out into individual tasks ([#285](https://github.com/NickDJM/accessible-menu/issues/285)) ([77db110](https://github.com/NickDJM/accessible-menu/commit/77db1103cd6f3c847e6460e54e3e8f187e6a54f9))
+
+
+### Bug Fixes
+
+* **menu:** set default disclousre menu submenu toggle to button ([395ee8f](https://github.com/NickDJM/accessible-menu/commit/395ee8f75f86fe36fa13010a6d70e9316b1f4ec4)), closes [#276](https://github.com/NickDJM/accessible-menu/issues/276) [#273](https://github.com/NickDJM/accessible-menu/issues/273)
+
+
+### Build System
+
+* **eslint:** update ignores ([565e876](https://github.com/NickDJM/accessible-menu/commit/565e8768fd8f78e29503015545b87458f0353774))
+* **github:** build docs for 4.x ([7804d48](https://github.com/NickDJM/accessible-menu/commit/7804d48a5d7652123a98fdb6063cd0d3922237c4))
+* **npm:** update commitlint to latest ([c9ecd6d](https://github.com/NickDJM/accessible-menu/commit/c9ecd6d217e4d618f814ceb2096d1f548fc42fe3))
+* **npm:** update dependencies to latest ([5525245](https://github.com/NickDJM/accessible-menu/commit/552524550e91209863d4f8f54a4264f4899efa32))
+* **npm:** update lint-staged to latest ([6ea9967](https://github.com/NickDJM/accessible-menu/commit/6ea9967989e755962c4b404316b439925bdd0c4f))
+* upgrade dependencies and config to support es modules ([74da841](https://github.com/NickDJM/accessible-menu/commit/74da84141bf9ff7164e69b849dce36a3a3a26577))
+
+
+### Code Refactoring
+
+* **demo:** update styles and swap to plain css ([887cf4c](https://github.com/NickDJM/accessible-menu/commit/887cf4c589db91e561fb487ab4eaad490b17bc11))
+* **validate:** rename and rephrase css selectors to query selectors ([de11dcd](https://github.com/NickDJM/accessible-menu/commit/de11dcd95be0dbcfe41af993ed11e773f99474fa))
+
+
+### Documentation
+
+* add api index ([7951802](https://github.com/NickDJM/accessible-menu/commit/79518024b2eaad24f0e48b564609b3015c690345))
+* add current release to menu ([4d3dd94](https://github.com/NickDJM/accessible-menu/commit/4d3dd94686d73a764d3f3a4f67d1c7ba51c9187a))
+* add links to codepens ([52f36e1](https://github.com/NickDJM/accessible-menu/commit/52f36e1bdd5f5cb7413442a32b2b7d7e2ae3ccc7)), closes [#289](https://github.com/NickDJM/accessible-menu/issues/289)
+* add upgrade guide for both v3 to v4 and v2 to v3 ([059e36c](https://github.com/NickDJM/accessible-menu/commit/059e36c1ee71e8a1b6b9dac65206efa17b33642b))
+* correct capitalization ([9ca87e7](https://github.com/NickDJM/accessible-menu/commit/9ca87e77373d9de8b18be87018c3a33b56725c5f))
+* replace auto generated docs with vitepress docs ([08b01c4](https://github.com/NickDJM/accessible-menu/commit/08b01c408b4dc923a376d711ca90516be640c227)), closes [#130](https://github.com/NickDJM/accessible-menu/issues/130)
+
 ## [4.0.0-beta.5](https://github.com/NickDJM/accessible-menu/compare/v4.0.0-beta.4...v4.0.0-beta.5) (2023-09-26)
 
 
