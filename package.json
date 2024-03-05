@@ -88,7 +88,7 @@
     "commit": "git-cz",
     "lint": "npm run eslint -- --fix && npm run prettier -- --write",
     "eslint": "eslint .",
-    "prettier": "prettier **/*.{js,cjs,mjs}",
+    "prettier": "prettier **/*.{js,cjs}",
     "prerelease": "npm run lint && npm run build && npm run test:run",
     "release": "git add dist/. && standard-version -a",
     "prebuild": "npm run docs:build",
