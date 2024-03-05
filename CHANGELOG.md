@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.0.1](https://github.com/NickDJM/accessible-menu/compare/v4.0.0...v4.0.1) (2024-03-05)
+
+
+### Bug Fixes
+
+* allow external projects to properly import src ([426e53a](https://github.com/NickDJM/accessible-menu/commit/426e53a8028aa845491c3d42af9e7ce76f69cad7))
+
+
+### Build System
+
+* **lint:** remove mjs from linted files ([e5ec4b3](https://github.com/NickDJM/accessible-menu/commit/e5ec4b318d47784d335af129c98b681b39955e0e))
+
 ## [4.0.0](https://github.com/NickDJM/accessible-menu/compare/v4.0.0-beta.5...v4.0.0) (2024-03-01)
 
 
