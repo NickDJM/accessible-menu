@@ -36,6 +36,51 @@
     "./treeview": {
       "import": "./dist/treeview.es.js",
       "require": "./dist/treeview.cjs.js"
+    },
+    "./src/disclosureMenu.js": {
+      "import": "./src/disclosureMenu.js"
+    },
+    "./src/disclosureMenuItem.js": {
+      "import": "./src/disclosureMenuItem.js"
+    },
+    "./src/disclosureMenuToggle.js": {
+      "import": "./src/disclosureMenuToggle.js"
+    },
+    "./src/menubar.js": {
+      "import": "./src/menubar.js"
+    },
+    "./src/menubarItem.js": {
+      "import": "./src/menubarItem.js"
+    },
+    "./src/menubarToggle.js": {
+      "import": "./src/menubarToggle.js"
+    },
+    "./src/topLinkDisclosureMenu.js": {
+      "import": "./src/topLinkDisclosureMenu.js"
+    },
+    "./src/topLinkDisclosureMenuItem.js": {
+      "import": "./src/topLinkDisclosureMenuItem.js"
+    },
+    "./src/topLinkDisclosureMenuToggle.js": {
+      "import": "./src/topLinkDisclosureMenuToggle.js"
+    },
+    "./src/treeview.js": {
+      "import": "./src/treeview.js"
+    },
+    "./src/treeviewItem.js": {
+      "import": "./src/treeviewItem.js"
+    },
+    "./src/treeviewToggle.js": {
+      "import": "./src/treeviewToggle.js"
+    },
+    "./src/domHelpers.js": {
+      "import": "./src/domHelpers.js"
+    },
+    "./src/eventHandlers.js": {
+      "import": "./src/eventHandlers.js"
+    },
+    "./src/validate.js": {
+      "import": "./src/validate.js"
     }
   },
   "scripts": {
