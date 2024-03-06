@@ -1,6 +1,6 @@
 {
   "name": "accessible-menu",
-  "version": "4.0.0-beta.5",
+  "version": "4.0.1",
   "description": "A JavaScript library to help you generate WCAG accessible menus in the DOM.",
   "type": "module",
   "sponsor": {
@@ -36,6 +36,51 @@
     "./treeview": {
       "import": "./dist/treeview.es.js",
       "require": "./dist/treeview.cjs.js"
+    },
+    "./src/disclosureMenu.js": {
+      "import": "./src/disclosureMenu.js"
+    },
+    "./src/disclosureMenuItem.js": {
+      "import": "./src/disclosureMenuItem.js"
+    },
+    "./src/disclosureMenuToggle.js": {
+      "import": "./src/disclosureMenuToggle.js"
+    },
+    "./src/menubar.js": {
+      "import": "./src/menubar.js"
+    },
+    "./src/menubarItem.js": {
+      "import": "./src/menubarItem.js"
+    },
+    "./src/menubarToggle.js": {
+      "import": "./src/menubarToggle.js"
+    },
+    "./src/topLinkDisclosureMenu.js": {
+      "import": "./src/topLinkDisclosureMenu.js"
+    },
+    "./src/topLinkDisclosureMenuItem.js": {
+      "import": "./src/topLinkDisclosureMenuItem.js"
+    },
+    "./src/topLinkDisclosureMenuToggle.js": {
+      "import": "./src/topLinkDisclosureMenuToggle.js"
+    },
+    "./src/treeview.js": {
+      "import": "./src/treeview.js"
+    },
+    "./src/treeviewItem.js": {
+      "import": "./src/treeviewItem.js"
+    },
+    "./src/treeviewToggle.js": {
+      "import": "./src/treeviewToggle.js"
+    },
+    "./src/domHelpers.js": {
+      "import": "./src/domHelpers.js"
+    },
+    "./src/eventHandlers.js": {
+      "import": "./src/eventHandlers.js"
+    },
+    "./src/validate.js": {
+      "import": "./src/validate.js"
     }
   },
   "scripts": {
@@ -43,7 +88,7 @@
     "commit": "git-cz",
     "lint": "npm run eslint -- --fix && npm run prettier -- --write",
     "eslint": "eslint .",
-    "prettier": "prettier **/*.{js,cjs,mjs}",
+    "prettier": "prettier **/*.{js,cjs}",
     "prerelease": "npm run lint && npm run build && npm run test:run",
     "release": "git add dist/. && standard-version -a",
     "prebuild": "npm run docs:build",
@@ -88,13 +133,12 @@
     "@babel/core": "^7.22.5",
     "@babel/eslint-parser": "^7.22.5",
     "@babel/preset-env": "^7.22.5",
-    "@commitlint/cli": "^18.4.3",
-    "@commitlint/config-conventional": "^18.4.3",
+    "@commitlint/cli": "^19.0.3",
+    "@commitlint/config-conventional": "^19.0.3",
     "@eslint/js": "^8.50.0",
     "@vitest/ui": "^1.2.2",
     "commitizen": "^4.3.0",
     "cz-conventional-changelog": "^3.3.0",
-    "docdash": "^2.0.1",
     "eslint": "^8.43.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-config-standard": "^17.1.0",
@@ -106,7 +150,6 @@
     "jsdom": "^24.0.0",
     "lint-staged": "^15.2.0",
     "prettier": "^3.0.3",
-    "sass": "^1.63.6",
     "standard-version": "^9.5.0",
     "vite": "^5.1.3",
     "vite-plugin-browser-sync": "^3.0.0",

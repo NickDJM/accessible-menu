@@ -3,7 +3,7 @@ import globals from "globals";
 import js from "@eslint/js";
 import prettier from "eslint-config-prettier";
 
-const files = ["*.js", "*.mjs", "*.cjs"];
+const files = ["*.js", "*.cjs"];
 const ignores = [
   "dist/",
   "docs/.vitepress/cache/",

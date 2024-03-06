@@ -37,26 +37,34 @@ function generateMenu(type, structure, hover, container, options = {}) {
   nav.classList.remove("menubar");
   nav.classList.remove("top-link-disclosure-menu");
   nav.classList.remove("treeview");
+  document.body.classList.remove("disclosure-menu");
+  document.body.classList.remove("menubar");
+  document.body.classList.remove("top-link-disclosure-menu");
+  document.body.classList.remove("treeview");
 
   if (MenuClass !== null) {
     switch (type) {
       case "TopLinkDisclosureMenu":
         nav.classList.add("top-link-disclosure-menu");
+        document.body.classList.add("top-link-disclosure-menu");
 
         break;
 
       case "DisclosureMenu":
         nav.classList.add("disclosure-menu");
+        document.body.classList.add("disclosure-menu");
 
         break;
 
       case "Menubar":
         nav.classList.add("menubar");
+        document.body.classList.add("menubar");
 
         break;
 
       case "Treeview":
         nav.classList.add("treeview");
+        document.body.classList.add("treeview");
 
         break;
     }
@@ -113,7 +121,6 @@ const preferredTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
   ? "dark"
   : "light";
 const setTheme = window.localStorage.getItem("setTheme") || preferredTheme;
-const body = document.querySelector("body");
 const themeToggle = document.querySelector("#themeToggle");
 
 // Menu options.
@@ -164,13 +171,13 @@ hoverButtons.forEach((button) => {
 });
 
 // Set up theme switching.
-document.querySelector("#themeToggle").addEventListener("click", () => {
-  if (body.classList.contains("dark-mode")) {
-    body.classList.remove("dark-mode");
+themeToggle.addEventListener("click", () => {
+  if (document.body.classList.contains("dark-mode")) {
+    document.body.classList.remove("dark-mode");
     window.localStorage.setItem("setTheme", "light");
     themeToggle.innerHTML = "Dark Mode";
   } else {
-    body.classList.add("dark-mode");
+    document.body.classList.add("dark-mode");
     window.localStorage.setItem("setTheme", "dark");
     themeToggle.innerHTML = "Light Mode";
   }
@@ -183,7 +190,7 @@ document.addEventListener("DOMContentLoaded", () => {
   generateMenu(menuType, menuStructure, hoverType, header, options);
 
   if (setTheme === "dark") {
-    body.classList.add("dark-mode");
+    document.body.classList.add("dark-mode");
     themeToggle.innerHTML = "Light Mode";
   }
 });

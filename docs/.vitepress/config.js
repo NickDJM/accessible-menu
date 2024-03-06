@@ -21,6 +21,10 @@ export default defineConfig({
         link: "/api/",
       },
       {
+        text: "Upgrade Guide",
+        link: "/upgrade-guide",
+      },
+      {
         text: version,
         items: [
           {
