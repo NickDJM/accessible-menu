@@ -37,7 +37,15 @@ The constructor will call [BaseMenuToggle's constructor](./base-menu-toggle#cons
 
 ## Initialize
 
-The initialize method is inherited from the [BaseMenuToggle](./base-menu-toggle#initialize) class. There are no customizations for the TreeviewToggle class.
+Initializes the menu toggle.
+
+```js
+TreeviewToggle.initialize();
+```
+
+The first steps are to ensure that the toggle and controlled menu have IDs using the [setIds](./base-menu-toggle#method--setIds) method, and to set the ARIA attributes on the toggle and controlled menu using the [setAriaAttributes](#method--setAriaAttributes) method.
+
+Then the [open](./base-menu-toggle#method--open) or [collapse](./base-menu-toggle#method--collapse) method is called based on the state of the toggle's aria-expanded attribute.
 
 ## Properties
 
@@ -49,4 +57,16 @@ Getters and setters are inherited from the [BaseMenuToggle](./base-menu-toggle#g
 
 ## Methods
 
-Methods are inherited from the [BaseMenuToggle](./base-menu-toggle#methods) class. There are no custom methods for the TreeviewToggle class.
+Methods are inherited from the [BaseMenuToggle](./base-menu-toggle#methods) class. The following methods are unique to or overwritten in the TreeviewToggle class.
+
+### _setAriaAttributes <badge type="warning" text="protected" /> {#method--setAriaAttributes}
+
+Sets the ARIA attributes on the toggle and controlled menu.
+
+```js
+TreeviewToggle._setAriaAttributes();
+```
+
+The first steps are to ensure that the toggle has `aria-haspopup` set to "true", `aria-expanded` set to "false" if it's not already set explicitly to "true", and if the toggle element is not a `<button>`, set the `role` to "button".
+
+Then using the toggle and menu's IDs, the menu's `aria-labelledby` is set to the toggle's ID, and the toggle's `aria-controls` is set to the menu's ID.
