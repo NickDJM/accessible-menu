@@ -126,6 +126,11 @@ button {
     background: var(--am-button-hover-background, var(--am-active-theme-primary));
     color: var(--am-button-hover-color, var(--am-active-theme-light));
   }
+
+  &.active {
+    --am-button-border: 0.125rem solid var(--am-active-theme-secondary);
+    --am-button-hover-background: var(--am-active-theme-secondary);
+  }
 }
 
 nav {
