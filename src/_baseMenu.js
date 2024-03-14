@@ -1274,7 +1274,7 @@ class BaseMenu {
           if (this.hoverType === "on") {
             if (this.leaveDelay > 0) {
               clearTimeout(this._hoverTimeout);
-              setTimeout(() => {
+              this._hoverTimeout = setTimeout(() => {
                 this.currentEvent = "mouse";
                 menuItem.elements.toggle.close();
               }, this.leaveDelay);
@@ -1286,7 +1286,7 @@ class BaseMenu {
             if (!this.isTopLevel) {
               if (this.leaveDelay > 0) {
                 clearTimeout(this._hoverTimeout);
-                setTimeout(() => {
+                this._hoverTimeout = setTimeout(() => {
                   this.currentEvent = "mouse";
                   menuItem.elements.toggle.close();
                   this.focusCurrentChild();
@@ -1297,6 +1297,22 @@ class BaseMenu {
                 this.focusCurrentChild();
               }
             }
+          }
+        });
+
+        // Clear hover timeouts any time the mouse enters an item with a submenu. This prevents the
+        // menu from closing if the mouse leaves but then re-enters before leaveDelay has elapsed.
+        menuItem.dom.item.addEventListener("pointerenter", (event) => {
+          // Exit out of the event if it was not made by a mouse.
+          if (event.pointerType === "pen" || event.pointerType === "touch") {
+            return;
+          }
+          if (
+            menuItem.isSubmenuItem &&
+            (this.hoverType === "on" || this.hoverType === "dynamic") &&
+            this.leaveDelay > 0
+          ) {
+            clearTimeout(this._hoverTimeout);
           }
         });
       }
