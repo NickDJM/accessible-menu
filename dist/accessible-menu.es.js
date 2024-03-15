@@ -1,10 +1,10 @@
 var N = Object.defineProperty;
 var j = (r, t, e) => t in r ? N(r, t, { enumerable: !0, configurable: !0, writable: !0, value: e }) : r[t] = e;
 var u = (r, t, e) => (j(r, typeof t != "symbol" ? t + "" : t, e), e);
-function w(r, t) {
+function v(r, t) {
   typeof r == "string" ? t.classList.add(r) : t.classList.add(...r);
 }
-function v(r, t) {
+function w(r, t) {
   typeof r == "string" ? t.classList.remove(r) : t.classList.remove(...r);
 }
 function k(r, t) {
@@ -409,13 +409,13 @@ class L {
    */
   _expand(t = !0) {
     const { closeClass: e, openClass: s, transitionClass: n } = this.elements.controlledMenu;
-    this.dom.toggle.setAttribute("aria-expanded", "true"), n !== "" ? (w(n, this.elements.controlledMenu.dom.menu), requestAnimationFrame(() => {
-      e !== "" && v(e, this.elements.controlledMenu.dom.menu), requestAnimationFrame(() => {
-        s !== "" && w(s, this.elements.controlledMenu.dom.menu), requestAnimationFrame(() => {
-          v(n, this.elements.controlledMenu.dom.menu);
+    this.dom.toggle.setAttribute("aria-expanded", "true"), n !== "" ? (v(n, this.elements.controlledMenu.dom.menu), requestAnimationFrame(() => {
+      e !== "" && w(e, this.elements.controlledMenu.dom.menu), requestAnimationFrame(() => {
+        s !== "" && v(s, this.elements.controlledMenu.dom.menu), requestAnimationFrame(() => {
+          w(n, this.elements.controlledMenu.dom.menu);
         });
       });
-    })) : (s !== "" && w(s, this.elements.controlledMenu.dom.menu), e !== "" && v(e, this.elements.controlledMenu.dom.menu)), t && this.dom.toggle.dispatchEvent(this._expandEvent);
+    })) : (s !== "" && v(s, this.elements.controlledMenu.dom.menu), e !== "" && w(e, this.elements.controlledMenu.dom.menu)), t && this.dom.toggle.dispatchEvent(this._expandEvent);
   }
   /**
    * Collapses the controlled menu.
@@ -436,13 +436,13 @@ class L {
    */
   _collapse(t = !0) {
     const { closeClass: e, openClass: s, transitionClass: n } = this.elements.controlledMenu;
-    this.dom.toggle.setAttribute("aria-expanded", "false"), n !== "" ? (w(n, this.elements.controlledMenu.dom.menu), requestAnimationFrame(() => {
-      s !== "" && v(s, this.elements.controlledMenu.dom.menu), requestAnimationFrame(() => {
-        e !== "" && w(e, this.elements.controlledMenu.dom.menu), requestAnimationFrame(() => {
-          v(n, this.elements.controlledMenu.dom.menu);
+    this.dom.toggle.setAttribute("aria-expanded", "false"), n !== "" ? (v(n, this.elements.controlledMenu.dom.menu), requestAnimationFrame(() => {
+      s !== "" && w(s, this.elements.controlledMenu.dom.menu), requestAnimationFrame(() => {
+        e !== "" && v(e, this.elements.controlledMenu.dom.menu), requestAnimationFrame(() => {
+          w(n, this.elements.controlledMenu.dom.menu);
         });
       });
-    })) : (e !== "" && w(e, this.elements.controlledMenu.dom.menu), s !== "" && v(s, this.elements.controlledMenu.dom.menu)), t && this.dom.toggle.dispatchEvent(this._collapseEvent);
+    })) : (e !== "" && v(e, this.elements.controlledMenu.dom.menu), s !== "" && w(s, this.elements.controlledMenu.dom.menu)), t && this.dom.toggle.dispatchEvent(this._collapseEvent);
   }
   /**
    * Opens the controlled menu.
@@ -655,7 +655,7 @@ function g(r) {
 function o(r) {
   r.preventDefault(), r.stopPropagation();
 }
-class T {
+class I {
   /**
    * Constructs a new `BaseMenu`.
    *
@@ -704,7 +704,7 @@ class T {
      *
      * @type {typeof BaseMenu}
      */
-    u(this, "_MenuType", T);
+    u(this, "_MenuType", I);
     // eslint-disable-line no-use-before-define
     /**
      * The class to use when generating menu items.
@@ -1240,7 +1240,7 @@ class T {
     }
     const n = p("boolean", { isTopLevel: this._root });
     if (n.status || (this._errors.push(n.error.message), t = !1), this._elements.parentMenu !== null) {
-      const m = k(T, {
+      const m = k(I, {
         parentMenu: this._elements.parentMenu
       });
       m.status || (this._errors.push(m.error.message), t = !1);
@@ -1505,13 +1505,15 @@ class T {
             }, this.enterDelay) : t.elements.toggle.preview());
           }
         }
-      }), t.isSubmenuItem && t.dom.item.addEventListener("pointerleave", (s) => {
-        s.pointerType === "pen" || s.pointerType === "touch" || (this.hoverType === "on" ? this.leaveDelay > 0 ? (clearTimeout(this._hoverTimeout), setTimeout(() => {
+      }), t.isSubmenuItem && (t.dom.item.addEventListener("pointerleave", (s) => {
+        s.pointerType === "pen" || s.pointerType === "touch" || (this.hoverType === "on" ? this.leaveDelay > 0 ? (clearTimeout(this._hoverTimeout), this._hoverTimeout = setTimeout(() => {
           this.currentEvent = "mouse", t.elements.toggle.close();
-        }, this.leaveDelay)) : (this.currentEvent = "mouse", t.elements.toggle.close()) : this.hoverType === "dynamic" && (this.isTopLevel || (this.leaveDelay > 0 ? (clearTimeout(this._hoverTimeout), setTimeout(() => {
+        }, this.leaveDelay)) : (this.currentEvent = "mouse", t.elements.toggle.close()) : this.hoverType === "dynamic" && (this.isTopLevel || (this.leaveDelay > 0 ? (clearTimeout(this._hoverTimeout), this._hoverTimeout = setTimeout(() => {
           this.currentEvent = "mouse", t.elements.toggle.close(), this.focusCurrentChild();
         }, this.leaveDelay)) : (this.currentEvent = "mouse", t.elements.toggle.close(), this.focusCurrentChild()))));
-      });
+      }), t.dom.item.addEventListener("pointerenter", (s) => {
+        s.pointerType === "pen" || s.pointerType === "touch" || t.isSubmenuItem && (this.hoverType === "on" || this.hoverType === "dynamic") && this.leaveDelay > 0 && clearTimeout(this._hoverTimeout);
+      }));
     });
   }
   /**
@@ -1757,7 +1759,7 @@ class U extends L {
     this.isOpen && this.closeChildren(), super.close();
   }
 }
-class x extends T {
+class x extends I {
   /**
    * Constructs a new `DisclosureMenu`.
    *
@@ -1800,7 +1802,7 @@ class x extends T {
     hoverDelay: b = 250,
     enterDelay: _ = -1,
     leaveDelay: E = -1,
-    optionalKeySupport: I = !1,
+    optionalKeySupport: T = !1,
     initialize: O = !0
   }) {
     super({
@@ -1863,7 +1865,7 @@ class x extends T {
      * @type {boolean}
      */
     u(this, "_optionalSupport", !1);
-    this._optionalSupport = I, O && this.initialize();
+    this._optionalSupport = T, O && this.initialize();
   }
   /**
    * Initializes the menu.
@@ -2120,7 +2122,7 @@ class Z extends L {
     this.isOpen && (this.closeChildren(), this.elements.parentMenu && this.elements.parentMenu.focusCurrentChild()), super.close();
   }
 }
-class K extends T {
+class K extends I {
   /**
    * Constructs a new `Menubar`.
    *
@@ -2162,7 +2164,7 @@ class K extends T {
     hoverDelay: b = 250,
     enterDelay: _ = -1,
     leaveDelay: E = -1,
-    initialize: I = !0
+    initialize: T = !0
   }) {
     super({
       menuElement: e,
@@ -2208,7 +2210,7 @@ class K extends T {
      * @type {typeof MenubarToggle}
      */
     u(this, "_MenuToggleType", Z);
-    I && this.initialize();
+    T && this.initialize();
   }
   /**
    * Initializes the menu.
@@ -2505,7 +2507,7 @@ class B extends L {
     this.isOpen && this.closeChildren(), super.close();
   }
 }
-class F extends T {
+class F extends I {
   /**
    * Constructs a new `TopLinkDisclosureMenu`.
    *
@@ -2549,7 +2551,7 @@ class F extends T {
     hoverType: b = "off",
     hoverDelay: _ = 250,
     enterDelay: E = -1,
-    leaveDelay: I = -1,
+    leaveDelay: T = -1,
     optionalKeySupport: O = !1,
     initialize: H = !0
   }) {
@@ -2570,7 +2572,7 @@ class F extends T {
       hoverType: b,
       hoverDelay: _,
       enterDelay: E,
-      leaveDelay: I
+      leaveDelay: T
     });
     /**
      * The class to use when generating submenus.
@@ -3000,7 +3002,7 @@ class J extends L {
     }), i && this.initialize();
   }
 }
-class $ extends T {
+class $ extends I {
   /**
    * Constructs a new `Treeview`.
    *
@@ -3042,7 +3044,7 @@ class $ extends T {
     hoverDelay: b = 250,
     enterDelay: _ = -1,
     leaveDelay: E = -1,
-    initialize: I = !0
+    initialize: T = !0
   }) {
     super({
       menuElement: e,
@@ -3088,7 +3090,7 @@ class $ extends T {
      * @type {typeof TreeviewToggle}
      */
     u(this, "_MenuToggleType", J);
-    I && this.initialize();
+    T && this.initialize();
   }
   /**
    * Initializes the menu.
