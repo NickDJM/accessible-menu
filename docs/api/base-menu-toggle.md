@@ -189,10 +189,10 @@ BaseMenuToggle._setIds();
 
 If the toggle and controlled menu do not have IDs, the following steps take place:
 
-- Generate a random 10 character string,
+- Generate a random string 1-10 characters long,
 - Get the innerText of the toggle,
-- Set the toggle's ID to: `${toggle-inner-text}-${the-random-string}-menu-button`
-- Set the menu's ID to: `${toggle-inner-text}-${the-random-string}-menu`
+- Set the toggle's ID to: `menu-button-${toggle-inner-text}-${the-random-string}`
+- Set the menu's ID to: `menu-${toggle-inner-text}-${the-random-string}`
 
 ### _setAriaAttributes <badge type="warning" text="protected" /> {#method--setAriaAttributes}
 
