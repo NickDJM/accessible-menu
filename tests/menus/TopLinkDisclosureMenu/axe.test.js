@@ -5,14 +5,14 @@
 import { describe, it, expect } from "vitest";
 import { axe } from "vitest-axe";
 import * as AxeMatchers from "vitest-axe/matchers";
-import { twoLevel } from "../../../demo/menus.js";
+import { twoLevelDisclosureTopLink } from "../../../demo/menus.js";
 import TopLinkDisclosureMenu from "../../../src/topLinkDisclosureMenu.js";
 
 expect.extend(AxeMatchers);
 
 describe("TopLinkDisclosureMenu", () => {
   // Create the test menu.
-  document.body.innerHTML = twoLevel;
+  document.body.innerHTML = twoLevelDisclosureTopLink;
 
   // Create a new TopLinkDisclosureMenu instance for testing.
   /* eslint-disable-next-line no-unused-vars */

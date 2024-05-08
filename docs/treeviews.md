@@ -105,3 +105,7 @@ const disclosureMenu = new Treeview({
 ```
 
 :::
+
+## Interactive Example {#interactive-example}
+
+You can find an interactive example of a Treeview [here in this codepen](https://codepen.io/nickdjm/pen/KKYKewB).

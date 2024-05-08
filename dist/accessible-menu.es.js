@@ -304,40 +304,14 @@ class L {
   /**
    * Initializes the menu toggle.
    *
-   * Initialize does a lot of setup on the menu toggle.
+   * The first steps are to ensure that the toggle and controlled menu have IDs
+   * using the setIds method, and to set the ARIA attributes on the toggle
+   * and controlled menu using the setAriaAttributes method.
    *
-   * The most basic setup steps are to ensure that the toggle has `aria-haspopup`
-   * set to "true", `aria-expanded` initially set to "false" and, if the toggle
-   * element is not a `<button>`, set the `role` to "button".
-   *
-   * The next step to the initialization is to ensure both the toggle and the
-   * menu it controlls have IDs.
-   *
-   * If they do not, the following steps take place:
-   * - Generate a random 10 character string,
-   * - Get the innerText of the toggle,
-   * - Set the toggle's ID to: `${toggle-inner-text}-${the-random-string}-menu-button`
-   * - Set the menu's ID to: `${toggle-inner-text}-${the-random-string}-menu`
-   *
-   * Once the ID's have been generated, the menu's `aria-labelledby` is set to
-   * the toggle's ID, and the toggle's `aria-controls` is set to the menu's ID.
-   *
-   * Finally, the collapse method is called to make sure the submenu is closed.
+   * Then the collapse method is called to make sure the submenu is closed.
    */
   initialize() {
-    var t;
-    if (this.dom.toggle.setAttribute("aria-haspopup", "true"), this.dom.toggle.setAttribute("aria-expanded", "false"), R("button", { toggle: this.dom.toggle }) || this.dom.toggle.setAttribute("role", "button"), this.dom.toggle.id === "" || this.elements.controlledMenu.dom.menu.id === "") {
-      const e = Math.random().toString(36).replace(/[^a-z]+/g, "").substr(0, 10);
-      let s = ((t = this.dom.toggle.innerText) == null ? void 0 : t.replace(/[^a-zA-Z0-9\s]/g, "")) || "", n = e;
-      !s.replace(/\s/g, "").length && this.dom.toggle.getAttribute("aria-label") && (s = this.dom.toggle.getAttribute("aria-label").replace(/[^a-zA-Z0-9\s]/g, "")), s.replace(/\s/g, "").length > 0 && (s = s.toLowerCase().replace(/\s+/g, "-"), s.startsWith("-") && (s = s.substring(1)), s.endsWith("-") && (s = s.slice(0, -1)), n = `${s}-${n}`), this.dom.toggle.id = this.dom.toggle.id || `${n}-menu-button`, this.elements.controlledMenu.dom.menu.id = this.elements.controlledMenu.dom.menu.id || `${n}-menu`;
-    }
-    this.elements.controlledMenu.dom.menu.setAttribute(
-      "aria-labelledby",
-      this.dom.toggle.id
-    ), this.dom.toggle.setAttribute(
-      "aria-controls",
-      this.elements.controlledMenu.dom.menu.id
-    ), this._collapse(!1);
+    this._setIds(), this._setAriaAttributes(), this._collapse(!1);
   }
   /**
    * The DOM elements within the toggle.
@@ -375,6 +349,46 @@ class L {
   }
   set isOpen(t) {
     p("boolean", { value: t }), this._open = t;
+  }
+  /**
+   * Sets unique IDs for the toggle and controlled menu.
+   *
+   * If the toggle and controlled menu do not have IDs, the following steps take place:
+   * - Generate a random 10 character string,
+   * - Get the innerText of the toggle,
+   * - Set the toggle's ID to: `${toggle-inner-text}-${the-random-string}-menu-button`
+   * - Set the menu's ID to: `${toggle-inner-text}-${the-random-string}-menu`
+   *
+   * @protected
+   */
+  _setIds() {
+    var t;
+    if (this.dom.toggle.id === "" || this.elements.controlledMenu.dom.menu.id === "") {
+      const e = Math.random().toString(36).replace(/[^a-z]+/g, "").substr(0, 10);
+      let s = ((t = this.dom.toggle.innerText) == null ? void 0 : t.replace(/[^a-zA-Z0-9\s]/g, "")) || "", n = e;
+      !s.replace(/\s/g, "").length && this.dom.toggle.getAttribute("aria-label") && (s = this.dom.toggle.getAttribute("aria-label").replace(/[^a-zA-Z0-9\s]/g, "")), s.replace(/\s/g, "").length > 0 && (s = s.toLowerCase().replace(/\s+/g, "-"), s.startsWith("-") && (s = s.substring(1)), s.endsWith("-") && (s = s.slice(0, -1)), n = `${s}-${n}`), this.dom.toggle.id = this.dom.toggle.id || `menu-button-${n}`, this.elements.controlledMenu.dom.menu.id = this.elements.controlledMenu.dom.menu.id || `menu-${n}`;
+    }
+  }
+  /**
+   * Sets the ARIA attributes on the toggle and controlled menu.
+   *
+   * The first steps are to ensure that the toggle has `aria-haspopup`
+   * set to "true", `aria-expanded` is initially set to "false" and,
+   * if the toggle element is not a `<button>`, set the `role` to "button".
+   *
+   * Then using the toggle and menu's IDs, the menu's `aria-labelledby` is set to
+   * the toggle's ID, and the toggle's `aria-controls` is set to the menu's ID.
+   *
+   * @protected
+   */
+  _setAriaAttributes() {
+    this.dom.toggle.setAttribute("aria-haspopup", "true"), this.dom.toggle.setAttribute("aria-expanded", "false"), R("button", { toggle: this.dom.toggle }) || this.dom.toggle.setAttribute("role", "button"), this.elements.controlledMenu.dom.menu.setAttribute(
+      "aria-labelledby",
+      this.dom.toggle.id
+    ), this.dom.toggle.setAttribute(
+      "aria-controls",
+      this.elements.controlledMenu.dom.menu.id
+    );
   }
   /**
    * Expands the controlled menu.
@@ -1752,7 +1766,7 @@ class x extends T {
    * @param {string}             [options.menuItemSelector = li]           - The query selector string for menu items.
    * @param {string}             [options.menuLinkSelector = a]            - The query selector string for menu links.
    * @param {string}             [options.submenuItemSelector]             - The query selector string for menu items containing submenus.
-   * @param {string}             [options.submenuToggleSelector = a]       - The query selector string for submenu toggle buttons/links.
+   * @param {string}             [options.submenuToggleSelector = button]  - The query selector string for submenu toggle buttons/links.
    * @param {string}             [options.submenuSelector = ul]            - The query selector string for submenus.
    * @param {?HTMLElement}       [options.controllerElement = null]        - The element controlling the menu in the DOM.
    * @param {?HTMLElement}       [options.containerElement = null]         - The element containing the menu in the DOM.
@@ -1773,7 +1787,7 @@ class x extends T {
     menuItemSelector: s = "li",
     menuLinkSelector: n = "a",
     submenuItemSelector: i = "",
-    submenuToggleSelector: l = "a",
+    submenuToggleSelector: l = "button",
     submenuSelector: h = "ul",
     controllerElement: c = null,
     containerElement: m = null,

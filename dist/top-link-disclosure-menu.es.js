@@ -215,7 +215,7 @@ function z(n, e) {
   } else
     return !1;
 }
-class L {
+class I {
   /**
    * Constructs a new `BaseMenuToggle`.
    *
@@ -304,40 +304,14 @@ class L {
   /**
    * Initializes the menu toggle.
    *
-   * Initialize does a lot of setup on the menu toggle.
+   * The first steps are to ensure that the toggle and controlled menu have IDs
+   * using the setIds method, and to set the ARIA attributes on the toggle
+   * and controlled menu using the setAriaAttributes method.
    *
-   * The most basic setup steps are to ensure that the toggle has `aria-haspopup`
-   * set to "true", `aria-expanded` initially set to "false" and, if the toggle
-   * element is not a `<button>`, set the `role` to "button".
-   *
-   * The next step to the initialization is to ensure both the toggle and the
-   * menu it controlls have IDs.
-   *
-   * If they do not, the following steps take place:
-   * - Generate a random 10 character string,
-   * - Get the innerText of the toggle,
-   * - Set the toggle's ID to: `${toggle-inner-text}-${the-random-string}-menu-button`
-   * - Set the menu's ID to: `${toggle-inner-text}-${the-random-string}-menu`
-   *
-   * Once the ID's have been generated, the menu's `aria-labelledby` is set to
-   * the toggle's ID, and the toggle's `aria-controls` is set to the menu's ID.
-   *
-   * Finally, the collapse method is called to make sure the submenu is closed.
+   * Then the collapse method is called to make sure the submenu is closed.
    */
   initialize() {
-    var e;
-    if (this.dom.toggle.setAttribute("aria-haspopup", "true"), this.dom.toggle.setAttribute("aria-expanded", "false"), z("button", { toggle: this.dom.toggle }) || this.dom.toggle.setAttribute("role", "button"), this.dom.toggle.id === "" || this.elements.controlledMenu.dom.menu.id === "") {
-      const t = Math.random().toString(36).replace(/[^a-z]+/g, "").substr(0, 10);
-      let s = ((e = this.dom.toggle.innerText) == null ? void 0 : e.replace(/[^a-zA-Z0-9\s]/g, "")) || "", i = t;
-      !s.replace(/\s/g, "").length && this.dom.toggle.getAttribute("aria-label") && (s = this.dom.toggle.getAttribute("aria-label").replace(/[^a-zA-Z0-9\s]/g, "")), s.replace(/\s/g, "").length > 0 && (s = s.toLowerCase().replace(/\s+/g, "-"), s.startsWith("-") && (s = s.substring(1)), s.endsWith("-") && (s = s.slice(0, -1)), i = `${s}-${i}`), this.dom.toggle.id = this.dom.toggle.id || `${i}-menu-button`, this.elements.controlledMenu.dom.menu.id = this.elements.controlledMenu.dom.menu.id || `${i}-menu`;
-    }
-    this.elements.controlledMenu.dom.menu.setAttribute(
-      "aria-labelledby",
-      this.dom.toggle.id
-    ), this.dom.toggle.setAttribute(
-      "aria-controls",
-      this.elements.controlledMenu.dom.menu.id
-    ), this._collapse(!1);
+    this._setIds(), this._setAriaAttributes(), this._collapse(!1);
   }
   /**
    * The DOM elements within the toggle.
@@ -375,6 +349,46 @@ class L {
   }
   set isOpen(e) {
     a("boolean", { value: e }), this._open = e;
+  }
+  /**
+   * Sets unique IDs for the toggle and controlled menu.
+   *
+   * If the toggle and controlled menu do not have IDs, the following steps take place:
+   * - Generate a random 10 character string,
+   * - Get the innerText of the toggle,
+   * - Set the toggle's ID to: `${toggle-inner-text}-${the-random-string}-menu-button`
+   * - Set the menu's ID to: `${toggle-inner-text}-${the-random-string}-menu`
+   *
+   * @protected
+   */
+  _setIds() {
+    var e;
+    if (this.dom.toggle.id === "" || this.elements.controlledMenu.dom.menu.id === "") {
+      const t = Math.random().toString(36).replace(/[^a-z]+/g, "").substr(0, 10);
+      let s = ((e = this.dom.toggle.innerText) == null ? void 0 : e.replace(/[^a-zA-Z0-9\s]/g, "")) || "", i = t;
+      !s.replace(/\s/g, "").length && this.dom.toggle.getAttribute("aria-label") && (s = this.dom.toggle.getAttribute("aria-label").replace(/[^a-zA-Z0-9\s]/g, "")), s.replace(/\s/g, "").length > 0 && (s = s.toLowerCase().replace(/\s+/g, "-"), s.startsWith("-") && (s = s.substring(1)), s.endsWith("-") && (s = s.slice(0, -1)), i = `${s}-${i}`), this.dom.toggle.id = this.dom.toggle.id || `menu-button-${i}`, this.elements.controlledMenu.dom.menu.id = this.elements.controlledMenu.dom.menu.id || `menu-${i}`;
+    }
+  }
+  /**
+   * Sets the ARIA attributes on the toggle and controlled menu.
+   *
+   * The first steps are to ensure that the toggle has `aria-haspopup`
+   * set to "true", `aria-expanded` is initially set to "false" and,
+   * if the toggle element is not a `<button>`, set the `role` to "button".
+   *
+   * Then using the toggle and menu's IDs, the menu's `aria-labelledby` is set to
+   * the toggle's ID, and the toggle's `aria-controls` is set to the menu's ID.
+   *
+   * @protected
+   */
+  _setAriaAttributes() {
+    this.dom.toggle.setAttribute("aria-haspopup", "true"), this.dom.toggle.setAttribute("aria-expanded", "false"), z("button", { toggle: this.dom.toggle }) || this.dom.toggle.setAttribute("role", "button"), this.elements.controlledMenu.dom.menu.setAttribute(
+      "aria-labelledby",
+      this.dom.toggle.id
+    ), this.dom.toggle.setAttribute(
+      "aria-controls",
+      this.elements.controlledMenu.dom.menu.id
+    );
   }
   /**
    * Expands the controlled menu.
@@ -497,7 +511,7 @@ class L {
     );
   }
 }
-class I {
+class L {
   /**
    * Constructs a new `BaseMenuItem`.
    *
@@ -699,7 +713,7 @@ class C {
      *
      * @type {typeof BaseMenuItem}
      */
-    r(this, "_MenuItemType", I);
+    r(this, "_MenuItemType", L);
     /**
      * The class to use when generating submenu toggles.
      *
@@ -707,7 +721,7 @@ class C {
      *
      * @type {typeof BaseMenuToggle}
      */
-    r(this, "_MenuToggleType", L);
+    r(this, "_MenuToggleType", I);
     /**
      * The DOM elements within the menu.
      *
@@ -1652,7 +1666,7 @@ class C {
     });
   }
 }
-class H extends I {
+class H extends L {
   /**
    * Constructs a new `TopLinkDisclosureMenuItem`.
    *
@@ -1705,7 +1719,7 @@ class H extends I {
     this._elements.parentMenu = i, this._elements.childMenu = l, this._elements.toggle = h, this._elements.sibling = u, c && this.initialize();
   }
 }
-class R extends L {
+class R extends I {
   /**
    * Constructs a new `TopLinkDisclosureMenuToggle`.
    *

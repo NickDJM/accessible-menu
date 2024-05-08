@@ -18,6 +18,15 @@ The supported menu types are:
 
 Please follow the [documentation](https://accessible-menu.dev/).
 
+## Examples
+
+The following codepens are available as examples of how to use `accessible-menu`:
+
+- [Disclosure Navigation Menu](https://codepen.io/nickdjm/pen/NWmWMea)
+- [Disclosure Navigation Menu with Top-Level Links](https://codepen.io/nickdjm/pen/xxJNzVR)
+- [Navigation Menubar](https://codepen.io/nickdjm/pen/wvZvXvP)
+- [Navigation Treeview](https://codepen.io/nickdjm/pen/KKYKewB)
+
 ## Sponsors
 
 <p align="center">

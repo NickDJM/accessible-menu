@@ -106,3 +106,7 @@ const disclosureMenu = new TopLinkDisclosureMenu({
 ```
 
 :::
+
+## Interactive Example {#interactive-example}
+
+You can find an interactive example of a Top Link Disclosure Menu [here in this codepen](https://codepen.io/nickdjm/pen/xxJNzVR).

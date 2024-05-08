@@ -105,3 +105,7 @@ const disclosureMenu = new Menubar({
 ```
 
 :::
+
+## Interactive Example {#interactive-example}
+
+You can find an interactive example of a Menubar [here in this codepen](https://codepen.io/nickdjm/pen/wvZvXvP).

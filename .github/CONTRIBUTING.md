@@ -16,7 +16,7 @@ Pull requests are the best way to propose changes to the codebase. We actively w
 2. Link your pull request to any relavent open issues.
 3. If you've added or changed functionality update the documentation.
 4. Make sure your code functions.
-5. Update existing tests or write a new test to ensure you code will _continue_ to function regardless of future changes.
+5. Update existing tests or write a new test to ensure your code will _continue_ to function regardless of future changes.
 6. Make sure your code lints.
 7. Issue the pull request!
 
