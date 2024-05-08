@@ -187,7 +187,7 @@ class BaseMenuToggle {
       const randomString = Math.random()
         .toString(36)
         .replace(/[^a-z]+/g, "")
-        .substr(0, 10);
+        .substring(0, 10);
 
       let id = this.dom.toggle.innerText?.replace(/[^a-zA-Z0-9\s]/g, "") || "";
       let finalID = randomString;
