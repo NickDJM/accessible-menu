@@ -27,4 +27,24 @@ describe("MenubarToggle protected methods", () => {
       );
     });
   });
+
+  // Test MenubarToggle _setIds().
+  describe("_setIds", () => {
+    // Test that MenubarToggle implements the BaseMenuToggle _setIds.
+    it("should implement the BaseMenuToggle _setIds", () => {
+      expect(MenubarToggle.prototype._setIds).toBe(
+        BaseMenuToggle.prototype._setIds
+      );
+    });
+  });
+
+  // Test MenubarToggle _setAriaAttributes().
+  describe("_setAriaAttributes", () => {
+    // Test that MenubarToggle implements the BaseMenuToggle _setAriaAttributes.
+    it("should implement the BaseMenuToggle _setAriaAttributes", () => {
+      expect(MenubarToggle.prototype._setAriaAttributes).toBe(
+        BaseMenuToggle.prototype._setAriaAttributes
+      );
+    });
+  });
 });
