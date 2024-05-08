@@ -27,4 +27,24 @@ describe("TreeviewToggle protected methods", () => {
       );
     });
   });
+
+  // Test TreeviewToggle _setIds().
+  describe("_setIds", () => {
+    // Test that TreeviewToggle implements the BaseMenuToggle _setIds.
+    it("should implement the BaseMenuToggle _setIds", () => {
+      expect(TreeviewToggle.prototype._setIds).toBe(
+        BaseMenuToggle.prototype._setIds
+      );
+    });
+  });
+
+  // Test TreeviewToggle _setAriaAttributes().
+  describe("_setAriaAttributes", () => {
+    // Test that TreeviewToggle implements the BaseMenuToggle _setAriaAttributes.
+    it("should implement the BaseMenuToggle _setAriaAttributes", () => {
+      expect(TreeviewToggle.prototype._setAriaAttributes).toBe(
+        BaseMenuToggle.prototype._setAriaAttributes
+      );
+    });
+  });
 });

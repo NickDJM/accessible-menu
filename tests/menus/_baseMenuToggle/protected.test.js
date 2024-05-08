@@ -437,4 +437,218 @@ describe("BaseMenuToggle protected methods", () => {
       );
     });
   });
+
+  describe("_setIds", () => {
+    // Test that _setIds sets the toggle's id attribute to a generated value when it doesn't have an existing id.
+    it("should set the toggle's id attribute to a generated value when it doesn't have an existing id", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        submenuItemSelector: "li.dropdown",
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+
+      const menuToggle = menu.elements.submenuToggles[0];
+      menuToggle.dom.toggle.removeAttribute("id");
+
+      // Call _setIds.
+      menuToggle._setIds();
+
+      // Get the generated id.
+      const generatedId = menuToggle.dom.toggle.getAttribute("id");
+
+      // Test the generated id.
+      // The pattern for the generated id is "menu-button{- optional menu toggle's inner text}-{a string 1-10 characters long}".
+      expect(generatedId).toMatch(/^menu-button(-.*)?-[a-z]{1,10}$/);
+    });
+
+    // Test that _setIds does not change the toggle's id attribute when it already has an id.
+    it("should not change the toggle's id attribute when it already has an id", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        submenuItemSelector: "li.dropdown",
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+
+      const menuToggle = menu.elements.submenuToggles[0];
+      menuToggle.dom.toggle.setAttribute("id", "test-id");
+
+      // Call _setIds.
+      menuToggle._setIds();
+
+      // Test the toggle's id.
+      expect(menuToggle.dom.toggle.getAttribute("id")).toBe("test-id");
+    });
+
+    // Test that _setIds sets the toggle's parent's id attribute to a generated value when it doesn't have an existing id.
+    it("should set the toggle's parent's id attribute to a generated value when it doesn't have an existing id", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        submenuItemSelector: "li.dropdown",
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+
+      const menuToggle = menu.elements.submenuToggles[0];
+      menuToggle.elements.controlledMenu.dom.menu.removeAttribute("id");
+
+      // Call _setIds.
+      menuToggle._setIds();
+
+      // Get the generated id.
+      const generatedId =
+        menuToggle.elements.controlledMenu.dom.menu.getAttribute("id");
+
+      // Test the generated id.
+      // The pattern for the generated id is "menu{- optional menu toggle's inner text}-{a string 1-10 characters long}".
+      expect(generatedId).toMatch(/^menu(-.*)?-[a-z]{1,10}$/);
+    });
+
+    // Test that _setIds does not change the toggle's parent's id attribute when it already has an id.
+    it("should not change the toggle's parent's id attribute when it already has an id", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        submenuItemSelector: "li.dropdown",
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+
+      const menuToggle = menu.elements.submenuToggles[0];
+      menuToggle.elements.controlledMenu.dom.menu.setAttribute("id", "test-id");
+
+      // Call _setIds.
+      menuToggle._setIds();
+
+      // Test the toggle's parent's id.
+      expect(
+        menuToggle.elements.controlledMenu.dom.menu.getAttribute("id")
+      ).toBe("test-id");
+    });
+  });
+
+  describe("_setAriaAttributes", () => {
+    // Test that _setAriaAttributes sets the toggle's aria-haspopup attribute to true.
+    it("should set the toggle's aria-haspopup attribute to true", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        submenuItemSelector: "li.dropdown",
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+
+      const menuToggle = menu.elements.submenuToggles[0];
+      menuToggle.dom.toggle.removeAttribute("aria-haspopup");
+
+      // Call _setAriaAttributes.
+      menuToggle._setAriaAttributes();
+
+      // Test the toggle's aria-haspopup attribute.
+      expect(menuToggle.dom.toggle.getAttribute("aria-haspopup")).toBe("true");
+    });
+
+    // Test that _setAriaAttributes sets the toggle's aria-expanded attribute to false.
+    it("should set the toggle's aria-expanded attribute to false", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        submenuItemSelector: "li.dropdown",
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+
+      const menuToggle = menu.elements.submenuToggles[0];
+      menuToggle.dom.toggle.removeAttribute("aria-expanded");
+
+      // Call _setAriaAttributes.
+      menuToggle._setAriaAttributes();
+
+      // Test the toggle's aria-expanded attribute.
+      expect(menuToggle.dom.toggle.getAttribute("aria-expanded")).toBe("false");
+    });
+
+    // Test that _setAriaAttributes sets the toggle's role attribute to button if the toggle is not a button.
+    // @todo Make a test for when the toggle _is_ a button. This will require a new menu template.
+    it("should set the toggle's role attribute to button if the toggle is not a button", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        submenuItemSelector: "li.dropdown",
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+
+      const menuToggle = menu.elements.submenuToggles[0];
+      menuToggle.dom.toggle.removeAttribute("role");
+
+      // Call _setAriaAttributes.
+      menuToggle._setAriaAttributes();
+
+      // Test the toggle's role attribute.
+      expect(menuToggle.dom.toggle.getAttribute("role")).toBe("button");
+    });
+
+    // Test that _setAriaAttributes sets the toggle's aria-controls attribute to the controlled menu's id.
+    it("should set the toggle's aria-controls attribute to the controlled menu's id", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        submenuItemSelector: "li.dropdown",
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+
+      const menuToggle = menu.elements.submenuToggles[0];
+      menuToggle.dom.toggle.removeAttribute("aria-controls");
+
+      // Call _setAriaAttributes.
+      menuToggle._setAriaAttributes();
+
+      // Test the toggle's aria-controls attribute.
+      expect(menuToggle.dom.toggle.getAttribute("aria-controls")).toBe(
+        menuToggle.elements.controlledMenu.dom.menu.id
+      );
+    });
+
+    // Test that _setAriaAttributes sets the controlled menu's aria-labelledby attribute to the toggle's id.
+    it("should set the controlled menu's aria-labelledby attribute to the toggle's id", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        submenuItemSelector: "li.dropdown",
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+
+      const menuToggle = menu.elements.submenuToggles[0];
+      menuToggle.dom.toggle.removeAttribute("id");
+      menuToggle.elements.controlledMenu.dom.menu.removeAttribute(
+        "aria-labelledby"
+      );
+
+      // Call _setAriaAttributes.
+      menuToggle._setAriaAttributes();
+
+      // Test the controlled menu's aria-labelledby attribute.
+      expect(
+        menuToggle.elements.controlledMenu.dom.menu.getAttribute(
+          "aria-labelledby"
+        )
+      ).toBe(menuToggle.dom.toggle.id);
+    });
+  });
 });

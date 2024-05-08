@@ -27,4 +27,24 @@ describe("DisclosureMenuToggle protected methods", () => {
       );
     });
   });
+
+  // Test DisclosureMenuToggle _setIds().
+  describe("_setIds", () => {
+    // Test that DisclosureMenuToggle implements the BaseMenuToggle _setIds.
+    it("should implement the BaseMenuToggle _setIds", () => {
+      expect(DisclosureMenuToggle.prototype._setIds).toBe(
+        BaseMenuToggle.prototype._setIds
+      );
+    });
+  });
+
+  // Test DisclosureMenuToggle _setAriaAttributes().
+  describe("_setAriaAttributes", () => {
+    // Test that DisclosureMenuToggle implements the BaseMenuToggle _setAriaAttributes.
+    it("should implement the BaseMenuToggle _setAriaAttributes", () => {
+      expect(DisclosureMenuToggle.prototype._setAriaAttributes).toBe(
+        BaseMenuToggle.prototype._setAriaAttributes
+      );
+    });
+  });
 });

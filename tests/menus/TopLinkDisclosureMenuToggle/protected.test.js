@@ -27,4 +27,24 @@ describe("TopLinkDisclosureMenuToggle protected methods", () => {
       );
     });
   });
+
+  // Test TopLinkDisclosureMenuToggle _setIds().
+  describe("_setIds", () => {
+    // Test that TopLinkDisclosureMenuToggle implements the BaseMenuToggle _setIds.
+    it("should implement the BaseMenuToggle _setIds", () => {
+      expect(TopLinkDisclosureMenuToggle.prototype._setIds).toBe(
+        BaseMenuToggle.prototype._setIds
+      );
+    });
+  });
+
+  // Test TopLinkDisclosureMenuToggle _setAriaAttributes().
+  describe("_setAriaAttributes", () => {
+    // Test that TopLinkDisclosureMenuToggle implements the BaseMenuToggle _setAriaAttributes.
+    it("should implement the BaseMenuToggle _setAriaAttributes", () => {
+      expect(TopLinkDisclosureMenuToggle.prototype._setAriaAttributes).toBe(
+        BaseMenuToggle.prototype._setAriaAttributes
+      );
+    });
+  });
 });
