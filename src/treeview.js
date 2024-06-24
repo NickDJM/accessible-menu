@@ -158,6 +158,165 @@ class Treeview extends BaseMenu {
   }
 
   /**
+   * Handles hover events throughout the menu for proper use.
+   *
+   * Adds `pointerenter` listeners to all menu items and `pointerleave` listeners
+   * to all submenu items which function differently depending on
+   * the menu's hover type.
+   *
+   * Before executing anything, the event is checked to make sure the event wasn't
+   * triggered by a pen or touch.
+   *
+   * <strong>Hover Type "on"</strong>
+   * - When a `pointerenter` event triggers on any menu item the menu's
+   *    current child value will change to that
+   *   menu item.
+   * - When a `pointerenter` event triggers on a submenu item the
+   *   preview method for the submenu item's
+   *   toggle will be called.
+   * - When a `pointerleave` event triggers on the menu itself the
+   *   closeChildren method will be called after a delay
+   *   set by the menu's hover delay.
+   *
+   * <strong>Hover Type "dynamic"</strong>
+   * - When a `pointerenter` event triggers on any menu item the menu's
+   *   current child value will change to that menu item.
+   * - When a `pointerenter` event triggers on any menu item, and the menu's
+   *   focus state is not "none", the menu item
+   *   will be focused.
+   * - When a `pointerenter` event triggers on a submenu item, and a submenu is
+   *   already open, the preview method for the submenu item's toggle will be called.
+   * - When a `pointerenter` event triggers on a submenu item, and no submenu is
+   *   open, no submenu-specific methods will be called.
+   * - When a `pointerleave` event triggers on an open submenu item that is not a
+   *   root-level submenu item the close method for the submenu item's toggle
+   *   will be called and the submenu item will be focused after a delay set by
+   *   the menu's hover delay.
+   * - When a `pointerleave` event triggers on an open submenu item that is a
+   *   root-level submenu item no submenu-specific methods will be called.
+   *
+   * <strong>Hover Type "off"</strong>
+   * All `pointerenter` and `pointerleave` events are ignored.
+   *
+   * @protected
+   */
+  _handleHover() {
+    this.elements.menuItems.forEach((menuItem, index) => {
+      menuItem.dom.link.addEventListener("pointerenter", (event) => {
+        // Exit out of the event if it was not made by a mouse.
+        if (event.pointerType === "pen" || event.pointerType === "touch") {
+          return;
+        }
+
+        if (this.hoverType === "on") {
+          this.currentEvent = "mouse";
+          this.elements.rootMenu.blurChildren();
+          this.focusChild(index);
+
+          if (menuItem.isSubmenuItem) {
+            if (this.enterDelay > 0) {
+              this._clearTimeout();
+              this._setTimeout(() => {
+                menuItem.elements.toggle.preview();
+              }, this.enterDelay);
+            } else {
+              menuItem.elements.toggle.preview();
+            }
+          }
+        } else if (this.hoverType === "dynamic") {
+          const isOpen = this.elements.submenuToggles.some(
+            (toggle) => toggle.isOpen
+          );
+
+          this.currentChild = index;
+
+          if (!this.isTopLevel || this.focusState !== "none") {
+            this.currentEvent = "mouse";
+            this.elements.rootMenu.blurChildren();
+            this.focusCurrentChild();
+          }
+
+          if (menuItem.isSubmenuItem && (!this.isTopLevel || isOpen)) {
+            this.currentEvent = "mouse";
+            this.elements.rootMenu.blurChildren();
+            this.focusCurrentChild();
+
+            if (this.enterDelay > 0) {
+              this._clearTimeout();
+              this._setTimeout(() => {
+                menuItem.elements.toggle.preview();
+              }, this.enterDelay);
+            } else {
+              menuItem.elements.toggle.preview();
+            }
+          }
+        }
+      });
+
+      if (menuItem.isSubmenuItem) {
+        menuItem.dom.item.addEventListener("pointerleave", (event) => {
+          // Exit out of the event if it was not made by a mouse.
+          if (event.pointerType === "pen" || event.pointerType === "touch") {
+            return;
+          }
+
+          if (this.hoverType === "on") {
+            if (this.leaveDelay > 0) {
+              this._clearTimeout();
+            }
+          } else if (this.hoverType === "dynamic") {
+            if (!this.isTopLevel) {
+              if (this.leaveDelay > 0) {
+                this._clearTimeout();
+              }
+            }
+          }
+        });
+
+        // Clear hover timeouts any time the mouse enters an item with a submenu. This prevents the
+        // menu from closing if the mouse leaves but then re-enters before leaveDelay has elapsed.
+        menuItem.dom.item.addEventListener("pointerenter", (event) => {
+          // Exit out of the event if it was not made by a mouse.
+          if (event.pointerType === "pen" || event.pointerType === "touch") {
+            return;
+          }
+          if (
+            menuItem.isSubmenuItem &&
+            (this.hoverType === "on" || this.hoverType === "dynamic") &&
+            this.leaveDelay > 0
+          ) {
+            this._clearTimeout();
+          }
+        });
+
+        if (this.isTopLevel) {
+          this.dom.menu.addEventListener("pointerleave", (event) => {
+            // Exit out of the event if it was not made by a mouse.
+            if (event.pointerType === "pen" || event.pointerType === "touch") {
+              return;
+            }
+
+            if (this.hoverType === "on") {
+              if (this.leaveDelay > 0) {
+                this._clearTimeout();
+                this._setTimeout(() => {
+                  this.currentEvent = "mouse";
+                  this.closeChildren();
+                  this.blur();
+                }, this.leaveDelay);
+              } else {
+                this.currentEvent = "mouse";
+                this.closeChildren();
+                this.blur();
+              }
+            }
+          });
+        }
+      }
+    });
+  }
+
+  /**
    * Handles keydown events throughout the menu for proper menu use.
    *
    * This method exists to assist the _handleKeyup method.
