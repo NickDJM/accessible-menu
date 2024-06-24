@@ -71,7 +71,6 @@ function generateMenu(type, structure, hover, container, options = {}) {
 
     const menu = new MenuClass({
       menuElement: nav.querySelector("ul"),
-      submenuItemSelector: ".dropdown",
       containerElement: nav,
       controllerElement: nav.querySelector("button"),
       hoverType: hover,
