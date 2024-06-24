@@ -840,6 +840,77 @@ describe("BaseMenu", () => {
           expect(spy).toHaveBeenCalled();
         });
       });
+      describe("if the menu item is not a submenu item and the menu is not the root menu", () => {
+        // Test that the menu's closeChildren method is called after a delay.
+        it("should call the menu's closeChildren method after a delay", () => {
+          // Create a new BaseMenu instance for testing.
+          const menu = new BaseMenu({
+            menuElement: document.querySelector("ul"),
+            containerElement: document.querySelector("nav"),
+            controllerElement: document.querySelector("button"),
+            hoverType: "dynamic",
+          });
+          initializeMenu(menu);
+
+          menu.currentChild = 1;
+          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 1;
+          menu.elements.submenuToggles[0].elements.controlledMenu.elements.submenuToggles[0].open();
+
+          // Spy on the menu's closeChildren method.
+          const spy = vi.spyOn(
+            menu.elements.submenuToggles[0].elements.controlledMenu,
+            "closeChildren"
+          );
+
+          // Simulate the pointerenter event.
+          simulatePointerEvent(
+            "pointerenter",
+            menu.elements.submenuToggles[0].elements.controlledMenu.elements
+              .menuItems[0].dom.link
+          );
+
+          // Advance the timers by the menu's enter delay.
+          vi.advanceTimersByTime(menu.enterDelay);
+
+          vi.waitFor(() => expect(spy).toHaveBeenCalled(), {
+            timeout: 10000,
+            interval: 10,
+          });
+        });
+        // Test that the menu's closeChildren method is called immediately when enterDelay is set to 0.
+        it("should call the menu's closeChildren method immediately when enterDelay is set to 0", () => {
+          // Create a new BaseMenu instance for testing.
+          const menu = new BaseMenu({
+            menuElement: document.querySelector("ul"),
+            containerElement: document.querySelector("nav"),
+            controllerElement: document.querySelector("button"),
+            hoverType: "dynamic",
+            enterDelay: 0,
+          });
+          initializeMenu(menu);
+
+          menu.currentChild = 1;
+          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 1;
+          menu.elements.submenuToggles[0].elements.controlledMenu.elements.submenuToggles[0].open();
+
+          // Spy on the menu's closeChildren method.
+          const spy = vi.spyOn(
+            menu.elements.submenuToggles[0].elements.controlledMenu,
+            "closeChildren"
+          );
+
+          // Simulate the pointerenter event.
+          simulatePointerEvent(
+            "pointerenter",
+            menu.elements.submenuToggles[0].elements.controlledMenu.elements
+              .menuItems[0].dom.link
+          );
+
+          expect(spy).toHaveBeenCalled();
+        });
+      });
       describe("if the menu item is a submenu item and the menu is the root menu with an open submenu", () => {
         // Test that the menu's current event is set to mouse.
         it("should set the menu's current event to mouse", () => {
@@ -994,6 +1065,65 @@ describe("BaseMenu", () => {
           simulatePointerEvent(
             "pointerenter",
             menu.elements.menuItems[2].dom.link
+          );
+
+          expect(spy).toHaveBeenCalled();
+        });
+      });
+      describe("if the menu item is not a submenu item and the menu is the root menu wtih an open submenu", () => {
+        // Test that the menu's closeChildren method is called after a delay.
+        it("should call the menu's closeChildren method after a delay", () => {
+          // Create a new BaseMenu instance for testing.
+          const menu = new BaseMenu({
+            menuElement: document.querySelector("ul"),
+            containerElement: document.querySelector("nav"),
+            controllerElement: document.querySelector("button"),
+            hoverType: "dynamic",
+          });
+          initializeMenu(menu);
+
+          menu.currentChild = 1;
+          menu.elements.submenuToggles[0].open();
+
+          // Spy on the menu's closeChildren method.
+          const spy = vi.spyOn(menu, "closeChildren");
+
+          // Simulate the pointerenter event.
+          simulatePointerEvent(
+            "pointerenter",
+            menu.elements.menuItems[0].dom.link
+          );
+
+          // Advance the timers by the menu's enter delay.
+          vi.advanceTimersByTime(menu.enterDelay);
+
+          vi.waitFor(() => expect(spy).toHaveBeenCalled(), {
+            timeout: 10000,
+            interval: 10,
+          });
+        });
+        // Test that the menu's closeChildren method is called immediately when enterDelay is set to 0.
+        it("should call the menu's closeChildren method immediately when enterDelay is set to 0", () => {
+          // Create a new BaseMenu instance for testing.
+          const menu = new BaseMenu({
+            menuElement: document.querySelector("ul"),
+            containerElement: document.querySelector("nav"),
+            controllerElement: document.querySelector("button"),
+            hoverType: "dynamic",
+            enterDelay: 0,
+          });
+          initializeMenu(menu);
+
+          menu.currentChild = 1;
+          menu.elements.submenuToggles[0].open();
+
+          // Spy on the menu's closeChildren method.
+          const spy = vi.spyOn(menu, "closeChildren");
+
+          // Simulate the pointerenter event.
+          simulatePointerEvent(
+            "pointerenter",
+            menu.elements.menuItems[0].dom.link
           );
 
           expect(spy).toHaveBeenCalled();
