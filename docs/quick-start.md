@@ -94,7 +94,6 @@ import { DisclosureMenu } from "accessible-menu";
 
 const menu = new DisclosureMenu({
   menuElement: document.querySelector("#example-menu"),
-  submenuItemSelector: ".dropdown",
 });
 ```
 
@@ -103,7 +102,6 @@ import { Menubar } from "accessible-menu";
 
 const menu = new Menubar({
   menuElement: document.querySelector("#example-menu"),
-  submenuItemSelector: ".dropdown",
 });
 ```
 
@@ -112,7 +110,6 @@ import { Treeview } from "accessible-menu";
 
 const menu = new Treeview({
   menuElement: document.querySelector("#example-menu"),
-  submenuItemSelector: ".dropdown",
 });
 ```
 

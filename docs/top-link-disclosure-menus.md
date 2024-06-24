@@ -66,7 +66,6 @@ const menu = document.querySelector("#creature-menu ul");
 
 const disclosureMenu = new TopLinkDisclosureMenu({
   menuElement: menu,
-  submenuItemSelector: ".dropdown",
 });
 ```
 
