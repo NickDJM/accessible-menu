@@ -14,7 +14,6 @@ describe("BaseMenu", () => {
   // Create a new BaseMenu instance for testing.
   const menu = new BaseMenu({
     menuElement: document.querySelector("ul"),
-    submenuItemSelector: "li.dropdown",
     containerElement: document.querySelector("nav"),
     controllerElement: document.querySelector("button"),
   });

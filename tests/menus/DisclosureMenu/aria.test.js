@@ -13,7 +13,6 @@ describe("DisclosureMenu", () => {
   // Create a new DisclosureMenu instance for testing.
   const menu = new DisclosureMenu({
     menuElement: document.querySelector("ul"),
-    submenuItemSelector: "li.dropdown",
     containerElement: document.querySelector("nav"),
     controllerElement: document.querySelector("button"),
   });

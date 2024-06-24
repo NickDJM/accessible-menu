@@ -26,7 +26,6 @@ describe("Menubar", () => {
       // Create a new Menubar instance for testing.
       const menu = new Menubar({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
@@ -44,7 +43,6 @@ describe("Menubar", () => {
         // Create a new Menubar instance for testing.
         const menu = new Menubar({
           menuElement: document.querySelector("ul"),
-          submenuItemSelector: "li.dropdown",
           containerElement: document.querySelector("nav"),
           controllerElement: document.querySelector("button"),
         });
@@ -68,7 +66,6 @@ describe("Menubar", () => {
         // Create a new Menubar instance for testing.
         const menu = new Menubar({
           menuElement: document.querySelector("ul"),
-          submenuItemSelector: "li.dropdown",
           containerElement: document.querySelector("nav"),
           controllerElement: document.querySelector("button"),
         });
@@ -89,7 +86,6 @@ describe("Menubar", () => {
         // Create a new Menubar instance for testing.
         const menu = new Menubar({
           menuElement: document.querySelector("ul"),
-          submenuItemSelector: "li.dropdown",
           containerElement: document.querySelector("nav"),
           controllerElement: document.querySelector("button"),
         });
@@ -113,7 +109,6 @@ describe("Menubar", () => {
         // Create a new Menubar instance for testing.
         const menu = new Menubar({
           menuElement: document.querySelector("ul"),
-          submenuItemSelector: "li.dropdown",
           containerElement: document.querySelector("nav"),
           controllerElement: document.querySelector("button"),
         });
@@ -134,7 +129,6 @@ describe("Menubar", () => {
         // Create a new Menubar instance for testing.
         const menu = new Menubar({
           menuElement: document.querySelector("ul"),
-          submenuItemSelector: "li.dropdown",
           containerElement: document.querySelector("nav"),
           controllerElement: document.querySelector("button"),
         });
@@ -155,7 +149,6 @@ describe("Menubar", () => {
         // Create a new Menubar instance for testing.
         const menu = new Menubar({
           menuElement: document.querySelector("ul"),
-          submenuItemSelector: "li.dropdown",
           containerElement: document.querySelector("nav"),
           controllerElement: document.querySelector("button"),
         });
@@ -182,7 +175,6 @@ describe("Menubar", () => {
         // Create a new Menubar instance for testing.
         const menu = new Menubar({
           menuElement: document.querySelector("ul"),
-          submenuItemSelector: "li.dropdown",
           containerElement: document.querySelector("nav"),
           controllerElement: document.querySelector("button"),
         });
@@ -205,7 +197,6 @@ describe("Menubar", () => {
           // Create a new Menubar instance for testing.
           const menu = new Menubar({
             menuElement: document.querySelector("ul"),
-            submenuItemSelector: "li.dropdown",
             containerElement: document.querySelector("nav"),
             controllerElement: document.querySelector("button"),
           });
@@ -226,7 +217,6 @@ describe("Menubar", () => {
           // Create a new Menubar instance for testing.
           const menu = new Menubar({
             menuElement: document.querySelector("ul"),
-            submenuItemSelector: "li.dropdown",
             containerElement: document.querySelector("nav"),
             controllerElement: document.querySelector("button"),
           });
@@ -247,7 +237,6 @@ describe("Menubar", () => {
           // Create a new Menubar instance for testing.
           const menu = new Menubar({
             menuElement: document.querySelector("ul"),
-            submenuItemSelector: "li.dropdown",
             containerElement: document.querySelector("nav"),
             controllerElement: document.querySelector("button"),
           });
@@ -269,7 +258,6 @@ describe("Menubar", () => {
           // Create a new Menubar instance for testing.
           const menu = new Menubar({
             menuElement: document.querySelector("ul"),
-            submenuItemSelector: "li.dropdown",
             containerElement: document.querySelector("nav"),
             controllerElement: document.querySelector("button"),
           });
@@ -291,7 +279,6 @@ describe("Menubar", () => {
           // Create a new Menubar instance for testing.
           const menu = new Menubar({
             menuElement: document.querySelector("ul"),
-            submenuItemSelector: "li.dropdown",
             containerElement: document.querySelector("nav"),
             controllerElement: document.querySelector("button"),
           });
@@ -315,7 +302,6 @@ describe("Menubar", () => {
           // Create a new Menubar instance for testing.
           const menu = new Menubar({
             menuElement: document.querySelector("ul"),
-            submenuItemSelector: "li.dropdown",
             containerElement: document.querySelector("nav"),
             controllerElement: document.querySelector("button"),
           });
@@ -337,7 +323,6 @@ describe("Menubar", () => {
           // Create a new Menubar instance for testing.
           const menu = new Menubar({
             menuElement: document.querySelector("ul"),
-            submenuItemSelector: "li.dropdown",
             containerElement: document.querySelector("nav"),
             controllerElement: document.querySelector("button"),
           });
@@ -358,7 +343,6 @@ describe("Menubar", () => {
           // Create a new Menubar instance for testing.
           const menu = new Menubar({
             menuElement: document.querySelector("ul"),
-            submenuItemSelector: "li.dropdown",
           });
 
           // Set up the menu.
@@ -392,7 +376,6 @@ describe("Menubar", () => {
           // Create a new Menubar instance for testing.
           const menu = new Menubar({
             menuElement: document.querySelector("ul"),
-            submenuItemSelector: "li.dropdown",
             containerElement: document.querySelector("nav"),
             controllerElement: document.querySelector("button"),
           });
@@ -421,7 +404,6 @@ describe("Menubar", () => {
           // Create a new Menubar instance for testing.
           const menu = new Menubar({
             menuElement: document.querySelector("ul"),
-            submenuItemSelector: "li.dropdown",
             containerElement: document.querySelector("nav"),
             controllerElement: document.querySelector("button"),
           });
@@ -447,7 +429,6 @@ describe("Menubar", () => {
           // Create a new Menubar instance for testing.
           const menu = new Menubar({
             menuElement: document.querySelector("ul"),
-            submenuItemSelector: "li.dropdown",
             containerElement: document.querySelector("nav"),
             controllerElement: document.querySelector("button"),
           });
@@ -478,7 +459,6 @@ describe("Menubar", () => {
       // Create a new Menubar instance for testing.
       const menu = new Menubar({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
@@ -496,7 +476,6 @@ describe("Menubar", () => {
         // Create a new Menubar instance for testing.
         const menu = new Menubar({
           menuElement: document.querySelector("ul"),
-          submenuItemSelector: "li.dropdown",
           containerElement: document.querySelector("nav"),
           controllerElement: document.querySelector("button"),
         });
@@ -513,7 +492,6 @@ describe("Menubar", () => {
         // Create a new Menubar instance for testing.
         const menu = new Menubar({
           menuElement: document.querySelector("ul"),
-          submenuItemSelector: "li.dropdown",
           containerElement: document.querySelector("nav"),
           controllerElement: document.querySelector("button"),
         });
@@ -531,7 +509,6 @@ describe("Menubar", () => {
         // Create a new Menubar instance for testing.
         const menu = new Menubar({
           menuElement: document.querySelector("ul"),
-          submenuItemSelector: "li.dropdown",
           containerElement: document.querySelector("nav"),
           controllerElement: document.querySelector("button"),
         });
@@ -548,7 +525,6 @@ describe("Menubar", () => {
         // Create a new Menubar instance for testing.
         const menu = new Menubar({
           menuElement: document.querySelector("ul"),
-          submenuItemSelector: "li.dropdown",
           containerElement: document.querySelector("nav"),
           controllerElement: document.querySelector("button"),
         });
@@ -578,7 +554,6 @@ describe("Menubar", () => {
             // Create a new Menubar instance for testing.
             const menu = new Menubar({
               menuElement: document.querySelector("ul"),
-              submenuItemSelector: "li.dropdown",
               containerElement: document.querySelector("nav"),
               controllerElement: document.querySelector("button"),
             });
@@ -599,7 +574,6 @@ describe("Menubar", () => {
             // Create a new Menubar instance for testing.
             const menu = new Menubar({
               menuElement: document.querySelector("ul"),
-              submenuItemSelector: "li.dropdown",
               containerElement: document.querySelector("nav"),
               controllerElement: document.querySelector("button"),
             });
@@ -623,7 +597,6 @@ describe("Menubar", () => {
             // Create a new Menubar instance for testing.
             const menu = new Menubar({
               menuElement: document.querySelector("ul"),
-              submenuItemSelector: "li.dropdown",
               containerElement: document.querySelector("nav"),
               controllerElement: document.querySelector("button"),
             });
@@ -654,7 +627,6 @@ describe("Menubar", () => {
             // Create a new Menubar instance for testing.
             const menu = new Menubar({
               menuElement: document.querySelector("ul"),
-              submenuItemSelector: "li.dropdown",
               containerElement: document.querySelector("nav"),
               controllerElement: document.querySelector("button"),
             });
@@ -683,7 +655,6 @@ describe("Menubar", () => {
             // Create a new Menubar instance for testing.
             const menu = new Menubar({
               menuElement: document.querySelector("ul"),
-              submenuItemSelector: "li.dropdown",
               containerElement: document.querySelector("nav"),
               controllerElement: document.querySelector("button"),
             });
@@ -704,7 +675,6 @@ describe("Menubar", () => {
             // Create a new Menubar instance for testing.
             const menu = new Menubar({
               menuElement: document.querySelector("ul"),
-              submenuItemSelector: "li.dropdown",
               containerElement: document.querySelector("nav"),
               controllerElement: document.querySelector("button"),
             });
@@ -733,7 +703,6 @@ describe("Menubar", () => {
           // Create a new Menubar instance for testing.
           const menu = new Menubar({
             menuElement: document.querySelector("ul"),
-            submenuItemSelector: "li.dropdown",
             containerElement: document.querySelector("nav"),
             controllerElement: document.querySelector("button"),
           });
@@ -754,7 +723,6 @@ describe("Menubar", () => {
           // Create a new Menubar instance for testing.
           const menu = new Menubar({
             menuElement: document.querySelector("ul"),
-            submenuItemSelector: "li.dropdown",
             containerElement: document.querySelector("nav"),
             controllerElement: document.querySelector("button"),
           });
@@ -780,7 +748,6 @@ describe("Menubar", () => {
             // Create a new Menubar instance for testing.
             const menu = new Menubar({
               menuElement: document.querySelector("ul"),
-              submenuItemSelector: "li.dropdown",
               containerElement: document.querySelector("nav"),
               controllerElement: document.querySelector("button"),
             });
@@ -805,7 +772,6 @@ describe("Menubar", () => {
             // Create a new Menubar instance for testing.
             const menu = new Menubar({
               menuElement: document.querySelector("ul"),
-              submenuItemSelector: "li.dropdown",
               containerElement: document.querySelector("nav"),
               controllerElement: document.querySelector("button"),
             });
@@ -830,7 +796,6 @@ describe("Menubar", () => {
             // Create a new Menubar instance for testing.
             const menu = new Menubar({
               menuElement: document.querySelector("ul"),
-              submenuItemSelector: "li.dropdown",
               containerElement: document.querySelector("nav"),
               controllerElement: document.querySelector("button"),
             });
@@ -860,7 +825,6 @@ describe("Menubar", () => {
           // Create a new Menubar instance for testing.
           const menu = new Menubar({
             menuElement: document.querySelector("ul"),
-            submenuItemSelector: "li.dropdown",
             containerElement: document.querySelector("nav"),
             controllerElement: document.querySelector("button"),
           });
@@ -881,7 +845,6 @@ describe("Menubar", () => {
           // Create a new Menubar instance for testing.
           const menu = new Menubar({
             menuElement: document.querySelector("ul"),
-            submenuItemSelector: "li.dropdown",
             containerElement: document.querySelector("nav"),
             controllerElement: document.querySelector("button"),
           });
@@ -907,7 +870,6 @@ describe("Menubar", () => {
             // Create a new Menubar instance for testing.
             const menu = new Menubar({
               menuElement: document.querySelector("ul"),
-              submenuItemSelector: "li.dropdown",
               containerElement: document.querySelector("nav"),
               controllerElement: document.querySelector("button"),
             });
@@ -932,7 +894,6 @@ describe("Menubar", () => {
             // Create a new Menubar instance for testing.
             const menu = new Menubar({
               menuElement: document.querySelector("ul"),
-              submenuItemSelector: "li.dropdown",
               containerElement: document.querySelector("nav"),
               controllerElement: document.querySelector("button"),
             });
@@ -957,7 +918,6 @@ describe("Menubar", () => {
             // Create a new Menubar instance for testing.
             const menu = new Menubar({
               menuElement: document.querySelector("ul"),
-              submenuItemSelector: "li.dropdown",
               containerElement: document.querySelector("nav"),
               controllerElement: document.querySelector("button"),
             });
@@ -988,7 +948,6 @@ describe("Menubar", () => {
             // Create a new Menubar instance for testing.
             const menu = new Menubar({
               menuElement: document.querySelector("ul"),
-              submenuItemSelector: "li.dropdown",
               containerElement: document.querySelector("nav"),
               controllerElement: document.querySelector("button"),
             });
@@ -1009,7 +968,6 @@ describe("Menubar", () => {
             // Create a new Menubar instance for testing.
             const menu = new Menubar({
               menuElement: document.querySelector("ul"),
-              submenuItemSelector: "li.dropdown",
               containerElement: document.querySelector("nav"),
               controllerElement: document.querySelector("button"),
             });
@@ -1033,7 +991,6 @@ describe("Menubar", () => {
             // Create a new Menubar instance for testing.
             const menu = new Menubar({
               menuElement: document.querySelector("ul"),
-              submenuItemSelector: "li.dropdown",
               containerElement: document.querySelector("nav"),
               controllerElement: document.querySelector("button"),
             });
@@ -1064,7 +1021,6 @@ describe("Menubar", () => {
             // Create a new Menubar instance for testing.
             const menu = new Menubar({
               menuElement: document.querySelector("ul"),
-              submenuItemSelector: "li.dropdown",
               containerElement: document.querySelector("nav"),
               controllerElement: document.querySelector("button"),
             });
@@ -1093,7 +1049,6 @@ describe("Menubar", () => {
             // Create a new Menubar instance for testing.
             const menu = new Menubar({
               menuElement: document.querySelector("ul"),
-              submenuItemSelector: "li.dropdown",
               containerElement: document.querySelector("nav"),
               controllerElement: document.querySelector("button"),
             });
@@ -1120,7 +1075,6 @@ describe("Menubar", () => {
             // Create a new Menubar instance for testing.
             const menu = new Menubar({
               menuElement: document.querySelector("ul"),
-              submenuItemSelector: "li.dropdown",
               containerElement: document.querySelector("nav"),
               controllerElement: document.querySelector("button"),
             });
@@ -1141,7 +1095,6 @@ describe("Menubar", () => {
             // Create a new Menubar instance for testing.
             const menu = new Menubar({
               menuElement: document.querySelector("ul"),
-              submenuItemSelector: "li.dropdown",
               containerElement: document.querySelector("nav"),
               controllerElement: document.querySelector("button"),
             });
@@ -1165,7 +1118,6 @@ describe("Menubar", () => {
             // Create a new Menubar instance for testing.
             const menu = new Menubar({
               menuElement: document.querySelector("ul"),
-              submenuItemSelector: "li.dropdown",
               containerElement: document.querySelector("nav"),
               controllerElement: document.querySelector("button"),
             });
@@ -1196,7 +1148,6 @@ describe("Menubar", () => {
             // Create a new Menubar instance for testing.
             const menu = new Menubar({
               menuElement: document.querySelector("ul"),
-              submenuItemSelector: "li.dropdown",
               containerElement: document.querySelector("nav"),
               controllerElement: document.querySelector("button"),
             });
@@ -1225,7 +1176,6 @@ describe("Menubar", () => {
             // Create a new Menubar instance for testing.
             const menu = new Menubar({
               menuElement: document.querySelector("ul"),
-              submenuItemSelector: "li.dropdown",
               containerElement: document.querySelector("nav"),
               controllerElement: document.querySelector("button"),
             });
@@ -1251,7 +1201,6 @@ describe("Menubar", () => {
           // Create a new Menubar instance for testing.
           const menu = new Menubar({
             menuElement: document.querySelector("ul"),
-            submenuItemSelector: "li.dropdown",
             containerElement: document.querySelector("nav"),
             controllerElement: document.querySelector("button"),
           });
@@ -1272,7 +1221,6 @@ describe("Menubar", () => {
           // Create a new Menubar instance for testing.
           const menu = new Menubar({
             menuElement: document.querySelector("ul"),
-            submenuItemSelector: "li.dropdown",
             containerElement: document.querySelector("nav"),
             controllerElement: document.querySelector("button"),
           });
@@ -1300,7 +1248,6 @@ describe("Menubar", () => {
           // Create a new Menubar instance for testing.
           const menu = new Menubar({
             menuElement: document.querySelector("ul"),
-            submenuItemSelector: "li.dropdown",
             containerElement: document.querySelector("nav"),
             controllerElement: document.querySelector("button"),
           });
@@ -1321,7 +1268,6 @@ describe("Menubar", () => {
           // Create a new Menubar instance for testing.
           const menu = new Menubar({
             menuElement: document.querySelector("ul"),
-            submenuItemSelector: "li.dropdown",
             containerElement: document.querySelector("nav"),
             controllerElement: document.querySelector("button"),
           });
@@ -1350,7 +1296,6 @@ describe("Menubar", () => {
             // Create a new Menubar instance for testing.
             const menu = new Menubar({
               menuElement: document.querySelector("ul"),
-              submenuItemSelector: "li.dropdown",
               containerElement: document.querySelector("nav"),
               controllerElement: document.querySelector("button"),
             });
@@ -1372,7 +1317,6 @@ describe("Menubar", () => {
             // Create a new Menubar instance for testing.
             const menu = new Menubar({
               menuElement: document.querySelector("ul"),
-              submenuItemSelector: "li.dropdown",
               containerElement: document.querySelector("nav"),
               controllerElement: document.querySelector("button"),
             });
@@ -1400,7 +1344,6 @@ describe("Menubar", () => {
             // Create a new Menubar instance for testing.
             const menu = new Menubar({
               menuElement: document.querySelector("ul"),
-              submenuItemSelector: "li.dropdown",
               containerElement: document.querySelector("nav"),
               controllerElement: document.querySelector("button"),
             });
@@ -1422,7 +1365,6 @@ describe("Menubar", () => {
             // Create a new Menubar instance for testing.
             const menu = new Menubar({
               menuElement: document.querySelector("ul"),
-              submenuItemSelector: "li.dropdown",
               containerElement: document.querySelector("nav"),
               controllerElement: document.querySelector("button"),
             });
@@ -1447,7 +1389,6 @@ describe("Menubar", () => {
             // Create a new Menubar instance for testing.
             const menu = new Menubar({
               menuElement: document.querySelector("ul"),
-              submenuItemSelector: "li.dropdown",
               containerElement: document.querySelector("nav"),
               controllerElement: document.querySelector("button"),
             });
@@ -1481,7 +1422,6 @@ describe("Menubar", () => {
             // Create a new Menubar instance for testing.
             const menu = new Menubar({
               menuElement: document.querySelector("ul"),
-              submenuItemSelector: "li.dropdown",
               containerElement: document.querySelector("nav"),
               controllerElement: document.querySelector("button"),
             });
@@ -1507,7 +1447,6 @@ describe("Menubar", () => {
             // Create a new Menubar instance for testing.
             const menu = new Menubar({
               menuElement: document.querySelector("ul"),
-              submenuItemSelector: "li.dropdown",
               containerElement: document.querySelector("nav"),
               controllerElement: document.querySelector("button"),
             });
@@ -1536,7 +1475,6 @@ describe("Menubar", () => {
             // Create a new Menubar instance for testing.
             const menu = new Menubar({
               menuElement: document.querySelector("ul"),
-              submenuItemSelector: "li.dropdown",
               containerElement: document.querySelector("nav"),
               controllerElement: document.querySelector("button"),
             });
@@ -1569,7 +1507,6 @@ describe("Menubar", () => {
             // Create a new Menubar instance for testing.
             const menu = new Menubar({
               menuElement: document.querySelector("ul"),
-              submenuItemSelector: "li.dropdown",
               containerElement: document.querySelector("nav"),
               controllerElement: document.querySelector("button"),
             });
@@ -1604,7 +1541,6 @@ describe("Menubar", () => {
             // Create a new Menubar instance for testing.
             const menu = new Menubar({
               menuElement: document.querySelector("ul"),
-              submenuItemSelector: "li.dropdown",
               containerElement: document.querySelector("nav"),
               controllerElement: document.querySelector("button"),
             });
@@ -1626,7 +1562,6 @@ describe("Menubar", () => {
             // Create a new Menubar instance for testing.
             const menu = new Menubar({
               menuElement: document.querySelector("ul"),
-              submenuItemSelector: "li.dropdown",
               containerElement: document.querySelector("nav"),
               controllerElement: document.querySelector("button"),
             });
@@ -1664,7 +1599,6 @@ describe("Menubar", () => {
           // Create a new Menubar instance for testing.
           const menu = new Menubar({
             menuElement: document.querySelector("ul"),
-            submenuItemSelector: "li.dropdown",
             containerElement: document.querySelector("nav"),
             controllerElement: document.querySelector("button"),
           });
@@ -1690,7 +1624,6 @@ describe("Menubar", () => {
           // Create a new Menubar instance for testing.
           const menu = new Menubar({
             menuElement: document.querySelector("ul"),
-            submenuItemSelector: "li.dropdown",
             containerElement: document.querySelector("nav"),
             controllerElement: document.querySelector("button"),
           });
@@ -1719,7 +1652,6 @@ describe("Menubar", () => {
           // Create a new Menubar instance for testing.
           const menu = new Menubar({
             menuElement: document.querySelector("ul"),
-            submenuItemSelector: "li.dropdown",
             containerElement: document.querySelector("nav"),
             controllerElement: document.querySelector("button"),
           });
@@ -1753,7 +1685,6 @@ describe("Menubar", () => {
             // Create a new Menubar instance for testing.
             const menu = new Menubar({
               menuElement: document.querySelector("ul"),
-              submenuItemSelector: "li.dropdown",
               containerElement: document.querySelector("nav"),
               controllerElement: document.querySelector("button"),
             });
@@ -1779,7 +1710,6 @@ describe("Menubar", () => {
             // Create a new Menubar instance for testing.
             const menu = new Menubar({
               menuElement: document.querySelector("ul"),
-              submenuItemSelector: "li.dropdown",
               containerElement: document.querySelector("nav"),
               controllerElement: document.querySelector("button"),
             });
@@ -1808,7 +1738,6 @@ describe("Menubar", () => {
             // Create a new Menubar instance for testing.
             const menu = new Menubar({
               menuElement: document.querySelector("ul"),
-              submenuItemSelector: "li.dropdown",
               containerElement: document.querySelector("nav"),
               controllerElement: document.querySelector("button"),
             });
@@ -1841,7 +1770,6 @@ describe("Menubar", () => {
             // Create a new Menubar instance for testing.
             const menu = new Menubar({
               menuElement: document.querySelector("ul"),
-              submenuItemSelector: "li.dropdown",
               containerElement: document.querySelector("nav"),
               controllerElement: document.querySelector("button"),
             });
@@ -1876,7 +1804,6 @@ describe("Menubar", () => {
             // Create a new Menubar instance for testing.
             const menu = new Menubar({
               menuElement: document.querySelector("ul"),
-              submenuItemSelector: "li.dropdown",
               containerElement: document.querySelector("nav"),
               controllerElement: document.querySelector("button"),
             });
@@ -1902,7 +1829,6 @@ describe("Menubar", () => {
             // Create a new Menubar instance for testing.
             const menu = new Menubar({
               menuElement: document.querySelector("ul"),
-              submenuItemSelector: "li.dropdown",
               containerElement: document.querySelector("nav"),
               controllerElement: document.querySelector("button"),
             });
@@ -1931,7 +1857,6 @@ describe("Menubar", () => {
             // Create a new Menubar instance for testing.
             const menu = new Menubar({
               menuElement: document.querySelector("ul"),
-              submenuItemSelector: "li.dropdown",
               containerElement: document.querySelector("nav"),
               controllerElement: document.querySelector("button"),
             });
@@ -1960,7 +1885,6 @@ describe("Menubar", () => {
             // Create a new Menubar instance for testing.
             const menu = new Menubar({
               menuElement: document.querySelector("ul"),
-              submenuItemSelector: "li.dropdown",
               containerElement: document.querySelector("nav"),
               controllerElement: document.querySelector("button"),
             });
@@ -1995,7 +1919,6 @@ describe("Menubar", () => {
             // Create a new Menubar instance for testing.
             const menu = new Menubar({
               menuElement: document.querySelector("ul"),
-              submenuItemSelector: "li.dropdown",
               containerElement: document.querySelector("nav"),
               controllerElement: document.querySelector("button"),
             });
@@ -2022,7 +1945,6 @@ describe("Menubar", () => {
           // Create a new Menubar instance for testing.
           const menu = new Menubar({
             menuElement: document.querySelector("ul"),
-            submenuItemSelector: "li.dropdown",
             containerElement: document.querySelector("nav"),
             controllerElement: document.querySelector("button"),
           });
@@ -2051,7 +1973,6 @@ describe("Menubar", () => {
           // Create a new Menubar instance for testing.
           const menu = new Menubar({
             menuElement: document.querySelector("ul"),
-            submenuItemSelector: "li.dropdown",
             containerElement: document.querySelector("nav"),
             controllerElement: document.querySelector("button"),
           });
@@ -2082,7 +2003,6 @@ describe("Menubar", () => {
             // Create a new Menubar instance for testing.
             const menu = new Menubar({
               menuElement: document.querySelector("ul"),
-              submenuItemSelector: "li.dropdown",
               containerElement: document.querySelector("nav"),
               controllerElement: document.querySelector("button"),
             });
@@ -2111,7 +2031,6 @@ describe("Menubar", () => {
             // Create a new Menubar instance for testing.
             const menu = new Menubar({
               menuElement: document.querySelector("ul"),
-              submenuItemSelector: "li.dropdown",
               containerElement: document.querySelector("nav"),
               controllerElement: document.querySelector("button"),
             });
@@ -2142,7 +2061,6 @@ describe("Menubar", () => {
               // Create a new Menubar instance for testing.
               const menu = new Menubar({
                 menuElement: document.querySelector("ul"),
-                submenuItemSelector: "li.dropdown",
                 containerElement: document.querySelector("nav"),
                 controllerElement: document.querySelector("button"),
               });
@@ -2172,7 +2090,6 @@ describe("Menubar", () => {
               // Create a new Menubar instance for testing.
               const menu = new Menubar({
                 menuElement: document.querySelector("ul"),
-                submenuItemSelector: "li.dropdown",
                 containerElement: document.querySelector("nav"),
                 controllerElement: document.querySelector("button"),
               });
@@ -2208,7 +2125,6 @@ describe("Menubar", () => {
           // Create a new Menubar instance for testing.
           const menu = new Menubar({
             menuElement: document.querySelector("ul"),
-            submenuItemSelector: "li.dropdown",
             containerElement: document.querySelector("nav"),
             controllerElement: document.querySelector("button"),
           });
@@ -2234,7 +2150,6 @@ describe("Menubar", () => {
           // Create a new Menubar instance for testing.
           const menu = new Menubar({
             menuElement: document.querySelector("ul"),
-            submenuItemSelector: "li.dropdown",
             containerElement: document.querySelector("nav"),
             controllerElement: document.querySelector("button"),
           });
@@ -2270,7 +2185,6 @@ describe("Menubar", () => {
           // Create a new Menubar instance for testing.
           const menu = new Menubar({
             menuElement: document.querySelector("ul"),
-            submenuItemSelector: "li.dropdown",
             containerElement: document.querySelector("nav"),
             controllerElement: document.querySelector("button"),
           });
@@ -2296,7 +2210,6 @@ describe("Menubar", () => {
           // Create a new Menubar instance for testing.
           const menu = new Menubar({
             menuElement: document.querySelector("ul"),
-            submenuItemSelector: "li.dropdown",
             containerElement: document.querySelector("nav"),
             controllerElement: document.querySelector("button"),
           });
@@ -2332,7 +2245,6 @@ describe("Menubar", () => {
           // Create a new Menubar instance for testing.
           const menu = new Menubar({
             menuElement: document.querySelector("ul"),
-            submenuItemSelector: "li.dropdown",
             containerElement: document.querySelector("nav"),
             controllerElement: document.querySelector("button"),
           });
@@ -2358,7 +2270,6 @@ describe("Menubar", () => {
           // Create a new Menubar instance for testing.
           const menu = new Menubar({
             menuElement: document.querySelector("ul"),
-            submenuItemSelector: "li.dropdown",
             containerElement: document.querySelector("nav"),
             controllerElement: document.querySelector("button"),
           });
@@ -2394,7 +2305,6 @@ describe("Menubar", () => {
           // Create a new Menubar instance for testing.
           const menu = new Menubar({
             menuElement: document.querySelector("ul"),
-            submenuItemSelector: "li.dropdown",
             containerElement: document.querySelector("nav"),
             controllerElement: document.querySelector("button"),
           });
@@ -2420,7 +2330,6 @@ describe("Menubar", () => {
           // Create a new Menubar instance for testing.
           const menu = new Menubar({
             menuElement: document.querySelector("ul"),
-            submenuItemSelector: "li.dropdown",
             containerElement: document.querySelector("nav"),
             controllerElement: document.querySelector("button"),
           });
@@ -2460,7 +2369,6 @@ describe("Menubar", () => {
         // Create a new Menubar instance for testing.
         const menu = new Menubar({
           menuElement: document.querySelector("ul"),
-          submenuItemSelector: "li.dropdown",
           containerElement: document.querySelector("nav"),
           controllerElement: document.querySelector("button"),
         });
@@ -2478,7 +2386,6 @@ describe("Menubar", () => {
           // Create a new Menubar instance for testing.
           const menu = new Menubar({
             menuElement: document.querySelector("ul"),
-            submenuItemSelector: "li.dropdown",
             containerElement: document.querySelector("nav"),
             controllerElement: document.querySelector("button"),
           });
@@ -2504,7 +2411,6 @@ describe("Menubar", () => {
         // Create a new Menubar instance for testing.
         const menu = new Menubar({
           menuElement: document.querySelector("ul"),
-          submenuItemSelector: "li.dropdown",
           containerElement: document.querySelector("nav"),
           controllerElement: document.querySelector("button"),
         });
@@ -2522,7 +2428,6 @@ describe("Menubar", () => {
           // Create a new Menubar instance for testing.
           const menu = new Menubar({
             menuElement: document.querySelector("ul"),
-            submenuItemSelector: "li.dropdown",
             containerElement: document.querySelector("nav"),
             controllerElement: document.querySelector("button"),
           });
@@ -2544,7 +2449,6 @@ describe("Menubar", () => {
           // Create a new Menubar instance for testing.
           const menu = new Menubar({
             menuElement: document.querySelector("ul"),
-            submenuItemSelector: "li.dropdown",
             containerElement: document.querySelector("nav"),
             controllerElement: document.querySelector("button"),
           });
@@ -2565,7 +2469,6 @@ describe("Menubar", () => {
           // Create a new Menubar instance for testing.
           const menu = new Menubar({
             menuElement: document.querySelector("ul"),
-            submenuItemSelector: "li.dropdown",
             containerElement: document.querySelector("nav"),
             controllerElement: document.querySelector("button"),
           });

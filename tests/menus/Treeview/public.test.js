@@ -148,7 +148,6 @@ describe("Treeview public methods", () => {
       // Create a new Treeview instance for testing.
       const menu = new Treeview({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
@@ -166,7 +165,6 @@ describe("Treeview public methods", () => {
       // Create a new Treeview instance for testing.
       const menu = new Treeview({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
@@ -189,7 +187,6 @@ describe("Treeview public methods", () => {
       // Create a new Treeview instance for testing.
       const menu = new Treeview({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
@@ -227,7 +224,6 @@ describe("Treeview public methods", () => {
       // Create a new Treeview instance for testing.
       const menu = new Treeview({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
@@ -266,7 +262,6 @@ describe("Treeview public methods", () => {
       // Create a new Treeview instance for testing.
       const menu = new Treeview({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
@@ -284,7 +279,6 @@ describe("Treeview public methods", () => {
       // Create a new Treeview instance for testing.
       const menu = new Treeview({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
@@ -302,7 +296,6 @@ describe("Treeview public methods", () => {
       // Create a new Treeview instance for testing.
       const menu = new Treeview({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
@@ -322,7 +315,6 @@ describe("Treeview public methods", () => {
       // Create a new Treeview instance for testing.
       const menu = new Treeview({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
@@ -346,7 +338,6 @@ describe("Treeview public methods", () => {
       // Create a new Treeview instance for testing.
       const menu = new Treeview({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
@@ -374,7 +365,6 @@ describe("Treeview public methods", () => {
       // Create a new Treeview instance for testing.
       const menu = new Treeview({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
@@ -397,7 +387,6 @@ describe("Treeview public methods", () => {
       // Create a new Treeview instance for testing.
       const menu = new Treeview({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
@@ -434,7 +423,6 @@ describe("Treeview public methods", () => {
       // Create a new Treeview instance for testing.
       const menu = new Treeview({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
@@ -460,7 +448,6 @@ describe("Treeview public methods", () => {
       // Create a new Treeview instance for testing.
       const menu = new Treeview({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
@@ -523,7 +510,6 @@ describe("Treeview public methods", () => {
       // Create a new Treeview instance for testing.
       const menu = new Treeview({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
@@ -550,7 +536,6 @@ describe("Treeview public methods", () => {
       // Create a new Treeview instance for testing.
       const menu = new Treeview({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });

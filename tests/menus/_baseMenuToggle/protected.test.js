@@ -27,7 +27,6 @@ describe("BaseMenuToggle protected methods", () => {
       // Create a new BaseMenu instance for testing.
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
@@ -46,7 +45,6 @@ describe("BaseMenuToggle protected methods", () => {
       // Create a new BaseMenu instance for testing.
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
@@ -68,7 +66,6 @@ describe("BaseMenuToggle protected methods", () => {
       // Create a new BaseMenu instance for testing.
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
@@ -101,7 +98,6 @@ describe("BaseMenuToggle protected methods", () => {
       // Create a new BaseMenu instance for testing.
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
@@ -136,7 +132,6 @@ describe("BaseMenuToggle protected methods", () => {
       // Create a new BaseMenu instance for testing.
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
@@ -171,7 +166,6 @@ describe("BaseMenuToggle protected methods", () => {
       // Create a new BaseMenu instance for testing.
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
@@ -206,7 +200,6 @@ describe("BaseMenuToggle protected methods", () => {
       // Create a new BaseMenu instance for testing.
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
         transitionDuration: 0,
@@ -235,7 +228,6 @@ describe("BaseMenuToggle protected methods", () => {
       // Create a new BaseMenu instance for testing.
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
@@ -257,7 +249,6 @@ describe("BaseMenuToggle protected methods", () => {
       // Create a new BaseMenu instance for testing.
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
@@ -279,7 +270,6 @@ describe("BaseMenuToggle protected methods", () => {
       // Create a new BaseMenu instance for testing.
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
@@ -312,7 +302,6 @@ describe("BaseMenuToggle protected methods", () => {
       // Create a new BaseMenu instance for testing.
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
@@ -347,7 +336,6 @@ describe("BaseMenuToggle protected methods", () => {
       // Create a new BaseMenu instance for testing.
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
@@ -382,7 +370,6 @@ describe("BaseMenuToggle protected methods", () => {
       // Create a new BaseMenu instance for testing.
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
@@ -417,7 +404,6 @@ describe("BaseMenuToggle protected methods", () => {
       // Create a new BaseMenu instance for testing.
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
         transitionDuration: 0,
@@ -444,7 +430,6 @@ describe("BaseMenuToggle protected methods", () => {
       // Create a new BaseMenu instance for testing.
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
@@ -469,7 +454,6 @@ describe("BaseMenuToggle protected methods", () => {
       // Create a new BaseMenu instance for testing.
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
@@ -490,7 +474,6 @@ describe("BaseMenuToggle protected methods", () => {
       // Create a new BaseMenu instance for testing.
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
@@ -516,7 +499,6 @@ describe("BaseMenuToggle protected methods", () => {
       // Create a new BaseMenu instance for testing.
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
@@ -541,7 +523,6 @@ describe("BaseMenuToggle protected methods", () => {
       // Create a new BaseMenu instance for testing.
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
@@ -562,7 +543,6 @@ describe("BaseMenuToggle protected methods", () => {
       // Create a new BaseMenu instance for testing.
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
@@ -584,7 +564,6 @@ describe("BaseMenuToggle protected methods", () => {
       // Create a new BaseMenu instance for testing.
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
@@ -605,7 +584,6 @@ describe("BaseMenuToggle protected methods", () => {
       // Create a new BaseMenu instance for testing.
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
@@ -628,7 +606,6 @@ describe("BaseMenuToggle protected methods", () => {
       // Create a new BaseMenu instance for testing.
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });

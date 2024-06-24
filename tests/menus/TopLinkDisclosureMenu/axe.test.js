@@ -18,7 +18,6 @@ describe("TopLinkDisclosureMenu", () => {
   /* eslint-disable-next-line no-unused-vars */
   const menu = new TopLinkDisclosureMenu({
     menuElement: document.querySelector("ul"),
-    submenuItemSelector: "li.dropdown",
     containerElement: document.querySelector("nav"),
     controllerElement: document.querySelector("button"),
   });

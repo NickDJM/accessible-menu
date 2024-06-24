@@ -41,7 +41,6 @@ describe("TopLinkDisclosureMenu", () => {
       // Create a new TopLinkDisclosureMenu instance for testing.
       const menu = new TopLinkDisclosureMenu({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
@@ -57,7 +56,6 @@ describe("TopLinkDisclosureMenu", () => {
       // Create a new TopLinkDisclosureMenu instance for testing.
       const menu = new TopLinkDisclosureMenu({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
@@ -78,7 +76,6 @@ describe("TopLinkDisclosureMenu", () => {
         // Create a new TopLinkDisclosureMenu instance for testing.
         const menu = new TopLinkDisclosureMenu({
           menuElement: document.querySelector("ul"),
-          submenuItemSelector: "li.dropdown",
           containerElement: document.querySelector("nav"),
           controllerElement: document.querySelector("button"),
         });
@@ -104,7 +101,6 @@ describe("TopLinkDisclosureMenu", () => {
       // Create a new TopLinkDisclosureMenu instance for testing.
       const menu = new TopLinkDisclosureMenu({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
@@ -124,7 +120,6 @@ describe("TopLinkDisclosureMenu", () => {
       // Create a new TopLinkDisclosureMenu instance for testing.
       const menu = new TopLinkDisclosureMenu({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
@@ -146,7 +141,6 @@ describe("TopLinkDisclosureMenu", () => {
       // Create a new TopLinkDisclosureMenu instance for testing.
       const menu = new TopLinkDisclosureMenu({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
@@ -168,7 +162,6 @@ describe("TopLinkDisclosureMenu", () => {
       // Create a new TopLinkDisclosureMenu instance for testing.
       const menu = new TopLinkDisclosureMenu({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
@@ -184,7 +177,6 @@ describe("TopLinkDisclosureMenu", () => {
       // Create a new TopLinkDisclosureMenu instance for testing.
       const menu = new TopLinkDisclosureMenu({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
@@ -202,7 +194,6 @@ describe("TopLinkDisclosureMenu", () => {
       // Create a new TopLinkDisclosureMenu instance for testing.
       const menu = new TopLinkDisclosureMenu({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
@@ -222,7 +213,6 @@ describe("TopLinkDisclosureMenu", () => {
       // Create a new TopLinkDisclosureMenu instance for testing.
       const menu = new TopLinkDisclosureMenu({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
@@ -244,7 +234,6 @@ describe("TopLinkDisclosureMenu", () => {
       // Create a new TopLinkDisclosureMenu instance for testing.
       const menu = new TopLinkDisclosureMenu({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
@@ -263,7 +252,6 @@ describe("TopLinkDisclosureMenu", () => {
       // Create a new TopLinkDisclosureMenu instance for testing.
       const menu = new TopLinkDisclosureMenu({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
@@ -279,7 +267,6 @@ describe("TopLinkDisclosureMenu", () => {
       // Create a new TopLinkDisclosureMenu instance for testing.
       const menu = new TopLinkDisclosureMenu({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
@@ -295,7 +282,6 @@ describe("TopLinkDisclosureMenu", () => {
       // Create a new TopLinkDisclosureMenu instance for testing.
       const menu = new TopLinkDisclosureMenu({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
@@ -312,7 +298,6 @@ describe("TopLinkDisclosureMenu", () => {
       // Create a new TopLinkDisclosureMenu instance for testing.
       const menu = new TopLinkDisclosureMenu({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
@@ -328,7 +313,6 @@ describe("TopLinkDisclosureMenu", () => {
       // Create a new TopLinkDisclosureMenu instance for testing.
       const menu = new TopLinkDisclosureMenu({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
@@ -348,7 +332,6 @@ describe("TopLinkDisclosureMenu", () => {
       // Create a new TopLinkDisclosureMenu instance for testing.
       const menu = new TopLinkDisclosureMenu({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
@@ -367,7 +350,6 @@ describe("TopLinkDisclosureMenu", () => {
       // Create a new TopLinkDisclosureMenu instance for testing.
       const menu = new TopLinkDisclosureMenu({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
@@ -387,7 +369,6 @@ describe("TopLinkDisclosureMenu", () => {
       // Create a new TopLinkDisclosureMenu instance for testing.
       const menu = new TopLinkDisclosureMenu({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
@@ -406,7 +387,6 @@ describe("TopLinkDisclosureMenu", () => {
       // Create a new TopLinkDisclosureMenu instance for testing.
       const menu = new TopLinkDisclosureMenu({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
@@ -426,7 +406,6 @@ describe("TopLinkDisclosureMenu", () => {
       // Create a new TopLinkDisclosureMenu instance for testing.
       const menu = new TopLinkDisclosureMenu({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: "li.dropdown",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
