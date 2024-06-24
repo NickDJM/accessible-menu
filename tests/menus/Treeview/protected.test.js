@@ -47,14 +47,4 @@ describe("Treeview protected methods", () => {
       );
     });
   });
-
-  // Test Treeview _handleHover().
-  describe("_handleHover", () => {
-    // Test that Treeview implements the BaseMenu _handleHover() method.
-    it("should implement the BaseMenu _handleHover() method", () => {
-      expect(Treeview.prototype._handleHover).toBe(
-        BaseMenu.prototype._handleHover
-      );
-    });
-  });
 });

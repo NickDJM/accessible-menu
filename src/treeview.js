@@ -300,12 +300,10 @@ class Treeview extends BaseMenu {
               if (this.leaveDelay > 0) {
                 this._clearTimeout();
                 this._setTimeout(() => {
-                  this.currentEvent = "mouse";
                   this.closeChildren();
                   this.blur();
                 }, this.leaveDelay);
               } else {
-                this.currentEvent = "mouse";
                 this.closeChildren();
                 this.blur();
               }
