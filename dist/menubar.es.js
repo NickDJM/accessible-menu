@@ -33,7 +33,7 @@ function g(n, e) {
     };
   }
 }
-function a(n, e) {
+function c(n, e) {
   try {
     if (typeof e != "object") {
       const t = typeof e;
@@ -206,7 +206,7 @@ function S(n) {
   }
 }
 function V(n, e) {
-  if (a("string", { tagName: n }).status && g(HTMLElement, e).status) {
+  if (c("string", { tagName: n }).status && g(HTMLElement, e).status) {
     const t = n.toLowerCase();
     let s = !0;
     for (const i in e)
@@ -348,7 +348,7 @@ class A {
     return this._open;
   }
   set isOpen(e) {
-    a("boolean", { value: e }), this._open = e;
+    c("boolean", { value: e }), this._open = e;
   }
   /**
    * Sets unique IDs for the toggle and controlled menu.
@@ -659,34 +659,34 @@ class M {
   /**
    * Constructs a new `BaseMenu`.
    *
-   * @param {object}             options                                   - The options for generating the menu.
-   * @param {HTMLElement}        options.menuElement                       - The menu element in the DOM.
-   * @param {string}             [options.menuItemSelector = li]           - The query selector string for menu items.
-   * @param {string}             [options.menuLinkSelector = a]            - The query selector string for menu links.
-   * @param {string}             [options.submenuItemSelector]             - The query selector string for menu items containing submenus.
-   * @param {string}             [options.submenuToggleSelector = a]       - The query selector string for submenu toggle buttons/links.
-   * @param {string}             [options.submenuSelector = ul]            - The query selector string for submenus.
-   * @param {?HTMLElement}       [options.controllerElement = null]        - The element controlling the menu in the DOM.
-   * @param {?HTMLElement}       [options.containerElement = null]         - The element containing the menu in the DOM.
-   * @param {?(string|string[])} [options.openClass = show]                - The class to apply when a menu is "open".
-   * @param {?(string|string[])} [options.closeClass = hide]               - The class to apply when a menu is "closed".
-   * @param {?(string|string[])} [options.transitionClass = transitioning] - The class to apply when a menu is transitioning between "open" and "closed" states.
-   * @param {boolean}            [options.isTopLevel = false]              - A flag to mark the root menu.
-   * @param {?BaseMenu}          [options.parentMenu = null]               - The parent menu to this menu.
-   * @param {string}             [options.hoverType = off]                 - The type of hoverability a menu has.
-   * @param {number}             [options.hoverDelay = 250]                - The delay for opening and closing menus if the menu is hoverable (in miliseconds).
-   * @param {number}             [options.enterDelay = -1]                 - The delay for opening menus if the menu is hoverable (in miliseconds).
-   * @param {number}             [options.leaveDelay = -1]                 - The delay for closing menus if the menu is hoverable (in miliseconds).
+   * @param {object}             options                                    - The options for generating the menu.
+   * @param {HTMLElement}        options.menuElement                        - The menu element in the DOM.
+   * @param {string}             [options.menuItemSelector = li]            - The query selector string for menu items.
+   * @param {string}             [options.menuLinkSelector = a]             - The query selector string for menu links.
+   * @param {string}             [options.submenuItemSelector = li:has(ul)] - The query selector string for menu items containing submenus.
+   * @param {string}             [options.submenuToggleSelector = a]        - The query selector string for submenu toggle buttons/links.
+   * @param {string}             [options.submenuSelector = ul]             - The query selector string for submenus.
+   * @param {?HTMLElement}       [options.controllerElement = null]         - The element controlling the menu in the DOM.
+   * @param {?HTMLElement}       [options.containerElement = null]          - The element containing the menu in the DOM.
+   * @param {?(string|string[])} [options.openClass = show]                 - The class to apply when a menu is "open".
+   * @param {?(string|string[])} [options.closeClass = hide]                - The class to apply when a menu is "closed".
+   * @param {?(string|string[])} [options.transitionClass = transitioning]  - The class to apply when a menu is transitioning between "open" and "closed" states.
+   * @param {boolean}            [options.isTopLevel = false]               - A flag to mark the root menu.
+   * @param {?BaseMenu}          [options.parentMenu = null]                - The parent menu to this menu.
+   * @param {string}             [options.hoverType = off]                  - The type of hoverability a menu has.
+   * @param {number}             [options.hoverDelay = 250]                 - The delay for opening and closing menus if the menu is hoverable (in miliseconds).
+   * @param {number}             [options.enterDelay = -1]                  - The delay for opening menus if the menu is hoverable (in miliseconds).
+   * @param {number}             [options.leaveDelay = -1]                  - The delay for closing menus if the menu is hoverable (in miliseconds).
    */
   constructor({
     menuElement: e,
     menuItemSelector: t = "li",
     menuLinkSelector: s = "a",
-    submenuItemSelector: i = "",
+    submenuItemSelector: i = "li:has(ul)",
     submenuToggleSelector: r = "a",
     submenuSelector: l = "ul",
     controllerElement: m = null,
-    containerElement: c = null,
+    containerElement: a = null,
     openClass: h = "show",
     closeClass: C = "hide",
     transitionClass: b = "transitioning",
@@ -890,7 +890,7 @@ class M {
      * @type {string[]}
      */
     o(this, "_errors", []);
-    this._dom.menu = e, this._dom.controller = m, this._dom.container = c, this._selectors.menuItems = t, this._selectors.menuLinks = s, this._selectors.submenuItems = i, this._selectors.submenuToggles = r, this._selectors.submenus = l, this._elements.menuItems = [], this._elements.submenuToggles = [], this._elements.controller = null, this._elements.parentMenu = E, this._elements.rootMenu = y ? this : null, this._openClass = h || "", this._closeClass = C || "", this._transitionClass = b || "", this._root = y, this._hoverType = T, this._hoverDelay = v, this._enterDelay = w, this._leaveDelay = I;
+    this._dom.menu = e, this._dom.controller = m, this._dom.container = a, this._selectors.menuItems = t, this._selectors.menuLinks = s, this._selectors.submenuItems = i, this._selectors.submenuToggles = r, this._selectors.submenus = l, this._elements.menuItems = [], this._elements.submenuToggles = [], this._elements.controller = null, this._elements.parentMenu = E, this._elements.rootMenu = y ? this : null, this._openClass = h || "", this._closeClass = C || "", this._transitionClass = b || "", this._root = y, this._hoverType = T, this._hoverDelay = v, this._enterDelay = w, this._leaveDelay = I;
   }
   /**
    * Initializes the menu.
@@ -1162,7 +1162,7 @@ class M {
     p({ transitionClass: e }), this._transitionClass !== e && (this._transitionClass = e);
   }
   set currentChild(e) {
-    a("number", { value: e });
+    c("number", { value: e });
     function t(s) {
       if (["mouse", "character"].includes(s.currentEvent) && s.elements.parentMenu) {
         let r = 0, l = !1;
@@ -1188,13 +1188,13 @@ class M {
     S({ value: e }), this._hoverType !== e && (this._hoverType = e);
   }
   set hoverDelay(e) {
-    a("number", { value: e }), this._hoverDelay !== e && (this._hoverDelay = e);
+    c("number", { value: e }), this._hoverDelay !== e && (this._hoverDelay = e);
   }
   set enterDelay(e) {
-    a("number", { value: e }), this._enterDelay !== e && (this._enterDelay = e);
+    c("number", { value: e }), this._enterDelay !== e && (this._enterDelay = e);
   }
   set leaveDelay(e) {
-    a("number", { value: e }), this._leaveDelay !== e && (this._leaveDelay = e);
+    c("number", { value: e }), this._leaveDelay !== e && (this._leaveDelay = e);
   }
   /**
    * Validates all aspects of the menu to ensure proper functionality.
@@ -1238,7 +1238,7 @@ class M {
       });
       h.status || (this._errors.push(h.error.message), e = !1);
     }
-    const i = a("boolean", { isTopLevel: this._root });
+    const i = c("boolean", { isTopLevel: this._root });
     if (i.status || (this._errors.push(i.error.message), e = !1), this._elements.parentMenu !== null) {
       const h = g(M, {
         parentMenu: this._elements.parentMenu
@@ -1247,18 +1247,18 @@ class M {
     }
     const r = S({ hoverType: this._hoverType });
     r.status || (this._errors.push(r.error.message), e = !1);
-    const l = a("number", {
+    const l = c("number", {
       hoverDelay: this._hoverDelay
     });
     l.status || (this._errors.push(l.error.message), e = !1);
-    const m = a("number", {
+    const m = c("number", {
       enterDelay: this._enterDelay
     });
     m.status || (this._errors.push(m.error.message), e = !1);
-    const c = a("number", {
+    const a = c("number", {
       leaveDelay: this._leaveDelay
     });
-    return c.status || (this._errors.push(c.error.message), e = !1), e;
+    return a.status || (this._errors.push(a.error.message), e = !1), e;
   }
   /**
    * Sets DOM elements within the menu.
@@ -1400,7 +1400,7 @@ class M {
     clearTimeout(this._hoverTimeout);
   }
   /**
-   * A wrapper for setTimeout that stores the timeout in the menu.
+   * Sets the hover timeout.
    *
    * @protected
    *
@@ -1408,7 +1408,7 @@ class M {
    * @param {number}   delay    - The delay time in milliseconds.
    */
   _setTimeout(e, t) {
-    this._hoverTimeout = setTimeout(e, t);
+    c("function", { callback: e }), c("number", { delay: t }), this._hoverTimeout = setTimeout(e, t);
   }
   /**
    * Handles focus events throughout the menu for proper menu use.
@@ -1819,34 +1819,34 @@ class L extends M {
   /**
    * Constructs a new `Menubar`.
    *
-   * @param {object}             options                                   - The options for generating the menu.
-   * @param {HTMLElement}        options.menuElement                       - The menu element in the DOM.
-   * @param {string}             [options.menuItemSelector = li]           - The query selector string for menu items.
-   * @param {string}             [options.menuLinkSelector = a]            - The query selector string for menu links.
-   * @param {string}             [options.submenuItemSelector]             - The query selector string for menu items containing submenus.
-   * @param {string}             [options.submenuToggleSelector = a]       - The query selector string for submenu toggle buttons/links.
-   * @param {string}             [options.submenuSelector = ul]            - The query selector string for submenus.
-   * @param {?HTMLElement}       [options.controllerElement = null]        - The element controlling the menu in the DOM.
-   * @param {?HTMLElement}       [options.containerElement = null]         - The element containing the menu in the DOM.
-   * @param {?(string|string[])} [options.openClass = show]                - The class to apply when a menu is "open".
-   * @param {?(string|string[])} [options.closeClass = hide]               - The class to apply when a menu is "closed".
-   * @param {?(string|string[])} [options.transitionClass = transitioning] - The class to apply when a menu is transitioning between "open" and "closed" states.
-   * @param {boolean}            [options.isTopLevel = true]               - A flag to mark the root menu.
-   * @param {?Menubar}           [options.parentMenu = null]               - The parent menu to this menu.
-   * @param {string}             [options.hoverType = off]                 - The type of hoverability a menu has.
-   * @param {number}             [options.hoverDelay = 250]                - The delay for opening and closing menus if the menu is hoverable (in miliseconds).
-   * @param {number}             [options.enterDelay = -1]                 - The delay for opening a menu if the menu is focusable (in miliseconds).
-   * @param {number}             [options.leaveDelay = -1]                 - The delay for closing a menu if the menu is focusable (in miliseconds).
-   * @param {boolean}            [options.initialize = true]               - A flag to initialize the menu immediately upon creation.
+   * @param {object}             options                                    - The options for generating the menu.
+   * @param {HTMLElement}        options.menuElement                        - The menu element in the DOM.
+   * @param {string}             [options.menuItemSelector = li]            - The query selector string for menu items.
+   * @param {string}             [options.menuLinkSelector = a]             - The query selector string for menu links.
+   * @param {string}             [options.submenuItemSelector = li:has(ul)] - The query selector string for menu items containing submenus.
+   * @param {string}             [options.submenuToggleSelector = a]        - The query selector string for submenu toggle buttons/links.
+   * @param {string}             [options.submenuSelector = ul]             - The query selector string for submenus.
+   * @param {?HTMLElement}       [options.controllerElement = null]         - The element controlling the menu in the DOM.
+   * @param {?HTMLElement}       [options.containerElement = null]          - The element containing the menu in the DOM.
+   * @param {?(string|string[])} [options.openClass = show]                 - The class to apply when a menu is "open".
+   * @param {?(string|string[])} [options.closeClass = hide]                - The class to apply when a menu is "closed".
+   * @param {?(string|string[])} [options.transitionClass = transitioning]  - The class to apply when a menu is transitioning between "open" and "closed" states.
+   * @param {boolean}            [options.isTopLevel = true]                - A flag to mark the root menu.
+   * @param {?Menubar}           [options.parentMenu = null]                - The parent menu to this menu.
+   * @param {string}             [options.hoverType = off]                  - The type of hoverability a menu has.
+   * @param {number}             [options.hoverDelay = 250]                 - The delay for opening and closing menus if the menu is hoverable (in miliseconds).
+   * @param {number}             [options.enterDelay = -1]                  - The delay for opening a menu if the menu is focusable (in miliseconds).
+   * @param {number}             [options.leaveDelay = -1]                  - The delay for closing a menu if the menu is focusable (in miliseconds).
+   * @param {boolean}            [options.initialize = true]                - A flag to initialize the menu immediately upon creation.
    */
   constructor({
     menuElement: t,
     menuItemSelector: s = "li",
     menuLinkSelector: i = "a",
-    submenuItemSelector: r = "",
+    submenuItemSelector: r = "li:has(ul)",
     submenuToggleSelector: l = "a",
     submenuSelector: m = "ul",
-    controllerElement: c = null,
+    controllerElement: a = null,
     containerElement: h = null,
     openClass: C = "show",
     closeClass: b = "hide",
@@ -1866,7 +1866,7 @@ class L extends M {
       submenuItemSelector: r,
       submenuToggleSelector: l,
       submenuSelector: m,
-      controllerElement: c,
+      controllerElement: a,
       containerElement: h,
       openClass: C,
       closeClass: b,
@@ -2034,12 +2034,12 @@ class L extends M {
             })) : this.currentMenuItem.dom.link.click();
           else if (s === "ArrowRight") {
             u(t);
-            const c = this.currentMenuItem.isSubmenuItem && this.currentMenuItem.elements.toggle.isOpen;
-            this.focusNextChild(), c && (this.currentMenuItem.isSubmenuItem ? (this.currentMenuItem.elements.childMenu.currentEvent = "keyboard", this.currentMenuItem.elements.toggle.preview()) : this.closeChildren());
+            const a = this.currentMenuItem.isSubmenuItem && this.currentMenuItem.elements.toggle.isOpen;
+            this.focusNextChild(), a && (this.currentMenuItem.isSubmenuItem ? (this.currentMenuItem.elements.childMenu.currentEvent = "keyboard", this.currentMenuItem.elements.toggle.preview()) : this.closeChildren());
           } else if (s === "ArrowLeft") {
             u(t);
-            const c = this.currentMenuItem.isSubmenuItem && this.currentMenuItem.elements.toggle.isOpen;
-            this.focusPreviousChild(), c && (this.currentMenuItem.isSubmenuItem ? (this.currentMenuItem.elements.childMenu.currentEvent = "keyboard", this.currentMenuItem.elements.toggle.preview()) : this.closeChildren());
+            const a = this.currentMenuItem.isSubmenuItem && this.currentMenuItem.elements.toggle.isOpen;
+            this.focusPreviousChild(), a && (this.currentMenuItem.isSubmenuItem ? (this.currentMenuItem.elements.childMenu.currentEvent = "keyboard", this.currentMenuItem.elements.toggle.preview()) : this.closeChildren());
           } else s === "ArrowDown" ? this.currentMenuItem.isSubmenuItem && (u(t), this.currentMenuItem.elements.childMenu.currentEvent = "keyboard", this.currentMenuItem.elements.toggle.open(), requestAnimationFrame(() => {
             this.currentMenuItem.elements.childMenu.focusFirstChild();
           })) : s === "ArrowUp" ? this.currentMenuItem.isSubmenuItem && (u(t), this.currentMenuItem.elements.childMenu.currentEvent = "keyboard", this.currentMenuItem.elements.toggle.open(), requestAnimationFrame(() => {
