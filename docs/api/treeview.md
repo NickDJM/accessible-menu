@@ -152,6 +152,7 @@ This method will add the following behaviour:
 - When a `pointerenter` event triggers on any menu item the menu's current child value will change to that menu item.
 - When a `pointerenter` event triggers on any menu item, and the menu's [focus state](#property--focusstate) is not "none", the menu item will be focused.
 - When a `pointerenter` event triggers on a submenu item, and a submenu is already open, the preview method for the submenu item's toggle will be called.
+- When a `pointerenter` event triggers on a non-submenu item, and a submenu is already open, the closeChildren method for the menu will be called.
 - When a `pointerenter` event triggers on a submenu item, and no submenu is open, no submenu-specific methods will be called.
 
 #### Hover Type "off" {#method--handlefover--hovertype-off}

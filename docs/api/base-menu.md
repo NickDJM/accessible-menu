@@ -812,6 +812,7 @@ This method will add the following behaviour:
 - When a `pointerenter` event triggers on any menu item the menu's current child value will change to that menu item.
 - When a `pointerenter` event triggers on any menu item, and the menu's [focus state](#property--focusstate) is not "none", the menu item will be focused.
 - When a `pointerenter` event triggers on a submenu item, and a submenu is already open, the preview method for the submenu item's toggle will be called.
+- When a `pointerenter` event triggers on a non-submenu item, and a submenu is already open, the closeChildren method for the menu will be called.
 - When a `pointerenter` event triggers on a submenu item, and no submenu is open, no submenu-specific methods will be called.
 - When a `pointerleave` event triggers on an open submenu item that is not a root-level submenu item the close method for the submenu item's toggle will be called and the submenu item will be focused after a delay set by the menu's hover delay.
 - When a `pointerleave` event triggers on an open submenu item that is a root-level submenu item no submenu-specific methods will be called.
