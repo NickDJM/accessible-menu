@@ -127,6 +127,37 @@ Getters and setters are inherited from the [BaseMenu](./base-menu#getters-and-se
 
 Methods are inherited from the [BaseMenu](./base-menu#methods) class. The following methods are unique to or overwritten in the Treeview class.
 
+### _handleHover <badge type="warning" text="protected" /> {#method--handlehover}
+
+Handles hover events throughout the menu for proper use.
+
+```js
+BaseMenu._handleHover();
+```
+
+Adds `pointerenter` listeners to all menu items and `pointerleave` listeners to all submenu items which function differently depending on the menu's [hover type](#property--hovertype).
+
+Before executing anything, the event is checked to make sure the event wasn't triggered by a pen or touch.
+
+This method will add the following behaviour:
+
+#### Hover Type "on" {#method--handlefover--hovertype-on}
+
+- When a `pointerenter` event triggers on any menu item the menu's [current child](#property--currentchild) value will change to that menu item.
+- When a `pointerenter` event triggers on a submenu item the [preview method](./base-menu-toggle#method--preview) for the submenu item's toggle will be called.
+- When a `pointerleave` event triggers on the menu itself the [closeChildren method](./base-menu#method--closechildren) will be called after a delay set by the menu's hover delay.
+
+#### Hover Type "dynamic" {#method--handlefover--hovertype-dynamic}
+
+- When a `pointerenter` event triggers on any menu item the menu's current child value will change to that menu item.
+- When a `pointerenter` event triggers on any menu item, and the menu's [focus state](#property--focusstate) is not "none", the menu item will be focused.
+- When a `pointerenter` event triggers on a submenu item, and a submenu is already open, the preview method for the submenu item's toggle will be called.
+- When a `pointerenter` event triggers on a submenu item, and no submenu is open, no submenu-specific methods will be called.
+
+#### Hover Type "off" {#method--handlefover--hovertype-off}
+
+All `pointerenter` and `pointerleave` events are ignored.
+
 ### _handleKeydown <badge type="warning" text="protected" /> {#method--handlekeydown}
 
 Handles keydown events throughout the menu for proper menu use.
