@@ -488,16 +488,24 @@ class TopLinkDisclosureMenu extends BaseMenu {
               toggle = menuItem.elements.sibling.elements.toggle;
             }
 
-            // If there is no toggle exit out of the event.
-            if (toggle === null) return;
-
-            if (this.enterDelay > 0) {
-              this._clearTimeout();
-              this._setTimeout(() => {
+            if (toggle !== null) {
+              if (this.enterDelay > 0) {
+                this._clearTimeout();
+                this._setTimeout(() => {
+                  toggle.preview();
+                }, this.enterDelay);
+              } else {
                 toggle.preview();
-              }, this.enterDelay);
+              }
             } else {
-              toggle.preview();
+              if (this.enterDelay > 0) {
+                this._clearTimeout();
+                this._setTimeout(() => {
+                  this.closeChildren();
+                }, this.enterDelay);
+              } else {
+                this.closeChildren();
+              }
             }
           }
         }

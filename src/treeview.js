@@ -230,18 +230,29 @@ class Treeview extends BaseMenu {
             this.focusCurrentChild();
           }
 
-          if (menuItem.isSubmenuItem && (!this.isTopLevel || isOpen)) {
+          if (!this.isTopLevel || isOpen) {
             this.currentEvent = "mouse";
             this.elements.rootMenu.blurChildren();
             this.focusCurrentChild();
 
-            if (this.enterDelay > 0) {
-              this._clearTimeout();
-              this._setTimeout(() => {
+            if (menuItem.isSubmenuItem) {
+              if (this.enterDelay > 0) {
+                this._clearTimeout();
+                this._setTimeout(() => {
+                  menuItem.elements.toggle.preview();
+                }, this.enterDelay);
+              } else {
                 menuItem.elements.toggle.preview();
-              }, this.enterDelay);
+              }
             } else {
-              menuItem.elements.toggle.preview();
+              if (this.enterDelay > 0) {
+                this._clearTimeout();
+                this._setTimeout(() => {
+                  this.closeChildren();
+                }, this.enterDelay);
+              } else {
+                this.closeChildren();
+              }
             }
           }
         }
