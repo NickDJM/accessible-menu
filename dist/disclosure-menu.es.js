@@ -1493,6 +1493,8 @@ class b {
    *   will be focused.
    * - When a `pointerenter` event triggers on a submenu item, and a submenu is
    *   already open, the preview method for the submenu item's toggle will be called.
+   * - When a `pointerenter` event triggers on a non-submenu item, and a submenu
+   *   is already open, the closeChildren method for the menu will be called.
    * - When a `pointerenter` event triggers on a submenu item, and no submenu is
    *   open, no submenu-specific methods will be called.
    * - When a `pointerleave` event triggers on an open submenu item that is not a
@@ -1519,9 +1521,11 @@ class b {
             const i = this.elements.submenuToggles.some(
               (o) => o.isOpen
             );
-            this.currentChild = t, (!this.isTopLevel || this.focusState !== "none") && (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild()), e.isSubmenuItem && (!this.isTopLevel || i) && (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild(), this.enterDelay > 0 ? (this._clearTimeout(), this._setTimeout(() => {
+            this.currentChild = t, (!this.isTopLevel || this.focusState !== "none") && (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild()), (!this.isTopLevel || i) && (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild(), e.isSubmenuItem ? this.enterDelay > 0 ? (this._clearTimeout(), this._setTimeout(() => {
               e.elements.toggle.preview();
-            }, this.enterDelay)) : e.elements.toggle.preview());
+            }, this.enterDelay)) : e.elements.toggle.preview() : this.enterDelay > 0 ? (this._clearTimeout(), this._setTimeout(() => {
+              this.closeChildren();
+            }, this.enterDelay)) : this.closeChildren());
           }
         }
       }), e.isSubmenuItem && (e.dom.item.addEventListener("pointerleave", (s) => {

@@ -693,8 +693,8 @@ class v {
     isTopLevel: f = !0,
     parentMenu: y = null,
     hoverType: M = "off",
-    hoverDelay: b = 250,
-    enterDelay: C = -1,
+    hoverDelay: C = 250,
+    enterDelay: b = -1,
     leaveDelay: _ = -1
   }) {
     /**
@@ -890,7 +890,7 @@ class v {
      * @type {string[]}
      */
     u(this, "_errors", []);
-    this._dom.menu = t, this._dom.controller = h, this._dom.container = c, this._selectors.menuItems = e, this._selectors.menuLinks = s, this._selectors.submenuItems = n, this._selectors.submenuToggles = i, this._selectors.submenus = l, this._elements.menuItems = [], this._elements.submenuToggles = [], this._elements.controller = null, this._elements.parentMenu = y, this._elements.rootMenu = f ? this : null, this._openClass = m || "", this._closeClass = a || "", this._transitionClass = d || "", this._root = f, this._hoverType = M, this._hoverDelay = b, this._enterDelay = C, this._leaveDelay = _;
+    this._dom.menu = t, this._dom.controller = h, this._dom.container = c, this._selectors.menuItems = e, this._selectors.menuLinks = s, this._selectors.submenuItems = n, this._selectors.submenuToggles = i, this._selectors.submenus = l, this._elements.menuItems = [], this._elements.submenuToggles = [], this._elements.controller = null, this._elements.parentMenu = y, this._elements.rootMenu = f ? this : null, this._openClass = m || "", this._closeClass = a || "", this._transitionClass = d || "", this._root = f, this._hoverType = M, this._hoverDelay = C, this._enterDelay = b, this._leaveDelay = _;
   }
   /**
    * Initializes the menu.
@@ -1493,6 +1493,8 @@ class v {
    *   will be focused.
    * - When a `pointerenter` event triggers on a submenu item, and a submenu is
    *   already open, the preview method for the submenu item's toggle will be called.
+   * - When a `pointerenter` event triggers on a non-submenu item, and a submenu
+   *   is already open, the closeChildren method for the menu will be called.
    * - When a `pointerenter` event triggers on a submenu item, and no submenu is
    *   open, no submenu-specific methods will be called.
    * - When a `pointerleave` event triggers on an open submenu item that is not a
@@ -1519,9 +1521,11 @@ class v {
             const n = this.elements.submenuToggles.some(
               (i) => i.isOpen
             );
-            this.currentChild = e, (!this.isTopLevel || this.focusState !== "none") && (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild()), t.isSubmenuItem && (!this.isTopLevel || n) && (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild(), this.enterDelay > 0 ? (this._clearTimeout(), this._setTimeout(() => {
+            this.currentChild = e, (!this.isTopLevel || this.focusState !== "none") && (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild()), (!this.isTopLevel || n) && (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild(), t.isSubmenuItem ? this.enterDelay > 0 ? (this._clearTimeout(), this._setTimeout(() => {
               t.elements.toggle.preview();
-            }, this.enterDelay)) : t.elements.toggle.preview());
+            }, this.enterDelay)) : t.elements.toggle.preview() : this.enterDelay > 0 ? (this._clearTimeout(), this._setTimeout(() => {
+              this.closeChildren();
+            }, this.enterDelay)) : this.closeChildren());
           }
         }
       }), t.isSubmenuItem && (t.dom.item.addEventListener("pointerleave", (s) => {
@@ -1817,11 +1821,11 @@ class x extends v {
     transitionClass: f = "transitioning",
     isTopLevel: y = !0,
     parentMenu: M = null,
-    hoverType: b = "off",
-    hoverDelay: C = 250,
+    hoverType: C = "off",
+    hoverDelay: b = 250,
     enterDelay: _ = -1,
-    leaveDelay: E = -1,
-    optionalKeySupport: T = !1,
+    leaveDelay: T = -1,
+    optionalKeySupport: E = !1,
     initialize: O = !0
   }) {
     super({
@@ -1838,10 +1842,10 @@ class x extends v {
       transitionClass: f,
       isTopLevel: y,
       parentMenu: M,
-      hoverType: b,
-      hoverDelay: C,
+      hoverType: C,
+      hoverDelay: b,
       enterDelay: _,
-      leaveDelay: E
+      leaveDelay: T
     });
     /**
      * The class to use when generating submenus.
@@ -1884,7 +1888,7 @@ class x extends v {
      * @type {boolean}
      */
     u(this, "_optionalSupport", !1);
-    this._optionalSupport = T, O && this.initialize();
+    this._optionalSupport = E, O && this.initialize();
   }
   /**
    * Initializes the menu.
@@ -2179,11 +2183,11 @@ class K extends v {
     transitionClass: f = "transitioning",
     isTopLevel: y = !0,
     parentMenu: M = null,
-    hoverType: b = "off",
-    hoverDelay: C = 250,
+    hoverType: C = "off",
+    hoverDelay: b = 250,
     enterDelay: _ = -1,
-    leaveDelay: E = -1,
-    initialize: T = !0
+    leaveDelay: T = -1,
+    initialize: E = !0
   }) {
     super({
       menuElement: e,
@@ -2199,10 +2203,10 @@ class K extends v {
       transitionClass: f,
       isTopLevel: y,
       parentMenu: M,
-      hoverType: b,
-      hoverDelay: C,
+      hoverType: C,
+      hoverDelay: b,
       enterDelay: _,
-      leaveDelay: E
+      leaveDelay: T
     });
     /**
      * The class to use when generating submenus.
@@ -2229,7 +2233,7 @@ class K extends v {
      * @type {typeof MenubarToggle}
      */
     u(this, "_MenuToggleType", Z);
-    T && this.initialize();
+    E && this.initialize();
   }
   /**
    * Initializes the menu.
@@ -2565,11 +2569,11 @@ class F extends v {
     closeClass: f = "hide",
     transitionClass: y = "transitioning",
     isTopLevel: M = !0,
-    parentMenu: b = null,
-    hoverType: C = "off",
+    parentMenu: C = null,
+    hoverType: b = "off",
     hoverDelay: _ = 250,
-    enterDelay: E = -1,
-    leaveDelay: T = -1,
+    enterDelay: T = -1,
+    leaveDelay: E = -1,
     optionalKeySupport: O = !1,
     initialize: N = !0
   }) {
@@ -2586,11 +2590,11 @@ class F extends v {
       closeClass: f,
       transitionClass: y,
       isTopLevel: M,
-      parentMenu: b,
-      hoverType: C,
+      parentMenu: C,
+      hoverType: b,
       hoverDelay: _,
-      enterDelay: E,
-      leaveDelay: T
+      enterDelay: T,
+      leaveDelay: E
     });
     /**
      * The class to use when generating submenus.
@@ -2851,10 +2855,11 @@ class F extends v {
             if (this.currentChild = s, (!this.isTopLevel || this.focusState !== "none") && (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild()), !this.isTopLevel || i) {
               this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild();
               let l = e.isSubmenuItem ? e.elements.toggle : null;
-              if (e.elements.sibling !== null && (l = e.elements.sibling.elements.toggle), l === null) return;
-              this.enterDelay > 0 ? (this._clearTimeout(), this._setTimeout(() => {
+              e.elements.sibling !== null && (l = e.elements.sibling.elements.toggle), l !== null ? this.enterDelay > 0 ? (this._clearTimeout(), this._setTimeout(() => {
                 l.preview();
-              }, this.enterDelay)) : l.preview();
+              }, this.enterDelay)) : l.preview() : this.enterDelay > 0 ? (this._clearTimeout(), this._setTimeout(() => {
+                this.closeChildren();
+              }, this.enterDelay)) : this.closeChildren();
             }
           }
         }
@@ -3093,11 +3098,11 @@ class $ extends v {
     transitionClass: f = "transitioning",
     isTopLevel: y = !0,
     parentMenu: M = null,
-    hoverType: b = "off",
-    hoverDelay: C = 250,
+    hoverType: C = "off",
+    hoverDelay: b = 250,
     enterDelay: _ = -1,
-    leaveDelay: E = -1,
-    initialize: T = !0
+    leaveDelay: T = -1,
+    initialize: E = !0
   }) {
     super({
       menuElement: e,
@@ -3113,10 +3118,10 @@ class $ extends v {
       transitionClass: f,
       isTopLevel: y,
       parentMenu: M,
-      hoverType: b,
-      hoverDelay: C,
+      hoverType: C,
+      hoverDelay: b,
       enterDelay: _,
-      leaveDelay: E
+      leaveDelay: T
     });
     /**
      * The class to use when generating submenus.
@@ -3143,7 +3148,7 @@ class $ extends v {
      * @type {typeof TreeviewToggle}
      */
     u(this, "_MenuToggleType", J);
-    T && this.initialize();
+    E && this.initialize();
   }
   /**
    * Initializes the menu.
@@ -3199,6 +3204,8 @@ class $ extends v {
    *   will be focused.
    * - When a `pointerenter` event triggers on a submenu item, and a submenu is
    *   already open, the preview method for the submenu item's toggle will be called.
+   * - When a `pointerenter` event triggers on a non-submenu item, and a submenu
+   *   is already open, the closeChildren method for the menu will be called.
    * - When a `pointerenter` event triggers on a submenu item, and no submenu is
    *   open, no submenu-specific methods will be called.
    *
@@ -3219,9 +3226,11 @@ class $ extends v {
             const i = this.elements.submenuToggles.some(
               (l) => l.isOpen
             );
-            this.currentChild = s, (!this.isTopLevel || this.focusState !== "none") && (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild()), e.isSubmenuItem && (!this.isTopLevel || i) && (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild(), this.enterDelay > 0 ? (this._clearTimeout(), this._setTimeout(() => {
+            this.currentChild = s, (!this.isTopLevel || this.focusState !== "none") && (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild()), (!this.isTopLevel || i) && (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild(), e.isSubmenuItem ? this.enterDelay > 0 ? (this._clearTimeout(), this._setTimeout(() => {
               e.elements.toggle.preview();
-            }, this.enterDelay)) : e.elements.toggle.preview());
+            }, this.enterDelay)) : e.elements.toggle.preview() : this.enterDelay > 0 ? (this._clearTimeout(), this._setTimeout(() => {
+              this.closeChildren();
+            }, this.enterDelay)) : this.closeChildren());
           }
         }
       }), e.isSubmenuItem && (e.dom.item.addEventListener("pointerleave", (n) => {

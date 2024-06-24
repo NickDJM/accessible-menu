@@ -4,7 +4,7 @@ var o = (n, e, t) => V(n, typeof e != "symbol" ? e + "" : e, t);
 function f(n, e) {
   typeof n == "string" ? e.classList.add(n) : e.classList.add(...n);
 }
-function p(n, e) {
+function d(n, e) {
   typeof n == "string" ? e.classList.remove(n) : e.classList.remove(...n);
 }
 function g(n, e) {
@@ -86,7 +86,7 @@ function _(n) {
     };
   }
 }
-function d(n) {
+function p(n) {
   try {
     if (typeof n != "object" || Array.isArray(n)) {
       const e = typeof n;
@@ -410,12 +410,12 @@ class L {
   _expand(e = !0) {
     const { closeClass: t, openClass: s, transitionClass: i } = this.elements.controlledMenu;
     this.dom.toggle.setAttribute("aria-expanded", "true"), i !== "" ? (f(i, this.elements.controlledMenu.dom.menu), requestAnimationFrame(() => {
-      t !== "" && p(t, this.elements.controlledMenu.dom.menu), requestAnimationFrame(() => {
+      t !== "" && d(t, this.elements.controlledMenu.dom.menu), requestAnimationFrame(() => {
         s !== "" && f(s, this.elements.controlledMenu.dom.menu), requestAnimationFrame(() => {
-          p(i, this.elements.controlledMenu.dom.menu);
+          d(i, this.elements.controlledMenu.dom.menu);
         });
       });
-    })) : (s !== "" && f(s, this.elements.controlledMenu.dom.menu), t !== "" && p(t, this.elements.controlledMenu.dom.menu)), e && this.dom.toggle.dispatchEvent(this._expandEvent);
+    })) : (s !== "" && f(s, this.elements.controlledMenu.dom.menu), t !== "" && d(t, this.elements.controlledMenu.dom.menu)), e && this.dom.toggle.dispatchEvent(this._expandEvent);
   }
   /**
    * Collapses the controlled menu.
@@ -437,12 +437,12 @@ class L {
   _collapse(e = !0) {
     const { closeClass: t, openClass: s, transitionClass: i } = this.elements.controlledMenu;
     this.dom.toggle.setAttribute("aria-expanded", "false"), i !== "" ? (f(i, this.elements.controlledMenu.dom.menu), requestAnimationFrame(() => {
-      s !== "" && p(s, this.elements.controlledMenu.dom.menu), requestAnimationFrame(() => {
+      s !== "" && d(s, this.elements.controlledMenu.dom.menu), requestAnimationFrame(() => {
         t !== "" && f(t, this.elements.controlledMenu.dom.menu), requestAnimationFrame(() => {
-          p(i, this.elements.controlledMenu.dom.menu);
+          d(i, this.elements.controlledMenu.dom.menu);
         });
       });
-    })) : (t !== "" && f(t, this.elements.controlledMenu.dom.menu), s !== "" && p(s, this.elements.controlledMenu.dom.menu)), e && this.dom.toggle.dispatchEvent(this._collapseEvent);
+    })) : (t !== "" && f(t, this.elements.controlledMenu.dom.menu), s !== "" && d(s, this.elements.controlledMenu.dom.menu)), e && this.dom.toggle.dispatchEvent(this._collapseEvent);
   }
   /**
    * Opens the controlled menu.
@@ -1153,13 +1153,13 @@ class C {
     return this._errors;
   }
   set openClass(e) {
-    d({ openClass: e }), this._openClass !== e && (this._openClass = e);
+    p({ openClass: e }), this._openClass !== e && (this._openClass = e);
   }
   set closeClass(e) {
-    d({ closeClass: e }), this._closeClass !== e && (this._closeClass = e);
+    p({ closeClass: e }), this._closeClass !== e && (this._closeClass = e);
   }
   set transitionClass(e) {
-    d({ transitionClass: e }), this._transitionClass !== e && (this._transitionClass = e);
+    p({ transitionClass: e }), this._transitionClass !== e && (this._transitionClass = e);
   }
   set currentChild(e) {
     c("number", { value: e });
@@ -1223,17 +1223,17 @@ class C {
       menuItemSelector: this._selectors.menuItems,
       menuLinkSelector: this._selectors.menuLinks
     }), s.status || (this._errors.push(s.error.message), e = !1), this._openClass !== "") {
-      const u = d({ openClass: this._openClass });
+      const u = p({ openClass: this._openClass });
       u.status || (this._errors.push(u.error.message), e = !1);
     }
     if (this._closeClass !== "") {
-      const u = d({
+      const u = p({
         closeClass: this._closeClass
       });
       u.status || (this._errors.push(u.error.message), e = !1);
     }
     if (this._transitionClass !== "") {
-      const u = d({
+      const u = p({
         transitionClass: this._transitionClass
       });
       u.status || (this._errors.push(u.error.message), e = !1);
@@ -1493,6 +1493,8 @@ class C {
    *   will be focused.
    * - When a `pointerenter` event triggers on a submenu item, and a submenu is
    *   already open, the preview method for the submenu item's toggle will be called.
+   * - When a `pointerenter` event triggers on a non-submenu item, and a submenu
+   *   is already open, the closeChildren method for the menu will be called.
    * - When a `pointerenter` event triggers on a submenu item, and no submenu is
    *   open, no submenu-specific methods will be called.
    * - When a `pointerleave` event triggers on an open submenu item that is not a
@@ -1519,9 +1521,11 @@ class C {
             const i = this.elements.submenuToggles.some(
               (r) => r.isOpen
             );
-            this.currentChild = t, (!this.isTopLevel || this.focusState !== "none") && (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild()), e.isSubmenuItem && (!this.isTopLevel || i) && (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild(), this.enterDelay > 0 ? (this._clearTimeout(), this._setTimeout(() => {
+            this.currentChild = t, (!this.isTopLevel || this.focusState !== "none") && (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild()), (!this.isTopLevel || i) && (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild(), e.isSubmenuItem ? this.enterDelay > 0 ? (this._clearTimeout(), this._setTimeout(() => {
               e.elements.toggle.preview();
-            }, this.enterDelay)) : e.elements.toggle.preview());
+            }, this.enterDelay)) : e.elements.toggle.preview() : this.enterDelay > 0 ? (this._clearTimeout(), this._setTimeout(() => {
+              this.closeChildren();
+            }, this.enterDelay)) : this.closeChildren());
           }
         }
       }), e.isSubmenuItem && (e.dom.item.addEventListener("pointerleave", (s) => {
@@ -2119,10 +2123,11 @@ class A extends C {
             if (this.currentChild = s, (!this.isTopLevel || this.focusState !== "none") && (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild()), !this.isTopLevel || r) {
               this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild();
               let l = t.isSubmenuItem ? t.elements.toggle : null;
-              if (t.elements.sibling !== null && (l = t.elements.sibling.elements.toggle), l === null) return;
-              this.enterDelay > 0 ? (this._clearTimeout(), this._setTimeout(() => {
+              t.elements.sibling !== null && (l = t.elements.sibling.elements.toggle), l !== null ? this.enterDelay > 0 ? (this._clearTimeout(), this._setTimeout(() => {
                 l.preview();
-              }, this.enterDelay)) : l.preview();
+              }, this.enterDelay)) : l.preview() : this.enterDelay > 0 ? (this._clearTimeout(), this._setTimeout(() => {
+                this.closeChildren();
+              }, this.enterDelay)) : this.closeChildren();
             }
           }
         }

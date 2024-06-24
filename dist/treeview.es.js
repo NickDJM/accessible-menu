@@ -7,7 +7,7 @@ function g(n, e) {
 function y(n, e) {
   typeof n == "string" ? e.classList.remove(n) : e.classList.remove(...n);
 }
-function b(n, e) {
+function C(n, e) {
   try {
     if (typeof e != "object") {
       const t = typeof e;
@@ -206,7 +206,7 @@ function S(n) {
   }
 }
 function L(n, e) {
-  if (a("string", { tagName: n }).status && b(HTMLElement, e).status) {
+  if (a("string", { tagName: n }).status && C(HTMLElement, e).status) {
     const t = n.toLowerCase();
     let s = !0;
     for (const i in e)
@@ -631,7 +631,7 @@ class A {
     this.elements.parentMenu.shouldFocus && this.dom.link.blur();
   }
 }
-function C(n) {
+function b(n) {
   try {
     const e = n.key || n.keyCode, t = {
       Enter: e === "Enter" || e === 13,
@@ -1205,11 +1205,11 @@ class M {
    */
   _validate() {
     let e = !0, t;
-    this._dom.container !== null || this._dom.controller !== null ? t = b(HTMLElement, {
+    this._dom.container !== null || this._dom.controller !== null ? t = C(HTMLElement, {
       menuElement: this._dom.menu,
       controllerElement: this._dom.controller,
       containerElement: this._dom.container
-    }) : t = b(HTMLElement, {
+    }) : t = C(HTMLElement, {
       menuElement: this._dom.menu
     }), t.status || (this._errors.push(t.error.message), e = !1);
     let s;
@@ -1240,7 +1240,7 @@ class M {
     }
     const i = a("boolean", { isTopLevel: this._root });
     if (i.status || (this._errors.push(i.error.message), e = !1), this._elements.parentMenu !== null) {
-      const m = b(M, {
+      const m = C(M, {
         parentMenu: this._elements.parentMenu
       });
       m.status || (this._errors.push(m.error.message), e = !1);
@@ -1277,7 +1277,7 @@ class M {
         throw new Error(
           `AccessibleMenu: The "${e}" element cannot be set through _setDOMElementType.`
         );
-      t !== this.dom.menu && b(HTMLElement, { base: t });
+      t !== this.dom.menu && C(HTMLElement, { base: t });
       const r = Array.from(
         t.querySelectorAll(this.selectors[e])
       ).filter(
@@ -1493,6 +1493,8 @@ class M {
    *   will be focused.
    * - When a `pointerenter` event triggers on a submenu item, and a submenu is
    *   already open, the preview method for the submenu item's toggle will be called.
+   * - When a `pointerenter` event triggers on a non-submenu item, and a submenu
+   *   is already open, the closeChildren method for the menu will be called.
    * - When a `pointerenter` event triggers on a submenu item, and no submenu is
    *   open, no submenu-specific methods will be called.
    * - When a `pointerleave` event triggers on an open submenu item that is not a
@@ -1519,9 +1521,11 @@ class M {
             const i = this.elements.submenuToggles.some(
               (r) => r.isOpen
             );
-            this.currentChild = t, (!this.isTopLevel || this.focusState !== "none") && (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild()), e.isSubmenuItem && (!this.isTopLevel || i) && (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild(), this.enterDelay > 0 ? (this._clearTimeout(), this._setTimeout(() => {
+            this.currentChild = t, (!this.isTopLevel || this.focusState !== "none") && (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild()), (!this.isTopLevel || i) && (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild(), e.isSubmenuItem ? this.enterDelay > 0 ? (this._clearTimeout(), this._setTimeout(() => {
               e.elements.toggle.preview();
-            }, this.enterDelay)) : e.elements.toggle.preview());
+            }, this.enterDelay)) : e.elements.toggle.preview() : this.enterDelay > 0 ? (this._clearTimeout(), this._setTimeout(() => {
+              this.closeChildren();
+            }, this.enterDelay)) : this.closeChildren());
           }
         }
       }), e.isSubmenuItem && (e.dom.item.addEventListener("pointerleave", (s) => {
@@ -1550,7 +1554,7 @@ class M {
       "keydown",
       (e) => {
         this.currentEvent = "keyboard";
-        const t = C(e);
+        const t = b(e);
         (t === "Space" || t === "Enter") && c(e);
       }
     );
@@ -1566,7 +1570,7 @@ class M {
   _handleKeyup() {
     this.isTopLevel && this.elements.controller && this.elements.controller.dom.toggle.addEventListener("keyup", (e) => {
       this.currentEvent = "keyboard";
-      const t = C(e);
+      const t = b(e);
       (t === "Space" || t === "Enter") && (c(e), this.elements.controller.toggle(), this.elements.controller.isOpen && this.focusFirstChild());
     });
   }
@@ -1955,6 +1959,8 @@ class O extends M {
    *   will be focused.
    * - When a `pointerenter` event triggers on a submenu item, and a submenu is
    *   already open, the preview method for the submenu item's toggle will be called.
+   * - When a `pointerenter` event triggers on a non-submenu item, and a submenu
+   *   is already open, the closeChildren method for the menu will be called.
    * - When a `pointerenter` event triggers on a submenu item, and no submenu is
    *   open, no submenu-specific methods will be called.
    *
@@ -1975,9 +1981,11 @@ class O extends M {
             const r = this.elements.submenuToggles.some(
               (l) => l.isOpen
             );
-            this.currentChild = s, (!this.isTopLevel || this.focusState !== "none") && (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild()), t.isSubmenuItem && (!this.isTopLevel || r) && (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild(), this.enterDelay > 0 ? (this._clearTimeout(), this._setTimeout(() => {
+            this.currentChild = s, (!this.isTopLevel || this.focusState !== "none") && (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild()), (!this.isTopLevel || r) && (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild(), t.isSubmenuItem ? this.enterDelay > 0 ? (this._clearTimeout(), this._setTimeout(() => {
               t.elements.toggle.preview();
-            }, this.enterDelay)) : t.elements.toggle.preview());
+            }, this.enterDelay)) : t.elements.toggle.preview() : this.enterDelay > 0 ? (this._clearTimeout(), this._setTimeout(() => {
+              this.closeChildren();
+            }, this.enterDelay)) : this.closeChildren());
           }
         }
       }), t.isSubmenuItem && (t.dom.item.addEventListener("pointerleave", (i) => {
@@ -2007,7 +2015,7 @@ class O extends M {
   _handleKeydown() {
     super._handleKeydown(), this.dom.menu.addEventListener("keydown", (t) => {
       this.currentEvent = "keyboard";
-      const s = C(t);
+      const s = b(t);
       if (s === "Tab" && (this.elements.rootMenu.focusState !== "none" ? this.elements.rootMenu.blur() : this.elements.rootMenu.focus()), this.focusState === "self") {
         const i = [
           "Space",
@@ -2048,7 +2056,7 @@ class O extends M {
   _handleKeyup() {
     super._handleKeyup(), this.dom.menu.addEventListener("keyup", (t) => {
       this.currentEvent = "keyboard";
-      const s = C(t), { altKey: i, crtlKey: r, metaKey: l } = t;
+      const s = b(t), { altKey: i, crtlKey: r, metaKey: l } = t;
       if (s === "Character" && !(i || r || l))
         c(t), this.elements.rootMenu.currentEvent = "character", this.focusNextNodeWithCharacter(t.key);
       else if (this.focusState === "self")

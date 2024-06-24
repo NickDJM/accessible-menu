@@ -215,7 +215,7 @@ function V(n, e) {
   } else
     return !1;
 }
-class A {
+class D {
   /**
    * Constructs a new `BaseMenuToggle`.
    *
@@ -511,7 +511,7 @@ class A {
     );
   }
 }
-class D {
+class A {
   /**
    * Constructs a new `BaseMenuItem`.
    *
@@ -713,7 +713,7 @@ class M {
      *
      * @type {typeof BaseMenuItem}
      */
-    o(this, "_MenuItemType", D);
+    o(this, "_MenuItemType", A);
     /**
      * The class to use when generating submenu toggles.
      *
@@ -721,7 +721,7 @@ class M {
      *
      * @type {typeof BaseMenuToggle}
      */
-    o(this, "_MenuToggleType", A);
+    o(this, "_MenuToggleType", D);
     /**
      * The DOM elements within the menu.
      *
@@ -1493,6 +1493,8 @@ class M {
    *   will be focused.
    * - When a `pointerenter` event triggers on a submenu item, and a submenu is
    *   already open, the preview method for the submenu item's toggle will be called.
+   * - When a `pointerenter` event triggers on a non-submenu item, and a submenu
+   *   is already open, the closeChildren method for the menu will be called.
    * - When a `pointerenter` event triggers on a submenu item, and no submenu is
    *   open, no submenu-specific methods will be called.
    * - When a `pointerleave` event triggers on an open submenu item that is not a
@@ -1519,9 +1521,11 @@ class M {
             const i = this.elements.submenuToggles.some(
               (r) => r.isOpen
             );
-            this.currentChild = t, (!this.isTopLevel || this.focusState !== "none") && (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild()), e.isSubmenuItem && (!this.isTopLevel || i) && (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild(), this.enterDelay > 0 ? (this._clearTimeout(), this._setTimeout(() => {
+            this.currentChild = t, (!this.isTopLevel || this.focusState !== "none") && (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild()), (!this.isTopLevel || i) && (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild(), e.isSubmenuItem ? this.enterDelay > 0 ? (this._clearTimeout(), this._setTimeout(() => {
               e.elements.toggle.preview();
-            }, this.enterDelay)) : e.elements.toggle.preview());
+            }, this.enterDelay)) : e.elements.toggle.preview() : this.enterDelay > 0 ? (this._clearTimeout(), this._setTimeout(() => {
+              this.closeChildren();
+            }, this.enterDelay)) : this.closeChildren());
           }
         }
       }), e.isSubmenuItem && (e.dom.item.addEventListener("pointerleave", (s) => {
@@ -1687,7 +1691,7 @@ class M {
     });
   }
 }
-class z extends D {
+class z extends A {
   /**
    * Constructs a new `MenubarItem`.
    *
@@ -1756,7 +1760,7 @@ class z extends D {
     super.blur(), this.elements.parentMenu.isTopLevel && (this.dom.link.tabIndex = -1);
   }
 }
-class H extends A {
+class H extends D {
   /**
    * Constructs a new `MenubarToggle`.
    *
