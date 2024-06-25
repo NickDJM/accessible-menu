@@ -189,6 +189,8 @@ class Menubar extends BaseMenu {
           if (this.elements.controller) {
             this.elements.controller.close();
           }
+
+          this.elements.rootMenu.hasOpened = false;
         }
       }
     });

@@ -383,6 +383,8 @@ class TopLinkDisclosureMenu extends BaseMenu {
           if (this.elements.controller) {
             this.elements.controller.close();
           }
+
+          this.elements.rootMenu.hasOpened = false;
         }
       }
     });
@@ -465,9 +467,6 @@ class TopLinkDisclosureMenu extends BaseMenu {
             toggle.preview();
           }
         } else if (this.hoverType === "dynamic") {
-          const isOpen = this.elements.submenuToggles.some(
-            (toggle) => toggle.isOpen
-          );
           this.currentChild = index;
 
           if (!this.isTopLevel || this.focusState !== "none") {
@@ -476,7 +475,7 @@ class TopLinkDisclosureMenu extends BaseMenu {
             this.focusCurrentChild();
           }
 
-          if (!this.isTopLevel || isOpen) {
+          if (!this.isTopLevel || this.hasOpened) {
             this.currentEvent = "mouse";
             this.elements.rootMenu.blurChildren();
             this.focusCurrentChild();
@@ -532,19 +531,13 @@ class TopLinkDisclosureMenu extends BaseMenu {
               menuItem.elements.toggle.close();
             }
           } else if (this.hoverType === "dynamic") {
-            if (!this.isTopLevel) {
-              if (this.leaveDelay > 0) {
-                this._clearTimeout();
-                this._setTimeout(() => {
-                  this.currentEvent = "mouse";
-                  menuItem.elements.toggle.close();
-                  this.focusCurrentChild();
-                }, this.leaveDelay);
-              } else {
+            if (this.leaveDelay > 0) {
+              this._clearTimeout();
+              this._setTimeout(() => {
                 this.currentEvent = "mouse";
-                menuItem.elements.toggle.close();
-                this.focusCurrentChild();
-              }
+              }, this.leaveDelay);
+            } else {
+              this.currentEvent = "mouse";
             }
           }
         });

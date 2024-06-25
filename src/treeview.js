@@ -220,10 +220,6 @@ class Treeview extends BaseMenu {
             }
           }
         } else if (this.hoverType === "dynamic") {
-          const isOpen = this.elements.submenuToggles.some(
-            (toggle) => toggle.isOpen
-          );
-
           this.currentChild = index;
 
           if (!this.isTopLevel || this.focusState !== "none") {
@@ -232,7 +228,7 @@ class Treeview extends BaseMenu {
             this.focusCurrentChild();
           }
 
-          if (!this.isTopLevel || isOpen) {
+          if (!this.isTopLevel || this.hasOpened) {
             this.currentEvent = "mouse";
             this.elements.rootMenu.blurChildren();
             this.focusCurrentChild();
@@ -249,11 +245,6 @@ class Treeview extends BaseMenu {
             } else {
               if (this.enterDelay > 0) {
                 this._clearTimeout();
-                this._setTimeout(() => {
-                  this.closeChildren();
-                }, this.enterDelay);
-              } else {
-                this.closeChildren();
               }
             }
           }
@@ -272,10 +263,13 @@ class Treeview extends BaseMenu {
               this._clearTimeout();
             }
           } else if (this.hoverType === "dynamic") {
-            if (!this.isTopLevel) {
-              if (this.leaveDelay > 0) {
-                this._clearTimeout();
-              }
+            if (this.leaveDelay > 0) {
+              this._clearTimeout();
+              this._setTimeout(() => {
+                this.currentEvent = "mouse";
+              }, this.leaveDelay);
+            } else {
+              this.currentEvent = "mouse";
             }
           }
         });

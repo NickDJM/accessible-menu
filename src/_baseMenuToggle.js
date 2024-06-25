@@ -276,6 +276,7 @@ class BaseMenuToggle {
       this.elements.controlledMenu;
 
     this.dom.toggle.setAttribute("aria-expanded", "true");
+    this.elements.controlledMenu.elements.rootMenu.hasOpened = true;
 
     // If we're dealing with transition classes, then we need to utilize
     // requestAnimationFrame to add the transition class, remove the close class,
