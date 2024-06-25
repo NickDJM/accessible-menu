@@ -21,6 +21,6 @@ Here is an example:
 import { DisclosureMenu } from "accessible-menu";
 
 const menu = new DisclosureMenu({
-  menuElement: document.querySelector("#example-menu");
+  menuElement: document.querySelector("#example-menu"),
 });
 ```
