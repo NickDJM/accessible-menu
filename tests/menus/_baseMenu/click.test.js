@@ -56,6 +56,25 @@ describe("BaseMenu", () => {
       expect(menu.currentEvent).toBe("mouse");
     });
 
+    // Test that pointerdown should call _clearTimeout.
+    it("should call _clearTimeout", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+
+      // Spy on _clearTimeout.
+      const spy = vi.spyOn(menu, "_clearTimeout");
+
+      // Simulate a pointerdown event.
+      simulatePointerEvent("pointerdown", menu.elements.menuItems[0].dom.link);
+
+      expect(spy).toHaveBeenCalled();
+    });
+
     // Test that pointerdown calls blurChildren on the root menu.
     it("should call blurChildren on the root menu", () => {
       // Create a new BaseMenu instance for testing.

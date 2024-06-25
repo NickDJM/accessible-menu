@@ -447,4 +447,30 @@ describe("BaseMenu getter/setters", () => {
       expect(menu.errors).toEqual(menu._errors);
     });
   });
+
+  // Test BaseMenu hasOpened.
+  describe("hasOpened", () => {
+    // Test that hasOpened gets the hasOpened value.
+    it("should get the hasOpened value", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      expect(menu.hasOpened).toEqual(menu._hasOpened);
+    });
+    // Test that hasOpened sets the hasOpened value.
+    it("should set the hasOpened value", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      menu.hasOpened = true;
+
+      expect(menu.hasOpened).toBe(true);
+    });
+  });
 });

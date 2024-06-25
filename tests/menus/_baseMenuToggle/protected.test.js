@@ -40,6 +40,24 @@ describe("BaseMenuToggle protected methods", () => {
       expect(menuToggle.dom.toggle.getAttribute("aria-expanded")).toBe("true");
     });
 
+    // Test that expand sets the root menu's hasOpened value to true.
+    it("should set the root menu's hasOpened value to true", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+
+      const menuToggle = menu.elements.submenuToggles[0];
+
+      // Expand the menu.
+      menuToggle._expand();
+
+      expect(menu.hasOpened).toBe(true);
+    });
+
     // Test that expand emits accessibleMenuExpand event.
     it("should emit accessibleMenuExpand event", () => {
       // Create a new BaseMenu instance for testing.
