@@ -1,4 +1,4 @@
-import AccessibleMenu from "../index";
+import AccessibleMenu from "../index.js";
 import {
   singleLevel,
   twoLevel,
@@ -7,7 +7,7 @@ import {
   threeLevel,
   threeLevelDisclosure,
   threeLevelDisclosureTopLink,
-} from "./menus";
+} from "./menus.js";
 
 /**
  * Generates an accessible-menu.
