@@ -364,7 +364,7 @@ class BaseMenu {
 
         // Set the controller's aria attributes.
         // These aren't necessarily the same as the standard menu toggle.
-        toggle.dom.toggle.setAttributes("aria-controls", this.dom.menu.id);
+        toggle.dom.toggle.setAttribute("aria-controls", this.dom.menu.id);
 
         this._elements.controller = toggle;
       }

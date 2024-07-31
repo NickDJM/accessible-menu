@@ -159,7 +159,7 @@ class Menubar extends BaseMenu {
         // Remove the aria-haspopup attribute from the controller.
         // It isn't needed for the root toggle.
         if (this.elements.controller) {
-          this.elements.controller.dom.toggle.removeAtribute("aria-haspopup");
+          this.elements.controller.dom.toggle.removeAttribute("aria-haspopup");
         }
       }
     } catch (error) {
