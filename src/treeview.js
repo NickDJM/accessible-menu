@@ -152,6 +152,12 @@ class Treeview extends BaseMenu {
       this._handleHover();
       this._handleKeydown();
       this._handleKeyup();
+
+      // Remove the aria-owns attribute from the controller.
+      // It isn't needed for the root toggle.
+      if (this.isTopLevel && this.elements.controller) {
+        this.elements.controller.dom.toggle.removeAtribute("aria-owns");
+      }
     } catch (error) {
       console.error(error);
     }

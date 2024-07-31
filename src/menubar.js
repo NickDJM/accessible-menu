@@ -155,6 +155,12 @@ class Menubar extends BaseMenu {
 
       if (this.isTopLevel) {
         this.elements.menuItems[0].dom.link.tabIndex = 0;
+
+        // Remove the aria-haspopup attribute from the controller.
+        // It isn't needed for the root toggle.
+        if (this.elements.controller) {
+          this.elements.controller.dom.toggle.removeAtribute("aria-haspopup");
+        }
       }
     } catch (error) {
       console.error(error);

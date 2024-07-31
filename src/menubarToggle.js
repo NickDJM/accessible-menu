@@ -39,6 +39,22 @@ class MenubarToggle extends BaseMenuToggle {
   }
 
   /**
+   * Sets the ARIA attributes on the toggle and controlled menu.
+   *
+   * Calls the BaseMenuToggle's _setAriaAttributes method.
+   *
+   * Then sets the toggle's `aria-haspopup` attribute to "true".
+   *
+   * @protected
+   */
+  _setAriaAttributes() {
+    super._setAriaAttributes();
+
+    // Set aria-haspopup.
+    this.dom.toggle.setAttribute("aria-haspopup", "true");
+  }
+
+  /**
    * Opens the controlled menu.
    *
    * Calls the  closeSiblings method

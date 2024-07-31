@@ -2,7 +2,7 @@
 /* global BaseMenu */
 
 import { addClass, removeClass } from "./domHelpers.js";
-import { isTag, isValidType } from "./validate.js";
+import { isValidType } from "./validate.js";
 
 /**
  * A link or button that controls the visibility of a BaseMenu.
@@ -224,33 +224,22 @@ class BaseMenuToggle {
   /**
    * Sets the ARIA attributes on the toggle and controlled menu.
    *
-   * The first steps are to ensure that the toggle has `aria-haspopup`
-   * set to "true", `aria-expanded` is initially set to "false" and,
-   * if the toggle element is not a `<button>`, set the `role` to "button".
+   * The first steps are to ensure that the toggle has `aria-expanded`
+   * is initially set to "false".
    *
    * Then using the toggle and menu's IDs, the menu's `aria-labelledby` is set to
-   * the toggle's ID, and the toggle's `aria-controls` is set to the menu's ID.
+   * the toggle's ID.
    *
    * @protected
    */
   _setAriaAttributes() {
     // Set up proper aria attributes.
-    this.dom.toggle.setAttribute("aria-haspopup", "true");
     this.dom.toggle.setAttribute("aria-expanded", "false");
-
-    // If the toggle element is a button, there's no need to add a role.
-    if (!isTag("button", { toggle: this.dom.toggle })) {
-      this.dom.toggle.setAttribute("role", "button");
-    }
 
     // Set up proper aria label and control.
     this.elements.controlledMenu.dom.menu.setAttribute(
       "aria-labelledby",
       this.dom.toggle.id
-    );
-    this.dom.toggle.setAttribute(
-      "aria-controls",
-      this.elements.controlledMenu.dom.menu.id
     );
   }
 

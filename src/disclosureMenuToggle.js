@@ -2,6 +2,7 @@
 /* global DisclosureMenu */
 
 import BaseMenuToggle from "./_baseMenuToggle.js";
+import { isTag } from "./validate.js";
 
 /**
  * A link or button that controls the visibility of a DisclosureMenu.
@@ -36,6 +37,34 @@ class DisclosureMenuToggle extends BaseMenuToggle {
     if (initialize) {
       this.initialize();
     }
+  }
+
+  /**
+   * Sets the ARIA attributes on the toggle and controlled menu.
+   *
+   * Calls the BaseMenuToggle's _setAriaAttributes method.
+   *
+   * Ensures the toggle element has a `role` of "button" if it is not
+   * already a button.
+   *
+   * Then using the toggle and menu's IDs, the toggle's `aria-controls`
+   * is set to the menu's ID.
+   *
+   * @protected
+   */
+  _setAriaAttributes() {
+    super._setAriaAttributes();
+
+    // If the toggle element is a button, there's no need to add a role.
+    if (!isTag("button", { toggle: this.dom.toggle })) {
+      this.dom.toggle.setAttribute("role", "button");
+    }
+
+    // Set the `aria-controls` attribute on the toggle to the menu's ID.
+    this.dom.toggle.setAttribute(
+      "aria-controls",
+      this.elements.controlledMenu.dom.menu.id
+    );
   }
 
   /**

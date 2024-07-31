@@ -11,6 +11,7 @@ import {
   isValidState,
   isValidEvent,
   isValidHoverType,
+  isTag,
 } from "./validate.js";
 import { preventEvent, keyPress } from "./eventHandlers.js";
 
@@ -354,6 +355,16 @@ class BaseMenu {
           parentElement: this.dom.container,
           controlledMenu: this,
         });
+
+        // If the toggle isn't a button, add the approriate role to let
+        // screen readers know it should act like a button.
+        if (!isTag("button", { toggle: toggle.dom.toggle })) {
+          toggle.dom.toggle.setAttribute("role", "button");
+        }
+
+        // Set the controller's aria attributes.
+        // These aren't necessarily the same as the standard menu toggle.
+        toggle.dom.toggle.setAttributes("aria-controls", this.dom.menu.id);
 
         this._elements.controller = toggle;
       }
