@@ -51,6 +51,20 @@ Getters and setters are inherited from the [BaseMenuToggle](./base-menu-toggle#g
 
 Methods are inherited from the [BaseMenuToggle](./base-menu-toggle#methods) class. The following methods are unique to or overwritten in the DisclosureMenuToggle class.
 
+### _setAriaAttributes <badge type="warning" text="protected" /> {#method--setAriaAttributes}
+
+Sets the ARIA attributes on the toggle and controlled menu.
+
+```js
+DisclosureMenuToggle._setAriaAttributes();
+```
+
+Calls the [BaseMenuToggle's _setAriaAttributes method](./base-menu-toggle#method--setAriaAttributes).
+
+Ensures the toggle element has a `role` of "button" if it is not already a button.
+
+Then using the toggle and menu's IDs, the toggle's `aria-controls` is set to the menu's ID.
+
 ### open <badge type="tip" text="public" /> {#method--open}
 
 Opens and controlled menu.

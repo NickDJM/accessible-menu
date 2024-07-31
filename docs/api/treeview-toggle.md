@@ -67,6 +67,6 @@ Sets the ARIA attributes on the toggle and controlled menu.
 TreeviewToggle._setAriaAttributes();
 ```
 
-The first steps are to ensure that the toggle has `aria-haspopup` set to "true", `aria-expanded` set to "false" if it's not already set explicitly to "true", and if the toggle element is not a `<button>`, set the `role` to "button".
+The first steps are to ensure that the toggle has `aria-expanded` set to "false" if it's not already set explicitly to "true".
 
-Then using the toggle and menu's IDs, the menu's `aria-labelledby` is set to the toggle's ID, and the toggle's `aria-controls` is set to the menu's ID.
+Then using the toggle and menu's IDs, the menu's `aria-labelledby` is set to the toggle's ID, and the toggle's `aria-owns` is set to the menu's ID.

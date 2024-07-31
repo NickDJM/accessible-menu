@@ -51,6 +51,18 @@ Getters and setters are inherited from the [BaseMenuToggle](./base-menu-toggle#g
 
 Methods are inherited from the [BaseMenuToggle](./base-menu-toggle#methods) class. The following methods are unique to or overwritten in the MenubarToggle class.
 
+### _setAriaAttributes <badge type="warning" text="protected" /> {#method--setAriaAttributes}
+
+Sets the ARIA attributes on the toggle and controlled menu.
+
+```js
+MenubarToggle._setAriaAttributes();
+```
+
+Calls the [BaseMenuToggle's _setAriaAttributes method](./base-menu-toggle#method--setAriaAttributes).
+
+Then sets the toggle's `aria-haspopup` attribute to "true".
+
 ### open <badge type="tip" text="public" /> {#method--open}
 
 Opens the controlled menu.

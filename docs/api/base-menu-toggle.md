@@ -202,9 +202,9 @@ Sets the ARIA attributes on the toggle and controlled menu.
 BaseMenuToggle._setAriaAttributes();
 ```
 
-The first steps are to ensure that the toggle has `aria-haspopup` set to "true", `aria-expanded` is initially set to "false" and, if the toggle element is not a `<button>`, set the `role` to "button".
+The first steps are to ensure that the toggle has `aria-expanded` is initially set to "false".
 
-Then using the toggle and menu's IDs, the menu's `aria-labelledby` is set to the toggle's ID, and the toggle's `aria-controls` is set to the menu's ID.
+Then using the toggle and menu's IDs, the menu's `aria-labelledby` is set to the toggle's ID.
 
 ### _expand <badge type="warning" text="protected" /> {#method--expand}
 
