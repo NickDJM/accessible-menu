@@ -229,6 +229,81 @@ export const twoLevelDisclosureTopLink =
 </nav>
 `;
 
+export const twoLevelDisclosureTopLinkNoButtons =
+  /* html */
+  `
+<nav id="example-menu"  aria-label="example" aria-describedby="disclaimer">
+  <button id="example-toggle" class="menu-toggle" aria-label="Example menu">☰</button>
+  <ul class="menu">
+    <li class="menu-item"><a class="menu-link" href="#">About</a></li>
+    <li class="menu-item dropdown">
+      <a class="menu-link" href="#">Mammals</a>
+      <a class="dropdown-toggle" href="#" aria-label="Mammals submenu"></a>
+      <ul class="dropdown-menu">
+        <li class="menu-item"><a class="menu-link" href="#">About</a></li>
+        <li class="menu-item"><a class="menu-link" href="#">Wild</a></li>
+        <li class="menu-item"><a class="menu-link" href="#">Domesticated</a></li>
+        <li class="menu-item"><a class="menu-link" href="#">Habitats</a></li>
+        <li class="menu-item"><a class="menu-link" href="#">Food</a></li>
+      </ul>
+    </li>
+    <li class="menu-item dropdown">
+      <a class="menu-link" href="#">Reptiles</a>
+      <a class="dropdown-toggle" href="#" aria-label="Reptiles submenu"></a>
+      <ul class="dropdown-menu">
+        <li class="menu-item"><a class="menu-link" href="#">About</a></li>
+        <li class="menu-item"><a class="menu-link" href="#">Wild</a></li>
+        <li class="menu-item"><a class="menu-link" href="#">Domesticated</a></li>
+        <li class="menu-item"><a class="menu-link" href="#">Habitats</a></li>
+        <li class="menu-item"><a class="menu-link" href="#">Food</a></li>
+      </ul>
+    </li>
+    <li class="menu-item dropdown">
+      <a class="menu-link" href="#">Amphibians</a>
+      <a class="dropdown-toggle" href="#" aria-label="Amphibians submenu"></a>
+      <ul class="dropdown-menu">
+        <li class="menu-item"><a class="menu-link" href="#">About</a></li>
+        <li class="menu-item"><a class="menu-link" href="#">Wild</a></li>
+        <li class="menu-item"><a class="menu-link" href="#">Domesticated</a></li>
+        <li class="menu-item"><a class="menu-link" href="#">Habitats</a></li>
+        <li class="menu-item"><a class="menu-link" href="#">Food</a></li>
+      </ul>
+    </li>
+    <li class="menu-item dropdown dropdown-left">
+      <a class="menu-link" href="#">Birds</a>
+      <a class="dropdown-toggle" href="#" aria-label="Birds submenu"></a>
+      <ul class="dropdown-menu">
+        <li class="menu-item"><a class="menu-link" href="#">About</a></li>
+        <li class="menu-item"><a class="menu-link" href="#">Wild</a></li>
+        <li class="menu-item"><a class="menu-link" href="#">Domesticated</a></li>
+        <li class="menu-item"><a class="menu-link" href="#">Habitats</a></li>
+        <li class="menu-item"><a class="menu-link" href="#">Food</a></li>
+      </ul>
+    </li>
+    <li class="menu-item dropdown dropdown-left">
+      <a class="menu-link" href="#">Fish</a>
+      <a class="dropdown-toggle" href="#" aria-label="Fish submenu"></a>
+      <ul class="dropdown-menu">
+        <li class="menu-item"><a class="menu-link" href="#">About</a></li>
+        <li class="menu-item"><a class="menu-link" href="#">Wild</a></li>
+        <li class="menu-item"><a class="menu-link" href="#">Domesticated</a></li>
+        <li class="menu-item"><a class="menu-link" href="#">Habitats</a></li>
+        <li class="menu-item"><a class="menu-link" href="#">Food</a></li>
+      </ul>
+    </li>
+    <li class="menu-item"><a class="menu-link" href="#">Map</a></li>
+    <li class="menu-item dropdown dropdown-left">
+      <a class="menu-link" href="#">Contact</a>
+      <a class="dropdown-toggle" href="#" aria-label="Contact submenu"></a>
+      <ul class="dropdown-menu">
+        <li class="menu-item"><a class="menu-link" href="#">Email</a></li>
+        <li class="menu-item"><a class="menu-link" href="#">Socials</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+`;
+
 export const threeLevel =
   /* html */
   `

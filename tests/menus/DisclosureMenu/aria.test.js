@@ -24,11 +24,6 @@ describe("DisclosureMenu", () => {
     );
   });
 
-  // Test the root menu's controller's aria-haspopup attribute.
-  it("should set the root menu's controller's aria-haspopup attribute", () => {
-    expect(menu.dom.controller.getAttribute("aria-haspopup")).toBe("true");
-  });
-
   // Test the root menu's controller's aria-expanded attribute.
   it("should set the root menu's controller's aria-expanded attribute", () => {
     expect(menu.dom.controller.getAttribute("aria-expanded")).toBe("false");
@@ -62,11 +57,6 @@ describe("DisclosureMenu", () => {
       expect(
         toggle.elements.controlledMenu.dom.menu.getAttribute("aria-labelledby")
       ).toBe(toggle.dom.toggle.id);
-    });
-
-    // Test the submenu toggle's aria-haspopup attribute.
-    it("should set the submenu toggle's aria-haspopup attribute", () => {
-      expect(toggle.dom.toggle.getAttribute("aria-haspopup")).toBe("true");
     });
 
     // Test the submenu toggle's aria-expanded attribute.

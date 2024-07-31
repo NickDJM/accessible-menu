@@ -536,26 +536,6 @@ describe("BaseMenuToggle protected methods", () => {
   });
 
   describe("_setAriaAttributes", () => {
-    // Test that _setAriaAttributes sets the toggle's aria-haspopup attribute to true.
-    it("should set the toggle's aria-haspopup attribute to true", () => {
-      // Create a new BaseMenu instance for testing.
-      const menu = new BaseMenu({
-        menuElement: document.querySelector("ul"),
-        containerElement: document.querySelector("nav"),
-        controllerElement: document.querySelector("button"),
-      });
-      initializeMenu(menu);
-
-      const menuToggle = menu.elements.submenuToggles[0];
-      menuToggle.dom.toggle.removeAttribute("aria-haspopup");
-
-      // Call _setAriaAttributes.
-      menuToggle._setAriaAttributes();
-
-      // Test the toggle's aria-haspopup attribute.
-      expect(menuToggle.dom.toggle.getAttribute("aria-haspopup")).toBe("true");
-    });
-
     // Test that _setAriaAttributes sets the toggle's aria-expanded attribute to false.
     it("should set the toggle's aria-expanded attribute to false", () => {
       // Create a new BaseMenu instance for testing.
@@ -574,49 +554,6 @@ describe("BaseMenuToggle protected methods", () => {
 
       // Test the toggle's aria-expanded attribute.
       expect(menuToggle.dom.toggle.getAttribute("aria-expanded")).toBe("false");
-    });
-
-    // Test that _setAriaAttributes sets the toggle's role attribute to button if the toggle is not a button.
-    // @todo Make a test for when the toggle _is_ a button. This will require a new menu template.
-    it("should set the toggle's role attribute to button if the toggle is not a button", () => {
-      // Create a new BaseMenu instance for testing.
-      const menu = new BaseMenu({
-        menuElement: document.querySelector("ul"),
-        containerElement: document.querySelector("nav"),
-        controllerElement: document.querySelector("button"),
-      });
-      initializeMenu(menu);
-
-      const menuToggle = menu.elements.submenuToggles[0];
-      menuToggle.dom.toggle.removeAttribute("role");
-
-      // Call _setAriaAttributes.
-      menuToggle._setAriaAttributes();
-
-      // Test the toggle's role attribute.
-      expect(menuToggle.dom.toggle.getAttribute("role")).toBe("button");
-    });
-
-    // Test that _setAriaAttributes sets the toggle's aria-controls attribute to the controlled menu's id.
-    it("should set the toggle's aria-controls attribute to the controlled menu's id", () => {
-      // Create a new BaseMenu instance for testing.
-      const menu = new BaseMenu({
-        menuElement: document.querySelector("ul"),
-        containerElement: document.querySelector("nav"),
-        controllerElement: document.querySelector("button"),
-      });
-      initializeMenu(menu);
-
-      const menuToggle = menu.elements.submenuToggles[0];
-      menuToggle.dom.toggle.removeAttribute("aria-controls");
-
-      // Call _setAriaAttributes.
-      menuToggle._setAriaAttributes();
-
-      // Test the toggle's aria-controls attribute.
-      expect(menuToggle.dom.toggle.getAttribute("aria-controls")).toBe(
-        menuToggle.elements.controlledMenu.dom.menu.id
-      );
     });
 
     // Test that _setAriaAttributes sets the controlled menu's aria-labelledby attribute to the toggle's id.

@@ -49,25 +49,6 @@ describe("TreeviewToggle protected methods", () => {
   });
 
   describe("_setAriaAttributes", () => {
-    // Test that _setAriaAttributes sets the toggle's aria-haspopup attribute to true.
-    it("should set the toggle's aria-haspopup attribute to true", () => {
-      // Create a new Treeview instance for testing.
-      const menu = new Treeview({
-        menuElement: document.querySelector("ul"),
-        containerElement: document.querySelector("nav"),
-        controllerElement: document.querySelector("button"),
-      });
-
-      const menuToggle = menu.elements.submenuToggles[0];
-      menuToggle.dom.toggle.removeAttribute("aria-haspopup");
-
-      // Call _setAriaAttributes.
-      menuToggle._setAriaAttributes();
-
-      // Test the toggle's aria-haspopup attribute.
-      expect(menuToggle.dom.toggle.getAttribute("aria-haspopup")).toBe("true");
-    });
-
     // Test that _setAriaAttributes sets the toggle's aria-expanded attribute to false if it is not set.
     it("should set the toggle's aria-expanded attribute to false if it is not set", () => {
       // Create a new Treeview instance for testing.
@@ -125,9 +106,8 @@ describe("TreeviewToggle protected methods", () => {
       expect(menuToggle.dom.toggle.getAttribute("aria-expanded")).toBe("false");
     });
 
-    // Test that _setAriaAttributes sets the toggle's role attribute to button if the toggle is not a button.
-    // @todo Make a test for when the toggle _is_ a button. This will require a new menu template.
-    it("should set the toggle's role attribute to button if the toggle is not a button", () => {
+    // Test that _setAriaAttributes sets the toggle's aria-owns attribute to the controlled menu's id.
+    it("should set the toggle's aria-owns attribute to the controlled menu's id", () => {
       // Create a new Treeview instance for testing.
       const menu = new Treeview({
         menuElement: document.querySelector("ul"),
@@ -136,32 +116,13 @@ describe("TreeviewToggle protected methods", () => {
       });
 
       const menuToggle = menu.elements.submenuToggles[0];
-      menuToggle.dom.toggle.removeAttribute("role");
+      menuToggle.dom.toggle.removeAttribute("aria-owns");
 
       // Call _setAriaAttributes.
       menuToggle._setAriaAttributes();
 
-      // Test the toggle's role attribute.
-      expect(menuToggle.dom.toggle.getAttribute("role")).toBe("button");
-    });
-
-    // Test that _setAriaAttributes sets the toggle's aria-controls attribute to the controlled menu's id.
-    it("should set the toggle's aria-controls attribute to the controlled menu's id", () => {
-      // Create a new Treeview instance for testing.
-      const menu = new Treeview({
-        menuElement: document.querySelector("ul"),
-        containerElement: document.querySelector("nav"),
-        controllerElement: document.querySelector("button"),
-      });
-
-      const menuToggle = menu.elements.submenuToggles[0];
-      menuToggle.dom.toggle.removeAttribute("aria-controls");
-
-      // Call _setAriaAttributes.
-      menuToggle._setAriaAttributes();
-
-      // Test the toggle's aria-controls attribute.
-      expect(menuToggle.dom.toggle.getAttribute("aria-controls")).toBe(
+      // Test the toggle's aria-owns attribute.
+      expect(menuToggle.dom.toggle.getAttribute("aria-owns")).toBe(
         menuToggle.elements.controlledMenu.dom.menu.id
       );
     });

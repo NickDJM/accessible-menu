@@ -29,21 +29,9 @@ describe("Menubar", () => {
     expect(menu.dom.menu.getAttribute("role")).toBe("menubar");
   });
 
-  // Test the root menu's controller's aria-haspopup attribute.
-  it("should set the root menu's controller's aria-haspopup attribute", () => {
-    expect(menu.dom.controller.getAttribute("aria-haspopup")).toBe("true");
-  });
-
   // Test the root menu's controller's aria-expanded attribute.
   it("should set the root menu's controller's aria-expanded attribute", () => {
     expect(menu.dom.controller.getAttribute("aria-expanded")).toBe("false");
-  });
-
-  // Test the root menu's controller's aria-controls attribute.
-  it("should set the root menu's controller's aria-controls attribute", () => {
-    expect(menu.dom.controller.getAttribute("aria-controls")).toBe(
-      menu.dom.menu.id
-    );
   });
 
   // Test the root menu's controller's aria-expanded attribute when the menu is open.
@@ -105,13 +93,6 @@ describe("Menubar", () => {
     // Test the submenu toggle's aria-expanded attribute.
     it("should set the submenu toggle's aria-expanded attribute", () => {
       expect(toggle.dom.toggle.getAttribute("aria-expanded")).toBe("false");
-    });
-
-    // Test the submenu toggle's aria-controls attribute.
-    it("should set the submenu toggle's aria-controls attribute", () => {
-      expect(toggle.dom.toggle.getAttribute("aria-controls")).toBe(
-        toggle.elements.controlledMenu.dom.menu.id
-      );
     });
 
     // Test the submenu toggle's aria-expanded attribute when the menu is open.
