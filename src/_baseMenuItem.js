@@ -129,7 +129,9 @@ class BaseMenuItem {
    */
   focus() {
     if (this.elements.parentMenu.shouldFocus) {
-      this.dom.link.focus();
+      requestAnimationFrame(() => {
+        this.dom.link.focus();
+      });
     }
   }
 
@@ -141,7 +143,9 @@ class BaseMenuItem {
    */
   blur() {
     if (this.elements.parentMenu.shouldFocus) {
-      this.dom.link.blur();
+      requestAnimationFrame(() => {
+        this.dom.link.blur();
+      });
     }
   }
 }
