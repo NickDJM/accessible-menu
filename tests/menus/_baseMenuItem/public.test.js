@@ -51,6 +51,13 @@ describe("BaseMenuItem public methods", () => {
       });
       initializeMenu(menu);
 
+      // Mock requestAnimationFrame.
+      vi.spyOn(window, "requestAnimationFrame").mockImplementation(
+        (callback) => {
+          callback();
+        }
+      );
+
       const menuItem = menu.elements.menuItems[0];
 
       // Set up to check for focus.
@@ -74,6 +81,13 @@ describe("BaseMenuItem public methods", () => {
         controllerElement: document.querySelector("button"),
       });
       initializeMenu(menu);
+
+      // Mock requestAnimationFrame.
+      vi.spyOn(window, "requestAnimationFrame").mockImplementation(
+        (callback) => {
+          callback();
+        }
+      );
 
       const menuItem = menu.elements.menuItems[0];
 

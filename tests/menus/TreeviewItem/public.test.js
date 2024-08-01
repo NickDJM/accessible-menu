@@ -48,6 +48,13 @@ describe("TreeviewItem public methods", () => {
         controllerElement: document.querySelector("button"),
       });
 
+      // Mock requestAnimationFrame.
+      vi.spyOn(window, "requestAnimationFrame").mockImplementation(
+        (callback) => {
+          callback();
+        }
+      );
+
       const menuItem = menu.elements.menuItems[0];
 
       // Set up to check for focus.
@@ -105,6 +112,13 @@ describe("TreeviewItem public methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
+
+      // Mock requestAnimationFrame.
+      vi.spyOn(window, "requestAnimationFrame").mockImplementation(
+        (callback) => {
+          callback();
+        }
+      );
 
       const menuItem = menu.elements.menuItems[0];
 
