@@ -72,6 +72,7 @@ class DisclosureMenu extends BaseMenu {
    * @param {?(string|string[])} [options.openClass = show]                 - The class to apply when a menu is "open".
    * @param {?(string|string[])} [options.closeClass = hide]                - The class to apply when a menu is "closed".
    * @param {?(string|string[])} [options.transitionClass = transitioning]  - The class to apply when a menu is transitioning between "open" and "closed" states.
+   * @param {number}             [options.transitionDuration = 250]         - The duration of the transition between "open" and "closed" states (in miliseconds).
    * @param {boolean}            [options.isTopLevel = true]                - A flag to mark the root menu.
    * @param {?DisclosureMenu}    [options.parentMenu = null]                - The parent menu to this menu.
    * @param {string}             [options.hoverType = off]                  - The type of hoverability a menu has.
@@ -93,6 +94,7 @@ class DisclosureMenu extends BaseMenu {
     openClass = "show",
     closeClass = "hide",
     transitionClass = "transitioning",
+    transitionDuration = 250,
     isTopLevel = true,
     parentMenu = null,
     hoverType = "off",
@@ -114,6 +116,7 @@ class DisclosureMenu extends BaseMenu {
       openClass,
       closeClass,
       transitionClass,
+      transitionDuration,
       isTopLevel,
       parentMenu,
       hoverType,

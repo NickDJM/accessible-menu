@@ -837,3 +837,13 @@ export const threeLevelDisclosureTopLink =
   </ul>
 </nav>
 `;
+
+export default {
+  singleLevel,
+  twoLevel,
+  twoLevelDisclosure,
+  twoLevelDisclosureTopLink,
+  threeLevel,
+  threeLevelDisclosure,
+  threeLevelDisclosureTopLink
+}

@@ -1,120 +1,205 @@
 import AccessibleMenu from "../index.js";
-import {
-  singleLevel,
-  twoLevel,
-  twoLevelDisclosure,
-  twoLevelDisclosureTopLink,
-  threeLevel,
-  threeLevelDisclosure,
-  threeLevelDisclosureTopLink,
-} from "./menus.js";
+import menus from "./menus.js";
+
+const menuSettings = {
+  native: {
+    structure: {
+      one: menus.singleLevel,
+      two: menus.twoLevel,
+      three: menus.threeLevel,
+    },
+    class: "native",
+  },
+  DisclosureMenu: {
+    structure: {
+      one: menus.singleLevel,
+      two: menus.twoLevelDisclosure,
+      three: menus.threeLevelDisclosure,
+    },
+    class: "disclosure-menu",
+  },
+  Menubar: {
+    structure:{
+      one: menus.singleLevel,
+      two: menus.twoLevel,
+      three: menus.threeLevel,
+    },
+    class: "menubar",
+  },
+  TopLinkDisclosureMenu: {
+    structure:{
+      one: menus.singleLevel,
+      two: menus.twoLevelDisclosureTopLink,
+      three: menus.threeLevelDisclosureTopLink,
+    },
+    class: "top-link-disclosure-menu",
+  },
+  Treeview: {
+    structure:{
+      one: menus.singleLevel,
+      two: menus.twoLevel,
+      three: menus.threeLevel,
+    },
+    class: "treeview",
+  },
+}
+const options = {
+  hoverType: "off",
+  hoverDelay: 250,
+  enterDelay: -1,
+  leaveDelat: -1,
+  transitionClass: "transitioning",
+  transitionDuration: 250,
+};
+const container = document.querySelector("header");
+
+let type = "native";
+let structure = "one";
 
 /**
  * Generates an accessible-menu.
- *
- * @param {string}      type           - The type of menu to use.
- * @param {string}      structure      - The DOM structure to use.
- * @param {string}      hover          - The hover type for the menu.
- * @param {HTMLElement} container      - The container to generate the menu in.
- * @param {object}      [options = {}] - Option overrides.
  */
-function generateMenu(type, structure, hover, container, options = {}) {
-  menus.pop();
-  const MenuClass = AccessibleMenu[type] || null;
-  const menuDOM = menuStructures[structure];
-
-  if (type === "TopLinkDisclosureMenu") {
-    container.innerHTML = menuDOM.topLink;
-  } else if (type === "DisclosureMenu") {
-    container.innerHTML = menuDOM.disclosure;
-  } else {
-    container.innerHTML = menuDOM.default;
+function generateMenu() {
+  // Remove the last menu from the stack.
+  if (window.AccessibleMenu) {
+    window.AccessibleMenu.menus = {};
   }
 
+  // Get the menu class and structure.
+  const MenuClass = AccessibleMenu[type] || null;
+  const menuStructure = menuSettings[type].structure[structure];
+
+  // Set the menu structure.
+  container.innerHTML = menuStructure;
+
+  // Get the nav element.
   const nav = container.querySelector("nav");
 
-  nav.classList.remove("disclosure-menu");
-  nav.classList.remove("menubar");
-  nav.classList.remove("top-link-disclosure-menu");
-  nav.classList.remove("treeview");
-  document.body.classList.remove("disclosure-menu");
-  document.body.classList.remove("menubar");
-  document.body.classList.remove("top-link-disclosure-menu");
-  document.body.classList.remove("treeview");
+  // Set the classes.
+  document.body.classList.remove(...Object.values(menuSettings).map((setting) => setting.class));
+  document.body.classList.add(menuSettings[type].class);
+  nav.classList.add(menuSettings[type].class);
 
-  if (MenuClass !== null) {
-    switch (type) {
-      case "TopLinkDisclosureMenu":
-        nav.classList.add("top-link-disclosure-menu");
-        document.body.classList.add("top-link-disclosure-menu");
-
-        break;
-
-      case "DisclosureMenu":
-        nav.classList.add("disclosure-menu");
-        document.body.classList.add("disclosure-menu");
-
-        break;
-
-      case "Menubar":
-        nav.classList.add("menubar");
-        document.body.classList.add("menubar");
-
-        break;
-
-      case "Treeview":
-        nav.classList.add("treeview");
-        document.body.classList.add("treeview");
-
-        break;
-    }
-
-    const menu = new MenuClass({
-      menuElement: nav.querySelector("ul"),
-      containerElement: nav,
-      controllerElement: nav.querySelector("button"),
-      hoverType: hover,
-      ...options,
-    });
-
-    menus.push(menu);
+  if (MenuClass === null) {
+    return;
   }
+
+  new MenuClass({
+    menuElement: nav.querySelector("ul"),
+    containerElement: nav,
+    controllerElement: nav.querySelector("button"),
+    ...options,
+  });
 }
 
-// Menu setup.
-const menus = [];
-const header = document.querySelector("header");
-const menuButtons = document.querySelectorAll("#menuButtons button");
+// Set up menu structure buttons.
 const domButtons = document.querySelectorAll("#domButtons button");
-const hoverButtons = document.querySelectorAll("#hoverButtons button");
-const menuStructures = {
-  one: {
-    default: singleLevel,
-    disclosure: singleLevel,
-    topLink: singleLevel,
-  },
-  two: {
-    default: twoLevel,
-    disclosure: twoLevelDisclosure,
-    topLink: twoLevelDisclosureTopLink,
-  },
-  three: {
-    default: threeLevel,
-    disclosure: threeLevelDisclosure,
-    topLink: threeLevelDisclosureTopLink,
-  },
-};
-const menuOptions = {
-  DisclosureMenu: {
-    optionalKeySupport: true,
-  },
-  Menubar: {},
-  TopLinkDisclosureMenu: {
-    optionalKeySupport: true,
-  },
-  Treeview: {},
-};
 
+domButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    structure = button.dataset.menuStructure;
+    generateMenu();
+
+    domButtons.forEach((button) => {
+      button.classList.remove("active");
+    });
+    button.classList.add("active");
+  });
+});
+
+// Setup the menu type buttons.
+const menuButtons = document.querySelectorAll("#menuButtons button");
+
+menuButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    type = button.dataset.menuType;
+    generateMenu();
+
+    menuButtons.forEach((button) => {
+      button.classList.remove("active");
+    });
+    button.classList.add("active");
+  });
+});
+
+// Set up the optional key support settings.
+const keySupport = document.querySelectorAll("#keyButtons button");
+
+keySupport.forEach((button) => {
+  button.addEventListener("click", () => {
+    options.optionalKeySupport = button.dataset.optionalKeySupport === "true";
+    generateMenu();
+
+    keySupport.forEach((button) => {
+      button.classList.remove("active");
+    });
+    button.classList.add("active");
+  });
+});
+
+// Set up the hover type buttons.
+const hoverButtons = document.querySelectorAll("#hoverButtons button");
+
+hoverButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    options.hoverType = button.dataset.hoverType;
+    generateMenu();
+
+    hoverButtons.forEach((button) => {
+      button.classList.remove("active");
+    });
+    button.classList.add("active");
+  });
+});
+
+// Set up the hover delay input.
+const hoverDelay = document.querySelector("#hoverDelay");
+
+hoverDelay.addEventListener("input", () => {
+  options.hoverDelay = Number(hoverDelay.value);
+  generateMenu();
+});
+
+// Set up the enter delay input.
+const enterDelay = document.querySelector("#enterDelay");
+
+enterDelay.addEventListener("input", () => {
+  options.enterDelay = Number(enterDelay.value);
+  generateMenu();
+});
+
+// Set up the leave delay input.
+const leaveDelay = document.querySelector("#leaveDelay");
+
+leaveDelay.addEventListener("input", () => {
+  options.leaveDelay = Number(leaveDelay.value);
+  generateMenu();
+});
+
+// Set up transition buttons.
+const transitionButtons = document.querySelectorAll("#transitionButtons button");
+
+transitionButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    options.transitionClass = button.dataset.transitionClass;
+    generateMenu();
+
+    transitionButtons.forEach((button) => {
+      button.classList.remove("active");
+    });
+    button.classList.add("active");
+  });
+});
+
+// Set up transition duration input.
+const transitionDuration = document.querySelector("#transitionDuration");
+
+transitionDuration.addEventListener("change", () => {
+  options.transitionDuration = Number(transitionDuration.value);
+  generateMenu();
+});
+
+// Set up the theme switcher.
 // Theme setup.
 const preferredTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
   ? "dark"
@@ -122,54 +207,6 @@ const preferredTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
 const setTheme = window.localStorage.getItem("setTheme") || preferredTheme;
 const themeToggle = document.querySelector("#themeToggle");
 
-// Menu options.
-let menuType = "";
-let menuStructure = "one";
-let hoverType = "off";
-
-// Set up menu type switching.
-menuButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    menuType = button.dataset.menuType;
-    const options = menuOptions[menuType] || {};
-
-    generateMenu(menuType, menuStructure, hoverType, header, options);
-    document
-      .querySelector("#menuButtons button.active")
-      .classList.remove("active");
-    button.classList.add("active");
-  });
-});
-
-// Set up menu structure switching.
-domButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    menuStructure = button.dataset.menuStructure;
-    const options = menuOptions[menuType] || {};
-
-    generateMenu(menuType, menuStructure, hoverType, header, options);
-    document
-      .querySelector("#domButtons button.active")
-      .classList.remove("active");
-    button.classList.add("active");
-  });
-});
-
-// Set up hover type switching.
-hoverButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    hoverType = button.dataset.hoverType;
-    const options = menuOptions[menuType] || {};
-
-    generateMenu(menuType, menuStructure, hoverType, header, options);
-    document
-      .querySelector("#hoverButtons button.active")
-      .classList.remove("active");
-    button.classList.add("active");
-  });
-});
-
-// Set up theme switching.
 themeToggle.addEventListener("click", () => {
   if (document.body.classList.contains("dark-mode")) {
     document.body.classList.remove("dark-mode");
@@ -182,11 +219,9 @@ themeToggle.addEventListener("click", () => {
   }
 });
 
-// Generate an initial menu and set theme.
+// Generate the menu and set the preferred theme.
 document.addEventListener("DOMContentLoaded", () => {
-  const options = menuOptions[menuType] || {};
-
-  generateMenu(menuType, menuStructure, hoverType, header, options);
+  generateMenu();
 
   if (setTheme === "dark") {
     document.body.classList.add("dark-mode");

@@ -345,7 +345,16 @@ class BaseMenuToggle {
           }
 
           requestAnimationFrame(() => {
-            removeClass(transitionClass, this.elements.controlledMenu.dom.menu);
+            if (this.elements.controlledMenu.transitionDuration > 0) {
+              setTimeout(() => {
+                removeClass(
+                  transitionClass,
+                  this.elements.controlledMenu.dom.menu
+                );
+              }, this.elements.controlledMenu.transitionDuration);
+            } else {
+              removeClass(transitionClass, this.elements.controlledMenu.dom.menu);
+            }
           });
         });
       });

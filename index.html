@@ -33,11 +33,21 @@
       <section aria-labelledby="menuTypeSettings">
         <h2 id="menuTypeSettings">Menu Type Settings</h2>
         <div id="menuButtons" class="button-container">
-          <button id="buttonReset" data-menu-type="" class="active">Native DOM</button>
+          <button id="buttonReset" data-menu-type="native" class="active">Native DOM</button>
           <button id="buttonDisclosureMenu" data-menu-type="DisclosureMenu">Disclosure Menu</button>
           <button id="buttonMenubar" data-menu-type="Menubar">Menubar</button>
           <button id="buttonTreeview" data-menu-type="Treeview">Treeview</button>
           <button id="buttonTopLinkDisclosureMenu" data-menu-type="TopLinkDisclosureMenu">Top Link Disclosure Menu</button>
+        </div>
+      </section>
+      <section aria-labelledby="optionalKeySupportSettings">
+        <div>
+          <h2 id="optionalKeySupportSettings">Optional Key Support Settings</h2>
+          <p>Only applicable to Disclosure Menu and Top Link Disclosure Menu</p>
+        </div>
+        <div id="keyButtons" class="button-container">
+          <button id="buttonKeySupportOn" class="active" data-optional-key-support="true">On</button>
+          <button id="buttonKeySupportOff" data-optional-key-support="false">Off</button>
         </div>
       </section>
       <section aria-labelledby="hoverSettings">
@@ -46,6 +56,32 @@
           <button id="buttonHoverOff" data-hover-type="off" class="active">Off</button>
           <button id="buttonHoverOn" data-hover-type="on">On</button>
           <button id="buttonHoverDynamic" data-hover-type="dynamic">Dynamic</button>
+        </div>
+        <div id="hoverDelays" class="input-container">
+          <div class="input-group">
+            <label for="hoverDelay">Hover Delay (ms):</label>
+            <input id="hoverDelay" type="number" value="250" min="0" />
+          </div>
+          <div class="input-group">
+            <label for="enterDelay">Enter Delay (ms):</label>
+            <input id="enterDelay" type="number" value="-1" min="-1" />
+          </div>
+          <div class="input-group">
+            <label for="leaveDelay">Leave Delay (ms):</label>
+            <input id="leaveDelay" type="number" value="-1" min="-1" />
+          </div>
+      </section>
+      <section aria-labelledby="transitionSettings">
+        <h2 id="transitionSettings">Transition Settings</h2>
+        <div id="transitionButtons" class="button-container">
+          <button id="buttonTransitionOn" class="active" data-transition-class="transitioning">On</button>
+          <button id="buttonTransitionOff" data-transition-class="">Off</button>
+        </div>
+        <div id="transitionDelays" class="input-container">
+          <div class="input-group">
+            <label for="transitionDuration">Transition Duration (ms):</label>
+            <input id="transitionDuration" type="number" value="250" min="0" />
+          </div>
         </div>
       </section>
     </main>
