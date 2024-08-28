@@ -371,6 +371,15 @@ class BaseMenu {
     }
 
     this._createChildElements();
+
+    // Add the menu to a globally accessible list of menus.
+    if (this.isTopLevel) {
+      window.AccessibleMenu = window.AccessibleMenu || {
+        menus: {},
+      };
+
+      window.AccessibleMenu.menus[this.dom.menu.id] = this;
+    }
   }
 
   /**
