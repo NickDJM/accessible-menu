@@ -19,7 +19,7 @@ const menuSettings = {
     class: "disclosure-menu",
   },
   Menubar: {
-    structure:{
+    structure: {
       one: menus.singleLevel,
       two: menus.twoLevel,
       three: menus.threeLevel,
@@ -27,7 +27,7 @@ const menuSettings = {
     class: "menubar",
   },
   TopLinkDisclosureMenu: {
-    structure:{
+    structure: {
       one: menus.singleLevel,
       two: menus.twoLevelDisclosureTopLink,
       three: menus.threeLevelDisclosureTopLink,
@@ -35,14 +35,14 @@ const menuSettings = {
     class: "top-link-disclosure-menu",
   },
   Treeview: {
-    structure:{
+    structure: {
       one: menus.singleLevel,
       two: menus.twoLevel,
       three: menus.threeLevel,
     },
     class: "treeview",
   },
-}
+};
 const options = {
   hoverType: "off",
   hoverDelay: 250,
@@ -76,7 +76,9 @@ function generateMenu() {
   const nav = container.querySelector("nav");
 
   // Set the classes.
-  document.body.classList.remove(...Object.values(menuSettings).map((setting) => setting.class));
+  document.body.classList.remove(
+    ...Object.values(menuSettings).map((setting) => setting.class)
+  );
   document.body.classList.add(menuSettings[type].class);
   nav.classList.add(menuSettings[type].class);
 
@@ -177,7 +179,9 @@ leaveDelay.addEventListener("input", () => {
 });
 
 // Set up transition buttons.
-const transitionButtons = document.querySelectorAll("#transitionButtons button");
+const transitionButtons = document.querySelectorAll(
+  "#transitionButtons button"
+);
 
 transitionButtons.forEach((button) => {
   button.addEventListener("click", () => {

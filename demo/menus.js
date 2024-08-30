@@ -845,5 +845,5 @@ export default {
   twoLevelDisclosureTopLink,
   threeLevel,
   threeLevelDisclosure,
-  threeLevelDisclosureTopLink
-}
+  threeLevelDisclosureTopLink,
+};

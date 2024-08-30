@@ -353,7 +353,10 @@ class BaseMenuToggle {
                 );
               }, this.elements.controlledMenu.transitionDuration);
             } else {
-              removeClass(transitionClass, this.elements.controlledMenu.dom.menu);
+              removeClass(
+                transitionClass,
+                this.elements.controlledMenu.dom.menu
+              );
             }
           });
         });
