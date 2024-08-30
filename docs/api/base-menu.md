@@ -22,6 +22,7 @@ Constructs a new `BaseMenu`.
     openClass,
     closeClass,
     transitionClass,
+    transitionDuration,
     isTopLevel,
     parentMenu,
     hoverType,
@@ -49,6 +50,7 @@ The constructor populates the dom, selector, CSS class, and hover related proper
 | options.openClass | `string`, `string[]`, `null` | The class to apply when a menu is "open". | `"show"` |
 | options.closeClass | `string`, `string[]`, `null` | The class to apply when a menu is "closed". | `"hide"` |
 | options.transitionClass | `string`, `string[]`, `null` | The class to apply when a menu is transitioning between "open" and "closed" states. | `transitioning` |
+| options.transitionDuration | `number` | The duration of the transition between "open" and "closed" states (in miliseconds). | `250` |
 | options.isTopLevel | `boolean` | A flag to mark the root menu. | `false` |
 | options.parentMenu | `BaseMenu`, `null` | The parent menu to this menu. | `null` |
 | options.hoverType | `string` | The type of hoverability a menu has. | `"off"` |
@@ -71,6 +73,7 @@ The following steps will be taken to initialize the menu:
 - Populate all DOM elements within the [dom](#property--dom).
 - If the current menu is the root menu _and_ has a controller, initialize the controller.
 - Populate the menu elements within the [elements](#property--elements).
+- Set the transition duration custom prop for the menu.
 
 ## Properties
 
@@ -213,6 +216,18 @@ BaseMenu._transitionClass; // Default: `"transitioning`"
 #### Type {#property--transitionclass--type}
 
 `string`, `string[]`
+
+### _transitionDuration <badge type="warning" text="protected" /> {#property--transitionduration}
+
+The duration time (in miliseconds) for the transition between open and closed states.
+
+```js
+BaseMenu._transitionDuration; // Default: `250`.
+```
+
+#### Type {#property--transitionduration--type}
+
+`number`
 
 ### _root <badge type="warning" text="protected" /> {#property--root}
 
@@ -471,6 +486,28 @@ BaseMenu.transitionClass = "transitioning";
 This functions differently for root vs. submenus. Submenus will always inherit their root menu's transition class(es).
 
 See [_transitionClass](#property--transitionclass) for more information.
+
+### transitionDuration {#getter-setter--transitionduration}
+
+The duration time (in miliseconds) for the transition between open and closed states.
+
+::: code-group
+
+```js [getter]
+BaseMenu.transitionDuration;
+```
+
+```js [setter]
+BaseMenu.transitionDuration = 250;
+```
+
+:::
+
+This functions differently for root vs. submenus. Submenus will always inherit their root menu's transition duration.
+
+Setting this value will also set the --am-transition-duration CSS custom property on the menu.
+
+See [_transitionDuration](#property--transitionduration) for more information.
 
 ### currentChild {#getter-setter--currentchild}
 
@@ -880,6 +917,16 @@ This method will do the following:
 
 - Adds a `keyup` listener to the menu's controller (if the menu is the root menu).
   - Toggles the menu when the user hits "Space" or "Enter".
+
+### _setTransitionDuration <badge type="warning" text="protected" /> {#method--settransitionduration}
+
+Sets the transition duration of the menu as a CSS custom property.
+
+```js
+BaseMenu._setTransitionDuration();
+```
+
+The custom property is `--am-transition-duration`.
 
 ### focus <badge type="tip" text="public" /> {#method--focus}
 

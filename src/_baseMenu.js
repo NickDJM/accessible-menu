@@ -341,6 +341,7 @@ class BaseMenu {
    * - If the current menu is the root menu _and_ has a controller, initialize
    *   the controller.
    * - Populate the menu elements within the elements.
+   * - Set the transition duration custom prop for the menu.
    *
    * @public
    *
@@ -491,6 +492,8 @@ class BaseMenu {
    *
    * This functions differently for root vs. submenus.
    * Submenus will always inherit their root menu's transition duration.
+   *
+   * Setting this value will also set the --am-transition-duration CSS custom property on the menu.
    *
    * @type {number}
    *
@@ -1514,6 +1517,10 @@ class BaseMenu {
 
   /**
    * Sets the transition duration of the menu as a CSS custom property.
+   *
+   * The custom property is `--am-transition-duration`.
+   *
+   * @protected
    */
   _setTransitionDuration() {
     this.dom.menu.style.setProperty(

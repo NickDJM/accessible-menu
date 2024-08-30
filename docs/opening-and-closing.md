@@ -97,6 +97,34 @@ new DisclosureMenu({
 
 :::
 
+## Transition Duration {#transition-duration}
+
+When a menu has a transition class, the `transitionDuration` option can be used to set the duration (in miliseconds) of the transition, which will in turn set a timeout before finalizing the closing of a menu.
+
+The reason for this is to allow for the menu's closing transition to be animated. Most of the time, when a menu is closed it will have the CSS property `display` set to `none`, which causes issues when trying to animate between states. Setting a timeout before the transition class is removed from the menu, allows you to transition between something like `opacity` or `transform` before the menu is visually removed.
+
+The menu also provides a CSS custom property called `--am-transition-duration` that you can use to set the duration of the transition in your CSS.
+
+You can set the `transitionDuration` option to `0` if you do not want a timeout to be set.
+
+::: code-group
+
+```js [custom duration]
+new DisclosureMenu({
+  menuElement: document.querySelector("nav ul"),
+  transitionClass: "changing",
+  transitionDuration: 300, // Default: 250.
+});
+```
+
+```js [no duration]
+new DisclosureMenu({
+  menuElement: document.querySelector("nav ul"),
+  transitionClass: "changing",
+  transitionDuration: 0, // Default: 250.
+});
+```
+
 ## Order of Operations {#order-of-operations}
 
 When opening or closing a menu, a series of operations are followed based on the current state of the menu, and the classes that are being used.
@@ -135,8 +163,9 @@ When there are transition classes, the following operations are followed when cl
 5. An animation frame is requested.
 6. The `closeClass` is added to the menu (if it exists).
 7. An animation frame is requested.
-8. The `transitionClass` is removed from the menu.
-9. An `accessibleMenuCollapse` event is dispatched on the menu toggle.
+8. If the menu's `transitionDuration` is greater than 0, a timeout is set.
+9. The `transitionClass` is removed from the menu.
+10. An `accessibleMenuCollapse` event is dispatched on the menu toggle.
 
 ### Closing a Menu without a Transition Class
 
