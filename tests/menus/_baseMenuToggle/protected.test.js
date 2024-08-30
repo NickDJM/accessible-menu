@@ -11,6 +11,9 @@ vi.mock("../../../src/domHelpers.js");
 
 beforeEach(() => {
   document.body.innerHTML = twoLevel;
+
+  // Make sure to use fake timers.
+  vi.useFakeTimers({ shouldAdvanceTime: true });
 });
 
 afterEach(() => {
@@ -220,7 +223,6 @@ describe("BaseMenuToggle protected methods", () => {
         menuElement: document.querySelector("ul"),
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
-        transitionDuration: 0,
       });
       initializeMenu(menu);
 
@@ -408,6 +410,43 @@ describe("BaseMenuToggle protected methods", () => {
 
     // Test that collapse removes the transition class from the controlled menu.
     it("should remove the transition class from the controlled menu after the transition is complete", async () => {
+      // Mock removeClass.
+      const domHelpers = await import("../../../src/domHelpers.js");
+      domHelpers.removeClass = vi.fn();
+
+      // Mock requestAnimationFrame.
+      vi.spyOn(window, "requestAnimationFrame").mockImplementation(
+        (callback) => {
+          callback();
+        }
+      );
+
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+
+      const menuToggle = menu.elements.submenuToggles[0];
+
+      const spy = vi.spyOn(domHelpers, "removeClass");
+
+      // Collapse the menu.
+      menuToggle._collapse();
+
+      // Advance the timers by the menu's transition duration.
+      vi.advanceTimersByTime(menu.transitionDuration);
+
+      expect(spy).toHaveBeenCalledWith(
+        menu.transitionClass,
+        menuToggle.elements.controlledMenu.dom.menu
+      );
+    });
+
+    // Test that collapse removes the transition class from the controlled menu immediately when there is no transition duration.
+    it("should remove the transition class immediately from the controlled menu when there is no transition duration", async () => {
       // Mock removeClass.
       const domHelpers = await import("../../../src/domHelpers.js");
       domHelpers.removeClass = vi.fn();
