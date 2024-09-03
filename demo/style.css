@@ -44,25 +44,20 @@
       --am-focus-outline-offset,
       calc(var(--am-focus-width, 2px) * -1)
     ) !important;
-    outline-style: var(
-      --am-focus-outline-style,
-      dotted
-    ) !important;
+    outline-style: var(--am-focus-outline-style, dotted) !important;
     outline-width: var(--am-focus-width, 2px) !important;
     box-shadow:
-      var(--am-focus-width, 2px)
-        var(--am-focus-width, 2px) 0 0
+      var(--am-focus-width, 2px) var(--am-focus-width, 2px) 0 0
         var(--am-focus-box-shadow-style, inset)
         var(--am-focus-box-shadow-color, var(--am-active-theme-light)),
-      0 0 0 var(--am-focus-width, 2px)
-        var(--am-focus-box-shadow-style, inset)
+      0 0 0 var(--am-focus-width, 2px) var(--am-focus-box-shadow-style, inset)
         var(--am-focus-box-shadow-color, var(--am-active-theme-light)) !important;
     border-color: transparent;
   }
 }
 
 body {
-  font-family: 'system-ui', sans-serif;
+  font-family: "system-ui", sans-serif;
   font-size: clamp(0.8rem, 1vw + 0.5rem, 1.25rem);
   color: var(--am-active-theme-dark);
   background-color: var(--am-active-theme-light);
@@ -132,13 +127,22 @@ button {
   min-height: var(--am-interactive-min-height);
   background: var(--am-button-background, var(--am-active-theme-light));
   color: var(--am-button-color, var(--am-active-theme-dark));
-  border: var(--am-button-border, 0.125rem solid var(--am-active-theme-primary));
+  border: var(
+    --am-button-border,
+    0.125rem solid var(--am-active-theme-primary)
+  );
   border-radius: 0.125rem;
-  padding: var(--am-button-padding, var(--am-button-padding-y, 0.5rem) var(--am-button-padding-x, 1rem));
+  padding: var(
+    --am-button-padding,
+    var(--am-button-padding-y, 0.5rem) var(--am-button-padding-x, 1rem)
+  );
   cursor: pointer;
 
   &:hover {
-    background: var(--am-button-hover-background, var(--am-active-theme-primary));
+    background: var(
+      --am-button-hover-background,
+      var(--am-active-theme-primary)
+    );
     color: var(--am-button-hover-color, var(--am-active-theme-light));
   }
 
@@ -153,9 +157,15 @@ input {
   min-height: var(--am-interactive-min-height);
   background: var(--am-button-background, var(--am-active-theme-light));
   color: var(--am-button-color, var(--am-active-theme-dark));
-  border: var(--am-button-border, 0.125rem solid var(--am-active-theme-primary));
+  border: var(
+    --am-button-border,
+    0.125rem solid var(--am-active-theme-primary)
+  );
   border-radius: 0.125rem;
-  padding: var(--am-button-padding, var(--am-button-padding-y, 0.5rem) var(--am-button-padding-x, 1rem));
+  padding: var(
+    --am-button-padding,
+    var(--am-button-padding-y, 0.5rem) var(--am-button-padding-x, 1rem)
+  );
   cursor: pointer;
 }
 
@@ -183,31 +193,53 @@ nav {
 
   a {
     --am-link-color: var(--am-nav-color, var(--am-active-theme-dark));
-    --am-link-hover-color: var(--am-nav-hover-color, var(--am-active-theme-light));
+    --am-link-hover-color: var(
+      --am-nav-hover-color,
+      var(--am-active-theme-light)
+    );
 
     display: flex;
     align-items: center;
     background: --am-nav-background, var(--am-active-theme-light);
-    padding: var(--am-nav-link-padding, var(--am-nav-link-padding-y, 0.5rem) var(--am-nav-link-padding-x, 1rem));
+    padding: var(
+      --am-nav-link-padding,
+      var(--am-nav-link-padding-y, 0.5rem) var(--am-nav-link-padding-x, 1rem)
+    );
     text-decoration: none;
     min-width: var(--am-interactive-min-width);
     min-height: var(--am-interactive-min-height);
 
     &:hover {
-      background: var(--am-nav-hover-background, var(--am-active-theme-primary));
+      background: var(
+        --am-nav-hover-background,
+        var(--am-active-theme-primary)
+      );
     }
   }
 
   button {
     --am-button-color: var(--am-nav-color, var(--am-active-theme-dark));
-    --am-button-hover-color: var(--am-nav-hover-color, var(--am-active-theme-light));
-    --am-button-background: var(--am-nav-background, var(--am-active-theme-light));
-    --am-button-hover-background: var(--am-nav-hover-background, var(--am-active-theme-primary));
+    --am-button-hover-color: var(
+      --am-nav-hover-color,
+      var(--am-active-theme-light)
+    );
+    --am-button-background: var(
+      --am-nav-background,
+      var(--am-active-theme-light)
+    );
+    --am-button-hover-background: var(
+      --am-nav-hover-background,
+      var(--am-active-theme-primary)
+    );
     --am-button-border: none;
-    --am-button-padding: var(--am-nav-link-padding, var(--am-nav-link-padding-y, 0.5rem) var(--am-nav-link-padding-x, 1rem));
+    --am-button-padding: var(
+      --am-nav-link-padding,
+      var(--am-nav-link-padding-y, 0.5rem) var(--am-nav-link-padding-x, 1rem)
+    );
   }
 
-  a, button {
+  a,
+  button {
     flex: 1 1;
     justify-content: space-between;
     width: 100%;
