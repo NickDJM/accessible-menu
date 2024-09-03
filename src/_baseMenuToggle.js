@@ -323,7 +323,7 @@ class BaseMenuToggle {
    * @param {boolean} [emit = true] - A toggle to emit the collapse event once collapsed.
    */
   _collapse(emit = true) {
-    const { closeClass, openClass, transitionClass } =
+    const { closeClass, openClass, transitionClass, transitionDuration } =
       this.elements.controlledMenu;
 
     this.dom.toggle.setAttribute("aria-expanded", "false");
@@ -345,13 +345,13 @@ class BaseMenuToggle {
           }
 
           requestAnimationFrame(() => {
-            if (this.elements.controlledMenu.transitionDuration > 0) {
+            if (transitionDuration > 0) {
               setTimeout(() => {
                 removeClass(
                   transitionClass,
                   this.elements.controlledMenu.dom.menu
                 );
-              }, this.elements.controlledMenu.transitionDuration);
+              }, transitionDuration);
             } else {
               removeClass(
                 transitionClass,
