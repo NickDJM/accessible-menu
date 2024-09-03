@@ -5,6 +5,11 @@
  * @param {HTMLElement} element - The element to add the class to.
  */
 export function addClass(className, element) {
+  // Gracefully handle empty strings or arrays.
+  if (className === "" || className.length === 0) {
+    return;
+  }
+
   if (typeof className === "string") {
     element.classList.add(className);
   } else {
@@ -19,6 +24,11 @@ export function addClass(className, element) {
  * @param {HTMLElement} element - The element to remove the class from.
  */
 export function removeClass(className, element) {
+  // Gracefully handle empty strings or arrays.
+  if (className === "" || className.length === 0) {
+    return;
+  }
+
   if (typeof className === "string") {
     element.classList.remove(className);
   } else {

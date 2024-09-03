@@ -274,14 +274,10 @@ class BaseMenuToggle {
       addClass(transitionClass, this.elements.controlledMenu.dom.menu);
 
       requestAnimationFrame(() => {
-        if (closeClass !== "") {
-          removeClass(closeClass, this.elements.controlledMenu.dom.menu);
-        }
+        removeClass(closeClass, this.elements.controlledMenu.dom.menu);
 
         requestAnimationFrame(() => {
-          if (openClass !== "") {
-            addClass(openClass, this.elements.controlledMenu.dom.menu);
-          }
+          addClass(openClass, this.elements.controlledMenu.dom.menu);
 
           requestAnimationFrame(() => {
             removeClass(transitionClass, this.elements.controlledMenu.dom.menu);
@@ -290,14 +286,10 @@ class BaseMenuToggle {
       });
     } else {
       // Add the open class
-      if (openClass !== "") {
-        addClass(openClass, this.elements.controlledMenu.dom.menu);
-      }
+      addClass(openClass, this.elements.controlledMenu.dom.menu);
 
       // Remove the close class.
-      if (closeClass !== "") {
-        removeClass(closeClass, this.elements.controlledMenu.dom.menu);
-      }
+      removeClass(closeClass, this.elements.controlledMenu.dom.menu);
     }
 
     if (emit) {
@@ -335,14 +327,10 @@ class BaseMenuToggle {
       addClass(transitionClass, this.elements.controlledMenu.dom.menu);
 
       requestAnimationFrame(() => {
-        if (openClass !== "") {
-          removeClass(openClass, this.elements.controlledMenu.dom.menu);
-        }
+        removeClass(openClass, this.elements.controlledMenu.dom.menu);
 
         requestAnimationFrame(() => {
-          if (closeClass !== "") {
-            addClass(closeClass, this.elements.controlledMenu.dom.menu);
-          }
+          addClass(closeClass, this.elements.controlledMenu.dom.menu);
 
           requestAnimationFrame(() => {
             if (transitionDuration > 0) {
@@ -363,14 +351,10 @@ class BaseMenuToggle {
       });
     } else {
       // Add the close class
-      if (closeClass !== "") {
-        addClass(closeClass, this.elements.controlledMenu.dom.menu);
-      }
+      addClass(closeClass, this.elements.controlledMenu.dom.menu);
 
       // Remove the open class.
-      if (openClass !== "") {
-        removeClass(openClass, this.elements.controlledMenu.dom.menu);
-      }
+      removeClass(openClass, this.elements.controlledMenu.dom.menu);
     }
 
     if (emit) {
