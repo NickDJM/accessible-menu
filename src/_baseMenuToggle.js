@@ -261,7 +261,7 @@ class BaseMenuToggle {
    * @param {boolean} [emit = true] - A toggle to emit the expand event once expanded.
    */
   _expand(emit = true) {
-    const { closeClass, openClass, transitionClass } =
+    const { closeClass, openClass, transitionClass, transitionDuration } =
       this.elements.controlledMenu;
 
     this.dom.toggle.setAttribute("aria-expanded", "true");
@@ -280,7 +280,12 @@ class BaseMenuToggle {
           addClass(openClass, this.elements.controlledMenu.dom.menu);
 
           requestAnimationFrame(() => {
-            removeClass(transitionClass, this.elements.controlledMenu.dom.menu);
+            setTimeout(() => {
+              removeClass(
+                transitionClass,
+                this.elements.controlledMenu.dom.menu
+              );
+            }, transitionDuration);
           });
         });
       });
@@ -333,19 +338,12 @@ class BaseMenuToggle {
           addClass(closeClass, this.elements.controlledMenu.dom.menu);
 
           requestAnimationFrame(() => {
-            if (transitionDuration > 0) {
-              setTimeout(() => {
-                removeClass(
-                  transitionClass,
-                  this.elements.controlledMenu.dom.menu
-                );
-              }, transitionDuration);
-            } else {
+            setTimeout(() => {
               removeClass(
                 transitionClass,
                 this.elements.controlledMenu.dom.menu
               );
-            }
+            }, transitionDuration);
           });
         });
       });
