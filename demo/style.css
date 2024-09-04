@@ -182,7 +182,11 @@ nav {
     min-width: max-content;
     background: var(--am-nav-background, var(--am-active-theme-light));
     color: var(--am-nav-color, var(--am-active-theme-dark));
-    transition: opacity var(--am-transition-duration) ease;
+    transition: opacity var(--am-close-transition-duration) ease;
+
+    &.show {
+      transition: opacity var(--am-open-transition-duration) ease;
+    }
   }
 
   li {

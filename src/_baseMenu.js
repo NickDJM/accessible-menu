@@ -153,6 +153,24 @@ class BaseMenu {
   _transitionDuration = 250;
 
   /**
+   * The duration time (in miliseconds) for the transition from closed to open states.
+   *
+   * @protected
+   *
+   * @type {number}
+   */
+  _openDuration = -1;
+
+  /**
+   * The duration time (in miliseconds) for the transition from open to closed states.
+   *
+   * @protected
+   *
+   * @type {number}
+   */
+  _closeDuration = -1;
+
+  /**
    * A flag marking the root menu.
    *
    * @protected
@@ -267,6 +285,8 @@ class BaseMenu {
    * @param {?(string|string[])} [options.closeClass = hide]                - The class to apply when a menu is "closed".
    * @param {?(string|string[])} [options.transitionClass = transitioning]  - The class to apply when a menu is transitioning between "open" and "closed" states.
    * @param {number}             [options.transitionDuration = 250]         - The duration of the transition between "open" and "closed" states (in miliseconds).
+   * @param {boolean}            [options.openDuration = -1]                - The duration of the transition from "closed" to "open" states (in miliseconds).
+   * @param {boolean}            [options.closeDuration = -1]               - The duration of the transition from "open" to "closed" states (in miliseconds).
    * @param {boolean}            [options.isTopLevel = false]               - A flag to mark the root menu.
    * @param {?BaseMenu}          [options.parentMenu = null]                - The parent menu to this menu.
    * @param {string}             [options.hoverType = off]                  - The type of hoverability a menu has.
@@ -287,6 +307,8 @@ class BaseMenu {
     closeClass = "hide",
     transitionClass = "transitioning",
     transitionDuration = 250,
+    openDuration = -1,
+    closeDuration = -1,
     isTopLevel = true,
     parentMenu = null,
     hoverType = "off",
@@ -320,6 +342,8 @@ class BaseMenu {
 
     // Set transition duration.
     this._transitionDuration = transitionDuration;
+    this._openDuration = openDuration;
+    this._closeDuration = closeDuration;
 
     // Set root.
     this._root = isTopLevel;
@@ -386,7 +410,7 @@ class BaseMenu {
     }
 
     this._createChildElements();
-    this._setTransitionDuration();
+    this._setTransitionDurations();
   }
 
   /**
@@ -503,6 +527,50 @@ class BaseMenu {
     return this.isTopLevel
       ? this._transitionDuration
       : this.elements.rootMenu.transitionDuration;
+  }
+
+  /**
+   * The duration time (in miliseconds) for the transition from closed to open states.
+   *
+   * This functions differently for root vs. submenus.
+   * Submenus will always inherit their root menu's openDuration.
+   *
+   * If openDuration is set to -1, the transitionDuration value will be used instead.
+   *
+   * Setting this value will also set the --am-open-transition-duration CSS custom property on the menu.
+   *
+   * @type {number}
+   *
+   * @see _openDuration
+   */
+  get openDuration() {
+    if (this._openDuration === -1) return this.transitionDuration;
+
+    return this.isTopLevel
+      ? this._openDuration
+      : this.elements.rootMenu.openDuration;
+  }
+
+  /**
+   * The duration time (in miliseconds) for the transition from open to closed states.
+   *
+   * This functions differently for root vs. submenus.
+   * Submenus will always inherit their root menu's closeDuration.
+   *
+   * If closeDuration is set to -1, the transitionDuration value will be used instead.
+   *
+   * Setting this value will also set the --am-close-transition-duration CSS custom property on the menu.
+   *
+   * @type {number}
+   *
+   * @see _closeDuration
+   */
+  get closeDuration() {
+    if (this._closeDuration === -1) return this.transitionDuration;
+
+    return this.isTopLevel
+      ? this._closeDuration
+      : this.elements.rootMenu.closeDuration;
   }
 
   /**
@@ -710,7 +778,25 @@ class BaseMenu {
 
     if (this._transitionDuration !== value) {
       this._transitionDuration = value;
-      this._setTransitionDuration();
+      this._setTransitionDurations();
+    }
+  }
+
+  set openDuration(value) {
+    isValidType("number", { value });
+
+    if (this._openDuration !== value) {
+      this._openDuration = value;
+      this._setTransitionDurations();
+    }
+  }
+
+  set closeDuration(value) {
+    isValidType("number", { value });
+
+    if (this._closeDuration !== value) {
+      this._closeDuration = value;
+      this._setTransitionDurations();
     }
   }
 
@@ -936,6 +1022,26 @@ class BaseMenu {
       check = false;
     }
 
+    // Open duration check.
+    const openDurationCheck = isValidType("number", {
+      openDuration: this._openDuration,
+    });
+
+    if (!openDurationCheck.status) {
+      this._errors.push(openDurationCheck.error.message);
+      check = false;
+    }
+
+    // Close duration check.
+    const closeDurationCheck = isValidType("number", {
+      closeDuration: this._closeDuration,
+    });
+
+    if (!closeDurationCheck.status) {
+      this._errors.push(closeDurationCheck.error.message);
+      check = false;
+    }
+
     // Top level check.
     const topLevelCheck = isValidType("boolean", { isTopLevel: this._root });
 
@@ -1135,6 +1241,9 @@ class BaseMenu {
           openClass: this.openClass,
           closeClass: this.closeClass,
           transitionClass: this.transitionClass,
+          transitionDuration: this.transitionDuration,
+          openDuration: this.openDuration,
+          closeDuration: this.closeDuration,
           isTopLevel: false,
           parentMenu: this,
           hoverType: this.hoverType,
@@ -1516,16 +1625,29 @@ class BaseMenu {
   }
 
   /**
-   * Sets the transition duration of the menu as a CSS custom property.
+   * Sets the transition durations of the menu as a CSS custom properties.
    *
-   * The custom property is `--am-transition-duration`.
+   * The custom properties are:
+   *   - `--am-transition-duration`,
+   *   - `--am-open-transition-duration`, and
+   *   - `--am-close-transition-duration`.
    *
    * @protected
    */
-  _setTransitionDuration() {
+  _setTransitionDurations() {
     this.dom.menu.style.setProperty(
       "--am-transition-duration",
       `${this.transitionDuration}ms`
+    );
+
+    this.dom.menu.style.setProperty(
+      "--am-open-transition-duration",
+      `${this.openDuration}ms`
+    );
+
+    this.dom.menu.style.setProperty(
+      "--am-close-transition-duration",
+      `${this.closeDuration}ms`
     );
   }
 

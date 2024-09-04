@@ -261,7 +261,7 @@ class BaseMenuToggle {
    * @param {boolean} [emit = true] - A toggle to emit the expand event once expanded.
    */
   _expand(emit = true) {
-    const { closeClass, openClass, transitionClass, transitionDuration } =
+    const { closeClass, openClass, transitionClass, openDuration } =
       this.elements.controlledMenu;
 
     this.dom.toggle.setAttribute("aria-expanded", "true");
@@ -285,7 +285,7 @@ class BaseMenuToggle {
                 transitionClass,
                 this.elements.controlledMenu.dom.menu
               );
-            }, transitionDuration);
+            }, openDuration);
           });
         });
       });
@@ -320,7 +320,7 @@ class BaseMenuToggle {
    * @param {boolean} [emit = true] - A toggle to emit the collapse event once collapsed.
    */
   _collapse(emit = true) {
-    const { closeClass, openClass, transitionClass, transitionDuration } =
+    const { closeClass, openClass, transitionClass, closeDuration } =
       this.elements.controlledMenu;
 
     this.dom.toggle.setAttribute("aria-expanded", "false");
@@ -343,7 +343,7 @@ class BaseMenuToggle {
                 transitionClass,
                 this.elements.controlledMenu.dom.menu
               );
-            }, transitionDuration);
+            }, closeDuration);
           });
         });
       });
