@@ -1,4 +1,5 @@
 import { defineConfig } from "vitepress";
+import rootConfig from "../../vite.config.js";
 
 // Get the current version from the package.json file.
 import pkg from "../../package.json";
@@ -9,6 +10,10 @@ export default defineConfig({
   title: "Accessible Menu",
   description:
     "A JavaScript library to help you generate WCAG accessible menus in the DOM.",
+  vite: {
+    // Use the server config from the root Vite config.
+    server: rootConfig.server,
+  },
   themeConfig: {
     nav: [
       {
