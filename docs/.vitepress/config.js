@@ -92,6 +92,7 @@ export default defineConfig({
         {
           text: "Other Topics",
           items: [
+            { text: "Global Menu Storage", link: "/global-menu-storage" },
             { text: "Bootstrap support", link: "/bootstrap-support" },
             { text: "Browser support", link: "/browser-support" },
             { text: "Release information", link: "/releases" },
