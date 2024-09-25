@@ -175,6 +175,106 @@ describe("BaseMenu getter/setters", () => {
     });
   });
 
+  // Test BaseMenu transitionDuration.
+  describe("transitionDuration", () => {
+    // Test that transitionDuration gets the hover delay value.
+    it("should get the hover delay value", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      expect(menu.transitionDuration).toBe(menu._transitionDuration);
+    });
+
+    // Test that transitionDuration sets the hover delay value.
+    it("should set the hover delay value", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      // Set up to check for validation.
+      const spy = vi.spyOn(validation, "isValidType");
+
+      // Set the menu's hover delay value.
+      menu.transitionDuration = 200;
+
+      expect(spy).toHaveBeenCalledWith("number", { value: 200 });
+      expect(menu._transitionDuration).toBe(200);
+    });
+  });
+
+  // Test BaseMenu openDuration.
+  describe("openDuration", () => {
+    // Test that openDuration gets the enter delay value.
+    it("should get the enter delay value", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      // In this case, because we have not set the enter delay,
+      // it should be the same as the hover delay.
+      expect(menu.openDuration).toBe(menu._hoverDelay);
+    });
+
+    // Test that openDuration sets the enter delay value.
+    it("should set the enter delay value", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      // Set up to check for validation.
+      const spy = vi.spyOn(validation, "isValidType");
+
+      // Set the menu's enter delay value.
+      menu.openDuration = 100;
+
+      expect(spy).toHaveBeenCalledWith("number", { value: 100 });
+      expect(menu._openDuration).toBe(100);
+    });
+  });
+
+  // Test BaseMenu closeDuration.
+  describe("closeDuration", () => {
+    // Test that closeDuration gets the leave delay value.
+    it("should get the leave delay value", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      // In this case, because we have not set the leave delay,
+      // it should be the same as the hover delay.
+      expect(menu.closeDuration).toBe(menu._hoverDelay);
+    });
+
+    // Test that closeDuration sets the leave delay value.
+    it("should set the leave delay value", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      // Set up to check for validation.
+      const spy = vi.spyOn(validation, "isValidType");
+
+      // Set the menu's leave delay value.
+      menu.closeDuration = 100;
+
+      expect(spy).toHaveBeenCalledWith("number", { value: 100 });
+      expect(menu._closeDuration).toBe(100);
+    });
+  });
+
   // Test BaseMenu currentChild.
   // todo: Test this for scenarios that would envoke setParentChild().
   describe("currentChild", () => {
@@ -417,6 +517,32 @@ describe("BaseMenu getter/setters", () => {
 
       expect(spy).toHaveBeenCalledWith("number", { value: 100 });
       expect(menu._leaveDelay).toBe(100);
+    });
+  });
+
+  // Test BaseMenu prefix.
+  describe("prefix", () => {
+    // Test that prefix gets the prefix value.
+    it("should get the prefix value", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      expect(menu.prefix).toBe(menu._prefix);
+    });
+
+    // Test that prefix sets the prefix value.
+    it("should set the prefix value", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        prefix: "test-",
+      });
+      initializeMenu(menu);
+
+      expect(menu.prefix).toBe("test-");
     });
   });
 
