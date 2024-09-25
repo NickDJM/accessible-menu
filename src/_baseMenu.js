@@ -243,6 +243,15 @@ class BaseMenu {
   _leaveDelay = -1;
 
   /**
+   * The prefix to use for CSS custom properties.
+   *
+   * @protected
+   *
+   * @type {string}
+   */
+  _prefix = "am-";
+
+  /**
    * A variable to hold the hover timeout function.
    *
    * @protected
@@ -293,6 +302,7 @@ class BaseMenu {
    * @param {number}             [options.hoverDelay = 250]                 - The delay for opening and closing menus if the menu is hoverable (in miliseconds).
    * @param {number}             [options.enterDelay = -1]                  - The delay for opening menus if the menu is hoverable (in miliseconds).
    * @param {number}             [options.leaveDelay = -1]                  - The delay for closing menus if the menu is hoverable (in miliseconds).
+   * @param {?string}            [options.prefix = am-]                     - The prefix to use for CSS custom properties.
    */
   constructor({
     menuElement,
@@ -315,6 +325,7 @@ class BaseMenu {
     hoverDelay = 250,
     enterDelay = -1,
     leaveDelay = -1,
+    prefix = "am-",
   }) {
     // Set DOM elements.
     this._dom.menu = menuElement;
@@ -344,6 +355,9 @@ class BaseMenu {
     this._transitionDuration = transitionDuration;
     this._openDuration = openDuration;
     this._closeDuration = closeDuration;
+
+    // Set prefix.
+    this._prefix = prefix || "";
 
     // Set root.
     this._root = isTopLevel;
@@ -705,6 +719,20 @@ class BaseMenu {
   }
 
   /**
+   * The prefix to use for CSS custom properties.
+   *
+   * This functions differently for root vs. submenus.
+   * Submenus will always inherit their root menu's prefix.
+   *
+   * @type {string}
+   *
+   * @see _prefix
+   */
+  get prefix() {
+    return this._root ? this._prefix : this.elements.rootMenu.prefix;
+  }
+
+  /**
    * A flag to check if the menu's focus methods should _actually_ move the focus in the DOM.
    *
    * This will be `false` unless any of the following criteria are met:
@@ -928,6 +956,14 @@ class BaseMenu {
     }
   }
 
+  set prefix(value) {
+    isValidType("string", { value });
+
+    if (this._prefix !== value) {
+      this._prefix = value;
+    }
+  }
+
   set hasOpened(value) {
     isValidType("boolean", { value });
 
@@ -1106,6 +1142,14 @@ class BaseMenu {
 
     if (!leaveDelayCheck.status) {
       this._errors.push(leaveDelayCheck.error.message);
+      check = false;
+    }
+
+    // Prefix check.
+    const prefixCheck = isValidType("string", { prefix: this._prefix });
+
+    if (!prefixCheck.status) {
+      this._errors.push(prefixCheck.error.message);
       check = false;
     }
 
@@ -1641,21 +1685,23 @@ class BaseMenu {
    *   - `--am-open-transition-duration`, and
    *   - `--am-close-transition-duration`.
    *
+   * The prefix of `am-` can be changed by setting the menu's prefix value.
+   *
    * @protected
    */
   _setTransitionDurations() {
     this.dom.menu.style.setProperty(
-      "--am-transition-duration",
+      `--${this.prefix}transition-duration`,
       `${this.transitionDuration}ms`
     );
 
     this.dom.menu.style.setProperty(
-      "--am-open-transition-duration",
+      `--${this.prefix}open-transition-duration`,
       `${this.openDuration}ms`
     );
 
     this.dom.menu.style.setProperty(
-      "--am-close-transition-duration",
+      `--${this.prefix}close-transition-duration`,
       `${this.closeDuration}ms`
     );
   }

@@ -72,6 +72,7 @@ class Menubar extends BaseMenu {
    * @param {number}             [options.hoverDelay = 250]                 - The delay for opening and closing menus if the menu is hoverable (in miliseconds).
    * @param {number}             [options.enterDelay = -1]                  - The delay for opening a menu if the menu is focusable (in miliseconds).
    * @param {number}             [options.leaveDelay = -1]                  - The delay for closing a menu if the menu is focusable (in miliseconds).
+   * @param {?string}            [options.prefix = am-]                     - The prefix to use for CSS custom properties.
    * @param {boolean}            [options.initialize = true]                - A flag to initialize the menu immediately upon creation.
    */
   constructor({
@@ -93,6 +94,7 @@ class Menubar extends BaseMenu {
     hoverDelay = 250,
     enterDelay = -1,
     leaveDelay = -1,
+    prefix = "am-",
     initialize = true,
   }) {
     super({
@@ -114,6 +116,7 @@ class Menubar extends BaseMenu {
       hoverDelay,
       enterDelay,
       leaveDelay,
+      prefix,
     });
 
     if (initialize) {
