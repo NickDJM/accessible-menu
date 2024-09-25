@@ -2,7 +2,6 @@
  * Helper functions for testing menus.
  */
 
-// eslint-disable-next-line no-unused-vars
 /* global BaseMenu */
 
 /**

@@ -117,7 +117,7 @@ export function isQuerySelector(values) {
         }
 
         document.querySelector(values[key]);
-      } catch (error) {
+      } catch {
         throw new TypeError(
           `${key} must be a valid query selector. "${values[key]}" given.`
         );

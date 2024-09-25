@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-unused-vars
 /* global Treeview, TreeviewToggle */
 
 import BaseMenuItem from "./_baseMenuItem.js";
