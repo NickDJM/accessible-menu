@@ -103,7 +103,7 @@ When a menu has a transition class, the `transitionDuration` option can be used 
 
 The reason for this is to allow for the menu's closing transition to be animated. Most of the time, when a menu is closed it will have the CSS property `display` set to `none`, which causes issues when trying to animate between states. Setting a timeout before the transition class is removed from the menu, allows you to transition between something like `opacity` or `transform` before the menu is visually removed.
 
-The menu also provides a CSS custom property called `--am-transition-duration` that you can use to set the duration of the transition in your CSS.
+The menu also provides a series of CSS custom properties named `--am-transition-duration`, `--am-open-transition-duration`, and `--am-close-transition-duration` that you can use to set the duration of the transition in your CSS. The prefix of each property ("am-") can be customized through the `prefix` option of the menu.
 
 You can set the `transitionDuration` option to `0` if you do not want a timeout to be set.
 

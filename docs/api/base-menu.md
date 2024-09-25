@@ -10,26 +10,29 @@ it's own in the DOM.
 Constructs a new `BaseMenu`.
 
 ```js
-  new BaseMenu({
-    menuElement,
-    menuItemSelector,
-    menuLinkSelector,
-    submenuItemSelector,
-    submenuToggleSelector,
-    submenuSelector,
-    controllerElement,
-    containerElement,
-    openClass,
-    closeClass,
-    transitionClass,
-    transitionDuration,
-    isTopLevel,
-    parentMenu,
-    hoverType,
-    hoverDelay,
-    enterDelay,
-    leaveDelay,
-  });
+new BaseMenu({
+  menuElement,
+  menuItemSelector,
+  menuLinkSelector,
+  submenuItemSelector,
+  submenuToggleSelector,
+  submenuSelector,
+  controllerElement,
+  containerElement,
+  openClass,
+  closeClass,
+  transitionClass,
+  transitionDuration,
+  openDuration,
+  closeDuration,
+  isTopLevel,
+  parentMenu,
+  hoverType,
+  hoverDelay,
+  enterDelay,
+  leaveDelay,
+  prefix,
+});
 ```
 
 The constructor populates the dom, selector, CSS class, and hover related properties. It will _not_ initialize the menu automatically; this is left to the subclasses to envoke.
@@ -51,12 +54,15 @@ The constructor populates the dom, selector, CSS class, and hover related proper
 | options.closeClass | `string`, `string[]`, `null` | The class to apply when a menu is "closed". | `"hide"` |
 | options.transitionClass | `string`, `string[]`, `null` | The class to apply when a menu is transitioning between "open" and "closed" states. | `transitioning` |
 | options.transitionDuration | `number` | The duration of the transition between "open" and "closed" states (in miliseconds). | `250` |
+| options.openDuration | `number` | The duration of the transition from "closed" to "open" states (in miliseconds). | `250` |
+| options.closeDuration | `number` | The duration of the transition from "open" to "closed" states (in miliseconds). | `250` |
 | options.isTopLevel | `boolean` | A flag to mark the root menu. | `false` |
 | options.parentMenu | `BaseMenu`, `null` | The parent menu to this menu. | `null` |
 | options.hoverType | `string` | The type of hoverability a menu has. | `"off"` |
 | options.hoverDelay | `number` | The delay for opening and closing menus if the menu is hoverable (in miliseconds). | `250` |
 | options.enterDelay | `number` | The delay for opening menus if the menu is hoverable (in miliseconds). | `-1` |
 | options.leaveDelay | `number` | The delay for closing menus if the menu is hoverable (in miliseconds). | `-1` |
+| options.prefix | `string`, `null` | The prefix for the CSS custom properties. | `"am-"` |
 
 ## Initialize
 
@@ -229,6 +235,30 @@ BaseMenu._transitionDuration; // Default: `250`.
 
 `number`
 
+### _openDuration <badge type="warning" text="protected" /> {#property--openduration}
+
+The duration time (in miliseconds) for the transition from closed to open states.
+
+```js
+BaseMenu._openDuration; // Default: `-1`.
+```
+
+#### Type {#property--openduration--type}
+
+`number`
+
+### _closeDuration <badge type="warning" text="protected" /> {#property--closeduration}
+
+The duration time (in miliseconds) for the transition from open to closed states.
+
+```js
+BaseMenu._closeDuration; // Default: `-1`.
+```
+
+#### Type {#property--closeduration--type}
+
+`number`
+
 ### _root <badge type="warning" text="protected" /> {#property--root}
 
 A flag marking the root menu.
@@ -332,6 +362,14 @@ BaseMenu._leaveDelay; // Default: `-1`.
 #### Type {#property--leavedelay--type}
 
 `number`
+
+### _prefix <badge type="warning" text="protected" /> {#property--prefix}
+
+The prefix for the CSS custom properties.
+
+```js
+BaseMenu._prefix; // Default: `"am-"`.
+```
 
 ### _hoverTimeout <badge type="warning" text="protected" /> {#property--hovertimeout}
 
@@ -505,9 +543,53 @@ BaseMenu.transitionDuration = 250;
 
 This functions differently for root vs. submenus. Submenus will always inherit their root menu's transition duration.
 
-Setting this value will also set the --am-transition-duration CSS custom property on the menu.
+Setting this value will also set the `--am-transition-duration` CSS custom property on the menu.
 
 See [_transitionDuration](#property--transitionduration) for more information.
+
+### openDuration {#getter-setter--openduration}
+
+The duration time (in miliseconds) for the transition from closed to open states.
+
+::: code-group
+
+```js [getter]
+BaseMenu.openDuration;
+```
+
+```js [setter]
+BaseMenu.openDuration = 250;
+```
+
+:::
+
+This functions differently for root vs. submenus. Submenus will always inherit their root menu's open duration.
+
+Setting this value will also set the `--am-open-transition-duration` CSS custom property on the menu.
+
+See [_openDuration](#property--openduration) for more information.
+
+### closeDuration {#getter-setter--closeduration}
+
+The duration time (in miliseconds) for the transition from open to closed states.
+
+::: code-group
+
+```js [getter]
+BaseMenu.closeDuration;
+```
+
+```js [setter]
+BaseMenu.closeDuration = 250;
+```
+
+:::
+
+This functions differently for root vs. submenus. Submenus will always inherit their root menu's close duration.
+
+Setting this value will also set the `--am-close-transition-duration` CSS custom property on the menu.
+
+See [_closeDuration](#property--closeduration) for more information.
 
 ### currentChild {#getter-setter--currentchild}
 
@@ -674,6 +756,26 @@ If leaveDelay is set to -1, the hoverDelay value will be used instead.
 This functions differently for root vs. submenus. Submenus will always inherit their root menu's leave delay.
 
 See [_leaveDelay](#property--leavedelay) for more information.
+
+### prefix {#getter-setter--prefix}
+
+The prefix for the CSS custom properties.
+
+::: code-group
+
+```js [getter]
+BaseMenu.prefix;
+```
+
+```js [setter]
+BaseMenu.prefix = "am-";
+```
+
+:::
+
+This functions differently for root vs. submenus. Submenus will always inherit their root menu's prefix.
+
+See [_prefix](#property--prefix) for more information.
 
 ### shouldFocus <badge type="warning" text="readonly" /> {#getter--shouldfocus}
 
@@ -926,7 +1028,13 @@ Sets the transition duration of the menu as a CSS custom property.
 BaseMenu._setTransitionDuration();
 ```
 
-The custom property is `--am-transition-duration`.
+The custom properties are:
+
+- `--am-transition-duration`,
+- `--am-open-transition-duration`, and
+- `--am-close-transition-duration`.
+
+The prefix of `am-` can be changed by setting the menu's prefix value.
 
 ### focus <badge type="tip" text="public" /> {#method--focus}
 

@@ -26,6 +26,8 @@ new DisclosureMenu({
   closeClass,
   transitionClass,
   transitionDuration,
+  openDuration,
+  closeDuration,
   isTopLevel,
   parentMenu,
   hoverType,
@@ -33,6 +35,7 @@ new DisclosureMenu({
   enterDelay,
   leaveDelay,
   optionalKeySupport,
+  prefix,
   initialize,
 });
 ```
@@ -56,6 +59,8 @@ The constructor will call [BaseMenu's constructor](./base-menu#constructor) with
 | options.closeClass | `string`, `string[]`, `null` | The class to apply when a menu is "closed". | `"hide"` |
 | options.transitionClass | `string`, `string[]`, `null` | The class to apply when a menu is transitioning between "open" and "closed" states. | `transitioning` |
 | options.transitionDuration | `number` | The duration of the transition between "open" and "closed" states (in miliseconds). | `250` |
+| options.openDuration | `number` | The duration of the transition from "closed" to "open" states (in miliseconds). | `250` |
+| options.closeDuration | `number` | The duration of the transition from "open" to "closed" states (in miliseconds). | `250` |
 | options.isTopLevel | `boolean` | A flag to mark the root menu. | `true` |
 | options.parentMenu | `DisclosureMenu`, `null` | The parent menu to this menu. | `null` |
 | options.hoverType | `string` | The type of hoverability a menu has. | `"off"` |
@@ -63,6 +68,7 @@ The constructor will call [BaseMenu's constructor](./base-menu#constructor) with
 | options.enterDelay | `number` | The delay for opening a menu if the menu is focusable (in miliseconds). | `-1` |
 | options.leaveDelay | `number` | The delay for closing a menu if the menu is focusable (in miliseconds). | `-1` |
 | options.optionalKeySupport | `boolean` | A flag to add optional keyboard support (Arrow keys, Home, and End) to the menu. | `false` |
+| options.prefix | `string`, `null` | The prefix for the CSS custom properties. | `"am-"` |
 | options.initialize | `boolean` | A flag to initialize the menu immediately upon creation. | `true` |
 
 ## Initialize
