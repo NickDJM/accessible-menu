@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-unused-vars
 /* global DisclosureMenu, DisclosureMenuToggle */
 
 import BaseMenuItem from "./_baseMenuItem.js";

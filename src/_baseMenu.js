@@ -29,7 +29,7 @@ class BaseMenu {
    *
    * @type {typeof BaseMenu}
    */
-  _MenuType = BaseMenu; // eslint-disable-line no-use-before-define
+  _MenuType = BaseMenu;
 
   /**
    * The class to use when generating menu items.
@@ -411,6 +411,15 @@ class BaseMenu {
 
     this._createChildElements();
     this._setTransitionDurations();
+
+    // Add the menu to a globally accessible list of menus.
+    if (this.isTopLevel) {
+      window.AccessibleMenu = window.AccessibleMenu || {
+        menus: {},
+      };
+
+      window.AccessibleMenu.menus[this.dom.menu.id] = this;
+    }
   }
 
   /**

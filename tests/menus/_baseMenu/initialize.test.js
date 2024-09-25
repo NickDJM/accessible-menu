@@ -86,6 +86,38 @@ describe("BaseMenu", () => {
       'menuElement must be an instance of HTMLElement. "number" given.'
     );
   });
+
+  // Test that the menu exists in window.AccessibleMenu.menus after initialization.
+  it("should exist in window.AccessibleMenu.menus after initialization", () => {
+    // Create a new BaseMenu instance for testing.
+    const menu = new BaseMenu({
+      menuElement: document.querySelector("ul"),
+    });
+
+    // Initialize the menu.
+    initializeMenu(menu);
+
+    // Test that the menu exists in window.AccessibleMenu.menus.
+    expect(Object.values(window.AccessibleMenu.menus)).toContain(menu);
+  });
+
+  // Test that the menu does not exist in window.AccessibleMenu.menus after failed initialization.
+  it("should not exist in window.AccessibleMenu.menus after failed initialization", () => {
+    // Create a new BaseMenu instance for testing.
+    const menu = new BaseMenu({
+      menuElement: 1,
+    });
+
+    // Initialize the menu.
+    try {
+      initializeMenu(menu);
+    } catch {
+      // Do nothing.
+    }
+
+    // Test that the menu does not exist in window.AccessibleMenu.menus.
+    expect(Object.values(window.AccessibleMenu.menus)).not.toContain(menu);
+  });
 });
 
 // Test the BaseMenu initialization for a controlled menu.

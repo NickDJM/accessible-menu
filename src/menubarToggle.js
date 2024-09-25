@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-unused-vars
 /* global Menubar */
 
 import BaseMenuToggle from "./_baseMenuToggle.js";

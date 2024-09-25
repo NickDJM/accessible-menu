@@ -5,8 +5,6 @@
  * that the Menubar class can be initialized.
  */
 
-/* eslint-disable no-new */
-
 import {
   describe,
   it,

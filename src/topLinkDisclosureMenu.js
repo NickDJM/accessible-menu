@@ -31,7 +31,7 @@ class TopLinkDisclosureMenu extends BaseMenu {
    *
    * @type {typeof TopLinkDisclosureMenu}
    */
-  _MenuType = TopLinkDisclosureMenu; // eslint-disable-line no-use-before-define
+  _MenuType = TopLinkDisclosureMenu;
 
   /**
    * The class to use when generating menu items.
