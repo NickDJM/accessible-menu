@@ -312,5 +312,47 @@ describe("BaseMenu", () => {
 
       expect(menu.focusState).toBe("none");
     });
+
+    // Test that pointerup does not toggle submenu when event.button is not 0.
+    it("should not toggle submenu when event.button is not 0", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+
+      // Spy on toggle.
+      const spy = vi.spyOn(menu.elements.controller, "toggle");
+
+      // Simulate a pointerup event with button property set to 1.
+      simulatePointerEvent("pointerup", menu.elements.controller.dom.toggle, {
+        button: 1,
+      });
+
+      expect(spy).not.toHaveBeenCalled();
+    });
+
+    // Test that pointerup toggles submenu when event.button is 0.
+    it("should toggle submenu when event.button is 0", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+
+      // Spy on toggle.
+      const spy = vi.spyOn(menu.elements.controller, "toggle");
+
+      // Simulate a pointerup event with button property set to 0.
+      simulatePointerEvent("pointerup", menu.elements.controller.dom.toggle, {
+        button: 0,
+      });
+
+      expect(spy).toHaveBeenCalled();
+    });
   });
 });

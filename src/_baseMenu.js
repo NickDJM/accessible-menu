@@ -1407,6 +1407,10 @@ class BaseMenu {
     function toggleToggle(menu, toggle, event) {
       preventEvent(event);
 
+      if (event.button !== 0) {
+        return;
+      }
+
       toggle.toggle();
 
       if (toggle.isOpen) {

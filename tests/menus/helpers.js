@@ -72,8 +72,15 @@ export function simulatePointerEvent(eventType, element, options = {}) {
     const event = new PointerEvent(eventType, {
       bubbles: true,
       cancelable: true,
-      ...options,
     });
+
+    // Manually assign read-only properties after the event is created
+    Object.keys(options).forEach((key) => {
+      if (key in event) {
+        Object.defineProperty(event, key, { value: options[key] });
+      }
+    });
+
     element.dispatchEvent(event);
     return event;
   } catch (error) {
