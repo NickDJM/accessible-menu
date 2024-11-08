@@ -75,7 +75,7 @@ describe("BaseMenu", () => {
       // Trigger a focusout event on the menu.
       menu.dom.menu.dispatchEvent(new FocusEvent("focusout"));
 
-      expect(menu.focusState).not.toBe("none");
+      expect(menu.focusState).toBe("none");
     });
 
     // Test that the closeChildren method is called when the menu loses focus.
@@ -98,7 +98,7 @@ describe("BaseMenu", () => {
       // Trigger a focusout event on the menu.
       menu.dom.menu.dispatchEvent(new FocusEvent("focusout"));
 
-      expect(spy).not.toHaveBeenCalled();
+      expect(spy).toHaveBeenCalled();
     });
 
     // Test that the focus state does not get set to none when the menu loses focus but the current event is not keyboard.
