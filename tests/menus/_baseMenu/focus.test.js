@@ -73,7 +73,9 @@ describe("BaseMenu", () => {
       menu.currentEvent = "keyboard";
 
       // Trigger a focusout event on the menu.
-      menu.dom.menu.dispatchEvent(new FocusEvent("focusout"));
+      menu.dom.menu.dispatchEvent(new FocusEvent("focusout",
+        { relatedTarget: document.body }
+      ));
 
       expect(menu.focusState).toBe("none");
     });
@@ -96,7 +98,9 @@ describe("BaseMenu", () => {
       const spy = vi.spyOn(menu, "closeChildren");
 
       // Trigger a focusout event on the menu.
-      menu.dom.menu.dispatchEvent(new FocusEvent("focusout"));
+      menu.dom.menu.dispatchEvent(new FocusEvent("focusout",
+        { relatedTarget: document.body }
+      ));
 
       expect(spy).toHaveBeenCalled();
     });
@@ -189,6 +193,57 @@ describe("BaseMenu", () => {
       menu.dom.menu.dispatchEvent(
         new FocusEvent("focusout", {
           relatedTarget: menu.elements.menuItems[1].dom.link,
+        })
+      );
+
+      expect(spy).not.toHaveBeenCalled();
+    });
+
+    // Test that the focus state does not get set to none when the menu loses focus, but the relatedTarget is null.
+    it("should not set focus state to none when the menu loses focus but the relatedTarget is null", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+
+      // Focus the first menu item.
+      menu.elements.menuItems[0].dom.link.focus();
+      menu.currentEvent = "keyboard";
+
+      // Trigger a focusout event on the menu with a relatedTarget that is null.
+      menu.dom.menu.dispatchEvent(
+        new FocusEvent("focusout", {
+          relatedTarget: null,
+        })
+      );
+
+      expect(menu.focusState).not.toBe("none");
+    });
+
+    // Test that the closeChildren method is not called when the menu loses focus but the relatedTarget is null.
+    it("should not call the closeChildren method when the menu loses focus but the relatedTarget is null", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+
+      // Focus the first menu item.
+      menu.elements.menuItems[0].dom.link.focus();
+      menu.currentEvent = "keyboard";
+
+      // Spy on the closeChildren method.
+      const spy = vi.spyOn(menu, "closeChildren");
+
+      // Trigger a focusout event on the menu with a relatedTarget that is null.
+      menu.dom.menu.dispatchEvent(
+        new FocusEvent("focusout", {
+          relatedTarget: null,
         })
       );
 
