@@ -700,12 +700,12 @@ class E {
     submenuToggleSelector: o = "a",
     submenuSelector: l = "ul",
     controllerElement: h = null,
-    containerElement: m = null,
+    containerElement: a = null,
     openClass: g = "show",
     closeClass: d = "hide",
     transitionClass: f = "transitioning",
     transitionDuration: p = 250,
-    openDuration: a = -1,
+    openDuration: m = -1,
     closeDuration: v = -1,
     isTopLevel: M = !0,
     parentMenu: D = null,
@@ -947,7 +947,7 @@ class E {
      * @type {string[]}
      */
     r(this, "_errors", []);
-    this._dom.menu = e, this._dom.controller = h, this._dom.container = m, this._selectors.menuItems = t, this._selectors.menuLinks = s, this._selectors.submenuItems = i, this._selectors.submenuToggles = o, this._selectors.submenus = l, this._elements.menuItems = [], this._elements.submenuToggles = [], this._elements.controller = null, this._elements.parentMenu = D, this._elements.rootMenu = M ? this : null, this._openClass = g || "", this._closeClass = d || "", this._transitionClass = f || "", this._transitionDuration = p, this._openDuration = a, this._closeDuration = v, this._prefix = k || "", this._root = M, this._hoverType = w, this._hoverDelay = I, this._enterDelay = L, this._leaveDelay = S;
+    this._dom.menu = e, this._dom.controller = h, this._dom.container = a, this._selectors.menuItems = t, this._selectors.menuLinks = s, this._selectors.submenuItems = i, this._selectors.submenuToggles = o, this._selectors.submenus = l, this._elements.menuItems = [], this._elements.submenuToggles = [], this._elements.controller = null, this._elements.parentMenu = D, this._elements.rootMenu = M ? this : null, this._openClass = g || "", this._closeClass = d || "", this._transitionClass = f || "", this._transitionDuration = p, this._openDuration = m, this._closeDuration = v, this._prefix = k || "", this._root = M, this._hoverType = w, this._hoverDelay = I, this._enterDelay = L, this._leaveDelay = S;
   }
   /**
    * Initializes the menu.
@@ -1373,20 +1373,20 @@ class E {
       menuItemSelector: this._selectors.menuItems,
       menuLinkSelector: this._selectors.menuLinks
     }), s.status || (this._errors.push(s.error.message), e = !1), this._openClass !== "") {
-      const a = b({ openClass: this._openClass });
-      a.status || (this._errors.push(a.error.message), e = !1);
+      const m = b({ openClass: this._openClass });
+      m.status || (this._errors.push(m.error.message), e = !1);
     }
     if (this._closeClass !== "") {
-      const a = b({
+      const m = b({
         closeClass: this._closeClass
       });
-      a.status || (this._errors.push(a.error.message), e = !1);
+      m.status || (this._errors.push(m.error.message), e = !1);
     }
     if (this._transitionClass !== "") {
-      const a = b({
+      const m = b({
         transitionClass: this._transitionClass
       });
-      a.status || (this._errors.push(a.error.message), e = !1);
+      m.status || (this._errors.push(m.error.message), e = !1);
     }
     const i = u("number", {
       transitionDuration: this._transitionDuration
@@ -1402,13 +1402,13 @@ class E {
     l.status || (this._errors.push(l.error.message), e = !1);
     const h = u("boolean", { isTopLevel: this._root });
     if (h.status || (this._errors.push(h.error.message), e = !1), this._elements.parentMenu !== null) {
-      const a = C(E, {
+      const m = C(E, {
         parentMenu: this._elements.parentMenu
       });
-      a.status || (this._errors.push(a.error.message), e = !1);
+      m.status || (this._errors.push(m.error.message), e = !1);
     }
-    const m = x({ hoverType: this._hoverType });
-    m.status || (this._errors.push(m.error.message), e = !1);
+    const a = x({ hoverType: this._hoverType });
+    a.status || (this._errors.push(a.error.message), e = !1);
     const g = u("number", {
       hoverDelay: this._hoverDelay
     });
@@ -1594,7 +1594,7 @@ class E {
         this.focusState = "self", this.currentChild = t;
       });
     }), this.dom.menu.addEventListener("focusout", (e) => {
-      this.currentEvent !== "keyboard" || this.dom.menu.contains(e.relatedTarget) || (this.focusState = "none", this.closeChildren());
+      this.currentEvent !== "keyboard" || e.relatedTarget === null || this.dom.menu.contains(e.relatedTarget) || (this.focusState = "none", this.closeChildren());
     });
   }
   /**
@@ -2036,12 +2036,12 @@ class F extends E {
     submenuItemSelector: o = "li:has(ul)",
     submenuToggleSelector: l = "a",
     submenuSelector: h = "ul",
-    controllerElement: m = null,
+    controllerElement: a = null,
     containerElement: g = null,
     openClass: d = "show",
     closeClass: f = "hide",
     transitionClass: p = "transitioning",
-    transitionDuration: a = 250,
+    transitionDuration: m = 250,
     isTopLevel: v = !0,
     parentMenu: M = null,
     hoverType: D = "off",
@@ -2058,12 +2058,12 @@ class F extends E {
       submenuItemSelector: o,
       submenuToggleSelector: l,
       submenuSelector: h,
-      controllerElement: m,
+      controllerElement: a,
       containerElement: g,
       openClass: d,
       closeClass: f,
       transitionClass: p,
-      transitionDuration: a,
+      transitionDuration: m,
       isTopLevel: v,
       parentMenu: M,
       hoverType: D,
@@ -2252,8 +2252,8 @@ class F extends E {
           c(t), this.currentMenuItem.isSubmenuItem && this.currentMenuItem.elements.toggle.isOpen ? (this.blurCurrentChild(), this.currentMenuItem.elements.childMenu.currentEvent = this.currentEvent, this.currentMenuItem.elements.childMenu.focusFirstChild()) : !this.isTopLevel && this.currentChild === this.elements.menuItems.length - 1 ? this.focusParentsNextChild() : this.focusNextChild();
         else if (s === "ArrowUp") {
           c(t);
-          const m = this.elements.menuItems[this.currentChild - 1];
-          m && m.isSubmenuItem && m.elements.toggle.isOpen ? (this.blurCurrentChild(), this.currentChild = this.currentChild - 1, this.currentMenuItem.elements.childMenu.currentEvent = this.currentEvent, this.focusChildsLastNode()) : !this.isTopLevel && this.currentChild === 0 ? (this.blurCurrentChild(), this.elements.parentMenu.currentEvent = this.currentEvent, this.elements.parentMenu.focusCurrentChild()) : this.focusPreviousChild();
+          const a = this.elements.menuItems[this.currentChild - 1];
+          a && a.isSubmenuItem && a.elements.toggle.isOpen ? (this.blurCurrentChild(), this.currentChild = this.currentChild - 1, this.currentMenuItem.elements.childMenu.currentEvent = this.currentEvent, this.focusChildsLastNode()) : !this.isTopLevel && this.currentChild === 0 ? (this.blurCurrentChild(), this.elements.parentMenu.currentEvent = this.currentEvent, this.elements.parentMenu.focusCurrentChild()) : this.focusPreviousChild();
         } else s === "ArrowRight" ? this.currentMenuItem.isSubmenuItem && (c(t), this.currentMenuItem.elements.toggle.isOpen ? (this.blurCurrentChild(), this.currentMenuItem.elements.childMenu.currentEvent = this.currentEvent, this.currentMenuItem.elements.childMenu.focusFirstChild()) : this.currentMenuItem.elements.toggle.preview()) : s === "ArrowLeft" ? (c(t), this.currentMenuItem.isSubmenuItem && this.currentMenuItem.elements.toggle.isOpen ? (this.currentMenuItem.elements.childMenu.blurCurrentChild(), this.currentMenuItem.elements.toggle.close()) : this.isTopLevel || (this.blurCurrentChild(), this.elements.parentMenu.currentEvent = this.currentEvent, this.elements.parentMenu.focusCurrentChild())) : s === "Home" ? (c(t), this.blurCurrentChild(), this.elements.rootMenu.focusFirstChild()) : s === "End" ? (c(t), this.blurCurrentChild(), this.elements.rootMenu.focusLastNode()) : s === "Asterisk" && (c(t), this.openChildren());
     });
   }
@@ -2303,15 +2303,15 @@ class F extends E {
       ...o.slice(l),
       ...o.slice(0, l)
     ];
-    let m = 0, g = !1;
-    for (; !g && m < h.length; ) {
+    let a = 0, g = !1;
+    for (; !g && a < h.length; ) {
       let d = "";
-      if (h[m].dom.item.innerText ? d = h[m].dom.item.innerText : d = h[m].dom.item.textContent, d = d.replace(/[\s]/g, "").toLowerCase().charAt(0), d === i) {
+      if (h[a].dom.item.innerText ? d = h[a].dom.item.innerText : d = h[a].dom.item.textContent, d = d.replace(/[\s]/g, "").toLowerCase().charAt(0), d === i) {
         g = !0;
-        const f = h[m].elements.parentMenu, p = f.elements.menuItems.indexOf(h[m]);
+        const f = h[a].elements.parentMenu, p = f.elements.menuItems.indexOf(h[a]);
         this.elements.rootMenu.blurChildren(), f.focusChild(p);
       }
-      m++;
+      a++;
     }
   }
   /**

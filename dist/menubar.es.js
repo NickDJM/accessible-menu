@@ -1594,7 +1594,7 @@ class T {
         this.focusState = "self", this.currentChild = t;
       });
     }), this.dom.menu.addEventListener("focusout", (e) => {
-      this.currentEvent !== "keyboard" || this.dom.menu.contains(e.relatedTarget) || (this.focusState = "none", this.closeChildren());
+      this.currentEvent !== "keyboard" || e.relatedTarget === null || this.dom.menu.contains(e.relatedTarget) || (this.focusState = "none", this.closeChildren());
     });
   }
   /**
