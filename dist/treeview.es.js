@@ -1583,6 +1583,8 @@ class E {
    * - Adds a `focus` listener to every menu item so when it gains focus,
    *   it will set the item's containing menu's focus state
    *   to "self".
+   * - Adds a `focusout` listener to the menu so when the menu loses focus,
+   *   it will close.
    *
    * @protected
    */
@@ -1591,6 +1593,8 @@ class E {
       e.dom.link.addEventListener("focus", () => {
         this.focusState = "self", this.currentChild = t;
       });
+    }), this.dom.menu.addEventListener("focusout", (e) => {
+      this.currentEvent !== "keyboard" || this.dom.menu.contains(e.relatedTarget) || (this.focusState = "none", this.closeChildren());
     });
   }
   /**
@@ -1609,7 +1613,7 @@ class E {
    */
   _handleClick() {
     function e(t, s, i) {
-      c(i), s.toggle(), s.isOpen && (t.focusState = "self", s.elements.controlledMenu.focusState = "none");
+      c(i), i.button === 0 && (s.toggle(), s.isOpen && (t.focusState = "self", s.elements.controlledMenu.focusState = "none"));
     }
     this.elements.menuItems.forEach((t, s) => {
       t.dom.link.addEventListener(

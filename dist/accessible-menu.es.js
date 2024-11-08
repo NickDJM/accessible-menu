@@ -702,8 +702,8 @@ class w {
     controllerElement: h = null,
     containerElement: m = null,
     openClass: a = "show",
-    closeClass: p = "hide",
-    transitionClass: f = "transitioning",
+    closeClass: f = "hide",
+    transitionClass: p = "transitioning",
     transitionDuration: g = 250,
     openDuration: d = -1,
     closeDuration: M = -1,
@@ -947,7 +947,7 @@ class w {
      * @type {string[]}
      */
     u(this, "_errors", []);
-    this._dom.menu = e, this._dom.controller = h, this._dom.container = m, this._selectors.menuItems = t, this._selectors.menuLinks = s, this._selectors.submenuItems = n, this._selectors.submenuToggles = i, this._selectors.submenus = l, this._elements.menuItems = [], this._elements.submenuToggles = [], this._elements.controller = null, this._elements.parentMenu = b, this._elements.rootMenu = y ? this : null, this._openClass = a || "", this._closeClass = p || "", this._transitionClass = f || "", this._transitionDuration = g, this._openDuration = d, this._closeDuration = M, this._prefix = v || "", this._root = y, this._hoverType = C, this._hoverDelay = T, this._enterDelay = E, this._leaveDelay = I;
+    this._dom.menu = e, this._dom.controller = h, this._dom.container = m, this._selectors.menuItems = t, this._selectors.menuLinks = s, this._selectors.submenuItems = n, this._selectors.submenuToggles = i, this._selectors.submenus = l, this._elements.menuItems = [], this._elements.submenuToggles = [], this._elements.controller = null, this._elements.parentMenu = b, this._elements.rootMenu = y ? this : null, this._openClass = a || "", this._closeClass = f || "", this._transitionClass = p || "", this._transitionDuration = g, this._openDuration = d, this._closeDuration = M, this._prefix = v || "", this._root = y, this._hoverType = C, this._hoverDelay = T, this._enterDelay = E, this._leaveDelay = I;
   }
   /**
    * Initializes the menu.
@@ -1413,14 +1413,14 @@ class w {
       hoverDelay: this._hoverDelay
     });
     a.status || (this._errors.push(a.error.message), e = !1);
-    const p = c("number", {
+    const f = c("number", {
       enterDelay: this._enterDelay
     });
-    p.status || (this._errors.push(p.error.message), e = !1);
-    const f = c("number", {
+    f.status || (this._errors.push(f.error.message), e = !1);
+    const p = c("number", {
       leaveDelay: this._leaveDelay
     });
-    f.status || (this._errors.push(f.error.message), e = !1);
+    p.status || (this._errors.push(p.error.message), e = !1);
     const g = c("string", { prefix: this._prefix });
     return g.status || (this._errors.push(g.error.message), e = !1), e;
   }
@@ -1583,6 +1583,8 @@ class w {
    * - Adds a `focus` listener to every menu item so when it gains focus,
    *   it will set the item's containing menu's focus state
    *   to "self".
+   * - Adds a `focusout` listener to the menu so when the menu loses focus,
+   *   it will close.
    *
    * @protected
    */
@@ -1591,6 +1593,8 @@ class w {
       e.dom.link.addEventListener("focus", () => {
         this.focusState = "self", this.currentChild = t;
       });
+    }), this.dom.menu.addEventListener("focusout", (e) => {
+      this.currentEvent !== "keyboard" || this.dom.menu.contains(e.relatedTarget) || (this.focusState = "none", this.closeChildren());
     });
   }
   /**
@@ -1609,7 +1613,7 @@ class w {
    */
   _handleClick() {
     function e(t, s, n) {
-      o(n), s.toggle(), s.isOpen && (t.focusState = "self", s.elements.controlledMenu.focusState = "none");
+      o(n), n.button === 0 && (s.toggle(), s.isOpen && (t.focusState = "self", s.elements.controlledMenu.focusState = "none"));
     }
     this.elements.menuItems.forEach((t, s) => {
       t.dom.link.addEventListener(
@@ -2025,8 +2029,8 @@ class z extends w {
     submenuSelector: h = "ul",
     controllerElement: m = null,
     containerElement: a = null,
-    openClass: p = "show",
-    closeClass: f = "hide",
+    openClass: f = "show",
+    closeClass: p = "hide",
     transitionClass: g = "transitioning",
     transitionDuration: d = 250,
     openDuration: M = -1,
@@ -2050,8 +2054,8 @@ class z extends w {
       submenuSelector: h,
       controllerElement: m,
       containerElement: a,
-      openClass: p,
-      closeClass: f,
+      openClass: f,
+      closeClass: p,
       transitionClass: g,
       transitionDuration: d,
       openDuration: M,
@@ -2408,8 +2412,8 @@ class H extends w {
     submenuSelector: h = "ul",
     controllerElement: m = null,
     containerElement: a = null,
-    openClass: p = "show",
-    closeClass: f = "hide",
+    openClass: f = "show",
+    closeClass: p = "hide",
     transitionClass: g = "transitioning",
     transitionDuration: d = 250,
     isTopLevel: M = !0,
@@ -2430,8 +2434,8 @@ class H extends w {
       submenuSelector: h,
       controllerElement: m,
       containerElement: a,
-      openClass: p,
-      closeClass: f,
+      openClass: f,
+      closeClass: p,
       transitionClass: g,
       transitionDuration: d,
       isTopLevel: M,
@@ -2818,8 +2822,8 @@ class q extends w {
     submenuSelector: h = "ul",
     submenuSubtoggleSelector: m = "a",
     controllerElement: a = null,
-    containerElement: p = null,
-    openClass: f = "show",
+    containerElement: f = null,
+    openClass: p = "show",
     closeClass: g = "hide",
     transitionClass: d = "transitioning",
     transitionDuration: M = 250,
@@ -2841,8 +2845,8 @@ class q extends w {
       submenuSelector: h,
       submenuToggleSelector: l,
       controllerElement: a,
-      containerElement: p,
-      openClass: f,
+      containerElement: f,
+      openClass: p,
       closeClass: g,
       transitionClass: d,
       transitionDuration: M,
@@ -3347,8 +3351,8 @@ class j extends w {
     submenuSelector: h = "ul",
     controllerElement: m = null,
     containerElement: a = null,
-    openClass: p = "show",
-    closeClass: f = "hide",
+    openClass: f = "show",
+    closeClass: p = "hide",
     transitionClass: g = "transitioning",
     transitionDuration: d = 250,
     isTopLevel: M = !0,
@@ -3369,8 +3373,8 @@ class j extends w {
       submenuSelector: h,
       controllerElement: m,
       containerElement: a,
-      openClass: p,
-      closeClass: f,
+      openClass: f,
+      closeClass: p,
       transitionClass: g,
       transitionDuration: d,
       isTopLevel: M,
@@ -3597,16 +3601,16 @@ class j extends w {
    * @param {string} char - The character to look for.
    */
   focusNextNodeWithCharacter(t) {
-    function s(p) {
-      let f = [];
-      return p.elements.menuItems.forEach((g) => {
-        f.push(g), g.isSubmenuItem && g.elements.toggle.isOpen && (f = [
-          ...f,
+    function s(f) {
+      let p = [];
+      return f.elements.menuItems.forEach((g) => {
+        p.push(g), g.isSubmenuItem && g.elements.toggle.isOpen && (p = [
+          ...p,
           ...s(
             g.elements.toggle.elements.controlledMenu
           )
         ]);
-      }), f;
+      }), p;
     }
     const n = t.toLowerCase(), i = s(this.elements.rootMenu), l = i.indexOf(this.currentMenuItem) + 1, h = [
       ...i.slice(l),
@@ -3614,11 +3618,11 @@ class j extends w {
     ];
     let m = 0, a = !1;
     for (; !a && m < h.length; ) {
-      let p = "";
-      if (h[m].dom.item.innerText ? p = h[m].dom.item.innerText : p = h[m].dom.item.textContent, p = p.replace(/[\s]/g, "").toLowerCase().charAt(0), p === n) {
+      let f = "";
+      if (h[m].dom.item.innerText ? f = h[m].dom.item.innerText : f = h[m].dom.item.textContent, f = f.replace(/[\s]/g, "").toLowerCase().charAt(0), f === n) {
         a = !0;
-        const f = h[m].elements.parentMenu, g = f.elements.menuItems.indexOf(h[m]);
-        this.elements.rootMenu.blurChildren(), f.focusChild(g);
+        const p = h[m].elements.parentMenu, g = p.elements.menuItems.indexOf(h[m]);
+        this.elements.rootMenu.blurChildren(), p.focusChild(g);
       }
       m++;
     }
