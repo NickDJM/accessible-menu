@@ -626,7 +626,7 @@ class TopLinkDisclosureMenu extends BaseMenu {
    * Adds all `keyup` listeners from BaseMenu's _handleKeyup method.
    *
    * Adds the following keybindings (explanations are taken from the
-   * WAI ARIA Pracitices Example Disclosure for Navigation Menus):
+   * WAI ARIA Practices Example Disclosure for Navigation Menus):
    *
    * | Key | Function |
    * | --- | --- |

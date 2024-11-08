@@ -388,7 +388,7 @@ class BaseMenu {
   initialize() {
     if (!this._validate()) {
       throw new Error(
-        `AccesibleMenu: cannot initialize menu. The following errors have been found:\n - ${this.errors.join(
+        `AccessibleMenu: cannot initialize menu. The following errors have been found:\n - ${this.errors.join(
           "\n - "
         )}`
       );
@@ -409,7 +409,7 @@ class BaseMenu {
           controlledMenu: this,
         });
 
-        // If the toggle isn't a button, add the approriate role to let
+        // If the toggle isn't a button, add the appropriate role to let
         // screen readers know it should act like a button.
         if (!isTag("button", { toggle: toggle.dom.toggle })) {
           toggle.dom.toggle.setAttribute("role", "button");
@@ -606,7 +606,7 @@ class BaseMenu {
    * If the current menu has a parent menu _and_ the menu's
    * current event is "mouse", The parent menu
    * will have it's current child updated as well to help with transitioning
-   * between mouse and keyboard naviation.
+   * between mouse and keyboard navigation.
    *
    * @type {number}
    *
@@ -1230,7 +1230,7 @@ class BaseMenu {
   /**
    * Sets all DOM elements within the menu.
    *
-   * Utiliizes _setDOMElementType and
+   * Utilizes _setDOMElementType and
    * _resetDOMElementType.
    *
    * @protected
@@ -1644,7 +1644,7 @@ class BaseMenu {
   /**
    * Handles keydown events throughout the menu for proper menu use.
    *
-   * This method exists to assit the _handleKeyup method.
+   * This method exists to assist the _handleKeyup method.
    *
    * - Adds a `keydown` listener to the menu's controller (if the menu is the root menu).
    *   - Blocks propagation on "Space", "Enter", and "Escape" keys.
@@ -1747,7 +1747,7 @@ class BaseMenu {
    *
    * Sets the menu's focus state to "none"
    * and blurs the menu if the menu's shouldFocus
-   * vallue is `true`.
+   * value is `true`.
    *
    * @public
    */
@@ -1786,7 +1786,7 @@ class BaseMenu {
   }
 
   /**
-   * Focues the menu's first child.
+   * Focuses the menu's first child.
    *
    * @public
    */
