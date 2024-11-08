@@ -1386,6 +1386,7 @@ class BaseMenu {
     this.dom.menu.addEventListener("focusout", (event) => {
       if (
         this.currentEvent !== "keyboard" ||
+        event.relatedTarget === null ||
         this.dom.menu.contains(event.relatedTarget)
       ) {
         return;
