@@ -1384,7 +1384,10 @@ class BaseMenu {
     });
 
     this.dom.menu.addEventListener("focusout", (event) => {
-      if (this.currentEvent !== "keyboard" || this.dom.menu.contains(event.relatedTarget)) {
+      if (
+        this.currentEvent !== "keyboard" ||
+        this.dom.menu.contains(event.relatedTarget)
+      ) {
         return;
       }
 
