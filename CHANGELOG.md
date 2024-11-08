@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.2.0](https://github.com/NickDJM/accessible-menu/compare/v4.1.2...v4.2.0) (2024-11-08)
+
+
+### Features
+
+* add initialized menus to window.AccessibleMenu.menus object ([c90e5aa](https://github.com/NickDJM/accessible-menu/commit/c90e5aac4c78a1ad6c0182cfb94ac7ba6a030b34))
+* **options:** add transitionDuration option to allow for closing animations ([8729d85](https://github.com/NickDJM/accessible-menu/commit/8729d857333fa8fa9837de1759b12d460cae8cee)), closes [#319](https://github.com/NickDJM/accessible-menu/issues/319)
+
+
+### Bug Fixes
+
+* **accessibility:** close menu when it loses focus ([54a3a57](https://github.com/NickDJM/accessible-menu/commit/54a3a5753771edfffc0b2b656162f415f5a0c462)), closes [#354](https://github.com/NickDJM/accessible-menu/issues/354)
+* prevent menu toggle on right-click ([#355](https://github.com/NickDJM/accessible-menu/issues/355)) ([8882158](https://github.com/NickDJM/accessible-menu/commit/8882158885cd9df91d6ef5d6be5ee9dc41d9c879))
+
+
+### Build System
+
+* bump eslint-plugin-jsdoc from 48.11.0 to 50.0.0 ([c7da84a](https://github.com/NickDJM/accessible-menu/commit/c7da84a17ca235a0b56c595d8d5184cc8c884be0))
+* bump jsdom from 24.1.3 to 25.0.1 ([e299b85](https://github.com/NickDJM/accessible-menu/commit/e299b85dde83beef01d5353147334fe21eebf542))
+* **npm:** upgrade eslint to latest ([3c8a595](https://github.com/NickDJM/accessible-menu/commit/3c8a595fea7257dba9c4264fa1a99d6131c6078d))
+* **npm:** upgrade vitest to latest ([48da54c](https://github.com/NickDJM/accessible-menu/commit/48da54cd8044d7e3b5b2b56f718b1cfabaa43e7d))
+
+
+### Documentation
+
+* correct spelling throughout entire project ([f4726c2](https://github.com/NickDJM/accessible-menu/commit/f4726c28160e2be164505e9b86525e78eb7308f4))
+
 ### [4.1.2](https://github.com/NickDJM/accessible-menu/compare/v4.1.1...v4.1.2) (2024-08-01)
 
 
