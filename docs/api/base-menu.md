@@ -942,7 +942,8 @@ Handles focus events throughout the menu for proper menu use.
 BaseMenu._handleFocus();
 ```
 
-Adds a `focus` listener to every menu item so when it gains focus, it will set the item's containing menu's [focus state](#property--focusstate) to "self".
+- Adds a `focus` listener to every menu item so when it gains focus, it will set the item's containing menu's [focus state](#property--focusstate) to "self".
+- Adds a `focusout` listener to the menu so when the menu loses focus, it will close.
 
 ### _handleClick {#method--handleclick}
 

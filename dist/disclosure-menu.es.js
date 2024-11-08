@@ -57,7 +57,7 @@ function l(n, e) {
     };
   }
 }
-function L(n) {
+function I(n) {
   try {
     if (typeof n != "object") {
       const e = typeof n;
@@ -110,7 +110,7 @@ function b(n) {
           );
       else {
         const s = {};
-        s[e] = n[e], L(s);
+        s[e] = n[e], I(s);
       }
     }
     return {
@@ -713,7 +713,7 @@ class T {
     hoverDelay: S = 250,
     enterDelay: k = -1,
     leaveDelay: A = -1,
-    prefix: I = "am-"
+    prefix: L = "am-"
   }) {
     /**
      * The class to use when generating submenus.
@@ -947,7 +947,7 @@ class T {
      * @type {string[]}
      */
     r(this, "_errors", []);
-    this._dom.menu = e, this._dom.controller = c, this._dom.container = m, this._selectors.menuItems = t, this._selectors.menuLinks = s, this._selectors.submenuItems = i, this._selectors.submenuToggles = o, this._selectors.submenus = u, this._elements.menuItems = [], this._elements.submenuToggles = [], this._elements.controller = null, this._elements.parentMenu = v, this._elements.rootMenu = M ? this : null, this._openClass = f || "", this._closeClass = d || "", this._transitionClass = p || "", this._transitionDuration = g, this._openDuration = h, this._closeDuration = D, this._prefix = I || "", this._root = M, this._hoverType = w, this._hoverDelay = S, this._enterDelay = k, this._leaveDelay = A;
+    this._dom.menu = e, this._dom.controller = c, this._dom.container = m, this._selectors.menuItems = t, this._selectors.menuLinks = s, this._selectors.submenuItems = i, this._selectors.submenuToggles = o, this._selectors.submenus = u, this._elements.menuItems = [], this._elements.submenuToggles = [], this._elements.controller = null, this._elements.parentMenu = v, this._elements.rootMenu = M ? this : null, this._openClass = f || "", this._closeClass = d || "", this._transitionClass = p || "", this._transitionDuration = g, this._openDuration = h, this._closeDuration = D, this._prefix = L || "", this._root = M, this._hoverType = w, this._hoverDelay = S, this._enterDelay = k, this._leaveDelay = A;
   }
   /**
    * Initializes the menu.
@@ -1363,13 +1363,13 @@ class T {
       menuElement: this._dom.menu
     }), t.status || (this._errors.push(t.error.message), e = !1);
     let s;
-    if (this._selectors.submenuItems !== "" ? s = L({
+    if (this._selectors.submenuItems !== "" ? s = I({
       menuItemSelector: this._selectors.menuItems,
       menuLinkSelector: this._selectors.menuLinks,
       submenuItemSelector: this._selectors.submenuItems,
       submenuToggleSelector: this._selectors.submenuToggles,
       submenuSelector: this._selectors.submenus
-    }) : s = L({
+    }) : s = I({
       menuItemSelector: this._selectors.menuItems,
       menuLinkSelector: this._selectors.menuLinks
     }), s.status || (this._errors.push(s.error.message), e = !1), this._openClass !== "") {
@@ -1583,6 +1583,8 @@ class T {
    * - Adds a `focus` listener to every menu item so when it gains focus,
    *   it will set the item's containing menu's focus state
    *   to "self".
+   * - Adds a `focusout` listener to the menu so when the menu loses focus,
+   *   it will close.
    *
    * @protected
    */
@@ -1591,6 +1593,8 @@ class T {
       e.dom.link.addEventListener("focus", () => {
         this.focusState = "self", this.currentChild = t;
       });
+    }), this.dom.menu.addEventListener("focusout", (e) => {
+      this.currentEvent !== "keyboard" || e.relatedTarget === null || this.dom.menu.contains(e.relatedTarget) || (this.focusState = "none", this.closeChildren());
     });
   }
   /**
@@ -1609,7 +1613,7 @@ class T {
    */
   _handleClick() {
     function e(t, s, i) {
-      a(i), s.toggle(), s.isOpen && (t.focusState = "self", s.elements.controlledMenu.focusState = "none");
+      a(i), i.button === 0 && (s.toggle(), s.isOpen && (t.focusState = "self", s.elements.controlledMenu.focusState = "none"));
     }
     this.elements.menuItems.forEach((t, s) => {
       t.dom.link.addEventListener(
@@ -2036,7 +2040,7 @@ class j extends T {
     hoverType: S = "off",
     hoverDelay: k = 250,
     enterDelay: A = -1,
-    leaveDelay: I = -1,
+    leaveDelay: L = -1,
     optionalKeySupport: K = !1,
     prefix: V = "am-",
     initialize: q = !0
@@ -2061,7 +2065,7 @@ class j extends T {
       hoverType: S,
       hoverDelay: k,
       enterDelay: A,
-      leaveDelay: I,
+      leaveDelay: L,
       prefix: V
     });
     /**

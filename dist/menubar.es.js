@@ -701,8 +701,8 @@ class T {
     submenuSelector: l = "ul",
     controllerElement: a = null,
     containerElement: c = null,
-    openClass: f = "show",
-    closeClass: d = "hide",
+    openClass: d = "show",
+    closeClass: f = "hide",
     transitionClass: p = "transitioning",
     transitionDuration: g = 250,
     openDuration: m = -1,
@@ -947,7 +947,7 @@ class T {
      * @type {string[]}
      */
     o(this, "_errors", []);
-    this._dom.menu = e, this._dom.controller = a, this._dom.container = c, this._selectors.menuItems = t, this._selectors.menuLinks = s, this._selectors.submenuItems = i, this._selectors.submenuToggles = r, this._selectors.submenus = l, this._elements.menuItems = [], this._elements.submenuToggles = [], this._elements.controller = null, this._elements.parentMenu = w, this._elements.rootMenu = C ? this : null, this._openClass = f || "", this._closeClass = d || "", this._transitionClass = p || "", this._transitionDuration = g, this._openDuration = m, this._closeDuration = D, this._prefix = A || "", this._root = C, this._hoverType = I, this._hoverDelay = v, this._enterDelay = k, this._leaveDelay = S;
+    this._dom.menu = e, this._dom.controller = a, this._dom.container = c, this._selectors.menuItems = t, this._selectors.menuLinks = s, this._selectors.submenuItems = i, this._selectors.submenuToggles = r, this._selectors.submenus = l, this._elements.menuItems = [], this._elements.submenuToggles = [], this._elements.controller = null, this._elements.parentMenu = w, this._elements.rootMenu = C ? this : null, this._openClass = d || "", this._closeClass = f || "", this._transitionClass = p || "", this._transitionDuration = g, this._openDuration = m, this._closeDuration = D, this._prefix = A || "", this._root = C, this._hoverType = I, this._hoverDelay = v, this._enterDelay = k, this._leaveDelay = S;
   }
   /**
    * Initializes the menu.
@@ -1409,14 +1409,14 @@ class T {
     }
     const c = O({ hoverType: this._hoverType });
     c.status || (this._errors.push(c.error.message), e = !1);
-    const f = h("number", {
+    const d = h("number", {
       hoverDelay: this._hoverDelay
     });
-    f.status || (this._errors.push(f.error.message), e = !1);
-    const d = h("number", {
+    d.status || (this._errors.push(d.error.message), e = !1);
+    const f = h("number", {
       enterDelay: this._enterDelay
     });
-    d.status || (this._errors.push(d.error.message), e = !1);
+    f.status || (this._errors.push(f.error.message), e = !1);
     const p = h("number", {
       leaveDelay: this._leaveDelay
     });
@@ -1583,6 +1583,8 @@ class T {
    * - Adds a `focus` listener to every menu item so when it gains focus,
    *   it will set the item's containing menu's focus state
    *   to "self".
+   * - Adds a `focusout` listener to the menu so when the menu loses focus,
+   *   it will close.
    *
    * @protected
    */
@@ -1591,6 +1593,8 @@ class T {
       e.dom.link.addEventListener("focus", () => {
         this.focusState = "self", this.currentChild = t;
       });
+    }), this.dom.menu.addEventListener("focusout", (e) => {
+      this.currentEvent !== "keyboard" || e.relatedTarget === null || this.dom.menu.contains(e.relatedTarget) || (this.focusState = "none", this.closeChildren());
     });
   }
   /**
@@ -1609,7 +1613,7 @@ class T {
    */
   _handleClick() {
     function e(t, s, i) {
-      u(i), s.toggle(), s.isOpen && (t.focusState = "self", s.elements.controlledMenu.focusState = "none");
+      u(i), i.button === 0 && (s.toggle(), s.isOpen && (t.focusState = "self", s.elements.controlledMenu.focusState = "none"));
     }
     this.elements.menuItems.forEach((t, s) => {
       t.dom.link.addEventListener(
@@ -2051,8 +2055,8 @@ class F extends T {
     submenuToggleSelector: l = "a",
     submenuSelector: a = "ul",
     controllerElement: c = null,
-    containerElement: f = null,
-    openClass: d = "show",
+    containerElement: d = null,
+    openClass: f = "show",
     closeClass: p = "hide",
     transitionClass: g = "transitioning",
     transitionDuration: m = 250,
@@ -2073,8 +2077,8 @@ class F extends T {
       submenuToggleSelector: l,
       submenuSelector: a,
       controllerElement: c,
-      containerElement: f,
-      openClass: d,
+      containerElement: d,
+      openClass: f,
       closeClass: p,
       transitionClass: g,
       transitionDuration: m,
@@ -2252,7 +2256,7 @@ class F extends T {
           })) : s === "ArrowUp" ? this.currentMenuItem.isSubmenuItem && (u(t), this.currentMenuItem.elements.childMenu.currentEvent = "keyboard", this.currentMenuItem.elements.toggle.open(), requestAnimationFrame(() => {
             this.currentMenuItem.elements.childMenu.focusLastChild();
           })) : s === "Home" ? (u(t), this.focusFirstChild()) : s === "End" ? (u(t), this.focusLastChild()) : s === "Escape" && (this.elements.submenuToggles.some(
-            (f) => f.isOpen
+            (d) => d.isOpen
           ) ? (u(t), this.closeChildren()) : this.isTopLevel && this.elements.controller && this.elements.controller.isOpen && (u(t), this.elements.controller.close(), this.focusController()));
       } else
         s === "Space" || s === "Enter" ? this.currentMenuItem.isSubmenuItem ? (u(t), this.currentMenuItem.elements.childMenu.currentEvent = "keyboard", this.currentMenuItem.elements.toggle.open(), requestAnimationFrame(() => {

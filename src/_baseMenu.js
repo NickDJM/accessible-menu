@@ -1370,6 +1370,8 @@ class BaseMenu {
    * - Adds a `focus` listener to every menu item so when it gains focus,
    *   it will set the item's containing menu's focus state
    *   to "self".
+   * - Adds a `focusout` listener to the menu so when the menu loses focus,
+   *   it will close.
    *
    * @protected
    */
@@ -1379,6 +1381,19 @@ class BaseMenu {
         this.focusState = "self";
         this.currentChild = index;
       });
+    });
+
+    this.dom.menu.addEventListener("focusout", (event) => {
+      if (
+        this.currentEvent !== "keyboard" ||
+        event.relatedTarget === null ||
+        this.dom.menu.contains(event.relatedTarget)
+      ) {
+        return;
+      }
+
+      this.focusState = "none";
+      this.closeChildren();
     });
   }
 
