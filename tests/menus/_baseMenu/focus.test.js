@@ -73,9 +73,9 @@ describe("BaseMenu", () => {
       menu.currentEvent = "keyboard";
 
       // Trigger a focusout event on the menu.
-      menu.dom.menu.dispatchEvent(new FocusEvent("focusout",
-        { relatedTarget: document.body }
-      ));
+      menu.dom.menu.dispatchEvent(
+        new FocusEvent("focusout", { relatedTarget: document.body })
+      );
 
       expect(menu.focusState).toBe("none");
     });
@@ -98,9 +98,9 @@ describe("BaseMenu", () => {
       const spy = vi.spyOn(menu, "closeChildren");
 
       // Trigger a focusout event on the menu.
-      menu.dom.menu.dispatchEvent(new FocusEvent("focusout",
-        { relatedTarget: document.body }
-      ));
+      menu.dom.menu.dispatchEvent(
+        new FocusEvent("focusout", { relatedTarget: document.body })
+      );
 
       expect(spy).toHaveBeenCalled();
     });
