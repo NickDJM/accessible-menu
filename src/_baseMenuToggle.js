@@ -121,7 +121,7 @@ class BaseMenuToggle {
     this._setAriaAttributes();
 
     // Collapse the menu.
-    this._collapse(false);
+    this._collapse(false, false);
   }
 
   /**
@@ -257,11 +257,13 @@ class BaseMenuToggle {
    *
    * @fires accessibleMenuExpand
    *
-   * @param {boolean} [emit = true] - A toggle to emit the expand event once expanded.
+   * @param {boolean} [emit = true]       - A toggle to emit the expand event once expanded.
+   * @param {boolean} [transition = true] - A toggle to respect transitions when expanding.
    */
-  _expand(emit = true) {
+  _expand(emit = true, transition = true) {
     const { closeClass, openClass, transitionClass, openDuration } =
       this.elements.controlledMenu;
+    const shouldTransition = transition && transitionClass !== "";
 
     this.dom.toggle.setAttribute("aria-expanded", "true");
     this.elements.controlledMenu.elements.rootMenu.hasOpened = true;
@@ -269,7 +271,7 @@ class BaseMenuToggle {
     // If we're dealing with transition classes, then we need to utilize
     // requestAnimationFrame to add the transition class, remove the close class,
     // add the open class, and finally remove the transition class.
-    if (transitionClass !== "") {
+    if (shouldTransition) {
       addClass(transitionClass, this.elements.controlledMenu.dom.menu);
 
       requestAnimationFrame(() => {
@@ -316,18 +318,20 @@ class BaseMenuToggle {
    *
    * @fires accessibleMenuCollapse
    *
-   * @param {boolean} [emit = true] - A toggle to emit the collapse event once collapsed.
+   * @param {boolean} [emit = true]       - A toggle to emit the collapse event once collapsed.
+   * @param {boolean} [transition = true] - A toggle to respect transitions when collapsing.
    */
-  _collapse(emit = true) {
+  _collapse(emit = true, transition = true) {
     const { closeClass, openClass, transitionClass, closeDuration } =
       this.elements.controlledMenu;
+    const shouldTransition = transition && transitionClass !== "";
 
     this.dom.toggle.setAttribute("aria-expanded", "false");
 
     // If we're dealing with transition classes, then we need to utilize
     // requestAnimationFrame to add the transition class, remove the open class,
     // add the close class, and finally remove the transition class.
-    if (transitionClass !== "") {
+    if (shouldTransition) {
       addClass(transitionClass, this.elements.controlledMenu.dom.menu);
 
       requestAnimationFrame(() => {
@@ -367,14 +371,17 @@ class BaseMenuToggle {
    * and sets the isOpen value to `true`.
    *
    * @public
+   *
+   * @param {boolean} [emit = true]       - A toggle to emit the expand event once expanded. This is passed to the _expand method.
+   * @param {boolean} [transition = true] - A toggle to respect transitions when expanding. This is passed to the _expand method.
    */
-  open() {
+  open(emit = true, transition = true) {
     // Set proper focus state on the child.
     this.elements.controlledMenu.focusState = "self";
 
     // Expand the controlled menu if the menu is closed.
     if (!this.isOpen) {
-      this._expand();
+      this._expand(emit, transition);
 
       // Set the open flag.
       this.isOpen = true;
@@ -389,8 +396,11 @@ class BaseMenuToggle {
    * and calls expand.
    *
    * @public
+   *
+   * @param {boolean} [emit = true]       - A toggle to emit the expand event once expanded. This is passed to the _expand method.
+   * @param {boolean} [transition = true] - A toggle to respect transitions when expanding. This is passed to the _expand method.
    */
-  preview() {
+  preview(emit = true, transition = true) {
     // Set proper focus state on the parent.
     if (this.elements.parentMenu) {
       this.elements.parentMenu.focusState = "self";
@@ -398,7 +408,7 @@ class BaseMenuToggle {
 
     // Expand the controlled menu if the menu is closed.
     if (!this.isOpen) {
-      this._expand();
+      this._expand(emit, transition);
 
       // Set the open flag.
       this.isOpen = true;
@@ -415,8 +425,11 @@ class BaseMenuToggle {
    * the isOpen value to `false`.
    *
    * @public
+   *
+   * @param {boolean} [emit = true]       - A toggle to emit the collapse event once collapsed. This is passed to the _collapse method.
+   * @param {boolean} [transition = true] - A toggle to respect transitions when collapsing. This is passed to the _collapse method.
    */
-  close() {
+  close(emit = true, transition = true) {
     // Only close if the menu is open.
     if (!this.isOpen) return;
 
@@ -429,7 +442,7 @@ class BaseMenuToggle {
     }
 
     // Collapse the controlled menu.
-    this._collapse();
+    this._collapse(emit, transition);
 
     // Set the open flag.
     this.isOpen = false;
@@ -439,12 +452,15 @@ class BaseMenuToggle {
    * Toggles the open state of the controlled menu between `true` and `false`.
    *
    * @public
+   *
+   * @param {boolean} [emit = true]       - A toggle to emit the expand/collapse events once toggled. This is passed to the open and close methods.
+   * @param {boolean} [transition = true] - A toggle to respect transitions when expanding/collapsing. This is passed to the open and close methods.
    */
-  toggle() {
+  toggle(emit, transition) {
     if (this.isOpen) {
-      this.close();
+      this.close(emit, transition);
     } else {
-      this.open();
+      this.open(emit, transition);
     }
   }
 
@@ -452,11 +468,14 @@ class BaseMenuToggle {
    * Closes all sibling menus.
    *
    * @public
+   *
+   * @param {boolean} [emit = true]       - A toggle to emit the collapse event once a sibling is collapsed. This is passed to the sibling's close method.
+   * @param {boolean} [transition = true] - A toggle to respect transitions when a sibling is collapsing. This is passed to the sibling's _collapse method.
    */
-  closeSiblings() {
+  closeSiblings(emit, transition) {
     if (this.elements.parentMenu) {
       this.elements.parentMenu.elements.submenuToggles.forEach((toggle) => {
-        if (toggle !== this) toggle.close();
+        if (toggle !== this) toggle.close(emit, transition);
       });
     }
   }
@@ -465,10 +484,13 @@ class BaseMenuToggle {
    * Closes all child menus.
    *
    * @public
+   *
+   * @param {boolean} [emit = true]       - A toggle to emit the collapse event once a child is collapsed. This is passed to the child's close method.
+   * @param {boolean} [transition = true] - A toggle to respect transitions when a child is collapsing. This is passed to the child's _collapse method.
    */
-  closeChildren() {
+  closeChildren(emit, transition) {
     this.elements.controlledMenu.elements.submenuToggles.forEach((toggle) =>
-      toggle.close()
+      toggle.close(emit, transition)
     );
   }
 }

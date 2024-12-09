@@ -60,12 +60,15 @@ class MenubarToggle extends BaseMenuToggle {
    * and _then_ BaseMenuToggle's open method.
    *
    * @public
+   *
+   * @param {boolean} [emit = true]       - A toggle to emit the expand event once expanded.
+   * @param {boolean} [transition = true] - A toggle to respect transitions when expanding.
    */
-  open() {
+  open(emit = true, transition = true) {
     // Close all siblings.
-    this.closeSiblings();
+    this.closeSiblings(emit, transition);
 
-    super.open();
+    super.open(emit, transition);
   }
 
   /**
@@ -75,12 +78,15 @@ class MenubarToggle extends BaseMenuToggle {
    * and _then_ BaseMenuToggle's preview method.
    *
    * @public
+   *
+   * @param {boolean} [emit = true]       - A toggle to emit the expand event once expanded.
+   * @param {boolean} [transition = true] - A toggle to respect transitions when expanding.
    */
-  preview() {
+  preview(emit = true, transition = true) {
     // Close all siblings.
-    this.closeSiblings();
+    this.closeSiblings(emit, transition);
 
-    super.preview();
+    super.preview(emit, transition);
   }
 
   /**
@@ -90,18 +96,21 @@ class MenubarToggle extends BaseMenuToggle {
    * and _then_ BaseMenuToggle's close method.
    *
    * @public
+   *
+   * @param {boolean} [emit = true]       - A toggle to emit the collapse event once collapsed.
+   * @param {boolean} [transition = true] - A toggle to respect transitions when collapsing.
    */
-  close() {
+  close(emit = true, transition = true) {
     if (this.isOpen) {
       // Close all children.
-      this.closeChildren();
+      this.closeChildren(emit, transition);
 
       if (this.elements.parentMenu) {
         this.elements.parentMenu.focusCurrentChild();
       }
     }
 
-    super.close();
+    super.close(emit, transition);
   }
 }
 

@@ -56,9 +56,9 @@ class TreeviewToggle extends BaseMenuToggle {
 
     // Open the menu if aria-expanded is true, otherwise collapse it.
     if (this.dom.toggle.getAttribute("aria-expanded") === "true") {
-      this.open();
+      this.open(false, false);
     } else {
-      this._collapse(false);
+      this._collapse(false, false);
     }
   }
 
