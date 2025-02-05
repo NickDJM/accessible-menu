@@ -1377,7 +1377,7 @@ class BaseMenu {
    */
   _handleFocus() {
     this.elements.menuItems.forEach((menuItem, index) => {
-      menuItem.dom.link.addEventListener("focus", () => {
+      menuItem.dom.link?.addEventListener("focus", () => {
         this.focusState = "self";
         this.currentChild = index;
       });
@@ -1436,7 +1436,7 @@ class BaseMenu {
 
     this.elements.menuItems.forEach((item, index) => {
       // Properly focus the current menu item.
-      item.dom.link.addEventListener(
+      item.dom.link?.addEventListener(
         "pointerdown",
         () => {
           this.currentEvent = "mouse";
@@ -1534,7 +1534,7 @@ class BaseMenu {
    */
   _handleHover() {
     this.elements.menuItems.forEach((menuItem, index) => {
-      menuItem.dom.link.addEventListener("pointerenter", (event) => {
+      menuItem.dom.link?.addEventListener("pointerenter", (event) => {
         // Exit out of the event if it was not made by a mouse.
         if (event.pointerType === "pen" || event.pointerType === "touch") {
           return;
