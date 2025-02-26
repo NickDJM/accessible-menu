@@ -288,10 +288,7 @@ class DisclosureMenu extends BaseMenu {
           if (keys.includes(key)) {
             preventEvent(event);
           }
-        } else if (
-          this.currentMenuItem.isSubmenuItem &&
-          submenuKeys.includes(key)
-        ) {
+        } else if (submenuKeys.includes(key)) {
           preventEvent(event);
         } else if (this.elements.controller && controllerKeys.includes(key)) {
           preventEvent(event);

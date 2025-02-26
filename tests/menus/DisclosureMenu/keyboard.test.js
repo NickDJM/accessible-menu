@@ -148,8 +148,8 @@ describe("DisclosureMenu", () => {
         expect(event.defaultPrevented).toBeFalsy();
       });
 
-      // Test that the event is not prevented on Spacebar and Enter keydown events if the focus state is self and the current menu item is not a submenu item.
-      it("should not prevent the %s keydown event if the focus state is self and current menu item is not a submenu item", () => {
+      // Test that the event is prevented on Spacebar and Enter keydown events if the focus state is self and the current menu item is not a submenu item.
+      it("should prevent the %s keydown event if the focus state is self and current menu item is not a submenu item", () => {
         // Create a new DisclosureMenu instance for testing.
         const menu = new DisclosureMenu({
           menuElement: document.querySelector("ul"),
@@ -166,7 +166,7 @@ describe("DisclosureMenu", () => {
           key,
         });
 
-        expect(event.defaultPrevented).toBeFalsy();
+        expect(event.defaultPrevented).toBeTruthy();
       });
     });
 
