@@ -361,6 +361,7 @@ class Treeview extends BaseMenu {
       if (this.focusState === "self") {
         const keys = [
           "Space",
+          "Enter",
           "ArrowUp",
           "ArrowDown",
           "ArrowLeft",
@@ -368,7 +369,7 @@ class Treeview extends BaseMenu {
           "Home",
           "End",
         ];
-        const submenuKeys = ["Enter", "ArrowRight"];
+        const submenuKeys = ["ArrowRight"];
         const controllerKeys = ["Escape"];
 
         if (keys.includes(key)) {

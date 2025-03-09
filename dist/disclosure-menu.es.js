@@ -2193,15 +2193,15 @@ class j extends T {
       this.currentEvent = "keyboard";
       const s = E(t);
       if (this.focusState === "self") {
-        const i = ["Space", "Enter"], o = ["Escape"], u = ["Escape"];
-        this.optionalKeySupport ? [
+        const i = ["Space", "Enter"], o = ["Escape"], u = ["Escape"], c = [
           "ArrowUp",
           "ArrowRight",
           "ArrowDown",
           "ArrowLeft",
           "Home",
           "End"
-        ].includes(s) && a(t) : (this.currentMenuItem.isSubmenuItem && i.includes(s) || this.elements.controller && o.includes(s) || this.elements.parentMenu && u.includes(s)) && a(t);
+        ];
+        (i.includes(s) || this.optionalKeySupport && c.includes(s) || this.elements.controller && o.includes(s) || this.elements.parentMenu && u.includes(s)) && a(t);
       }
     });
   }

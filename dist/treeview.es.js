@@ -2203,13 +2203,14 @@ class F extends E {
       if (s === "Tab" && (this.elements.rootMenu.focusState !== "none" ? this.elements.rootMenu.blur() : this.elements.rootMenu.focus()), this.focusState === "self") {
         const i = [
           "Space",
+          "Enter",
           "ArrowUp",
           "ArrowDown",
           "ArrowLeft",
           "Asterisk",
           "Home",
           "End"
-        ], o = ["Enter", "ArrowRight"], l = ["Escape"];
+        ], o = ["ArrowRight"], l = ["Escape"];
         (i.includes(s) || this.currentMenuItem.isSubmenuItem && o.includes(s) || this.elements.controller && l.includes(s)) && c(t);
       }
     });

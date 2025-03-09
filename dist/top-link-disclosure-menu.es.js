@@ -2371,15 +2371,15 @@ class F extends D {
       this.currentEvent = "keyboard";
       const s = M(t);
       if (this.focusState === "self") {
-        const i = ["Space", "Enter"], r = ["Escape"], l = ["Escape"];
-        this.optionalKeySupport ? [
+        const i = ["Space", "Enter"], r = ["Escape"], l = ["Escape"], h = [
           "ArrowUp",
           "ArrowRight",
           "ArrowDown",
           "ArrowLeft",
           "Home",
           "End"
-        ].includes(s) && m(t) : (this.currentMenuItem.isSubmenuItem && i.includes(s) || this.elements.controller && r.includes(s) || this.elements.parentMenu && l.includes(s)) && m(t);
+        ];
+        (i.includes(s) || this.optionalKeySupport && h.includes(s) || this.elements.controller && r.includes(s) || this.elements.parentMenu && l.includes(s)) && m(t);
       }
     });
   }
