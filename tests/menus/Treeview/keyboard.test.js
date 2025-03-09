@@ -125,9 +125,10 @@ describe("Treeview", () => {
       });
     });
 
-    // Test Spacebar, ArrowUp, ArrowDown, ArrowLeft, Asterisk, Home, and End.
+    // Test Spacebar, Enter, ArrowUp, ArrowDown, ArrowLeft, Asterisk, Home, and End.
     describe.each([
       "Spacebar",
+      "Enter",
       "ArrowUp",
       "ArrowDown",
       "ArrowLeft",
@@ -156,8 +157,8 @@ describe("Treeview", () => {
       });
     });
 
-    // Test Enter and ArrowRight.
-    describe.each(["Enter", "ArrowRight"])("%s", (key) => {
+    // Test ArrowRight.
+    describe.each(["ArrowRight"])("%s", (key) => {
       // Test that the event is prevented on keydown events if focus state is self and the current menu item is a submenu item.
       it("should prevent the event on %s keydown events if focus state is self and the current menu item is a submenu item", () => {
         // Create a new Treeview instance for testing.

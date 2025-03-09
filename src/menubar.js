@@ -245,8 +245,15 @@ class Menubar extends BaseMenu {
         preventEvent(event);
       } else if (this.isTopLevel) {
         if (this.focusState === "self") {
-          const keys = ["ArrowRight", "ArrowLeft", "Home", "End"];
-          const submenuKeys = ["Space", "Enter", "ArrowDown", "ArrowUp"];
+          const keys = [
+            "Space",
+            "Enter",
+            "ArrowRight",
+            "ArrowLeft",
+            "Home",
+            "End",
+          ];
+          const submenuKeys = ["ArrowDown", "ArrowUp"];
           const controllerKeys = ["Escape"];
 
           if (keys.includes(key)) {
@@ -262,6 +269,8 @@ class Menubar extends BaseMenu {
         }
       } else {
         const keys = [
+          "Space",
+          "Enter",
           "Escape",
           "ArrowRight",
           "ArrowLeft",
@@ -270,14 +279,8 @@ class Menubar extends BaseMenu {
           "Home",
           "End",
         ];
-        const submenuKeys = ["Space", "Enter"];
 
         if (keys.includes(key)) {
-          preventEvent(event);
-        } else if (
-          this.currentMenuItem.isSubmenuItem &&
-          submenuKeys.includes(key)
-        ) {
           preventEvent(event);
         }
       }

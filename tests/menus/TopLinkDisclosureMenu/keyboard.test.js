@@ -36,6 +36,50 @@ describe("TopLinkDisclosureMenu", () => {
       expect(menu.currentEvent).toBe("keyboard");
     });
 
+    // Test Spacebar and Enter.
+    describe.each(["Spacebar", "Enter"])("%s", (key) => {
+      // Test that the event is prevented on Spacebar and Enter keydown events if the focus state is self
+      it("should prevent the %s keydown event if the focus state is self", () => {
+        // Create a new TopLinkDisclosureMenu instance for testing.
+        const menu = new TopLinkDisclosureMenu({
+          menuElement: document.querySelector("ul"),
+          containerElement: document.querySelector("nav"),
+          controllerElement: document.querySelector("button"),
+        });
+
+        // Set up the menu.
+        menu.focusState = "self";
+        menu.currentChild = 0;
+
+        // Trigger a keydown event.
+        const event = simulateKeyboardEvent("keydown", menu.dom.menu, {
+          key,
+        });
+
+        expect(event.defaultPrevented).toBeTruthy();
+      });
+
+      // Test that the event is not prevented on Spacebar and Enter keydown events if the focus state is not self
+      it("should not prevent the %s keydown event if the focus state is not self", () => {
+        // Create a new TopLinkDisclosureMenu instance for testing.
+        const menu = new TopLinkDisclosureMenu({
+          menuElement: document.querySelector("ul"),
+          containerElement: document.querySelector("nav"),
+          controllerElement: document.querySelector("button"),
+        });
+
+        // Set up the menu.
+        menu.currentChild = 0;
+
+        // Trigger a keydown event.
+        const event = simulateKeyboardEvent("keydown", menu.dom.menu, {
+          key,
+        });
+
+        expect(event.defaultPrevented).toBeFalsy();
+      });
+    });
+
     // Test optional keys.
     describe.each([
       "ArrowUp",
@@ -95,71 +139,6 @@ describe("TopLinkDisclosureMenu", () => {
           containerElement: document.querySelector("nav"),
           controllerElement: document.querySelector("button"),
         });
-
-        // Trigger a keydown event.
-        const event = simulateKeyboardEvent("keydown", menu.dom.menu, {
-          key,
-        });
-
-        expect(event.defaultPrevented).toBeFalsy();
-      });
-    });
-
-    // Test Spacebar and Enter.
-    describe.each(["Spacebar", "Enter"])("%s", (key) => {
-      // Test that the event is prevented on Spacebar and Enter keydown events if the focus state is self and the current menu item is a submenu item.
-      it("should prevent the %s keydown event if the focus state is self and current menu item is a submenu item", () => {
-        // Create a new TopLinkDisclosureMenu instance for testing.
-        const menu = new TopLinkDisclosureMenu({
-          menuElement: document.querySelector("ul"),
-          containerElement: document.querySelector("nav"),
-          controllerElement: document.querySelector("button"),
-        });
-
-        // Set up the menu.
-        menu.focusState = "self";
-        menu.currentChild = 2;
-
-        // Trigger a keydown event.
-        const event = simulateKeyboardEvent("keydown", menu.dom.menu, {
-          key,
-        });
-
-        expect(event.defaultPrevented).toBeTruthy();
-      });
-
-      // Test that the event is not prevented on Spacebar and Enter keydown events if the focus state is not self and the current menu item is a submenu item.
-      it("should not prevent the %s keydown event if the focus state is not self and current menu item is a submenu item", () => {
-        // Create a new TopLinkDisclosureMenu instance for testing.
-        const menu = new TopLinkDisclosureMenu({
-          menuElement: document.querySelector("ul"),
-          containerElement: document.querySelector("nav"),
-          controllerElement: document.querySelector("button"),
-        });
-
-        // Set up the menu.
-        menu.currentChild = 2;
-
-        // Trigger a keydown event.
-        const event = simulateKeyboardEvent("keydown", menu.dom.menu, {
-          key,
-        });
-
-        expect(event.defaultPrevented).toBeFalsy();
-      });
-
-      // Test that the event is not prevented on Spacebar and Enter keydown events if the focus state is self and the current menu item is not a submenu item.
-      it("should not prevent the %s keydown event if the focus state is self and current menu item is not a submenu item", () => {
-        // Create a new TopLinkDisclosureMenu instance for testing.
-        const menu = new TopLinkDisclosureMenu({
-          menuElement: document.querySelector("ul"),
-          containerElement: document.querySelector("nav"),
-          controllerElement: document.querySelector("button"),
-        });
-
-        // Set up the menu.
-        menu.focusState = "self";
-        menu.currentChild = 0;
 
         // Trigger a keydown event.
         const event = simulateKeyboardEvent("keydown", menu.dom.menu, {

@@ -230,8 +230,8 @@ describe("Menubar", () => {
         });
       });
 
-      // Test Space, Enter, ArrowDown, and ArrowUp.
-      describe.each([" ", "Enter", "ArrowDown", "ArrowUp"])("%s", (key) => {
+      // Test ArrowDown, and ArrowUp.
+      describe.each(["ArrowDown", "ArrowUp"])("%s", (key) => {
         // Should prevent the event on keydown events if focus state is self and the current menu item is a submenu item.
         it("should prevent the event on %s keydown events if focus state is self and the current menu item is a submenu item", () => {
           // Create a new Menubar instance for testing.
@@ -361,8 +361,10 @@ describe("Menubar", () => {
 
     // Test submenus.
     describe("submenus", () => {
-      // Test Escape, ArrowRight, ArrowLeft, ArrowDown, ArrowUp, Home, and End.
+      // Test Spacebar, Enter, Escape, ArrowRight, ArrowLeft, ArrowDown, ArrowUp, Home, and End.
       describe.each([
+        "Spacebar",
+        "Enter",
         "Escape",
         "ArrowRight",
         "ArrowLeft",
@@ -394,59 +396,6 @@ describe("Menubar", () => {
           );
 
           expect(event.defaultPrevented).toBeTruthy();
-        });
-      });
-
-      // Test Spacebar and Enter.
-      describe.each(["Spacebar", "Enter"])("%s", (key) => {
-        // Test that the event is prevented on keydown events if the current menu item is a submenu item.
-        it("should prevent the event on %s keydown events if the current menu item is a submenu item", () => {
-          // Create a new Menubar instance for testing.
-          const menu = new Menubar({
-            menuElement: document.querySelector("ul"),
-            containerElement: document.querySelector("nav"),
-            controllerElement: document.querySelector("button"),
-          });
-
-          // Set up the menu.
-          menu.elements.submenuToggles[0].open();
-          menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 1;
-
-          // Trigger a keydown event.
-          const event = simulateKeyboardEvent(
-            "keydown",
-            menu.elements.submenuToggles[0].elements.controlledMenu.dom.menu,
-            {
-              key,
-            }
-          );
-
-          expect(event.defaultPrevented).toBeTruthy();
-        });
-
-        // Test that the event is not prevented on keydown events if the current menu item is not a submenu item.
-        it("should not prevent the event on %s keydown events if the current menu item is not a submenu item", () => {
-          // Create a new Menubar instance for testing.
-          const menu = new Menubar({
-            menuElement: document.querySelector("ul"),
-            containerElement: document.querySelector("nav"),
-            controllerElement: document.querySelector("button"),
-          });
-
-          // Set up the menu.
-          menu.elements.submenuToggles[0].open();
-          menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 0;
-
-          // Trigger a keydown event.
-          const event = simulateKeyboardEvent(
-            "keydown",
-            menu.elements.submenuToggles[0].elements.controlledMenu.dom.menu,
-            {
-              key,
-            }
-          );
-
-          expect(event.defaultPrevented).toBeFalsy();
         });
       });
     });
