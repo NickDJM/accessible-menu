@@ -593,21 +593,19 @@ class TopLinkDisclosureMenu extends BaseMenu {
         const keys = ["Space", "Enter"];
         const controllerKeys = ["Escape"];
         const parentKeys = ["Escape"];
+        const optionalKeys = [
+          "ArrowUp",
+          "ArrowRight",
+          "ArrowDown",
+          "ArrowLeft",
+          "Home",
+          "End",
+        ];
 
         if (keys.includes(key)) {
           preventEvent(event);
-        } else if (this.optionalKeySupport) {
-          const keys = [
-            "ArrowUp",
-            "ArrowRight",
-            "ArrowDown",
-            "ArrowLeft",
-            "Home",
-            "End",
-          ];
-          if (keys.includes(key)) {
-            preventEvent(event);
-          }
+        } else if (this.optionalKeySupport && optionalKeys.includes(key)) {
+          preventEvent(event);
         } else if (this.elements.controller && controllerKeys.includes(key)) {
           preventEvent(event);
         } else if (this.elements.parentMenu && parentKeys.includes(key)) {
