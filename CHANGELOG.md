@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.2.1](https://github.com/NickDJM/accessible-menu/compare/v4.2.0...v4.2.1) (2025-03-09)
+
+
+### Bug Fixes
+
+* **keydown:** correct logic for preventing events and stop double click issue ([7af91b2](https://github.com/NickDJM/accessible-menu/commit/7af91b25edf268b2b3736021d5089b7cb84fedd7)), closes [#377](https://github.com/NickDJM/accessible-menu/issues/377)
+
 ## [4.2.0](https://github.com/NickDJM/accessible-menu/compare/v4.1.2...v4.2.0) (2024-11-08)
 
 
