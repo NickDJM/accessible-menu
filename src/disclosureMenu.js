@@ -272,7 +272,7 @@ class DisclosureMenu extends BaseMenu {
 
       // Prevent default event actions if we're handling the keyup event.
       if (this.focusState === "self") {
-        const keys = ["Space", "Enter"];
+        const submenuKeys = ["Space", "Enter"];
         const controllerKeys = ["Escape"];
         const parentKeys = ["Escape"];
         const optionalKeys = [
@@ -284,7 +284,12 @@ class DisclosureMenu extends BaseMenu {
           "End",
         ];
 
-        if (keys.includes(key)) {
+        if (key === "Space") {
+          preventEvent(event);
+        } else if (
+          this.currentMenuItem.isSubmenuItem &&
+          submenuKeys.includes(key)
+        ) {
           preventEvent(event);
         } else if (this.optionalKeySupport && optionalKeys.includes(key)) {
           preventEvent(event);
@@ -328,20 +333,21 @@ class DisclosureMenu extends BaseMenu {
       const key = keyPress(event);
 
       if (this.focusState === "self") {
-        if (key === "Space" || key === "Enter") {
+        if (
+          (key === "Space" || key === "Enter") &&
+          this.currentMenuItem.isSubmenuItem
+        ) {
           // Hitting Space or Enter:
           // - If focus is on a disclosure button, activates the button, which toggles the visibility of the dropdown.
-          if (this.currentMenuItem.isSubmenuItem) {
-            preventEvent(event);
+          preventEvent(event);
 
-            if (this.currentMenuItem.elements.toggle.isOpen) {
-              this.currentMenuItem.elements.toggle.close();
-            } else {
-              this.currentMenuItem.elements.toggle.preview();
-            }
+          if (this.currentMenuItem.elements.toggle.isOpen) {
+            this.currentMenuItem.elements.toggle.close();
           } else {
-            this.currentMenuItem.dom.link.click();
+            this.currentMenuItem.elements.toggle.preview();
           }
+        } else if (key === "Space") {
+          this.currentMenuItem.dom.link.click();
         } else if (key === "Escape") {
           // Hitting Escape
           // - If a dropdown is open, closes it.
