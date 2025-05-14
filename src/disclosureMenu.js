@@ -272,7 +272,8 @@ class DisclosureMenu extends BaseMenu {
 
       // Prevent default event actions if we're handling the keyup event.
       if (this.focusState === "self") {
-        const submenuKeys = ["Space", "Enter"];
+        const keys = ["Space"];
+        const submenuKeys = ["Enter"];
         const controllerKeys = ["Escape"];
         const parentKeys = ["Escape"];
         const optionalKeys = [
@@ -284,7 +285,7 @@ class DisclosureMenu extends BaseMenu {
           "End",
         ];
 
-        if (key === "Space") {
+        if (keys.includes(key)) {
           preventEvent(event);
         } else if (
           this.currentMenuItem.isSubmenuItem &&
