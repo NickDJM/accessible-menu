@@ -460,21 +460,22 @@ class Menubar extends BaseMenu {
           }
         }
       } else {
-        if (
-          (key === "Space" || key === "Enter") &&
-          this.currentMenuItem.isSubmenuItem
-        ) {
+        if (key === "Space" || key === "Enter") {
           // Hitting Space or Enter:
           // - Activates menu item, causing the link to be activated.
           preventEvent(event);
-          this.currentMenuItem.elements.childMenu.currentEvent = "keyboard";
-          this.currentMenuItem.elements.toggle.open();
-          // This ensures the the menu is _visually_ open before the child is focussed.
-          requestAnimationFrame(() => {
-            this.currentMenuItem.elements.childMenu.focusFirstChild();
-          });
-        } else if (key === "Space") {
-          this.currentMenuItem.dom.link.click();
+          if (this.currentMenuItem.isSubmenuItem) {
+            this.currentMenuItem.elements.childMenu.currentEvent = "keyboard";
+            this.currentMenuItem.elements.toggle.open();
+            // This ensures the the menu is _visually_ open before the child is focussed.
+            requestAnimationFrame(() => {
+              this.currentMenuItem.elements.childMenu.focusFirstChild();
+            });
+          } else {
+            preventEvent(event);
+
+            this.currentMenuItem.dom.link.click();
+          }
         } else if (key === "Escape") {
           // Hitting Escape:
           // - Closes submenu.
