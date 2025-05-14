@@ -245,15 +245,8 @@ class Menubar extends BaseMenu {
         preventEvent(event);
       } else if (this.isTopLevel) {
         if (this.focusState === "self") {
-          const keys = [
-            "Space",
-            "Enter",
-            "ArrowRight",
-            "ArrowLeft",
-            "Home",
-            "End",
-          ];
-          const submenuKeys = ["ArrowDown", "ArrowUp"];
+          const keys = ["Space", "ArrowRight", "ArrowLeft", "Home", "End"];
+          const submenuKeys = ["Enter", "ArrowDown", "ArrowUp"];
           const controllerKeys = ["Escape"];
 
           if (keys.includes(key)) {
@@ -270,7 +263,6 @@ class Menubar extends BaseMenu {
       } else {
         const keys = [
           "Space",
-          "Enter",
           "Escape",
           "ArrowRight",
           "ArrowLeft",
@@ -279,8 +271,14 @@ class Menubar extends BaseMenu {
           "Home",
           "End",
         ];
+        const submenuKeys = ["Enter"];
 
         if (keys.includes(key)) {
+          preventEvent(event);
+        } else if (
+          this.currentMenuItem.isSubmenuItem &&
+          submenuKeys.includes(key)
+        ) {
           preventEvent(event);
         }
       }
@@ -343,20 +341,21 @@ class Menubar extends BaseMenu {
         this.focusNextChildWithCharacter(event.key);
       } else if (this.isTopLevel) {
         if (this.focusState === "self") {
-          if (key === "Space" || key === "Enter") {
+          if (
+            (key === "Space" || key === "Enter") &&
+            this.currentMenuItem.isSubmenuItem
+          ) {
             // Hitting Space or Enter:
             // - Opens submenu and moves focus to first item in the submenu.
-            if (this.currentMenuItem.isSubmenuItem) {
-              preventEvent(event);
-              this.currentMenuItem.elements.childMenu.currentEvent = "keyboard";
-              this.currentMenuItem.elements.toggle.open();
-              // This ensures the the menu is _visually_ open before the child is focussed.
-              requestAnimationFrame(() => {
-                this.currentMenuItem.elements.childMenu.focusFirstChild();
-              });
-            } else {
-              this.currentMenuItem.dom.link.click();
-            }
+            preventEvent(event);
+            this.currentMenuItem.elements.childMenu.currentEvent = "keyboard";
+            this.currentMenuItem.elements.toggle.open();
+            // This ensures the the menu is _visually_ open before the child is focussed.
+            requestAnimationFrame(() => {
+              this.currentMenuItem.elements.childMenu.focusFirstChild();
+            });
+          } else if (key === "Space") {
+            this.currentMenuItem.dom.link.click();
           } else if (key === "ArrowRight") {
             // Hitting the Right Arrow:
             // - Moves focus to the next item in the menubar.
@@ -461,20 +460,21 @@ class Menubar extends BaseMenu {
           }
         }
       } else {
-        if (key === "Space" || key === "Enter") {
+        if (
+          (key === "Space" || key === "Enter") &&
+          this.currentMenuItem.isSubmenuItem
+        ) {
           // Hitting Space or Enter:
           // - Activates menu item, causing the link to be activated.
-          if (this.currentMenuItem.isSubmenuItem) {
-            preventEvent(event);
-            this.currentMenuItem.elements.childMenu.currentEvent = "keyboard";
-            this.currentMenuItem.elements.toggle.open();
-            // This ensures the the menu is _visually_ open before the child is focussed.
-            requestAnimationFrame(() => {
-              this.currentMenuItem.elements.childMenu.focusFirstChild();
-            });
-          } else {
-            this.currentMenuItem.dom.link.click();
-          }
+          preventEvent(event);
+          this.currentMenuItem.elements.childMenu.currentEvent = "keyboard";
+          this.currentMenuItem.elements.toggle.open();
+          // This ensures the the menu is _visually_ open before the child is focussed.
+          requestAnimationFrame(() => {
+            this.currentMenuItem.elements.childMenu.focusFirstChild();
+          });
+        } else if (key === "Space") {
+          this.currentMenuItem.dom.link.click();
         } else if (key === "Escape") {
           // Hitting Escape:
           // - Closes submenu.
@@ -613,7 +613,7 @@ class Menubar extends BaseMenu {
         text = this.elements.menuItems[index].dom.item.textContent;
       }
 
-      // Remove spaces, make lowercase, and grab the first chracter of the string.
+      // Remove spaces, make lowercase, and grab the first character of the string.
       text = text.replace(/[\s]/g, "").toLowerCase().charAt(0);
 
       // Focus the child if the text matches, otherwise move on.

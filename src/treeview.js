@@ -361,7 +361,6 @@ class Treeview extends BaseMenu {
       if (this.focusState === "self") {
         const keys = [
           "Space",
-          "Enter",
           "ArrowUp",
           "ArrowDown",
           "ArrowLeft",
@@ -369,7 +368,7 @@ class Treeview extends BaseMenu {
           "Home",
           "End",
         ];
-        const submenuKeys = ["ArrowRight"];
+        const submenuKeys = ["Enter", "ArrowRight"];
         const controllerKeys = ["Escape"];
 
         if (keys.includes(key)) {
@@ -428,21 +427,22 @@ class Treeview extends BaseMenu {
         this.elements.rootMenu.currentEvent = "character";
         this.focusNextNodeWithCharacter(event.key);
       } else if (this.focusState === "self") {
-        if (key === "Enter" || key === "Space") {
+        if (
+          (key === "Enter" || key === "Space") &&
+          this.currentMenuItem.isSubmenuItem
+        ) {
           // Hitting Space or Enter:
           // - Performs the default action (e.g. onclick event) for the focused node.
           // - If focus is on a closed node, opens the node; focus does not move.
           preventEvent(event);
 
-          if (this.currentMenuItem.isSubmenuItem) {
-            if (this.currentMenuItem.elements.toggle.isOpen) {
-              this.currentMenuItem.elements.toggle.close();
-            } else {
-              this.currentMenuItem.elements.toggle.preview();
-            }
+          if (this.currentMenuItem.elements.toggle.isOpen) {
+            this.currentMenuItem.elements.toggle.close();
           } else {
-            this.currentMenuItem.dom.link.click();
+            this.currentMenuItem.elements.toggle.preview();
           }
+        } else if (key === "Space") {
+          this.currentMenuItem.dom.link.click();
         } else if (key === "Escape") {
           if (
             this.isTopLevel &&
