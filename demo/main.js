@@ -95,6 +95,12 @@ function generateMenu() {
     controllerElement: nav.querySelector("button"),
     ...options,
   });
+
+  nav.querySelectorAll("a,button").forEach((element) => {
+    element.addEventListener("click", (event) => {
+      console.log("Clicked:", event.target);
+    });
+  });
 }
 
 // Set up menu structure buttons.
