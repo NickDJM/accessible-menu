@@ -599,8 +599,8 @@ describe("Menubar", () => {
           });
         });
         describe("when the current menu item is not a submenu item", () => {
-          // Test that the event is not prevented.
-          it("should not prevent the event", () => {
+          // Test that the event is prevented.
+          it("should prevent the event", () => {
             // Create a new Menubar instance for testing.
             const menu = new Menubar({
               menuElement: document.querySelector("ul"),
@@ -617,7 +617,7 @@ describe("Menubar", () => {
               key,
             });
 
-            expect(event.defaultPrevented).toBeFalsy();
+            expect(event.defaultPrevented).toBeTruthy();
           });
           // Test that the current menu link's click method is called.
           it("should call the current menu link's click method", () => {
