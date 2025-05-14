@@ -463,8 +463,8 @@ class Menubar extends BaseMenu {
         if (key === "Space" || key === "Enter") {
           // Hitting Space or Enter:
           // - Activates menu item, causing the link to be activated.
-          preventEvent(event);
           if (this.currentMenuItem.isSubmenuItem) {
+            preventEvent(event);
             this.currentMenuItem.elements.childMenu.currentEvent = "keyboard";
             this.currentMenuItem.elements.toggle.open();
             // This ensures the the menu is _visually_ open before the child is focussed.
@@ -472,7 +472,7 @@ class Menubar extends BaseMenu {
               this.currentMenuItem.elements.childMenu.focusFirstChild();
             });
           } else {
-            preventEvent(event);
+            event.stopPropagation();
 
             this.currentMenuItem.dom.link.click();
           }
