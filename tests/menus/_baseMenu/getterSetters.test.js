@@ -62,6 +62,20 @@ describe("BaseMenu getter/setters", () => {
     });
   });
 
+  // Test BaseMenu classes.
+  describe("classes", () => {
+    // Test that classes gets the classes.
+    it("should get the classes", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      expect(menu.classes).toEqual(menu._classes);
+    });
+  });
+
   // Test BaseMenu isTopLevel.
   describe("isTopLevel", () => {
     // Test that isTopLevel gets the top-level status.
@@ -87,7 +101,7 @@ describe("BaseMenu getter/setters", () => {
       });
       initializeMenu(menu);
 
-      expect(menu.openClass).toBe(menu._openClass);
+      expect(menu.openClass).toBe(menu._classes.open);
     });
 
     // Test that openClass sets the open class name.
@@ -105,7 +119,7 @@ describe("BaseMenu getter/setters", () => {
       menu.openClass = "test-open";
 
       expect(spy).toHaveBeenCalledWith({ openClass: "test-open" });
-      expect(menu._openClass).toBe("test-open");
+      expect(menu._classes.open).toBe("test-open");
     });
   });
 
@@ -120,7 +134,7 @@ describe("BaseMenu getter/setters", () => {
       });
       initializeMenu(menu);
 
-      expect(menu.closeClass).toBe(menu._closeClass);
+      expect(menu.closeClass).toBe(menu._classes.close);
     });
 
     // Test that closeClass sets the close class name.
@@ -138,7 +152,7 @@ describe("BaseMenu getter/setters", () => {
       menu.closeClass = "test-close";
 
       expect(spy).toHaveBeenCalledWith({ closeClass: "test-close" });
-      expect(menu._closeClass).toBe("test-close");
+      expect(menu._classes.close).toBe("test-close");
     });
   });
 
@@ -153,7 +167,7 @@ describe("BaseMenu getter/setters", () => {
       });
       initializeMenu(menu);
 
-      expect(menu.transitionClass).toBe(menu._transitionClass);
+      expect(menu.transitionClass).toBe(menu._classes.transition);
     });
 
     // Test that transitionClass sets the transition class name.
@@ -171,7 +185,7 @@ describe("BaseMenu getter/setters", () => {
       menu.transitionClass = "test-transition";
 
       expect(spy).toHaveBeenCalledWith({ transitionClass: "test-transition" });
-      expect(menu._transitionClass).toBe("test-transition");
+      expect(menu._classes.transition).toBe("test-transition");
     });
   });
 
