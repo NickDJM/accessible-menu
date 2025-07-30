@@ -1,4 +1,8 @@
-# accessible-menu
+<p align="center">
+  <img src="./logo.svg" role="presentation" alt width="500" style="width: 100%; max-width: 90ch;"/>
+</p>
+
+# Accessible Menu
 
 [![Latest release](https://img.shields.io/npm/v/accessible-menu?label=RELEASE&style=for-the-badge)](https://www.npmjs.com/package/accessible-menu)
 [![License](https://img.shields.io/github/license/NickDJM/accessible-menu?style=for-the-badge)](/LICENSE)
