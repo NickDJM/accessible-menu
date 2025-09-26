@@ -132,7 +132,7 @@
   "devDependencies": {
     "@babel/core": "^7.22.5",
     "@babel/preset-env": "^7.22.5",
-    "@commitlint/cli": "^19.0.3",
+    "@commitlint/cli": "^20.0.0",
     "@commitlint/config-conventional": "^19.0.3",
     "@eslint/js": "^9.1.1",
     "@vitest/ui": "^3.0.8",
