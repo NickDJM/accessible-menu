@@ -47,6 +47,24 @@ class BaseMenuToggle {
   _open = false;
 
   /**
+   * The soft-lock state of the menu toggle.
+   *
+   * @protected
+   *
+   * @type {boolean}
+   */
+  _softLock = false;
+
+  /**
+   * The lock state of the menu toggle.
+   *
+   * @protected
+   *
+   * @type {boolean}
+   */
+  _lock = false;
+
+  /**
    * The event that is triggered when the menu toggle expands.
    *
    * @protected
@@ -168,6 +186,36 @@ class BaseMenuToggle {
   }
 
   /**
+   * The soft-locked state on the toggle.
+   *
+   * @type {boolean}
+   *
+   * @see _softLock
+   */
+  get isSoftLocked() {
+    return this._softLock;
+  }
+
+  set isSoftLocked(value) {
+    isValidType("boolean", { value });
+
+    this._softLock = value;
+  }
+
+  /**
+   * The locked state on the toggle.
+   *
+   * @readonly
+   *
+   * @type {boolean}
+   *
+   * @see _lock
+   */
+  get isLocked() {
+    return this._lock;
+  }
+
+  /**
    * Sets unique IDs for the toggle and controlled menu.
    *
    * If the toggle and controlled menu do not have IDs, the following steps take place:
@@ -257,9 +305,10 @@ class BaseMenuToggle {
    *
    * @fires accessibleMenuExpand
    *
-   * @param {boolean} [emit = true] - A toggle to emit the expand event once expanded.
+   * @param {boolean} [emit = true]       - A toggle to emit the expand event once expanded.
+   * @param {boolean} [transition = true] - A toggle to respect the transition during the expand.
    */
-  _expand(emit = true) {
+  _expand(emit = true, transition = true) {
     const { closeClass, openClass, transitionClass, openDuration } =
       this.elements.controlledMenu;
 
@@ -269,7 +318,7 @@ class BaseMenuToggle {
     // If we're dealing with transition classes, then we need to utilize
     // requestAnimationFrame to add the transition class, remove the close class,
     // add the open class, and finally remove the transition class.
-    if (transitionClass !== "") {
+    if (transition && transitionClass !== "") {
       addClass(transitionClass, this.elements.controlledMenu.dom.menu);
 
       requestAnimationFrame(() => {
@@ -316,18 +365,21 @@ class BaseMenuToggle {
    *
    * @fires accessibleMenuCollapse
    *
-   * @param {boolean} [emit = true] - A toggle to emit the collapse event once collapsed.
+   * @param {boolean} [emit = true]       - A toggle to emit the collapse event once collapsed.
+   * @param {boolean} [transition = true] - A toggle to respect the transition during the collapse.
    */
-  _collapse(emit = true) {
+  _collapse(emit = true, transition = true) {
     const { closeClass, openClass, transitionClass, closeDuration } =
       this.elements.controlledMenu;
 
     this.dom.toggle.setAttribute("aria-expanded", "false");
 
+    this.isSoftLocked = false;
+
     // If we're dealing with transition classes, then we need to utilize
     // requestAnimationFrame to add the transition class, remove the open class,
     // add the close class, and finally remove the transition class.
-    if (transitionClass !== "") {
+    if (transition && transitionClass !== "") {
       addClass(transitionClass, this.elements.controlledMenu.dom.menu);
 
       requestAnimationFrame(() => {
@@ -367,18 +419,20 @@ class BaseMenuToggle {
    * and sets the isOpen value to `true`.
    *
    * @public
+   *
+   * @param {boolean} [force = false] - A flag to force the toggle to open reguardless of current state.
    */
-  open() {
+  open(force = false) {
     // Set proper focus state on the child.
     this.elements.controlledMenu.focusState = "self";
 
-    // Expand the controlled menu if the menu is closed.
-    if (!this.isOpen) {
-      this._expand();
+    // Expand the controlled menu if the menu is closed or if forced.
+    if (this.isOpen && !force) return;
 
-      // Set the open flag.
-      this.isOpen = true;
-    }
+    this._expand();
+
+    // Set the open flag.
+    this.isOpen = true;
   }
 
   /**
@@ -389,20 +443,22 @@ class BaseMenuToggle {
    * and calls expand.
    *
    * @public
+   *
+   * @param {boolean} [force = false] - A flag to force the toggle to preview reguardless of current state.
    */
-  preview() {
+  preview(force = false) {
     // Set proper focus state on the parent.
     if (this.elements.parentMenu) {
       this.elements.parentMenu.focusState = "self";
     }
 
-    // Expand the controlled menu if the menu is closed.
-    if (!this.isOpen) {
-      this._expand();
+    // Expand the controlled menu if the menu is closed or if forced.
+    if (this.isOpen && !force) return;
 
-      // Set the open flag.
-      this.isOpen = true;
-    }
+    this._expand();
+
+    // Set the open flag.
+    this.isOpen = true;
   }
 
   /**
@@ -415,11 +471,12 @@ class BaseMenuToggle {
    * the isOpen value to `false`.
    *
    * @public
+   *
+   * @param {boolean} [force = false] - A flag to force the toggle to close reguardless of current state.
    */
-  close() {
-    // Only close if the menu is open.
-    if (!this.isOpen) return;
-
+  close(force = false) {
+    // Only close if the menu is open or if forced.
+    if (!this.isOpen && !force) return;
     // Reset controlled menu.
     this.elements.controlledMenu.blur();
 
@@ -427,6 +484,10 @@ class BaseMenuToggle {
     if (this.elements.parentMenu) {
       this.elements.parentMenu.focusState = "self";
     }
+
+    // Unlocked the toggle.
+    this.unlock();
+    this.isSoftLocked = false;
 
     // Collapse the controlled menu.
     this._collapse();
@@ -449,6 +510,28 @@ class BaseMenuToggle {
   }
 
   /**
+   * Locks the toggle.
+   *
+   * @public
+   */
+  lock() {
+    if (this.isLocked) return;
+
+    this._lock = true;
+  }
+
+  /**
+   * Unlocks the toggle.
+   *
+   * @public
+   */
+  unlock() {
+    if (!this.isLocked) return;
+
+    this._lock = false;
+  }
+
+  /**
    * Closes all sibling menus.
    *
    * @public
@@ -467,9 +550,7 @@ class BaseMenuToggle {
    * @public
    */
   closeChildren() {
-    this.elements.controlledMenu.elements.submenuToggles.forEach((toggle) =>
-      toggle.close()
-    );
+    this.element.elements.submenuToggles.forEach((toggle) => toggle.close());
   }
 }
 
