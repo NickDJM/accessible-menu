@@ -502,6 +502,14 @@ class BaseMenu {
     return this.isTopLevel ? this._openClass : this.elements.rootMenu.openClass;
   }
 
+  set openClass(value) {
+    isValidClassList({ openClass: value });
+
+    if (this._openClass !== value) {
+      this._openClass = value;
+    }
+  }
+
   /**
    * The class(es) to apply when the menu is closed.
    *
@@ -516,6 +524,14 @@ class BaseMenu {
     return this.isTopLevel
       ? this._closeClass
       : this.elements.rootMenu.closeClass;
+  }
+
+  set closeClass(value) {
+    isValidClassList({ closeClass: value });
+
+    if (this._closeClass !== value) {
+      this._closeClass = value;
+    }
   }
 
   /**
@@ -534,6 +550,14 @@ class BaseMenu {
       : this.elements.rootMenu.transitionClass;
   }
 
+  set transitionClass(value) {
+    isValidClassList({ transitionClass: value });
+
+    if (this._transitionClass !== value) {
+      this._transitionClass = value;
+    }
+  }
+
   /**
    * The duration time (in milliseconds) for the transition between open and closed states.
    *
@@ -550,6 +574,15 @@ class BaseMenu {
     return this.isTopLevel
       ? this._transitionDuration
       : this.elements.rootMenu.transitionDuration;
+  }
+
+  set transitionDuration(value) {
+    isValidType("number", { value });
+
+    if (this._transitionDuration !== value) {
+      this._transitionDuration = value;
+      this._setTransitionDurations();
+    }
   }
 
   /**
@@ -574,6 +607,15 @@ class BaseMenu {
       : this.elements.rootMenu.openDuration;
   }
 
+  set openDuration(value) {
+    isValidType("number", { value });
+
+    if (this._openDuration !== value) {
+      this._openDuration = value;
+      this._setTransitionDurations();
+    }
+  }
+
   /**
    * The duration time (in milliseconds) for the transition from open to closed states.
    *
@@ -596,6 +638,15 @@ class BaseMenu {
       : this.elements.rootMenu.closeDuration;
   }
 
+  set closeDuration(value) {
+    isValidType("number", { value });
+
+    if (this._closeDuration !== value) {
+      this._closeDuration = value;
+      this._setTransitionDurations();
+    }
+  }
+
   /**
    * The index of the currently selected menu item in the menu.
    *
@@ -614,227 +665,6 @@ class BaseMenu {
    */
   get currentChild() {
     return this._currentChild;
-  }
-
-  /**
-   * The current state of the menu's focus.
-   *
-   * - If the menu has submenus, setting the focus state to "none" or "self" will
-   *   update all child menus to have the focus state of "none".
-   * - If the menu has a parent menu, setting the focus state to "self" or "child"
-   *   will update all parent menus to have the focus state of "child".
-   *
-   * @type {string}
-   *
-   * @see _focusState
-   */
-  get focusState() {
-    return this._focusState;
-  }
-
-  /**
-   * The last event triggered on the menu.
-   *
-   * @type {string}
-   *
-   * @see _currentEvent
-   */
-  get currentEvent() {
-    return this._currentEvent;
-  }
-
-  /**
-   * The currently selected menu item.
-   *
-   * @readonly
-   *
-   * @type {BaseMenuItem}
-   */
-  get currentMenuItem() {
-    return this.elements.menuItems[this.currentChild];
-  }
-
-  /**
-   * The type of hoverability for the menu.
-   *
-   * This functions differently for root vs. submenus.
-   * Submenus will always inherit their root menu's hoverability.
-   *
-   * @type {string}
-   *
-   * @see _hoverType
-   */
-  get hoverType() {
-    return this._root ? this._hoverType : this.elements.rootMenu.hoverType;
-  }
-
-  /**
-   * The delay time (in milliseconds) used for pointerenter/pointerleave events to take place.
-   *
-   * This functions differently for root vs. submenus.
-   * Submenus will always inherit their root menu's hover delay.
-   *
-   * @type {number}
-   *
-   * @see _hoverDelay
-   */
-  get hoverDelay() {
-    return this._root ? this._hoverDelay : this.elements.rootMenu.hoverDelay;
-  }
-
-  /**
-   * The delay time (in milliseconds) used for pointerenter events to take place.
-   *
-   * This functions differently for root vs. submenus.
-   * Submenus will always inherit their root menu's enter delay.
-   *
-   * If enterDelay is set to -1, the hoverDelay value will be used instead.
-   *
-   * @type {number}
-   *
-   * @see _enterDelay
-   */
-  get enterDelay() {
-    if (this._enterDelay === -1) return this.hoverDelay;
-
-    return this._root ? this._enterDelay : this.elements.rootMenu.enterDelay;
-  }
-
-  /**
-   * The delay time (in milliseconds) used for pointerleave events to take place.
-   *
-   * This functions differently for root vs. submenus.
-   * Submenus will always inherit their root menu's leave delay.
-   *
-   * If leaveDelay is set to -1, the hoverDelay value will be used instead.
-   *
-   * @type {number}
-   *
-   * @see _leaveDelay
-   */
-  get leaveDelay() {
-    if (this._leaveDelay === -1) return this.hoverDelay;
-
-    return this._root ? this._leaveDelay : this.elements.rootMenu.leaveDelay;
-  }
-
-  /**
-   * The prefix to use for CSS custom properties.
-   *
-   * This functions differently for root vs. submenus.
-   * Submenus will always inherit their root menu's prefix.
-   *
-   * @type {string}
-   *
-   * @see _prefix
-   */
-  get prefix() {
-    return this._root ? this._prefix : this.elements.rootMenu.prefix;
-  }
-
-  /**
-   * A flag to check if the menu's focus methods should _actually_ move the focus in the DOM.
-   *
-   * This will be `false` unless any of the following criteria are met:
-   * - The menu's current event is "keyboard".
-   * - The menu's current event is "character".
-   * - The menu's current event is "mouse" _and_ the menu's
-   *   hover type is "dynamic".
-   *
-   * @readonly
-   *
-   * @type {boolean}
-   */
-  get shouldFocus() {
-    let check = false;
-
-    if (this.currentEvent === "keyboard" || this.currentEvent === "character") {
-      check = true;
-    }
-
-    if (this.currentEvent === "mouse" && this.hoverType === "dynamic") {
-      check = true;
-    }
-
-    return check;
-  }
-
-  /**
-   * A flag to check if the menu can dynamically hover.
-   *
-   * This functions differently for root vs. submenus.
-   * Submenus will always inherit their root menu's hasOpened.
-   *
-   * @type {boolean}
-   *
-   * @see _hasOpened
-   */
-  get hasOpened() {
-    return this._root ? this._hasOpened : this.elements.rootMenu.hasOpened;
-  }
-
-  /**
-   * An array of error messages generated by the menu.
-   *
-   * @readonly
-   *
-   * @type {string[]}
-   *
-   * @see _errors
-   */
-  get errors() {
-    return this._errors;
-  }
-
-  set openClass(value) {
-    isValidClassList({ openClass: value });
-
-    if (this._openClass !== value) {
-      this._openClass = value;
-    }
-  }
-
-  set closeClass(value) {
-    isValidClassList({ closeClass: value });
-
-    if (this._closeClass !== value) {
-      this._closeClass = value;
-    }
-  }
-
-  set transitionClass(value) {
-    isValidClassList({ transitionClass: value });
-
-    if (this._transitionClass !== value) {
-      this._transitionClass = value;
-    }
-  }
-
-  set transitionDuration(value) {
-    isValidType("number", { value });
-
-    if (this._transitionDuration !== value) {
-      this._transitionDuration = value;
-      this._setTransitionDurations();
-    }
-  }
-
-  set openDuration(value) {
-    isValidType("number", { value });
-
-    if (this._openDuration !== value) {
-      this._openDuration = value;
-      this._setTransitionDurations();
-    }
-  }
-
-  set closeDuration(value) {
-    isValidType("number", { value });
-
-    if (this._closeDuration !== value) {
-      this._closeDuration = value;
-      this._setTransitionDurations();
-    }
   }
 
   set currentChild(value) {
@@ -889,6 +719,22 @@ class BaseMenu {
     }
   }
 
+  /**
+   * The current state of the menu's focus.
+   *
+   * - If the menu has submenus, setting the focus state to "none" or "self" will
+   *   update all child menus to have the focus state of "none".
+   * - If the menu has a parent menu, setting the focus state to "self" or "child"
+   *   will update all parent menus to have the focus state of "child".
+   *
+   * @type {string}
+   *
+   * @see _focusState
+   */
+  get focusState() {
+    return this._focusState;
+  }
+
   set focusState(value) {
     isValidState({ value });
 
@@ -910,6 +756,17 @@ class BaseMenu {
     }
   }
 
+  /**
+   * The last event triggered on the menu.
+   *
+   * @type {string}
+   *
+   * @see _currentEvent
+   */
+  get currentEvent() {
+    return this._currentEvent;
+  }
+
   set currentEvent(value) {
     isValidEvent({ value });
 
@@ -924,12 +781,51 @@ class BaseMenu {
     }
   }
 
+  /**
+   * The currently selected menu item.
+   *
+   * @readonly
+   *
+   * @type {BaseMenuItem}
+   */
+  get currentMenuItem() {
+    return this.elements.menuItems[this.currentChild];
+  }
+
+  /**
+   * The type of hoverability for the menu.
+   *
+   * This functions differently for root vs. submenus.
+   * Submenus will always inherit their root menu's hoverability.
+   *
+   * @type {string}
+   *
+   * @see _hoverType
+   */
+  get hoverType() {
+    return this._root ? this._hoverType : this.elements.rootMenu.hoverType;
+  }
+
   set hoverType(value) {
     isValidHoverType({ value });
 
     if (this._hoverType !== value) {
       this._hoverType = value;
     }
+  }
+
+  /**
+   * The delay time (in milliseconds) used for pointerenter/pointerleave events to take place.
+   *
+   * This functions differently for root vs. submenus.
+   * Submenus will always inherit their root menu's hover delay.
+   *
+   * @type {number}
+   *
+   * @see _hoverDelay
+   */
+  get hoverDelay() {
+    return this._root ? this._hoverDelay : this.elements.rootMenu.hoverDelay;
   }
 
   set hoverDelay(value) {
@@ -940,12 +836,48 @@ class BaseMenu {
     }
   }
 
+  /**
+   * The delay time (in milliseconds) used for pointerenter events to take place.
+   *
+   * This functions differently for root vs. submenus.
+   * Submenus will always inherit their root menu's enter delay.
+   *
+   * If enterDelay is set to -1, the hoverDelay value will be used instead.
+   *
+   * @type {number}
+   *
+   * @see _enterDelay
+   */
+  get enterDelay() {
+    if (this._enterDelay === -1) return this.hoverDelay;
+
+    return this._root ? this._enterDelay : this.elements.rootMenu.enterDelay;
+  }
+
   set enterDelay(value) {
     isValidType("number", { value });
 
     if (this._enterDelay !== value) {
       this._enterDelay = value;
     }
+  }
+
+  /**
+   * The delay time (in milliseconds) used for pointerleave events to take place.
+   *
+   * This functions differently for root vs. submenus.
+   * Submenus will always inherit their root menu's leave delay.
+   *
+   * If leaveDelay is set to -1, the hoverDelay value will be used instead.
+   *
+   * @type {number}
+   *
+   * @see _leaveDelay
+   */
+  get leaveDelay() {
+    if (this._leaveDelay === -1) return this.hoverDelay;
+
+    return this._root ? this._leaveDelay : this.elements.rootMenu.leaveDelay;
   }
 
   set leaveDelay(value) {
@@ -956,6 +888,20 @@ class BaseMenu {
     }
   }
 
+  /**
+   * The prefix to use for CSS custom properties.
+   *
+   * This functions differently for root vs. submenus.
+   * Submenus will always inherit their root menu's prefix.
+   *
+   * @type {string}
+   *
+   * @see _prefix
+   */
+  get prefix() {
+    return this._root ? this._prefix : this.elements.rootMenu.prefix;
+  }
+
   set prefix(value) {
     isValidType("string", { value });
 
@@ -964,12 +910,67 @@ class BaseMenu {
     }
   }
 
+  /**
+   * A flag to check if the menu's focus methods should _actually_ move the focus in the DOM.
+   *
+   * This will be `false` unless any of the following criteria are met:
+   * - The menu's current event is "keyboard".
+   * - The menu's current event is "character".
+   * - The menu's current event is "mouse" _and_ the menu's
+   *   hover type is "dynamic".
+   *
+   * @readonly
+   *
+   * @type {boolean}
+   */
+  get shouldFocus() {
+    let check = false;
+
+    if (this.currentEvent === "keyboard" || this.currentEvent === "character") {
+      check = true;
+    }
+
+    if (this.currentEvent === "mouse" && this.hoverType === "dynamic") {
+      check = true;
+    }
+
+    return check;
+  }
+
+  /**
+   * A flag to check if the menu can dynamically hover.
+   *
+   * This functions differently for root vs. submenus.
+   * Submenus will always inherit their root menu's hasOpened.
+   *
+   * @type {boolean}
+   *
+   * @see _hasOpened
+   */
+  get hasOpened() {
+    return this._root ? this._hasOpened : this.elements.rootMenu.hasOpened;
+  }
+
   set hasOpened(value) {
     isValidType("boolean", { value });
 
     if (this._hasOpened !== value) {
       this._hasOpened = value;
     }
+  }
+
+
+  /**
+   * An array of error messages generated by the menu.
+   *
+   * @readonly
+   *
+   * @type {string[]}
+   *
+   * @see _errors
+   */
+  get errors() {
+    return this._errors;
   }
 
   /**
