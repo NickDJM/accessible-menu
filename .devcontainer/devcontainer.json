@@ -1,0 +1,221 @@
+// @see https://github.com/microsoft/vscode-dev-containers/blob/main/containers/docker-existing-docker-compose/.devcontainer/devcontainer.json
+{
+  "name": "Accessible Menu Dev",
+
+  // Update the 'dockerComposeFile' list if you have more compose files or use different names.
+  // The .devcontainer/docker-compose.extend.yml file contains any overrides you need/want to make.
+  "dockerComposeFile": [
+    "../container/docker-compose.yml"
+  ],
+
+  // The 'service' property is the name of the service for the container that VS Code should
+  // use. Update this value and .devcontainer/docker-compose.yml to the real service name.
+  "service": "app",
+
+  // The optional 'workspaceFolder' property is the path VS Code should open by default when
+  // connected. This is typically a file mount in .devcontainer/docker-compose.yml
+  "workspaceFolder": "/var/www/html",
+
+  // Update the path to include vendor/bin and ~/bin
+  // Enable bash history.
+  "remoteEnv": {
+    "PATH": "${containerEnv:HOME}/.vscode-server/bin/**/bin:${containerEnv:PATH}",
+    "PROMPT_COMMAND": "history -a",
+    "HISTFILE": "/commandhistory/.bash_history"
+  },
+
+  // Set *default* container specific settings.json values on container create.
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "breadcrumbs.enabled": true,
+        "better-comments.tags": [
+          {
+            "tag": "!",
+            "color": "#FF2D00",
+            "strikethrough": false,
+            "underline": false,
+            "backgroundColor": "transparent",
+            "bold": false,
+            "italic": false
+          },
+          {
+            "tag": "?",
+            "color": "#3498DB",
+            "strikethrough": false,
+            "underline": false,
+            "backgroundColor": "transparent",
+            "bold": false,
+            "italic": false
+          },
+          {
+            "tag": "//",
+            "color": "#474747",
+            "strikethrough": true,
+            "underline": false,
+            "backgroundColor": "transparent",
+            "bold": false,
+            "italic": false
+          },
+          {
+            "tag": "todo",
+            "color": "#FF8C00",
+            "strikethrough": false,
+            "underline": false,
+            "backgroundColor": "transparent",
+            "bold": false,
+            "italic": false
+          },
+              {
+            "tag": "@todo",
+            "color": "#FF8C00",
+            "strikethrough": false,
+            "underline": false,
+            "backgroundColor": "transparent",
+            "bold": false,
+            "italic": false
+          },
+          {
+            "tag": "*",
+            "color": "#98C379",
+            "strikethrough": false,
+            "underline": false,
+            "backgroundColor": "transparent",
+            "bold": false,
+            "italic": false
+          }
+        ],
+        "css.validate": true,
+        "debug.allowBreakpointsEverywhere": true,
+        "debug.showBreakpointsInOverviewRuler": true,
+        "diffEditor.ignoreTrimWhitespace": false,
+        "drupalSDCHelper.componentDirectories": [
+          "web/themes/custom/*/components/**",
+          "web/modules/custom/*/components/**",
+          "docroot/themes/custom/*/components/**",
+          "docroot/modules/custom/*/components/**",
+          "public_html/modules/custom/*/components/**",
+          "public_html/themes/custom/*/components/**"
+        ],
+        "docker.containers.label": "ContainerName",
+        // @see https: //github.com/microsoft/vscode/issues/174632#issuecomment-1608114637
+        "extensions.verifySignature": false,
+        "editor.autoIndent": "full",
+        "editor.detectIndentation": true,
+        "editor.codeActionsOnSave": {
+          "source.fixAll.eslint": true
+        },
+        "editor.formatOnPaste": true,
+        "editor.formatOnSave": false,
+        "editor.insertSpaces": true,
+        "editor.minimap.maxColumn": 200,
+        "editor.minimap.renderCharacters": false,
+        "editor.renderWhitespace": "boundary",
+        "editor.rulers": [80],
+        "editor.tabSize": 2,
+        "editor.wordWrap": "off",
+        "editor.wordWrapColumn": 80,
+        "flashpost.saveDataToWorkspace": true,
+        "flashpost.workspaceDataRelativePath": "testing/flashpost",
+        "workbench.editor.labelFormat": "medium",
+        "workbench.sideBar.location": "right",
+        "[javascript]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[json]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[typescript]": {
+          "editor.defaultFormatter": "vscode.typescript-language-features"
+        },
+        "[vue]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[yaml]": {
+          "editor.defaultFormatter": "redhat.vscode-yaml"
+        },
+        "files.associations": {
+          ".env.*": "env",
+          "devcontainer.json": "jsonc",
+          "settings.json": "jsonc"
+        },
+        "files.trimTrailingWhitespace": true,
+        "files.insertFinalNewline": true,
+        "html.format.enable": true,
+        "html.format.wrapLineLength": 80,
+        "telemetry.enableTelemetry": false,
+        "todo-tree.regex.regex": "(//|#|<!--|;|/?\\*|^|^[ \\t]*(-|\\d+.))\\s*($TAGS)",
+        "todo-tree.general.tags": ["@todo", "TODO", "FIXME"],
+        "typescript.suggest.paths": false,
+
+        "conventionalCommits.scopes": [
+          "vscode",
+          "ci",
+          "config",
+          "code",
+          "tests",
+          "docs"
+        ],
+
+        "scm.showHistoryGraph": false
+      },
+      // Add the IDs of extensions you want installed when the container is created.
+      "extensions": [
+        /* General VSCode QoL */
+        "DavidAnson.vscode-markdownlint",
+        "mikestead.dotenv",
+        "tyriar.sort-lines",
+
+        /* Git, Build, Debug */
+        "aaron-bond.better-comments",
+        "eamodio.gitlens",
+        "vivaxy.vscode-conventional-commits",
+        "Gruntfuggly.todo-tree",
+        "streetsidesoftware.code-spell-checker",
+
+        /* HTML, JS*/
+        "formulahendry.auto-rename-tag",
+        "christian-kohler.path-intellisense",
+        "dbaeumer.vscode-eslint",
+        "editorconfig.editorconfig",
+        "esbenp.prettier-vscode",
+        "mrmlnc.vscode-scss",
+        "ms-vscode.live-server",
+        "octref.vetur",
+        "shardulm94.trailing-spaces",
+        "stevencl.adddoccomments",
+        "stylelint.vscode-stylelint",
+        "syler.sass-indented",
+        "vivek9patel.vscode-css-compatibility",
+
+        /* Vite */
+        "antfu.vite",
+        "fantasy.vp-preview",
+        "vitest.explorer"
+      ]
+    }
+  },
+
+  "overrideCommand": true,
+
+  // Install npm build tools automatically.
+  "postStartCommand": "test -f /var/www/html/node_modules/.package-lock.json || (npm i -y; npm run build)",
+
+  // Fix permissions on the project directory.
+  "postAttachCommand": "/usr/bin/git config --global --add safe.directory /var/www/html",
+
+  // Use 'forwardPorts' to make a list of ports inside the container available locally.
+  "forwardPorts": [4000, 4001]
+
+  // Uncomment the next line if you want start specific services in your Docker Compose config.
+  // "runServices": [],
+
+  // Uncomment the next line if you want to keep your containers running after VS Code shuts down.
+  // "shutdownAction": "none",
+
+  // Uncomment the next line to run commands after the container is created - for example installing curl.
+  // "postCreateCommand": ""
+
+  // Uncomment to connect as a non-root user if you've added one. See https://aka.ms/vscode-remote/containers/non-root.
+  // "remoteUser": "vscode"
+}
