@@ -1,0 +1,27 @@
+# This file is managed by dropfort/dropfort_build.
+# Modifications to this file will be overwritten by default.
+
+volumes:
+  node-modules:
+  bashhistory:
+
+services:
+  app:
+    build:
+      context: ./
+      dockerfile: build/app.dockerfile
+      args:
+        UBUNTU_VERSION: "${UBUNTU_VERSION:-25.10}"
+        NODE_MAJOR_VERSION: "${NODE_MAJOR_VERSION:-22}"
+        NPM_MAJOR_VERSION: "${NPM_MAJOR_VERSION:-}"
+    container_name: "${COMPOSE_PROJECT_NAME:-accessible_menu}_app"
+    environment:
+      COLUMNS: 80 # Set 80 columns for docker exec -it.
+      CONTAINER_DIR: ${CONTAINER_DIR:-/var/www/html}
+      SSH_AUTH_SOCK: "/run/host-services/ssh-auth.sock"
+    volumes:
+      - ../:${CONTAINER_DIR:-/var/www/html}:cached
+      - ~/.ssh/config:/root/.ssh/config
+      - ~/.ssh/known_hosts:/root/.ssh/known_hosts
+      - node-modules:${CONTAINER_DIR:-/var/www/html}/node_modules
+      - bashhistory:/commandhistory
