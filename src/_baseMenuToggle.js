@@ -171,7 +171,6 @@ class BaseMenuToggle {
    * Sets unique IDs for the toggle and controlled menu.
    *
    * If the toggle and controlled menu do not have IDs, the following steps take place:
-   * - Generate a random string 1-10 characters long,
    * - Get the innerText of the toggle,
    * - Set the toggle's ID to: `menu-button-${toggle-inner-text}-${the-random-string}`
    * - Set the menu's ID to: `menu-${toggle-inner-text}-${the-random-string}`
@@ -183,13 +182,8 @@ class BaseMenuToggle {
       this.dom.toggle.id === "" ||
       this.elements.controlledMenu.dom.menu.id === ""
     ) {
-      const randomString = Math.random()
-        .toString(36)
-        .replace(/[^a-z]+/g, "")
-        .substring(0, 10);
-
       let id = this.dom.toggle.innerText?.replace(/[^a-zA-Z0-9\s]/g, "") || "";
-      let finalID = randomString;
+      let finalID = this.elements.controlledMenu.key;
 
       if (
         !id.replace(/\s/g, "").length &&
