@@ -47,4 +47,12 @@ describe("Treeview protected methods", () => {
       );
     });
   });
+
+  // Test Treeview _setIds().
+  describe("_setIds", () => {
+    // Test that Treeview implements the BaseMenu _setIds() method.
+    it("should implement the BaseMenu _setIds() method", () => {
+      expect(Treeview.prototype._setIds).toBe(BaseMenu.prototype._setIds);
+    });
+  });
 });
