@@ -37,4 +37,14 @@ describe("TopLinkDisclosureMenu protected methods", () => {
       );
     });
   });
+
+  // Test TopLinkDisclosureMenu _setIds().
+  describe("_setIds", () => {
+    // Test that TopLinkDisclosureMenu implements the BaseMenu _setIds() method.
+    it("should implement the BaseMenu _setIds() method", () => {
+      expect(TopLinkDisclosureMenu.prototype._setIds).toBe(
+        BaseMenu.prototype._setIds
+      );
+    });
+  });
 });

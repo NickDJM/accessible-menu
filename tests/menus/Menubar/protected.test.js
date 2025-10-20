@@ -47,4 +47,12 @@ describe("Menubar protected methods", () => {
       );
     });
   });
+
+  // Test Menubar _setIds().
+  describe("_setIds", () => {
+    // Test that Menubar implements the BaseMenu _setIds() method.
+    it("should implement the BaseMenu _setIds() method", () => {
+      expect(Menubar.prototype._setIds).toBe(BaseMenu.prototype._setIds);
+    });
+  });
 });

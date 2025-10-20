@@ -47,4 +47,12 @@ describe("DisclosureMenu protected methods", () => {
       );
     });
   });
+
+  // Test DisclosureMenu _setIds().
+  describe("_setIds", () => {
+    // Test that DisclosureMenu implements the BaseMenu _setIds() method.
+    it("should implement the BaseMenu _setIds() method", () => {
+      expect(DisclosureMenu.prototype._setIds).toBe(BaseMenu.prototype._setIds);
+    });
+  });
 });

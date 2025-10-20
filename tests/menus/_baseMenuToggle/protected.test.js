@@ -470,8 +470,8 @@ describe("BaseMenuToggle protected methods", () => {
       const generatedId = menuToggle.dom.toggle.getAttribute("id");
 
       // Test the generated id.
-      // The pattern for the generated id is "menu-button{- optional menu toggle's inner text}-{a string 1-10 characters long}".
-      expect(generatedId).toMatch(/^menu-button(-.*)?-[a-z]{1,10}$/);
+      // The pattern for the generated id is "menu-button{- optional menu toggle's inner text}-{a string 1-10 characters long}-{the level the menu is compared to the root}".
+      expect(generatedId).toMatch(/^menu-button(-.*)?-[a-z]{1,10}-\d+$/);
     });
 
     // Test that _setIds does not change the toggle's id attribute when it already has an id.
@@ -515,8 +515,8 @@ describe("BaseMenuToggle protected methods", () => {
         menuToggle.elements.controlledMenu.dom.menu.getAttribute("id");
 
       // Test the generated id.
-      // The pattern for the generated id is "menu{- optional menu toggle's inner text}-{a string 1-10 characters long}".
-      expect(generatedId).toMatch(/^menu(-.*)?-[a-z]{1,10}$/);
+      // The pattern for the generated id is "menu{- optional menu toggle's inner text}-{a string 1-10 characters long}-{the level the menu is compared to the root}".
+      expect(generatedId).toMatch(/^menu(-.*)?-[a-z]{1,10}-\d+$/);
     });
 
     // Test that _setIds does not change the toggle's parent's id attribute when it already has an id.

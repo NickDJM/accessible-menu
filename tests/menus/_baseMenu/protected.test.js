@@ -187,4 +187,108 @@ describe("BaseMenu protected methods", () => {
       expect(spy).toHaveBeenCalledWith(callback, delay);
     });
   });
+
+  describe("_setIds", () => {
+    // Test that _setIds sets the menu's id attribute to a generated value when it doesn't have an existing id.
+    it("should set the menu's id attribute to a generated value when it doesn't have an existing id", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+
+      // Get the generated id.
+      const generatedId = menu.dom.menu.getAttribute("id");
+
+      // Test the generated id.
+      // The pattern for the generated id is "menu-{a string 1-10 characters long}".
+      expect(generatedId).toMatch(/^menu-[a-z]{1,10}$/);
+    });
+
+    // Test that _setIds does not change the menu's id attribute when it already has an id.
+    it("should not change the toggle's id attribute when it already has an id", () => {
+      document.querySelector("ul").setAttribute("id", "test-id");
+
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+
+      // Test the menu's id.
+      expect(menu.dom.menu.getAttribute("id")).toBe("test-id");
+    });
+
+    // Test that _setIds sets the menu controller's id attribute to a generated value when it doesn't have an existing id.
+    it("should set the menu controller's id attribute to a generated value when it doesn't have an existing id", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+
+      // Get the generated id.
+      const generatedId = menu.dom.controller.getAttribute("id");
+
+      // Test the generated id.
+      // The pattern for the generated id is "menu-{a string 1-10 characters long}".
+      expect(generatedId).toMatch(/^menu-controller-[a-z]{1,10}$/);
+    });
+
+    // Test that _setIds does not set the menu controller's id attribute to a generated value when it has an existing id.
+    it("should not set the menu controller's id attribute to a generated value when it has an existing id", () => {
+      document.querySelector("button").setAttribute("id", "test-id");
+
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+
+      // Test the menu controller's id.
+      expect(menu.dom.controller.getAttribute("id")).toBe("test-id");
+    });
+
+    // Test that _setIds sets the menu container's id attribute to a generated value when it doesn't have an existing id.
+    it("should set the menu container's id attribute to a generated value when it doesn't have an existing id", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+
+      // Get the generated id.
+      const generatedId = menu.dom.container.getAttribute("id");
+
+      // Test the generated id.
+      // The pattern for the generated id is "menu-{a string 1-10 characters long}".
+      expect(generatedId).toMatch(/^menu-container-[a-z]{1,10}$/);
+    });
+
+    // Test that _setIds does not set the menu container's id attribute to a generated value when it has an existing id.
+    it("should not set the menu container's id attribute to a generated value when it has an existing id", () => {
+      document.querySelector("nav").setAttribute("id", "test-id");
+
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+
+      // Test the menu container's id.
+      expect(menu.dom.container.getAttribute("id")).toBe("test-id");
+    });
+  });
 });
