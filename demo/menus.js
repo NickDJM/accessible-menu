@@ -1,8 +1,8 @@
 export const singleLevel =
   /* html */
   `
-<nav id="example-menu" aria-label="example" aria-describedby="disclaimer">
-  <button id="example-toggle" class="menu-toggle" aria-label="Example menu">☰</button>
+<nav aria-label="example" aria-describedby="disclaimer">
+  <button class="menu-toggle" aria-label="Example menu">☰</button>
   <ul class="menu">
     <li class="menu-item"><a class="menu-link" href="#About">About</a></li>
     <li class="menu-item"><a class="menu-link" href="#Mammals">Mammals</a></li>
@@ -19,8 +19,8 @@ export const singleLevel =
 export const twoLevel =
   /* html */
   `
-<nav id="example-menu" aria-label="example" aria-describedby="disclaimer">
-  <button id="example-toggle" class="menu-toggle" aria-label="Example menu">☰</button>
+<nav aria-label="example" aria-describedby="disclaimer">
+  <button class="menu-toggle" aria-label="Example menu">☰</button>
   <ul class="menu">
     <li class="menu-item"><a class="menu-link" href="#About">About</a></li>
     <li class="menu-item dropdown">
@@ -88,8 +88,8 @@ export const twoLevel =
 export const twoLevelDisclosure =
   /* html */
   `
-<nav id="example-menu" aria-label="example" aria-describedby="disclaimer">
-  <button id="example-toggle" class="menu-toggle" aria-label="Example menu">☰</button>
+<nav aria-label="example" aria-describedby="disclaimer">
+  <button class="menu-toggle" aria-label="Example menu">☰</button>
   <ul class="menu">
     <li class="menu-item"><a class="menu-link" href="#About">About</a></li>
     <li class="menu-item dropdown">
@@ -157,8 +157,8 @@ export const twoLevelDisclosure =
 export const twoLevelDisclosureTopLink =
   /* html */
   `
-<nav id="example-menu"  aria-label="example" aria-describedby="disclaimer">
-  <button id="example-toggle" class="menu-toggle" aria-label="Example menu">☰</button>
+<nav  aria-label="example" aria-describedby="disclaimer">
+  <button class="menu-toggle" aria-label="Example menu">☰</button>
   <ul class="menu">
     <li class="menu-item"><a class="menu-link" href="#About">About</a></li>
     <li class="menu-item dropdown">
@@ -232,8 +232,8 @@ export const twoLevelDisclosureTopLink =
 export const twoLevelDisclosureTopLinkNoButtons =
   /* html */
   `
-<nav id="example-menu"  aria-label="example" aria-describedby="disclaimer">
-  <button id="example-toggle" class="menu-toggle" aria-label="Example menu">☰</button>
+<nav  aria-label="example" aria-describedby="disclaimer">
+  <button class="menu-toggle" aria-label="Example menu">☰</button>
   <ul class="menu">
     <li class="menu-item"><a class="menu-link" href="#About">About</a></li>
     <li class="menu-item dropdown">
@@ -307,8 +307,8 @@ export const twoLevelDisclosureTopLinkNoButtons =
 export const threeLevel =
   /* html */
   `
-<nav id="example-menu"  aria-label="example" aria-describedby="disclaimer">
-  <button id="example-toggle" class="menu-toggle" aria-label="Example menu">☰</button>
+<nav  aria-label="example" aria-describedby="disclaimer">
+  <button class="menu-toggle" aria-label="Example menu">☰</button>
   <ul class="menu">
     <li class="menu-item"><a class="menu-link" href="#About">About</a></li>
     <li class="menu-item dropdown">
@@ -483,8 +483,8 @@ export const threeLevel =
 export const threeLevelDisclosure =
   /* html */
   `
-<nav id="example-menu"  aria-label="example" aria-describedby="disclaimer">
-  <button id="example-toggle" class="menu-toggle" aria-label="Example menu">☰</button>
+<nav  aria-label="example" aria-describedby="disclaimer">
+  <button class="menu-toggle" aria-label="Example menu">☰</button>
   <ul class="menu">
     <li class="menu-item"><a class="menu-link" href="#About">About</a></li>
     <li class="menu-item dropdown">
@@ -659,8 +659,8 @@ export const threeLevelDisclosure =
 export const threeLevelDisclosureTopLink =
   /* html */
   `
-<nav id="example-menu"  aria-label="example" aria-describedby="disclaimer">
-  <button id="example-toggle" class="menu-toggle" aria-label="Example menu">☰</button>
+<nav  aria-label="example" aria-describedby="disclaimer">
+  <button class="menu-toggle" aria-label="Example menu">☰</button>
   <ul class="menu">
     <li class="menu-item"><a class="menu-link" href="#About">About</a></li>
     <li class="menu-item dropdown">
