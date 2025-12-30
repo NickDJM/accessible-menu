@@ -97,7 +97,6 @@
     "build:menubar": "BUILD_TYPE=Menubar vite build",
     "build:top-link-disclosure-menu": "BUILD_TYPE=TopLinkDisclosureMenu vite build",
     "build:treeview": "BUILD_TYPE=Treeview vite build",
-    "postbuild": "npm run docs:build",
     "dev": "vite",
     "test": "vitest",
     "test:ui": "vitest --ui",
