@@ -1291,7 +1291,7 @@ class BaseMenu {
   }
 
   /**
-   * Generates a key for the navigation shelf.
+   * Generates a key for the menu.
    *
    * @param {boolean} [regenerate = false] - A flag to determine if the key should be regenerated.
    */
