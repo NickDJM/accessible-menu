@@ -1645,12 +1645,12 @@ class T {
   /**
    * Handles click events throughout the menu for proper use.
    *
-   * - Adds a `pointerdown` listener to every menu item that will blur
+   * - Adds a `click` listener to every menu item that will blur
    *   all menu items in the entire menu structure (starting at the root menu) and
    *   then properly focus the clicked item.
-   * - Adds a `pointerup` listener to every submenu item that will properly
+   * - Adds a `click` listener to every submenu item that will properly
    *   toggle the submenu open/closed.
-   * - Adds a `pointerup` listener to the menu's controller
+   * - Adds a `click` listener to the menu's controller
    *   (if the menu is the root menu) so when it is clicked it will properly
    *   toggle open/closed.
    *
@@ -1662,23 +1662,17 @@ class T {
     }
     this.elements.menuItems.forEach((t, s) => {
       t.dom.link.addEventListener(
-        "pointerdown",
+        "click",
         () => {
           this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this._clearTimeout(), this.focusChild(s);
         },
         { passive: !0 }
-      ), t.isSubmenuItem && t.elements.toggle.dom.toggle.addEventListener(
-        "pointerup",
-        (i) => {
-          this.currentEvent = "mouse", e(this, t.elements.toggle, i);
-        }
-      );
-    }), this.isTopLevel && this.elements.controller && this.elements.controller.dom.toggle.addEventListener(
-      "pointerup",
-      (t) => {
-        this.currentEvent = "mouse", e(this, this.elements.controller, t);
-      }
-    ), document.addEventListener("pointerup", (t) => {
+      ), t.isSubmenuItem && t.elements.toggle.dom.toggle.addEventListener("click", (i) => {
+        this.currentEvent = "mouse", e(this, t.elements.toggle, i);
+      });
+    }), this.isTopLevel && this.elements.controller && this.elements.controller.dom.toggle.addEventListener("click", (t) => {
+      this.currentEvent = "mouse", e(this, this.elements.controller, t);
+    }), document.addEventListener("click", (t) => {
       this.focusState !== "none" && (this.currentEvent = "mouse", !this.dom.menu.contains(t.target) && !this.dom.menu !== t.target && (this.elements.rootMenu.hasOpened = this.elements.submenuToggles.some(
         (s) => s.isOpen
       )));

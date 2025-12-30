@@ -937,19 +937,19 @@ class E {
     containerElement: m = null,
     openClass: c = "show",
     closeClass: d = "hide",
-    transitionClass: p = "transitioning",
-    transitionDuration: f = 250,
+    transitionClass: f = "transitioning",
+    transitionDuration: p = 250,
     openDuration: h = -1,
     closeDuration: D = -1,
     isTopLevel: T = !0,
     parentMenu: v = null,
     hoverType: w = "off",
-    hoverDelay: S = 250,
-    enterDelay: k = -1,
+    hoverDelay: k = 250,
+    enterDelay: S = -1,
     leaveDelay: L = -1,
     prefix: I = "am-"
   }) {
-    this._dom.menu = e, this._dom.controller = u, this._dom.container = m, this._selectors.menuItems = t, this._selectors.menuLinks = s, this._selectors.submenuItems = i, this._selectors.submenuToggles = o, this._selectors.submenus = r, this._elements.menuItems = [], this._elements.submenuToggles = [], this._elements.controller = null, this._elements.parentMenu = v, this._elements.rootMenu = T ? this : null, this._openClass = c || "", this._closeClass = d || "", this._transitionClass = p || "", this._transitionDuration = f, this._openDuration = h, this._closeDuration = D, this._prefix = I || "", this._root = T, this._hoverType = w, this._hoverDelay = S, this._enterDelay = k, this._leaveDelay = L;
+    this._dom.menu = e, this._dom.controller = u, this._dom.container = m, this._selectors.menuItems = t, this._selectors.menuLinks = s, this._selectors.submenuItems = i, this._selectors.submenuToggles = o, this._selectors.submenus = r, this._elements.menuItems = [], this._elements.submenuToggles = [], this._elements.controller = null, this._elements.parentMenu = v, this._elements.rootMenu = T ? this : null, this._openClass = c || "", this._closeClass = d || "", this._transitionClass = f || "", this._transitionDuration = p, this._openDuration = h, this._closeDuration = D, this._prefix = I || "", this._root = T, this._hoverType = w, this._hoverDelay = k, this._enterDelay = S, this._leaveDelay = L;
   }
   /**
    * Initializes the menu.
@@ -1443,12 +1443,12 @@ class E {
       enterDelay: this._enterDelay
     });
     d.status || (this._errors.push(d.error.message), e = !1);
-    const p = l("number", {
+    const f = l("number", {
       leaveDelay: this._leaveDelay
     });
-    p.status || (this._errors.push(p.error.message), e = !1);
-    const f = l("string", { prefix: this._prefix });
-    return f.status || (this._errors.push(f.error.message), e = !1), e;
+    f.status || (this._errors.push(f.error.message), e = !1);
+    const p = l("string", { prefix: this._prefix });
+    return p.status || (this._errors.push(p.error.message), e = !1), e;
   }
   /**
    * Sets DOM elements within the menu.
@@ -1645,12 +1645,12 @@ class E {
   /**
    * Handles click events throughout the menu for proper use.
    *
-   * - Adds a `pointerdown` listener to every menu item that will blur
+   * - Adds a `click` listener to every menu item that will blur
    *   all menu items in the entire menu structure (starting at the root menu) and
    *   then properly focus the clicked item.
-   * - Adds a `pointerup` listener to every submenu item that will properly
+   * - Adds a `click` listener to every submenu item that will properly
    *   toggle the submenu open/closed.
-   * - Adds a `pointerup` listener to the menu's controller
+   * - Adds a `click` listener to the menu's controller
    *   (if the menu is the root menu) so when it is clicked it will properly
    *   toggle open/closed.
    *
@@ -1662,23 +1662,17 @@ class E {
     }
     this.elements.menuItems.forEach((t, s) => {
       t.dom.link.addEventListener(
-        "pointerdown",
+        "click",
         () => {
           this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this._clearTimeout(), this.focusChild(s);
         },
         { passive: !0 }
-      ), t.isSubmenuItem && t.elements.toggle.dom.toggle.addEventListener(
-        "pointerup",
-        (i) => {
-          this.currentEvent = "mouse", e(this, t.elements.toggle, i);
-        }
-      );
-    }), this.isTopLevel && this.elements.controller && this.elements.controller.dom.toggle.addEventListener(
-      "pointerup",
-      (t) => {
-        this.currentEvent = "mouse", e(this, this.elements.controller, t);
-      }
-    ), document.addEventListener("pointerup", (t) => {
+      ), t.isSubmenuItem && t.elements.toggle.dom.toggle.addEventListener("click", (i) => {
+        this.currentEvent = "mouse", e(this, t.elements.toggle, i);
+      });
+    }), this.isTopLevel && this.elements.controller && this.elements.controller.dom.toggle.addEventListener("click", (t) => {
+      this.currentEvent = "mouse", e(this, this.elements.controller, t);
+    }), document.addEventListener("click", (t) => {
       this.focusState !== "none" && (this.currentEvent = "mouse", !this.dom.menu.contains(t.target) && !this.dom.menu !== t.target && (this.elements.rootMenu.hasOpened = this.elements.submenuToggles.some(
         (s) => s.isOpen
       )));
@@ -2151,15 +2145,15 @@ class j extends E {
     controllerElement: m = null,
     containerElement: c = null,
     openClass: d = "show",
-    closeClass: p = "hide",
-    transitionClass: f = "transitioning",
+    closeClass: f = "hide",
+    transitionClass: p = "transitioning",
     transitionDuration: h = 250,
     isTopLevel: D = !0,
     parentMenu: T = null,
     hoverType: v = "off",
     hoverDelay: w = 250,
-    enterDelay: S = -1,
-    leaveDelay: k = -1,
+    enterDelay: k = -1,
+    leaveDelay: S = -1,
     optionalKeySupport: L = !1,
     prefix: I = "am-",
     initialize: F = !0
@@ -2174,15 +2168,15 @@ class j extends E {
       controllerElement: m,
       containerElement: c,
       openClass: d,
-      closeClass: p,
-      transitionClass: f,
+      closeClass: f,
+      transitionClass: p,
       transitionDuration: h,
       isTopLevel: D,
       parentMenu: T,
       hoverType: v,
       hoverDelay: w,
-      enterDelay: S,
-      leaveDelay: k,
+      enterDelay: k,
+      leaveDelay: S,
       prefix: I
     }), this._optionalSupport = L, this._selectors.menuItems = t, this._selectors.submenuItems = i, this._selectors.submenuToggles = o, this._selectors.submenus = r, this._selectors.submenuSubtoggles = u, this._selectors.menuLinks = [
       .../* @__PURE__ */ new Set([s, o])
@@ -2309,13 +2303,13 @@ class j extends E {
    *
    * - Adds all event listeners listed in
    *   BaseMenu's _handleClick method, and
-   * - adds a `pointerup` listener to the `document` so if the user
+   * - adds a `click` listener to the `document` so if the user
    *   clicks outside of the menu it will close if it is open.
    *
    * @protected
    */
   _handleClick() {
-    super._handleClick(), document.addEventListener("pointerup", (e) => {
+    super._handleClick(), document.addEventListener("click", (e) => {
       this.focusState !== "none" && (this.currentEvent = "mouse", !this.dom.menu.contains(e.target) && !this.dom.menu !== e.target && (this.closeChildren(), this.blur(), this.elements.controller && this.elements.controller.close(), this.elements.rootMenu.hasOpened = !1));
     });
   }
