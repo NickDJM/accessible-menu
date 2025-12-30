@@ -1,21 +1,38 @@
-## [4.2.2](https://github.com/NickDJM/accessible-menu/compare/v4.2.1...v4.2.2) (2025-05-27)
+## [4.3.0](https://github.com/NickDJM/accessible-menu/compare/v4.2.2...v4.3.0) (2025-12-30)
+
+
+### Features
+
+* unify generated key in throughout menu ([09d29c9](https://github.com/NickDJM/accessible-menu/commit/09d29c96f36eebbd2a93493de5dcfdea13447654))
 
 
 ### Bug Fixes
 
-* **keyup:** prevent all enter and space events ([5761cff](https://github.com/NickDJM/accessible-menu/commit/5761cffb782495a6aa98a5da0c19e5dab007a753)), closes [#392](https://github.com/NickDJM/accessible-menu/issues/392) [#386](https://github.com/NickDJM/accessible-menu/issues/386)
+* **accessibility:** replace all pointerup and down events with click ([28c6e8c](https://github.com/NickDJM/accessible-menu/commit/28c6e8c9530429ccd705bd096a81211235769749)), closes [#469](https://github.com/NickDJM/accessible-menu/issues/469)
+
+
+### Documentation
+
+* add current release file ([1e4451c](https://github.com/NickDJM/accessible-menu/commit/1e4451cd9265910c23a95f717d1e87024692fa92))
+* add logo ([f265ee8](https://github.com/NickDJM/accessible-menu/commit/f265ee86cd055677cbfed85d8856834228867498))
+* **readme:** add logo ([1a2b824](https://github.com/NickDJM/accessible-menu/commit/1a2b8248e8a547bf2fc6c0674fd401ce34e2e247))
+* **sp:** correct typo in demo site ([210eb34](https://github.com/NickDJM/accessible-menu/commit/210eb348b3461f900674fe3505fb78e01fdc918b))
+* update to reflect key changes ([12ee919](https://github.com/NickDJM/accessible-menu/commit/12ee9199c7b35f111a5bebdfc92531475f4a1325))
 
 
 ### Build System
 
-* bump eslint-config-prettier from 9.1.0 to 10.1.1 ([c9708f7](https://github.com/NickDJM/accessible-menu/commit/c9708f7589cf4c50849f21672f8c22017a777c46))
-* bump jsdom from 25.0.1 to 26.0.0 ([6ba1436](https://github.com/NickDJM/accessible-menu/commit/6ba14360dfa14a663c42ca52417c0511da33019c))
-* bump lint-staged from 15.5.2 to 16.0.0 ([5504df7](https://github.com/NickDJM/accessible-menu/commit/5504df7a197a6d3eb4d7998a3ff707fdfcace14b))
-* bump vite from 5.4.14 to 6.2.1 ([c9260c1](https://github.com/NickDJM/accessible-menu/commit/c9260c11ec215d55bb901d6bceb65dd481868001))
-* **npm:** update globals to latest ([ab75123](https://github.com/NickDJM/accessible-menu/commit/ab751230f81f1fa5325686e85cc6a2ba44453e97))
-* **npm:** update vitest and ui to latest ([f553780](https://github.com/NickDJM/accessible-menu/commit/f553780756aca3c7159b5e19222d233330b70ab5))
+* bump eslint-plugin-jsdoc from 50.8.0 to 52.0.0 ([e6b38f3](https://github.com/NickDJM/accessible-menu/commit/e6b38f34ce1560cd93d97b0d0712316c16c5c984))
+* bump eslint-plugin-jsdoc from 52.0.4 to 54.3.1 ([4780eca](https://github.com/NickDJM/accessible-menu/commit/4780ecae73efd1aa9ec5076f234d1652d7389b5a))
+* bump eslint-plugin-jsdoc from 54.7.0 to 55.0.3 ([c68b54e](https://github.com/NickDJM/accessible-menu/commit/c68b54ec03542c08e12aa6665af8017fd1f4649f))
+* bump jsdom from 26.1.0 to 27.0.0 ([e11a720](https://github.com/NickDJM/accessible-menu/commit/e11a7203b40fb7179cec5749bb5ddb3ef25e75e7))
+* bump vite from 6.3.5 to 7.0.6 ([56cdaf6](https://github.com/NickDJM/accessible-menu/commit/56cdaf6f331f941370c710faef9eab41bfc34428))
+* **docker:** add dev container ([a01ef5f](https://github.com/NickDJM/accessible-menu/commit/a01ef5faf34121f9ebd1bb27f313107f0faf872e))
+* **npm:** update dependencies to latest ([dce22c2](https://github.com/NickDJM/accessible-menu/commit/dce22c277ff487936cdbc97c41f1449d7d84ec09))
+* **release:** update release scripts to generate current release file ([d72ece5](https://github.com/NickDJM/accessible-menu/commit/d72ece579e766f0c33a149b3df882ea1d396668c))
+* upgrade systems to node 24 ([2d77c26](https://github.com/NickDJM/accessible-menu/commit/2d77c26729bbe566515a180fd04ed3498d373489))
 
 
 ### Continuous Integration
 
-* **docs:** update artifact and pages jobs ([7101616](https://github.com/NickDJM/accessible-menu/commit/71016161e6d5de950efdba89e47681b13a0b4384))
+* add release workflow ([32bf54c](https://github.com/NickDJM/accessible-menu/commit/32bf54c507e6584fe14c2b6ac75c56ef73266081))
