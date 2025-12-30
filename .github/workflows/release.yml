@@ -81,18 +81,10 @@ jobs:
       - name: Install modules
         run: npm install
 
-      - name: Publish workspaces to npm (full release)
-        if: needs.meta.outputs.is_prerelease != 'true'
-        run: npm publish --workspaces --access public
-
-      - name: Publish root to npm (full release)
+      - name: Publish to npm (full release)
         if: needs.meta.outputs.is_prerelease != 'true'
         run: npm publish --access public
 
-      - name: Publish workspaces to npm (prerelease)
-        if: needs.meta.outputs.is_prerelease == 'true'
-        run: npm publish --workspaces --access public --tag "${{ needs.meta.outputs.prerelease_type }}"
-
-      - name: Publish root to npm (prerelease)
+      - name: Publish to npm (prerelease)
         if: needs.meta.outputs.is_prerelease == 'true'
         run: npm publish --access public --tag "${{ needs.meta.outputs.prerelease_type }}"
