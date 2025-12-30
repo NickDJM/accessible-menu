@@ -144,7 +144,7 @@ Menubar._handleClick();
 This method will do the following:
 
 - Adds all event listeners listed in [BaseMenu's _handleClick method](./base-menu#method--handleclick).
-- Adds a `pointerup` listener to the `document` so if the user clicks outside of the menu it will close if it is open.
+- Adds a `click` listener to the `document` so if the user clicks outside of the menu it will close if it is open.
 
 ### _handleKeydown <badge type="warning" text="protected" /> {#method--handlekeydown}
 

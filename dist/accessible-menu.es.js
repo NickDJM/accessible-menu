@@ -4,7 +4,7 @@ function v(r, e) {
 function w(r, e) {
   r === "" || r.length === 0 || (typeof r == "string" ? e.classList.remove(r) : e.classList.remove(...r));
 }
-function k(r, e) {
+function D(r, e) {
   try {
     if (typeof e != "object") {
       const t = typeof e;
@@ -83,7 +83,7 @@ function O(r) {
     };
   }
 }
-function S(r) {
+function k(r) {
   try {
     if (typeof r != "object" || Array.isArray(r)) {
       const e = typeof r;
@@ -203,7 +203,7 @@ function q(r) {
   }
 }
 function K(r, e) {
-  if (h("string", { tagName: r }).status && k(HTMLElement, e).status) {
+  if (h("string", { tagName: r }).status && D(HTMLElement, e).status) {
     const t = r.toLowerCase();
     let s = !0;
     for (const n in e)
@@ -937,8 +937,8 @@ class I {
     containerElement: m = null,
     openClass: a = "show",
     closeClass: d = "hide",
-    transitionClass: p = "transitioning",
-    transitionDuration: f = 250,
+    transitionClass: f = "transitioning",
+    transitionDuration: p = 250,
     openDuration: c = -1,
     closeDuration: _ = -1,
     isTopLevel: g = !0,
@@ -947,9 +947,9 @@ class I {
     hoverDelay: C = 250,
     enterDelay: T = -1,
     leaveDelay: E = -1,
-    prefix: D = "am-"
+    prefix: S = "am-"
   }) {
-    this._dom.menu = e, this._dom.controller = u, this._dom.container = m, this._selectors.menuItems = t, this._selectors.menuLinks = s, this._selectors.submenuItems = n, this._selectors.submenuToggles = i, this._selectors.submenus = l, this._elements.menuItems = [], this._elements.submenuToggles = [], this._elements.controller = null, this._elements.parentMenu = M, this._elements.rootMenu = g ? this : null, this._openClass = a || "", this._closeClass = d || "", this._transitionClass = p || "", this._transitionDuration = f, this._openDuration = c, this._closeDuration = _, this._prefix = D || "", this._root = g, this._hoverType = b, this._hoverDelay = C, this._enterDelay = T, this._leaveDelay = E;
+    this._dom.menu = e, this._dom.controller = u, this._dom.container = m, this._selectors.menuItems = t, this._selectors.menuLinks = s, this._selectors.submenuItems = n, this._selectors.submenuToggles = i, this._selectors.submenus = l, this._elements.menuItems = [], this._elements.submenuToggles = [], this._elements.controller = null, this._elements.parentMenu = M, this._elements.rootMenu = g ? this : null, this._openClass = a || "", this._closeClass = d || "", this._transitionClass = f || "", this._transitionDuration = p, this._openDuration = c, this._closeDuration = _, this._prefix = S || "", this._root = g, this._hoverType = b, this._hoverDelay = C, this._enterDelay = T, this._leaveDelay = E;
   }
   /**
    * Initializes the menu.
@@ -1086,7 +1086,7 @@ class I {
     return this.isTopLevel ? this._openClass : this.elements.rootMenu.openClass;
   }
   set openClass(e) {
-    S({ openClass: e }), this._openClass !== e && (this._openClass = e);
+    k({ openClass: e }), this._openClass !== e && (this._openClass = e);
   }
   /**
    * The class(es) to apply when the menu is closed.
@@ -1102,7 +1102,7 @@ class I {
     return this.isTopLevel ? this._closeClass : this.elements.rootMenu.closeClass;
   }
   set closeClass(e) {
-    S({ closeClass: e }), this._closeClass !== e && (this._closeClass = e);
+    k({ closeClass: e }), this._closeClass !== e && (this._closeClass = e);
   }
   /**
    * The class(es) to apply when the menu is transitioning between open and closed.
@@ -1118,7 +1118,7 @@ class I {
     return this.isTopLevel ? this._transitionClass : this.elements.rootMenu.transitionClass;
   }
   set transitionClass(e) {
-    S({ transitionClass: e }), this._transitionClass !== e && (this._transitionClass = e);
+    k({ transitionClass: e }), this._transitionClass !== e && (this._transitionClass = e);
   }
   /**
    * The duration time (in milliseconds) for the transition between open and closed states.
@@ -1381,11 +1381,11 @@ class I {
    */
   _validate() {
     let e = !0, t;
-    this._dom.container !== null || this._dom.controller !== null ? t = k(HTMLElement, {
+    this._dom.container !== null || this._dom.controller !== null ? t = D(HTMLElement, {
       menuElement: this._dom.menu,
       controllerElement: this._dom.controller,
       containerElement: this._dom.container
-    }) : t = k(HTMLElement, {
+    }) : t = D(HTMLElement, {
       menuElement: this._dom.menu
     }), t.status || (this._errors.push(t.error.message), e = !1);
     let s;
@@ -1399,17 +1399,17 @@ class I {
       menuItemSelector: this._selectors.menuItems,
       menuLinkSelector: this._selectors.menuLinks
     }), s.status || (this._errors.push(s.error.message), e = !1), this._openClass !== "") {
-      const c = S({ openClass: this._openClass });
+      const c = k({ openClass: this._openClass });
       c.status || (this._errors.push(c.error.message), e = !1);
     }
     if (this._closeClass !== "") {
-      const c = S({
+      const c = k({
         closeClass: this._closeClass
       });
       c.status || (this._errors.push(c.error.message), e = !1);
     }
     if (this._transitionClass !== "") {
-      const c = S({
+      const c = k({
         transitionClass: this._transitionClass
       });
       c.status || (this._errors.push(c.error.message), e = !1);
@@ -1428,7 +1428,7 @@ class I {
     l.status || (this._errors.push(l.error.message), e = !1);
     const u = h("boolean", { isTopLevel: this._root });
     if (u.status || (this._errors.push(u.error.message), e = !1), this._elements.parentMenu !== null) {
-      const c = k(I, {
+      const c = D(I, {
         parentMenu: this._elements.parentMenu
       });
       c.status || (this._errors.push(c.error.message), e = !1);
@@ -1443,12 +1443,12 @@ class I {
       enterDelay: this._enterDelay
     });
     d.status || (this._errors.push(d.error.message), e = !1);
-    const p = h("number", {
+    const f = h("number", {
       leaveDelay: this._leaveDelay
     });
-    p.status || (this._errors.push(p.error.message), e = !1);
-    const f = h("string", { prefix: this._prefix });
-    return f.status || (this._errors.push(f.error.message), e = !1), e;
+    f.status || (this._errors.push(f.error.message), e = !1);
+    const p = h("string", { prefix: this._prefix });
+    return p.status || (this._errors.push(p.error.message), e = !1), e;
   }
   /**
    * Sets DOM elements within the menu.
@@ -1467,7 +1467,7 @@ class I {
         throw new Error(
           `AccessibleMenu: The "${e}" element cannot be set through _setDOMElementType.`
         );
-      t !== this.dom.menu && k(HTMLElement, { base: t });
+      t !== this.dom.menu && D(HTMLElement, { base: t });
       const i = Array.from(
         t.querySelectorAll(this.selectors[e])
       ).filter(
@@ -1645,12 +1645,12 @@ class I {
   /**
    * Handles click events throughout the menu for proper use.
    *
-   * - Adds a `pointerdown` listener to every menu item that will blur
+   * - Adds a `click` listener to every menu item that will blur
    *   all menu items in the entire menu structure (starting at the root menu) and
    *   then properly focus the clicked item.
-   * - Adds a `pointerup` listener to every submenu item that will properly
+   * - Adds a `click` listener to every submenu item that will properly
    *   toggle the submenu open/closed.
-   * - Adds a `pointerup` listener to the menu's controller
+   * - Adds a `click` listener to the menu's controller
    *   (if the menu is the root menu) so when it is clicked it will properly
    *   toggle open/closed.
    *
@@ -1662,23 +1662,17 @@ class I {
     }
     this.elements.menuItems.forEach((t, s) => {
       t.dom.link.addEventListener(
-        "pointerdown",
+        "click",
         () => {
           this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this._clearTimeout(), this.focusChild(s);
         },
         { passive: !0 }
-      ), t.isSubmenuItem && t.elements.toggle.dom.toggle.addEventListener(
-        "pointerup",
-        (n) => {
-          this.currentEvent = "mouse", e(this, t.elements.toggle, n);
-        }
-      );
-    }), this.isTopLevel && this.elements.controller && this.elements.controller.dom.toggle.addEventListener(
-      "pointerup",
-      (t) => {
-        this.currentEvent = "mouse", e(this, this.elements.controller, t);
-      }
-    ), document.addEventListener("pointerup", (t) => {
+      ), t.isSubmenuItem && t.elements.toggle.dom.toggle.addEventListener("click", (n) => {
+        this.currentEvent = "mouse", e(this, t.elements.toggle, n);
+      });
+    }), this.isTopLevel && this.elements.controller && this.elements.controller.dom.toggle.addEventListener("click", (t) => {
+      this.currentEvent = "mouse", e(this, this.elements.controller, t);
+    }), document.addEventListener("click", (t) => {
       this.focusState !== "none" && (this.currentEvent = "mouse", !this.dom.menu.contains(t.target) && !this.dom.menu !== t.target && (this.elements.rootMenu.hasOpened = this.elements.submenuToggles.some(
         (s) => s.isOpen
       )));
@@ -2116,8 +2110,8 @@ class $ extends I {
     containerElement: m = null,
     openClass: a = "show",
     closeClass: d = "hide",
-    transitionClass: p = "transitioning",
-    transitionDuration: f = 250,
+    transitionClass: f = "transitioning",
+    transitionDuration: p = 250,
     openDuration: c = -1,
     closeDuration: _ = -1,
     isTopLevel: g = !0,
@@ -2126,7 +2120,7 @@ class $ extends I {
     hoverDelay: C = 250,
     enterDelay: T = -1,
     leaveDelay: E = -1,
-    optionalKeySupport: D = !1,
+    optionalKeySupport: S = !1,
     prefix: x = "am-",
     initialize: j = !0
   }) {
@@ -2141,8 +2135,8 @@ class $ extends I {
       containerElement: m,
       openClass: a,
       closeClass: d,
-      transitionClass: p,
-      transitionDuration: f,
+      transitionClass: f,
+      transitionDuration: p,
       openDuration: c,
       closeDuration: _,
       isTopLevel: g,
@@ -2152,7 +2146,7 @@ class $ extends I {
       enterDelay: T,
       leaveDelay: E,
       prefix: x
-    }), this._optionalSupport = D, j && this.initialize();
+    }), this._optionalSupport = S, j && this.initialize();
   }
   /**
    * Initializes the menu.
@@ -2209,13 +2203,13 @@ class $ extends I {
    *
    * - Adds all event listeners listed in
    *   BaseMenu's _handleClick method.
-   * - Adds a `pointerup` listener to the `document` so if the user
+   * - Adds a `click` listener to the `document` so if the user
    *   clicks outside of the menu it will close if it is open.
    *
    * @protected
    */
   _handleClick() {
-    super._handleClick(), document.addEventListener("pointerup", (e) => {
+    super._handleClick(), document.addEventListener("click", (e) => {
       this.focusState !== "none" && (this.currentEvent = "mouse", !this.dom.menu.contains(e.target) && !this.dom.menu !== e.target && (this.closeChildren(), this.blur(), this.elements.controller && this.elements.controller.close(), this.elements.rootMenu.hasOpened = !1));
     });
   }
@@ -2482,8 +2476,8 @@ class F extends I {
     containerElement: m = null,
     openClass: a = "show",
     closeClass: d = "hide",
-    transitionClass: p = "transitioning",
-    transitionDuration: f = 250,
+    transitionClass: f = "transitioning",
+    transitionDuration: p = 250,
     isTopLevel: c = !0,
     parentMenu: _ = null,
     hoverType: g = "off",
@@ -2504,8 +2498,8 @@ class F extends I {
       containerElement: m,
       openClass: a,
       closeClass: d,
-      transitionClass: p,
-      transitionDuration: f,
+      transitionClass: f,
+      transitionDuration: p,
       isTopLevel: c,
       parentMenu: _,
       hoverType: g,
@@ -2545,13 +2539,13 @@ class F extends I {
    *
    * - Adds all event listeners listed in
    *   BaseMenu's _handleClick method.
-   * - Adds a `pointerup` listener to the `document` so if the user
+   * - Adds a `click` listener to the `document` so if the user
    *   clicks outside of the menu it will close if it is open.
    *
    * @protected
    */
   _handleClick() {
-    super._handleClick(), document.addEventListener("pointerup", (e) => {
+    super._handleClick(), document.addEventListener("click", (e) => {
       this.focusState !== "none" && (this.currentEvent = "mouse", !this.dom.menu.contains(e.target) && !this.dom.menu !== e.target && (this.closeChildren(), this.blur(), this.elements.controller && this.elements.controller.close(), this.elements.rootMenu.hasOpened = !1));
     });
   }
@@ -2935,8 +2929,8 @@ class z extends I {
     controllerElement: m = null,
     containerElement: a = null,
     openClass: d = "show",
-    closeClass: p = "hide",
-    transitionClass: f = "transitioning",
+    closeClass: f = "hide",
+    transitionClass: p = "transitioning",
     transitionDuration: c = 250,
     isTopLevel: _ = !0,
     parentMenu: g = null,
@@ -2945,7 +2939,7 @@ class z extends I {
     enterDelay: C = -1,
     leaveDelay: T = -1,
     optionalKeySupport: E = !1,
-    prefix: D = "am-",
+    prefix: S = "am-",
     initialize: x = !0
   }) {
     super({
@@ -2958,8 +2952,8 @@ class z extends I {
       controllerElement: m,
       containerElement: a,
       openClass: d,
-      closeClass: p,
-      transitionClass: f,
+      closeClass: f,
+      transitionClass: p,
       transitionDuration: c,
       isTopLevel: _,
       parentMenu: g,
@@ -2967,7 +2961,7 @@ class z extends I {
       hoverDelay: b,
       enterDelay: C,
       leaveDelay: T,
-      prefix: D
+      prefix: S
     }), this._optionalSupport = E, this._selectors.menuItems = t, this._selectors.submenuItems = n, this._selectors.submenuToggles = i, this._selectors.submenus = l, this._selectors.submenuSubtoggles = u, this._selectors.menuLinks = [
       .../* @__PURE__ */ new Set([s, i])
     ].join(","), x && this.initialize();
@@ -3093,13 +3087,13 @@ class z extends I {
    *
    * - Adds all event listeners listed in
    *   BaseMenu's _handleClick method, and
-   * - adds a `pointerup` listener to the `document` so if the user
+   * - adds a `click` listener to the `document` so if the user
    *   clicks outside of the menu it will close if it is open.
    *
    * @protected
    */
   _handleClick() {
-    super._handleClick(), document.addEventListener("pointerup", (e) => {
+    super._handleClick(), document.addEventListener("click", (e) => {
       this.focusState !== "none" && (this.currentEvent = "mouse", !this.dom.menu.contains(e.target) && !this.dom.menu !== e.target && (this.closeChildren(), this.blur(), this.elements.controller && this.elements.controller.close(), this.elements.rootMenu.hasOpened = !1));
     });
   }
@@ -3425,8 +3419,8 @@ class H extends I {
     containerElement: m = null,
     openClass: a = "show",
     closeClass: d = "hide",
-    transitionClass: p = "transitioning",
-    transitionDuration: f = 250,
+    transitionClass: f = "transitioning",
+    transitionDuration: p = 250,
     isTopLevel: c = !0,
     parentMenu: _ = null,
     hoverType: g = "off",
@@ -3447,8 +3441,8 @@ class H extends I {
       containerElement: m,
       openClass: a,
       closeClass: d,
-      transitionClass: p,
-      transitionDuration: f,
+      transitionClass: f,
+      transitionDuration: p,
       isTopLevel: c,
       parentMenu: _,
       hoverType: g,
@@ -3651,11 +3645,11 @@ class H extends I {
   focusNextNodeWithCharacter(e) {
     function t(a) {
       let d = [];
-      return a.elements.menuItems.forEach((p) => {
-        d.push(p), p.isSubmenuItem && p.elements.toggle.isOpen && (d = [
+      return a.elements.menuItems.forEach((f) => {
+        d.push(f), f.isSubmenuItem && f.elements.toggle.isOpen && (d = [
           ...d,
           ...t(
-            p.elements.toggle.elements.controlledMenu
+            f.elements.toggle.elements.controlledMenu
           )
         ]);
       }), d;
@@ -3669,8 +3663,8 @@ class H extends I {
       let a = "";
       if (l[u].dom.item.innerText ? a = l[u].dom.item.innerText : a = l[u].dom.item.textContent, a = a.replace(/[\s]/g, "").toLowerCase().charAt(0), a === s) {
         m = !0;
-        const d = l[u].elements.parentMenu, p = d.elements.menuItems.indexOf(l[u]);
-        this.elements.rootMenu.blurChildren(), d.focusChild(p);
+        const d = l[u].elements.parentMenu, f = d.elements.menuItems.indexOf(l[u]);
+        this.elements.rootMenu.blurChildren(), d.focusChild(f);
       }
       u++;
     }
