@@ -219,7 +219,7 @@ class DisclosureMenu extends BaseMenu {
    *
    * - Adds all event listeners listed in
    *   BaseMenu's _handleClick method.
-   * - Adds a `pointerup` listener to the `document` so if the user
+   * - Adds a `click` listener to the `document` so if the user
    *   clicks outside of the menu it will close if it is open.
    *
    * @protected
@@ -228,7 +228,7 @@ class DisclosureMenu extends BaseMenu {
     super._handleClick();
 
     // Close the menu if a click event happens outside of it.
-    document.addEventListener("pointerup", (event) => {
+    document.addEventListener("click", (event) => {
       if (this.focusState !== "none") {
         this.currentEvent = "mouse";
 

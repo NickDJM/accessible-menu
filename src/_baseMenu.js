@@ -1475,12 +1475,12 @@ class BaseMenu {
   /**
    * Handles click events throughout the menu for proper use.
    *
-   * - Adds a `pointerdown` listener to every menu item that will blur
+   * - Adds a `click` listener to every menu item that will blur
    *   all menu items in the entire menu structure (starting at the root menu) and
    *   then properly focus the clicked item.
-   * - Adds a `pointerup` listener to every submenu item that will properly
+   * - Adds a `click` listener to every submenu item that will properly
    *   toggle the submenu open/closed.
-   * - Adds a `pointerup` listener to the menu's controller
+   * - Adds a `click` listener to the menu's controller
    *   (if the menu is the root menu) so when it is clicked it will properly
    *   toggle open/closed.
    *
@@ -1512,7 +1512,7 @@ class BaseMenu {
     this.elements.menuItems.forEach((item, index) => {
       // Properly focus the current menu item.
       item.dom.link.addEventListener(
-        "pointerdown",
+        "click",
         () => {
           this.currentEvent = "mouse";
           this.elements.rootMenu.blurChildren();
@@ -1524,29 +1524,23 @@ class BaseMenu {
 
       // Properly toggle submenus open and closed.
       if (item.isSubmenuItem) {
-        item.elements.toggle.dom.toggle.addEventListener(
-          "pointerup",
-          (event) => {
-            this.currentEvent = "mouse";
-            toggleToggle(this, item.elements.toggle, event);
-          }
-        );
+        item.elements.toggle.dom.toggle.addEventListener("click", (event) => {
+          this.currentEvent = "mouse";
+          toggleToggle(this, item.elements.toggle, event);
+        });
       }
     });
 
     // Open the this menu if it's controller is clicked.
     if (this.isTopLevel && this.elements.controller) {
-      this.elements.controller.dom.toggle.addEventListener(
-        "pointerup",
-        (event) => {
-          this.currentEvent = "mouse";
-          toggleToggle(this, this.elements.controller, event);
-        }
-      );
+      this.elements.controller.dom.toggle.addEventListener("click", (event) => {
+        this.currentEvent = "mouse";
+        toggleToggle(this, this.elements.controller, event);
+      });
     }
 
     // If the menu has no open children, set hasOpened to false.
-    document.addEventListener("pointerup", (event) => {
+    document.addEventListener("click", (event) => {
       if (this.focusState !== "none") {
         this.currentEvent = "mouse";
 
