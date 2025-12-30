@@ -56,6 +56,12 @@ const config = {
       hidden: false,
     },
   ],
+  scripts: {
+    prerelease: "npm run lint && npm run build && npm run test:run",
+    prechangelog: "rm -f CURRENT_RELEASE.md",
+    postchangelog: "node scripts/current-release.js",
+    precommit: "git add dist/. CURRENT_RELEASE.md",
+  },
 };
 
 module.exports = config;
