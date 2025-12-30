@@ -36,8 +36,8 @@ const RELEASE_HEADING_RE =
 /**
  * Normalizes Windows-style CRLF newlines to LF.
  *
- * @param {string} input
- * @return {string}
+ * @param {string} input - Input text
+ * @return {string} Text with normalized newlines
  */
 function normalizeNewlines(input) {
   return input.replace(/\r\n/g, "\n");
