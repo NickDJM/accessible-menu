@@ -597,6 +597,9 @@ describe("DisclosureMenu (custom arguments)", () => {
 describe("DisclosureMenu (controlled initialization)", () => {
   // Test that the menu will initialize if initialize is set to true.
   it("should initialize if initialize is set to true", () => {
+    // Mock the initialize method.
+    DisclosureMenu.prototype.initialize = vi.fn();
+
     // Spy on the initialize method.
     vi.spyOn(DisclosureMenu.prototype, "initialize");
 
@@ -612,6 +615,9 @@ describe("DisclosureMenu (controlled initialization)", () => {
 
   // Test that the menu will not initialize if initialize is set to false.
   it("should not initialize if initialize is set to false", () => {
+    // Mock the initialize method.
+    DisclosureMenu.prototype.initialize = vi.fn();
+
     // Spy on the initialize method.
     vi.spyOn(DisclosureMenu.prototype, "initialize");
 

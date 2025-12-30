@@ -573,6 +573,9 @@ describe("Menubar (custom arguments)", () => {
 describe("Menubar (controlled initialization)", () => {
   // Test that the menu will initialize if initialize is set to true.
   it("should initialize if initialize is set to true", () => {
+    // Mock the initialize method.
+    Menubar.prototype.initialize = vi.fn();
+
     // Spy on the initialize method.
     vi.spyOn(Menubar.prototype, "initialize");
 
@@ -588,6 +591,9 @@ describe("Menubar (controlled initialization)", () => {
 
   // Test that the menu will not initialize if initialize is set to false.
   it("should not initialize if initialize is set to false", () => {
+    // Mock the initialize method.
+    Menubar.prototype.initialize = vi.fn();
+
     // Spy on the initialize method.
     vi.spyOn(Menubar.prototype, "initialize");
 

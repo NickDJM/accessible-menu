@@ -30,6 +30,7 @@ const config = {
         allow: ["warn", "error"],
       },
     ],
+    "jsdoc/reject-function-type": 0,
     "jsdoc/no-defaults": 0,
     "jsdoc/tag-lines": [
       "warn",
