@@ -1011,9 +1011,9 @@ BaseMenu._handleClick();
 
 This method will do the following:
 
-- Adds a `pointerdown` listener to every menu item that will blur all menu items in the entire menu structure (starting at the root menu) and then properly focus the clicked item.
-- Adds a `pointerup` listener to every submenu item that will properly toggle the submenu open/closed.
-- Adds a `pointerup` listener to the menu's controller (if the menu is the root menu) so when it is clicked it will properly toggle open/closed.
+- Adds a `click` listener to every menu item that will blur all menu items in the entire menu structure (starting at the root menu) and then properly focus the clicked item.
+- Adds a `click` listener to every submenu item that will properly toggle the submenu open/closed.
+- Adds a `click` listener to the menu's controller (if the menu is the root menu) so when it is clicked it will properly toggle open/closed.
 
 ### _handleHover <badge type="warning" text="protected" /> {#method--handlehover}
 
