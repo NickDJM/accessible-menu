@@ -87,7 +87,7 @@
     "prepare": "husky || true",
     "commit": "git cz",
     "eslint": "eslint .",
-    "prettier": "prettier **/*.{js,cjs,mjs}",
+    "prettier": "prettier **/*.{js,cjs}",
     "lint": "npm run eslint -- --fix && npm run prettier -- --write",
     "release": "commit-and-tag-version -a",
     "prebuild": "npm run docs:build",
