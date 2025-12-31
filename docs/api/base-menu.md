@@ -207,41 +207,28 @@ BaseMenu._classes;
 | close | `string`, `string[]` | The class(es) to apply when the menu is closed. | `"hide"` |
 | transition | `string`, `string[]` | The class(es) to apply when the menu is transitioning between states. | `"transitioning"` |
 
-### _transitionDuration <badge type="warning" text="protected" /> {#property--transitionduration}
+### _durations <badge type="warning" text="protected" /> {#property--durations}
 
-The duration time (in milliseconds) for the transition between open and closed states.
-
-```js
-BaseMenu._transitionDuration; // Default: `250`.
-```
-
-#### Type {#property--transitionduration--type}
-
-`number`
-
-### _openDuration <badge type="warning" text="protected" /> {#property--openduration}
-
-The duration time (in milliseconds) for the transition from closed to open states.
+The duration times (in milliseconds) for various menu transitions and events.
 
 ```js
-BaseMenu._openDuration; // Default: `-1`.
+BaseMenu._durations;
 ```
 
-#### Type {#property--openduration--type}
+#### Type {#property--durations--type}
 
-`number`
+`Object<number>`
 
-### _closeDuration <badge type="warning" text="protected" /> {#property--closeduration}
+#### Properties {#property--durations--properties}
 
-The duration time (in milliseconds) for the transition from open to closed states.
-
-```js
-BaseMenu._closeDuration; // Default: `-1`.
-```
-
-#### Type {#property--closeduration--type}
-
-`number`
+| Name | Type | Description | Default |
+| --- | --- | --- | --- |
+| transition | `number` | The duration time (in milliseconds) for the transition between open and closed states. | `250` |
+| open | `number` | The duration time (in milliseconds) for the transition from closed to open states. | `-1` |
+| close | `number` | The duration time (in milliseconds) for the transition from open to closed states. | `-1` |
+| hover | `number` | The delay time (in milliseconds) used for pointerenter/pointerleave events to take place. | `250` |
+| enter | `number` | The delay time (in milliseconds) used for pointerenter events to take place. | `-1` |
+| leave | `number` | The delay time (in milliseconds) used for pointerleave events to take place. | `-1` |
 
 ### _root <badge type="warning" text="protected" /> {#property--root}
 
@@ -310,42 +297,6 @@ You can read more about [supported hover types](../hover-types) in the docs.
 #### Type {#property--hovertype--type}
 
 `string`
-
-### _hoverDelay <badge type="warning" text="protected" /> {#property--hoverdelay}
-
-The delay time (in milliseconds) used for pointerenter/pointerleave events to take place.
-
-```js
-BaseMenu._hoverDelay; // Default: `250`.
-```
-
-#### Type {#property--hoverdelay--type}
-
-`number`
-
-### _enterDelay <badge type="warning" text="protected" /> {#property--enterdelay}
-
-The delay time (in milliseconds) used for pointerenter events to take place.
-
-```js
-BaseMenu._enterDelay; // Default: `-1`.
-```
-
-#### Type {#property--enterdelay--type}
-
-`number`
-
-### _leaveDelay <badge type="warning" text="protected" /> {#property--leavedelay}
-
-The delay time (in milliseconds) used for pointerleave events to take place.
-
-```js
-BaseMenu._leaveDelay; // Default: `-1`.
-```
-
-#### Type {#property--leavedelay--type}
-
-`number`
 
 ### _prefix <badge type="warning" text="protected" /> {#property--prefix}
 
@@ -557,7 +508,7 @@ This functions differently for root vs. submenus. Submenus will always inherit t
 
 Setting this value will also set the `--am-transition-duration` CSS custom property on the menu.
 
-See [_transitionDuration](#property--transitionduration) for more information.
+See [_durations.transition](#property--durations) for more information.
 
 ### openDuration {#getter-setter--openduration}
 
@@ -579,7 +530,7 @@ This functions differently for root vs. submenus. Submenus will always inherit t
 
 Setting this value will also set the `--am-open-transition-duration` CSS custom property on the menu.
 
-See [_openDuration](#property--openduration) for more information.
+See [_durations.open](#property--durations) for more information.
 
 ### closeDuration {#getter-setter--closeduration}
 
@@ -601,7 +552,7 @@ This functions differently for root vs. submenus. Submenus will always inherit t
 
 Setting this value will also set the `--am-close-transition-duration` CSS custom property on the menu.
 
-See [_closeDuration](#property--closeduration) for more information.
+See [_durations.close](#property--durations) for more information.
 
 ### currentChild {#getter-setter--currentchild}
 
@@ -723,7 +674,7 @@ BaseMenu.hoverDelay = 250;
 
 This functions differently for root vs. submenus. Submenus will always inherit their root menu's hover delay.
 
-See [_hoverDelay](#property--hoverdelay) for more information.
+See [_durations.hover](#property--durations) for more information.
 
 ### enterDelay {#getter-setter--enterdelay}
 
@@ -745,7 +696,7 @@ If enterDelay is set to -1, the hoverDelay value will be used instead.
 
 This functions differently for root vs. submenus. Submenus will always inherit their root menu's enter delay.
 
-See [_enterDelay](#property--enterdelay) for more information.
+See [_durations.enter](#property--durations) for more information.
 
 ### leaveDelay {#getter-setter--leavedelay}
 
@@ -767,7 +718,7 @@ If leaveDelay is set to -1, the hoverDelay value will be used instead.
 
 This functions differently for root vs. submenus. Submenus will always inherit their root menu's leave delay.
 
-See [_leaveDelay](#property--leavedelay) for more information.
+See [_durations.leave](#property--durations) for more information.
 
 ### prefix {#getter-setter--prefix}
 

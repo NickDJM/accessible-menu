@@ -42,7 +42,24 @@ The corresponding getters/setters still exist, but now reference the appropriate
 
 A new read-only `classes` getter has been added in addiotion to the existing getter/setters.
 
+#### Duration and delay fields
+
+All "duration" fields (`_transitionDuration`, `_openDuration`, and `_closeDuration`) and all "delay" fields (`_hoverDelay`, `_enterDelay`, and `_leaveDelay`) have been merged into a single `_durations` field.
+
 ```js
+_durations = {
+  transition: 250,
+  open: -1,
+  close: -1,
+  hover: 250,
+  enter: -1,
+  leave: -1,
+}
+```
+
+The corresponding getters/setters still exist, but now reference the appropriate `_durations` property.
+
+A new read-only `durations` getter has been added in addiotion to the existing getter/setters.
 
 ## Upgrading from v1, v2, or v3
 
