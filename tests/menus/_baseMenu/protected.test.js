@@ -143,51 +143,6 @@ describe("BaseMenu protected methods", () => {
     });
   });
 
-  // Test BaseMenu _clearTimeout().
-  describe("_clearTimeout", () => {
-    // Test that _clearTimeout clears the timeout.
-    it("should clear the timeout", () => {
-      // Create a new BaseMenu instance for testing.
-      const menu = new BaseMenu({
-        menuElement: document.querySelector("ul"),
-        containerElement: document.querySelector("nav"),
-        controllerElement: document.querySelector("button"),
-      });
-      initializeMenu(menu);
-
-      // Set up to check for _clearTimeout.
-      const spy = vi.spyOn(window, "clearTimeout");
-
-      menu._clearTimeout();
-
-      expect(spy).toHaveBeenCalledWith(menu._hoverTimeout);
-    });
-  });
-
-  // Test BaseMenu _setTimeout().
-  describe("_setTimeout", () => {
-    // Test that _setTimeout sets a timeout.
-    it("should set a timeout", () => {
-      // Create a new BaseMenu instance for testing.
-      const menu = new BaseMenu({
-        menuElement: document.querySelector("ul"),
-        containerElement: document.querySelector("nav"),
-        controllerElement: document.querySelector("button"),
-      });
-      initializeMenu(menu);
-
-      const callback = () => {};
-      const delay = 250;
-
-      // Set up to check for _setTimeout.
-      const spy = vi.spyOn(window, "setTimeout");
-
-      menu._setTimeout(callback, delay);
-
-      expect(spy).toHaveBeenCalledWith(callback, delay);
-    });
-  });
-
   describe("_setIds", () => {
     // Test that _setIds sets the menu's id attribute to a generated value when it doesn't have an existing id.
     it("should set the menu's id attribute to a generated value when it doesn't have an existing id", () => {
@@ -560,6 +515,135 @@ describe("BaseMenu protected methods", () => {
         ).length
       ).toBe(0);
       expect(menu._listeners.length).toBeGreaterThan(0);
+    });
+  });
+
+  describe("_setTimeout", () => {
+    // Test that _setTimeout sets a timeout.
+    it("should set a timeout", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+
+      const mockCallback = vi.fn();
+      const delay = 250;
+
+      // Set up to check for _setTimeout.
+      const spy = vi.spyOn(window, "setTimeout");
+
+      menu._setTimeout(mockCallback, delay);
+      expect(spy).toHaveBeenCalledWith(mockCallback, delay);
+    });
+
+    // Test that _setTimeout stores the timeout in the _timeouts object with the default scope.
+    it("should store the timeout in the _timeouts object with the default scope", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+
+      const mockCallback = vi.fn();
+      const delay = 250;
+
+      menu._setTimeout(mockCallback, delay);
+      expect(menu._timeouts["_default"]).toBeDefined();
+    });
+
+    // Test that _setTimeout stores the timeout in the _timeouts object with a custom scope.
+    it("should store the timeout in the _timeouts object with a custom scope", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+
+      const mockCallback = vi.fn();
+      const delay = 250;
+      const scope = "customScope";
+
+      menu._setTimeout(mockCallback, delay, scope);
+      expect(menu._timeouts[scope]).toBeDefined();
+    });
+  });
+
+  describe("_clearTimeout", () => {
+    // Test that _clearTimeout clears the timeout.
+    it("should clear the timeout", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+
+      const mockCallback = vi.fn();
+      const delay = 250;
+
+      // Set up to check for _clearTimeout.
+      const spy = vi.spyOn(window, "clearTimeout");
+
+      menu._setTimeout(mockCallback, delay);
+      menu._clearTimeout();
+      expect(spy).toHaveBeenCalledWith(menu._timeouts["_default"]);
+    });
+
+    // Test that _clearTimeout clears the timeout with a custom scope.
+    it("should clear the timeout with a custom scope", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+
+      const mockCallback = vi.fn();
+      const delay = 250;
+      const scope = "customScope";
+
+      // Set up to check for _clearTimeout.
+      const spy = vi.spyOn(window, "clearTimeout");
+
+      menu._setTimeout(mockCallback, delay, scope);
+      menu._clearTimeout(scope);
+      expect(spy).toHaveBeenCalledWith(menu._timeouts[scope]);
+    });
+  });
+
+  describe("_clearTimeouts", () => {
+    // Test that _clearTimeouts clears all timeouts.
+    it("should clear all timeouts", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+
+      const mockCallback1 = vi.fn();
+      const mockCallback2 = vi.fn();
+      const delay = 250;
+
+      // Set up to check for _clearTimeouts.
+      const spy = vi.spyOn(window, "clearTimeout");
+
+      menu._setTimeout(mockCallback1, delay, "timeout1");
+      menu._setTimeout(mockCallback2, delay, "timeout2");
+      menu._clearTimeouts();
+
+      expect(spy).toHaveBeenCalledWith(menu._timeouts["timeout1"]);
+      expect(spy).toHaveBeenCalledWith(menu._timeouts["timeout2"]);
     });
   });
 });
