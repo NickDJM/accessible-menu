@@ -35,6 +35,7 @@ new Menubar({
   enterDelay,
   leaveDelay,
   prefix,
+  key,
   initialize,
 });
 ```
@@ -67,6 +68,7 @@ The constructor will call [BaseMenu's constructor](./base-menu#constructor) with
 | options.enterDelay | `number` | The delay for opening a menu if the menu is focusable (in milliseconds). | `-1` |
 | options.leaveDelay | `number` | The delay for closing a menu if the menu is focusable (in milliseconds). | `-1` |
 | options.prefix | `string`, `null` | The prefix for the CSS custom properties. | `"am-"` |
+| options.key | `string`, `null` | The key used to generate IDs throughout the menu. | `null` |
 | options.initialize | `boolean` | A flag to initialize the menu immediately upon creation. | `true` |
 
 ## Initialize

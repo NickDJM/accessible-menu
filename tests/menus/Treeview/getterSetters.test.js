@@ -428,6 +428,33 @@ describe("Treeview getter/setters", () => {
     });
   });
 
+  // Test Treeview key.
+  describe("key", () => {
+    // Test that key gets the key value.
+    it("should get the key value", () => {
+      // Create a new Treeview instance for testing.
+      const menu = new Treeview({
+        menuElement: document.querySelector("ul"),
+      });
+
+      expect(menu.key).toBe(menu._key);
+    });
+
+    // Test that key cannot set the key value.
+    it("should not set the key value", () => {
+      // Create a new Treeview instance for testing.
+      const menu = new Treeview({
+        menuElement: document.querySelector("ul"),
+      });
+
+      expect(() => {
+        menu.key = "test-";
+      }).toThrowError(
+        "Cannot set property key of #<BaseMenu> which has only a getter"
+      );
+    });
+  });
+
   // Test Treeview shouldFocus.
   describe("shouldFocus", () => {
     // Test that Treeview implements the BaseMenu shouldFocus getter.

@@ -73,6 +73,7 @@ class Menubar extends BaseMenu {
    * @param {number}             [options.enterDelay = -1]                  - The delay for opening a menu if the menu is focusable (in milliseconds).
    * @param {number}             [options.leaveDelay = -1]                  - The delay for closing a menu if the menu is focusable (in milliseconds).
    * @param {?string}            [options.prefix = am-]                     - The prefix to use for CSS custom properties.
+   * @param {?string}            [options.key = null]                       - The key used to generate IDs throughout the menu.
    * @param {boolean}            [options.initialize = true]                - A flag to initialize the menu immediately upon creation.
    */
   constructor({
@@ -95,6 +96,7 @@ class Menubar extends BaseMenu {
     enterDelay = -1,
     leaveDelay = -1,
     prefix = "am-",
+    key = null,
     initialize = true,
   }) {
     super({
@@ -117,6 +119,7 @@ class Menubar extends BaseMenu {
       enterDelay,
       leaveDelay,
       prefix,
+      key,
     });
 
     if (initialize) {

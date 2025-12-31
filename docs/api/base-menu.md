@@ -32,6 +32,7 @@ new BaseMenu({
   enterDelay,
   leaveDelay,
   prefix,
+  key,
 });
 ```
 
@@ -63,6 +64,7 @@ The constructor populates the dom, selector, CSS class, and hover related proper
 | options.enterDelay | `number` | The delay for opening menus if the menu is hoverable (in milliseconds). | `-1` |
 | options.leaveDelay | `number` | The delay for closing menus if the menu is hoverable (in milliseconds). | `-1` |
 | options.prefix | `string`, `null` | The prefix for the CSS custom properties. | `"am-"` |
+| options.key | `string`, `null` | The key used to generate IDs throughout the menu. | `null` |
 
 ## Initialize
 

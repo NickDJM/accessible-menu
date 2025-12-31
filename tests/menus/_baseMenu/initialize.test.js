@@ -672,4 +672,32 @@ describe("BaseMenu (custom arguments)", () => {
       initializeMenu(menu);
     }).toThrow('leaveDelay must be a number. "string" given.');
   });
+
+  // Test that the BaseMenu will initialize if a valid key is passed.
+  it("should initialize if a valid key is passed", () => {
+    // Create a new BaseMenu instance for testing.
+    const menu = new BaseMenu({
+      menuElement: document.querySelector("ul"),
+      key: "test",
+    });
+
+    // Test that the menu initializes.
+    expect(() => {
+      initializeMenu(menu);
+    }).not.toThrow();
+  });
+
+  // Test that the BaseMenu will throw an error if an invalid key is passed.
+  it("should throw an error if an invalid key is passed", () => {
+    // Create a new BaseMenu instance for testing.
+    const menu = new BaseMenu({
+      menuElement: document.querySelector("ul"),
+      key: 1,
+    });
+
+    // Test that the menu throws an error.
+    expect(() => {
+      initializeMenu(menu);
+    }).toThrow('key must be a string. "number" given.');
+  });
 });
