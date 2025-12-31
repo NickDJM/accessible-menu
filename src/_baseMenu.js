@@ -1889,10 +1889,30 @@ class BaseMenu {
   /**
    * Removes all event listeners registered in the menu.
    *
+   * This can be filtered by type and/or element.
+   *
    * @protected
+   *
+   * @param {object}       [options = {}]           - Options for removing listeners.
+   * @param {?string}      [options.type = null]    - The type of event to remove. If null, all types are removed.
+   * @param {?HTMLElement} [options.element = null] - The element to remove listeners from. If null, all elements are removed.
    */
-  _removeEventListeners() {
-    this._listeners.forEach(({ type, element, listener, options }) => {
+  _removeEventListeners({ type = null, element = null } = {}) {
+    let listeners = this._listeners;
+
+    if (type !== null) {
+      listeners = this._listeners.filter((listener) => {
+        return listener.type === type;
+      });
+    }
+
+    if (element !== null) {
+      listeners = listeners.filter((listener) => {
+        return listener.element === element;
+      });
+    }
+
+    listeners.forEach(({ type, element, listener, options }) => {
       this._removeEventListener(type, element, listener, options);
     });
   }
