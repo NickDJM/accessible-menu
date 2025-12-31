@@ -67,6 +67,12 @@ All event listeners are now set through a wrapper method (`_addEventListener`). 
 
 This change is to facilitate better cleanup of the menu if it is ever detroyed.
 
+#### Timeouts
+
+The `_setTimeout` method had been reworked to accept a scope parameter. This allows the menu to keep track of multiple timeouts and clear them through the reworked `_clearTimeout` method (which now also accepts a scope parameter) and a new `_clearTimeouts` method.
+
+This change is to facilitate better cleanup of the menu if it is ever detroyed.
+
 ## Upgrading from v1, v2, or v3
 
 If you're still using v1, v2, or v3 you will need to follow the upgrade guides for those versions before upgrading to v5.
