@@ -189,41 +189,25 @@ BaseMenu._elements;
 | parentMenu | `BaseMenu`, `null` | The parent menu. | `null` |
 | rootMenu | `BaseMenu`, `null` | The root menu of the menu tree. | `null` |
 
-### _openClass <badge type="warning" text="protected" /> {#property--openclass}
+### _classes <badge type="warning" text="protected" /> {#property--classes}
 
-The class(es) to apply when the menu is open.
-
-```js
-BaseMenu._openClass; // Default: `"show"`.
-```
-
-#### Type {#property--openclass--type}
-
-`string`, `string[]`
-
-### _closeClass <badge type="warning" text="protected" /> {#property--closeclass}
-
-The class(es) to apply when the menu is closed.
+The classes to apply when the menu is in various states.
 
 ```js
-BaseMenu._closeClass; // Default: `"hide"`.
+BaseMenu._classes;
 ```
 
-#### Type {#property--closeclass--type}
+#### Type {#property--classes--type}
 
-`string`, `string[]`
+`Object<string, string[]>`
 
-### _transitionClass <badge type="warning" text="protected" /> {#property--transitionclass}
+#### Properties {#property--classes--properties}
 
-The class(es) to apply when the menu is transitioning between states.
-
-```js
-BaseMenu._transitionClass; // Default: `"transitioning`"
-```
-
-#### Type {#property--transitionclass--type}
-
-`string`, `string[]`
+| Name | Type | Description | Default |
+| --- | --- | --- | --- |
+| open | `string`, `string[]` | The class(es) to apply when the menu is open. | `"show"` |
+| close | `string`, `string[]` | The class(es) to apply when the menu is closed. | `"hide"` |
+| transition | `string`, `string[]` | The class(es) to apply when the menu is transitioning between states. | `"transitioning"` |
 
 ### _transitionDuration <badge type="warning" text="protected" /> {#property--transitionduration}
 
@@ -513,7 +497,7 @@ BaseMenu.openClass = "show";
 
 This functions differently for root vs. submenus. Submenus will always inherit their root menu's open class(es).
 
-See [_openClass](#property--openclass) for more information.
+See [_classes.open](#property--classes) for more information.
 
 ### closeClass {#getter-setter--closeclass}
 
@@ -533,7 +517,7 @@ BaseMenu.closeClass = "hide";
 
 This functions differently for root vs. submenus. Submenus will always inherit their root menu's close class(es).
 
-See [_closeClass](#property--closeclass) for more information.
+See [_classes.close](#property--classes) for more information.
 
 ### transitionClass {#getter-setter--transitionclass}
 
@@ -553,7 +537,7 @@ BaseMenu.transitionClass = "transitioning";
 
 This functions differently for root vs. submenus. Submenus will always inherit their root menu's transition class(es).
 
-See [_transitionClass](#property--transitionclass) for more information.
+See [_classes.transition](#property--classes) for more information.
 
 ### transitionDuration {#getter-setter--transitionduration}
 

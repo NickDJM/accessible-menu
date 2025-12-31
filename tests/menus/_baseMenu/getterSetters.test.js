@@ -32,6 +32,21 @@ describe("BaseMenu getter/setters", () => {
 
       expect(menu.dom).toEqual(menu._dom);
     });
+
+    // Test that dom cannot set the DOM elements.
+    it("should not set the DOM elements", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      expect(() => {
+        menu.dom = {};
+      }).toThrowError(
+        "Cannot set property dom of #<BaseMenu> which has only a getter"
+      );
+    });
   });
 
   // Test BaseMenu selectors.
@@ -46,6 +61,21 @@ describe("BaseMenu getter/setters", () => {
 
       expect(menu.selectors).toEqual(menu._selectors);
     });
+
+    // Test that selectors cannot set the selectors.
+    it("should not set the selectors", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      expect(() => {
+        menu.selectors = {};
+      }).toThrowError(
+        "Cannot set property selectors of #<BaseMenu> which has only a getter"
+      );
+    });
   });
 
   // Test BaseMenu elements.
@@ -59,6 +89,50 @@ describe("BaseMenu getter/setters", () => {
       initializeMenu(menu);
 
       expect(menu.elements).toEqual(menu._elements);
+    });
+
+    // Test that elements cannot set the elements.
+    it("should not set the elements", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      expect(() => {
+        menu.elements = {};
+      }).toThrowError(
+        "Cannot set property elements of #<BaseMenu> which has only a getter"
+      );
+    });
+  });
+
+  // Test BaseMenu classes.
+  describe("classes", () => {
+    // Test that classes gets the classes.
+    it("should get the classes", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      expect(menu.classes).toEqual(menu._classes);
+    });
+
+    // Test that classes cannot set the classes.
+    it("should not set the classes", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      expect(() => {
+        menu.classes = {};
+      }).toThrowError(
+        "Cannot set property classes of #<BaseMenu> which has only a getter"
+      );
     });
   });
 
@@ -87,7 +161,7 @@ describe("BaseMenu getter/setters", () => {
       });
       initializeMenu(menu);
 
-      expect(menu.openClass).toBe(menu._openClass);
+      expect(menu.openClass).toBe(menu._classes.open);
     });
 
     // Test that openClass sets the open class name.
@@ -105,7 +179,7 @@ describe("BaseMenu getter/setters", () => {
       menu.openClass = "test-open";
 
       expect(spy).toHaveBeenCalledWith({ openClass: "test-open" });
-      expect(menu._openClass).toBe("test-open");
+      expect(menu._classes.open).toBe("test-open");
     });
   });
 
@@ -120,7 +194,7 @@ describe("BaseMenu getter/setters", () => {
       });
       initializeMenu(menu);
 
-      expect(menu.closeClass).toBe(menu._closeClass);
+      expect(menu.closeClass).toBe(menu._classes.close);
     });
 
     // Test that closeClass sets the close class name.
@@ -138,7 +212,7 @@ describe("BaseMenu getter/setters", () => {
       menu.closeClass = "test-close";
 
       expect(spy).toHaveBeenCalledWith({ closeClass: "test-close" });
-      expect(menu._closeClass).toBe("test-close");
+      expect(menu._classes.close).toBe("test-close");
     });
   });
 
@@ -153,7 +227,7 @@ describe("BaseMenu getter/setters", () => {
       });
       initializeMenu(menu);
 
-      expect(menu.transitionClass).toBe(menu._transitionClass);
+      expect(menu.transitionClass).toBe(menu._classes.transition);
     });
 
     // Test that transitionClass sets the transition class name.
@@ -171,7 +245,7 @@ describe("BaseMenu getter/setters", () => {
       menu.transitionClass = "test-transition";
 
       expect(spy).toHaveBeenCalledWith({ transitionClass: "test-transition" });
-      expect(menu._transitionClass).toBe("test-transition");
+      expect(menu._classes.transition).toBe("test-transition");
     });
   });
 

@@ -635,7 +635,7 @@ class x {
     });
   }
 }
-function M(n) {
+function C(n) {
   try {
     const e = n.key || n.keyCode, t = {
       Enter: e === "Enter" || e === 13,
@@ -749,29 +749,21 @@ class T {
     rootMenu: null
   };
   /**
-   * The class(es) to apply when the menu is open.
+   * The classes to apply when the menu is in various states.
    *
    * @protected
    *
-   * @type {string|string[]}
+   * @type {Object<string|string[]>}
+   *
+   * @property {string|string[]} open       - The class(es) to apply when the menu is open.
+   * @property {string|string[]} close      - The class(es) to apply when the menu is closed.
+   * @property {string|string[]} transition - The class(es) to apply when the menu is transitioning between states.
    */
-  _openClass = "show";
-  /**
-   * The class(es) to apply when the menu is closed.
-   *
-   * @protected
-   *
-   * @type {string|string[]}
-   */
-  _closeClass = "hide";
-  /**
-   * The class(es) to apply when the menu is transitioning between states.
-   *
-   * @protected
-   *
-   * @type {string|string[]}
-   */
-  _transitionClass = "transitioning";
+  _classes = {
+    open: "show",
+    close: "hide",
+    transition: "transitioning"
+  };
   /**
    * The duration time (in milliseconds) for the transition between open and closed states.
    *
@@ -941,7 +933,7 @@ class T {
     transitionDuration: p = 250,
     openDuration: h = -1,
     closeDuration: E = -1,
-    isTopLevel: C = !0,
+    isTopLevel: M = !0,
     parentMenu: v = null,
     hoverType: D = "off",
     hoverDelay: w = 250,
@@ -949,7 +941,7 @@ class T {
     leaveDelay: k = -1,
     prefix: $ = "am-"
   }) {
-    this._dom.menu = e, this._dom.controller = l, this._dom.container = f, this._selectors.menuItems = t, this._selectors.menuLinks = s, this._selectors.submenuItems = i, this._selectors.submenuToggles = r, this._selectors.submenus = o, this._elements.menuItems = [], this._elements.submenuToggles = [], this._elements.controller = null, this._elements.parentMenu = v, this._elements.rootMenu = C ? this : null, this._openClass = a || "", this._closeClass = c || "", this._transitionClass = d || "", this._transitionDuration = p, this._openDuration = h, this._closeDuration = E, this._prefix = $ || "", this._root = C, this._hoverType = D, this._hoverDelay = w, this._enterDelay = I, this._leaveDelay = k;
+    this._dom.menu = e, this._dom.controller = l, this._dom.container = f, this._selectors.menuItems = t, this._selectors.menuLinks = s, this._selectors.submenuItems = i, this._selectors.submenuToggles = r, this._selectors.submenus = o, this._elements.menuItems = [], this._elements.submenuToggles = [], this._elements.controller = null, this._elements.parentMenu = v, this._elements.rootMenu = M ? this : null, this._classes.open = a || "", this._classes.close = c || "", this._classes.transition = d || "", this._transitionDuration = p, this._openDuration = h, this._closeDuration = E, this._prefix = $ || "", this._root = M, this._hoverType = D, this._hoverDelay = w, this._enterDelay = I, this._leaveDelay = k;
   }
   /**
    * Initializes the menu.
@@ -1031,6 +1023,18 @@ class T {
     return this._elements;
   }
   /**
+   * The classes to apply when the menu is in various states.
+   *
+   * @readonly
+   *
+   * @type {Object<string|string[]>}
+   *
+   * @see _classes
+   */
+  get classes() {
+    return this._classes;
+  }
+  /**
    * The flag marking the root menu.
    *
    * @readonly
@@ -1080,13 +1084,13 @@ class T {
    *
    * @type {string|string[]}
    *
-   * @see _openClass
+   * @see _classes.open
    */
   get openClass() {
-    return this.isTopLevel ? this._openClass : this.elements.rootMenu.openClass;
+    return this.isTopLevel ? this._classes.open : this.elements.rootMenu.openClass;
   }
   set openClass(e) {
-    y({ openClass: e }), this._openClass !== e && (this._openClass = e);
+    y({ openClass: e }), this._classes.open !== e && (this._classes.open = e);
   }
   /**
    * The class(es) to apply when the menu is closed.
@@ -1096,13 +1100,13 @@ class T {
    *
    * @type {string|string[]}
    *
-   * @see _closeClass
+   * @see _classes.close
    */
   get closeClass() {
-    return this.isTopLevel ? this._closeClass : this.elements.rootMenu.closeClass;
+    return this.isTopLevel ? this._classes.close : this.elements.rootMenu.closeClass;
   }
   set closeClass(e) {
-    y({ closeClass: e }), this._closeClass !== e && (this._closeClass = e);
+    y({ closeClass: e }), this._classes.close !== e && (this._classes.close = e);
   }
   /**
    * The class(es) to apply when the menu is transitioning between open and closed.
@@ -1112,13 +1116,13 @@ class T {
    *
    * @type {string|string[]}
    *
-   * @see _transitionClass
+   * @see _classes.transition
    */
   get transitionClass() {
-    return this.isTopLevel ? this._transitionClass : this.elements.rootMenu.transitionClass;
+    return this.isTopLevel ? this._classes.transition : this.elements.rootMenu.transitionClass;
   }
   set transitionClass(e) {
-    y({ transitionClass: e }), this._transitionClass !== e && (this._transitionClass = e);
+    y({ transitionClass: e }), this._classes.transition !== e && (this._classes.transition = e);
   }
   /**
    * The duration time (in milliseconds) for the transition between open and closed states.
@@ -1398,19 +1402,21 @@ class T {
     }) : s = L({
       menuItemSelector: this._selectors.menuItems,
       menuLinkSelector: this._selectors.menuLinks
-    }), s.status || (this._errors.push(s.error.message), e = !1), this._openClass !== "") {
-      const h = y({ openClass: this._openClass });
-      h.status || (this._errors.push(h.error.message), e = !1);
-    }
-    if (this._closeClass !== "") {
+    }), s.status || (this._errors.push(s.error.message), e = !1), this._classes.open !== "") {
       const h = y({
-        closeClass: this._closeClass
+        openClass: this._classes.open
       });
       h.status || (this._errors.push(h.error.message), e = !1);
     }
-    if (this._transitionClass !== "") {
+    if (this._classes.close !== "") {
       const h = y({
-        transitionClass: this._transitionClass
+        closeClass: this._classes.close
+      });
+      h.status || (this._errors.push(h.error.message), e = !1);
+    }
+    if (this._classes.transition !== "") {
+      const h = y({
+        transitionClass: this._classes.transition
       });
       h.status || (this._errors.push(h.error.message), e = !1);
     }
@@ -1759,7 +1765,7 @@ class T {
       "keydown",
       (e) => {
         this.currentEvent = "keyboard";
-        const t = M(e);
+        const t = C(e);
         (t === "Space" || t === "Enter") && m(e);
       }
     );
@@ -1775,7 +1781,7 @@ class T {
   _handleKeyup() {
     this.isTopLevel && this.elements.controller && this.elements.controller.dom.toggle.addEventListener("keyup", (e) => {
       this.currentEvent = "keyboard";
-      const t = M(e);
+      const t = C(e);
       (t === "Space" || t === "Enter") && (m(e), this.elements.controller.toggle(), this.elements.controller.isOpen && this.focusFirstChild());
     });
   }
@@ -2107,7 +2113,7 @@ class O extends T {
     transitionDuration: p = 250,
     isTopLevel: h = !0,
     parentMenu: E = null,
-    hoverType: C = "off",
+    hoverType: M = "off",
     hoverDelay: v = 250,
     enterDelay: D = -1,
     leaveDelay: w = -1,
@@ -2129,7 +2135,7 @@ class O extends T {
       transitionDuration: p,
       isTopLevel: h,
       parentMenu: E,
-      hoverType: C,
+      hoverType: M,
       hoverDelay: v,
       enterDelay: D,
       leaveDelay: w,
@@ -2237,7 +2243,7 @@ class O extends T {
   _handleKeydown() {
     super._handleKeydown(), this.dom.menu.addEventListener("keydown", (e) => {
       this.currentEvent = "keyboard";
-      const t = M(e);
+      const t = C(e);
       if (t === "Tab" && (this.elements.rootMenu.focusState !== "none" ? this.elements.rootMenu.blur() : this.elements.rootMenu.focus()), this.focusState === "self") {
         const s = [
           "Space",
@@ -2279,7 +2285,7 @@ class O extends T {
   _handleKeyup() {
     super._handleKeyup(), this.dom.menu.addEventListener("keyup", (e) => {
       this.currentEvent = "keyboard";
-      const t = M(e), { altKey: s, crtlKey: i, metaKey: r } = e;
+      const t = C(e), { altKey: s, crtlKey: i, metaKey: r } = e;
       if (t === "Character" && !(s || i || r))
         m(e), this.elements.rootMenu.currentEvent = "character", this.focusNextNodeWithCharacter(e.key);
       else if (this.focusState === "self")

@@ -24,6 +24,20 @@ describe("TopLinkDisclosureMenu getter/setters", () => {
     it("should implement the BaseMenu dom", () => {
       expect(TopLinkDisclosureMenu.prototype.dom).toBe(BaseMenu.prototype.dom);
     });
+
+    // Test that dom cannot set the DOM elements.
+    it("should not set the DOM elements", () => {
+      // Create a new TopLinkDisclosureMenu instance for testing.
+      const menu = new TopLinkDisclosureMenu({
+        menuElement: document.querySelector("ul"),
+      });
+
+      expect(() => {
+        menu.dom = {};
+      }).toThrowError(
+        "Cannot set property dom of #<BaseMenu> which has only a getter"
+      );
+    });
   });
 
   // Test TopLinkDisclosureMenu selectors.
@@ -34,6 +48,20 @@ describe("TopLinkDisclosureMenu getter/setters", () => {
         BaseMenu.prototype.selectors
       );
     });
+
+    // Test that selectors cannot set the selectors.
+    it("should not set the selectors", () => {
+      // Create a new TopLinkDisclosureMenu instance for testing.
+      const menu = new TopLinkDisclosureMenu({
+        menuElement: document.querySelector("ul"),
+      });
+
+      expect(() => {
+        menu.selectors = {};
+      }).toThrowError(
+        "Cannot set property selectors of #<BaseMenu> which has only a getter"
+      );
+    });
   });
 
   // Test TopLinkDisclosureMenu elements.
@@ -42,6 +70,44 @@ describe("TopLinkDisclosureMenu getter/setters", () => {
     it("should implement the BaseMenu elements", () => {
       expect(TopLinkDisclosureMenu.prototype.elements).toBe(
         BaseMenu.prototype.elements
+      );
+    });
+
+    // Test that elements cannot set the elements.
+    it("should not set the elements", () => {
+      // Create a new TopLinkDisclosureMenu instance for testing.
+      const menu = new TopLinkDisclosureMenu({
+        menuElement: document.querySelector("ul"),
+      });
+
+      expect(() => {
+        menu.elements = {};
+      }).toThrowError(
+        "Cannot set property elements of #<BaseMenu> which has only a getter"
+      );
+    });
+  });
+
+  // Test TopLinkDisclosureMenu classes.
+  describe("classes", () => {
+    // Test that TopLinkDisclosureMenu implements the BaseMenu classes getter.
+    it("should implement the BaseMenu classes", () => {
+      expect(TopLinkDisclosureMenu.prototype.classes).toBe(
+        BaseMenu.prototype.classes
+      );
+    });
+
+    // Test that classes cannot set the classes.
+    it("should not set the classes", () => {
+      // Create a new TopLinkDisclosureMenu instance for testing.
+      const menu = new TopLinkDisclosureMenu({
+        menuElement: document.querySelector("ul"),
+      });
+
+      expect(() => {
+        menu.classes = {};
+      }).toThrowError(
+        "Cannot set property classes of #<BaseMenu> which has only a getter"
       );
     });
   });
@@ -66,7 +132,7 @@ describe("TopLinkDisclosureMenu getter/setters", () => {
         menuElement: document.querySelector("ul"),
       });
 
-      expect(menu.openClass).toBe(menu._openClass);
+      expect(menu.openClass).toBe(menu._classes.open);
     });
 
     // Test that openClass sets the open class name.
@@ -83,7 +149,7 @@ describe("TopLinkDisclosureMenu getter/setters", () => {
       menu.openClass = "test-open";
 
       expect(spy).toHaveBeenCalledWith({ openClass: "test-open" });
-      expect(menu._openClass).toBe("test-open");
+      expect(menu._classes.open).toBe("test-open");
     });
   });
 
@@ -97,7 +163,7 @@ describe("TopLinkDisclosureMenu getter/setters", () => {
         menuElement: document.querySelector("ul"),
       });
 
-      expect(menu.closeClass).toBe(menu._closeClass);
+      expect(menu.closeClass).toBe(menu._classes.close);
     });
 
     // Test that closeClass sets the close class name.
@@ -114,7 +180,7 @@ describe("TopLinkDisclosureMenu getter/setters", () => {
       menu.closeClass = "test-close";
 
       expect(spy).toHaveBeenCalledWith({ closeClass: "test-close" });
-      expect(menu._closeClass).toBe("test-close");
+      expect(menu._classes.close).toBe("test-close");
     });
   });
 
@@ -128,7 +194,7 @@ describe("TopLinkDisclosureMenu getter/setters", () => {
         menuElement: document.querySelector("ul"),
       });
 
-      expect(menu.transitionClass).toBe(menu._transitionClass);
+      expect(menu.transitionClass).toBe(menu._classes.transition);
     });
 
     // Test that transitionClass sets the transition class name.
@@ -145,7 +211,7 @@ describe("TopLinkDisclosureMenu getter/setters", () => {
       menu.transitionClass = "test-transition";
 
       expect(spy).toHaveBeenCalledWith({ transitionClass: "test-transition" });
-      expect(menu._transitionClass).toBe("test-transition");
+      expect(menu._classes.transition).toBe("test-transition");
     });
   });
 

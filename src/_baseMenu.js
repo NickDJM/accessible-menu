@@ -117,31 +117,21 @@ class BaseMenu {
   };
 
   /**
-   * The class(es) to apply when the menu is open.
+   * The classes to apply when the menu is in various states.
    *
    * @protected
    *
-   * @type {string|string[]}
+   * @type {Object<string|string[]>}
+   *
+   * @property {string|string[]} open       - The class(es) to apply when the menu is open.
+   * @property {string|string[]} close      - The class(es) to apply when the menu is closed.
+   * @property {string|string[]} transition - The class(es) to apply when the menu is transitioning between states.
    */
-  _openClass = "show";
-
-  /**
-   * The class(es) to apply when the menu is closed.
-   *
-   * @protected
-   *
-   * @type {string|string[]}
-   */
-  _closeClass = "hide";
-
-  /**
-   * The class(es) to apply when the menu is transitioning between states.
-   *
-   * @protected
-   *
-   * @type {string|string[]}
-   */
-  _transitionClass = "transitioning";
+  _classes = {
+    open: "show",
+    close: "hide",
+    transition: "transitioning",
+  };
 
   /**
    * The duration time (in milliseconds) for the transition between open and closed states.
@@ -358,9 +348,9 @@ class BaseMenu {
     this._elements.rootMenu = isTopLevel ? this : null;
 
     // Set open/close classes.
-    this._openClass = openClass || "";
-    this._closeClass = closeClass || "";
-    this._transitionClass = transitionClass || "";
+    this._classes.open = openClass || "";
+    this._classes.close = closeClass || "";
+    this._classes.transition = transitionClass || "";
 
     // Set transition duration.
     this._transitionDuration = transitionDuration;
@@ -495,6 +485,19 @@ class BaseMenu {
   }
 
   /**
+   * The classes to apply when the menu is in various states.
+   *
+   * @readonly
+   *
+   * @type {Object<string|string[]>}
+   *
+   * @see _classes
+   */
+  get classes() {
+    return this._classes;
+  }
+
+  /**
    * The flag marking the root menu.
    *
    * @readonly
@@ -551,17 +554,19 @@ class BaseMenu {
    *
    * @type {string|string[]}
    *
-   * @see _openClass
+   * @see _classes.open
    */
   get openClass() {
-    return this.isTopLevel ? this._openClass : this.elements.rootMenu.openClass;
+    return this.isTopLevel
+      ? this._classes.open
+      : this.elements.rootMenu.openClass;
   }
 
   set openClass(value) {
     isValidClassList({ openClass: value });
 
-    if (this._openClass !== value) {
-      this._openClass = value;
+    if (this._classes.open !== value) {
+      this._classes.open = value;
     }
   }
 
@@ -573,19 +578,19 @@ class BaseMenu {
    *
    * @type {string|string[]}
    *
-   * @see _closeClass
+   * @see _classes.close
    */
   get closeClass() {
     return this.isTopLevel
-      ? this._closeClass
+      ? this._classes.close
       : this.elements.rootMenu.closeClass;
   }
 
   set closeClass(value) {
     isValidClassList({ closeClass: value });
 
-    if (this._closeClass !== value) {
-      this._closeClass = value;
+    if (this._classes.close !== value) {
+      this._classes.close = value;
     }
   }
 
@@ -597,19 +602,19 @@ class BaseMenu {
    *
    * @type {string|string[]}
    *
-   * @see _transitionClass
+   * @see _classes.transition
    */
   get transitionClass() {
     return this.isTopLevel
-      ? this._transitionClass
+      ? this._classes.transition
       : this.elements.rootMenu.transitionClass;
   }
 
   set transitionClass(value) {
     isValidClassList({ transitionClass: value });
 
-    if (this._transitionClass !== value) {
-      this._transitionClass = value;
+    if (this._classes.transition !== value) {
+      this._classes.transition = value;
     }
   }
 
@@ -1068,8 +1073,10 @@ class BaseMenu {
     }
 
     // Class list checks.
-    if (this._openClass !== "") {
-      const openClassCheck = isValidClassList({ openClass: this._openClass });
+    if (this._classes.open !== "") {
+      const openClassCheck = isValidClassList({
+        openClass: this._classes.open,
+      });
 
       if (!openClassCheck.status) {
         this._errors.push(openClassCheck.error.message);
@@ -1077,9 +1084,9 @@ class BaseMenu {
       }
     }
 
-    if (this._closeClass !== "") {
+    if (this._classes.close !== "") {
       const closeClassCheck = isValidClassList({
-        closeClass: this._closeClass,
+        closeClass: this._classes.close,
       });
 
       if (!closeClassCheck.status) {
@@ -1088,9 +1095,9 @@ class BaseMenu {
       }
     }
 
-    if (this._transitionClass !== "") {
+    if (this._classes.transition !== "") {
       const transitionClassCheck = isValidClassList({
-        transitionClass: this._transitionClass,
+        transitionClass: this._classes.transition,
       });
 
       if (!transitionClassCheck.status) {
