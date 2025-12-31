@@ -91,43 +91,24 @@ BaseMenuToggle._open; // Default: `false`.
 
 `boolean`
 
-### _expandEvent <badge type="warning" text="protected" /> {#property--expandEvent}
+### _events <badge type="warning" text="protected" /> {#property--events}
 
-The event that is triggered when the menu toggle expands.
+Custom events that can be triggered throughout the menu toggle.
 
 ```js
-BaseMenuToggle._expandEvent;
+BaseMenuToggle._events;
 ```
 
-#### Type {#property--expandEvent--type}
+#### Type {#property--events--type}
 
-`CustomEvent`
+`Object<CustomEvent>`
 
-#### Properties {#property--expandEvent--properties}
+#### Properties {#property--events--properties}
 
 | Name | Type | Description | Default |
 | --- | --- | --- | --- |
-| bubbles | `boolean` | A flag to bubble the event. | `true` |
-| detail | `Object<BaseMenuToggle>` | The details object containing the BaseMenuToggle itself. | `{ toggle: this }` |
-
-### _collapseEvent <badge type="warning" text="protected" /> {#property--collapseEvent}
-
-The event that is triggered when the menu toggle collapses.
-
-```js
-BaseMenuToggle._collapseEvent;
-```
-
-#### Type {#property--collapseEvent--type}
-
-`CustomEvent`
-
-#### Properties {#property--collapseEvent--properties}
-
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| bubbles | `boolean` | A flag to bubble the event. | `true` |
-| detail | `Object<BaseMenuToggle>` | The details object containing the BaseMenuToggle itself. | `{ toggle: this }` |
+| expand | `CustomEvent` | The event that is triggered when the menu toggle expands.
+| collapse | `CustomEvent` | The event that is triggered when the menu toggle collapses. |
 
 ## Getters and Setters
 
@@ -158,6 +139,20 @@ BaseMenuToggle.elements;
 :::
 
 See [_elements](#property--elements) for more information.
+
+### events <badge type="warning" text="readonly" /> {#getter--events}
+
+Custom events that can be triggered throughout the menu toggle.
+
+::: code-group
+
+```js [getter]
+BaseMenuToggle.events;
+```
+
+:::
+
+See [_events](#property--events) for more information.
 
 ### isOpen {#getter-setter--isopen}
 
@@ -205,6 +200,21 @@ BaseMenuToggle._setAriaAttributes();
 The first steps are to ensure that the toggle has `aria-expanded` is initially set to "false".
 
 Then using the toggle and menu's IDs, the menu's `aria-labelledby` is set to the toggle's ID.
+
+### _dispatchEvent <badge type="warning" text="protected" /> {#method--dispatchevent}
+
+Dispatch a custom event on an element in the DOM.
+
+```js
+BaseMenuToggle._dispatchEvent(eventType, element);
+```
+
+#### Parameters {#method--dispatchevent--parameters}
+
+| Name | Type | Description | Default |
+| --- | --- | --- | --- |
+| eventType | `string` | The type of event to dispatch. | `undefined` |
+| element | `HTMLElement` | The element to dispatch the event on. | `undefined` |
 
 ### _expand <badge type="warning" text="protected" /> {#method--expand}
 

@@ -18,6 +18,15 @@ afterEach(() => {
 
 // Test MenubarToggle protected methods.
 describe("MenubarToggle protected methods", () => {
+  describe("_dispatchEvent", () => {
+    // Test that MenubarToggle implements the BaseMenuToggle _dispatchEvent.
+    it("should implement the BaseMenuToggle _dispatchEvent", () => {
+      expect(MenubarToggle.prototype._dispatchEvent).toBe(
+        BaseMenuToggle.prototype._dispatchEvent
+      );
+    });
+  });
+
   // Test MenubarToggle _expand().
   describe("_expand", () => {
     // Test that MenubarToggle implements the BaseMenuToggle _expand.

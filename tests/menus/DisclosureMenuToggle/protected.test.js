@@ -18,6 +18,15 @@ afterEach(() => {
 
 // Test DisclosureMenuToggle protected methods.
 describe("DisclosureMenuToggle protected methods", () => {
+  describe("_dispatchEvent", () => {
+    // Test that DisclosureMenuToggle implements the BaseMenuToggle _dispatchEvent.
+    it("should implement the BaseMenuToggle _dispatchEvent", () => {
+      expect(DisclosureMenuToggle.prototype._dispatchEvent).toBe(
+        BaseMenuToggle.prototype._dispatchEvent
+      );
+    });
+  });
+
   // Test DisclosureMenuToggle _expand().
   describe("_expand", () => {
     // Test that DisclosureMenuToggle implements the BaseMenuToggle _expand.

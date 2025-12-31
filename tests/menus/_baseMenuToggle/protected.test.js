@@ -22,6 +22,50 @@ afterEach(() => {
 
 // Test BaseMenuToggle protected methods.
 describe("BaseMenuToggle protected methods", () => {
+  describe("_dispatchEvent", () => {
+    // Test that _dispatchEvent dispatches a the expand event when prompted.
+    it("should dispatch a expand event when promted", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+
+      const menuToggle = menu.elements.submenuToggles[0];
+
+      // Set up to check for the event.
+      const spy = vi.spyOn(menuToggle.dom.toggle, "dispatchEvent");
+
+      // Dispatch the event.
+      menuToggle._dispatchEvent("expand", menuToggle.dom.toggle);
+
+      expect(spy).toHaveBeenCalledWith(menuToggle.events.expand);
+    });
+
+    // Test that _dispatchEvent dispatches a the collapse event when prompted.
+    it("should dispatch a collapse event when promted", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+
+      const menuToggle = menu.elements.submenuToggles[0];
+
+      // Set up to check for the event.
+      const spy = vi.spyOn(menuToggle.dom.toggle, "dispatchEvent");
+
+      // Dispatch the event.
+      menuToggle._dispatchEvent("collapse", menuToggle.dom.toggle);
+
+      expect(spy).toHaveBeenCalledWith(menuToggle.events.collapse);
+    });
+  });
+
   // Test BaseMenuToggle _expand().
   // todo: See if we can test the order in which the classes are added and removed.
   describe("_expand", () => {
@@ -74,12 +118,12 @@ describe("BaseMenuToggle protected methods", () => {
       const menuToggle = menu.elements.submenuToggles[0];
 
       // Set up to check for the accessibleMenuExpand event.
-      const spy = vi.spyOn(menuToggle.dom.toggle, "dispatchEvent");
+      const spy = vi.spyOn(menuToggle, "_dispatchEvent");
 
       // Expand the menu.
       menuToggle._expand();
 
-      expect(spy).toHaveBeenCalledWith(menuToggle._expandEvent);
+      expect(spy).toHaveBeenCalledWith("expand", menuToggle.dom.toggle);
     });
 
     // Test that expand does not emit accessibleMenuExpand event if false is passed as an argument.
@@ -95,12 +139,12 @@ describe("BaseMenuToggle protected methods", () => {
       const menuToggle = menu.elements.submenuToggles[0];
 
       // Set up to check for the accessibleMenuExpand event.
-      const spy = vi.spyOn(menuToggle.dom.toggle, "dispatchEvent");
+      const spy = vi.spyOn(menuToggle, "_dispatchEvent");
 
       // Expand the menu.
       menuToggle._expand(false);
 
-      expect(spy).not.toHaveBeenCalledWith(menuToggle._expandEvent);
+      expect(spy).not.toHaveBeenCalled();
     });
 
     // Test that expand removes the close class from the controlled menu.
@@ -280,12 +324,12 @@ describe("BaseMenuToggle protected methods", () => {
       const menuToggle = menu.elements.submenuToggles[0];
 
       // Set up to check for the accessibleMenuCollapse event.
-      const spy = vi.spyOn(menuToggle.dom.toggle, "dispatchEvent");
+      const spy = vi.spyOn(menuToggle, "_dispatchEvent");
 
       // Collapse the menu.
       menuToggle._collapse();
 
-      expect(spy).toHaveBeenCalledWith(menuToggle._collapseEvent);
+      expect(spy).toHaveBeenCalledWith("collapse", menuToggle.dom.toggle);
     });
 
     // Test that collapse does not emit accessibleMenuCollapse event if false is passed as an argument.
@@ -301,12 +345,12 @@ describe("BaseMenuToggle protected methods", () => {
       const menuToggle = menu.elements.submenuToggles[0];
 
       // Set up to check for the accessibleMenuCollapse event.
-      const spy = vi.spyOn(menuToggle.dom.toggle, "dispatchEvent");
+      const spy = vi.spyOn(menuToggle, "_dispatchEvent");
 
       // Collapse the menu.
       menuToggle._collapse(false);
 
-      expect(spy).not.toHaveBeenCalledWith(menuToggle._collapseEvent);
+      expect(spy).not.toHaveBeenCalled();
     });
 
     // Test that collapse removes the open class from the controlled menu.

@@ -1,7 +1,7 @@
 /* global BaseMenu */
 
 import { addClass, removeClass } from "./domHelpers.js";
-import { isValidType } from "./validate.js";
+import { isValidType, isValidInstance } from "./validate.js";
 
 /**
  * A link or button that controls the visibility of a BaseMenu.
@@ -47,38 +47,42 @@ class BaseMenuToggle {
   _open = false;
 
   /**
-   * The event that is triggered when the menu toggle expands.
+   * Custom events that can be triggered throughout the menu toggle.
    *
    * @protected
    *
-   * @event accessibleMenuExpand
-   *
-   * @type {CustomEvent}
-   *
-   * @property {boolean}                bubbles - A flag to bubble the event.
-   * @property {Object<BaseMenuToggle>} details - The details object containing the BaseMenuToggle itself.
+   * @type {Object<CustomEvent>}
    */
-  _expandEvent = new CustomEvent("accessibleMenuExpand", {
-    bubbles: true,
-    detail: { toggle: this },
-  });
-
-  /**
-   * The event that is triggered when the menu toggle collapses.
-   *
-   * @protected
-   *
-   * @event accessibleMenuCollapse
-   *
-   * @type {CustomEvent}
-   *
-   * @property {boolean}                bubbles - A flag to bubble the event.
-   * @property {Object<BaseMenuToggle>} details - The details object containing the BaseMenuToggle itself.
-   */
-  _collapseEvent = new CustomEvent("accessibleMenuCollapse", {
-    bubbles: true,
-    detail: { toggle: this },
-  });
+  _events = {
+    /**
+     * The event that is triggered when the menu toggle expands.
+     *
+     * @event accessibleMenuExpand
+     *
+     * @type {CustomEvent}
+     *
+     * @property {boolean}                bubbles - A flag to bubble the event.
+     * @property {Object<BaseMenuToggle>} details - The details object containing the BaseMenuToggle itself.
+     */
+    expand: new CustomEvent("accessibleMenuExpand", {
+      bubbles: true,
+      detail: { toggle: this },
+    }),
+    /**
+     * The event that is triggered when the menu toggle collapses.
+     *
+     * @event accessibleMenuCollapse
+     *
+     * @type {CustomEvent}
+     *
+     * @property {boolean}                bubbles - A flag to bubble the event.
+     * @property {Object<BaseMenuToggle>} details - The details object containing the BaseMenuToggle itself.
+     */
+    collapse: new CustomEvent("accessibleMenuCollapse", {
+      bubbles: true,
+      detail: { toggle: this },
+    }),
+  };
 
   /**
    * Constructs a new `BaseMenuToggle`.
@@ -148,6 +152,19 @@ class BaseMenuToggle {
    */
   get elements() {
     return this._elements;
+  }
+
+  /**
+   * Custom events that can be triggered throughout the menu toggle.
+   *
+   * @readonly
+   *
+   * @type {object}
+   *
+   * @see _events
+   */
+  get events() {
+    return this._events;
   }
 
   /**
@@ -237,6 +254,27 @@ class BaseMenuToggle {
   }
 
   /**
+   * Dispatch a custom event on an element in the DOM.
+   *
+   * @param {string}      eventType - The type of the event to dispatch.
+   * @param {HTMLElement} element   - The element to dispatch the event on.
+   */
+  _dispatchEvent(eventType, element) {
+    // Make sure the event type exists.
+    if (!Object.keys(this.events).includes(eventType)) {
+      throw new Error(
+        `Accessible Menu: "${eventType}" is not a valid event type.`
+      );
+    }
+
+    // Make sure the element is actually an HTML Element.
+    isValidInstance(HTMLElement, { element });
+
+    // Dispatch the event.
+    element.dispatchEvent(this.events[eventType]);
+  }
+
+  /**
    * Expands the controlled menu.
    *
    * Sets the toggle's `aria-expanded` to "true", adds the
@@ -291,7 +329,7 @@ class BaseMenuToggle {
     }
 
     if (emit) {
-      this.dom.toggle.dispatchEvent(this._expandEvent);
+      this._dispatchEvent("expand", this.dom.toggle);
     }
   }
 
@@ -349,7 +387,7 @@ class BaseMenuToggle {
     }
 
     if (emit) {
-      this.dom.toggle.dispatchEvent(this._collapseEvent);
+      this._dispatchEvent("collapse", this.dom.toggle);
     }
   }
 

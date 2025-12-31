@@ -61,6 +61,25 @@ The corresponding getters/setters still exist, but now reference the appropriate
 
 A new read-only `durations` getter has been added in addiotion to the existing getter/setters.
 
+#### Event fields
+
+All "event" fields (`_expandEvent` and `_collapseEvent`) have been merged into a single `_events` field.
+
+```js
+_events = {
+  expand: new CustomEvent("accessibleMenuExpand", { bubbles: true, detail: { toggle } }),
+  collapse: new CustomEvent("accessibleMenuCollapse", { bubbles: true, detail: { toggle } }),
+}
+```
+
+A new read-only `events` getter has been added.
+
+#### Dispatching events
+
+All custom events are now dispatched through a new protected method called `_dispatchEvent`.
+
+This allows for easier finding of events within the new `_events` field.
+
 #### Event listeners
 
 All event listeners are now set through a wrapper method (`_addEventListener`). This allows the menu to keep track of all event listeners that have been added _and_ makes it possible to remove all event listeners through 2 new methods (`_removeEventListener` and `_removeEventListeners`).
