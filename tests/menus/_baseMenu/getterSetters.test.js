@@ -538,9 +538,10 @@ describe("BaseMenu getter/setters", () => {
       // Create a new BaseMenu instance for testing.
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
-        prefix: "test-",
       });
       initializeMenu(menu);
+
+      menu.prefix = "test-";
 
       expect(menu.prefix).toBe("test-");
     });

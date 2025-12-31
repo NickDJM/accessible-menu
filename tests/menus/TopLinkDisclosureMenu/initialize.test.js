@@ -568,6 +568,30 @@ describe("TopLinkDisclosureMenu (custom arguments)", () => {
     }).toThrow('leaveDelay must be a number. "string" given.');
   });
 
+  // Test that the TopLinkDisclosureMenu will initialize if a valid prefix is passed.
+  it("should initialize if a valid prefix is passed", () => {
+    // Test that the menu initializes.
+    expect(() => {
+      // Create a new TopLinkDisclosureMenu instance for testing.
+      new TopLinkDisclosureMenu({
+        menuElement: document.querySelector("ul"),
+        prefix: "test",
+      });
+    }).not.toThrow();
+  });
+
+  // Test that the TopLinkDisclosureMenu will throw an error if an invalid prefix is passed.
+  it("should throw an error if an invalid prefix is passed", () => {
+    // Test that the menu throws an error.
+    expect(() => {
+      // Create a new TopLinkDisclosureMenu instance for testing.
+      new TopLinkDisclosureMenu({
+        menuElement: document.querySelector("ul"),
+        prefix: 1,
+      });
+    }).toThrow('prefix must be a string. "number" given.');
+  });
+
   // Test that the TopLinkDisclosureMenu will initialize if a valid key is passed.
   it("should initialize if a valid key is passed", () => {
     // Test that the menu initializes.
