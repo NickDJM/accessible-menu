@@ -21,6 +21,15 @@ afterEach(() => {
 
 // Test TopLinkDisclosureMenuToggle protected methods.
 describe("TopLinkDisclosureMenuToggle protected methods", () => {
+  describe("_dispatchEvent", () => {
+    // Test that TopLinkDisclosureMenuToggle implements the BaseMenuToggle _dispatchEvent.
+    it("should implement the BaseMenuToggle _dispatchEvent", () => {
+      expect(TopLinkDisclosureMenuToggle.prototype._dispatchEvent).toBe(
+        BaseMenuToggle.prototype._dispatchEvent
+      );
+    });
+  });
+
   // Test TopLinkDisclosureMenuToggle _expand().
   describe("_expand", () => {
     // Test that TopLinkDisclosureMenuToggle implements the BaseMenuToggle _expand.
