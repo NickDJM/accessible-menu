@@ -134,31 +134,27 @@ class BaseMenu {
   };
 
   /**
-   * The duration time (in milliseconds) for the transition between open and closed states.
+   * The duration times (in milliseconds) for various menu transitions and events.
    *
    * @protected
    *
-   * @type {number}
+   * @type {Object<number>}
+   *
+   * @property {number} transition - The duration time (in milliseconds) for the transition between open and closed states.
+   * @property {number} open       - The duration time (in milliseconds) for the transition from closed to open states.
+   * @property {number} close      - The duration time (in milliseconds) for the transition from open to closed states.
+   * @property {number} hover      - The delay time (in milliseconds) used for pointerenter/pointerleave events to take place.
+   * @property {number} enter      - The delay time (in milliseconds) used for pointerenter events to take place.
+   * @property {number} leave      - The delay time (in milliseconds) used for pointerleave events to take place.
    */
-  _transitionDuration = 250;
-
-  /**
-   * The duration time (in milliseconds) for the transition from closed to open states.
-   *
-   * @protected
-   *
-   * @type {number}
-   */
-  _openDuration = -1;
-
-  /**
-   * The duration time (in milliseconds) for the transition from open to closed states.
-   *
-   * @protected
-   *
-   * @type {number}
-   */
-  _closeDuration = -1;
+  _durations = {
+    transition: 250,
+    open: -1,
+    close: -1,
+    hover: 250,
+    enter: -1,
+    leave: -1,
+  };
 
   /**
    * A flag marking the root menu.
@@ -204,33 +200,6 @@ class BaseMenu {
    * @type {string}
    */
   _hoverType = "off";
-
-  /**
-   * The delay time (in milliseconds) used for pointerenter/pointerleave events to take place.
-   *
-   * @protected
-   *
-   * @type {number}
-   */
-  _hoverDelay = 250;
-
-  /**
-   * The delay time (in milliseconds) used for pointerenter events to take place.
-   *
-   * @protected
-   *
-   * @type {number}
-   */
-  _enterDelay = -1;
-
-  /**
-   * The delay time (in milliseconds) used for pointerleave events to take place.
-   *
-   * @protected
-   *
-   * @type {number}
-   */
-  _leaveDelay = -1;
 
   /**
    * The prefix to use for CSS custom properties.
@@ -353,9 +322,9 @@ class BaseMenu {
     this._classes.transition = transitionClass || "";
 
     // Set transition duration.
-    this._transitionDuration = transitionDuration;
-    this._openDuration = openDuration;
-    this._closeDuration = closeDuration;
+    this._durations.transition = transitionDuration;
+    this._durations.open = openDuration;
+    this._durations.close = closeDuration;
 
     // Set the prefix and key.
     this._prefix = prefix || "";
@@ -366,9 +335,9 @@ class BaseMenu {
 
     // Set hover settings.
     this._hoverType = hoverType;
-    this._hoverDelay = hoverDelay;
-    this._enterDelay = enterDelay;
-    this._leaveDelay = leaveDelay;
+    this._durations.hover = hoverDelay;
+    this._durations.enter = enterDelay;
+    this._durations.leave = leaveDelay;
   }
 
   /**
@@ -495,6 +464,19 @@ class BaseMenu {
    */
   get classes() {
     return this._classes;
+  }
+
+  /**
+   * The durations (in milliseconds) for various menu transitions and events.
+   *
+   * @readonly
+   *
+   * @type {Object<number>}
+   *
+   * @see _durations
+   */
+  get durations() {
+    return this._durations;
   }
 
   /**
@@ -628,19 +610,19 @@ class BaseMenu {
    *
    * @type {number}
    *
-   * @see _transitionDuration
+   * @see _durations.transition
    */
   get transitionDuration() {
     return this.isTopLevel
-      ? this._transitionDuration
+      ? this._durations.transition
       : this.elements.rootMenu.transitionDuration;
   }
 
   set transitionDuration(value) {
     isValidType("number", { value });
 
-    if (this._transitionDuration !== value) {
-      this._transitionDuration = value;
+    if (this._durations.transition !== value) {
+      this._durations.transition = value;
       this._setTransitionDurations();
     }
   }
@@ -657,21 +639,21 @@ class BaseMenu {
    *
    * @type {number}
    *
-   * @see _openDuration
+   * @see _durations.open
    */
   get openDuration() {
-    if (this._openDuration === -1) return this.transitionDuration;
+    if (this._durations.open === -1) return this.transitionDuration;
 
     return this.isTopLevel
-      ? this._openDuration
+      ? this._durations.open
       : this.elements.rootMenu.openDuration;
   }
 
   set openDuration(value) {
     isValidType("number", { value });
 
-    if (this._openDuration !== value) {
-      this._openDuration = value;
+    if (this._durations.open !== value) {
+      this._durations.open = value;
       this._setTransitionDurations();
     }
   }
@@ -688,21 +670,21 @@ class BaseMenu {
    *
    * @type {number}
    *
-   * @see _closeDuration
+   * @see _durations.close
    */
   get closeDuration() {
-    if (this._closeDuration === -1) return this.transitionDuration;
+    if (this._durations.close === -1) return this.transitionDuration;
 
     return this.isTopLevel
-      ? this._closeDuration
+      ? this._durations.close
       : this.elements.rootMenu.closeDuration;
   }
 
   set closeDuration(value) {
     isValidType("number", { value });
 
-    if (this._closeDuration !== value) {
-      this._closeDuration = value;
+    if (this._durations.close !== value) {
+      this._durations.close = value;
       this._setTransitionDurations();
     }
   }
@@ -882,17 +864,19 @@ class BaseMenu {
    *
    * @type {number}
    *
-   * @see _hoverDelay
+   * @see _durations.hover
    */
   get hoverDelay() {
-    return this._root ? this._hoverDelay : this.elements.rootMenu.hoverDelay;
+    return this._root
+      ? this._durations.hover
+      : this.elements.rootMenu.hoverDelay;
   }
 
   set hoverDelay(value) {
     isValidType("number", { value });
 
-    if (this._hoverDelay !== value) {
-      this._hoverDelay = value;
+    if (this._durations.hover !== value) {
+      this._durations.hover = value;
     }
   }
 
@@ -906,19 +890,21 @@ class BaseMenu {
    *
    * @type {number}
    *
-   * @see _enterDelay
+   * @see _durations.enter
    */
   get enterDelay() {
-    if (this._enterDelay === -1) return this.hoverDelay;
+    if (this._durations.enter === -1) return this.hoverDelay;
 
-    return this._root ? this._enterDelay : this.elements.rootMenu.enterDelay;
+    return this._root
+      ? this._durations.enter
+      : this.elements.rootMenu.enterDelay;
   }
 
   set enterDelay(value) {
     isValidType("number", { value });
 
-    if (this._enterDelay !== value) {
-      this._enterDelay = value;
+    if (this._durations.enter !== value) {
+      this._durations.enter = value;
     }
   }
 
@@ -932,19 +918,21 @@ class BaseMenu {
    *
    * @type {number}
    *
-   * @see _leaveDelay
+   * @see _durations.leave
    */
   get leaveDelay() {
-    if (this._leaveDelay === -1) return this.hoverDelay;
+    if (this._durations.leave === -1) return this.hoverDelay;
 
-    return this._root ? this._leaveDelay : this.elements.rootMenu.leaveDelay;
+    return this._root
+      ? this._durations.leave
+      : this.elements.rootMenu.leaveDelay;
   }
 
   set leaveDelay(value) {
     isValidType("number", { value });
 
-    if (this._leaveDelay !== value) {
-      this._leaveDelay = value;
+    if (this._durations.leave !== value) {
+      this._durations.leave = value;
     }
   }
 
@@ -1108,7 +1096,7 @@ class BaseMenu {
 
     // Transition duration check.
     const transitionDurationCheck = isValidType("number", {
-      transitionDuration: this._transitionDuration,
+      transitionDuration: this._durations.transition,
     });
 
     if (!transitionDurationCheck.status) {
@@ -1118,7 +1106,7 @@ class BaseMenu {
 
     // Open duration check.
     const openDurationCheck = isValidType("number", {
-      openDuration: this._openDuration,
+      openDuration: this._durations.open,
     });
 
     if (!openDurationCheck.status) {
@@ -1128,7 +1116,7 @@ class BaseMenu {
 
     // Close duration check.
     const closeDurationCheck = isValidType("number", {
-      closeDuration: this._closeDuration,
+      closeDuration: this._durations.close,
     });
 
     if (!closeDurationCheck.status) {
@@ -1166,7 +1154,7 @@ class BaseMenu {
 
     // Hover delay check.
     const hoverDelayCheck = isValidType("number", {
-      hoverDelay: this._hoverDelay,
+      hoverDelay: this._durations.hover,
     });
 
     if (!hoverDelayCheck.status) {
@@ -1176,7 +1164,7 @@ class BaseMenu {
 
     // Enter delay check.
     const enterDelayCheck = isValidType("number", {
-      enterDelay: this._enterDelay,
+      enterDelay: this._durations.enter,
     });
 
     if (!enterDelayCheck.status) {
@@ -1186,7 +1174,7 @@ class BaseMenu {
 
     // Leave delay check.
     const leaveDelayCheck = isValidType("number", {
-      leaveDelay: this._leaveDelay,
+      leaveDelay: this._durations.leave,
     });
 
     if (!leaveDelayCheck.status) {
