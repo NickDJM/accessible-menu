@@ -400,6 +400,34 @@ BaseMenu.elements;
 
 See [_elements](#property--elements) for more information.
 
+### classes <badge type="warning" text="readonly" /> {#getter--classes}
+
+The classes to apply when the menu is in various states.
+
+::: code-group
+
+```js [getter]
+BaseMenu.classes;
+```
+
+:::
+
+See [_classes](#property--classes) for more information.
+
+### durations <badge type="warning" text="readonly" /> {#getter--durations}
+
+The duration times (in milliseconds) for various menu transitions and events.
+
+::: code-group
+
+```js [getter]
+BaseMenu.durations;
+```
+
+:::
+
+See [_durations](#property--durations) for more information.
+
 ### isTopLevel <badge type="warning" text="readonly" /> {#getter--istoplevel}
 
 The flag marking the root menu.
