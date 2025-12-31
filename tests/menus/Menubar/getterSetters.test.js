@@ -128,6 +128,28 @@ describe("Menubar getter/setters", () => {
     });
   });
 
+  // Test Menubar listeners.
+  describe("listeners", () => {
+    // Test that Menubar implements the BaseMenu listeners getter.
+    it("should implement the BaseMenu listeners", () => {
+      expect(Menubar.prototype.listeners).toBe(BaseMenu.prototype.listeners);
+    });
+
+    // Test that listeners cannot set the listeners.
+    it("should not set the listeners", () => {
+      // Create a new Menubar instance for testing.
+      const menu = new Menubar({
+        menuElement: document.querySelector("ul"),
+      });
+
+      expect(() => {
+        menu.listeners = {};
+      }).toThrowError(
+        "Cannot set property listeners of #<BaseMenu> which has only a getter"
+      );
+    });
+  });
+
   // Test Menubar isTopLevel.
   describe("isTopLevel", () => {
     // Test that Menubar implements the BaseMenu isTopLevel getter.

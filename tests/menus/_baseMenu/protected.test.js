@@ -9,7 +9,7 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { twoLevel } from "../../../demo/menus.js";
 import BaseMenu from "../../../src/_baseMenu.js";
-import { initializeMenu } from "../helpers.js";
+import { initializeMenu, simulatePointerEvent } from "../helpers.js";
 
 beforeEach(() => {
   document.body.innerHTML = twoLevel;
@@ -289,6 +289,277 @@ describe("BaseMenu protected methods", () => {
 
       // Test the menu container's id.
       expect(menu.dom.container.getAttribute("id")).toBe("test-id");
+    });
+  });
+
+  describe("_addEventListener", () => {
+    // Test that _addEventListener adds an event listener to the specified element.
+    it("should add an event listener to the specified element", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+
+      const mockCallback = vi.fn();
+
+      menu._addEventListener("click", menu.dom.menu, mockCallback);
+
+      // Simulate a click event.
+      const event = simulatePointerEvent("click", menu.dom.menu);
+
+      expect(mockCallback).toHaveBeenCalledWith(event);
+    });
+
+    // Test that _addEventListener stores the event listener in the _listeners array.
+    it("should store the event listener in the _listeners array", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+
+      const mockCallback = vi.fn();
+
+      menu._addEventListener("click", menu.dom.menu, mockCallback);
+
+      expect(menu._listeners).toContainEqual({
+        type: "click",
+        element: menu.dom.menu,
+        listener: mockCallback,
+        options: {},
+      });
+    });
+  });
+
+  describe("_removeEventListener", () => {
+    // Test that _removeEventListener removes the specified event listener from the element.
+    it("should remove the specified event listener from the element", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+
+      const mockCallback = vi.fn();
+
+      menu._addEventListener("click", menu.dom.menu, mockCallback);
+
+      // Remove the event listener.
+      menu._removeEventListener("click", menu.dom.menu, mockCallback);
+
+      // Simulate a click event.
+      simulatePointerEvent("click", menu.dom.menu);
+
+      expect(mockCallback).not.toHaveBeenCalled();
+    });
+
+    // Test that _removeEventListener removes the event listener from the _listeners array.
+    it("should remove the event listener from the _listeners array", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+
+      const mockCallback = vi.fn();
+
+      menu._addEventListener("click", menu.dom.menu, mockCallback);
+
+      // Remove the event listener.
+      menu._removeEventListener("click", menu.dom.menu, mockCallback);
+
+      expect(
+        menu._listeners.indexOf({
+          type: "click",
+          element: menu.dom.menu,
+          listener: mockCallback,
+          options: {},
+        })
+      ).toBe(-1);
+    });
+  });
+
+  describe("_removeEventListeners", () => {
+    // Test that _removeEventListeners removes all event listeners from the menu.
+    it("should remove all event listeners from the menu", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+
+      const mockCallback1 = vi.fn();
+      const mockCallback2 = vi.fn();
+      const mockCallback3 = vi.fn();
+
+      menu._addEventListener("click", menu.dom.menu, mockCallback1);
+      menu._addEventListener("click", menu.dom.container, mockCallback2);
+      menu._addEventListener("click", menu.dom.controller, mockCallback3);
+
+      // Remove all event listeners.
+      menu._removeEventListeners();
+
+      // Simulate events.
+      simulatePointerEvent("click", menu.dom.menu);
+      simulatePointerEvent("click", menu.dom.container);
+      simulatePointerEvent("click", menu.dom.controller);
+
+      expect(mockCallback1).not.toHaveBeenCalled();
+      expect(mockCallback2).not.toHaveBeenCalled();
+      expect(mockCallback3).not.toHaveBeenCalled();
+    });
+
+    // Test that _removeEventListeners clears the _listeners array.
+    it("should clear the _listeners array", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+
+      const mockCallback1 = vi.fn();
+      const mockCallback2 = vi.fn();
+      const mockCallback3 = vi.fn();
+
+      menu._addEventListener("click", menu.dom.menu, mockCallback1);
+      menu._addEventListener("click", menu.dom.container, mockCallback2);
+      menu._addEventListener("click", menu.dom.controller, mockCallback3);
+
+      // Remove all event listeners.
+      menu._removeEventListeners();
+
+      expect(menu._listeners.length).toBe(0);
+    });
+
+    // Test that _removeEventListeners can remove event listeners by type.
+    it("should remove event listeners by type", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+
+      const mockCallback1 = vi.fn();
+      const mockCallback2 = vi.fn();
+      const mockCallback3 = vi.fn();
+
+      menu._addEventListener("click", menu.dom.menu, mockCallback1);
+      menu._addEventListener("mouseover", menu.dom.container, mockCallback2);
+      menu._addEventListener("click", menu.dom.controller, mockCallback3);
+
+      // Remove click event listeners.
+      menu._removeEventListeners({ type: "click" });
+
+      // Simulate events.
+      simulatePointerEvent("click", menu.dom.menu);
+      simulatePointerEvent("mouseover", menu.dom.container);
+      simulatePointerEvent("click", menu.dom.controller);
+
+      expect(mockCallback1).not.toHaveBeenCalled();
+      expect(mockCallback2).toHaveBeenCalled();
+      expect(mockCallback3).not.toHaveBeenCalled();
+    });
+
+    // Test that _removeEventListeners clears the _listeners array of the removed listeners when removing by type.
+    it("should clear the _listeners array of the removed listeners when removing by type", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+
+      const mockCallback1 = vi.fn();
+      const mockCallback2 = vi.fn();
+      const mockCallback3 = vi.fn();
+
+      menu._addEventListener("click", menu.dom.menu, mockCallback1);
+      menu._addEventListener("mouseover", menu.dom.container, mockCallback2);
+      menu._addEventListener("click", menu.dom.controller, mockCallback3);
+
+      // Remove click event listeners.
+      menu._removeEventListeners({ type: "click" });
+
+      expect(
+        menu._listeners.filter((listener) => listener.type === "click").length
+      ).toBe(0);
+      expect(menu._listeners.length).toBeGreaterThan(0);
+    });
+
+    // Test that _removeEventListeners can remove event listeners by element.
+    it("should remove event listeners by element", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+
+      const mockCallback1 = vi.fn();
+      const mockCallback2 = vi.fn();
+      const mockCallback3 = vi.fn();
+
+      menu._addEventListener("click", menu.dom.menu, mockCallback1);
+      menu._addEventListener("click", menu.dom.container, mockCallback2);
+      menu._addEventListener("click", menu.dom.controller, mockCallback3);
+
+      // Remove event listeners from the container element.
+      menu._removeEventListeners({ element: menu.dom.container });
+
+      // Simulate events.
+      simulatePointerEvent("click", menu.dom.menu);
+      simulatePointerEvent("click", menu.dom.container);
+      simulatePointerEvent("click", menu.dom.controller);
+
+      expect(mockCallback1).toHaveBeenCalled();
+      expect(mockCallback2).not.toHaveBeenCalled();
+      expect(mockCallback3).toHaveBeenCalled();
+    });
+
+    // Test that _removeEventListeners clears the _listeners array of the removed listeners when removing by element.
+    it("should clear the _listeners array of the removed listeners when removing by element", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+
+      const mockCallback1 = vi.fn();
+      const mockCallback2 = vi.fn();
+      const mockCallback3 = vi.fn();
+
+      menu._addEventListener("click", menu.dom.menu, mockCallback1);
+      menu._addEventListener("click", menu.dom.container, mockCallback2);
+      menu._addEventListener("click", menu.dom.controller, mockCallback3);
+
+      // Remove event listeners from the container element.
+      menu._removeEventListeners({ element: menu.dom.container });
+
+      expect(
+        menu._listeners.filter(
+          (listener) => listener.element === menu.dom.container
+        ).length
+      ).toBe(0);
+      expect(menu._listeners.length).toBeGreaterThan(0);
     });
   });
 });

@@ -61,6 +61,12 @@ The corresponding getters/setters still exist, but now reference the appropriate
 
 A new read-only `durations` getter has been added in addiotion to the existing getter/setters.
 
+#### Event listeners
+
+All event listeners are now set through a wrapper method (`_addEventListener`). This allows the menu to keep track of all event listeners that have been added _and_ makes it possible to remove all event listeners through 2 new methods (`_removeEventListener` and `_removeEventListeners`).
+
+This change is to facilitate better cleanup of the menu if it is ever detroyed.
+
 ## Upgrading from v1, v2, or v3
 
 If you're still using v1, v2, or v3 you will need to follow the upgrade guides for those versions before upgrading to v5.

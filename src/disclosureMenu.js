@@ -231,7 +231,7 @@ class DisclosureMenu extends BaseMenu {
     super._handleClick();
 
     // Close the menu if a click event happens outside of it.
-    document.addEventListener("click", (event) => {
+    this._addEventListener("click", document, (event) => {
       if (this.focusState !== "none") {
         this.currentEvent = "mouse";
 
@@ -268,7 +268,7 @@ class DisclosureMenu extends BaseMenu {
   _handleKeydown() {
     super._handleKeydown();
 
-    this.dom.menu.addEventListener("keydown", (event) => {
+    this._addEventListener("keydown", this.dom.menu, (event) => {
       this.currentEvent = "keyboard";
 
       const key = keyPress(event);
@@ -325,7 +325,7 @@ class DisclosureMenu extends BaseMenu {
   _handleKeyup() {
     super._handleKeyup();
 
-    this.dom.menu.addEventListener("keyup", (event) => {
+    this._addEventListener("keyup", this.dom.menu, (event) => {
       this.currentEvent = "keyboard";
 
       const key = keyPress(event);

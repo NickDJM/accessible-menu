@@ -378,7 +378,7 @@ class TopLinkDisclosureMenu extends BaseMenu {
     super._handleClick();
 
     // Close the menu if a click event happens outside of it.
-    document.addEventListener("click", (event) => {
+    this._addEventListener("click", document, (event) => {
       if (this.focusState !== "none") {
         this.currentEvent = "mouse";
 
@@ -446,7 +446,7 @@ class TopLinkDisclosureMenu extends BaseMenu {
    */
   _handleHover() {
     this.elements.menuItems.forEach((menuItem, index) => {
-      menuItem.dom.link.addEventListener("pointerenter", (event) => {
+      this._addEventListener("pointerenter", menuItem.dom.link, (event) => {
         // Exit out of the event if it was not made by a mouse.
         if (event.pointerType === "pen" || event.pointerType === "touch") {
           return;
@@ -522,7 +522,7 @@ class TopLinkDisclosureMenu extends BaseMenu {
       });
 
       if (menuItem.isSubmenuItem) {
-        menuItem.dom.item.addEventListener("pointerleave", (event) => {
+        this._addEventListener("pointerleave", menuItem.dom.item, (event) => {
           // Exit out of the event if it was not made by a mouse.
           if (event.pointerType === "pen" || event.pointerType === "touch") {
             return;
@@ -553,7 +553,7 @@ class TopLinkDisclosureMenu extends BaseMenu {
 
         // Clear hover timeouts any time the mouse enters an item with a submenu. This prevents the
         // menu from closing if the mouse leaves but then re-enters before leaveDelay has elapsed.
-        menuItem.dom.item.addEventListener("pointerenter", (event) => {
+        this._addEventListener("pointerenter", menuItem.dom.item, (event) => {
           // Exit out of the event if it was not made by a mouse.
           if (event.pointerType === "pen" || event.pointerType === "touch") {
             return;
@@ -586,7 +586,7 @@ class TopLinkDisclosureMenu extends BaseMenu {
   _handleKeydown() {
     super._handleKeydown();
 
-    this.dom.menu.addEventListener("keydown", (event) => {
+    this._addEventListener("keydown", this.dom.menu, (event) => {
       this.currentEvent = "keyboard";
 
       const key = keyPress(event);
@@ -643,7 +643,7 @@ class TopLinkDisclosureMenu extends BaseMenu {
   _handleKeyup() {
     super._handleKeyup();
 
-    this.dom.menu.addEventListener("keyup", (event) => {
+    this._addEventListener("keyup", this.dom.menu, (event) => {
       this.currentEvent = "keyboard";
 
       const key = keyPress(event);

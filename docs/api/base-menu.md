@@ -232,6 +232,18 @@ BaseMenu._durations;
 | enter | `number` | The delay time (in milliseconds) used for pointerenter events to take place. | `-1` |
 | leave | `number` | The delay time (in milliseconds) used for pointerleave events to take place. | `-1` |
 
+### _listeners <badge type="warning" text="protected" /> {#property--listeners}
+
+Event listeners throughout the menu.
+
+```js
+BaseMenu._listeners; // Default: `[]`.
+```
+
+#### Type {#property--listeners--type}
+
+`object[]`
+
 ### _root <badge type="warning" text="protected" /> {#property--root}
 
 A flag marking the root menu.
@@ -427,6 +439,20 @@ BaseMenu.durations;
 :::
 
 See [_durations](#property--durations) for more information.
+
+### listeners <badge type="warning" text="readonly" /> {#getter--listeners}
+
+The event listeners throughout the menu.
+
+::: code-group
+
+```js [getter]
+BaseMenu.listeners;
+```
+
+:::
+
+See [_listeners](#property--listeners) for more information.
 
 ### isTopLevel <badge type="warning" text="readonly" /> {#getter--istoplevel}
 
@@ -1057,6 +1083,56 @@ The custom properties are:
 - `--am-close-transition-duration`.
 
 The prefix of `am-` can be changed by setting the menu's prefix value.
+
+### _addEventListener <badge type="warning" text="protected" /> {#method--addeventlistener}
+
+Add an event listener to an element and register it within the menu.
+
+```js
+BaseMenu._addEventListener(type, element, listener, options);
+```
+
+#### Parameters {#method--addeventlistener--parameters}
+
+| Param | Type | Description | Default |
+| --- | --- | --- | --- |
+| type | `string` | The event type to listen for. | `undefined` |
+| element | `HTMLElement` | The element to add the listener to. | `undefined` |
+| listener | `Function` | The listener callback. | `undefined` |
+| options | `Object`, `boolean` | The options to pass to the listener. | `{}` |
+
+### _removeEventListener <badge type="warning" text="protected" /> {#method--removeeventlistener}
+
+Remove an event listener from an element and unregister it within the menu.
+
+```js
+BaseMenu._removeEventListener(type, element, listener, options);
+```
+
+#### Parameters {#method--removeeventlistener--parameters}
+
+| Param | Type | Description | Default |
+| --- | --- | --- | --- |
+| type | `string` | The event type to remove. | `undefined` |
+| element | `HTMLElement` | The element to remove the listener from. | `undefined` |
+| listener | `Function` | The listener callback. | `undefined` |
+| options | `Object`, `boolean` | The options that were passed to the listener. | `{}` |
+
+### _removeEventListeners <badge type="warning" text="protected" /> {#method--removeeventlisteners}
+
+Remove all event listeners registered in the menu.
+
+```js
+BaseMenu._removeEventListeners();
+```
+
+#### Parameters {#method--removeeventlisteners--parameters}
+
+| Param | Type | Description | Default |
+| --- | --- | --- | --- |
+| options | `Object` | The options for removing the listeners. | `{}` |
+| options.type | `string`, `null` | The type of event to remove. If `null`, all types are removed. | `null` |
+| options.element | `HTMLElement`, `null` | The element to remove listeners from. If `null`, all elements are removed. | `null` |
 
 ### focus <badge type="tip" text="public" /> {#method--focus}
 

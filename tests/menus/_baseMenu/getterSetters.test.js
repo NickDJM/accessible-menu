@@ -165,6 +165,35 @@ describe("BaseMenu getter/setters", () => {
     });
   });
 
+  // Test BaseMenu listeners.
+  describe("listeners", () => {
+    // Test that listeners gets the listeners.
+    it("should get the listeners", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      expect(menu.listeners).toEqual(menu._listeners);
+    });
+
+    // Test that listeners cannot set the listeners.
+    it("should not set the listeners", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      expect(() => {
+        menu.listeners = {};
+      }).toThrowError(
+        "Cannot set property listeners of #<BaseMenu> which has only a getter"
+      );
+    });
+  });
+
   // Test BaseMenu isTopLevel.
   describe("isTopLevel", () => {
     // Test that isTopLevel gets the top-level status.

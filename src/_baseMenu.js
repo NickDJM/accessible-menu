@@ -229,6 +229,15 @@ class BaseMenu {
   _hasOpened = false;
 
   /**
+   * Event listeners throughout the menu.
+   *
+   * @protected
+   *
+   * @type {object[]}
+   */
+  _listeners = [];
+
+  /**
    * The key used to generate IDs throughout the menu.
    *
    * @protected
@@ -477,6 +486,19 @@ class BaseMenu {
    */
   get durations() {
     return this._durations;
+  }
+
+  /**
+   * Event listeners throughout the menu.
+   *
+   * @readonly
+   *
+   * @type {object[]}
+   *
+   * @see _listeners
+   */
+  get listeners() {
+    return this._listeners;
   }
 
   /**
@@ -1462,13 +1484,13 @@ class BaseMenu {
    */
   _handleFocus() {
     this.elements.menuItems.forEach((menuItem, index) => {
-      menuItem.dom.link.addEventListener("focus", () => {
+      this._addEventListener("focus", menuItem.dom.link, () => {
         this.focusState = "self";
         this.currentChild = index;
       });
     });
 
-    this.dom.menu.addEventListener("focusout", (event) => {
+    this._addEventListener("focusout", this.dom.menu, (event) => {
       if (
         this.currentEvent !== "keyboard" ||
         event.relatedTarget === null ||
@@ -1521,8 +1543,9 @@ class BaseMenu {
 
     this.elements.menuItems.forEach((item, index) => {
       // Properly focus the current menu item.
-      item.dom.link.addEventListener(
+      this._addEventListener(
         "click",
+        item.dom.link,
         () => {
           this.currentEvent = "mouse";
           this.elements.rootMenu.blurChildren();
@@ -1534,23 +1557,31 @@ class BaseMenu {
 
       // Properly toggle submenus open and closed.
       if (item.isSubmenuItem) {
-        item.elements.toggle.dom.toggle.addEventListener("click", (event) => {
-          this.currentEvent = "mouse";
-          toggleToggle(this, item.elements.toggle, event);
-        });
+        this._addEventListener(
+          "click",
+          item.elements.toggle.dom.toggle,
+          (event) => {
+            this.currentEvent = "mouse";
+            toggleToggle(this, item.elements.toggle, event);
+          }
+        );
       }
     });
 
     // Open the this menu if it's controller is clicked.
     if (this.isTopLevel && this.elements.controller) {
-      this.elements.controller.dom.toggle.addEventListener("click", (event) => {
-        this.currentEvent = "mouse";
-        toggleToggle(this, this.elements.controller, event);
-      });
+      this._addEventListener(
+        "click",
+        this.elements.controller.dom.toggle,
+        (event) => {
+          this.currentEvent = "mouse";
+          toggleToggle(this, this.elements.controller, event);
+        }
+      );
     }
 
     // If the menu has no open children, set hasOpened to false.
-    document.addEventListener("click", (event) => {
+    this._addEventListener("click", document, (event) => {
       if (this.focusState !== "none") {
         this.currentEvent = "mouse";
 
@@ -1613,7 +1644,7 @@ class BaseMenu {
    */
   _handleHover() {
     this.elements.menuItems.forEach((menuItem, index) => {
-      menuItem.dom.link.addEventListener("pointerenter", (event) => {
+      this._addEventListener("pointerenter", menuItem.dom.link, (event) => {
         // Exit out of the event if it was not made by a mouse.
         if (event.pointerType === "pen" || event.pointerType === "touch") {
           return;
@@ -1672,7 +1703,7 @@ class BaseMenu {
       });
 
       if (menuItem.isSubmenuItem) {
-        menuItem.dom.item.addEventListener("pointerleave", (event) => {
+        this._addEventListener("pointerleave", menuItem.dom.item, (event) => {
           // Exit out of the event if it was not made by a mouse.
           if (event.pointerType === "pen" || event.pointerType === "touch") {
             return;
@@ -1703,7 +1734,7 @@ class BaseMenu {
 
         // Clear hover timeouts any time the mouse enters an item with a submenu. This prevents the
         // menu from closing if the mouse leaves but then re-enters before leaveDelay has elapsed.
-        menuItem.dom.item.addEventListener("pointerenter", (event) => {
+        this._addEventListener("pointerenter", menuItem.dom.item, (event) => {
           // Exit out of the event if it was not made by a mouse.
           if (event.pointerType === "pen" || event.pointerType === "touch") {
             return;
@@ -1732,8 +1763,9 @@ class BaseMenu {
    */
   _handleKeydown() {
     if (this.isTopLevel && this.elements.controller) {
-      this.elements.controller.dom.toggle.addEventListener(
+      this._addEventListener(
         "keydown",
+        this.elements.controller.dom.toggle,
         (event) => {
           this.currentEvent = "keyboard";
 
@@ -1757,21 +1789,25 @@ class BaseMenu {
    */
   _handleKeyup() {
     if (this.isTopLevel && this.elements.controller) {
-      this.elements.controller.dom.toggle.addEventListener("keyup", (event) => {
-        this.currentEvent = "keyboard";
+      this._addEventListener(
+        "keyup",
+        this.elements.controller.dom.toggle,
+        (event) => {
+          this.currentEvent = "keyboard";
 
-        const key = keyPress(event);
+          const key = keyPress(event);
 
-        if (key === "Space" || key === "Enter") {
-          preventEvent(event);
-          this.elements.controller.toggle();
+          if (key === "Space" || key === "Enter") {
+            preventEvent(event);
+            this.elements.controller.toggle();
 
-          // If the menu is open, focus the first child.
-          if (this.elements.controller.isOpen) {
-            this.focusFirstChild();
+            // If the menu is open, focus the first child.
+            if (this.elements.controller.isOpen) {
+              this.focusFirstChild();
+            }
           }
         }
-      });
+      );
     }
   }
 
@@ -1802,6 +1838,86 @@ class BaseMenu {
       `--${this.prefix}close-transition-duration`,
       `${this.closeDuration}ms`
     );
+  }
+
+  /**
+   * Add an event listener to an element and register it within the menu.
+   *
+   * @param {string}         type           - The type of event to listen for.
+   * @param {HTMLElement}    element        - The element to add the listener to.
+   * @param {Function}       listener       - The listener callback.
+   * @param {object|boolean} [options = {}] - Options to pass to the listener.
+   */
+  _addEventListener(type, element, listener, options = {}) {
+    // Add the listener.
+    element.addEventListener(type, listener, options);
+
+    // Store it in the menu.
+    this._listeners.push({
+      type,
+      element,
+      listener,
+      options,
+    });
+  }
+
+  /**
+   * Remove an event listener from an element and unregister it within the menu.
+   *
+   * @param {string}         type           - The type of event to remove.
+   * @param {HTMLElement}    element        - The element to remove the listener from.
+   * @param {Function}       listener       - The listener callback.
+   * @param {object|boolean} [options = {}] - Options to pass to the listener.
+   */
+  _removeEventListener(type, element, listener, options = {}) {
+    // Remove the listener.
+    element.removeEventListener(type, listener, options);
+
+    // Find the listener in the menu's listener storage.
+    let index = -1;
+
+    this._listeners.forEach((registeredListener, i) => {
+      if (
+        registeredListener.type === type &&
+        registeredListener.element === element &&
+        registeredListener.listener === listener &&
+        JSON.stringify(registeredListener.options) === JSON.stringify(options)
+      ) {
+        index = i;
+      }
+    });
+
+    // Remove it from the menu's listener storage.
+    if (index !== -1) {
+      this._listeners.splice(index, 1);
+    }
+  }
+
+  /**
+   * Removes all event listeners registered in the menu.
+   *
+   * This can be filtered by type and/or element.
+   *
+   * @protected
+   *
+   * @param {object}       [options = {}]           - Options for removing listeners.
+   * @param {?string}      [options.type = null]    - The type of event to remove. If null, all types are removed.
+   * @param {?HTMLElement} [options.element = null] - The element to remove listeners from. If null, all elements are removed.
+   */
+  _removeEventListeners({ type = null, element = null } = {}) {
+    const listeners = [...this._listeners];
+
+    listeners.forEach((listener) => {
+      if (type !== null && listener.type !== type) return;
+      if (element !== null && listener.element !== element) return;
+
+      this._removeEventListener(
+        listener.type,
+        listener.element,
+        listener.listener,
+        listener.options
+      );
+    });
   }
 
   /**

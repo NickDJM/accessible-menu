@@ -55,4 +55,34 @@ describe("DisclosureMenu protected methods", () => {
       expect(DisclosureMenu.prototype._setIds).toBe(BaseMenu.prototype._setIds);
     });
   });
+
+  // Test DisclosureMenu _addEventListner().
+  describe("_addEventListner", () => {
+    // Test that DisclosureMenu implements the BaseMenu _addEventListner() method.
+    it("should implement the BaseMenu _addEventListner() method", () => {
+      expect(DisclosureMenu.prototype._addEventListner).toBe(
+        BaseMenu.prototype._addEventListner
+      );
+    });
+  });
+
+  // Test DisclosureMenu _removeEventListner().
+  describe("_removeEventListner", () => {
+    // Test that DisclosureMenu implements the BaseMenu _removeEventListner() method.
+    it("should implement the BaseMenu _removeEventListner() method", () => {
+      expect(DisclosureMenu.prototype._removeEventListner).toBe(
+        BaseMenu.prototype._removeEventListner
+      );
+    });
+  });
+
+  // Test DisclosureMenu _removeEventListners().
+  describe("_removeEventListners", () => {
+    // Test that DisclosureMenu implements the BaseMenu _removeEventListners() method.
+    it("should implement the BaseMenu _removeEventListners() method", () => {
+      expect(DisclosureMenu.prototype._removeEventListners).toBe(
+        BaseMenu.prototype._removeEventListners
+      );
+    });
+  });
 });

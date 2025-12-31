@@ -136,6 +136,30 @@ describe("TopLinkDisclosureMenu getter/setters", () => {
     });
   });
 
+  // Test TopLinkDisclosureMenu listeners.
+  describe("listeners", () => {
+    // Test that TopLinkDisclosureMenu implements the BaseMenu listeners getter.
+    it("should implement the BaseMenu listeners", () => {
+      expect(TopLinkDisclosureMenu.prototype.listeners).toBe(
+        BaseMenu.prototype.listeners
+      );
+    });
+
+    // Test that listeners cannot set the listeners.
+    it("should not set the listeners", () => {
+      // Create a new TopLinkDisclosureMenu instance for testing.
+      const menu = new TopLinkDisclosureMenu({
+        menuElement: document.querySelector("ul"),
+      });
+
+      expect(() => {
+        menu.listeners = {};
+      }).toThrowError(
+        "Cannot set property listeners of #<BaseMenu> which has only a getter"
+      );
+    });
+  });
+
   // Test TopLinkDisclosureMenu isTopLevel.
   describe("isTopLevel", () => {
     // Test that TopLinkDisclosureMenu implements the BaseMenu isTopLevel getter.
