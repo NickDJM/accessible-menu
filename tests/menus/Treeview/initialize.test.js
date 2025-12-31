@@ -567,6 +567,30 @@ describe("Treeview (custom arguments)", () => {
       });
     }).toThrow('leaveDelay must be a number. "string" given.');
   });
+
+  // Test that the Treeview will initialize if a valid key is passed.
+  it("should initialize if a valid key is passed", () => {
+    // Test that the menu initializes.
+    expect(() => {
+      // Create a new Treeview instance for testing.
+      new Treeview({
+        menuElement: document.querySelector("ul"),
+        key: "test",
+      });
+    }).not.toThrow();
+  });
+
+  // Test that the Treeview will throw an error if an invalid key is passed.
+  it("should throw an error if an invalid key is passed", () => {
+    // Test that the menu throws an error.
+    expect(() => {
+      // Create a new Treeview instance for testing.
+      new Treeview({
+        menuElement: document.querySelector("ul"),
+        key: 1,
+      });
+    }).toThrow('key must be a string. "number" given.');
+  });
 });
 
 // Treeview controlled initialization tests.

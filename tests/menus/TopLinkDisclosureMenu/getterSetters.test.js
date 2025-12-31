@@ -436,6 +436,33 @@ describe("TopLinkDisclosureMenu getter/setters", () => {
     });
   });
 
+  // Test TopLinkDisclosureMenu key.
+  describe("key", () => {
+    // Test that key gets the key value.
+    it("should get the key value", () => {
+      // Create a new TopLinkDisclosureMenu instance for testing.
+      const menu = new TopLinkDisclosureMenu({
+        menuElement: document.querySelector("ul"),
+      });
+
+      expect(menu.key).toBe(menu._key);
+    });
+
+    // Test that key cannot set the key value.
+    it("should not set the key value", () => {
+      // Create a new TopLinkDisclosureMenu instance for testing.
+      const menu = new TopLinkDisclosureMenu({
+        menuElement: document.querySelector("ul"),
+      });
+
+      expect(() => {
+        menu.key = "test-";
+      }).toThrowError(
+        "Cannot set property key of #<BaseMenu> which has only a getter"
+      );
+    });
+  });
+
   // Test TopLinkDisclosureMenu shouldFocus.
   describe("shouldFocus", () => {
     // Test that TopLinkDisclosureMenu implements the BaseMenu shouldFocus getter.

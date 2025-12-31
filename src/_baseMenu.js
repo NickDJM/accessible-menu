@@ -312,6 +312,7 @@ class BaseMenu {
    * @param {number}             [options.enterDelay = -1]                  - The delay for opening menus if the menu is hoverable (in milliseconds).
    * @param {number}             [options.leaveDelay = -1]                  - The delay for closing menus if the menu is hoverable (in milliseconds).
    * @param {?string}            [options.prefix = am-]                     - The prefix to use for CSS custom properties.
+   * @param {?string}            [options.key = null]                       - The key used to generate IDs throughout the menu.
    */
   constructor({
     menuElement,
@@ -335,6 +336,7 @@ class BaseMenu {
     enterDelay = -1,
     leaveDelay = -1,
     prefix = "am-",
+    key = null,
   }) {
     // Set DOM elements.
     this._dom.menu = menuElement;
@@ -365,8 +367,9 @@ class BaseMenu {
     this._openDuration = openDuration;
     this._closeDuration = closeDuration;
 
-    // Set prefix.
+    // Set the prefix and key.
     this._prefix = prefix || "";
+    this._key = key || "";
 
     // Set root.
     this._root = isTopLevel;
@@ -1182,6 +1185,18 @@ class BaseMenu {
     if (!leaveDelayCheck.status) {
       this._errors.push(leaveDelayCheck.error.message);
       check = false;
+    }
+
+    // Key check.
+    if (this._key !== "") {
+      // Check the key.
+      const keyCheck = isValidType("string", { key: this._key });
+
+      // Handle key check failure.
+      if (!keyCheck.status) {
+        this._errors.push(keyCheck.error.message);
+        check = false;
+      }
     }
 
     // Prefix check.

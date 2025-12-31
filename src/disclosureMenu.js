@@ -83,6 +83,7 @@ class DisclosureMenu extends BaseMenu {
    * @param {number}             [options.leaveDelay = -1]                  - The delay for closing a menu if the menu is focusable (in milliseconds).
    * @param {boolean}            [options.optionalKeySupport = false]       - A flag to add optional keyboard support (Arrow keys, Home, and End) to the menu.
    * @param {?string}            [options.prefix = am-]                     - The prefix to use for CSS custom properties.
+   * @param {?string}            [options.key = null]                       - The key used to generate IDs throughout the menu.
    * @param {boolean}            [options.initialize = true]                - A flag to initialize the menu immediately upon creation.
    */
   constructor({
@@ -108,6 +109,7 @@ class DisclosureMenu extends BaseMenu {
     leaveDelay = -1,
     optionalKeySupport = false,
     prefix = "am-",
+    key = null,
     initialize = true,
   }) {
     super({
@@ -132,6 +134,7 @@ class DisclosureMenu extends BaseMenu {
       enterDelay,
       leaveDelay,
       prefix,
+      key,
     });
 
     // Set optional key support.

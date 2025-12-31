@@ -568,6 +568,30 @@ describe("DisclosureMenu (custom arguments)", () => {
     }).toThrow('leaveDelay must be a number. "string" given.');
   });
 
+  // Test that the DisclosureMenu will initialize if a valid key is passed.
+  it("should initialize if a valid key is passed", () => {
+    // Test that the menu initializes.
+    expect(() => {
+      // Create a new DisclosureMenu instance for testing.
+      new DisclosureMenu({
+        menuElement: document.querySelector("ul"),
+        key: "test",
+      });
+    }).not.toThrow();
+  });
+
+  // Test that the DisclosureMenu will throw an error if an invalid key is passed.
+  it("should throw an error if an invalid key is passed", () => {
+    // Test that the menu throws an error.
+    expect(() => {
+      // Create a new DisclosureMenu instance for testing.
+      new DisclosureMenu({
+        menuElement: document.querySelector("ul"),
+        key: 1,
+      });
+    }).toThrow('key must be a string. "number" given.');
+  });
+
   // Test that the DisclosureMenu will initialize if a valid optionalKeySupport is passed.
   it("should initialize if a valid optionalKeySupport is passed", () => {
     // Test that the menu initializes.
