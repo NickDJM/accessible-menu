@@ -765,29 +765,27 @@ class T {
     transition: "transitioning"
   };
   /**
-   * The duration time (in milliseconds) for the transition between open and closed states.
+   * The duration times (in milliseconds) for various menu transitions and events.
    *
    * @protected
    *
-   * @type {number}
+   * @type {Object<number>}
+   *
+   * @property {number} transition - The duration time (in milliseconds) for the transition between open and closed states.
+   * @property {number} open       - The duration time (in milliseconds) for the transition from closed to open states.
+   * @property {number} close      - The duration time (in milliseconds) for the transition from open to closed states.
+   * @property {number} hover      - The delay time (in milliseconds) used for pointerenter/pointerleave events to take place.
+   * @property {number} enter      - The delay time (in milliseconds) used for pointerenter events to take place.
+   * @property {number} leave      - The delay time (in milliseconds) used for pointerleave events to take place.
    */
-  _transitionDuration = 250;
-  /**
-   * The duration time (in milliseconds) for the transition from closed to open states.
-   *
-   * @protected
-   *
-   * @type {number}
-   */
-  _openDuration = -1;
-  /**
-   * The duration time (in milliseconds) for the transition from open to closed states.
-   *
-   * @protected
-   *
-   * @type {number}
-   */
-  _closeDuration = -1;
+  _durations = {
+    transition: 250,
+    open: -1,
+    close: -1,
+    hover: 250,
+    enter: -1,
+    leave: -1
+  };
   /**
    * A flag marking the root menu.
    *
@@ -828,30 +826,6 @@ class T {
    * @type {string}
    */
   _hoverType = "off";
-  /**
-   * The delay time (in milliseconds) used for pointerenter/pointerleave events to take place.
-   *
-   * @protected
-   *
-   * @type {number}
-   */
-  _hoverDelay = 250;
-  /**
-   * The delay time (in milliseconds) used for pointerenter events to take place.
-   *
-   * @protected
-   *
-   * @type {number}
-   */
-  _enterDelay = -1;
-  /**
-   * The delay time (in milliseconds) used for pointerleave events to take place.
-   *
-   * @protected
-   *
-   * @type {number}
-   */
-  _leaveDelay = -1;
   /**
    * The prefix to use for CSS custom properties.
    *
@@ -934,14 +908,14 @@ class T {
     openDuration: u = -1,
     closeDuration: C = -1,
     isTopLevel: M = !0,
-    parentMenu: D = null,
-    hoverType: v = "off",
-    hoverDelay: w = 250,
-    enterDelay: k = -1,
+    parentMenu: v = null,
+    hoverType: w = "off",
+    hoverDelay: k = 250,
+    enterDelay: D = -1,
     leaveDelay: S = -1,
     prefix: A = "am-"
   }) {
-    this._dom.menu = e, this._dom.controller = a, this._dom.container = c, this._selectors.menuItems = t, this._selectors.menuLinks = s, this._selectors.submenuItems = i, this._selectors.submenuToggles = r, this._selectors.submenus = l, this._elements.menuItems = [], this._elements.submenuToggles = [], this._elements.controller = null, this._elements.parentMenu = D, this._elements.rootMenu = M ? this : null, this._classes.open = m || "", this._classes.close = d || "", this._classes.transition = f || "", this._transitionDuration = p, this._openDuration = u, this._closeDuration = C, this._prefix = A || "", this._root = M, this._hoverType = v, this._hoverDelay = w, this._enterDelay = k, this._leaveDelay = S;
+    this._dom.menu = e, this._dom.controller = a, this._dom.container = c, this._selectors.menuItems = t, this._selectors.menuLinks = s, this._selectors.submenuItems = i, this._selectors.submenuToggles = r, this._selectors.submenus = l, this._elements.menuItems = [], this._elements.submenuToggles = [], this._elements.controller = null, this._elements.parentMenu = v, this._elements.rootMenu = M ? this : null, this._classes.open = m || "", this._classes.close = d || "", this._classes.transition = f || "", this._durations.transition = p, this._durations.open = u, this._durations.close = C, this._prefix = A || "", this._root = M, this._hoverType = w, this._durations.hover = k, this._durations.enter = D, this._durations.leave = S;
   }
   /**
    * Initializes the menu.
@@ -1033,6 +1007,18 @@ class T {
    */
   get classes() {
     return this._classes;
+  }
+  /**
+   * The durations (in milliseconds) for various menu transitions and events.
+   *
+   * @readonly
+   *
+   * @type {Object<number>}
+   *
+   * @see _durations
+   */
+  get durations() {
+    return this._durations;
   }
   /**
    * The flag marking the root menu.
@@ -1134,13 +1120,13 @@ class T {
    *
    * @type {number}
    *
-   * @see _transitionDuration
+   * @see _durations.transition
    */
   get transitionDuration() {
-    return this.isTopLevel ? this._transitionDuration : this.elements.rootMenu.transitionDuration;
+    return this.isTopLevel ? this._durations.transition : this.elements.rootMenu.transitionDuration;
   }
   set transitionDuration(e) {
-    o("number", { value: e }), this._transitionDuration !== e && (this._transitionDuration = e, this._setTransitionDurations());
+    o("number", { value: e }), this._durations.transition !== e && (this._durations.transition = e, this._setTransitionDurations());
   }
   /**
    * The duration time (in milliseconds) for the transition from closed to open states.
@@ -1154,13 +1140,13 @@ class T {
    *
    * @type {number}
    *
-   * @see _openDuration
+   * @see _durations.open
    */
   get openDuration() {
-    return this._openDuration === -1 ? this.transitionDuration : this.isTopLevel ? this._openDuration : this.elements.rootMenu.openDuration;
+    return this._durations.open === -1 ? this.transitionDuration : this.isTopLevel ? this._durations.open : this.elements.rootMenu.openDuration;
   }
   set openDuration(e) {
-    o("number", { value: e }), this._openDuration !== e && (this._openDuration = e, this._setTransitionDurations());
+    o("number", { value: e }), this._durations.open !== e && (this._durations.open = e, this._setTransitionDurations());
   }
   /**
    * The duration time (in milliseconds) for the transition from open to closed states.
@@ -1174,13 +1160,13 @@ class T {
    *
    * @type {number}
    *
-   * @see _closeDuration
+   * @see _durations.close
    */
   get closeDuration() {
-    return this._closeDuration === -1 ? this.transitionDuration : this.isTopLevel ? this._closeDuration : this.elements.rootMenu.closeDuration;
+    return this._durations.close === -1 ? this.transitionDuration : this.isTopLevel ? this._durations.close : this.elements.rootMenu.closeDuration;
   }
   set closeDuration(e) {
-    o("number", { value: e }), this._closeDuration !== e && (this._closeDuration = e, this._setTransitionDurations());
+    o("number", { value: e }), this._durations.close !== e && (this._durations.close = e, this._setTransitionDurations());
   }
   /**
    * The index of the currently selected menu item in the menu.
@@ -1283,13 +1269,13 @@ class T {
    *
    * @type {number}
    *
-   * @see _hoverDelay
+   * @see _durations.hover
    */
   get hoverDelay() {
-    return this._root ? this._hoverDelay : this.elements.rootMenu.hoverDelay;
+    return this._root ? this._durations.hover : this.elements.rootMenu.hoverDelay;
   }
   set hoverDelay(e) {
-    o("number", { value: e }), this._hoverDelay !== e && (this._hoverDelay = e);
+    o("number", { value: e }), this._durations.hover !== e && (this._durations.hover = e);
   }
   /**
    * The delay time (in milliseconds) used for pointerenter events to take place.
@@ -1301,13 +1287,13 @@ class T {
    *
    * @type {number}
    *
-   * @see _enterDelay
+   * @see _durations.enter
    */
   get enterDelay() {
-    return this._enterDelay === -1 ? this.hoverDelay : this._root ? this._enterDelay : this.elements.rootMenu.enterDelay;
+    return this._durations.enter === -1 ? this.hoverDelay : this._root ? this._durations.enter : this.elements.rootMenu.enterDelay;
   }
   set enterDelay(e) {
-    o("number", { value: e }), this._enterDelay !== e && (this._enterDelay = e);
+    o("number", { value: e }), this._durations.enter !== e && (this._durations.enter = e);
   }
   /**
    * The delay time (in milliseconds) used for pointerleave events to take place.
@@ -1319,13 +1305,13 @@ class T {
    *
    * @type {number}
    *
-   * @see _leaveDelay
+   * @see _durations.leave
    */
   get leaveDelay() {
-    return this._leaveDelay === -1 ? this.hoverDelay : this._root ? this._leaveDelay : this.elements.rootMenu.leaveDelay;
+    return this._durations.leave === -1 ? this.hoverDelay : this._root ? this._durations.leave : this.elements.rootMenu.leaveDelay;
   }
   set leaveDelay(e) {
-    o("number", { value: e }), this._leaveDelay !== e && (this._leaveDelay = e);
+    o("number", { value: e }), this._durations.leave !== e && (this._durations.leave = e);
   }
   /**
    * The prefix to use for CSS custom properties.
@@ -1421,15 +1407,15 @@ class T {
       u.status || (this._errors.push(u.error.message), e = !1);
     }
     const i = o("number", {
-      transitionDuration: this._transitionDuration
+      transitionDuration: this._durations.transition
     });
     i.status || (this._errors.push(i.error.message), e = !1);
     const r = o("number", {
-      openDuration: this._openDuration
+      openDuration: this._durations.open
     });
     r.status || (this._errors.push(r.error.message), e = !1);
     const l = o("number", {
-      closeDuration: this._closeDuration
+      closeDuration: this._durations.close
     });
     l.status || (this._errors.push(l.error.message), e = !1);
     const a = o("boolean", { isTopLevel: this._root });
@@ -1442,15 +1428,15 @@ class T {
     const c = I({ hoverType: this._hoverType });
     c.status || (this._errors.push(c.error.message), e = !1);
     const m = o("number", {
-      hoverDelay: this._hoverDelay
+      hoverDelay: this._durations.hover
     });
     m.status || (this._errors.push(m.error.message), e = !1);
     const d = o("number", {
-      enterDelay: this._enterDelay
+      enterDelay: this._durations.enter
     });
     d.status || (this._errors.push(d.error.message), e = !1);
     const f = o("number", {
-      leaveDelay: this._leaveDelay
+      leaveDelay: this._durations.leave
     });
     f.status || (this._errors.push(f.error.message), e = !1);
     const p = o("string", { prefix: this._prefix });
@@ -2121,10 +2107,10 @@ class F extends T {
     openDuration: u = -1,
     closeDuration: C = -1,
     isTopLevel: M = !0,
-    parentMenu: D = null,
-    hoverType: v = "off",
-    hoverDelay: w = 250,
-    enterDelay: k = -1,
+    parentMenu: v = null,
+    hoverType: w = "off",
+    hoverDelay: k = 250,
+    enterDelay: D = -1,
     leaveDelay: S = -1,
     optionalKeySupport: A = !1,
     prefix: j = "am-",
@@ -2146,10 +2132,10 @@ class F extends T {
       openDuration: u,
       closeDuration: C,
       isTopLevel: M,
-      parentMenu: D,
-      hoverType: v,
-      hoverDelay: w,
-      enterDelay: k,
+      parentMenu: v,
+      hoverType: w,
+      hoverDelay: k,
+      enterDelay: D,
       leaveDelay: S,
       prefix: j
     }), this._optionalSupport = A, K && this.initialize();
