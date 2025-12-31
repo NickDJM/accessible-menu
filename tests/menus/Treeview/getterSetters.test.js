@@ -216,7 +216,7 @@ describe("Treeview getter/setters", () => {
         menuElement: document.querySelector("ul"),
       });
 
-      expect(menu.transitionDuration).toBe(menu._transitionDuration);
+      expect(menu.transitionDuration).toBe(menu._durations.transition);
     });
 
     // Test that transitionDuration sets the hover delay value.
@@ -233,7 +233,7 @@ describe("Treeview getter/setters", () => {
       menu.transitionDuration = 200;
 
       expect(spy).toHaveBeenCalledWith("number", { value: 200 });
-      expect(menu._transitionDuration).toBe(200);
+      expect(menu._durations.transition).toBe(200);
     });
   });
 
@@ -248,7 +248,7 @@ describe("Treeview getter/setters", () => {
 
       // In this case, because we have not set the enter delay,
       // it should be the same as the hover delay.
-      expect(menu.openDuration).toBe(menu._hoverDelay);
+      expect(menu.openDuration).toBe(menu._durations.hover);
     });
 
     // Test that openDuration sets the enter delay value.
@@ -265,7 +265,7 @@ describe("Treeview getter/setters", () => {
       menu.openDuration = 100;
 
       expect(spy).toHaveBeenCalledWith("number", { value: 100 });
-      expect(menu._openDuration).toBe(100);
+      expect(menu._durations.open).toBe(100);
     });
   });
 
@@ -280,7 +280,7 @@ describe("Treeview getter/setters", () => {
 
       // In this case, because we have not set the leave delay,
       // it should be the same as the hover delay.
-      expect(menu.closeDuration).toBe(menu._hoverDelay);
+      expect(menu.closeDuration).toBe(menu._durations.hover);
     });
 
     // Test that closeDuration sets the leave delay value.
@@ -297,7 +297,7 @@ describe("Treeview getter/setters", () => {
       menu.closeDuration = 100;
 
       expect(spy).toHaveBeenCalledWith("number", { value: 100 });
-      expect(menu._closeDuration).toBe(100);
+      expect(menu._durations.close).toBe(100);
     });
   });
 
@@ -383,7 +383,7 @@ describe("Treeview getter/setters", () => {
         menuElement: document.querySelector("ul"),
       });
 
-      expect(menu.hoverDelay).toBe(menu._hoverDelay);
+      expect(menu.hoverDelay).toBe(menu._durations.hover);
     });
 
     // Test that hoverDelay sets the hover delay value.
@@ -400,7 +400,7 @@ describe("Treeview getter/setters", () => {
       menu.hoverDelay = 200;
 
       expect(spy).toHaveBeenCalledWith("number", { value: 200 });
-      expect(menu._hoverDelay).toBe(200);
+      expect(menu._durations.hover).toBe(200);
     });
   });
 
@@ -415,7 +415,7 @@ describe("Treeview getter/setters", () => {
 
       // In this case, because we have not set the enter delay,
       // it should be the same as the hover delay.
-      expect(menu.enterDelay).toBe(menu._hoverDelay);
+      expect(menu.enterDelay).toBe(menu._durations.hover);
     });
 
     // Test that enterDelay sets the enter delay value.
@@ -432,7 +432,7 @@ describe("Treeview getter/setters", () => {
       menu.enterDelay = 100;
 
       expect(spy).toHaveBeenCalledWith("number", { value: 100 });
-      expect(menu._enterDelay).toBe(100);
+      expect(menu._durations.enter).toBe(100);
     });
   });
 
@@ -447,7 +447,7 @@ describe("Treeview getter/setters", () => {
 
       // In this case, because we have not set the leave delay,
       // it should be the same as the hover delay.
-      expect(menu.leaveDelay).toBe(menu._hoverDelay);
+      expect(menu.leaveDelay).toBe(menu._durations.hover);
     });
 
     // Test that leaveDelay sets the leave delay value.
@@ -464,7 +464,7 @@ describe("Treeview getter/setters", () => {
       menu.leaveDelay = 100;
 
       expect(spy).toHaveBeenCalledWith("number", { value: 100 });
-      expect(menu._leaveDelay).toBe(100);
+      expect(menu._durations.leave).toBe(100);
     });
   });
 
