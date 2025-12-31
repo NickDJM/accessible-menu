@@ -134,6 +134,30 @@ describe("DisclosureMenu getter/setters", () => {
     });
   });
 
+  // Test DisclosureMenu listeners.
+  describe("listeners", () => {
+    // Test that DisclosureMenu implements the BaseMenu listeners getter.
+    it("should implement the BaseMenu listeners", () => {
+      expect(DisclosureMenu.prototype.listeners).toBe(
+        BaseMenu.prototype.listeners
+      );
+    });
+
+    // Test that listeners cannot set the listeners.
+    it("should not set the listeners", () => {
+      // Create a new DisclosureMenu instance for testing.
+      const menu = new DisclosureMenu({
+        menuElement: document.querySelector("ul"),
+      });
+
+      expect(() => {
+        menu.listeners = {};
+      }).toThrowError(
+        "Cannot set property listeners of #<BaseMenu> which has only a getter"
+      );
+    });
+  });
+
   // Test DisclosureMenu isTopLevel.
   describe("isTopLevel", () => {
     // Test that DisclosureMenu implements the BaseMenu isTopLevel getter.
