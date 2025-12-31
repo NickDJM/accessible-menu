@@ -1873,16 +1873,23 @@ class BaseMenu {
     // Remove the listener.
     element.removeEventListener(type, listener, options);
 
-    // Remove it from the menu storage.
-    const index = this._listeners.indexOf({
-      type,
-      element,
-      listener,
-      options,
+    // Find the listener in the menu's listener storage.
+    let index = -1;
+
+    this._listeners.forEach((registeredListener, i) => {
+      if (
+        registeredListener.type === type &&
+        registeredListener.element === element &&
+        registeredListener.listener === listener &&
+        JSON.stringify(registeredListener.options) === JSON.stringify(options)
+      ) {
+        index = i;
+      }
     });
 
+    // Remove it from the menu's listener storage.
     if (index !== -1) {
-      this._listeners.splice(index);
+      this._listeners.splice(index, 1);
     }
   }
 
@@ -1898,22 +1905,18 @@ class BaseMenu {
    * @param {?HTMLElement} [options.element = null] - The element to remove listeners from. If null, all elements are removed.
    */
   _removeEventListeners({ type = null, element = null } = {}) {
-    let listeners = this._listeners;
+    const listeners = [...this._listeners];
 
-    if (type !== null) {
-      listeners = this._listeners.filter((listener) => {
-        return listener.type === type;
-      });
-    }
+    listeners.forEach((listener) => {
+      if (type !== null && listener.type !== type) return;
+      if (element !== null && listener.element !== element) return;
 
-    if (element !== null) {
-      listeners = listeners.filter((listener) => {
-        return listener.element === element;
-      });
-    }
-
-    listeners.forEach(({ type, element, listener, options }) => {
-      this._removeEventListener(type, element, listener, options);
+      this._removeEventListener(
+        listener.type,
+        listener.element,
+        listener.listener,
+        listener.options
+      );
     });
   }
 
