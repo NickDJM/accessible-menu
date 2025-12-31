@@ -26,7 +26,23 @@ Currently, there are no breaking changes for Treeviews in v5.
 
 ### Developer changes
 
-Currently, there are no breaking changes for developers in v5.
+#### Class fields
+
+All "class" fields (`_openClass`, `_closeClass`, and `_transitionClass`) have been merged into a single `_classes` field.
+
+```js
+_classes = {
+  open: "",
+  close: "",
+  transition: "",
+}
+```
+
+The corresponding getters/setters still exist, but now reference the appropriate `_classes` property.
+
+A new read-only `classes` getter has been added in addiotion to the existing getter/setters.
+
+```js
 
 ## Upgrading from v1, v2, or v3
 
