@@ -429,8 +429,9 @@ describe("TopLinkDisclosureMenu getter/setters", () => {
       // Create a new TopLinkDisclosureMenu instance for testing.
       const menu = new TopLinkDisclosureMenu({
         menuElement: document.querySelector("ul"),
-        prefix: "test-",
       });
+
+      menu.prefix = "test-";
 
       expect(menu.prefix).toBe("test-");
     });

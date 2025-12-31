@@ -421,8 +421,9 @@ describe("Menubar getter/setters", () => {
       // Create a new Menubar instance for testing.
       const menu = new Menubar({
         menuElement: document.querySelector("ul"),
-        prefix: "test-",
       });
+
+      menu.prefix = "test-";
 
       expect(menu.prefix).toBe("test-");
     });

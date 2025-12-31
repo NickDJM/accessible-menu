@@ -673,6 +673,34 @@ describe("BaseMenu (custom arguments)", () => {
     }).toThrow('leaveDelay must be a number. "string" given.');
   });
 
+  // Test that the BaseMenu will initialize if a valid prefix is passed.
+  it("should initialize if a valid prefix is passed", () => {
+    // Create a new BaseMenu instance for testing.
+    const menu = new BaseMenu({
+      menuElement: document.querySelector("ul"),
+      prefix: "test",
+    });
+
+    // Test that the menu initializes.
+    expect(() => {
+      initializeMenu(menu);
+    }).not.toThrow();
+  });
+
+  // Test that the BaseMenu will throw an error if an invalid prefix is passed.
+  it("should throw an error if an invalid prefix is passed", () => {
+    // Create a new BaseMenu instance for testing.
+    const menu = new BaseMenu({
+      menuElement: document.querySelector("ul"),
+      prefix: 1,
+    });
+
+    // Test that the menu throws an error.
+    expect(() => {
+      initializeMenu(menu);
+    }).toThrow('prefix must be a string. "number" given.');
+  });
+
   // Test that the BaseMenu will initialize if a valid key is passed.
   it("should initialize if a valid key is passed", () => {
     // Create a new BaseMenu instance for testing.

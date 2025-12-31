@@ -429,8 +429,9 @@ describe("DisclosureMenu getter/setters", () => {
       // Create a new DisclosureMenu instance for testing.
       const menu = new DisclosureMenu({
         menuElement: document.querySelector("ul"),
-        prefix: "test-",
       });
+
+      menu.prefix = "test-";
 
       expect(menu.prefix).toBe("test-");
     });
