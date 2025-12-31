@@ -211,15 +211,6 @@ class BaseMenu {
   _prefix = "am-";
 
   /**
-   * A variable to hold the hover timeout function.
-   *
-   * @protected
-   *
-   * @type {?Function}
-   */
-  _hoverTimeout = null;
-
-  /**
    * A flag to check if the menu can dynamically hover based on if a menu has been opened already.
    *
    * @protected
@@ -227,6 +218,15 @@ class BaseMenu {
    * @type {boolean}
    */
   _hasOpened = false;
+
+  /**
+   * Timeouts throughout the component.
+   *
+   * @protected
+   *
+   * @type {Object<Function>}
+   */
+  _timeouts = {};
 
   /**
    * Event listeners throughout the menu.
@@ -486,6 +486,19 @@ class BaseMenu {
    */
   get durations() {
     return this._durations;
+  }
+
+  /**
+   * Timeouts throughout the menu.
+   *
+   * @readonly
+   *
+   * @type {object}
+   *
+   * @see _timeouts
+   */
+  get timeouts() {
+    return this._timeouts;
   }
 
   /**
@@ -1448,30 +1461,6 @@ class BaseMenu {
   }
 
   /**
-   * Clears the hover timeout.
-   *
-   * @protected
-   */
-  _clearTimeout() {
-    clearTimeout(this._hoverTimeout);
-  }
-
-  /**
-   * Sets the hover timeout.
-   *
-   * @protected
-   *
-   * @param {Function} callback - The callback function to execute.
-   * @param {number}   delay    - The delay time in milliseconds.
-   */
-  _setTimeout(callback, delay) {
-    isValidType("function", { callback });
-    isValidType("number", { delay });
-
-    this._hoverTimeout = setTimeout(callback, delay);
-  }
-
-  /**
    * Handles focus events throughout the menu for proper menu use.
    *
    * - Adds a `focus` listener to every menu item so when it gains focus,
@@ -1838,6 +1827,43 @@ class BaseMenu {
       `--${this.prefix}close-transition-duration`,
       `${this.closeDuration}ms`
     );
+  }
+
+  /**
+   * Sets a timeout within the menu.
+   *
+   * @protected
+   *
+   * @param {Function} [callback]         - The callback function.
+   * @param {number}   [delay]            - The time (in milliseconds) of the delay.
+   * @param {string}   [scope = _default] - The scope of the timeout (used to store the timeout in _timeouts).
+   */
+  _setTimeout(callback, delay, scope = "_default") {
+    this._clearTimeout(scope);
+
+    this._timeouts[scope] = setTimeout(callback, delay);
+  }
+
+  /**
+   * Clears a timeout within the menu.
+   *
+   * @protected
+   *
+   * @param {string} [scope = _default] - The scope of the timeout (used to get the timeout from _timeouts).
+   */
+  _clearTimeout(scope = "_default") {
+    clearTimeout(this._timeouts[scope]);
+  }
+
+  /**
+   * Clears all timeouts within the menu.
+   *
+   * @protected
+   */
+  _clearTimeouts() {
+    for (const scope of Object.keys(this._timeouts)) {
+      this._clearTimeout(scope);
+    }
   }
 
   /**

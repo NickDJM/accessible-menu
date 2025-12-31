@@ -232,6 +232,18 @@ BaseMenu._durations;
 | enter | `number` | The delay time (in milliseconds) used for pointerenter events to take place. | `-1` |
 | leave | `number` | The delay time (in milliseconds) used for pointerleave events to take place. | `-1` |
 
+### _timeouts <badge type="warning" text="protected" /> {#property--timeouts}
+
+Event timeouts throughout the menu.
+
+```js
+BaseMenu._timeouts; // Default: `{}`.
+```
+
+#### Type {#property--timeouts--type}
+
+`Object<Function>`
+
 ### _listeners <badge type="warning" text="protected" /> {#property--listeners}
 
 Event listeners throughout the menu.
@@ -318,19 +330,6 @@ The prefix for the CSS custom properties.
 
 ```js
 BaseMenu._prefix; // Default: `"am-"`.
-```
-
-### _hoverTimeout <badge type="warning" text="protected" /> {#property--hovertimeout}
-
-A variable to hold the hover timeout function.
-
-```js
-BaseMenu._hoverTimeout; // Default: `null`.
-```
-
-#### Type {#property--hovertimeout--type}
-
-`Function`
 
 ### _hasOpened <badge type="warning" text="protected" /> {#property--hasopened}
 
@@ -439,6 +438,20 @@ BaseMenu.durations;
 :::
 
 See [_durations](#property--durations) for more information.
+
+### timeouts <badge type="warning" text="readonly" /> {#getter--timeouts}
+
+Timeouts throughout the menu.
+
+::: code-group
+
+```js [getter]
+BaseMenu.timeouts;
+```
+
+:::
+
+See [_timeouts](#property--timeouts) for more information.
 
 ### listeners <badge type="warning" text="readonly" /> {#getter--listeners}
 
@@ -958,28 +971,43 @@ Creates and initializes all menu items and submenus.
 BaseMenu._createChildMenu();
 ```
 
-### _clearTimeout <badge type="warning" text="protected" /> {#method--cleartimeout}
-
-Clears the hover timeout.
-
-```js
-BaseMenu._clearTimeout();
-```
-
 ### _setTimeout <badge type="warning" text="protected" /> {#method--settimeout}
 
-Sets the hover timeout.
+Sets a timeout within the menu.
 
 ```js
-BaseMenu._setTimeout(callback, delay);
+BaseMenu._setTimeout(callback, delay, scope);
 ```
 
 #### Parameters {#method--settimeout--parameters}
 
 | Param | Type | Description | Default |
 | --- | --- | --- | --- |
-| callback | `Function` | The callback function to execute. | `undefined` |
-| delay | `number` | The delay time in milliseconds. | `undefined` |
+| callback | `Function` | The callback function. | `undefined` |
+| delay | `number` | The time (in milliseconds) of the delay. | `undefined` |
+| scope | `string` | The scope of the timeout (used to store the timeout in _timeouts). | `"_default"` |
+
+### _clearTimeout <badge type="warning" text="protected" /> {#method--cleartimeout}
+
+Clears a timeout within the menu.
+
+```js
+BaseMenu._clearTimeout(scope);
+```
+
+#### Parameters {#method--cleartimeout--parameters}
+
+| Param | Type | Description | Default |
+| --- | --- | --- | --- |
+| scope | `string` | The scope of the timeout (used to get the timeout from _timeouts). | `"_default"` |
+
+### _clearTimeouts <badge type="warning" text="protected" /> {#method--cleartimeouts}
+
+Clears all timeouts within the menu.
+
+```js
+BaseMenu._clearTimeouts();
+```
 
 ### _handleFocus <badge type="warning" text="protected" /> {#method--handlefocus}
 
