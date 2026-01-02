@@ -13,6 +13,7 @@ beforeEach(() => {
 
 afterEach(() => {
   document.body.innerHTML = "";
+  delete window.AccessibleMenu;
 });
 
 // Test BaseMenu public methods.
@@ -679,5 +680,31 @@ describe("BaseMenu public methods", () => {
         expect(spy5).toHaveBeenCalled();
       }
     );
+  });
+
+  // Test BaseMenu dispose().
+  describe("dispose", () => {
+    // Test that dispose cleans up listeners, timeouts, and storage.
+    it("should remove listeners, clear timeouts, and unstore the menu", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+
+      const removeListenersSpy = vi.spyOn(menu, "_removeEventListeners");
+      const clearTimeoutsSpy = vi.spyOn(menu, "_clearTimeouts");
+      const unstoreSpy = vi.spyOn(menu, "_unstore");
+      const id = menu.id;
+
+      menu.dispose();
+
+      expect(removeListenersSpy).toHaveBeenCalled();
+      expect(clearTimeoutsSpy).toHaveBeenCalled();
+      expect(unstoreSpy).toHaveBeenCalled();
+      expect(window.AccessibleMenu.get({ key: id })).toBeUndefined();
+    });
   });
 });
