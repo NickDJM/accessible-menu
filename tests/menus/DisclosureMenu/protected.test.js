@@ -85,4 +85,20 @@ describe("DisclosureMenu protected methods", () => {
       );
     });
   });
+
+  describe("_store", () => {
+    // Test that DisclosureMenu implements the BaseMenu _store() method.
+    it("should implement the BaseMenu _store() method", () => {
+      expect(DisclosureMenu.prototype._store).toBe(BaseMenu.prototype._store);
+    });
+  });
+
+  describe("_unstore", () => {
+    // Test that DisclosureMenu implements the BaseMenu _unstore() method.
+    it("should implement the BaseMenu _unstore() method", () => {
+      expect(DisclosureMenu.prototype._unstore).toBe(
+        BaseMenu.prototype._unstore
+      );
+    });
+  });
 });

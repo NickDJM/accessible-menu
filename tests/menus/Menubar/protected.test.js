@@ -85,4 +85,18 @@ describe("Menubar protected methods", () => {
       );
     });
   });
+
+  describe("_store", () => {
+    // Test that Menubar implements the BaseMenu _store() method.
+    it("should implement the BaseMenu _store() method", () => {
+      expect(Menubar.prototype._store).toBe(BaseMenu.prototype._store);
+    });
+  });
+
+  describe("_unstore", () => {
+    // Test that Menubar implements the BaseMenu _unstore() method.
+    it("should implement the BaseMenu _unstore() method", () => {
+      expect(Menubar.prototype._unstore).toBe(BaseMenu.prototype._unstore);
+    });
+  });
 });

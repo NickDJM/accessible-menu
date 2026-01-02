@@ -85,4 +85,18 @@ describe("Treeview protected methods", () => {
       );
     });
   });
+
+  describe("_store", () => {
+    // Test that Treeview implements the BaseMenu _store() method.
+    it("should implement the BaseMenu _store() method", () => {
+      expect(Treeview.prototype._store).toBe(BaseMenu.prototype._store);
+    });
+  });
+
+  describe("_unstore", () => {
+    // Test that Treeview implements the BaseMenu _unstore() method.
+    it("should implement the BaseMenu _unstore() method", () => {
+      expect(Treeview.prototype._unstore).toBe(BaseMenu.prototype._unstore);
+    });
+  });
 });
