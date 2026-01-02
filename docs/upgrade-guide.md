@@ -92,6 +92,10 @@ The `_setTimeout` method had been reworked to accept a scope parameter. This all
 
 This change is to facilitate better cleanup of the menu if it is ever detroyed.
 
+#### Storage
+
+The global storage for menus has been reworked to use a new `StorageManager` class. The main change is menus are now stored in `window.AccessibleMenu.storage.menus` instead of in `window.AccessibleMenu.menus`.
+
 ## Upgrading from v1, v2, or v3
 
 If you're still using v1, v2, or v3 you will need to follow the upgrade guides for those versions before upgrading to v5.
