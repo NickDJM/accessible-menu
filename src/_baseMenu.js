@@ -2185,6 +2185,19 @@ class BaseMenu {
       }
     });
   }
+
+  /**
+   * Disposes of the menu.
+   *
+   * Removes all event listeners, clears all timeouts, removes the menu from storage, and deletes the menu instance.
+   */
+  dispose() {
+    this._removeEventListeners();
+    this._clearTimeouts();
+    this._unstore();
+
+    delete this;
+  }
 }
 
 export default BaseMenu;

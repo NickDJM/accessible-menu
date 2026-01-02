@@ -58,12 +58,18 @@ const container = document.querySelector("header");
 
 let type = "native";
 let structure = "one";
+let currentMenu = null;
 
 /**
  * Generates an accessible-menu.
  */
 function generateMenu() {
   // Remove the last menu from the stack.
+  if (currentMenu) {
+    currentMenu.dispose();
+    currentMenu = null;
+  }
+
   if (window.AccessibleMenu) {
     window.AccessibleMenu.clear({ type: "menus" });
   }
@@ -89,7 +95,7 @@ function generateMenu() {
     return;
   }
 
-  new MenuClass({
+  currentMenu = new MenuClass({
     menuElement: nav.querySelector("ul"),
     containerElement: nav,
     controllerElement: nav.querySelector("button"),

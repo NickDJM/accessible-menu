@@ -1216,6 +1216,17 @@ BaseMenu._removeEventListeners();
 | options.type | `string`, `null` | The type of event to remove. If `null`, all types are removed. | `null` |
 | options.element | `HTMLElement`, `null` | The element to remove listeners from. If `null`, all elements are removed. | `null` |
 
+### dispose <badge type="tip" text="public" /> {#method--dispose}
+
+Dispose of the menu instance.
+
+```js
+BaseMenu.dispose();
+```
+
+Removes all event listeners, clears timeouts, removes the menu from the global
+[StorageManager](./storage-manager), and deletes the instance reference.
+
 ### focus <badge type="tip" text="public" /> {#method--focus}
 
 Focus the menu.
