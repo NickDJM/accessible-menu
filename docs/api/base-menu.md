@@ -139,11 +139,24 @@ BaseMenu._dom;
 | --- | --- | --- | --- |
 | menu | `HTMLElement` | The menu element. | `null` |
 | menuItems | `HTMLElement[]` | An array of menu items. | `[]` |
+| menuLinks | `HTMLElement[]` | An array of menu links. | `[]` |
 | submenuItems | `HTMLElement[]` | An array of menu items that also contain submenu elements. | `[]` |
 | submenuToggles | `HTMLElement[]` | An array of menu links that function as submenu toggles. | `[]` |
 | submenus | `HTMLElement[]` | An array of submenu elements. | `[]` |
 | controller | `HTMLElement` | The toggle for this menu. | `null` |
 | container | `HTMLElement` | The container for this menu. | `null` |
+
+### _protectedDOMElements <badge type="warning" text="protected" /> {#property--protecteddomelements}
+
+DOM element keys that cannot be set or reset through `_setDOMElementType` or `_resetDOMElementType`.
+
+```js
+BaseMenu._protectedDOMElements; // Default: `["menu", "controller", "container"]`.
+```
+
+#### Type {#property--protecteddomelements--type}
+
+`string[]`
 
 ### _selectors <badge type="warning" text="protected" /> {#property--selectors}
 
@@ -917,19 +930,21 @@ BaseMenu._validate();
 
 Sets DOM elements within the menu.
 
-```js
-BaseMenu._setDOMElementType(elementType, base, overwrite);
-```
+Elements listed in [_protectedDOMElements](#property--protecteddomelements) cannot be set through this method.
 
-Elements that are not stored inside an array cannot be set through this method.
+```js
+BaseMenu._setDOMElementType(elementType, options);
+```
 
 #### Parameters {#method--setdomelementtype--parameters}
 
 | Param | Type | Description | Default |
 | --- | --- | --- | --- |
 | elementType | `string` | The type of element to populate. | `undefined` |
-| base | `HTMLElement` | The element used as the base for the querySelect. | `this.dom.menu` |
-| overwrite | `boolean` | A flag to set if the existing elements will be overwritten. | `true` |
+| options | `object` | The options for setting the DOM element type. | `{}` |
+| options.context | `HTMLElement` | The element used as the base context for the `querySelectorAll`. | `this.dom.menu` |
+| options.overwrite | `boolean` | A flag to set if the existing elements will be overwritten. | `true` |
+| options.strict | `boolean` | When `true`, only direct children of `context` are stored. | `true` |
 
 ### _resetDOMElementType <badge type="warning" text="protected" /> {#method--resetdomelementtype}
 
@@ -939,7 +954,7 @@ Resets DOM elements within the menu.
 BaseMenu._resetDOMElementType(elementType);
 ```
 
-Elements that are not stored inside an array cannot be reset through this method.
+Elements listed in [_protectedDOMElements](#property--protecteddomelements) cannot be reset through this method.
 
 #### Parameters {#method--resetdomelementtype--parameters}
 

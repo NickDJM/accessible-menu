@@ -25,11 +25,12 @@ describe("BaseMenu protected methods", () => {
   describe("_setDOMElementType", () => {
     const allowedTypes = [
       "menuItems",
+      "menuLinks",
       "submenuItems",
       "submenuToggles",
       "submenus",
     ];
-    const disallowedTypes = ["menuLinks"];
+    const disallowedTypes = ["menu", "container", "controller"];
 
     // Test that all allowed types can be set.
     it.each(allowedTypes)("should set the %s element type", (elementType) => {
@@ -58,10 +59,14 @@ describe("BaseMenu protected methods", () => {
         });
         initializeMenu(menu);
 
+        menu._selectors["menu"] = "ul";
+        menu._selectors["container"] = "nav";
+        menu._selectors["controller"] = "button";
+
         expect(() => {
           menu._setDOMElementType(elementType);
         }).toThrow(
-          `The "${elementType}" element cannot be set through _setDOMElementType`
+          `AccessibleMenu: "${elementType}" element cannot be set through _setDOMElementType because it is a protected element.`
         );
       }
     );
@@ -78,7 +83,7 @@ describe("BaseMenu protected methods", () => {
 
       expect(() => {
         menu._setDOMElementType("menu");
-      }).toThrow('"menu" is not a valid element type within the menu.');
+      }).toThrow('AccessibleMenu: "menu" is not a valid element type.');
     });
   });
 
@@ -86,6 +91,7 @@ describe("BaseMenu protected methods", () => {
   describe("_resetDOMElementType", () => {
     const allowedTypes = [
       "menuItems",
+      "menuLinks",
       "submenuItems",
       "submenuToggles",
       "submenus",
@@ -119,10 +125,14 @@ describe("BaseMenu protected methods", () => {
         });
         initializeMenu(menu);
 
+        menu._selectors["menu"] = "ul";
+        menu._selectors["container"] = "nav";
+        menu._selectors["controller"] = "button";
+
         expect(() => {
           menu._resetDOMElementType(elementType);
         }).toThrow(
-          `The "${elementType}" element cannot be reset through _resetDOMElementType`
+          `AccessibleMenu: "${elementType}" element cannot be reset through _resetDOMElementType because it is a protected element.`
         );
       }
     );
@@ -138,8 +148,8 @@ describe("BaseMenu protected methods", () => {
       initializeMenu(menu);
 
       expect(() => {
-        menu._resetDOMElementType("menuLinks");
-      }).toThrow('"menuLinks" is not a valid element type within the menu.');
+        menu._resetDOMElementType("menuLink");
+      }).toThrow('AccessibleMenu: "menuLink" is not a valid element type.');
     });
   });
 
