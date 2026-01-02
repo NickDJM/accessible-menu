@@ -564,6 +564,33 @@ describe("Menubar getter/setters", () => {
     });
   });
 
+  // Test Menubar id.
+  describe("id", () => {
+    // Test that id gets the id value.
+    it("should get the id value", () => {
+      // Create a new Menubar instance for testing.
+      const menu = new Menubar({
+        menuElement: document.querySelector("ul"),
+      });
+
+      expect(menu.id).toBe(menu._id);
+    });
+
+    // Test that id cannot set the id value.
+    it("should not set the id value", () => {
+      // Create a new Menubar instance for testing.
+      const menu = new Menubar({
+        menuElement: document.querySelector("ul"),
+      });
+
+      expect(() => {
+        menu.id = "test-menu";
+      }).toThrowError(
+        "Cannot set property id of #<BaseMenu> which has only a getter"
+      );
+    });
+  });
+
   // Test Menubar shouldFocus.
   describe("shouldFocus", () => {
     // Test that Menubar implements the BaseMenu shouldFocus getter.

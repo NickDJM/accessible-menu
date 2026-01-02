@@ -708,6 +708,35 @@ describe("BaseMenu getter/setters", () => {
     });
   });
 
+  // Test BaseMenu id.
+  describe("id", () => {
+    // Test that id gets the id value.
+    it("should get the id value", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      expect(menu.id).toBe(menu._id);
+    });
+
+    // Test that id cannot set the id value.
+    it("should not set the id value", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      expect(() => {
+        menu.id = "test-menu";
+      }).toThrowError(
+        "Cannot set property id of #<BaseMenu> which has only a getter"
+      );
+    });
+  });
+
   // Test BaseMenu shouldFocus.
   describe("shouldFocus", () => {
     // Test that shouldFocus gets the shouldFocus value.

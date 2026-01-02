@@ -576,6 +576,37 @@ describe("DisclosureMenu getter/setters", () => {
     });
   });
 
+  // Test DisclosureMenu id.
+  describe("id", () => {
+    // Test that id gets the id value.
+    it("should get the id value", () => {
+      // Create a new DisclosureMenu instance for testing.
+      const menu = new DisclosureMenu({
+        menuElement: document.querySelector("ul"),
+        controllerElement: document.querySelector("button"),
+        containerElement: document.querySelector("nav"),
+      });
+
+      expect(menu.id).toBe(menu._id);
+    });
+
+    // Test that id cannot set the id value.
+    it("should not set the id value", () => {
+      // Create a new DisclosureMenu instance for testing.
+      const menu = new DisclosureMenu({
+        menuElement: document.querySelector("ul"),
+        controllerElement: document.querySelector("button"),
+        containerElement: document.querySelector("nav"),
+      });
+
+      expect(() => {
+        menu.id = "test-menu";
+      }).toThrowError(
+        "Cannot set property id of #<BaseMenu> which has only a getter"
+      );
+    });
+  });
+
   // Test DisclosureMenu shouldFocus.
   describe("shouldFocus", () => {
     // Test that DisclosureMenu implements the BaseMenu shouldFocus getter.

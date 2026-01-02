@@ -519,6 +519,37 @@ describe("Treeview getter/setters", () => {
     });
   });
 
+  // Test Treeview id.
+  describe("id", () => {
+    // Test that id gets the id value.
+    it("should get the id value", () => {
+      // Create a new Treeview instance for testing.
+      const menu = new Treeview({
+        menuElement: document.querySelector("ul"),
+        controllerElement: document.querySelector("button"),
+        containerElement: document.querySelector("nav"),
+      });
+
+      expect(menu.id).toBe(menu._id);
+    });
+
+    // Test that id cannot set the id value.
+    it("should not set the id value", () => {
+      // Create a new Treeview instance for testing.
+      const menu = new Treeview({
+        menuElement: document.querySelector("ul"),
+        controllerElement: document.querySelector("button"),
+        containerElement: document.querySelector("nav"),
+      });
+
+      expect(() => {
+        menu.id = "test-menu";
+      }).toThrowError(
+        "Cannot set property id of #<BaseMenu> which has only a getter"
+      );
+    });
+  });
+
   // Test Treeview shouldFocus.
   describe("shouldFocus", () => {
     // Test that Treeview implements the BaseMenu shouldFocus getter.
