@@ -212,6 +212,15 @@ export default defineConfig({
           ],
         },
         {
+          text: "Storage",
+          items: [
+            {
+              text: "StorageManager",
+              link: "/api/storage-manager",
+            },
+          ],
+        },
+        {
           text: "Validation",
           items: [
             {
