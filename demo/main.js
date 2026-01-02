@@ -65,7 +65,7 @@ let structure = "one";
 function generateMenu() {
   // Remove the last menu from the stack.
   if (window.AccessibleMenu) {
-    window.AccessibleMenu.menus = {};
+    window.AccessibleMenu.clear({ type: "menus" });
   }
 
   // Get the menu class and structure.

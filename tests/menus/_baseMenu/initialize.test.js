@@ -87,8 +87,8 @@ describe("BaseMenu", () => {
     );
   });
 
-  // Test that the menu exists in window.AccessibleMenu.menus after initialization.
-  it("should exist in window.AccessibleMenu.menus after initialization", () => {
+  // Test that the menu exists in window.AccessibleMenu storage after initialization.
+  it("should exist in window.AccessibleMenu storage after initialization", () => {
     // Create a new BaseMenu instance for testing.
     const menu = new BaseMenu({
       menuElement: document.querySelector("ul"),
@@ -98,11 +98,13 @@ describe("BaseMenu", () => {
     initializeMenu(menu);
 
     // Test that the menu exists in window.AccessibleMenu.menus.
-    expect(Object.values(window.AccessibleMenu.menus)).toContain(menu);
+    expect(window.AccessibleMenu.get({ type: "menus", key: menu.id })).toEqual(
+      menu
+    );
   });
 
-  // Test that the menu does not exist in window.AccessibleMenu.menus after failed initialization.
-  it("should not exist in window.AccessibleMenu.menus after failed initialization", () => {
+  // Test that the menu does not exist in window.AccessibleMenu storage after failed initialization.
+  it("should not exist in window.AccessibleMenu storage after failed initialization", () => {
     // Create a new BaseMenu instance for testing.
     const menu = new BaseMenu({
       menuElement: 1,
@@ -116,7 +118,9 @@ describe("BaseMenu", () => {
     }
 
     // Test that the menu does not exist in window.AccessibleMenu.menus.
-    expect(Object.values(window.AccessibleMenu.menus)).not.toContain(menu);
+    expect(
+      window.AccessibleMenu.get({ type: "menus", key: menu.id })
+    ).not.toEqual(menu);
   });
 });
 
