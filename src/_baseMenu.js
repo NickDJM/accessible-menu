@@ -288,37 +288,37 @@ class BaseMenu {
   /**
    * Constructs a new `BaseMenu`.
    *
-   * @param {object}             options                                    - The options for generating the menu.
-   * @param {HTMLElement}        options.menuElement                        - The menu element in the DOM.
-   * @param {string}             [options.menuItemSelector = li]            - The query selector string for menu items.
-   * @param {string}             [options.menuLinkSelector = a]             - The query selector string for menu links.
-   * @param {string}             [options.submenuItemSelector = li:has(ul)] - The query selector string for menu items containing submenus.
-   * @param {string}             [options.submenuToggleSelector = a]        - The query selector string for submenu toggle buttons/links.
-   * @param {string}             [options.submenuSelector = ul]             - The query selector string for submenus.
-   * @param {?HTMLElement}       [options.controllerElement = null]         - The element controlling the menu in the DOM.
-   * @param {?HTMLElement}       [options.containerElement = null]          - The element containing the menu in the DOM.
-   * @param {?(string|string[])} [options.openClass = show]                 - The class to apply when a menu is "open".
-   * @param {?(string|string[])} [options.closeClass = hide]                - The class to apply when a menu is "closed".
-   * @param {?(string|string[])} [options.transitionClass = transitioning]  - The class to apply when a menu is transitioning between "open" and "closed" states.
-   * @param {number}             [options.transitionDuration = 250]         - The duration of the transition between "open" and "closed" states (in milliseconds).
-   * @param {boolean}            [options.openDuration = -1]                - The duration of the transition from "closed" to "open" states (in milliseconds).
-   * @param {boolean}            [options.closeDuration = -1]               - The duration of the transition from "open" to "closed" states (in milliseconds).
-   * @param {boolean}            [options.isTopLevel = false]               - A flag to mark the root menu.
-   * @param {?BaseMenu}          [options.parentMenu = null]                - The parent menu to this menu.
-   * @param {string}             [options.hoverType = off]                  - The type of hoverability a menu has.
-   * @param {number}             [options.hoverDelay = 250]                 - The delay for opening and closing menus if the menu is hoverable (in milliseconds).
-   * @param {number}             [options.enterDelay = -1]                  - The delay for opening menus if the menu is hoverable (in milliseconds).
-   * @param {number}             [options.leaveDelay = -1]                  - The delay for closing menus if the menu is hoverable (in milliseconds).
-   * @param {?string}            [options.prefix = am-]                     - The prefix to use for CSS custom properties.
-   * @param {?string}            [options.key = null]                       - The key used to generate IDs throughout the menu.
+   * @param {object}             options                                     - The options for generating the menu.
+   * @param {HTMLElement}        options.menuElement                         - The menu element in the DOM.
+   * @param {string}             [options.menuItemsSelector = li]            - The query selector string for menu items.
+   * @param {string}             [options.menuLinksSelector = a]             - The query selector string for menu links.
+   * @param {string}             [options.submenuItemsSelector = li:has(ul)] - The query selector string for menu items containing submenus.
+   * @param {string}             [options.submenuTogglesSelector = a]        - The query selector string for submenu toggle buttons/links.
+   * @param {string}             [options.submenusSelector = ul]             - The query selector string for submenus.
+   * @param {?HTMLElement}       [options.controllerElement = null]          - The element controlling the menu in the DOM.
+   * @param {?HTMLElement}       [options.containerElement = null]           - The element containing the menu in the DOM.
+   * @param {?(string|string[])} [options.openClass = show]                  - The class to apply when a menu is "open".
+   * @param {?(string|string[])} [options.closeClass = hide]                 - The class to apply when a menu is "closed".
+   * @param {?(string|string[])} [options.transitionClass = transitioning]   - The class to apply when a menu is transitioning between "open" and "closed" states.
+   * @param {number}             [options.transitionDuration = 250]          - The duration of the transition between "open" and "closed" states (in milliseconds).
+   * @param {boolean}            [options.openDuration = -1]                 - The duration of the transition from "closed" to "open" states (in milliseconds).
+   * @param {boolean}            [options.closeDuration = -1]                - The duration of the transition from "open" to "closed" states (in milliseconds).
+   * @param {boolean}            [options.isTopLevel = false]                - A flag to mark the root menu.
+   * @param {?BaseMenu}          [options.parentMenu = null]                 - The parent menu to this menu.
+   * @param {string}             [options.hoverType = off]                   - The type of hoverability a menu has.
+   * @param {number}             [options.hoverDelay = 250]                  - The delay for opening and closing menus if the menu is hoverable (in milliseconds).
+   * @param {number}             [options.enterDelay = -1]                   - The delay for opening menus if the menu is hoverable (in milliseconds).
+   * @param {number}             [options.leaveDelay = -1]                   - The delay for closing menus if the menu is hoverable (in milliseconds).
+   * @param {?string}            [options.prefix = am-]                      - The prefix to use for CSS custom properties.
+   * @param {?string}            [options.key = null]                        - The key used to generate IDs throughout the menu.
    */
   constructor({
     menuElement,
-    menuItemSelector = "li",
-    menuLinkSelector = "a",
-    submenuItemSelector = "li:has(ul)",
-    submenuToggleSelector = "a",
-    submenuSelector = "ul",
+    menuItemsSelector = "li",
+    menuLinksSelector = "a",
+    submenuItemsSelector = "li:has(ul)",
+    submenuTogglesSelector = "a",
+    submenusSelector = "ul",
     controllerElement = null,
     containerElement = null,
     openClass = "show",
@@ -342,11 +342,11 @@ class BaseMenu {
     this._dom.container = containerElement;
 
     // Set DOM selectors.
-    this._selectors.menuItems = menuItemSelector;
-    this._selectors.menuLinks = menuLinkSelector;
-    this._selectors.submenuItems = submenuItemSelector;
-    this._selectors.submenuToggles = submenuToggleSelector;
-    this._selectors.submenus = submenuSelector;
+    this._selectors.menuItems = menuItemsSelector;
+    this._selectors.menuLinks = menuLinksSelector;
+    this._selectors.submenuItems = submenuItemsSelector;
+    this._selectors.submenuToggles = submenuTogglesSelector;
+    this._selectors.submenus = submenusSelector;
 
     // Set menu elements.
     this._elements.menuItems = [];
@@ -1471,11 +1471,11 @@ class BaseMenu {
         // Create the new menu and initialize it.
         const menu = new this._MenuType({
           menuElement: submenu,
-          menuItemSelector: this.selectors.menuItems,
-          menuLinkSelector: this.selectors.menuLinks,
-          submenuItemSelector: this.selectors.submenuItems,
-          submenuToggleSelector: this.selectors.submenuToggles,
-          submenuSelector: this.selectors.submenus,
+          menuItemsSelector: this.selectors.menuItems,
+          menuLinksSelector: this.selectors.menuLinks,
+          submenuItemsSelector: this.selectors.submenuItems,
+          submenuTogglesSelector: this.selectors.submenuToggles,
+          submenusSelector: this.selectors.submenus,
           openClass: this.openClass,
           closeClass: this.closeClass,
           transitionClass: this.transitionClass,

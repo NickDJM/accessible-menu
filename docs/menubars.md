@@ -65,7 +65,7 @@ const menu = document.querySelector("#creature-menu ul");
 
 const disclosureMenu = new Menubar({
   menuElement: menu,
-  submenuItemSelector: ".dropdown",
+  submenuItemsSelector: ".dropdown",
 });
 ```
 

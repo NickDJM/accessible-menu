@@ -68,7 +68,7 @@ Accessible Menu will self-initialize once created adding the appropriate roles, 
 
 ### Two-level Menu
 
-You can also generate two-level menus with Accessible Menu by passing in the `submenuItemSelector` option during creation.
+You can also generate two-level menus with Accessible Menu by passing in the `submenuItemsSelector` option during creation.
 
 ```html
 <nav id="example-menu" aria-label="Example">

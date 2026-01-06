@@ -6,6 +6,23 @@ The following information is intended to help you upgrade from v4 to v5 of acces
 
 You can find the full list of changes in the [changelog](https://github.com/NickDJM/accessible-menu/blob/5.x/CHANGELOG.md).
 
+### General changes
+
+#### Selector option renaming {#general-changes-selector-option-renaming}
+
+The options for selectors have been renamed to be more in-line with the naming conventions used throughout the library.
+
+You _must_ update any customized selector options when upgrading to v5, or your menu will not work correctly.
+
+| Old option name         | New option name          |
+| ----------------------- | ------------------------ |
+| `menuItemSelector`      | `menuItemsSelector`      |
+| `menuLinkSelector`      | `menuLinksSelector`      |
+| `submenuItemSelector`   | `submenuItemsSelector`   |
+| `submenuToggleSelector` | `submenuTogglesSelector` |
+| `submenuSelector`       | `submenusSelector`       |
+
+
 ### Menu specific changes
 
 #### Disclosure Menus
@@ -18,7 +35,17 @@ Currently, there are no breaking changes for Menubars in v5.
 
 #### Top Link Disclosure Menus
 
-Currently, there are no breaking changes for Top Link Disclosure Menus in v5.
+##### Selector option renaming {#top-link-disclosure-menu-selector-option-renaming}
+
+The options for selectors have been renamed to be more in-line with the naming conventions used throughout the library.
+
+You _must_ update any customized selector options when upgrading to v5, or your menu will not work correctly.
+
+| Old option name            | New option name             |
+| -------------------------- | --------------------------- |
+| `submenuSubtoggleSelector` | `submenuSubtogglesSelector` |
+
+See the [General changes](#general-changes-selector-option-renaming) section for more information on renamed selector options that effect all menu types.
 
 #### Treeviews
 

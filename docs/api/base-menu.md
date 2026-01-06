@@ -12,11 +12,11 @@ Constructs a new `BaseMenu`.
 ```js
 new BaseMenu({
   menuElement,
-  menuItemSelector,
-  menuLinkSelector,
-  submenuItemSelector,
-  submenuToggleSelector,
-  submenuSelector,
+  menuItemsSelector,
+  menuLinksSelector,
+  submenuItemsSelector,
+  submenuTogglesSelector,
+  submenusSelector,
   controllerElement,
   containerElement,
   openClass,
@@ -44,11 +44,11 @@ The constructor populates the dom, selector, CSS class, and hover related proper
 | --- | --- | --- | --- |
 | options | `object` | The options for generating the menu. | `undefined` |
 | options.menuElement | `HTMLElement` | The menu element in the DOM. | `undefined` |
-| options.menuItemSelector | `string` | The query selector string for menu items. | `"li"` |
-| options.menuLinkSelector | `string` | The query selector string for menu links. | `"a"` |
-| options.submenuItemSelector | `string` | The query selector string for menu items containing submenus. | `li:has(ul)` |
-| options.submenuToggleSelector | `string` | The query selector string for submenu toggle buttons/links. | `"a"` |
-| options.submenuSelector | `string` | The query selector string for submenus. | `"ul"` |
+| options.menuItemsSelector | `string` | The query selector string for menu items. | `"li"` |
+| options.menuLinksSelector | `string` | The query selector string for menu links. | `"a"` |
+| options.submenuItemsSelector | `string` | The query selector string for menu items containing submenus. | `li:has(ul)` |
+| options.submenuTogglesSelector | `string` | The query selector string for submenu toggle buttons/links. | `"a"` |
+| options.submenusSelector | `string` | The query selector string for submenus. | `"ul"` |
 | options.controllerElement | `HTMLElement`, `null` | The element controlling the menu in the DOM. | `null` |
 | options.containerElement | `HTMLElement`, `null` | The element containing the menu in the DOM. | `null` |
 | options.openClass | `string`, `string[]`, `null` | The class to apply when a menu is "open". | `"show"` |
