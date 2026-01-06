@@ -69,24 +69,37 @@ The corresponding getters/setters still exist, but now reference the appropriate
 
 A new read-only `classes` getter has been added in addiotion to the existing getter/setters.
 
-#### Duration and delay fields
+#### Duration fields
 
-All "duration" fields (`_transitionDuration`, `_openDuration`, and `_closeDuration`) and all "delay" fields (`_hoverDelay`, `_enterDelay`, and `_leaveDelay`) have been merged into a single `_durations` field.
+All "duration" fields (`_transitionDuration`, `_openDuration`, and `_closeDuration`) have been merged into a single `_durations` field.
 
 ```js
 _durations = {
   transition: 250,
   open: -1,
   close: -1,
-  hover: 250,
-  enter: -1,
-  leave: -1,
 }
 ```
 
 The corresponding getters/setters still exist, but now reference the appropriate `_durations` property.
 
 A new read-only `durations` getter has been added in addiotion to the existing getter/setters.
+
+#### Delay fields
+
+All "delay" fields (`_hoverDelay`, `_enterDelay`, and `_leaveDelay`) have been merged into a single `_delays` field.
+
+```js
+_delays = {
+  hover: 250,
+  enter: -1,
+  leave: -1,
+}
+```
+
+The corresponding getters/setters still exist, but now reference the appropriate `_delays` property.
+
+A new read-only `delays` getter has been added in addiotion to the existing getter/setters.
 
 #### Event fields
 
@@ -122,6 +135,27 @@ This change is to facilitate better cleanup of the menu if it is ever detroyed.
 #### Storage
 
 The global storage for menus has been reworked to use a new `StorageManager` class. The main change is menus are now stored in `window.AccessibleMenu.storage.menus` instead of in `window.AccessibleMenu.menus`.
+
+#### Error handling and validation
+
+Error handling and validation has been reworked to be more detailed and consistent across all menu types.
+
+Firstly, all validation methods have been reworked to take new options _and_ return more consistent error information.
+
+All validation methods now take an options array (after their existing parameters) which can contain a `shouldThrow` boolean (`true` by default). If `shouldThrow` is `true`, the method will throw the first error it encounters. If `shouldThrow` is `false`, the method will store an array of _all_ errors it encounters and then return an object in the following format:
+
+```js
+{
+  status: Boolean,
+  errors: Array,
+}
+```
+
+As before, `status` will be `true` if no errors were found, and `false` if errors were found. The new `errors` array will contain all errors that were found during validation, not just their messages.
+
+This allows the validation method to actually inform users of _all_ issues with their menu, not just the first error of each type.
+
+Additionally, all menus will now _automatically_ validate all DOM Elements (`_dom`), selectors (`_selectors`), durations (`_durations`), delays (`_delays`), and classes (`_classes`) in the Base Menu's `_validate()` method. This allows easier implementation of custom menus, as you no longer need to manually validate these common fields.
 
 ## Upgrading from v1, v2, or v3
 

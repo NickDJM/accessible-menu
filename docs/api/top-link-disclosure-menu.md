@@ -234,7 +234,7 @@ Validates all aspects of the menu to ensure proper functionality.
 TopLinkDisclosureMenu._validate();
 ```
 
-The validation method will call [BaseMenu's validation method](./base-menu#method--validate) as well as validate the optionalKeySupport property and the submenuSubtoggleSelector value.
+The validation method will call [BaseMenu's validation method](./base-menu#method--validate) as well as validate the optionalKeySupport property and the submenuSubtogglesSelector value.
 
 ### _handleClick <badge type="warning" text="protected" /> {#method--handleclick}
 
