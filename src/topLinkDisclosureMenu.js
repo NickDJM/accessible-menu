@@ -2,7 +2,7 @@ import BaseMenu from "./_baseMenu.js";
 import TopLinkDisclosureMenuItem from "./topLinkDisclosureMenuItem.js";
 import TopLinkDisclosureMenuToggle from "./topLinkDisclosureMenuToggle.js";
 import { preventEvent, keyPress } from "./eventHandlers.js";
-import { isQuerySelector, isValidType } from "./validate.js";
+import { isValidType } from "./validate.js";
 
 /**
  * An accessible disclosure menu with top-level links in the DOM.
@@ -127,7 +127,7 @@ class TopLinkDisclosureMenu extends BaseMenu {
     submenuItemsSelector = "li:has(ul)",
     submenuTogglesSelector = "button",
     submenusSelector = "ul",
-    submenuSubtoggleSelector = "a",
+    submenuSubtogglesSelector = "a",
     controllerElement = null,
     containerElement = null,
     openClass = "show",
@@ -340,28 +340,25 @@ class TopLinkDisclosureMenu extends BaseMenu {
    * @return {boolean} - The result of the validation.
    */
   _validate() {
-    let check = super._validate();
+    super._validate();
 
-    const submenuSubtoggleCheck = isQuerySelector({
-      submenuSubtoggleSelector: this._selectors.submenuSubtoggles,
-    });
-
-    if (!submenuSubtoggleCheck.status) {
-      this._errors.push(submenuSubtoggleCheck.error.message);
-      check = false;
-    }
-
-    // Option key support check.
-    const optionalSupportCheck = isValidType("boolean", {
+    // Boolean checks.
+    const booleans = {
       optionalKeySupport: this._optionalSupport,
+    };
+
+    // Check the booleans.
+    const booleanChecks = isValidType("boolean", booleans, {
+      shouldThrow: false,
     });
 
-    if (!optionalSupportCheck.status) {
-      this._errors.push(optionalSupportCheck.error.message);
-      check = false;
+    // Handle boolean check failure.
+    if (!booleanChecks.status) {
+      this._errors = [this._errors, ...booleanChecks.errors];
+      this._valid = false;
     }
 
-    return check;
+    return this._valid;
   }
 
   /**
