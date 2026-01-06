@@ -60,39 +60,39 @@ class DisclosureMenu extends BaseMenu {
   /**
    * Constructs a new `DisclosureMenu`.
    *
-   * @param {object}             options                                    - The options for generating the menu.
-   * @param {HTMLElement}        options.menuElement                        - The menu element in the DOM.
-   * @param {string}             [options.menuItemSelector = li]            - The query selector string for menu items.
-   * @param {string}             [options.menuLinkSelector = a]             - The query selector string for menu links.
-   * @param {string}             [options.submenuItemSelector = li:has(ul)] - The query selector string for menu items containing submenus.
-   * @param {string}             [options.submenuToggleSelector = button]   - The query selector string for submenu toggle buttons/links.
-   * @param {string}             [options.submenuSelector = ul]             - The query selector string for submenus.
-   * @param {?HTMLElement}       [options.controllerElement = null]         - The element controlling the menu in the DOM.
-   * @param {?HTMLElement}       [options.containerElement = null]          - The element containing the menu in the DOM.
-   * @param {?(string|string[])} [options.openClass = show]                 - The class to apply when a menu is "open".
-   * @param {?(string|string[])} [options.closeClass = hide]                - The class to apply when a menu is "closed".
-   * @param {?(string|string[])} [options.transitionClass = transitioning]  - The class to apply when a menu is transitioning between "open" and "closed" states.
-   * @param {number}             [options.transitionDuration = 250]         - The duration of the transition between "open" and "closed" states (in milliseconds).
-   * @param {boolean}            [options.openDuration = -1]                - The duration of the transition from "closed" to "open" states (in milliseconds).
-   * @param {boolean}            [options.closeDuration = -1]               - The duration of the transition from "open" to "closed" states (in milliseconds).
-   * @param {boolean}            [options.isTopLevel = true]                - A flag to mark the root menu.
-   * @param {?DisclosureMenu}    [options.parentMenu = null]                - The parent menu to this menu.
-   * @param {string}             [options.hoverType = off]                  - The type of hoverability a menu has.
-   * @param {number}             [options.hoverDelay = 250]                 - The delay for opening and closing menus if the menu is hoverable (in milliseconds).
-   * @param {number}             [options.enterDelay = -1]                  - The delay for opening a menu if the menu is focusable (in milliseconds).
-   * @param {number}             [options.leaveDelay = -1]                  - The delay for closing a menu if the menu is focusable (in milliseconds).
-   * @param {boolean}            [options.optionalKeySupport = false]       - A flag to add optional keyboard support (Arrow keys, Home, and End) to the menu.
-   * @param {?string}            [options.prefix = am-]                     - The prefix to use for CSS custom properties.
-   * @param {?string}            [options.key = null]                       - The key used to generate IDs throughout the menu.
-   * @param {boolean}            [options.initialize = true]                - A flag to initialize the menu immediately upon creation.
+   * @param {object}             options                                     - The options for generating the menu.
+   * @param {HTMLElement}        options.menuElement                         - The menu element in the DOM.
+   * @param {string}             [options.menuItemsSelector = li]            - The query selector string for menu items.
+   * @param {string}             [options.menuLinksSelector = a]             - The query selector string for menu links.
+   * @param {string}             [options.submenuItemsSelector = li:has(ul)] - The query selector string for menu items containing submenus.
+   * @param {string}             [options.submenuTogglesSelector = button]   - The query selector string for submenu toggle buttons/links.
+   * @param {string}             [options.submenusSelector = ul]             - The query selector string for submenus.
+   * @param {?HTMLElement}       [options.controllerElement = null]          - The element controlling the menu in the DOM.
+   * @param {?HTMLElement}       [options.containerElement = null]           - The element containing the menu in the DOM.
+   * @param {?(string|string[])} [options.openClass = show]                  - The class to apply when a menu is "open".
+   * @param {?(string|string[])} [options.closeClass = hide]                 - The class to apply when a menu is "closed".
+   * @param {?(string|string[])} [options.transitionClass = transitioning]   - The class to apply when a menu is transitioning between "open" and "closed" states.
+   * @param {number}             [options.transitionDuration = 250]          - The duration of the transition between "open" and "closed" states (in milliseconds).
+   * @param {boolean}            [options.openDuration = -1]                 - The duration of the transition from "closed" to "open" states (in milliseconds).
+   * @param {boolean}            [options.closeDuration = -1]                - The duration of the transition from "open" to "closed" states (in milliseconds).
+   * @param {boolean}            [options.isTopLevel = true]                 - A flag to mark the root menu.
+   * @param {?DisclosureMenu}    [options.parentMenu = null]                 - The parent menu to this menu.
+   * @param {string}             [options.hoverType = off]                   - The type of hoverability a menu has.
+   * @param {number}             [options.hoverDelay = 250]                  - The delay for opening and closing menus if the menu is hoverable (in milliseconds).
+   * @param {number}             [options.enterDelay = -1]                   - The delay for opening a menu if the menu is focusable (in milliseconds).
+   * @param {number}             [options.leaveDelay = -1]                   - The delay for closing a menu if the menu is focusable (in milliseconds).
+   * @param {boolean}            [options.optionalKeySupport = false]        - A flag to add optional keyboard support (Arrow keys, Home, and End) to the menu.
+   * @param {?string}            [options.prefix = am-]                      - The prefix to use for CSS custom properties.
+   * @param {?string}            [options.key = null]                        - The key used to generate IDs throughout the menu.
+   * @param {boolean}            [options.initialize = true]                 - A flag to initialize the menu immediately upon creation.
    */
   constructor({
     menuElement,
-    menuItemSelector = "li",
-    menuLinkSelector = "a",
-    submenuItemSelector = "li:has(ul)",
-    submenuToggleSelector = "button",
-    submenuSelector = "ul",
+    menuItemsSelector = "li",
+    menuLinksSelector = "a",
+    submenuItemsSelector = "li:has(ul)",
+    submenuTogglesSelector = "button",
+    submenusSelector = "ul",
     controllerElement = null,
     containerElement = null,
     openClass = "show",
@@ -114,11 +114,11 @@ class DisclosureMenu extends BaseMenu {
   }) {
     super({
       menuElement,
-      menuItemSelector,
-      menuLinkSelector,
-      submenuItemSelector,
-      submenuToggleSelector,
-      submenuSelector,
+      menuItemsSelector,
+      menuLinksSelector,
+      submenuItemsSelector,
+      submenuTogglesSelector,
+      submenusSelector,
       controllerElement,
       containerElement,
       openClass,
@@ -202,19 +202,25 @@ class DisclosureMenu extends BaseMenu {
    * @return {boolean} - The result of the validation.
    */
   _validate() {
-    let check = super._validate();
+    super._validate();
 
-    // Option key support check.
-    const optionalSupportCheck = isValidType("boolean", {
+    // Boolean checks.
+    const booleans = {
       optionalKeySupport: this._optionalSupport,
+    };
+
+    // Check the booleans.
+    const booleanChecks = isValidType("boolean", booleans, {
+      shouldThrow: false,
     });
 
-    if (!optionalSupportCheck.status) {
-      this._errors.push(optionalSupportCheck.error.message);
-      check = false;
+    // Handle boolean check failure.
+    if (!booleanChecks.status) {
+      this._errors = [this._errors, ...booleanChecks.errors];
+      this._valid = false;
     }
 
-    return check;
+    return this._valid;
   }
 
   /**

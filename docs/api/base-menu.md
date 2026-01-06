@@ -12,11 +12,11 @@ Constructs a new `BaseMenu`.
 ```js
 new BaseMenu({
   menuElement,
-  menuItemSelector,
-  menuLinkSelector,
-  submenuItemSelector,
-  submenuToggleSelector,
-  submenuSelector,
+  menuItemsSelector,
+  menuLinksSelector,
+  submenuItemsSelector,
+  submenuTogglesSelector,
+  submenusSelector,
   controllerElement,
   containerElement,
   openClass,
@@ -44,11 +44,11 @@ The constructor populates the dom, selector, CSS class, and hover related proper
 | --- | --- | --- | --- |
 | options | `object` | The options for generating the menu. | `undefined` |
 | options.menuElement | `HTMLElement` | The menu element in the DOM. | `undefined` |
-| options.menuItemSelector | `string` | The query selector string for menu items. | `"li"` |
-| options.menuLinkSelector | `string` | The query selector string for menu links. | `"a"` |
-| options.submenuItemSelector | `string` | The query selector string for menu items containing submenus. | `li:has(ul)` |
-| options.submenuToggleSelector | `string` | The query selector string for submenu toggle buttons/links. | `"a"` |
-| options.submenuSelector | `string` | The query selector string for submenus. | `"ul"` |
+| options.menuItemsSelector | `string` | The query selector string for menu items. | `"li"` |
+| options.menuLinksSelector | `string` | The query selector string for menu links. | `"a"` |
+| options.submenuItemsSelector | `string` | The query selector string for menu items containing submenus. | `li:has(ul)` |
+| options.submenuTogglesSelector | `string` | The query selector string for submenu toggle buttons/links. | `"a"` |
+| options.submenusSelector | `string` | The query selector string for submenus. | `"ul"` |
 | options.controllerElement | `HTMLElement`, `null` | The element controlling the menu in the DOM. | `null` |
 | options.containerElement | `HTMLElement`, `null` | The element containing the menu in the DOM. | `null` |
 | options.openClass | `string`, `string[]`, `null` | The class to apply when a menu is "open". | `"show"` |
@@ -241,6 +241,23 @@ BaseMenu._durations;
 | transition | `number` | The duration time (in milliseconds) for the transition between open and closed states. | `250` |
 | open | `number` | The duration time (in milliseconds) for the transition from closed to open states. | `-1` |
 | close | `number` | The duration time (in milliseconds) for the transition from open to closed states. | `-1` |
+
+### _delays <badge type="warning" text="protected" /> {#property--delays}
+
+The delay times (in milliseconds) for various menu transitions and events.
+
+```js
+BaseMenu._delays;
+```
+
+#### Type {#property--delays--type}
+
+`Object<number>`
+
+#### Properties {#property--delays--properties}
+
+| Name | Type | Description | Default |
+| --- | --- | --- | --- |
 | hover | `number` | The delay time (in milliseconds) used for pointerenter/pointerleave events to take place. | `250` |
 | enter | `number` | The delay time (in milliseconds) used for pointerenter events to take place. | `-1` |
 | leave | `number` | The delay time (in milliseconds) used for pointerleave events to take place. | `-1` |
@@ -475,6 +492,20 @@ BaseMenu.durations;
 :::
 
 See [_durations](#property--durations) for more information.
+
+### delays <badge type="warning" text="readonly" /> {#getter--delays}
+
+The delay times (in milliseconds) for various menu transitions and events.
+
+::: code-group
+
+```js [getter]
+BaseMenu.delays;
+```
+
+:::
+
+See [_delays](#property--delays) for more information.
 
 ### timeouts <badge type="warning" text="readonly" /> {#getter--timeouts}
 
@@ -792,7 +823,7 @@ BaseMenu.hoverDelay = 250;
 
 This functions differently for root vs. submenus. Submenus will always inherit their root menu's hover delay.
 
-See [_durations.hover](#property--durations) for more information.
+See [_delays.hover](#property--delays) for more information.
 
 ### enterDelay {#getter-setter--enterdelay}
 
@@ -814,7 +845,7 @@ If enterDelay is set to -1, the hoverDelay value will be used instead.
 
 This functions differently for root vs. submenus. Submenus will always inherit their root menu's enter delay.
 
-See [_durations.enter](#property--durations) for more information.
+See [_delays.enter](#property--delays) for more information.
 
 ### leaveDelay {#getter-setter--leavedelay}
 
@@ -836,7 +867,7 @@ If leaveDelay is set to -1, the hoverDelay value will be used instead.
 
 This functions differently for root vs. submenus. Submenus will always inherit their root menu's leave delay.
 
-See [_durations.leave](#property--durations) for more information.
+See [_delays.leave](#property--delays) for more information.
 
 ### prefix {#getter-setter--prefix}
 

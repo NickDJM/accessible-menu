@@ -88,7 +88,7 @@ describe("TopLinkDisclosureMenuToggle protected methods", () => {
       // Create a new TopLinkDisclosureMenu instance for testing.
       const menu = new TopLinkDisclosureMenu({
         menuElement: document.querySelector("ul"),
-        submenuToggleSelector: ".dropdown-toggle",
+        submenuTogglesSelector: ".dropdown-toggle",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });

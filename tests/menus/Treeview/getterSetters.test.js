@@ -209,8 +209,8 @@ describe("Treeview getter/setters", () => {
 
   // Test Treeview transitionDuration.
   describe("transitionDuration", () => {
-    // Test that transitionDuration gets the hover delay value.
-    it("should get the hover delay value", () => {
+    // Test that transitionDuration gets the transition duration value.
+    it("should get the transition duration value", () => {
       // Create a new Treeview instance for testing.
       const menu = new Treeview({
         menuElement: document.querySelector("ul"),
@@ -219,8 +219,8 @@ describe("Treeview getter/setters", () => {
       expect(menu.transitionDuration).toBe(menu._durations.transition);
     });
 
-    // Test that transitionDuration sets the hover delay value.
-    it("should set the hover delay value", () => {
+    // Test that transitionDuration sets the transition duration value.
+    it("should set the transition duration value", () => {
       // Create a new Treeview instance for testing.
       const menu = new Treeview({
         menuElement: document.querySelector("ul"),
@@ -229,30 +229,30 @@ describe("Treeview getter/setters", () => {
       // Set up to check for validation.
       const spy = vi.spyOn(validation, "isValidType");
 
-      // Set the menu's hover delay value.
+      // Set the menu's transition duration value.
       menu.transitionDuration = 200;
 
-      expect(spy).toHaveBeenCalledWith("number", { value: 200 });
+      expect(spy).toHaveBeenCalledWith("number", { transitionDuration: 200 });
       expect(menu._durations.transition).toBe(200);
     });
   });
 
   // Test Treeview openDuration.
   describe("openDuration", () => {
-    // Test that openDuration gets the enter delay value.
-    it("should get the enter delay value", () => {
+    // Test that openDuration gets the open duration value.
+    it("should get the open duration value", () => {
       // Create a new Treeview instance for testing.
       const menu = new Treeview({
         menuElement: document.querySelector("ul"),
       });
 
-      // In this case, because we have not set the enter delay,
-      // it should be the same as the hover delay.
-      expect(menu.openDuration).toBe(menu._durations.hover);
+      // In this case, because we have not set the open duration,
+      // it should be the same as the transition duration.
+      expect(menu.openDuration).toBe(menu._durations.transition);
     });
 
-    // Test that openDuration sets the enter delay value.
-    it("should set the enter delay value", () => {
+    // Test that openDuration sets the open duration value.
+    it("should set the open duration value", () => {
       // Create a new Treeview instance for testing.
       const menu = new Treeview({
         menuElement: document.querySelector("ul"),
@@ -261,30 +261,30 @@ describe("Treeview getter/setters", () => {
       // Set up to check for validation.
       const spy = vi.spyOn(validation, "isValidType");
 
-      // Set the menu's enter delay value.
+      // Set the menu's open duration value.
       menu.openDuration = 100;
 
-      expect(spy).toHaveBeenCalledWith("number", { value: 100 });
+      expect(spy).toHaveBeenCalledWith("number", { openDuration: 100 });
       expect(menu._durations.open).toBe(100);
     });
   });
 
   // Test Treeview closeDuration.
   describe("closeDuration", () => {
-    // Test that closeDuration gets the leave delay value.
-    it("should get the leave delay value", () => {
+    // Test that closeDuration gets the close duration value.
+    it("should get the close duration value", () => {
       // Create a new Treeview instance for testing.
       const menu = new Treeview({
         menuElement: document.querySelector("ul"),
       });
 
-      // In this case, because we have not set the leave delay,
-      // it should be the same as the hover delay.
-      expect(menu.closeDuration).toBe(menu._durations.hover);
+      // In this case, because we have not set the close duration,
+      // it should be the same as the transition duration.
+      expect(menu.closeDuration).toBe(menu._durations.transition);
     });
 
-    // Test that closeDuration sets the leave delay value.
-    it("should set the leave delay value", () => {
+    // Test that closeDuration sets the close duration value.
+    it("should set the close duration value", () => {
       // Create a new Treeview instance for testing.
       const menu = new Treeview({
         menuElement: document.querySelector("ul"),
@@ -293,10 +293,10 @@ describe("Treeview getter/setters", () => {
       // Set up to check for validation.
       const spy = vi.spyOn(validation, "isValidType");
 
-      // Set the menu's leave delay value.
+      // Set the menu's close duration value.
       menu.closeDuration = 100;
 
-      expect(spy).toHaveBeenCalledWith("number", { value: 100 });
+      expect(spy).toHaveBeenCalledWith("number", { closeDuration: 100 });
       expect(menu._durations.close).toBe(100);
     });
   });
@@ -369,7 +369,7 @@ describe("Treeview getter/setters", () => {
       // Set the menu's hover type.
       menu.hoverType = "on";
 
-      expect(spy).toHaveBeenCalledWith({ value: "on" });
+      expect(spy).toHaveBeenCalledWith({ hoverType: "on" });
       expect(menu._hoverType).toBe("on");
     });
   });
@@ -383,7 +383,7 @@ describe("Treeview getter/setters", () => {
         menuElement: document.querySelector("ul"),
       });
 
-      expect(menu.hoverDelay).toBe(menu._durations.hover);
+      expect(menu.hoverDelay).toBe(menu._delays.hover);
     });
 
     // Test that hoverDelay sets the hover delay value.
@@ -399,8 +399,8 @@ describe("Treeview getter/setters", () => {
       // Set the menu's hover delay value.
       menu.hoverDelay = 200;
 
-      expect(spy).toHaveBeenCalledWith("number", { value: 200 });
-      expect(menu._durations.hover).toBe(200);
+      expect(spy).toHaveBeenCalledWith("number", { hoverDelay: 200 });
+      expect(menu._delays.hover).toBe(200);
     });
   });
 
@@ -415,7 +415,7 @@ describe("Treeview getter/setters", () => {
 
       // In this case, because we have not set the enter delay,
       // it should be the same as the hover delay.
-      expect(menu.enterDelay).toBe(menu._durations.hover);
+      expect(menu.enterDelay).toBe(menu._delays.hover);
     });
 
     // Test that enterDelay sets the enter delay value.
@@ -431,8 +431,8 @@ describe("Treeview getter/setters", () => {
       // Set the menu's enter delay value.
       menu.enterDelay = 100;
 
-      expect(spy).toHaveBeenCalledWith("number", { value: 100 });
-      expect(menu._durations.enter).toBe(100);
+      expect(spy).toHaveBeenCalledWith("number", { enterDelay: 100 });
+      expect(menu._delays.enter).toBe(100);
     });
   });
 
@@ -447,7 +447,7 @@ describe("Treeview getter/setters", () => {
 
       // In this case, because we have not set the leave delay,
       // it should be the same as the hover delay.
-      expect(menu.leaveDelay).toBe(menu._durations.hover);
+      expect(menu.leaveDelay).toBe(menu._delays.hover);
     });
 
     // Test that leaveDelay sets the leave delay value.
@@ -463,8 +463,8 @@ describe("Treeview getter/setters", () => {
       // Set the menu's leave delay value.
       menu.leaveDelay = 100;
 
-      expect(spy).toHaveBeenCalledWith("number", { value: 100 });
-      expect(menu._durations.leave).toBe(100);
+      expect(spy).toHaveBeenCalledWith("number", { leaveDelay: 100 });
+      expect(menu._delays.leave).toBe(100);
     });
   });
 

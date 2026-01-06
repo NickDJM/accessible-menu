@@ -55,7 +55,10 @@ class DisclosureMenuToggle extends BaseMenuToggle {
     super._setAriaAttributes();
 
     // If the toggle element is a button, there's no need to add a role.
-    if (!isTag("button", { toggle: this.dom.toggle })) {
+    if (
+      !isTag("button", { toggle: this.dom.toggle }, { shouldThrow: false })
+        .status
+    ) {
       this.dom.toggle.setAttribute("role", "button");
     }
 
