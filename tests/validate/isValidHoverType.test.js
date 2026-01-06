@@ -14,25 +14,41 @@ describe("isValidHoverType", () => {
       const result = isValidHoverType({ hoverType });
 
       expect(result.status).toBeTruthy();
-      expect(result.error).toBeNull();
+      expect(result.errors).toHaveLength(0);
     }
   );
 
   // Test for an invalid hover type.
   it("should return false when checking if an invalid hover type is a valid hover type", () => {
     const hoverType = "invalid";
-    const result = isValidHoverType({ hoverType });
-
-    expect(result.status).toBeFalsy();
-    expect(result.error).toBeInstanceOf(TypeError);
+    expect(() => {
+      isValidHoverType({ hoverType });
+    }).toThrow(TypeError);
   });
 
   // Test passing a non-object.
   it("should return false when checking for a non-object", () => {
     const hoverType = "off";
-    const result = isValidHoverType(hoverType);
+    expect(() => {
+      isValidHoverType(hoverType);
+    }).toThrow(TypeError);
+  });
+
+  // Test that shouldThrow will throw on invalid values.
+  it("should throw the first error when shouldThrow is true", () => {
+    expect(() => {
+      isValidHoverType({ hoverType: "invalid" }, { shouldThrow: true });
+    }).toThrow(TypeError);
+  });
+
+  // Test that shouldThrow can be disabled.
+  it("should not throw when shouldThrow is false", () => {
+    const result = isValidHoverType(
+      { hoverType: "invalid" },
+      { shouldThrow: false }
+    );
 
     expect(result.status).toBeFalsy();
-    expect(result.error).toBeInstanceOf(TypeError);
+    expect(result.errors[0]).toBeInstanceOf(TypeError);
   });
 });

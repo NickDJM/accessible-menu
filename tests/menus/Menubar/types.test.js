@@ -45,7 +45,7 @@ describe("Menubar (multi-level)", () => {
   // Create a new Menubar instance for testing.
   const menu = new Menubar({
     menuElement: document.querySelector("ul"),
-    submenuItemSelector: ".dropdown",
+    submenuItemsSelector: ".dropdown",
   });
 
   // Test that the Menubar's _MenuType is Menubar.

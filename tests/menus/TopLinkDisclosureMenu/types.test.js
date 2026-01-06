@@ -45,7 +45,7 @@ describe("TopLinkDisclosureMenu (multi-level)", () => {
   // Create a new TopLinkDisclosureMenu instance for testing.
   const menu = new TopLinkDisclosureMenu({
     menuElement: document.querySelector("ul"),
-    submenuItemSelector: ".dropdown",
+    submenuItemsSelector: ".dropdown",
   });
 
   // Test that the TopLinkDisclosureMenu's _MenuType is TopLinkDisclosureMenu.

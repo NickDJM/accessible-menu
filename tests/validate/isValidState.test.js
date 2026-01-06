@@ -14,25 +14,38 @@ describe("isValidState", () => {
       const result = isValidState({ state });
 
       expect(result.status).toBeTruthy();
-      expect(result.error).toBeNull();
+      expect(result.errors).toHaveLength(0);
     }
   );
 
   // Test for an invalid state.
   it("should return false when checking if an invalid state is a valid state", () => {
     const state = "invalid";
-    const result = isValidState({ state });
-
-    expect(result.status).toBeFalsy();
-    expect(result.error).toBeInstanceOf(TypeError);
+    expect(() => {
+      isValidState({ state });
+    }).toThrow(TypeError);
   });
 
   // Test passing a non-object.
   it("should return false when checking for a non-object", () => {
     const state = "none";
-    const result = isValidState(state);
+    expect(() => {
+      isValidState(state);
+    }).toThrow(TypeError);
+  });
+
+  // Test that shouldThrow will throw on invalid values.
+  it("should throw the first error when shouldThrow is true", () => {
+    expect(() => {
+      isValidState({ state: "invalid" }, { shouldThrow: true });
+    }).toThrow(TypeError);
+  });
+
+  // Test that shouldThrow can be disabled.
+  it("should not throw when shouldThrow is false", () => {
+    const result = isValidState({ state: "invalid" }, { shouldThrow: false });
 
     expect(result.status).toBeFalsy();
-    expect(result.error).toBeInstanceOf(TypeError);
+    expect(result.errors[0]).toBeInstanceOf(TypeError);
   });
 });

@@ -45,7 +45,7 @@ describe("DisclosureMenu (multi-level)", () => {
   // Create a new DisclosureMenu instance for testing.
   const menu = new DisclosureMenu({
     menuElement: document.querySelector("ul"),
-    submenuItemSelector: ".dropdown",
+    submenuItemsSelector: ".dropdown",
   });
 
   // Test that the DisclosureMenu's _MenuType is DisclosureMenu.

@@ -85,7 +85,7 @@ describe("DisclosureMenuToggle protected methods", () => {
       // Create a new DisclosureMenu instance for testing.
       const menu = new DisclosureMenu({
         menuElement: document.querySelector("ul"),
-        submenuToggleSelector: ".dropdown-toggle",
+        submenuTogglesSelector: ".dropdown-toggle",
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });

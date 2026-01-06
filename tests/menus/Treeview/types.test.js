@@ -45,7 +45,7 @@ describe("Treeview (multi-level)", () => {
   // Create a new Treeview instance for testing.
   const menu = new Treeview({
     menuElement: document.querySelector("ul"),
-    submenuItemSelector: ".dropdown",
+    submenuItemsSelector: ".dropdown",
   });
 
   // Test that the Treeview's _MenuType is Treeview.
