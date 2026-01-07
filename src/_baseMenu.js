@@ -301,7 +301,7 @@ class BaseMenu {
    *
    * @protected
    *
-   * @type {string[]}
+   * @type {Error[]}
    */
   _errors = [];
 
