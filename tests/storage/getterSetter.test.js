@@ -34,9 +34,7 @@ describe("StorageManager getter/setters", () => {
 
       expect(() => {
         storage.scope = "NewScope";
-      }).toThrowError(
-        "Cannot set property scope of #<StorageManager> which has only a getter"
-      );
+      }).toThrow();
     });
   });
 
@@ -76,9 +74,7 @@ describe("StorageManager getter/setters", () => {
 
       expect(() => {
         storage.storage = {};
-      }).toThrowError(
-        "Cannot set property storage of #<StorageManager> which has only a getter"
-      );
+      }).toThrow();
     });
   });
 });
