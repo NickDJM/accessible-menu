@@ -19,8 +19,8 @@ describe("removeClass", () => {
     expect(element.classList.remove).toHaveBeenCalledWith("test");
   });
 
-  // Test adding a single class.
-  it("should add a single class to an element", () => {
+  // Test removing a single class.
+  it("should remove a single class to an element", () => {
     const element = document.createElement("div");
     element.classList.add("test");
 
@@ -29,8 +29,8 @@ describe("removeClass", () => {
     expect(element.classList.contains("test")).toBeFalsy();
   });
 
-  // Test adding multiple classes.
-  it("should add multiple classes to an element", () => {
+  // Test removing multiple classes.
+  it("should remove multiple classes to an element", () => {
     const element = document.createElement("div");
     element.classList.add("test", "test2");
 
@@ -76,5 +76,44 @@ describe("removeClass", () => {
     const element = document.createElement("div");
 
     expect(() => removeClass([{}, "test"], element)).toThrow();
+  });
+
+  // Test passing an empty string.
+  it("should do nothing if the class string is empty", () => {
+    const element = {
+      classList: {
+        remove: vi.fn(),
+      },
+    };
+
+    removeClass("", element);
+
+    expect(element.classList.remove).not.toHaveBeenCalledWith();
+  });
+
+  // Test passing an empty array.
+  it("should do nothing if the class array empty", () => {
+    const element = {
+      classList: {
+        remove: vi.fn(),
+      },
+    };
+
+    removeClass([], element);
+
+    expect(element.classList.remove).not.toHaveBeenCalledWith();
+  });
+
+  // Test passing an array of empty strings.
+  it("should do nothing if the class array is all empty strings", () => {
+    const element = {
+      classList: {
+        remove: vi.fn(),
+      },
+    };
+
+    removeClass(["", ""], element);
+
+    expect(element.classList.remove).not.toHaveBeenCalledWith();
   });
 });
