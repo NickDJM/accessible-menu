@@ -18,6 +18,30 @@ import {
 import { singleLevel, twoLevel } from "../../../demo/menus.js";
 import Treeview from "../../../src/treeview.js";
 
+const setupMatchMedia = (matches = false) => {
+  const listeners = new Set();
+  const mql = {
+    matches,
+    media: "",
+    addEventListener: vi.fn((type, listener) => {
+      if (type === "change") {
+        listeners.add(listener);
+      }
+    }),
+    removeEventListener: vi.fn((type, listener) => {
+      listeners.delete(listener);
+    }),
+  };
+  const matchMedia = vi.fn((query) => {
+    mql.media = query;
+    return mql;
+  });
+
+  return { matchMedia, mql, listeners };
+};
+
+let originalMatchMedia;
+
 beforeAll(() => {
   // Mock the console.error method.
   console.error = vi.fn((error) => {
@@ -33,11 +57,13 @@ afterAll(() => {
 beforeEach(() => {
   // Create the test menu.
   document.body.innerHTML = twoLevel;
+  originalMatchMedia = window.matchMedia;
 });
 
 afterEach(() => {
   // Remove the test menu.
   document.body.innerHTML = "";
+  window.matchMedia = originalMatchMedia;
 });
 
 // Test the Treeview initialization.
@@ -202,6 +228,74 @@ describe("Treeview (controlled)", () => {
     }).toThrow(
       'controllerElement must be an instance of HTMLElement. "number" given.'
     );
+  });
+});
+
+// Test the Treeview media query handling.
+describe("Treeview (media queries)", () => {
+  it("should not call matchMedia when no breakpoint or mediaQuery is set", () => {
+    const matchMedia = vi.fn();
+    window.matchMedia = matchMedia;
+
+    new Treeview({
+      menuElement: document.querySelector("ul"),
+      initialize: true,
+    });
+
+    expect(matchMedia).not.toHaveBeenCalled();
+  });
+
+  it("should auto open when the breakpoint media query does not match", () => {
+    const { matchMedia } = setupMatchMedia(false);
+    window.matchMedia = matchMedia;
+
+    const menu = new Treeview({
+      menuElement: document.querySelector("ul"),
+      containerElement: document.querySelector("nav"),
+      controllerElement: document.querySelector("button"),
+      breakpoint: "40em",
+      initialize: true,
+    });
+
+    expect(matchMedia).toHaveBeenCalledWith("(width <= 40em)");
+    expect(menu.elements.controller.isOpen).toBe(true);
+  });
+
+  it("should not auto open when autoOpen is false", () => {
+    const { matchMedia } = setupMatchMedia(false);
+    window.matchMedia = matchMedia;
+
+    const menu = new Treeview({
+      menuElement: document.querySelector("ul"),
+      containerElement: document.querySelector("nav"),
+      controllerElement: document.querySelector("button"),
+      breakpoint: "40em",
+      autoOpen: false,
+      initialize: true,
+    });
+
+    expect(matchMedia).toHaveBeenCalledWith("(width <= 40em)");
+    expect(menu.elements.controller.isOpen).toBe(false);
+  });
+
+  it("should close when the media query matches and the menu is open", () => {
+    const { matchMedia, mql, listeners } = setupMatchMedia(false);
+    window.matchMedia = matchMedia;
+
+    const menu = new Treeview({
+      menuElement: document.querySelector("ul"),
+      containerElement: document.querySelector("nav"),
+      controllerElement: document.querySelector("button"),
+      mediaQuery: "(width <= 40em)",
+      initialize: true,
+    });
+
+    expect(menu.elements.controller.isOpen).toBe(true);
+
+    mql.matches = true;
+    listeners.forEach((listener) => listener(mql));
+
+    expect(menu.elements.controller.isOpen).toBe(false);
   });
 });
 

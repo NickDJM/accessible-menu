@@ -170,6 +170,36 @@ describe("TopLinkDisclosureMenu getter/setters", () => {
     });
   });
 
+  // Test TopLinkDisclosureMenu shouldOpen.
+  describe("shouldOpen", () => {
+    // Test that TopLinkDisclosureMenu implements the BaseMenu shouldOpen getter.
+    it("should implement the BaseMenu shouldOpen", () => {
+      expect(TopLinkDisclosureMenu.prototype.shouldOpen).toBe(
+        BaseMenu.prototype.shouldOpen
+      );
+    });
+  });
+
+  // Test TopLinkDisclosureMenu breakpoint.
+  describe("breakpoint", () => {
+    // Test that TopLinkDisclosureMenu implements the BaseMenu breakpoint getter.
+    it("should implement the BaseMenu breakpoint", () => {
+      expect(TopLinkDisclosureMenu.prototype.breakpoint).toBe(
+        BaseMenu.prototype.breakpoint
+      );
+    });
+  });
+
+  // Test TopLinkDisclosureMenu mediaQuery.
+  describe("mediaQuery", () => {
+    // Test that TopLinkDisclosureMenu implements the BaseMenu mediaQuery getter.
+    it("should implement the BaseMenu mediaQuery", () => {
+      expect(TopLinkDisclosureMenu.prototype.mediaQuery).toBe(
+        BaseMenu.prototype.mediaQuery
+      );
+    });
+  });
+
   // Test BaseMenu openClass.
   // todo: Test that the open class for submenus defaults to the root menu's open class.
   describe("openClass", () => {

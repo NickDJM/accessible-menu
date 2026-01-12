@@ -158,6 +158,30 @@ describe("Menubar getter/setters", () => {
     });
   });
 
+  // Test Menubar shouldOpen.
+  describe("shouldOpen", () => {
+    // Test that Menubar implements the BaseMenu shouldOpen getter.
+    it("should implement the BaseMenu shouldOpen", () => {
+      expect(Menubar.prototype.shouldOpen).toBe(BaseMenu.prototype.shouldOpen);
+    });
+  });
+
+  // Test Menubar breakpoint.
+  describe("breakpoint", () => {
+    // Test that Menubar implements the BaseMenu breakpoint getter.
+    it("should implement the BaseMenu breakpoint", () => {
+      expect(Menubar.prototype.breakpoint).toBe(BaseMenu.prototype.breakpoint);
+    });
+  });
+
+  // Test Menubar mediaQuery.
+  describe("mediaQuery", () => {
+    // Test that Menubar implements the BaseMenu mediaQuery getter.
+    it("should implement the BaseMenu mediaQuery", () => {
+      expect(Menubar.prototype.mediaQuery).toBe(BaseMenu.prototype.mediaQuery);
+    });
+  });
+
   // Test BaseMenu openClass.
   // todo: Test that the open class for submenus defaults to the root menu's open class.
   describe("openClass", () => {

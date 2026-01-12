@@ -52,6 +52,7 @@ const options = {
   transitionDuration: 250,
   openDuration: -1,
   closeDuration: -1,
+  breakpoint: "927px",
   optionalKeySupport: true,
 };
 const container = document.querySelector("header");

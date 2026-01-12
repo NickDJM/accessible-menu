@@ -652,6 +652,129 @@ describe("BaseMenu getter/setters", () => {
     });
   });
 
+  // Test BaseMenu shouldOpen.
+  describe("shouldOpen", () => {
+    // Test that shouldOpen gets the shouldOpen value.
+    it("should get the shouldOpen value", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      expect(menu.shouldOpen).toBe(menu._shouldOpen);
+    });
+
+    // Test that shouldOpen sets the shouldOpen value.
+    it("should set the shouldOpen value", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      // Set up to check for validation.
+      const spy = vi.spyOn(validation, "isValidType");
+
+      // Set the menu's shouldOpen value.
+      menu.shouldOpen = false;
+
+      expect(spy).toHaveBeenCalledWith("boolean", { shouldOpen: false });
+      expect(menu._shouldOpen).toBe(false);
+    });
+  });
+
+  // Test BaseMenu breakpoint.
+  describe("breakpoint", () => {
+    // Test that breakpoint gets the breakpoint value.
+    it("should get the breakpoint value", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        breakpoint: "48em",
+      });
+      initializeMenu(menu);
+
+      expect(menu.breakpoint).toBe(menu._breakpoint);
+    });
+
+    // Test that breakpoint sets the breakpoint value.
+    it("should set the breakpoint value", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      // Set up to check for validation.
+      const spy = vi.spyOn(validation, "isValidType");
+
+      // Set the menu's breakpoint value.
+      menu.breakpoint = "64em";
+
+      expect(spy).toHaveBeenCalledWith("string", { breakpoint: "64em" });
+      expect(menu._breakpoint).toBe("64em");
+    });
+  });
+
+  // Test BaseMenu mediaQuery.
+  describe("mediaQuery", () => {
+    // Test that mediaQuery gets the media query value.
+    it("should get the media query value", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        mediaQuery: "(width <= 60em)",
+      });
+      initializeMenu(menu);
+
+      expect(menu.mediaQuery).toBe("(width <= 60em)");
+    });
+
+    // Test that mediaQuery returns empty when no breakpoint or mediaQuery is set.
+    it("should return an empty media query when no breakpoint is set", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      expect(menu.mediaQuery).toBe("");
+    });
+
+    // Test that mediaQuery derives from the breakpoint when no mediaQuery is set.
+    it("should derive the media query from the breakpoint when not set", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        breakpoint: "40em",
+      });
+      initializeMenu(menu);
+
+      expect(menu.mediaQuery).toBe("(width <= 40em)");
+    });
+
+    // Test that mediaQuery sets the mediaQuery value.
+    it("should set the media query value", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      // Set up to check for validation.
+      const spy = vi.spyOn(validation, "isValidType");
+
+      // Set the menu's mediaQuery value.
+      menu.mediaQuery = "(width <= 50em)";
+
+      expect(spy).toHaveBeenCalledWith("string", {
+        mediaQuery: "(width <= 50em)",
+      });
+      expect(menu._mediaQueryString).toBe("(width <= 50em)");
+    });
+  });
+
   // Test BaseMenu prefix.
   describe("prefix", () => {
     // Test that prefix gets the prefix value.

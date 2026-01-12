@@ -59,13 +59,22 @@ class MenubarToggle extends BaseMenuToggle {
    * Calls the  closeSiblings method
    * and _then_ BaseMenuToggle's open method.
    *
-   * @public
+   * @param {object}  [options = {}]                  - The options for opening the menu.
+   * @param {boolean} [options.force = false]         - A flag to force the menu to open.
+   * @param {boolean} [options.preserveState = false] - A flag to preserve the current state.
+   * @param {boolean} [options.emit = true]           - A flag to emit the expand event.
+   * @param {boolean} [options.transition = true]     - A flag to use transitions when opening.
    */
-  open() {
+  open({
+    force = false,
+    preserveState = false,
+    emit = true,
+    transition = true,
+  } = {}) {
     // Close all siblings.
-    this.closeSiblings();
+    this.closeSiblings({ force, preserveState, emit, transition });
 
-    super.open();
+    super.open({ force, preserveState, emit, transition });
   }
 
   /**
@@ -74,13 +83,22 @@ class MenubarToggle extends BaseMenuToggle {
    * Calls the  closeSiblings method
    * and _then_ BaseMenuToggle's preview method.
    *
-   * @public
+   * @param {object}  [options = {}]                  - The options for previewing the menu.
+   * @param {boolean} [options.force = false]         - A flag to force the menu to preview.
+   * @param {boolean} [options.preserveState = false] - A flag to preserve the current state.
+   * @param {boolean} [options.emit = true]           - A flag to emit the expand event.
+   * @param {boolean} [options.transition = true]     - A flag to use transitions when previewing.
    */
-  preview() {
+  preview({
+    force = false,
+    preserveState = false,
+    emit = true,
+    transition = true,
+  } = {}) {
     // Close all siblings.
-    this.closeSiblings();
+    this.closeSiblings({ force, preserveState, emit, transition });
 
-    super.preview();
+    super.preview({ force, preserveState, emit, transition });
   }
 
   /**
@@ -89,19 +107,28 @@ class MenubarToggle extends BaseMenuToggle {
    * Calls the  closeChildren method
    * and _then_ BaseMenuToggle's close method.
    *
-   * @public
+   * @param {object}  [options = {}]                  - The options for closing the menu.
+   * @param {boolean} [options.force = false]         - A flag to force the menu to close.
+   * @param {boolean} [options.preserveState = false] - A flag to preserve the current state.
+   * @param {boolean} [options.emit = true]           - A flag to emit the collapse event.
+   * @param {boolean} [options.transition = true]     - A flag to use transitions when closing.
    */
-  close() {
+  close({
+    force = false,
+    preserveState = false,
+    emit = true,
+    transition = true,
+  } = {}) {
     if (this.isOpen) {
       // Close all children.
-      this.closeChildren();
+      this.closeChildren({ force, preserveState, emit, transition });
 
       if (this.elements.parentMenu) {
         this.elements.parentMenu.focusCurrentChild();
       }
     }
 
-    super.close();
+    super.close({ force, preserveState, emit, transition });
   }
 }
 

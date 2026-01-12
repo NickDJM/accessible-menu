@@ -114,6 +114,30 @@ describe("Treeview getter/setters", () => {
     });
   });
 
+  // Test Treeview shouldOpen.
+  describe("shouldOpen", () => {
+    // Test that Treeview implements the BaseMenu shouldOpen getter.
+    it("should implement the BaseMenu shouldOpen", () => {
+      expect(Treeview.prototype.shouldOpen).toBe(BaseMenu.prototype.shouldOpen);
+    });
+  });
+
+  // Test Treeview breakpoint.
+  describe("breakpoint", () => {
+    // Test that Treeview implements the BaseMenu breakpoint getter.
+    it("should implement the BaseMenu breakpoint", () => {
+      expect(Treeview.prototype.breakpoint).toBe(BaseMenu.prototype.breakpoint);
+    });
+  });
+
+  // Test Treeview mediaQuery.
+  describe("mediaQuery", () => {
+    // Test that Treeview implements the BaseMenu mediaQuery getter.
+    it("should implement the BaseMenu mediaQuery", () => {
+      expect(Treeview.prototype.mediaQuery).toBe(BaseMenu.prototype.mediaQuery);
+    });
+  });
+
   // Test BaseMenu openClass.
   // todo: Test that the open class for submenus defaults to the root menu's open class.
   describe("openClass", () => {

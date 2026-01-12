@@ -168,6 +168,36 @@ describe("DisclosureMenu getter/setters", () => {
     });
   });
 
+  // Test DisclosureMenu shouldOpen.
+  describe("shouldOpen", () => {
+    // Test that DisclosureMenu implements the BaseMenu shouldOpen getter.
+    it("should implement the BaseMenu shouldOpen", () => {
+      expect(DisclosureMenu.prototype.shouldOpen).toBe(
+        BaseMenu.prototype.shouldOpen
+      );
+    });
+  });
+
+  // Test DisclosureMenu breakpoint.
+  describe("breakpoint", () => {
+    // Test that DisclosureMenu implements the BaseMenu breakpoint getter.
+    it("should implement the BaseMenu breakpoint", () => {
+      expect(DisclosureMenu.prototype.breakpoint).toBe(
+        BaseMenu.prototype.breakpoint
+      );
+    });
+  });
+
+  // Test DisclosureMenu mediaQuery.
+  describe("mediaQuery", () => {
+    // Test that DisclosureMenu implements the BaseMenu mediaQuery getter.
+    it("should implement the BaseMenu mediaQuery", () => {
+      expect(DisclosureMenu.prototype.mediaQuery).toBe(
+        BaseMenu.prototype.mediaQuery
+      );
+    });
+  });
+
   // Test BaseMenu openClass.
   // todo: Test that the open class for submenus defaults to the root menu's open class.
   describe("openClass", () => {

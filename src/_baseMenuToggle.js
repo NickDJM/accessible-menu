@@ -2,6 +2,7 @@
 
 import { addClass, removeClass } from "./domHelpers.js";
 import { isValidType, isValidInstance } from "./validate.js";
+import TransactionalValue from "./TransactionalValue.js";
 
 /**
  * A link or button that controls the visibility of a BaseMenu.
@@ -42,9 +43,9 @@ class BaseMenuToggle {
    *
    * @protected
    *
-   * @type {boolean}
+   * @type {TransactionalValue<boolean>}
    */
-  _open = false;
+  _open = new TransactionalValue(false);
 
   /**
    * Custom events that can be triggered throughout the menu toggle.
@@ -175,13 +176,18 @@ class BaseMenuToggle {
    * @see _open
    */
   get isOpen() {
-    return this._open;
+    return this._open.value;
   }
 
-  set isOpen(value) {
-    isValidType("boolean", { value });
-
-    this._open = value;
+  /**
+   * The open state of the toggle that the user specifically triggered.
+   *
+   * @type {boolean}
+   *
+   * @see _open
+   */
+  get hasOpened() {
+    return this._open.committed;
   }
 
   /**
@@ -289,9 +295,11 @@ class BaseMenuToggle {
    *
    * @fires accessibleMenuExpand
    *
-   * @param {boolean} [emit = true] - A toggle to emit the expand event once expanded.
+   * @param {object}  [options = {}]              - The options for expanding the menu.
+   * @param {boolean} [options.emit = true]       - A toggle to emit the expand event once expanded.
+   * @param {boolean} [options.transition = true] - A flag to use transitions when expanding.
    */
-  _expand(emit = true) {
+  _expand({ emit = true, transition = true } = {}) {
     const { closeClass, openClass, transitionClass, openDuration } =
       this.elements.controlledMenu;
 
@@ -301,7 +309,7 @@ class BaseMenuToggle {
     // If we're dealing with transition classes, then we need to utilize
     // requestAnimationFrame to add the transition class, remove the close class,
     // add the open class, and finally remove the transition class.
-    if (transitionClass !== "") {
+    if (transition && transitionClass !== "") {
       addClass(transitionClass, this.elements.controlledMenu.dom.menu);
 
       requestAnimationFrame(() => {
@@ -348,9 +356,11 @@ class BaseMenuToggle {
    *
    * @fires accessibleMenuCollapse
    *
-   * @param {boolean} [emit = true] - A toggle to emit the collapse event once collapsed.
+   * @param {object}  [options = {}]              - The options for collapsing the menu.
+   * @param {boolean} [options.emit = true]       - A toggle to emit the collapse event once collapsed.
+   * @param {boolean} [options.transition = true] - A flag to use transitions when collapsing.
    */
-  _collapse(emit = true) {
+  _collapse({ emit = true, transition = true } = {}) {
     const { closeClass, openClass, transitionClass, closeDuration } =
       this.elements.controlledMenu;
 
@@ -359,7 +369,7 @@ class BaseMenuToggle {
     // If we're dealing with transition classes, then we need to utilize
     // requestAnimationFrame to add the transition class, remove the open class,
     // add the close class, and finally remove the transition class.
-    if (transitionClass !== "") {
+    if (transition && transitionClass !== "") {
       addClass(transitionClass, this.elements.controlledMenu.dom.menu);
 
       requestAnimationFrame(() => {
@@ -398,18 +408,31 @@ class BaseMenuToggle {
    * and the parent menu's focus state to "child", calls expand,
    * and sets the isOpen value to `true`.
    *
-   * @public
+   * @param {object}  [options = {}]                  - The options for opening the menu.
+   * @param {boolean} [options.force = false]         - A flag to force the menu to open.
+   * @param {boolean} [options.preserveState = false] - A flag to preserve the current state.
+   * @param {boolean} [options.emit = true]           - A flag to emit the expand event.
+   * @param {boolean} [options.transition = true]     - A flag to use transitions when opening.
    */
-  open() {
+  open({
+    force = false,
+    preserveState = false,
+    emit = true,
+    transition = true,
+  } = {}) {
     // Set proper focus state on the child.
     this.elements.controlledMenu.focusState = "self";
 
-    // Expand the controlled menu if the menu is closed.
-    if (!this.isOpen) {
-      this._expand();
+    // If the toggle is already open and we're not forcing it, just return.
+    if (this.isOpen && !force) return;
 
-      // Set the open flag.
-      this.isOpen = true;
+    this._expand({ emit, transition });
+
+    // Set the open flag.
+    this._open.value = true;
+
+    if (!preserveState) {
+      this._open.commit();
     }
   }
 
@@ -420,20 +443,33 @@ class BaseMenuToggle {
    * and the parent menu's focus state to "child",
    * and calls expand.
    *
-   * @public
+   * @param {object}  [options = {}]                  - The options for previewing the menu.
+   * @param {boolean} [options.force = false]         - A flag to force the menu to preview.
+   * @param {boolean} [options.preserveState = false] - A flag to preserve the current state.
+   * @param {boolean} [options.emit = true]           - A flag to emit the expand event.
+   * @param {boolean} [options.transition = true]     - A flag to use transitions when previewing.
    */
-  preview() {
+  preview({
+    force = false,
+    preserveState = false,
+    emit = true,
+    transition = true,
+  } = {}) {
     // Set proper focus state on the parent.
     if (this.elements.parentMenu) {
       this.elements.parentMenu.focusState = "self";
     }
 
-    // Expand the controlled menu if the menu is closed.
-    if (!this.isOpen) {
-      this._expand();
+    // If the toggle is already open and we're not forcing it, just return.
+    if (this.isOpen && !force) return;
 
-      // Set the open flag.
-      this.isOpen = true;
+    this._expand({ emit, transition });
+
+    // Set the open flag.
+    this._open.value = true;
+
+    if (!preserveState) {
+      this._open.commit();
     }
   }
 
@@ -446,11 +482,20 @@ class BaseMenuToggle {
    * calls collapse, and sets
    * the isOpen value to `false`.
    *
-   * @public
+   * @param {object}  [options = {}]                  - The options for closing the menu.
+   * @param {boolean} [options.force = false]         - A flag to force the menu to close.
+   * @param {boolean} [options.preserveState = false] - A flag to preserve the current state.
+   * @param {boolean} [options.emit = true]           - A flag to emit the collapse event.
+   * @param {boolean} [options.transition = true]     - A flag to use transitions when closing.
    */
-  close() {
-    // Only close if the menu is open.
-    if (!this.isOpen) return;
+  close({
+    force = false,
+    preserveState = false,
+    emit = true,
+    transition = true,
+  } = {}) {
+    // If the toggle is already closed and we're not forcing it, just return.
+    if (!this.isOpen && !force) return;
 
     // Reset controlled menu.
     this.elements.controlledMenu.blur();
@@ -461,22 +506,37 @@ class BaseMenuToggle {
     }
 
     // Collapse the controlled menu.
-    this._collapse();
+    this._collapse({ emit, transition });
 
     // Set the open flag.
-    this.isOpen = false;
+    this._open.value = false;
+
+    if (!preserveState) {
+      this._open.commit();
+    }
   }
 
   /**
    * Toggles the open state of the controlled menu between `true` and `false`.
    *
    * @public
+   *
+   * @param {object}  [options = {}]                  - The options for toggling the menu.
+   * @param {boolean} [options.force = false]         - A flag to force the menu to open/close.
+   * @param {boolean} [options.preserveState = false] - A flag to preserve the current state.
+   * @param {boolean} [options.emit = true]           - A flag to emit the expand/collapse event.
+   * @param {boolean} [options.transition = true]     - A flag to use transitions when toggling.
    */
-  toggle() {
+  toggle({
+    force = false,
+    preserveState = false,
+    emit = true,
+    transition = true,
+  } = {}) {
     if (this.isOpen) {
-      this.close();
+      this.close({ force, preserveState, emit, transition });
     } else {
-      this.open();
+      this.open({ force, preserveState, emit, transition });
     }
   }
 
@@ -484,11 +544,23 @@ class BaseMenuToggle {
    * Closes all sibling menus.
    *
    * @public
+   *
+   * @param {object}  [options = {}]                  - The options for closing the sibling menus.
+   * @param {boolean} [options.force = false]         - A flag to force the menus to close.
+   * @param {boolean} [options.preserveState = false] - A flag to preserve the current state.
+   * @param {boolean} [options.emit = true]           - A flag to emit the collapse event.
+   * @param {boolean} [options.transition = true]     - A flag to use transitions when closing.
    */
-  closeSiblings() {
+  closeSiblings({
+    force = false,
+    preserveState = false,
+    emit = true,
+    transition = true,
+  } = {}) {
     if (this.elements.parentMenu) {
       this.elements.parentMenu.elements.submenuToggles.forEach((toggle) => {
-        if (toggle !== this) toggle.close();
+        if (toggle !== this)
+          toggle.close({ force, preserveState, emit, transition });
       });
     }
   }
@@ -497,10 +569,21 @@ class BaseMenuToggle {
    * Closes all child menus.
    *
    * @public
+   *
+   * @param {object}  [options = {}]                  - The options for closing the child menus.
+   * @param {boolean} [options.force = false]         - A flag to force the menus to close.
+   * @param {boolean} [options.preserveState = false] - A flag to preserve the current state.
+   * @param {boolean} [options.emit = true]           - A flag to emit the collapse event.
+   * @param {boolean} [options.transition = true]     - A flag to use transitions when closing.
    */
-  closeChildren() {
+  closeChildren({
+    force = false,
+    preserveState = false,
+    emit = true,
+    transition = true,
+  } = {}) {
     this.elements.controlledMenu.elements.submenuToggles.forEach((toggle) =>
-      toggle.close()
+      toggle.close({ force, preserveState, emit, transition })
     );
   }
 }
