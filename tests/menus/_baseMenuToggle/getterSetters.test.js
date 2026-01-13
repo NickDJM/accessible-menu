@@ -35,6 +35,25 @@ describe("BaseMenuToggle getter/setters", () => {
 
       expect(menuToggle.dom).toEqual(menuToggle._dom);
     });
+
+    // Test that dom cannot be set manually.
+    it("should not set the DOM elements", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+
+      const menuToggle = menu.elements.submenuToggles[0];
+
+      expect(() => {
+        menuToggle.dom = {};
+      }).toThrowError(
+        "Cannot set property dom of #<BaseMenuToggle> which has only a getter"
+      );
+    });
   });
 
   // Test BaseMenuToggle elements.
@@ -52,6 +71,25 @@ describe("BaseMenuToggle getter/setters", () => {
       const menuToggle = menu.elements.submenuToggles[0];
 
       expect(menuToggle.elements).toEqual(menuToggle._elements);
+    });
+
+    // Test that elements cannot be set manually.
+    it("should not set the elements", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+
+      const menuToggle = menu.elements.submenuToggles[0];
+
+      expect(() => {
+        menuToggle.elements = {};
+      }).toThrowError(
+        "Cannot set property elements of #<BaseMenuToggle> which has only a getter"
+      );
     });
   });
 

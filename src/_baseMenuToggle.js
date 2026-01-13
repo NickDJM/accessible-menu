@@ -162,7 +162,7 @@ class BaseMenuToggle {
   }
 
   set isOpen(value) {
-    isValidType("boolean", { value });
+    isValidType("boolean", { isOpen: value });
 
     this._open = value;
   }

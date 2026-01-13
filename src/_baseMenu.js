@@ -637,7 +637,7 @@ class BaseMenu {
   }
 
   set transitionDuration(value) {
-    isValidType("number", { value });
+    isValidType("number", { transitionDuration: value });
 
     if (this._transitionDuration !== value) {
       this._transitionDuration = value;
@@ -668,7 +668,7 @@ class BaseMenu {
   }
 
   set openDuration(value) {
-    isValidType("number", { value });
+    isValidType("number", { openDuration: value });
 
     if (this._openDuration !== value) {
       this._openDuration = value;
@@ -699,7 +699,7 @@ class BaseMenu {
   }
 
   set closeDuration(value) {
-    isValidType("number", { value });
+    isValidType("number", { closeDuration: value });
 
     if (this._closeDuration !== value) {
       this._closeDuration = value;
@@ -728,7 +728,7 @@ class BaseMenu {
   }
 
   set currentChild(value) {
-    isValidType("number", { value });
+    isValidType("number", { currentChild: value });
 
     /**
      * Update the parent menu's current child to make sure clicks
@@ -796,7 +796,7 @@ class BaseMenu {
   }
 
   set focusState(value) {
-    isValidState({ value });
+    isValidState({ focusState: value });
 
     if (this._focusState !== value) {
       this._focusState = value;
@@ -828,7 +828,7 @@ class BaseMenu {
   }
 
   set currentEvent(value) {
-    isValidEvent({ value });
+    isValidEvent({ currentEvent: value });
 
     if (this._currentEvent !== value) {
       this._currentEvent = value;
@@ -867,7 +867,7 @@ class BaseMenu {
   }
 
   set hoverType(value) {
-    isValidHoverType({ value });
+    isValidHoverType({ hoverType: value });
 
     if (this._hoverType !== value) {
       this._hoverType = value;
@@ -889,7 +889,7 @@ class BaseMenu {
   }
 
   set hoverDelay(value) {
-    isValidType("number", { value });
+    isValidType("number", { hoverDelay: value });
 
     if (this._hoverDelay !== value) {
       this._hoverDelay = value;
@@ -915,7 +915,7 @@ class BaseMenu {
   }
 
   set enterDelay(value) {
-    isValidType("number", { value });
+    isValidType("number", { enterDelay: value });
 
     if (this._enterDelay !== value) {
       this._enterDelay = value;
@@ -941,7 +941,7 @@ class BaseMenu {
   }
 
   set leaveDelay(value) {
-    isValidType("number", { value });
+    isValidType("number", { leaveDelay: value });
 
     if (this._leaveDelay !== value) {
       this._leaveDelay = value;
@@ -963,7 +963,7 @@ class BaseMenu {
   }
 
   set prefix(value) {
-    isValidType("string", { value });
+    isValidType("string", { prefix: value });
 
     if (this._prefix !== value) {
       this._prefix = value;
@@ -1012,7 +1012,7 @@ class BaseMenu {
   }
 
   set hasOpened(value) {
-    isValidType("boolean", { value });
+    isValidType("boolean", { hasOpened: value });
 
     if (this._hasOpened !== value) {
       this._hasOpened = value;

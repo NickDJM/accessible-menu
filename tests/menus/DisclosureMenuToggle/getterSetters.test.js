@@ -2,9 +2,10 @@
  * Getter/Setter tests for the DisclosureMenuToggle class.
  */
 
-import { describe, it, expect } from "vitest";
+import { describe, it } from "vitest";
 import DisclosureMenuToggle from "../../../src/disclosureMenuToggle.js";
 import BaseMenuToggle from "../../../src/_baseMenuToggle.js";
+import { expectInheritedGetter, expectInheritedSetter } from "../helpers.js";
 
 // Test all getter/setter methods in the DisclosureMenuToggle class.
 describe("DisclosureMenuToggle getter/setters", () => {
@@ -12,8 +13,19 @@ describe("DisclosureMenuToggle getter/setters", () => {
   describe("dom", () => {
     // Test that DisclosureMenuToggle implements the BaseMenuToggle dom getter.
     it("should implement the BaseMenuToggle dom", () => {
-      expect(DisclosureMenuToggle.prototype.dom).toBe(
-        BaseMenuToggle.prototype.dom
+      expectInheritedGetter(
+        DisclosureMenuToggle.prototype,
+        BaseMenuToggle.prototype,
+        "dom"
+      );
+    });
+
+    // Test that DisclosureMenuToggle implements the BaseMenuToggle dom setter.
+    it("should implement the BaseMenuToggle dom setter", () => {
+      expectInheritedSetter(
+        DisclosureMenuToggle.prototype,
+        BaseMenuToggle.prototype,
+        "dom"
       );
     });
   });
@@ -22,8 +34,19 @@ describe("DisclosureMenuToggle getter/setters", () => {
   describe("elements", () => {
     // Test that DisclosureMenuToggle implements the BaseMenuToggle elements getter.
     it("should implement the BaseMenuToggle elements", () => {
-      expect(DisclosureMenuToggle.prototype.elements).toBe(
-        BaseMenuToggle.prototype.elements
+      expectInheritedGetter(
+        DisclosureMenuToggle.prototype,
+        BaseMenuToggle.prototype,
+        "elements"
+      );
+    });
+
+    // Test that DisclosureMenuToggle implements the BaseMenuToggle elements setter.
+    it("should implement the BaseMenuToggle elements setter", () => {
+      expectInheritedSetter(
+        DisclosureMenuToggle.prototype,
+        BaseMenuToggle.prototype,
+        "elements"
       );
     });
   });
@@ -32,8 +55,19 @@ describe("DisclosureMenuToggle getter/setters", () => {
   describe("isOpen", () => {
     // Test that DisclosureMenuToggle implements the BaseMenuToggle isOpen getter.
     it("should implement the BaseMenuToggle isOpen", () => {
-      expect(DisclosureMenuToggle.prototype.isOpen).toBe(
-        BaseMenuToggle.prototype.isOpen
+      expectInheritedGetter(
+        DisclosureMenuToggle.prototype,
+        BaseMenuToggle.prototype,
+        "isOpen"
+      );
+    });
+
+    // Test that DisclosureMenuToggle implements the BaseMenuToggle isOpen setter.
+    it("should implement the BaseMenuToggle isOpen setter", () => {
+      expectInheritedSetter(
+        DisclosureMenuToggle.prototype,
+        BaseMenuToggle.prototype,
+        "isOpen"
       );
     });
   });
