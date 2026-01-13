@@ -7,6 +7,7 @@ import TopLinkDisclosureMenu from "../../../src/topLinkDisclosureMenu.js";
 import { twoLevelDisclosureTopLink } from "../../../demo/menus.js";
 import BaseMenu from "../../../src/_baseMenu.js";
 import * as validation from "../../../src/validate.js";
+import { expectInheritedGetter, expectInheritedSetter } from "../helpers.js";
 
 beforeEach(() => {
   document.body.innerHTML = twoLevelDisclosureTopLink;
@@ -21,21 +22,20 @@ describe("TopLinkDisclosureMenu getter/setters", () => {
   // Test TopLinkDisclosureMenu dom.
   describe("dom", () => {
     // Test that TopLinkDisclosureMenu implements the BaseMenu dom getter.
-    it("should implement the BaseMenu dom", () => {
-      expect(TopLinkDisclosureMenu.prototype.dom).toBe(BaseMenu.prototype.dom);
+    it("should implement the BaseMenu dom getter", () => {
+      expectInheritedGetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "dom"
+      );
     });
 
-    // Test that dom cannot set the DOM elements.
-    it("should not set the DOM elements", () => {
-      // Create a new TopLinkDisclosureMenu instance for testing.
-      const menu = new TopLinkDisclosureMenu({
-        menuElement: document.querySelector("ul"),
-      });
-
-      expect(() => {
-        menu.dom = {};
-      }).toThrowError(
-        "Cannot set property dom of #<BaseMenu> which has only a getter"
+    // Test that TopLinkDisclosureMenu implements the BaseMenu dom setter.
+    it("should implement the BaseMenu dom setter", () => {
+      expectInheritedSetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "dom"
       );
     });
   });
@@ -43,23 +43,20 @@ describe("TopLinkDisclosureMenu getter/setters", () => {
   // Test TopLinkDisclosureMenu selectors.
   describe("selectors", () => {
     // Test that TopLinkDisclosureMenu implements the BaseMenu selectors getter.
-    it("should implement the BaseMenu selectors", () => {
-      expect(TopLinkDisclosureMenu.prototype.selectors).toBe(
-        BaseMenu.prototype.selectors
+    it("should implement the BaseMenu selectors getter", () => {
+      expectInheritedGetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "selectors"
       );
     });
 
-    // Test that selectors cannot set the selectors.
-    it("should not set the selectors", () => {
-      // Create a new TopLinkDisclosureMenu instance for testing.
-      const menu = new TopLinkDisclosureMenu({
-        menuElement: document.querySelector("ul"),
-      });
-
-      expect(() => {
-        menu.selectors = {};
-      }).toThrowError(
-        "Cannot set property selectors of #<BaseMenu> which has only a getter"
+    // Test that TopLinkDisclosureMenu implements the BaseMenu selectors setter.
+    it("should implement the BaseMenu selectors setter", () => {
+      expectInheritedSetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "selectors"
       );
     });
   });
@@ -67,23 +64,20 @@ describe("TopLinkDisclosureMenu getter/setters", () => {
   // Test TopLinkDisclosureMenu elements.
   describe("elements", () => {
     // Test that TopLinkDisclosureMenu implements the BaseMenu elements getter.
-    it("should implement the BaseMenu elements", () => {
-      expect(TopLinkDisclosureMenu.prototype.elements).toBe(
-        BaseMenu.prototype.elements
+    it("should implement the BaseMenu elements getter", () => {
+      expectInheritedGetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "elements"
       );
     });
 
-    // Test that elements cannot set the elements.
-    it("should not set the elements", () => {
-      // Create a new TopLinkDisclosureMenu instance for testing.
-      const menu = new TopLinkDisclosureMenu({
-        menuElement: document.querySelector("ul"),
-      });
-
-      expect(() => {
-        menu.elements = {};
-      }).toThrowError(
-        "Cannot set property elements of #<BaseMenu> which has only a getter"
+    // Test that TopLinkDisclosureMenu implements the BaseMenu elements setter.
+    it("should implement the BaseMenu elements setter", () => {
+      expectInheritedSetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "elements"
       );
     });
   });
@@ -91,23 +85,20 @@ describe("TopLinkDisclosureMenu getter/setters", () => {
   // Test TopLinkDisclosureMenu classes.
   describe("classes", () => {
     // Test that TopLinkDisclosureMenu implements the BaseMenu classes getter.
-    it("should implement the BaseMenu classes", () => {
-      expect(TopLinkDisclosureMenu.prototype.classes).toBe(
-        BaseMenu.prototype.classes
+    it("should implement the BaseMenu classes getter", () => {
+      expectInheritedGetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "classes"
       );
     });
 
-    // Test that classes cannot set the classes.
-    it("should not set the classes", () => {
-      // Create a new TopLinkDisclosureMenu instance for testing.
-      const menu = new TopLinkDisclosureMenu({
-        menuElement: document.querySelector("ul"),
-      });
-
-      expect(() => {
-        menu.classes = {};
-      }).toThrowError(
-        "Cannot set property classes of #<BaseMenu> which has only a getter"
+    // Test that TopLinkDisclosureMenu implements the BaseMenu classes setter.
+    it("should implement the BaseMenu classes setter", () => {
+      expectInheritedSetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "classes"
       );
     });
   });
@@ -115,23 +106,20 @@ describe("TopLinkDisclosureMenu getter/setters", () => {
   // Test TopLinkDisclosureMenu durations.
   describe("durations", () => {
     // Test that TopLinkDisclosureMenu implements the BaseMenu durations getter.
-    it("should implement the BaseMenu durations", () => {
-      expect(TopLinkDisclosureMenu.prototype.durations).toBe(
-        BaseMenu.prototype.durations
+    it("should implement the BaseMenu durations getter", () => {
+      expectInheritedGetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "durations"
       );
     });
 
-    // Test that durations cannot set the durations.
-    it("should not set the durations", () => {
-      // Create a new TopLinkDisclosureMenu instance for testing.
-      const menu = new TopLinkDisclosureMenu({
-        menuElement: document.querySelector("ul"),
-      });
-
-      expect(() => {
-        menu.durations = {};
-      }).toThrowError(
-        "Cannot set property durations of #<BaseMenu> which has only a getter"
+    // Test that TopLinkDisclosureMenu implements the BaseMenu durations setter.
+    it("should implement the BaseMenu durations setter", () => {
+      expectInheritedSetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "durations"
       );
     });
   });
@@ -139,23 +127,20 @@ describe("TopLinkDisclosureMenu getter/setters", () => {
   // Test TopLinkDisclosureMenu listeners.
   describe("listeners", () => {
     // Test that TopLinkDisclosureMenu implements the BaseMenu listeners getter.
-    it("should implement the BaseMenu listeners", () => {
-      expect(TopLinkDisclosureMenu.prototype.listeners).toBe(
-        BaseMenu.prototype.listeners
+    it("should implement the BaseMenu listeners getter", () => {
+      expectInheritedGetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "listeners"
       );
     });
 
-    // Test that listeners cannot set the listeners.
-    it("should not set the listeners", () => {
-      // Create a new TopLinkDisclosureMenu instance for testing.
-      const menu = new TopLinkDisclosureMenu({
-        menuElement: document.querySelector("ul"),
-      });
-
-      expect(() => {
-        menu.listeners = {};
-      }).toThrowError(
-        "Cannot set property listeners of #<BaseMenu> which has only a getter"
+    // Test that TopLinkDisclosureMenu implements the BaseMenu listeners setter.
+    it("should implement the BaseMenu listeners setter", () => {
+      expectInheritedSetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "listeners"
       );
     });
   });
@@ -163,9 +148,20 @@ describe("TopLinkDisclosureMenu getter/setters", () => {
   // Test TopLinkDisclosureMenu isTopLevel.
   describe("isTopLevel", () => {
     // Test that TopLinkDisclosureMenu implements the BaseMenu isTopLevel getter.
-    it("should implement the BaseMenu isTopLevel", () => {
-      expect(TopLinkDisclosureMenu.prototype.isTopLevel).toBe(
-        BaseMenu.prototype.isTopLevel
+    it("should implement the BaseMenu isTopLevel getter", () => {
+      expectInheritedGetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "isTopLevel"
+      );
+    });
+
+    // Test that TopLinkDisclosureMenu implements the BaseMenu isTopLevel setter.
+    it("should implement the BaseMenu isTopLevel setter", () => {
+      expectInheritedSetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "isTopLevel"
       );
     });
   });
@@ -173,9 +169,20 @@ describe("TopLinkDisclosureMenu getter/setters", () => {
   // Test TopLinkDisclosureMenu shouldOpen.
   describe("shouldOpen", () => {
     // Test that TopLinkDisclosureMenu implements the BaseMenu shouldOpen getter.
-    it("should implement the BaseMenu shouldOpen", () => {
-      expect(TopLinkDisclosureMenu.prototype.shouldOpen).toBe(
-        BaseMenu.prototype.shouldOpen
+    it("should implement the BaseMenu shouldOpen getter", () => {
+      expectInheritedGetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "shouldOpen"
+      );
+    });
+
+    // Test that TopLinkDisclosureMenu implements the BaseMenu shouldOpen setter.
+    it("should implement the BaseMenu shouldOpen setter", () => {
+      expectInheritedSetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "shouldOpen"
       );
     });
   });
@@ -183,9 +190,20 @@ describe("TopLinkDisclosureMenu getter/setters", () => {
   // Test TopLinkDisclosureMenu breakpoint.
   describe("breakpoint", () => {
     // Test that TopLinkDisclosureMenu implements the BaseMenu breakpoint getter.
-    it("should implement the BaseMenu breakpoint", () => {
-      expect(TopLinkDisclosureMenu.prototype.breakpoint).toBe(
-        BaseMenu.prototype.breakpoint
+    it("should implement the BaseMenu breakpoint getter", () => {
+      expectInheritedGetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "breakpoint"
+      );
+    });
+
+    // Test that TopLinkDisclosureMenu implements the BaseMenu breakpoint setter.
+    it("should implement the BaseMenu breakpoint setter", () => {
+      expectInheritedSetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "breakpoint"
       );
     });
   });
@@ -193,206 +211,167 @@ describe("TopLinkDisclosureMenu getter/setters", () => {
   // Test TopLinkDisclosureMenu mediaQuery.
   describe("mediaQuery", () => {
     // Test that TopLinkDisclosureMenu implements the BaseMenu mediaQuery getter.
-    it("should implement the BaseMenu mediaQuery", () => {
-      expect(TopLinkDisclosureMenu.prototype.mediaQuery).toBe(
-        BaseMenu.prototype.mediaQuery
+    it("should implement the BaseMenu mediaQuery getter", () => {
+      expectInheritedGetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "mediaQuery"
+      );
+    });
+
+    // Test that TopLinkDisclosureMenu implements the BaseMenu mediaQuery setter.
+    it("should implement the BaseMenu mediaQuery setter", () => {
+      expectInheritedSetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "mediaQuery"
       );
     });
   });
 
   // Test BaseMenu openClass.
-  // todo: Test that the open class for submenus defaults to the root menu's open class.
   describe("openClass", () => {
-    // Test that openClass gets the open class name.
-    it("should get the open class name", () => {
-      // Create a new TopLinkDisclosureMenu instance for testing.
-      const menu = new TopLinkDisclosureMenu({
-        menuElement: document.querySelector("ul"),
-      });
-
-      expect(menu.openClass).toBe(menu._classes.open);
+    // Test that TopLinkDisclosureMenu implements the BaseMenu openClass getter.
+    it("should implement the BaseMenu openClass getter", () => {
+      expectInheritedGetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "openClass"
+      );
     });
 
-    // Test that openClass sets the open class name.
-    it("should set the open class name", () => {
-      // Create a new TopLinkDisclosureMenu instance for testing.
-      const menu = new TopLinkDisclosureMenu({
-        menuElement: document.querySelector("ul"),
-      });
-
-      // Set up to check for validation.
-      const spy = vi.spyOn(validation, "isValidClassList");
-
-      // Set the menu's open class name.
-      menu.openClass = "test-open";
-
-      expect(spy).toHaveBeenCalledWith({ openClass: "test-open" });
-      expect(menu._classes.open).toBe("test-open");
+    // Test that TopLinkDisclosureMenu implements the BaseMenu openClass setter.
+    it("should implement the BaseMenu openClass setter", () => {
+      expectInheritedSetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "openClass"
+      );
     });
   });
 
   // Test TopLinkDisclosureMenu closeClass.
-  // todo: Test that the close class for submenus defaults to the root menu's close class.
   describe("closeClass", () => {
-    // Test that closeClass gets the close class name.
-    it("should get the close class name", () => {
-      // Create a new TopLinkDisclosureMenu instance for testing.
-      const menu = new TopLinkDisclosureMenu({
-        menuElement: document.querySelector("ul"),
-      });
-
-      expect(menu.closeClass).toBe(menu._classes.close);
+    // Test that TopLinkDisclosureMenu implements the BaseMenu closeClass getter.
+    it("should implement the BaseMenu closeClass getter", () => {
+      expectInheritedGetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "closeClass"
+      );
     });
 
-    // Test that closeClass sets the close class name.
-    it("should set the close class name", () => {
-      // Create a new TopLinkDisclosureMenu instance for testing.
-      const menu = new TopLinkDisclosureMenu({
-        menuElement: document.querySelector("ul"),
-      });
-
-      // Set up to check for validation.
-      const spy = vi.spyOn(validation, "isValidClassList");
-
-      // Set the menu's close class name.
-      menu.closeClass = "test-close";
-
-      expect(spy).toHaveBeenCalledWith({ closeClass: "test-close" });
-      expect(menu._classes.close).toBe("test-close");
+    // Test that TopLinkDisclosureMenu implements the BaseMenu closeClass setter.
+    it("should implement the BaseMenu closeClass setter", () => {
+      expectInheritedSetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "closeClass"
+      );
     });
   });
 
   // Test TopLinkDisclosureMenu transitionClass.
-  // todo: Test that the transition class for submenus defaults to the root menu's transition class.
   describe("transitionClass", () => {
-    // Test that transitionClass gets the transition class name.
-    it("should get the transition class name", () => {
-      // Create a new TopLinkDisclosureMenu instance for testing.
-      const menu = new TopLinkDisclosureMenu({
-        menuElement: document.querySelector("ul"),
-      });
-
-      expect(menu.transitionClass).toBe(menu._classes.transition);
+    // Test that TopLinkDisclosureMenu implements the BaseMenu transitionClass getter.
+    it("should implement the BaseMenu transitionClass getter", () => {
+      expectInheritedGetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "transitionClass"
+      );
     });
 
-    // Test that transitionClass sets the transition class name.
-    it("should set the transition class name", () => {
-      // Create a new TopLinkDisclosureMenu instance for testing.
-      const menu = new TopLinkDisclosureMenu({
-        menuElement: document.querySelector("ul"),
-      });
-
-      // Set up to check for validation.
-      const spy = vi.spyOn(validation, "isValidClassList");
-
-      // Set the menu's transition class name.
-      menu.transitionClass = "test-transition";
-
-      expect(spy).toHaveBeenCalledWith({ transitionClass: "test-transition" });
-      expect(menu._classes.transition).toBe("test-transition");
+    // Test that TopLinkDisclosureMenu implements the BaseMenu transitionClass setter.
+    it("should implement the BaseMenu transitionClass setter", () => {
+      expectInheritedSetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "transitionClass"
+      );
     });
   });
 
   // Test TopLinkDisclosureMenu transitionDuration.
   describe("transitionDuration", () => {
-    // Test that transitionDuration gets the transition duration value.
-    it("should get the transition duration value", () => {
-      // Create a new TopLinkDisclosureMenu instance for testing.
-      const menu = new TopLinkDisclosureMenu({
-        menuElement: document.querySelector("ul"),
-      });
-
-      expect(menu.transitionDuration).toBe(menu._durations.transition);
+    // Test that TopLinkDisclosureMenu implements the BaseMenu transitionDuration getter.
+    it("should implement the BaseMenu transitionDuration getter", () => {
+      expectInheritedGetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "transitionDuration"
+      );
     });
 
-    // Test that transitionDuration sets the transition duration value.
-    it("should set the transition duration value", () => {
-      // Create a new TopLinkDisclosureMenu instance for testing.
-      const menu = new TopLinkDisclosureMenu({
-        menuElement: document.querySelector("ul"),
-      });
-
-      // Set up to check for validation.
-      const spy = vi.spyOn(validation, "isValidType");
-
-      // Set the menu's transition duration value.
-      menu.transitionDuration = 200;
-
-      expect(spy).toHaveBeenCalledWith("number", { transitionDuration: 200 });
-      expect(menu._durations.transition).toBe(200);
+    // Test that TopLinkDisclosureMenu implements the BaseMenu transitionDuration setter.
+    it("should implement the BaseMenu transitionDuration setter", () => {
+      expectInheritedSetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "transitionDuration"
+      );
     });
   });
 
   // Test TopLinkDisclosureMenu openDuration.
   describe("openDuration", () => {
-    // Test that openDuration gets the open duration value.
-    it("should get the open duration value", () => {
-      // Create a new TopLinkDisclosureMenu instance for testing.
-      const menu = new TopLinkDisclosureMenu({
-        menuElement: document.querySelector("ul"),
-      });
-
-      // In this case, because we have not set the open duration,
-      // it should be the same as the transition duration.
-      expect(menu.openDuration).toBe(menu._durations.transition);
+    // Test that TopLinkDisclosureMenu implements the BaseMenu openDuration getter.
+    it("should implement the BaseMenu openDuration getter", () => {
+      expectInheritedGetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "openDuration"
+      );
     });
 
-    // Test that openDuration sets the open duration value.
-    it("should set the open duration value", () => {
-      // Create a new TopLinkDisclosureMenu instance for testing.
-      const menu = new TopLinkDisclosureMenu({
-        menuElement: document.querySelector("ul"),
-      });
-
-      // Set up to check for validation.
-      const spy = vi.spyOn(validation, "isValidType");
-
-      // Set the menu's open duration value.
-      menu.openDuration = 100;
-
-      expect(spy).toHaveBeenCalledWith("number", { openDuration: 100 });
-      expect(menu._durations.open).toBe(100);
+    // Test that TopLinkDisclosureMenu implements the BaseMenu openDuration setter.
+    it("should implement the BaseMenu openDuration setter", () => {
+      expectInheritedSetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "openDuration"
+      );
     });
   });
 
   // Test TopLinkDisclosureMenu closeDuration.
   describe("closeDuration", () => {
-    // Test that closeDuration gets the close duration value.
-    it("should get the close duration value", () => {
-      // Create a new TopLinkDisclosureMenu instance for testing.
-      const menu = new TopLinkDisclosureMenu({
-        menuElement: document.querySelector("ul"),
-      });
-
-      // In this case, because we have not set the close duration,
-      // it should be the same as the transition duration.
-      expect(menu.closeDuration).toBe(menu._durations.transition);
+    // Test that TopLinkDisclosureMenu implements the BaseMenu closeDuration getter.
+    it("should implement the BaseMenu closeDuration getter", () => {
+      expectInheritedGetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "closeDuration"
+      );
     });
 
-    // Test that closeDuration sets the close duration value.
-    it("should set the close duration value", () => {
-      // Create a new TopLinkDisclosureMenu instance for testing.
-      const menu = new TopLinkDisclosureMenu({
-        menuElement: document.querySelector("ul"),
-      });
-
-      // Set up to check for validation.
-      const spy = vi.spyOn(validation, "isValidType");
-
-      // Set the menu's close duration value.
-      menu.closeDuration = 100;
-
-      expect(spy).toHaveBeenCalledWith("number", { closeDuration: 100 });
-      expect(menu._durations.close).toBe(100);
+    // Test that TopLinkDisclosureMenu implements the BaseMenu closeDuration setter.
+    it("should implement the BaseMenu closeDuration setter", () => {
+      expectInheritedSetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "closeDuration"
+      );
     });
   });
 
   // Test TopLinkDisclosureMenu currentChild.
   describe("currentChild", () => {
     // Test that TopLinkDisclosureMenu implements the BaseMenu currentChild getter.
-    it("should implement the BaseMenu currentChild", () => {
-      expect(TopLinkDisclosureMenu.prototype.currentChild).toBe(
-        BaseMenu.prototype.currentChild
+    it("should implement the BaseMenu currentChild getter", () => {
+      expectInheritedGetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "currentChild"
+      );
+    });
+
+    // Test that TopLinkDisclosureMenu implements the BaseMenu currentChild setter.
+    it("should implement the BaseMenu currentChild setter", () => {
+      expectInheritedSetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "currentChild"
       );
     });
   });
@@ -400,9 +379,20 @@ describe("TopLinkDisclosureMenu getter/setters", () => {
   // Test TopLinkDisclosureMenu focusState.
   describe("focusState", () => {
     // Test that TopLinkDisclosureMenu implements the BaseMenu focusState getter.
-    it("should implement the BaseMenu focusState", () => {
-      expect(TopLinkDisclosureMenu.prototype.focusState).toBe(
-        BaseMenu.prototype.focusState
+    it("should implement the BaseMenu focusState getter", () => {
+      expectInheritedGetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "focusState"
+      );
+    });
+
+    // Test that TopLinkDisclosureMenu implements the BaseMenu focusState setter.
+    it("should implement the BaseMenu focusState setter", () => {
+      expectInheritedSetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "focusState"
       );
     });
   });
@@ -410,231 +400,188 @@ describe("TopLinkDisclosureMenu getter/setters", () => {
   // Test TopLinkDisclosureMenu currentEvent.
   describe("currentEvent", () => {
     // Test that TopLinkDisclosureMenu implements the BaseMenu currentEvent getter.
-    it("should implement the BaseMenu currentEvent", () => {
-      expect(TopLinkDisclosureMenu.prototype.currentEvent).toBe(
-        BaseMenu.prototype.currentEvent
+    it("should implement the BaseMenu currentEvent getter", () => {
+      expectInheritedGetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "currentEvent"
+      );
+    });
+
+    // Test that TopLinkDisclosureMenu implements the BaseMenu currentEvent setter.
+    it("should implement the BaseMenu currentEvent setter", () => {
+      expectInheritedSetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "currentEvent"
       );
     });
   });
 
   // Test TopLinkDisclosureMenu currentMenuItem.
   describe("currentMenuItem", () => {
-    // Test that currentMenuItem gets the current menu item.
-    it("should get the current menu item", () => {
-      // Create a new TopLinkDisclosureMenu instance for testing.
-      const menu = new TopLinkDisclosureMenu({
-        menuElement: document.querySelector("ul"),
-      });
+    // Test that TopLinkDisclosureMenu implements the BaseMenu currentMenuItem getter.
+    it("should implement the BaseMenu currentMenuItem getter", () => {
+      expectInheritedGetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "currentMenuItem"
+      );
+    });
 
-      expect(menu.currentMenuItem).toBe(
-        menu.elements.menuItems[menu.currentChild]
+    // Test that TopLinkDisclosureMenu implements the BaseMenu currentMenuItem setter.
+    it("should implement the BaseMenu currentMenuItem setter", () => {
+      expectInheritedSetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "currentMenuItem"
       );
     });
   });
 
   // Test TopLinkDisclosureMenu hoverType.
   describe("hoverType", () => {
-    // Test that hoverType gets the hover type.
-    it("should get the hover type", () => {
-      // Create a new TopLinkDisclosureMenu instance for testing.
-      const menu = new TopLinkDisclosureMenu({
-        menuElement: document.querySelector("ul"),
-      });
-
-      expect(menu.hoverType).toBe(menu._hoverType);
+    // Test that TopLinkDisclosureMenu implements the BaseMenu hoverType getter.
+    it("should implement the BaseMenu hoverType getter", () => {
+      expectInheritedGetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "hoverType"
+      );
     });
 
-    // Test that hoverType sets the hover type.
-    it("should set the hover type", () => {
-      // Create a new TopLinkDisclosureMenu instance for testing.
-      const menu = new TopLinkDisclosureMenu({
-        menuElement: document.querySelector("ul"),
-      });
-
-      // Set up to check for validation.
-      const spy = vi.spyOn(validation, "isValidHoverType");
-
-      // Set the menu's hover type.
-      menu.hoverType = "on";
-
-      expect(spy).toHaveBeenCalledWith({ hoverType: "on" });
-      expect(menu._hoverType).toBe("on");
+    // Test that TopLinkDisclosureMenu implements the BaseMenu hoverType setter.
+    it("should implement the BaseMenu hoverType setter", () => {
+      expectInheritedSetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "hoverType"
+      );
     });
   });
 
   // Test TopLinkDisclosureMenu hoverDelay.
   describe("hoverDelay", () => {
-    // Test that hoverDelay gets the hover delay value.
-    it("should get the hover delay value", () => {
-      // Create a new TopLinkDisclosureMenu instance for testing.
-      const menu = new TopLinkDisclosureMenu({
-        menuElement: document.querySelector("ul"),
-      });
-
-      expect(menu.hoverDelay).toBe(menu._delays.hover);
+    // Test that TopLinkDisclosureMenu implements the BaseMenu hoverDelay getter.
+    it("should implement the BaseMenu hoverDelay getter", () => {
+      expectInheritedGetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "hoverDelay"
+      );
     });
 
-    // Test that hoverDelay sets the hover delay value.
-    it("should set the hover delay value", () => {
-      // Create a new TopLinkDisclosureMenu instance for testing.
-      const menu = new TopLinkDisclosureMenu({
-        menuElement: document.querySelector("ul"),
-      });
-
-      // Set up to check for validation.
-      const spy = vi.spyOn(validation, "isValidType");
-
-      // Set the menu's hover delay value.
-      menu.hoverDelay = 200;
-
-      expect(spy).toHaveBeenCalledWith("number", { hoverDelay: 200 });
-      expect(menu._delays.hover).toBe(200);
+    // Test that TopLinkDisclosureMenu implements the BaseMenu hoverDelay setter.
+    it("should implement the BaseMenu hoverDelay setter", () => {
+      expectInheritedSetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "hoverDelay"
+      );
     });
   });
 
   // Test TopLinkDisclosureMenu enterDelay.
   describe("enterDelay", () => {
-    // Test that enterDelay gets the enter delay value.
-    it("should get the enter delay value", () => {
-      // Create a new TopLinkDisclosureMenu instance for testing.
-      const menu = new TopLinkDisclosureMenu({
-        menuElement: document.querySelector("ul"),
-      });
-
-      // In this case, because we have not set the enter delay,
-      // it should be the same as the hover delay.
-      expect(menu.enterDelay).toBe(menu._delays.hover);
+    // Test that TopLinkDisclosureMenu implements the BaseMenu enterDelay getter.
+    it("should implement the BaseMenu enterDelay getter", () => {
+      expectInheritedGetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "enterDelay"
+      );
     });
 
-    // Test that enterDelay sets the enter delay value.
-    it("should set the enter delay value", () => {
-      // Create a new TopLinkDisclosureMenu instance for testing.
-      const menu = new TopLinkDisclosureMenu({
-        menuElement: document.querySelector("ul"),
-      });
-
-      // Set up to check for validation.
-      const spy = vi.spyOn(validation, "isValidType");
-
-      // Set the menu's enter delay value.
-      menu.enterDelay = 100;
-
-      expect(spy).toHaveBeenCalledWith("number", { enterDelay: 100 });
-      expect(menu._delays.enter).toBe(100);
+    // Test that TopLinkDisclosureMenu implements the BaseMenu enterDelay setter.
+    it("should implement the BaseMenu enterDelay setter", () => {
+      expectInheritedSetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "enterDelay"
+      );
     });
   });
 
   // Test TopLinkDisclosureMenu leaveDelay.
   describe("leaveDelay", () => {
-    // Test that leaveDelay gets the leave delay value.
-    it("should get the leave delay value", () => {
-      // Create a new TopLinkDisclosureMenu instance for testing.
-      const menu = new TopLinkDisclosureMenu({
-        menuElement: document.querySelector("ul"),
-      });
-
-      // In this case, because we have not set the leave delay,
-      // it should be the same as the hover delay.
-      expect(menu.leaveDelay).toBe(menu._delays.hover);
+    // Test that TopLinkDisclosureMenu implements the BaseMenu leaveDelay getter.
+    it("should implement the BaseMenu leaveDelay getter", () => {
+      expectInheritedGetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "leaveDelay"
+      );
     });
 
-    // Test that leaveDelay sets the leave delay value.
-    it("should set the leave delay value", () => {
-      // Create a new TopLinkDisclosureMenu instance for testing.
-      const menu = new TopLinkDisclosureMenu({
-        menuElement: document.querySelector("ul"),
-      });
-
-      // Set up to check for validation.
-      const spy = vi.spyOn(validation, "isValidType");
-
-      // Set the menu's leave delay value.
-      menu.leaveDelay = 100;
-
-      expect(spy).toHaveBeenCalledWith("number", { leaveDelay: 100 });
-      expect(menu._delays.leave).toBe(100);
+    // Test that TopLinkDisclosureMenu implements the BaseMenu leaveDelay setter.
+    it("should implement the BaseMenu leaveDelay setter", () => {
+      expectInheritedSetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "leaveDelay"
+      );
     });
   });
 
   // Test TopLinkDisclosureMenu prefix.
   describe("prefix", () => {
-    // Test that prefix gets the prefix value.
-    it("should get the prefix value", () => {
-      // Create a new TopLinkDisclosureMenu instance for testing.
-      const menu = new TopLinkDisclosureMenu({
-        menuElement: document.querySelector("ul"),
-      });
-
-      expect(menu.prefix).toBe(menu._prefix);
+    // Test that TopLinkDisclosureMenu implements the BaseMenu prefix getter.
+    it("should implement the BaseMenu prefix getter", () => {
+      expectInheritedGetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "prefix"
+      );
     });
 
-    // Test that prefix sets the prefix value.
-    it("should set the prefix value", () => {
-      // Create a new TopLinkDisclosureMenu instance for testing.
-      const menu = new TopLinkDisclosureMenu({
-        menuElement: document.querySelector("ul"),
-      });
-
-      menu.prefix = "test-";
-
-      expect(menu.prefix).toBe("test-");
+    // Test that TopLinkDisclosureMenu implements the BaseMenu prefix setter.
+    it("should implement the BaseMenu prefix setter", () => {
+      expectInheritedSetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "prefix"
+      );
     });
   });
 
   // Test TopLinkDisclosureMenu key.
   describe("key", () => {
-    // Test that key gets the key value.
-    it("should get the key value", () => {
-      // Create a new TopLinkDisclosureMenu instance for testing.
-      const menu = new TopLinkDisclosureMenu({
-        menuElement: document.querySelector("ul"),
-      });
-
-      expect(menu.key).toBe(menu._key);
+    // Test that TopLinkDisclosureMenu implements the BaseMenu key getter.
+    it("should implement the BaseMenu key getter", () => {
+      expectInheritedGetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "key"
+      );
     });
 
-    // Test that key cannot set the key value.
-    it("should not set the key value", () => {
-      // Create a new TopLinkDisclosureMenu instance for testing.
-      const menu = new TopLinkDisclosureMenu({
-        menuElement: document.querySelector("ul"),
-      });
-
-      expect(() => {
-        menu.key = "test-";
-      }).toThrowError(
-        "Cannot set property key of #<BaseMenu> which has only a getter"
+    // Test that TopLinkDisclosureMenu implements the BaseMenu key setter.
+    it("should implement the BaseMenu key setter", () => {
+      expectInheritedSetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "key"
       );
     });
   });
 
   // Test TopLinkDisclosureMenu id.
   describe("id", () => {
-    // Test that id gets the id value.
-    it("should get the id value", () => {
-      // Create a new TopLinkDisclosureMenu instance for testing.
-      const menu = new TopLinkDisclosureMenu({
-        menuElement: document.querySelector("ul"),
-        controllerElement: document.querySelector("button"),
-        containerElement: document.querySelector("nav"),
-      });
-
-      expect(menu.id).toBe(menu._id);
+    // Test that TopLinkDisclosureMenu implements the BaseMenu id getter.
+    it("should implement the BaseMenu id getter", () => {
+      expectInheritedGetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "id"
+      );
     });
 
-    // Test that id cannot set the id value.
-    it("should not set the id value", () => {
-      // Create a new TopLinkDisclosureMenu instance for testing.
-      const menu = new TopLinkDisclosureMenu({
-        menuElement: document.querySelector("ul"),
-        controllerElement: document.querySelector("button"),
-        containerElement: document.querySelector("nav"),
-      });
-
-      expect(() => {
-        menu.id = "test-menu";
-      }).toThrowError(
-        "Cannot set property id of #<BaseMenu> which has only a getter"
+    // Test that TopLinkDisclosureMenu implements the BaseMenu id setter.
+    it("should implement the BaseMenu id setter", () => {
+      expectInheritedSetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "id"
       );
     });
   });
@@ -642,9 +589,20 @@ describe("TopLinkDisclosureMenu getter/setters", () => {
   // Test TopLinkDisclosureMenu shouldFocus.
   describe("shouldFocus", () => {
     // Test that TopLinkDisclosureMenu implements the BaseMenu shouldFocus getter.
-    it("should implement the BaseMenu shouldFocus", () => {
-      expect(TopLinkDisclosureMenu.prototype.shouldFocus).toBe(
-        BaseMenu.prototype.shouldFocus
+    it("should implement the BaseMenu shouldFocus getter", () => {
+      expectInheritedGetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "shouldFocus"
+      );
+    });
+
+    // Test that TopLinkDisclosureMenu implements the BaseMenu shouldFocus setter.
+    it("should implement the BaseMenu shouldFocus setter", () => {
+      expectInheritedSetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "shouldFocus"
       );
     });
   });
@@ -652,15 +610,25 @@ describe("TopLinkDisclosureMenu getter/setters", () => {
   // Test TopLinkDisclosureMenu errors.
   describe("errors", () => {
     // Test that TopLinkDisclosureMenu implements the BaseMenu errors getter.
-    it("should implement the BaseMenu errors", () => {
-      expect(TopLinkDisclosureMenu.prototype.errors).toBe(
-        BaseMenu.prototype.errors
+    it("should implement the BaseMenu errors getter", () => {
+      expectInheritedGetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "errors"
+      );
+    });
+
+    // Test that TopLinkDisclosureMenu implements the BaseMenu errors setter.
+    it("should implement the BaseMenu errors setter", () => {
+      expectInheritedSetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "errors"
       );
     });
   });
 
   // Test TopLinkDisclosureMenu optionalKeySupport.
-  // todo: Test that the optional key support for submenus defaults to the root menu's optional key support.
   describe("optionalKeySupport", () => {
     // Test that optionalKeySupport gets the optional key support value.
     it("should get the optional key support value", () => {
@@ -687,6 +655,20 @@ describe("TopLinkDisclosureMenu getter/setters", () => {
 
       expect(spy).toHaveBeenCalledWith("boolean", { optionalKeySupport: true });
       expect(menu._optionalSupport).toBeTruthy();
+    });
+
+    // Test that optionalKeySupport defaults to the root menu's optionalKeySupport for submenus.
+    it("should default to the root menu's optional key support for submenus", () => {
+      // Create a new TopLinkDisclosureMenu instance for testing.
+      const menu = new TopLinkDisclosureMenu({
+        menuElement: document.querySelector("ul"),
+      });
+
+      menu.optionalKeySupport = true;
+
+      const submenu = menu.elements.submenuToggles[0].elements.controlledMenu;
+
+      expect(submenu.optionalKeySupport).toBe(menu.optionalKeySupport);
     });
   });
 });

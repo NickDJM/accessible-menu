@@ -35,6 +35,25 @@ describe("BaseMenuItem getter/setters", () => {
 
       expect(menuItem.dom).toEqual(menuItem._dom);
     });
+
+    // Test that dom cannot be set manually.
+    it("should not set the DOM elements", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+
+      const menuItem = menu.elements.menuItems[0];
+
+      expect(() => {
+        menuItem.dom = {};
+      }).toThrowError(
+        "Cannot set property dom of #<BaseMenuItem> which has only a getter"
+      );
+    });
   });
 
   // Test BaseMenuItem elements.
@@ -53,6 +72,25 @@ describe("BaseMenuItem getter/setters", () => {
 
       expect(menuItem.elements).toEqual(menuItem._elements);
     });
+
+    // Test that elements cannot be set manually.
+    it("should not set the elements", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+
+      const menuItem = menu.elements.menuItems[0];
+
+      expect(() => {
+        menuItem.elements = {};
+      }).toThrowError(
+        "Cannot set property elements of #<BaseMenuItem> which has only a getter"
+      );
+    });
   });
 
   // Test BaseMenuItem isSubmenuItem.
@@ -70,6 +108,25 @@ describe("BaseMenuItem getter/setters", () => {
       const menuItem = menu.elements.menuItems[0];
 
       expect(menuItem.isSubmenuItem).toEqual(menuItem._submenu);
+    });
+
+    // Test that isSubmenuItem cannot be set manually.
+    it("should not set the submenu flag", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+
+      const menuItem = menu.elements.menuItems[0];
+
+      expect(() => {
+        menuItem.isSubmenuItem = true;
+      }).toThrowError(
+        "Cannot set property isSubmenuItem of #<BaseMenuItem> which has only a getter"
+      );
     });
   });
 });

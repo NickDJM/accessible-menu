@@ -1,35 +1,16 @@
 /**
- * Tests for the TransactionalValue class.
+ * Tests for public methods of the TransactionalValue class.
  */
 
 import { describe, it, expect, vi } from "vitest";
 import TransactionalValue from "../../src/TransactionalValue.js";
 
-describe("TransactionalValue", () => {
-  describe("initialization", () => {
-    it("should set current and committed to the initial value", () => {
-      const value = new TransactionalValue("Nick");
-
-      expect(value.value).toBe("Nick");
-      expect(value.committed).toBe("Nick");
-      expect(value.isDirty).toBe(false);
-    });
-  });
-
-  describe("value", () => {
-    it("should update the current value", () => {
-      const value = new TransactionalValue(1);
-
-      value.value = 2;
-
-      expect(value.value).toBe(2);
-      expect(value.committed).toBe(1);
-      expect(value.isDirty).toBe(true);
-    });
-  });
-
+// Test TransactionalValue public methods.
+describe("TransactionalValue public methods", () => {
+  // Test TransactionalValue commit().
   describe("commit", () => {
-    it("should commit the current value and clear dirty state", () => {
+    // Test that commit updates the committed value.
+    it("should commit the current value", () => {
       const value = new TransactionalValue(1);
       value.value = 2;
 
@@ -41,7 +22,9 @@ describe("TransactionalValue", () => {
     });
   });
 
+  // Test TransactionalValue reset().
   describe("reset", () => {
+    // Test that reset restores the committed value.
     it("should reset the current value to the committed value", () => {
       const value = new TransactionalValue("initial");
       value.value = "updated";
@@ -54,8 +37,10 @@ describe("TransactionalValue", () => {
     });
   });
 
+  // Test TransactionalValue update().
   describe("update", () => {
-    it("should apply a functional update to the current value", () => {
+    // Test that update applies a functional update.
+    it("should update the current value with a function", () => {
       const value = new TransactionalValue(2);
 
       const result = value.update((current) => current + 1);
@@ -67,18 +52,20 @@ describe("TransactionalValue", () => {
     });
   });
 
+  // Test TransactionalValue equals.
   describe("equals", () => {
+    // Test that equals is used to determine dirty state.
     it("should use the custom equality comparator", () => {
       const equals = vi.fn(
         (left, right) =>
           String(left).toLowerCase() === String(right).toLowerCase()
       );
-      const value = new TransactionalValue("Nick", { equals });
+      const value = new TransactionalValue("Test", { equals });
 
-      value.value = "nick";
+      value.value = "test";
 
-      expect(equals).toHaveBeenCalled();
       expect(value.isDirty).toBe(false);
+      expect(equals).toHaveBeenCalled();
     });
   });
 });

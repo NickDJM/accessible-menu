@@ -182,7 +182,7 @@ describe("TopLinkDisclosureMenuToggle public methods", () => {
       const spy = vi.spyOn(menuToggle.elements.controlledMenu, "blur");
 
       // Set up the menu.
-      menuToggle.isOpen = true;
+      menuToggle.open({ force: true, emit: false, transition: false });
 
       // Close the menu.
       menuToggle.close();
@@ -203,7 +203,7 @@ describe("TopLinkDisclosureMenuToggle public methods", () => {
 
       // Set up the menu.
       menu.focusState = "child";
-      menuToggle.isOpen = true;
+      menuToggle.open({ force: true, emit: false, transition: false });
 
       // Close the menu.
       menuToggle.close();
@@ -226,7 +226,7 @@ describe("TopLinkDisclosureMenuToggle public methods", () => {
       const spy = vi.spyOn(menuToggle, "_collapse");
 
       // Set up the menu.
-      menuToggle.isOpen = true;
+      menuToggle.open({ force: true, emit: false, transition: false });
 
       // Close the menu.
       menuToggle.close();
@@ -246,7 +246,7 @@ describe("TopLinkDisclosureMenuToggle public methods", () => {
       const menuToggle = menu.elements.submenuToggles[0];
 
       // Set up the menu.
-      menuToggle.isOpen = true;
+      menuToggle.open({ force: true, emit: false, transition: false });
 
       // Close the menu.
       menuToggle.close();
@@ -269,7 +269,7 @@ describe("TopLinkDisclosureMenuToggle public methods", () => {
       const spy = vi.spyOn(menuToggle, "closeChildren");
 
       // Set up the menu.
-      menuToggle.isOpen = true;
+      menuToggle.open({ force: true, emit: false, transition: false });
 
       menuToggle.close();
 

@@ -1,8 +1,12 @@
 /**
+ * @file
  * Helper functions for testing menus.
  */
 
-/* global BaseMenu */
+/* global BaseMenu PropertyDescriptor */
+/* eslint-disable jsdoc/reject-any-type */
+
+import { expect, vi } from "vitest";
 
 /**
  * Extends jsdom MouseEvent class as PointerEvent class
@@ -42,6 +46,7 @@ export function initializeMenu(menu) {
     menu.elements.controller.initialize();
   }
 
+  menu._handleMediaMatch();
   menu._handleFocus();
   menu._handleClick();
   menu._handleHover();
@@ -110,4 +115,76 @@ export function simulateKeyboardEvent(eventType, element, options = {}) {
     console.error(error);
     return error;
   }
+}
+
+/**
+ * Gets a property descriptor from an object or its prototype.
+ *
+ * @param  {object} proto       - The class prototype.
+ * @param  {string} prop        - The property name.
+ * @return {PropertyDescriptor} - The property descriptor.
+ */
+export function getDescriptor(proto, prop) {
+  return (
+    Object.getOwnPropertyDescriptor(proto, prop) ||
+    Object.getOwnPropertyDescriptor(Object.getPrototypeOf(proto), prop)
+  );
+}
+
+/**
+ * Tests that a getter is inherited from a base class.
+ *
+ * @param  {object} derivative - the derived class prototype.
+ * @param  {object} base       - the base class prototype.
+ * @param  {string} prop       - the property name.
+ * @return {*}                 - the result of the expectation.
+ */
+export function expectInheritedGetter(derivative, base, prop) {
+  const baseDescriptor = getDescriptor(base, prop);
+  const derivativeDescriptor = getDescriptor(derivative, prop);
+
+  return expect(derivativeDescriptor.get).toBe(baseDescriptor.get);
+}
+
+/**
+ * Tests that a setter is inherited from a base class.
+ *
+ * @param  {object} derivative - the derived class prototype.
+ * @param  {object} base       - the base class prototype.
+ * @param  {string} prop       - the property name.
+ * @return {*}                 - the result of the expectation.
+ */
+export function expectInheritedSetter(derivative, base, prop) {
+  const baseDescriptor = getDescriptor(base, prop);
+  const derivativeDescriptor = getDescriptor(derivative, prop);
+
+  return expect(derivativeDescriptor.set).toBe(baseDescriptor.set);
+}
+
+/**
+ * Creates a matchMedia mock with event listener tracking.
+ *
+ * @param  {boolean} [matches = false] - The initial match state.
+ * @return {{matchMedia: Function, mql: object, listeners: Set<Function>}} - Mock setup.
+ */
+export function setupMatchMedia(matches = false) {
+  const listeners = new Set();
+  const mql = {
+    matches,
+    media: "",
+    addEventListener: vi.fn((type, listener) => {
+      if (type === "change") {
+        listeners.add(listener);
+      }
+    }),
+    removeEventListener: vi.fn((type, listener) => {
+      listeners.delete(listener);
+    }),
+  };
+  const matchMedia = vi.fn((query) => {
+    mql.media = query;
+    return mql;
+  });
+
+  return { matchMedia, mql, listeners };
 }

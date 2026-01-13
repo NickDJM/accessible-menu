@@ -2,9 +2,10 @@
  * Getter/Setter tests for the TreeviewToggle class.
  */
 
-import { describe, it, expect } from "vitest";
+import { describe, it } from "vitest";
 import TreeviewToggle from "../../../src/treeviewToggle.js";
 import BaseMenuToggle from "../../../src/_baseMenuToggle.js";
+import { expectInheritedGetter, expectInheritedSetter } from "../helpers.js";
 
 // Test all getter/setter methods in the TreeviewToggle class.
 describe("TreeviewToggle getter/setters", () => {
@@ -12,7 +13,20 @@ describe("TreeviewToggle getter/setters", () => {
   describe("dom", () => {
     // Test that TreeviewToggle implements the BaseMenuToggle dom getter.
     it("should implement the BaseMenuToggle dom", () => {
-      expect(TreeviewToggle.prototype.dom).toBe(BaseMenuToggle.prototype.dom);
+      expectInheritedGetter(
+        TreeviewToggle.prototype,
+        BaseMenuToggle.prototype,
+        "dom"
+      );
+    });
+
+    // Test that TreeviewToggle implements the BaseMenuToggle dom setter.
+    it("should implement the BaseMenuToggle dom setter", () => {
+      expectInheritedSetter(
+        TreeviewToggle.prototype,
+        BaseMenuToggle.prototype,
+        "dom"
+      );
     });
   });
 
@@ -20,8 +34,19 @@ describe("TreeviewToggle getter/setters", () => {
   describe("elements", () => {
     // Test that TreeviewToggle implements the BaseMenuToggle elements getter.
     it("should implement the BaseMenuToggle elements", () => {
-      expect(TreeviewToggle.prototype.elements).toBe(
-        BaseMenuToggle.prototype.elements
+      expectInheritedGetter(
+        TreeviewToggle.prototype,
+        BaseMenuToggle.prototype,
+        "elements"
+      );
+    });
+
+    // Test that TreeviewToggle implements the BaseMenuToggle elements setter.
+    it("should implement the BaseMenuToggle elements setter", () => {
+      expectInheritedSetter(
+        TreeviewToggle.prototype,
+        BaseMenuToggle.prototype,
+        "elements"
       );
     });
   });
@@ -30,8 +55,40 @@ describe("TreeviewToggle getter/setters", () => {
   describe("isOpen", () => {
     // Test that TreeviewToggle implements the BaseMenuToggle isOpen getter.
     it("should implement the BaseMenuToggle isOpen", () => {
-      expect(TreeviewToggle.prototype.isOpen).toBe(
-        BaseMenuToggle.prototype.isOpen
+      expectInheritedGetter(
+        TreeviewToggle.prototype,
+        BaseMenuToggle.prototype,
+        "isOpen"
+      );
+    });
+
+    // Test that TreeviewToggle implements the BaseMenuToggle isOpen setter.
+    it("should implement the BaseMenuToggle isOpen setter", () => {
+      expectInheritedSetter(
+        TreeviewToggle.prototype,
+        BaseMenuToggle.prototype,
+        "isOpen"
+      );
+    });
+  });
+
+  // Test TreeviewToggle hasOpened.
+  describe("hasOpened", () => {
+    // Test that TreeviewToggle implements the BaseMenuToggle hasOpened getter.
+    it("should implement the BaseMenuToggle hasOpened", () => {
+      expectInheritedGetter(
+        TreeviewToggle.prototype,
+        BaseMenuToggle.prototype,
+        "hasOpened"
+      );
+    });
+
+    // Test that TreeviewToggle implements the BaseMenuToggle hasOpened setter.
+    it("should implement the BaseMenuToggle hasOpened setter", () => {
+      expectInheritedSetter(
+        TreeviewToggle.prototype,
+        BaseMenuToggle.prototype,
+        "hasOpened"
       );
     });
   });

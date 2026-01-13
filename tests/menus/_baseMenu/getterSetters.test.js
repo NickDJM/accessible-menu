@@ -206,10 +206,24 @@ describe("BaseMenu getter/setters", () => {
 
       expect(menu.isTopLevel).toBe(menu._root);
     });
+
+    // Test that isTopLevel cannot be set manually.
+    it("should not set the top-level status", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      expect(() => {
+        menu.isTopLevel = false;
+      }).toThrowError(
+        "Cannot set property isTopLevel of #<BaseMenu> which has only a getter"
+      );
+    });
   });
 
   // Test BaseMenu openClass.
-  // todo: Test that the open class for submenus defaults to the root menu's open class.
   describe("openClass", () => {
     // Test that openClass gets the open class name.
     it("should get the open class name", () => {
@@ -239,10 +253,22 @@ describe("BaseMenu getter/setters", () => {
       expect(spy).toHaveBeenCalledWith({ openClass: "test-open" });
       expect(menu._classes.open).toBe("test-open");
     });
+
+    // Test that openClass defaults to the root menu's openClass for submenus.
+    it("should default to the root menu's open class for submenus", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      const submenu = menu.elements.submenuToggles[0].elements.controlledMenu;
+
+      expect(submenu.openClass).toBe(menu.openClass);
+    });
   });
 
   // Test BaseMenu closeClass.
-  // todo: Test that the close class for submenus defaults to the root menu's close class.
   describe("closeClass", () => {
     // Test that closeClass gets the close class name.
     it("should get the close class name", () => {
@@ -272,10 +298,22 @@ describe("BaseMenu getter/setters", () => {
       expect(spy).toHaveBeenCalledWith({ closeClass: "test-close" });
       expect(menu._classes.close).toBe("test-close");
     });
+
+    // Test that closeClass defaults to the root menu's closeClass for submenus.
+    it("should default to the root menu's close class for submenus", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      const submenu = menu.elements.submenuToggles[0].elements.controlledMenu;
+
+      expect(submenu.closeClass).toBe(menu.closeClass);
+    });
   });
 
   // Test BaseMenu transitionClass.
-  // todo: Test that the transition class for submenus defaults to the root menu's transition class.
   describe("transitionClass", () => {
     // Test that transitionClass gets the transition class name.
     it("should get the transition class name", () => {
@@ -304,6 +342,19 @@ describe("BaseMenu getter/setters", () => {
 
       expect(spy).toHaveBeenCalledWith({ transitionClass: "test-transition" });
       expect(menu._classes.transition).toBe("test-transition");
+    });
+
+    // Test that transitionClass defaults to the root menu's transitionClass for submenus.
+    it("should default to the root menu's transition class for submenus", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      const submenu = menu.elements.submenuToggles[0].elements.controlledMenu;
+
+      expect(submenu.transitionClass).toBe(menu.transitionClass);
     });
   });
 
@@ -518,6 +569,21 @@ describe("BaseMenu getter/setters", () => {
         menu.elements.menuItems[menu.currentChild]
       );
     });
+
+    // Test that currentMenuItem cannot be set manually.
+    it("should not set the current menu item", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      expect(() => {
+        menu.currentMenuItem = menu.elements.menuItems[0];
+      }).toThrowError(
+        "Cannot set property currentMenuItem of #<BaseMenu> which has only a getter"
+      );
+    });
   });
 
   // Test BaseMenu hoverType.
@@ -691,7 +757,6 @@ describe("BaseMenu getter/setters", () => {
       // Create a new BaseMenu instance for testing.
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
-        breakpoint: "48em",
       });
       initializeMenu(menu);
 
@@ -724,18 +789,6 @@ describe("BaseMenu getter/setters", () => {
       // Create a new BaseMenu instance for testing.
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
-        mediaQuery: "(width <= 60em)",
-      });
-      initializeMenu(menu);
-
-      expect(menu.mediaQuery).toBe("(width <= 60em)");
-    });
-
-    // Test that mediaQuery returns empty when no breakpoint or mediaQuery is set.
-    it("should return an empty media query when no breakpoint is set", () => {
-      // Create a new BaseMenu instance for testing.
-      const menu = new BaseMenu({
-        menuElement: document.querySelector("ul"),
       });
       initializeMenu(menu);
 
@@ -747,9 +800,10 @@ describe("BaseMenu getter/setters", () => {
       // Create a new BaseMenu instance for testing.
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
-        breakpoint: "40em",
       });
       initializeMenu(menu);
+
+      menu.breakpoint = "40em";
 
       expect(menu.mediaQuery).toBe("(width <= 40em)");
     });
@@ -872,6 +926,21 @@ describe("BaseMenu getter/setters", () => {
 
       expect(menu.shouldFocus).toBeFalsy();
     });
+
+    // Test that shouldFocus cannot be set manually.
+    it("should not set the shouldFocus value", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      expect(() => {
+        menu.shouldFocus = true;
+      }).toThrowError(
+        "Cannot set property shouldFocus of #<BaseMenu> which has only a getter"
+      );
+    });
   });
 
   // Test BaseMenu errors.
@@ -885,6 +954,21 @@ describe("BaseMenu getter/setters", () => {
       initializeMenu(menu);
 
       expect(menu.errors).toEqual(menu._errors);
+    });
+
+    // Test that errors cannot be set manually.
+    it("should not set the errors array", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      expect(() => {
+        menu.errors = [];
+      }).toThrowError(
+        "Cannot set property errors of #<BaseMenu> which has only a getter"
+      );
     });
   });
 

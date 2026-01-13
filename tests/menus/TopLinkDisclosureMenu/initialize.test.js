@@ -17,28 +17,7 @@ import {
 } from "vitest";
 import { singleLevel, twoLevelDisclosureTopLink } from "../../../demo/menus.js";
 import TopLinkDisclosureMenu from "../../../src/topLinkDisclosureMenu.js";
-
-const setupMatchMedia = (matches = false) => {
-  const listeners = new Set();
-  const mql = {
-    matches,
-    media: "",
-    addEventListener: vi.fn((type, listener) => {
-      if (type === "change") {
-        listeners.add(listener);
-      }
-    }),
-    removeEventListener: vi.fn((type, listener) => {
-      listeners.delete(listener);
-    }),
-  };
-  const matchMedia = vi.fn((query) => {
-    mql.media = query;
-    return mql;
-  });
-
-  return { matchMedia, mql, listeners };
-};
+import { setupMatchMedia } from "../helpers.js";
 
 let originalMatchMedia;
 

@@ -3,6 +3,8 @@
  * Provides a utility class for managing transactional values.
  */
 
+/* eslint-disable jsdoc/reject-any-type */
+
 /**
  * A utility class that maintains a "current" value and a "committed" value.
  *
@@ -21,42 +23,45 @@
  * counter.value = 15;
  * counter.reset(); // reverts to 10
  */
-/* eslint-disable jsdoc/reject-any-type */
 class TransactionalValue {
+  /**
+   * A comparator function used to check equality between
+   * the current and committed values.
+   *
+   * @protected
+   *
+   * @type {function(*, *): boolean}
+   */
+  _equals = Object.is;
+
+  /**
+   * The current, editable value.
+   *
+   * @protected
+   *
+   * @type {*}
+   */
+  _current;
+
+  /**
+   * The last committed (baseline) value.
+   *
+   * @protected
+   *
+   * @type {*}
+   */
+  _committed;
+
   /**
    * Creates a new TransactionalValue instance.
    *
-   * @param {*} initialValue - The starting (and initially committed) value.
-   * @param {{ equals?: function(*, *): boolean }} [options] - Optional config.
-   * @param {function(*, *): boolean} [options.equals] - Custom equality comparator. Defaults to `Object.is`.
+   * @param {*}                       initialValue                 - The starting (and initially committed) value.
+   * @param {object}                  [options = {}]               - Options for configuring the instance.
+   * @param {function(*, *): boolean} [options.equals = Object.is] - Custom equality comparator. Defaults to `Object.is`.
    */
-  constructor(initialValue, options = {}) {
-    /**
-     * A comparator function used to check equality between
-     * the current and committed values.
-     *
-     * @private
-     *
-     * @type {function(*, *): boolean}
-     */
-    this._equals = options.equals || Object.is;
-
-    /**
-     * The current, editable value.
-     *
-     * @private
-     *
-     * @type {*}
-     */
+  constructor(initialValue, { equals = Object.is } = {}) {
+    this._equals = equals || Object.is;
     this._current = initialValue;
-
-    /**
-     * The last committed (baseline) value.
-     *
-     * @private
-     *
-     * @type {*}
-     */
     this._committed = initialValue;
   }
 
@@ -81,11 +86,11 @@ class TransactionalValue {
   }
 
   /**
-   * Gets the last committed (baseline) value.
+   * Gets the last committed value.
    *
    * @readonly
    *
-   * @return {*} The last committed value.
+   * @type {*}
    *
    * @see _committed
    */
@@ -96,9 +101,11 @@ class TransactionalValue {
   /**
    * Checks whether the current value differs from the committed one.
    *
+   * Will be `true` if the values are different, `false` otherwise.
+   *
    * @readonly
    *
-   * @return {boolean} `true` if current and committed values differ.
+   * @type {boolean}
    */
   get isDirty() {
     return !this._equals(this._current, this._committed);
@@ -107,7 +114,7 @@ class TransactionalValue {
   /**
    * Commits the current value, setting it as the new baseline.
    *
-   * @return {TransactionalValue} The current instance.
+   * @return {TransactionalValue} - The current instance.
    */
   commit() {
     this._committed = this._current;
@@ -117,7 +124,7 @@ class TransactionalValue {
   /**
    * Resets the current value to the committed baseline.
    *
-   * @return {TransactionalValue} The current instance.
+   * @return {TransactionalValue} - The current instance.
    */
   reset() {
     this._current = this._committed;
@@ -127,8 +134,8 @@ class TransactionalValue {
   /**
    * Applies a functional update to the current value.
    *
-   * @param {function(*): *} fn - A function that receives the previous value and returns the new one.
-   * @return {TransactionalValue} The current instance.
+   * @param  {function(*): *}     fn - A function that receives the previous value and returns the new one.
+   * @return {TransactionalValue}    - The current instance.
    *
    * @example
    * const t = new TransactionalValue(1);
