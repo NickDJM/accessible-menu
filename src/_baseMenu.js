@@ -448,6 +448,11 @@ class BaseMenu {
         menus: {},
       };
 
+      // Initialize the menus storage if it doesn't already exist.
+      if (typeof window.AccessibleMenu.menus !== "object") {
+        window.AccessibleMenu.menus = {};
+      }
+
       window.AccessibleMenu.menus[this.dom.menu.id] = this;
     }
 
