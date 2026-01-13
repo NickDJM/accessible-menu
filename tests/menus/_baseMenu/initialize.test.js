@@ -17,7 +17,9 @@ import {
 } from "vitest";
 import { singleLevel, twoLevel } from "../../../demo/menus.js";
 import BaseMenu from "../../../src/_baseMenu.js";
-import { initializeMenu } from "../helpers.js";
+import { initializeMenu, setupMatchMedia } from "../helpers.js";
+
+let originalMatchMedia;
 
 beforeAll(() => {
   // Mock the console.error method.
@@ -34,11 +36,13 @@ afterAll(() => {
 beforeEach(() => {
   // Create the test menu.
   document.body.innerHTML = twoLevel;
+  originalMatchMedia = window.matchMedia;
 });
 
 afterEach(() => {
   // Remove the test menu.
   document.body.innerHTML = "";
+  window.matchMedia = originalMatchMedia;
 });
 
 // Test the BaseMenu initialization.
@@ -675,6 +679,102 @@ describe("BaseMenu (custom arguments)", () => {
     expect(() => {
       initializeMenu(menu);
     }).toThrow('leaveDelay must be a number. "string" given.');
+  });
+
+  // Test that the BaseMenu will initialize if a valid breakpoint is passed.
+  it("should initialize if a valid breakpoint is passed", () => {
+    const { matchMedia } = setupMatchMedia(false);
+    window.matchMedia = matchMedia;
+
+    // Create a new BaseMenu instance for testing.
+    const menu = new BaseMenu({
+      menuElement: document.querySelector("ul"),
+      breakpoint: "40em",
+    });
+
+    // Test that the menu initializes.
+    expect(() => {
+      initializeMenu(menu);
+    }).not.toThrow();
+  });
+
+  // Test that the BaseMenu will throw an error if an invalid breakpoint is passed.
+  it("should throw an error if an invalid breakpoint is passed", () => {
+    const { matchMedia } = setupMatchMedia(false);
+    window.matchMedia = matchMedia;
+
+    // Create a new BaseMenu instance for testing.
+    const menu = new BaseMenu({
+      menuElement: document.querySelector("ul"),
+      breakpoint: 40,
+    });
+
+    // Test that the menu throws an error.
+    expect(() => {
+      initializeMenu(menu);
+    }).toThrow('breakpoint must be a string. "number" given.');
+  });
+
+  // Test that the BaseMenu will initialize if a valid mediaQuery is passed.
+  it("should initialize if a valid mediaQuery is passed", () => {
+    const { matchMedia } = setupMatchMedia(false);
+    window.matchMedia = matchMedia;
+
+    // Create a new BaseMenu instance for testing.
+    const menu = new BaseMenu({
+      menuElement: document.querySelector("ul"),
+      mediaQuery: "(width <= 40em)",
+    });
+
+    // Test that the menu initializes.
+    expect(() => {
+      initializeMenu(menu);
+    }).not.toThrow();
+  });
+
+  // Test that the BaseMenu will throw an error if an invalid mediaQuery is passed.
+  it("should throw an error if an invalid mediaQuery is passed", () => {
+    const { matchMedia } = setupMatchMedia(false);
+    window.matchMedia = matchMedia;
+
+    // Create a new BaseMenu instance for testing.
+    const menu = new BaseMenu({
+      menuElement: document.querySelector("ul"),
+      mediaQuery: 40,
+    });
+
+    // Test that the menu throws an error.
+    expect(() => {
+      initializeMenu(menu);
+    }).toThrow('mediaQuery must be a string. "number" given.');
+  });
+
+  // Test that the BaseMenu will initialize if a valid autoOpen is passed.
+  it("should initialize if a valid autoOpen is passed", () => {
+    // Create a new BaseMenu instance for testing.
+    const menu = new BaseMenu({
+      menuElement: document.querySelector("ul"),
+      autoOpen: false,
+    });
+
+    // Test that the menu initializes.
+    expect(() => {
+      initializeMenu(menu);
+    }).not.toThrow();
+  });
+
+  // Test that the BaseMenu will throw an error if an invalid autoOpen is passed.
+  it("should throw an error if an invalid autoOpen is passed", () => {
+    // Create a new BaseMenu instance for testing.
+    const menu = new BaseMenu({
+      menuElement: document.querySelector("ul"),
+      autoOpen: 1,
+    });
+
+    // Test that the menu throws an error.
+    expect(() => {
+      initializeMenu(menu);
+    }).toThrow('autoOpen must be a boolean. "number" given.');
   });
 
   // Test that the BaseMenu will initialize if a valid prefix is passed.

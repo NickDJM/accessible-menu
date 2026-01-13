@@ -71,4 +71,25 @@ describe("MenubarToggle getter/setters", () => {
       );
     });
   });
+
+  // Test MenubarToggle hasOpened.
+  describe("hasOpened", () => {
+    // Test that MenubarToggle implements the BaseMenuToggle hasOpened getter.
+    it("should implement the BaseMenuToggle hasOpened", () => {
+      expectInheritedGetter(
+        MenubarToggle.prototype,
+        BaseMenuToggle.prototype,
+        "hasOpened"
+      );
+    });
+
+    // Test that MenubarToggle implements the BaseMenuToggle hasOpened setter.
+    it("should implement the BaseMenuToggle hasOpened setter", () => {
+      expectInheritedSetter(
+        MenubarToggle.prototype,
+        BaseMenuToggle.prototype,
+        "hasOpened"
+      );
+    });
+  });
 });

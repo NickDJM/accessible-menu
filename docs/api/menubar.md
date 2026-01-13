@@ -34,6 +34,9 @@ new Menubar({
   hoverDelay,
   enterDelay,
   leaveDelay,
+  breakpoint,
+  mediaQuery,
+  autoOpen,
   prefix,
   key,
   initialize,
@@ -67,6 +70,9 @@ The constructor will call [BaseMenu's constructor](./base-menu#constructor) with
 | options.hoverDelay | `number` | The delay for opening and closing menus if the menu is hoverable (in milliseconds). | `250` |
 | options.enterDelay | `number` | The delay for opening a menu if the menu is focusable (in milliseconds). | `-1` |
 | options.leaveDelay | `number` | The delay for closing a menu if the menu is focusable (in milliseconds). | `-1` |
+| options.breakpoint | `string` | The breakpoint that the menu will automatically open/close itself at. | `""` |
+| options.mediaQuery | `string` | The media query to use to trigger media query list events. | `""` |
+| options.autoOpen | `boolean` | A flag to auto open the menu when the media query does not match. | `true` |
 | options.prefix | `string`, `null` | The prefix for the CSS custom properties. | `"am-"` |
 | options.key | `string`, `null` | The key used to generate IDs throughout the menu. | `null` |
 | options.initialize | `boolean` | A flag to initialize the menu immediately upon creation. | `true` |

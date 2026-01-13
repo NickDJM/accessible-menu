@@ -9,14 +9,22 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { twoLevel } from "../../../demo/menus.js";
 import BaseMenu from "../../../src/_baseMenu.js";
-import { initializeMenu, simulatePointerEvent } from "../helpers.js";
+import {
+  initializeMenu,
+  simulatePointerEvent,
+  setupMatchMedia,
+} from "../helpers.js";
+
+let originalMatchMedia;
 
 beforeEach(() => {
   document.body.innerHTML = twoLevel;
+  originalMatchMedia = window.matchMedia;
 });
 
 afterEach(() => {
   document.body.innerHTML = "";
+  window.matchMedia = originalMatchMedia;
 });
 
 // Test BaseMenu protected methods.
@@ -150,6 +158,64 @@ describe("BaseMenu protected methods", () => {
       expect(() => {
         menu._resetDOMElementType("menuLink");
       }).toThrow('AccessibleMenu: "menuLink" is not a valid element type.');
+    });
+  });
+
+  // Test BaseMenu _handleMediaMatch().
+  describe("_handleMediaMatch", () => {
+    // Test that _handleMediaMatch does nothing when no media query is set.
+    it("should not call matchMedia when no media query is set", () => {
+      const matchMedia = vi.fn();
+      window.matchMedia = matchMedia;
+
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      menu._handleMediaMatch();
+
+      expect(matchMedia).not.toHaveBeenCalled();
+    });
+
+    // Test that _handleMediaMatch opens when the query does not match and shouldOpen is true.
+    it("should open when the query does not match and shouldOpen is true", () => {
+      const { matchMedia } = setupMatchMedia(false);
+      window.matchMedia = matchMedia;
+
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+        breakpoint: "40em",
+      });
+      initializeMenu(menu);
+
+      menu._handleMediaMatch();
+
+      expect(matchMedia).toHaveBeenCalledWith("(width <= 40em)");
+      expect(menu.elements.controller.isOpen).toBe(true);
+    });
+
+    // Test that _handleMediaMatch closes when the query matches and the menu is open.
+    it("should close when the query matches and the menu is open", () => {
+      const { matchMedia } = setupMatchMedia(true);
+      window.matchMedia = matchMedia;
+
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+        mediaQuery: "(width <= 40em)",
+      });
+      initializeMenu(menu);
+
+      menu.elements.controller.open({ force: true, emit: false });
+
+      menu._handleMediaMatch();
+
+      expect(matchMedia).toHaveBeenCalledWith("(width <= 40em)");
+      expect(menu.elements.controller.isOpen).toBe(false);
     });
   });
 

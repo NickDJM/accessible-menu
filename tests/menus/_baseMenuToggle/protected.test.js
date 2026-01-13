@@ -14,6 +14,11 @@ beforeEach(() => {
 
   // Make sure to use fake timers.
   vi.useFakeTimers({ shouldAdvanceTime: true });
+
+  // Mock requestAnimationFrame.
+  vi.spyOn(window, "requestAnimationFrame").mockImplementation((callback) => {
+    callback();
+  });
 });
 
 afterEach(() => {
@@ -126,8 +131,8 @@ describe("BaseMenuToggle protected methods", () => {
       expect(spy).toHaveBeenCalledWith("expand", menuToggle.dom.toggle);
     });
 
-    // Test that expand does not emit accessibleMenuExpand event if false is passed as an argument.
-    it("should not emit accessibleMenuExpand event if false is passed as an argument", () => {
+    // Test that expand does not emit accessibleMenuExpand event if emit is false.
+    it("should not emit accessibleMenuExpand event if emit is false", () => {
       // Create a new BaseMenu instance for testing.
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
@@ -142,23 +147,17 @@ describe("BaseMenuToggle protected methods", () => {
       const spy = vi.spyOn(menuToggle, "_dispatchEvent");
 
       // Expand the menu.
-      menuToggle._expand(false);
+      menuToggle._expand({ emit: false });
 
       expect(spy).not.toHaveBeenCalled();
     });
 
     // Test that expand removes the close class from the controlled menu.
     it("should remove the close class from the controlled menu", async () => {
-      // Mock removeClass.
+      // Mock class helpers.
       const domHelpers = await import("../../../src/domHelpers.js");
       domHelpers.removeClass = vi.fn();
-
-      // Mock requestAnimationFrame.
-      vi.spyOn(window, "requestAnimationFrame").mockImplementation(
-        (callback) => {
-          callback();
-        }
-      );
+      domHelpers.addClass = vi.fn();
 
       // Create a new BaseMenu instance for testing.
       const menu = new BaseMenu({
@@ -183,16 +182,10 @@ describe("BaseMenuToggle protected methods", () => {
 
     // Test that expand adds the open class to the controlled menu.
     it("should add the open class to the controlled menu", async () => {
-      // Mock removeClass.
+      // Mock class helpers.
       const domHelpers = await import("../../../src/domHelpers.js");
       domHelpers.removeClass = vi.fn();
-
-      // Mock requestAnimationFrame.
-      vi.spyOn(window, "requestAnimationFrame").mockImplementation(
-        (callback) => {
-          callback();
-        }
-      );
+      domHelpers.addClass = vi.fn();
 
       // Create a new BaseMenu instance for testing.
       const menu = new BaseMenu({
@@ -217,16 +210,10 @@ describe("BaseMenuToggle protected methods", () => {
 
     // Test that expand adds the transition class to the controlled menu.
     it("should add the transition class to the controlled menu", async () => {
-      // Mock removeClass.
+      // Mock class helpers.
       const domHelpers = await import("../../../src/domHelpers.js");
       domHelpers.removeClass = vi.fn();
-
-      // Mock requestAnimationFrame.
-      vi.spyOn(window, "requestAnimationFrame").mockImplementation(
-        (callback) => {
-          callback();
-        }
-      );
+      domHelpers.addClass = vi.fn();
 
       // Create a new BaseMenu instance for testing.
       const menu = new BaseMenu({
@@ -251,16 +238,10 @@ describe("BaseMenuToggle protected methods", () => {
 
     // Test that expand removes the transition class from the controlled menu.
     it("should remove the transition class from the controlled menu after the transition is complete", async () => {
-      // Mock removeClass.
+      // Mock class helpers.
       const domHelpers = await import("../../../src/domHelpers.js");
       domHelpers.removeClass = vi.fn();
-
-      // Mock requestAnimationFrame.
-      vi.spyOn(window, "requestAnimationFrame").mockImplementation(
-        (callback) => {
-          callback();
-        }
-      );
+      domHelpers.addClass = vi.fn();
 
       // Create a new BaseMenu instance for testing.
       const menu = new BaseMenu({
@@ -284,6 +265,29 @@ describe("BaseMenuToggle protected methods", () => {
         menu.transitionClass,
         menuToggle.elements.controlledMenu.dom.menu
       );
+    });
+
+    // Test that expand skips transition classes when transition is false.
+    it("should not add the transition class when transition is false", async () => {
+      // Mock class helpers.
+      const domHelpers = await import("../../../src/domHelpers.js");
+      domHelpers.removeClass = vi.fn();
+      domHelpers.addClass = vi.fn();
+
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+
+      const menuToggle = menu.elements.submenuToggles[0];
+
+      const spy = vi.spyOn(domHelpers, "addClass");
+
+      menuToggle._expand({ transition: false });
+
+      expect(spy).not.toHaveBeenCalledWith(menu.transitionClass);
     });
   });
 
@@ -332,8 +336,8 @@ describe("BaseMenuToggle protected methods", () => {
       expect(spy).toHaveBeenCalledWith("collapse", menuToggle.dom.toggle);
     });
 
-    // Test that collapse does not emit accessibleMenuCollapse event if false is passed as an argument.
-    it("should not emit accessibleMenuCollapse event if false is passed as an argument", () => {
+    // Test that collapse does not emit accessibleMenuCollapse event if emit is false.
+    it("should not emit accessibleMenuCollapse event if emit is false", () => {
       // Create a new BaseMenu instance for testing.
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
@@ -348,23 +352,17 @@ describe("BaseMenuToggle protected methods", () => {
       const spy = vi.spyOn(menuToggle, "_dispatchEvent");
 
       // Collapse the menu.
-      menuToggle._collapse(false);
+      menuToggle._collapse({ emit: false });
 
       expect(spy).not.toHaveBeenCalled();
     });
 
     // Test that collapse removes the open class from the controlled menu.
     it("should remove the open class from the controlled menu", async () => {
-      // Mock removeClass.
+      // Mock class helpers.
       const domHelpers = await import("../../../src/domHelpers.js");
       domHelpers.removeClass = vi.fn();
-
-      // Mock requestAnimationFrame.
-      vi.spyOn(window, "requestAnimationFrame").mockImplementation(
-        (callback) => {
-          callback();
-        }
-      );
+      domHelpers.addClass = vi.fn();
 
       // Create a new BaseMenu instance for testing.
       const menu = new BaseMenu({
@@ -389,16 +387,10 @@ describe("BaseMenuToggle protected methods", () => {
 
     // Test that collapse adds the close class to the controlled menu.
     it("should add the close class to the controlled menu", async () => {
-      // Mock removeClass.
+      // Mock class helpers.
       const domHelpers = await import("../../../src/domHelpers.js");
       domHelpers.removeClass = vi.fn();
-
-      // Mock requestAnimationFrame.
-      vi.spyOn(window, "requestAnimationFrame").mockImplementation(
-        (callback) => {
-          callback();
-        }
-      );
+      domHelpers.addClass = vi.fn();
 
       // Create a new BaseMenu instance for testing.
       const menu = new BaseMenu({
@@ -423,16 +415,10 @@ describe("BaseMenuToggle protected methods", () => {
 
     // Test that collapse adds the transition class to the controlled menu.
     it("should add the transition class to the controlled menu", async () => {
-      // Mock removeClass.
+      // Mock class helpers.
       const domHelpers = await import("../../../src/domHelpers.js");
       domHelpers.removeClass = vi.fn();
-
-      // Mock requestAnimationFrame.
-      vi.spyOn(window, "requestAnimationFrame").mockImplementation(
-        (callback) => {
-          callback();
-        }
-      );
+      domHelpers.addClass = vi.fn();
 
       // Create a new BaseMenu instance for testing.
       const menu = new BaseMenu({
@@ -457,16 +443,10 @@ describe("BaseMenuToggle protected methods", () => {
 
     // Test that collapse removes the transition class from the controlled menu.
     it("should remove the transition class from the controlled menu after the transition is complete", async () => {
-      // Mock removeClass.
+      // Mock class helpers.
       const domHelpers = await import("../../../src/domHelpers.js");
       domHelpers.removeClass = vi.fn();
-
-      // Mock requestAnimationFrame.
-      vi.spyOn(window, "requestAnimationFrame").mockImplementation(
-        (callback) => {
-          callback();
-        }
-      );
+      domHelpers.addClass = vi.fn();
 
       // Create a new BaseMenu instance for testing.
       const menu = new BaseMenu({
@@ -490,6 +470,29 @@ describe("BaseMenuToggle protected methods", () => {
         menu.transitionClass,
         menuToggle.elements.controlledMenu.dom.menu
       );
+    });
+
+    // Test that collapse skips transition classes when transition is false.
+    it("should not add the transition class when transition is false", async () => {
+      // Mock class helpers.
+      const domHelpers = await import("../../../src/domHelpers.js");
+      domHelpers.removeClass = vi.fn();
+      domHelpers.addClass = vi.fn();
+
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+
+      const menuToggle = menu.elements.submenuToggles[0];
+
+      const spy = vi.spyOn(domHelpers, "addClass");
+
+      menuToggle._collapse({ transition: false });
+
+      expect(spy).not.toHaveBeenCalledWith(menu.transitionClass);
     });
   });
 

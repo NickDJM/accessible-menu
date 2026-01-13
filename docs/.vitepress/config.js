@@ -81,6 +81,10 @@ export default defineConfig({
               text: "Opening and Closing the Menu",
               link: "/opening-and-closing",
             },
+            {
+              text: "Automatic Opening and Closing",
+              link: "/automatic-opening-and-closing",
+            },
             { text: "Hover Types", link: "/hover-types" },
             { text: "Hover Delay", link: "/hover-delay" },
             {
