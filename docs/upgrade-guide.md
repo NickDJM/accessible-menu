@@ -118,6 +118,25 @@ A new read-only `events` getter has been added.
 
 All custom events are now dispatched through a new protected method called `_dispatchEvent`.
 
+#### Toggle state changes
+
+`BaseMenuToggle.isOpen` is now read-only and no longer exposes a setter. Use `open()`, `close()`, or `toggle()` to change state.
+
+If you were relying on the previous setter behavior, you can now read `BaseMenuToggle.hasOpened` to check the last committed open state.
+
+#### Toggle method options
+
+All toggle methods now accept an options object:
+
+- `open({ force, preserveState, emit, transition })`
+- `preview({ force, preserveState, emit, transition })`
+- `close({ force, preserveState, emit, transition })`
+- `toggle({ force, preserveState, emit, transition })`
+- `closeSiblings({ force, preserveState, emit, transition })`
+- `closeChildren({ force, preserveState, emit, transition })`
+
+If you were calling these methods without options, no changes are required.
+
 This allows for easier finding of events within the new `_events` field.
 
 #### Event listeners

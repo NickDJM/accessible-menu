@@ -31,6 +31,9 @@ new BaseMenu({
   hoverDelay,
   enterDelay,
   leaveDelay,
+  breakpoint,
+  mediaQuery,
+  autoOpen,
   prefix,
   key,
 });
@@ -63,6 +66,9 @@ The constructor populates the dom, selector, CSS class, and hover related proper
 | options.hoverDelay | `number` | The delay for opening and closing menus if the menu is hoverable (in milliseconds). | `250` |
 | options.enterDelay | `number` | The delay for opening menus if the menu is hoverable (in milliseconds). | `-1` |
 | options.leaveDelay | `number` | The delay for closing menus if the menu is hoverable (in milliseconds). | `-1` |
+| options.breakpoint | `string` | The breakpoint that the menu will automatically open/close itself at. | `""` |
+| options.mediaQuery | `string` | The media query to use to trigger media query list events. | `""` |
+| options.autoOpen | `boolean` | A flag to auto open the menu when the media query does not match. | `true` |
 | options.prefix | `string`, `null` | The prefix for the CSS custom properties. | `"am-"` |
 | options.key | `string`, `null` | The key used to generate IDs throughout the menu. | `null` |
 
@@ -372,6 +378,66 @@ BaseMenu._hasOpened; // Default: `false`.
 #### Type {#property--hasopened--type}
 
 `boolean`
+
+### _shouldOpen <badge type="warning" text="protected" /> {#property--shouldopen}
+
+A flag to force the menu open when the media query matches.
+
+```js
+BaseMenu._shouldOpen; // Default: `false`.
+```
+
+#### Type {#property--shouldopen--type}
+
+`boolean`
+
+### _breakpoint <badge type="warning" text="protected" /> {#property--breakpoint}
+
+The breakpoint that the menu will call media query list events.
+
+```js
+BaseMenu._breakpoint; // Default: `""`.
+```
+
+#### Type {#property--breakpoint--type}
+
+`string`
+
+### _mediaQueryString <badge type="warning" text="protected" /> {#property--mediaquerystring}
+
+The media query to use to trigger media query list events.
+
+```js
+BaseMenu._mediaQueryString; // Default: `""`.
+```
+
+#### Type {#property--mediaquerystring--type}
+
+`string`
+
+### _mediaQueryList <badge type="warning" text="protected" /> {#property--mediaquerylist}
+
+The MediaQueryList for the menu.
+
+```js
+BaseMenu._mediaQueryList; // Default: `null`.
+```
+
+#### Type {#property--mediaquerylist--type}
+
+`MediaQueryList|null`
+
+### _mediaQueryListEventCallback <badge type="warning" text="protected" /> {#property--mediaquerylisteventcallback}
+
+A callback for media query list events.
+
+```js
+BaseMenu._mediaQueryListEventCallback;
+```
+
+#### Type {#property--mediaquerylisteventcallback--type}
+
+`Function`
 
 ### _key <badge type="warning" text="protected" /> {#property--key}
 
@@ -770,6 +836,62 @@ BaseMenu.currentEvent = "mouse";
 Available events are: `"none"`, `"mouse"`, `"keyboard"`, and `"character"`.
 
 See [_currentEvent](#property--currentevent) for more information.
+
+### shouldOpen {#getter-setter--shouldopen}
+
+A flag to auto open the menu when the media query does not match.
+
+::: code-group
+
+```js [getter]
+BaseMenu.shouldOpen;
+```
+
+```js [setter]
+BaseMenu.shouldOpen = true;
+```
+
+:::
+
+See [_shouldOpen](#property--shouldopen) for more information.
+
+### breakpoint {#getter-setter--breakpoint}
+
+The breakpoint that the menu will automatically open/close itself at.
+
+::: code-group
+
+```js [getter]
+BaseMenu.breakpoint;
+```
+
+```js [setter]
+BaseMenu.breakpoint = "40em";
+```
+
+:::
+
+See [_breakpoint](#property--breakpoint) for more information.
+
+### mediaQuery {#getter-setter--mediaquery}
+
+The media query used to trigger media query list events.
+
+::: code-group
+
+```js [getter]
+BaseMenu.mediaQuery;
+```
+
+```js [setter]
+BaseMenu.mediaQuery = "(width <= 40em)";
+```
+
+:::
+
+If the media query is empty, the menu will generate one based on the breakpoint.
+
+See [_mediaQueryString](#property--mediaquerystring) for more information.
 
 ### currentMenuItem <badge type="warning" text="readonly" /> {#getter--currentmenuitem}
 

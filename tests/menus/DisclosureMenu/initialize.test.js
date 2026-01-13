@@ -17,6 +17,9 @@ import {
 } from "vitest";
 import { singleLevel, twoLevelDisclosure } from "../../../demo/menus.js";
 import DisclosureMenu from "../../../src/disclosureMenu.js";
+import { setupMatchMedia } from "../helpers.js";
+
+let originalMatchMedia;
 
 beforeAll(() => {
   // Mock the console.error method.
@@ -33,11 +36,13 @@ afterAll(() => {
 beforeEach(() => {
   // Create the test menu.
   document.body.innerHTML = twoLevelDisclosure;
+  originalMatchMedia = window.matchMedia;
 });
 
 afterEach(() => {
   // Remove the test menu.
   document.body.innerHTML = "";
+  window.matchMedia = originalMatchMedia;
 });
 
 // Test the DisclosureMenu initialization.
@@ -202,6 +207,74 @@ describe("DisclosureMenu (controlled)", () => {
     }).toThrow(
       'controllerElement must be an instance of HTMLElement. "number" given.'
     );
+  });
+});
+
+// Test the DisclosureMenu media query handling.
+describe("DisclosureMenu (media queries)", () => {
+  it("should not call matchMedia when no breakpoint or mediaQuery is set", () => {
+    const matchMedia = vi.fn();
+    window.matchMedia = matchMedia;
+
+    new DisclosureMenu({
+      menuElement: document.querySelector("ul"),
+      initialize: true,
+    });
+
+    expect(matchMedia).not.toHaveBeenCalled();
+  });
+
+  it("should auto open when the breakpoint media query does not match", () => {
+    const { matchMedia } = setupMatchMedia(false);
+    window.matchMedia = matchMedia;
+
+    const menu = new DisclosureMenu({
+      menuElement: document.querySelector("ul"),
+      containerElement: document.querySelector("nav"),
+      controllerElement: document.querySelector("button"),
+      breakpoint: "40em",
+      initialize: true,
+    });
+
+    expect(matchMedia).toHaveBeenCalledWith("(width <= 40em)");
+    expect(menu.elements.controller.isOpen).toBe(true);
+  });
+
+  it("should not auto open when autoOpen is false", () => {
+    const { matchMedia } = setupMatchMedia(false);
+    window.matchMedia = matchMedia;
+
+    const menu = new DisclosureMenu({
+      menuElement: document.querySelector("ul"),
+      containerElement: document.querySelector("nav"),
+      controllerElement: document.querySelector("button"),
+      breakpoint: "40em",
+      autoOpen: false,
+      initialize: true,
+    });
+
+    expect(matchMedia).toHaveBeenCalledWith("(width <= 40em)");
+    expect(menu.elements.controller.isOpen).toBe(false);
+  });
+
+  it("should close when the media query matches and the menu is open", () => {
+    const { matchMedia, mql, listeners } = setupMatchMedia(false);
+    window.matchMedia = matchMedia;
+
+    const menu = new DisclosureMenu({
+      menuElement: document.querySelector("ul"),
+      containerElement: document.querySelector("nav"),
+      controllerElement: document.querySelector("button"),
+      mediaQuery: "(width <= 40em)",
+      initialize: true,
+    });
+
+    expect(menu.elements.controller.isOpen).toBe(true);
+
+    mql.matches = true;
+    listeners.forEach((listener) => listener(mql));
+
+    expect(menu.elements.controller.isOpen).toBe(false);
   });
 });
 

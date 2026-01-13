@@ -58,6 +58,29 @@ describe("BaseMenuToggle public methods", () => {
       expect(spy).toHaveBeenCalled();
     });
 
+    // Test that open passes options to _expand().
+    it("should pass options to _expand()", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+
+      const menuToggle = menu.elements.submenuToggles[0];
+
+      // Set up to check for _expand() call.
+      const spy = vi.spyOn(menuToggle, "_expand");
+
+      menuToggle.open({ emit: false, transition: false });
+
+      expect(spy).toHaveBeenCalledWith({
+        emit: false,
+        transition: false,
+      });
+    });
+
     // Test that open sets the open flag to true.
     it("should set the open flag to true", () => {
       // Create a new BaseMenu instance for testing.
@@ -73,6 +96,24 @@ describe("BaseMenuToggle public methods", () => {
       menuToggle.open();
 
       expect(menuToggle.isOpen).toBe(true);
+    });
+
+    // Test that open preserves committed state when preserveState is true.
+    it("should not commit when preserveState is true", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+
+      const menuToggle = menu.elements.submenuToggles[0];
+
+      menuToggle.open({ preserveState: true, emit: false, transition: false });
+
+      expect(menuToggle.isOpen).toBe(true);
+      expect(menuToggle.hasOpened).toBe(false);
     });
   });
 
@@ -115,6 +156,29 @@ describe("BaseMenuToggle public methods", () => {
       expect(spy).toHaveBeenCalled();
     });
 
+    // Test that preview passes options to _expand().
+    it("should pass options to _expand()", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+
+      const menuToggle = menu.elements.submenuToggles[0];
+
+      // Set up to check for _expand() call.
+      const spy = vi.spyOn(menuToggle, "_expand");
+
+      menuToggle.preview({ emit: false, transition: false });
+
+      expect(spy).toHaveBeenCalledWith({
+        emit: false,
+        transition: false,
+      });
+    });
+
     // Test that preview sets the open flag to true.
     it("should set the open flag to true", () => {
       // Create a new BaseMenu instance for testing.
@@ -150,7 +214,7 @@ describe("BaseMenuToggle public methods", () => {
       const spy = vi.spyOn(menuToggle.elements.controlledMenu, "blur");
 
       // Set up the menu.
-      menuToggle.isOpen = true;
+      menuToggle.open({ force: true, emit: false, transition: false });
 
       // Close the menu.
       menuToggle.close();
@@ -172,7 +236,7 @@ describe("BaseMenuToggle public methods", () => {
 
       // Set up the menu.
       menu.focusState = "child";
-      menuToggle.isOpen = true;
+      menuToggle.open({ force: true, emit: false, transition: false });
 
       // Close the menu.
       menuToggle.close();
@@ -196,12 +260,39 @@ describe("BaseMenuToggle public methods", () => {
       const spy = vi.spyOn(menuToggle, "_collapse");
 
       // Set up the menu.
-      menuToggle.isOpen = true;
+      menuToggle.open({ force: true, emit: false, transition: false });
 
       // Close the menu.
       menuToggle.close();
 
       expect(spy).toHaveBeenCalled();
+    });
+
+    // Test that close passes options to _collapse().
+    it("should pass options to _collapse()", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        containerElement: document.body,
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+
+      const menuToggle = menu.elements.submenuToggles[0];
+
+      // Set up to check for _collapse() call.
+      const spy = vi.spyOn(menuToggle, "_collapse");
+
+      // Set up the menu.
+      menuToggle.open({ force: true, emit: false, transition: false });
+
+      // Close the menu.
+      menuToggle.close({ emit: false, transition: false });
+
+      expect(spy).toHaveBeenCalledWith({
+        emit: false,
+        transition: false,
+      });
     });
 
     // Test that close sets the open flag to false.
@@ -217,12 +308,31 @@ describe("BaseMenuToggle public methods", () => {
       const menuToggle = menu.elements.submenuToggles[0];
 
       // Set up the menu.
-      menuToggle.isOpen = true;
+      menuToggle.open({ force: true, emit: false, transition: false });
 
       // Close the menu.
       menuToggle.close();
 
       expect(menuToggle.isOpen).toBe(false);
+    });
+
+    // Test that close preserves committed state when preserveState is true.
+    it("should not commit when preserveState is true", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        containerElement: document.body,
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+
+      const menuToggle = menu.elements.submenuToggles[0];
+
+      menuToggle.open({ emit: false, transition: false });
+      menuToggle.close({ preserveState: true, emit: false, transition: false });
+
+      expect(menuToggle.isOpen).toBe(false);
+      expect(menuToggle.hasOpened).toBe(true);
     });
   });
 
@@ -264,11 +374,74 @@ describe("BaseMenuToggle public methods", () => {
       const spy = vi.spyOn(menuToggle, "close");
 
       // Set up the menu.
-      menuToggle.isOpen = true;
+      menuToggle.open({ force: true, emit: false, transition: false });
 
       menuToggle.toggle();
 
       expect(spy).toHaveBeenCalled();
+    });
+
+    // Test that toggle passes options to open when closed.
+    it("should pass options to open when the menu is closed", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        containerElement: document.body,
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+
+      const menuToggle = menu.elements.submenuToggles[0];
+
+      // Set up to check for open() call.
+      const spy = vi.spyOn(menuToggle, "open");
+
+      menuToggle.toggle({
+        force: true,
+        preserveState: true,
+        emit: false,
+        transition: false,
+      });
+
+      expect(spy).toHaveBeenCalledWith({
+        force: true,
+        preserveState: true,
+        emit: false,
+        transition: false,
+      });
+    });
+
+    // Test that toggle passes options to close when open.
+    it("should pass options to close when the menu is open", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        containerElement: document.body,
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+
+      const menuToggle = menu.elements.submenuToggles[0];
+
+      // Set up the menu.
+      menuToggle.open({ force: true, emit: false, transition: false });
+
+      // Set up to check for close() call.
+      const spy = vi.spyOn(menuToggle, "close");
+
+      menuToggle.toggle({
+        force: true,
+        preserveState: true,
+        emit: false,
+        transition: false,
+      });
+
+      expect(spy).toHaveBeenCalledWith({
+        force: true,
+        preserveState: true,
+        emit: false,
+        transition: false,
+      });
     });
   });
 
@@ -319,6 +492,35 @@ describe("BaseMenuToggle public methods", () => {
 
       expect(spy).not.toHaveBeenCalled();
     });
+
+    // Test that closeSiblings passes options to close.
+    it("should pass options to close", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        containerElement: document.body,
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+
+      const menuToggle = menu.elements.submenuToggles[0];
+
+      const spy = vi.spyOn(menu.elements.submenuToggles[1], "close");
+
+      menuToggle.closeSiblings({
+        force: true,
+        preserveState: true,
+        emit: false,
+        transition: false,
+      });
+
+      expect(spy).toHaveBeenCalledWith({
+        force: true,
+        preserveState: true,
+        emit: false,
+        transition: false,
+      });
+    });
   });
 
   // Test BaseMenuToggle closeChildren().
@@ -354,6 +556,38 @@ describe("BaseMenuToggle public methods", () => {
       expect(spy1).toHaveBeenCalled();
       expect(spy2).toHaveBeenCalled();
       expect(spy3).toHaveBeenCalled();
+    });
+
+    // Test that closeChildren passes options to close.
+    it("should pass options to close", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        containerElement: document.body,
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+
+      const menuToggle = menu.elements.submenuToggles[0];
+
+      const spy = vi.spyOn(
+        menuToggle.elements.controlledMenu.elements.submenuToggles[0],
+        "close"
+      );
+
+      menuToggle.closeChildren({
+        force: true,
+        preserveState: true,
+        emit: false,
+        transition: false,
+      });
+
+      expect(spy).toHaveBeenCalledWith({
+        force: true,
+        preserveState: true,
+        emit: false,
+        transition: false,
+      });
     });
   });
 });

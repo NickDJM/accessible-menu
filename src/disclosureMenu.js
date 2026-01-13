@@ -81,6 +81,9 @@ class DisclosureMenu extends BaseMenu {
    * @param {number}             [options.hoverDelay = 250]                  - The delay for opening and closing menus if the menu is hoverable (in milliseconds).
    * @param {number}             [options.enterDelay = -1]                   - The delay for opening a menu if the menu is focusable (in milliseconds).
    * @param {number}             [options.leaveDelay = -1]                   - The delay for closing a menu if the menu is focusable (in milliseconds).
+   * @param {string}             [options.breakpoint = '']                   - The breakpoint that the menu will automatically open/close itself at.
+   * @param {string}             [options.mediaQuery = '']                   - The media query to use to trigger media query list events.
+   * @param {boolean}            [options.autoOpen = true]                   - A flag to auto open the menu when the media query does not match.
    * @param {boolean}            [options.optionalKeySupport = false]        - A flag to add optional keyboard support (Arrow keys, Home, and End) to the menu.
    * @param {?string}            [options.prefix = am-]                      - The prefix to use for CSS custom properties.
    * @param {?string}            [options.key = null]                        - The key used to generate IDs throughout the menu.
@@ -107,6 +110,9 @@ class DisclosureMenu extends BaseMenu {
     hoverDelay = 250,
     enterDelay = -1,
     leaveDelay = -1,
+    breakpoint = "",
+    mediaQuery = "",
+    autoOpen = true,
     optionalKeySupport = false,
     prefix = "am-",
     key = null,
@@ -133,6 +139,9 @@ class DisclosureMenu extends BaseMenu {
       hoverDelay,
       enterDelay,
       leaveDelay,
+      breakpoint,
+      mediaQuery,
+      autoOpen,
       prefix,
       key,
     });
@@ -162,6 +171,7 @@ class DisclosureMenu extends BaseMenu {
     try {
       super.initialize();
 
+      this._handleMediaMatch();
       this._handleFocus();
       this._handleClick();
       this._handleHover();

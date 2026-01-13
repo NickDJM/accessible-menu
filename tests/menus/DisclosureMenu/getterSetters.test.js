@@ -166,6 +166,69 @@ describe("DisclosureMenu getter/setters", () => {
     });
   });
 
+  // Test DisclosureMenu shouldOpen.
+  describe("shouldOpen", () => {
+    // Test that DisclosureMenu implements the BaseMenu shouldOpen getter.
+    it("should implement the BaseMenu shouldOpen getter", () => {
+      expectInheritedGetter(
+        DisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "shouldOpen"
+      );
+    });
+
+    // Test that DisclosureMenu implements the BaseMenu shouldOpen setter.
+    it("should implement the BaseMenu shouldOpen setter", () => {
+      expectInheritedSetter(
+        DisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "shouldOpen"
+      );
+    });
+  });
+
+  // Test DisclosureMenu breakpoint.
+  describe("breakpoint", () => {
+    // Test that DisclosureMenu implements the BaseMenu breakpoint getter.
+    it("should implement the BaseMenu breakpoint getter", () => {
+      expectInheritedGetter(
+        DisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "breakpoint"
+      );
+    });
+
+    // Test that DisclosureMenu implements the BaseMenu breakpoint setter.
+    it("should implement the BaseMenu breakpoint setter", () => {
+      expectInheritedSetter(
+        DisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "breakpoint"
+      );
+    });
+  });
+
+  // Test DisclosureMenu mediaQuery.
+  describe("mediaQuery", () => {
+    // Test that DisclosureMenu implements the BaseMenu mediaQuery getter.
+    it("should implement the BaseMenu mediaQuery getter", () => {
+      expectInheritedGetter(
+        DisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "mediaQuery"
+      );
+    });
+
+    // Test that DisclosureMenu implements the BaseMenu mediaQuery setter.
+    it("should implement the BaseMenu mediaQuery setter", () => {
+      expectInheritedSetter(
+        DisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "mediaQuery"
+      );
+    });
+  });
+
   // Test BaseMenu openClass.
   describe("openClass", () => {
     // Test that DisclosureMenu implements the BaseMenu openClass getter.

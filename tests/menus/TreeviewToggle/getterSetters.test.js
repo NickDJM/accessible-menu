@@ -71,4 +71,25 @@ describe("TreeviewToggle getter/setters", () => {
       );
     });
   });
+
+  // Test TreeviewToggle hasOpened.
+  describe("hasOpened", () => {
+    // Test that TreeviewToggle implements the BaseMenuToggle hasOpened getter.
+    it("should implement the BaseMenuToggle hasOpened", () => {
+      expectInheritedGetter(
+        TreeviewToggle.prototype,
+        BaseMenuToggle.prototype,
+        "hasOpened"
+      );
+    });
+
+    // Test that TreeviewToggle implements the BaseMenuToggle hasOpened setter.
+    it("should implement the BaseMenuToggle hasOpened setter", () => {
+      expectInheritedSetter(
+        TreeviewToggle.prototype,
+        BaseMenuToggle.prototype,
+        "hasOpened"
+      );
+    });
+  });
 });

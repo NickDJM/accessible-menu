@@ -71,4 +71,25 @@ describe("TopLinkDisclosureMenuToggle getter/setters", () => {
       );
     });
   });
+
+  // Test TopLinkDisclosureMenuToggle hasOpened.
+  describe("hasOpened", () => {
+    // Test that TopLinkDisclosureMenuToggle implements the BaseMenuToggle hasOpened getter.
+    it("should implement the BaseMenuToggle hasOpened", () => {
+      expectInheritedGetter(
+        TopLinkDisclosureMenuToggle.prototype,
+        BaseMenuToggle.prototype,
+        "hasOpened"
+      );
+    });
+
+    // Test that TopLinkDisclosureMenuToggle implements the BaseMenuToggle hasOpened setter.
+    it("should implement the BaseMenuToggle hasOpened setter", () => {
+      expectInheritedSetter(
+        TopLinkDisclosureMenuToggle.prototype,
+        BaseMenuToggle.prototype,
+        "hasOpened"
+      );
+    });
+  });
 });

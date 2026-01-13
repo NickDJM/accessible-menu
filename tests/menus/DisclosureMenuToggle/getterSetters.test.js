@@ -71,4 +71,25 @@ describe("DisclosureMenuToggle getter/setters", () => {
       );
     });
   });
+
+  // Test DisclosureMenuToggle hasOpened.
+  describe("hasOpened", () => {
+    // Test that DisclosureMenuToggle implements the BaseMenuToggle hasOpened getter.
+    it("should implement the BaseMenuToggle hasOpened", () => {
+      expectInheritedGetter(
+        DisclosureMenuToggle.prototype,
+        BaseMenuToggle.prototype,
+        "hasOpened"
+      );
+    });
+
+    // Test that DisclosureMenuToggle implements the BaseMenuToggle hasOpened setter.
+    it("should implement the BaseMenuToggle hasOpened setter", () => {
+      expectInheritedSetter(
+        DisclosureMenuToggle.prototype,
+        BaseMenuToggle.prototype,
+        "hasOpened"
+      );
+    });
+  });
 });

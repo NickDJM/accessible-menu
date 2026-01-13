@@ -243,6 +243,11 @@ class BaseMenu {
   _hasOpened = false;
 
   /**
+   * A flag to force the menu open when the media query matches.
+   */
+  _shouldOpen = false;
+
+  /**
    * Timeouts throughout the component.
    *
    * @protected
@@ -259,6 +264,57 @@ class BaseMenu {
    * @type {object[]}
    */
   _listeners = [];
+
+  /**
+   * The breakoint that the menu will call media query list events.
+   *
+   * @protected
+   *
+   * @type {string}
+   */
+  _breakpoint = "";
+
+  /**
+   * The media query to use to trigger media query list events.
+   *
+   * @type {string}
+   */
+  _mediaQueryString = "";
+
+  /**
+   * This MediaQueryList for the menu.
+   *
+   * @protected
+   *
+   * @type {MediaQueryList|null}
+   */
+  _mediaQueryList = null;
+
+  /**
+   * A callback for media query list events.
+   *
+   * @protected
+   *
+   * @type {Function}
+   *
+   * @param {MediaQueryListEvent} event - The event.
+   */
+  _mediaQueryListEventCallback = (event) => {
+    if (this.elements.controller === null) return;
+
+    if (event.matches && this.elements.controller.isOpen) {
+      this.elements.controller.close({
+        preserveState: true,
+        transition: false,
+      });
+    } else if (
+      !event.matches &&
+      !this.elements.controller.isOpen &&
+      (this.elements.controller.hasOpened || this.shouldOpen)
+    ) {
+      this.elements.controller.open({ transition: false });
+    }
+  };
 
   /**
    * The key used to generate IDs throughout the menu.
@@ -329,6 +385,9 @@ class BaseMenu {
    * @param {number}             [options.hoverDelay = 250]                  - The delay for opening and closing menus if the menu is hoverable (in milliseconds).
    * @param {number}             [options.enterDelay = -1]                   - The delay for opening menus if the menu is hoverable (in milliseconds).
    * @param {number}             [options.leaveDelay = -1]                   - The delay for closing menus if the menu is hoverable (in milliseconds).
+   * @param {string}             [options.breakpoint = '']                   - The breakpoint that the menu will automatically open/close itself at.
+   * @param {string}             [options.mediaQuery = '']                   - The media query to use to trigger media query list events.
+   * @param {boolean}            [options.autoOpen = true]                   - A flag to auto open the menu when the media query does not match.
    * @param {?string}            [options.prefix = am-]                      - The prefix to use for CSS custom properties.
    * @param {?string}            [options.key = null]                        - The key used to generate IDs throughout the menu.
    */
@@ -353,6 +412,9 @@ class BaseMenu {
     hoverDelay = 250,
     enterDelay = -1,
     leaveDelay = -1,
+    breakpoint = "",
+    mediaQuery = "",
+    autoOpen = true,
     prefix = "am-",
     key = null,
   }) {
@@ -397,6 +459,11 @@ class BaseMenu {
     this._delays.hover = hoverDelay;
     this._delays.enter = enterDelay;
     this._delays.leave = leaveDelay;
+
+    // Set breakpoint and media query.
+    this._breakpoint = breakpoint;
+    this._mediaQueryString = mediaQuery;
+    this._shouldOpen = autoOpen;
   }
 
   /**
@@ -950,6 +1017,74 @@ class BaseMenu {
   }
 
   /**
+   * A flag to force the menu open when the media query matches.
+   *
+   * @type {boolean}
+   *
+   * @see _shouldOpen
+   */
+  get shouldOpen() {
+    return this._shouldOpen;
+  }
+
+  set shouldOpen(value) {
+    isValidType("boolean", { shouldOpen: value });
+
+    if (this._shouldOpen !== value) {
+      this._shouldOpen = value;
+    }
+  }
+
+  /**
+   * The breakpoint that the menu will automatically open/close itself at.
+   *
+   * @type {string}
+   *
+   * @see _breakpoint
+   */
+  get breakpoint() {
+    return this._breakpoint;
+  }
+
+  set breakpoint(value) {
+    isValidType("string", { breakpoint: value });
+
+    if (this._breakpoint !== value) {
+      this._breakpoint = value;
+    }
+  }
+
+  /**
+   * The media query to use to trigger media query list events.
+   *
+   * If the mediaQueryString is empty, the media query will be generated
+   * based on the breakpoint.
+   *
+   * @type {string}
+   *
+   * @see _mediaQueryString
+   */
+  get mediaQuery() {
+    if (this._mediaQueryString !== "") {
+      return this._mediaQueryString;
+    }
+
+    if (this._breakpoint === "") {
+      return "";
+    }
+
+    return `(width <= ${this._breakpoint})`;
+  }
+
+  set mediaQuery(value) {
+    isValidType("string", { mediaQuery: value });
+
+    if (this._mediaQueryString !== value) {
+      this._mediaQueryString = value;
+    }
+  }
+
+  /**
    * The currently selected menu item.
    *
    * @readonly
@@ -1260,6 +1395,7 @@ class BaseMenu {
     // Boolean checks.
     const booleans = {
       isTopLevel: this._root,
+      autoOpen: this._shouldOpen,
     };
 
     // Check the booleans.
@@ -1302,6 +1438,36 @@ class BaseMenu {
     if (!hoverTypeCheck.status) {
       this._errors = [...this._errors, ...hoverTypeCheck.errors];
       this._valid = false;
+    }
+
+    // Breakpoint check.
+    if (this._breakpoint !== "") {
+      const breakpointCheck = isValidType(
+        "string",
+        { breakpoint: this._breakpoint },
+        { shouldThrow: false }
+      );
+
+      // Handle breakpoint check failure.
+      if (!breakpointCheck.status) {
+        this._errors = [...this._errors, ...breakpointCheck.errors];
+        this._valid = false;
+      }
+    }
+
+    // Media query check.
+    if (this._mediaQueryString !== "") {
+      const mediaQueryCheck = isValidType(
+        "string",
+        { mediaQuery: this._mediaQueryString },
+        { shouldThrow: false }
+      );
+
+      // Handle media query check failure.
+      if (!mediaQueryCheck.status) {
+        this._errors = [...this._errors, ...mediaQueryCheck.errors];
+        this._valid = false;
+      }
     }
 
     // Key check.
@@ -1546,6 +1712,7 @@ class BaseMenu {
           hoverDelay: this.hoverDelay,
           enterDelay: this.enterDelay,
           leaveDelay: this.leaveDelay,
+          shouldOpen: false,
         });
 
         // Create the new menu toggle.
@@ -1581,6 +1748,28 @@ class BaseMenu {
 
       this._elements.menuItems.push(menuItem);
     });
+  }
+
+  /**
+   * Handles media match events throughout the menu.
+   *
+   * - Adds a `change` listener to the menu's media query list so when the media query
+   *   state changes, it will properly open/close the menu.
+   *
+   * @protected
+   */
+  _handleMediaMatch() {
+    if (this.mediaQuery === "") {
+      return;
+    }
+
+    this._mediaQueryList = window.matchMedia(this.mediaQuery);
+    this._addEventListener(
+      "change",
+      this._mediaQueryList,
+      this._mediaQueryListEventCallback
+    );
+    this._mediaQueryListEventCallback(this._mediaQueryList);
   }
 
   /**

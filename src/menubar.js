@@ -72,6 +72,9 @@ class Menubar extends BaseMenu {
    * @param {number}             [options.hoverDelay = 250]                  - The delay for opening and closing menus if the menu is hoverable (in milliseconds).
    * @param {number}             [options.enterDelay = -1]                   - The delay for opening a menu if the menu is focusable (in milliseconds).
    * @param {number}             [options.leaveDelay = -1]                   - The delay for closing a menu if the menu is focusable (in milliseconds).
+   * @param {string}             [options.breakpoint = '']                   - The breakpoint that the menu will automatically open/close itself at.
+   * @param {string}             [options.mediaQuery = '']                   - The media query to use to trigger media query list events.
+   * @param {boolean}            [options.autoOpen = true]                   - A flag to auto open the menu when the media query does not match.
    * @param {?string}            [options.prefix = am-]                      - The prefix to use for CSS custom properties.
    * @param {?string}            [options.key = null]                        - The key used to generate IDs throughout the menu.
    * @param {boolean}            [options.initialize = true]                 - A flag to initialize the menu immediately upon creation.
@@ -95,6 +98,9 @@ class Menubar extends BaseMenu {
     hoverDelay = 250,
     enterDelay = -1,
     leaveDelay = -1,
+    breakpoint = "",
+    mediaQuery = "",
+    autoOpen = true,
     prefix = "am-",
     key = null,
     initialize = true,
@@ -118,6 +124,9 @@ class Menubar extends BaseMenu {
       hoverDelay,
       enterDelay,
       leaveDelay,
+      breakpoint,
+      mediaQuery,
+      autoOpen,
       prefix,
       key,
     });
@@ -156,6 +165,7 @@ class Menubar extends BaseMenu {
         this.dom.menu.setAttribute("role", "menu");
       }
 
+      this._handleMediaMatch();
       this._handleFocus();
       this._handleClick();
       this._handleHover();

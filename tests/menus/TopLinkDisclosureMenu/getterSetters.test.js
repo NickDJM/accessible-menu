@@ -166,6 +166,69 @@ describe("TopLinkDisclosureMenu getter/setters", () => {
     });
   });
 
+  // Test TopLinkDisclosureMenu shouldOpen.
+  describe("shouldOpen", () => {
+    // Test that TopLinkDisclosureMenu implements the BaseMenu shouldOpen getter.
+    it("should implement the BaseMenu shouldOpen getter", () => {
+      expectInheritedGetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "shouldOpen"
+      );
+    });
+
+    // Test that TopLinkDisclosureMenu implements the BaseMenu shouldOpen setter.
+    it("should implement the BaseMenu shouldOpen setter", () => {
+      expectInheritedSetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "shouldOpen"
+      );
+    });
+  });
+
+  // Test TopLinkDisclosureMenu breakpoint.
+  describe("breakpoint", () => {
+    // Test that TopLinkDisclosureMenu implements the BaseMenu breakpoint getter.
+    it("should implement the BaseMenu breakpoint getter", () => {
+      expectInheritedGetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "breakpoint"
+      );
+    });
+
+    // Test that TopLinkDisclosureMenu implements the BaseMenu breakpoint setter.
+    it("should implement the BaseMenu breakpoint setter", () => {
+      expectInheritedSetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "breakpoint"
+      );
+    });
+  });
+
+  // Test TopLinkDisclosureMenu mediaQuery.
+  describe("mediaQuery", () => {
+    // Test that TopLinkDisclosureMenu implements the BaseMenu mediaQuery getter.
+    it("should implement the BaseMenu mediaQuery getter", () => {
+      expectInheritedGetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "mediaQuery"
+      );
+    });
+
+    // Test that TopLinkDisclosureMenu implements the BaseMenu mediaQuery setter.
+    it("should implement the BaseMenu mediaQuery setter", () => {
+      expectInheritedSetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "mediaQuery"
+      );
+    });
+  });
+
   // Test BaseMenu openClass.
   describe("openClass", () => {
     // Test that TopLinkDisclosureMenu implements the BaseMenu openClass getter.
