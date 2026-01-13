@@ -31,3 +31,8 @@ The following section of the site documents the menu classes, their methods, get
 - [Treeview](./treeview)
 - [TreeviewItem](./treeview-item)
 - [TreeviewToggle](./treeview-toggle)
+
+## Utilities
+
+- [StorageManager](./storage-manager)
+- [TransactionalValue](./transactional-value)
