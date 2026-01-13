@@ -87,8 +87,8 @@ describe("BaseMenu", () => {
     );
   });
 
-  // Test that the menu exists in window.AccessibleMenu storage after initialization.
-  it("should exist in window.AccessibleMenu storage after initialization", () => {
+  // Test that the menu exists in window.AccessibleMenuStorage storage after initialization.
+  it("should exist in window.AccessibleMenuStorage storage after initialization", () => {
     // Create a new BaseMenu instance for testing.
     const menu = new BaseMenu({
       menuElement: document.querySelector("ul"),
@@ -97,14 +97,14 @@ describe("BaseMenu", () => {
     // Initialize the menu.
     initializeMenu(menu);
 
-    // Test that the menu exists in window.AccessibleMenu.menus.
-    expect(window.AccessibleMenu.get({ type: "menus", key: menu.id })).toEqual(
-      menu
-    );
+    // Test that the menu exists in window.AccessibleMenuStorage.menus.
+    expect(
+      window.AccessibleMenuStorage.get({ type: "menus", key: menu.id })
+    ).toEqual(menu);
   });
 
-  // Test that the menu does not exist in window.AccessibleMenu storage after failed initialization.
-  it("should not exist in window.AccessibleMenu storage after failed initialization", () => {
+  // Test that the menu does not exist in window.AccessibleMenuStorage storage after failed initialization.
+  it("should not exist in window.AccessibleMenuStorage storage after failed initialization", () => {
     // Create a new BaseMenu instance for testing.
     const menu = new BaseMenu({
       menuElement: 1,
@@ -117,9 +117,9 @@ describe("BaseMenu", () => {
       // Do nothing.
     }
 
-    // Test that the menu does not exist in window.AccessibleMenu.menus.
+    // Test that the menu does not exist in window.AccessibleMenuStorage.storage.menus.
     expect(
-      window.AccessibleMenu.get({ type: "menus", key: menu.id })
+      window.AccessibleMenuStorage.get({ type: "menus", key: menu.id })
     ).not.toEqual(menu);
   });
 });

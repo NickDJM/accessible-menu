@@ -1181,7 +1181,7 @@ This method will do the following:
 ### _store <badge type="warning" text="protected" /> {#method--store}
 
 Stores the menu in the global [StorageManager](./storage-manager) under
-`window.AccessibleMenu`, using the menu's [id](#property--id) (or generated
+`window.AccessibleMenuStorage`, using the menu's [id](#property--id) (or generated
 [key](#property--key)) and [_storageKey](#property--storagekey) as identifiers.
 
 ```js

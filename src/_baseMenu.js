@@ -1933,15 +1933,18 @@ class BaseMenu {
     if (
       !isValidInstance(
         StorageManager,
-        { storage: window.AccessibleMenu },
+        { storage: window.AccessibleMenuStorage },
         { shouldThrow: false }
       ).status
     ) {
-      new StorageManager({ scope: "AccessibleMenu", type: this._storageKey });
+      new StorageManager({
+        scope: "AccessibleMenuStorage",
+        type: this._storageKey,
+      });
     }
 
     // Store the menu
-    window.AccessibleMenu.set({
+    window.AccessibleMenuStorage.set({
       key: this.id !== "" ? this.id : this.key,
       data: this,
     });
@@ -1956,14 +1959,14 @@ class BaseMenu {
     if (
       !isValidInstance(
         StorageManager,
-        { storage: window.AccessibleMenu },
+        { storage: window.AccessibleMenuStorage },
         { shouldThrow: false }
       ).status
     ) {
       return;
     }
 
-    window.AccessibleMenu.clear({
+    window.AccessibleMenuStorage.clear({
       key: this.id !== "" ? this.id : this.key,
     });
   }

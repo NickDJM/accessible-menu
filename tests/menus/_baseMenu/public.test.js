@@ -13,7 +13,7 @@ beforeEach(() => {
 
 afterEach(() => {
   document.body.innerHTML = "";
-  delete window.AccessibleMenu;
+  delete window.AccessibleMenuStorage;
 });
 
 // Test BaseMenu public methods.
@@ -704,7 +704,7 @@ describe("BaseMenu public methods", () => {
       expect(removeListenersSpy).toHaveBeenCalled();
       expect(clearTimeoutsSpy).toHaveBeenCalled();
       expect(unstoreSpy).toHaveBeenCalled();
-      expect(window.AccessibleMenu.get({ key: id })).toBeUndefined();
+      expect(window.AccessibleMenuStorage.get({ key: id })).toBeUndefined();
     });
   });
 });

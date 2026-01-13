@@ -134,7 +134,7 @@ This change is to facilitate better cleanup of the menu if it is ever detroyed.
 
 #### Storage
 
-The global storage for menus has been reworked to use a new `StorageManager` class. The main change is menus are now stored in `window.AccessibleMenu.storage.menus` instead of in `window.AccessibleMenu.menus`.
+The global storage for menus has been reworked to use a new `StorageManager` class. The main change is menus are now stored in `window.AccessibleMenuStorage.storage.menus` instead of in `window.AccessibleMenu.menus`.
 
 #### Error handling and validation
 
