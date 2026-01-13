@@ -1,7 +1,7 @@
 /* global BaseMenu */
 
 import { addClass, removeClass } from "./domHelpers.js";
-import { isValidType, isValidInstance } from "./validate.js";
+import { isValidInstance } from "./validate.js";
 import TransactionalValue from "./TransactionalValue.js";
 
 /**
