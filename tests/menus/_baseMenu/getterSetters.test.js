@@ -264,6 +264,8 @@ describe("BaseMenu getter/setters", () => {
 
       const submenu = menu.elements.submenuToggles[0].elements.controlledMenu;
 
+      menu.openClass = "custom-open";
+
       expect(submenu.openClass).toBe(menu.openClass);
     });
   });
@@ -308,6 +310,8 @@ describe("BaseMenu getter/setters", () => {
       initializeMenu(menu);
 
       const submenu = menu.elements.submenuToggles[0].elements.controlledMenu;
+
+      menu.closeClass = "custom-close";
 
       expect(submenu.closeClass).toBe(menu.closeClass);
     });
@@ -354,6 +358,8 @@ describe("BaseMenu getter/setters", () => {
 
       const submenu = menu.elements.submenuToggles[0].elements.controlledMenu;
 
+      menu.transitionClass = "custom-transition";
+
       expect(submenu.transitionClass).toBe(menu.transitionClass);
     });
   });
@@ -387,6 +393,21 @@ describe("BaseMenu getter/setters", () => {
 
       expect(spy).toHaveBeenCalledWith("number", { transitionDuration: 200 });
       expect(menu._durations.transition).toBe(200);
+    });
+
+    // Test that transitionDuration defaults to the root menu's transitionDuration for submenus.
+    it("should default to the root menu's transition duration for submenus", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      const submenu = menu.elements.submenuToggles[0].elements.controlledMenu;
+
+      menu.transitionDuration = 200;
+
+      expect(submenu.transitionDuration).toBe(menu.transitionDuration);
     });
   });
 
@@ -422,6 +443,21 @@ describe("BaseMenu getter/setters", () => {
       expect(spy).toHaveBeenCalledWith("number", { openDuration: 100 });
       expect(menu._durations.open).toBe(100);
     });
+
+    // Test that openDuration defaults to the root menu's openDuration for submenus.
+    it("should default to the root menu's open duration for submenus", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      const submenu = menu.elements.submenuToggles[0].elements.controlledMenu;
+
+      menu.openDuration = 100;
+
+      expect(submenu.openDuration).toBe(menu.openDuration);
+    });
   });
 
   // Test BaseMenu closeDuration.
@@ -455,6 +491,21 @@ describe("BaseMenu getter/setters", () => {
 
       expect(spy).toHaveBeenCalledWith("number", { closeDuration: 100 });
       expect(menu._durations.close).toBe(100);
+    });
+
+    // Test that closeDuration defaults to the root menu's closeDuration for submenus.
+    it("should default to the root menu's close duration for submenus", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      const submenu = menu.elements.submenuToggles[0].elements.controlledMenu;
+
+      menu.closeDuration = 100;
+
+      expect(submenu.closeDuration).toBe(menu.closeDuration);
     });
   });
 
@@ -616,6 +667,21 @@ describe("BaseMenu getter/setters", () => {
       expect(spy).toHaveBeenCalledWith({ hoverType: "on" });
       expect(menu._hoverType).toBe("on");
     });
+
+    // Test that hoverType defaults to the root menu's hoverType for submenus.
+    it("should default to the root menu's hover type for submenus", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      const submenu = menu.elements.submenuToggles[0].elements.controlledMenu;
+
+      menu.hoverType = "on";
+
+      expect(submenu.hoverType).toBe(menu.hoverType);
+    });
   });
 
   // Test BaseMenu hoverDelay.
@@ -647,6 +713,21 @@ describe("BaseMenu getter/setters", () => {
 
       expect(spy).toHaveBeenCalledWith("number", { hoverDelay: 200 });
       expect(menu._delays.hover).toBe(200);
+    });
+
+    // Test that hoverDelay defaults to the root menu's hoverDelay for submenus.
+    it("should default to the root menu's hover delay for submenus", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      const submenu = menu.elements.submenuToggles[0].elements.controlledMenu;
+
+      menu.hoverDelay = 200;
+
+      expect(submenu.hoverDelay).toBe(menu.hoverDelay);
     });
   });
 
@@ -682,6 +763,21 @@ describe("BaseMenu getter/setters", () => {
       expect(spy).toHaveBeenCalledWith("number", { enterDelay: 100 });
       expect(menu._delays.enter).toBe(100);
     });
+
+    // Test that enterDelay defaults to the root menu's enterDelay for submenus.
+    it("should default to the root menu's enter delay for submenus", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      const submenu = menu.elements.submenuToggles[0].elements.controlledMenu;
+
+      menu.enterDelay = 100;
+
+      expect(submenu.enterDelay).toBe(menu.enterDelay);
+    });
   });
 
   // Test BaseMenu leaveDelay.
@@ -715,6 +811,21 @@ describe("BaseMenu getter/setters", () => {
 
       expect(spy).toHaveBeenCalledWith("number", { leaveDelay: 100 });
       expect(menu._delays.leave).toBe(100);
+    });
+
+    // Test that leaveDelay defaults to the root menu's leaveDelay for submenus.
+    it("should default to the root menu's leave delay for submenus", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      const submenu = menu.elements.submenuToggles[0].elements.controlledMenu;
+
+      menu.leaveDelay = 100;
+
+      expect(submenu.leaveDelay).toBe(menu.leaveDelay);
     });
   });
 
@@ -854,6 +965,21 @@ describe("BaseMenu getter/setters", () => {
 
       expect(menu.prefix).toBe("test-");
     });
+
+    // Test that prefix defaults to the root menu's prefix for submenus.
+    it("should default to the root menu's prefix for submenus", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      const submenu = menu.elements.submenuToggles[0].elements.controlledMenu;
+
+      menu.prefix = "test-";
+
+      expect(submenu.prefix).toBe(menu.prefix);
+    });
   });
 
   // Test BaseMenu key.
@@ -878,10 +1004,25 @@ describe("BaseMenu getter/setters", () => {
       initializeMenu(menu);
 
       expect(() => {
-        menu.key = "test-";
+        menu.key = "test";
       }).toThrowError(
         "Cannot set property key of #<BaseMenu> which has only a getter"
       );
+    });
+
+    // Test that key defaults to the root menu's key suffixed by the submenu's index for submenus.
+    it("should default to the root menu's key with submenu's index for submenus", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      const submenu = menu.elements.submenuToggles[0].elements.controlledMenu;
+
+      menu._key = "test";
+
+      expect(submenu.key).toBe(`${menu.key}-0`);
     });
   });
 
@@ -984,6 +1125,7 @@ describe("BaseMenu getter/setters", () => {
 
       expect(menu.hasOpened).toEqual(menu._hasOpened);
     });
+
     // Test that hasOpened sets the hasOpened value.
     it("should set the hasOpened value", () => {
       // Create a new BaseMenu instance for testing.
@@ -995,6 +1137,21 @@ describe("BaseMenu getter/setters", () => {
       menu.hasOpened = true;
 
       expect(menu.hasOpened).toBe(true);
+    });
+
+    // Test that hasOpened defaults to the root menu's hasOpened for submenus.
+    it("should default to the root menu's hasOpened for submenus", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      const submenu = menu.elements.submenuToggles[0].elements.controlledMenu;
+
+      menu.hasOpened = true;
+
+      expect(submenu.hasOpened).toBe(menu.hasOpened);
     });
   });
 });

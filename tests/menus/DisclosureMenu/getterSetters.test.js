@@ -656,9 +656,9 @@ describe("DisclosureMenu getter/setters", () => {
         menuElement: document.querySelector("ul"),
       });
 
-      menu.optionalKeySupport = true;
-
       const submenu = menu.elements.submenuToggles[0].elements.controlledMenu;
+
+      menu.optionalKeySupport = true;
 
       expect(submenu.optionalKeySupport).toBe(menu.optionalKeySupport);
     });
