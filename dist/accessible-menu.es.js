@@ -1,10 +1,10 @@
-function v(r, e) {
+function w(r, e) {
   r === "" || r.length === 0 || (typeof r == "string" ? e.classList.add(r) : e.classList.add(...r));
 }
-function w(r, e) {
+function k(r, e) {
   r === "" || r.length === 0 || (typeof r == "string" ? e.classList.remove(r) : e.classList.remove(...r));
 }
-function D(r, e) {
+function A(r, e) {
   try {
     if (typeof e != "object") {
       const t = typeof e;
@@ -54,7 +54,7 @@ function h(r, e) {
     };
   }
 }
-function O(r) {
+function x(r) {
   try {
     if (typeof r != "object") {
       const e = typeof r;
@@ -83,7 +83,7 @@ function O(r) {
     };
   }
 }
-function k(r) {
+function D(r) {
   try {
     if (typeof r != "object" || Array.isArray(r)) {
       const e = typeof r;
@@ -107,7 +107,7 @@ function k(r) {
           );
       else {
         const s = {};
-        s[e] = r[e], O(s);
+        s[e] = r[e], x(s);
       }
     }
     return {
@@ -121,7 +121,7 @@ function k(r) {
     };
   }
 }
-function N(r) {
+function V(r) {
   try {
     if (typeof r != "object") {
       const t = typeof r;
@@ -148,7 +148,7 @@ function N(r) {
     };
   }
 }
-function V(r) {
+function P(r) {
   try {
     if (typeof r != "object") {
       const t = typeof r;
@@ -175,7 +175,7 @@ function V(r) {
     };
   }
 }
-function q(r) {
+function j(r) {
   try {
     if (typeof r != "object") {
       const t = typeof r;
@@ -202,8 +202,8 @@ function q(r) {
     };
   }
 }
-function K(r, e) {
-  if (h("string", { tagName: r }).status && D(HTMLElement, e).status) {
+function $(r, e) {
+  if (h("string", { tagName: r }).status && A(HTMLElement, e).status) {
     const t = r.toLowerCase();
     let s = !0;
     for (const n in e)
@@ -212,7 +212,7 @@ function K(r, e) {
   } else
     return !1;
 }
-class A {
+class L {
   /**
    * The DOM elements within the menu toggle.
    *
@@ -345,7 +345,7 @@ class A {
     return this._open;
   }
   set isOpen(e) {
-    h("boolean", { value: e }), this._open = e;
+    h("boolean", { isOpen: e }), this._open = e;
   }
   /**
    * Sets unique IDs for the toggle and controlled menu.
@@ -399,18 +399,18 @@ class A {
    */
   _expand(e = !0) {
     const { closeClass: t, openClass: s, transitionClass: n, openDuration: i } = this.elements.controlledMenu;
-    this.dom.toggle.setAttribute("aria-expanded", "true"), this.elements.controlledMenu.elements.rootMenu.hasOpened = !0, n !== "" ? (v(n, this.elements.controlledMenu.dom.menu), requestAnimationFrame(() => {
-      w(t, this.elements.controlledMenu.dom.menu), requestAnimationFrame(() => {
-        v(s, this.elements.controlledMenu.dom.menu), requestAnimationFrame(() => {
+    this.dom.toggle.setAttribute("aria-expanded", "true"), this.elements.controlledMenu.elements.rootMenu.hasOpened = !0, n !== "" ? (w(n, this.elements.controlledMenu.dom.menu), requestAnimationFrame(() => {
+      k(t, this.elements.controlledMenu.dom.menu), requestAnimationFrame(() => {
+        w(s, this.elements.controlledMenu.dom.menu), requestAnimationFrame(() => {
           setTimeout(() => {
-            w(
+            k(
               n,
               this.elements.controlledMenu.dom.menu
             );
           }, i);
         });
       });
-    })) : (v(s, this.elements.controlledMenu.dom.menu), w(t, this.elements.controlledMenu.dom.menu)), e && this.dom.toggle.dispatchEvent(this._expandEvent);
+    })) : (w(s, this.elements.controlledMenu.dom.menu), k(t, this.elements.controlledMenu.dom.menu)), e && this.dom.toggle.dispatchEvent(this._expandEvent);
   }
   /**
    * Collapses the controlled menu.
@@ -431,18 +431,18 @@ class A {
    */
   _collapse(e = !0) {
     const { closeClass: t, openClass: s, transitionClass: n, closeDuration: i } = this.elements.controlledMenu;
-    this.dom.toggle.setAttribute("aria-expanded", "false"), n !== "" ? (v(n, this.elements.controlledMenu.dom.menu), requestAnimationFrame(() => {
-      w(s, this.elements.controlledMenu.dom.menu), requestAnimationFrame(() => {
-        v(t, this.elements.controlledMenu.dom.menu), requestAnimationFrame(() => {
+    this.dom.toggle.setAttribute("aria-expanded", "false"), n !== "" ? (w(n, this.elements.controlledMenu.dom.menu), requestAnimationFrame(() => {
+      k(s, this.elements.controlledMenu.dom.menu), requestAnimationFrame(() => {
+        w(t, this.elements.controlledMenu.dom.menu), requestAnimationFrame(() => {
           setTimeout(() => {
-            w(
+            k(
               n,
               this.elements.controlledMenu.dom.menu
             );
           }, i);
         });
       });
-    })) : (v(t, this.elements.controlledMenu.dom.menu), w(s, this.elements.controlledMenu.dom.menu)), e && this.dom.toggle.dispatchEvent(this._collapseEvent);
+    })) : (w(t, this.elements.controlledMenu.dom.menu), k(s, this.elements.controlledMenu.dom.menu)), e && this.dom.toggle.dispatchEvent(this._collapseEvent);
   }
   /**
    * Opens the controlled menu.
@@ -511,7 +511,7 @@ class A {
     );
   }
 }
-class L {
+class O {
   /**
    * The DOM elements within the menu item.
    *
@@ -675,7 +675,7 @@ class I {
    *
    * @type {typeof BaseMenuItem}
    */
-  _MenuItemType = L;
+  _MenuItemType = O;
   /**
    * The class to use when generating submenu toggles.
    *
@@ -683,7 +683,7 @@ class I {
    *
    * @type {typeof BaseMenuToggle}
    */
-  _MenuToggleType = A;
+  _MenuToggleType = L;
   /**
    * The DOM elements within the menu.
    *
@@ -925,6 +925,7 @@ class I {
    * @param {number}             [options.enterDelay = -1]                  - The delay for opening menus if the menu is hoverable (in milliseconds).
    * @param {number}             [options.leaveDelay = -1]                  - The delay for closing menus if the menu is hoverable (in milliseconds).
    * @param {?string}            [options.prefix = am-]                     - The prefix to use for CSS custom properties.
+   * @param {?string}            [options.key = null]                       - The key used to generate IDs throughout the menu.
    */
   constructor({
     menuElement: e,
@@ -934,12 +935,12 @@ class I {
     submenuToggleSelector: i = "a",
     submenuSelector: l = "ul",
     controllerElement: u = null,
-    containerElement: m = null,
+    containerElement: c = null,
     openClass: a = "show",
     closeClass: d = "hide",
     transitionClass: f = "transitioning",
     transitionDuration: p = 250,
-    openDuration: c = -1,
+    openDuration: m = -1,
     closeDuration: _ = -1,
     isTopLevel: g = !0,
     parentMenu: M = null,
@@ -947,9 +948,10 @@ class I {
     hoverDelay: C = 250,
     enterDelay: T = -1,
     leaveDelay: E = -1,
-    prefix: S = "am-"
+    prefix: v = "am-",
+    key: S = null
   }) {
-    this._dom.menu = e, this._dom.controller = u, this._dom.container = m, this._selectors.menuItems = t, this._selectors.menuLinks = s, this._selectors.submenuItems = n, this._selectors.submenuToggles = i, this._selectors.submenus = l, this._elements.menuItems = [], this._elements.submenuToggles = [], this._elements.controller = null, this._elements.parentMenu = M, this._elements.rootMenu = g ? this : null, this._openClass = a || "", this._closeClass = d || "", this._transitionClass = f || "", this._transitionDuration = p, this._openDuration = c, this._closeDuration = _, this._prefix = S || "", this._root = g, this._hoverType = b, this._hoverDelay = C, this._enterDelay = T, this._leaveDelay = E;
+    this._dom.menu = e, this._dom.controller = u, this._dom.container = c, this._selectors.menuItems = t, this._selectors.menuLinks = s, this._selectors.submenuItems = n, this._selectors.submenuToggles = i, this._selectors.submenus = l, this._elements.menuItems = [], this._elements.submenuToggles = [], this._elements.controller = null, this._elements.parentMenu = M, this._elements.rootMenu = g ? this : null, this._openClass = a || "", this._closeClass = d || "", this._transitionClass = f || "", this._transitionDuration = p, this._openDuration = m, this._closeDuration = _, this._prefix = v || "", this._key = S || "", this._root = g, this._hoverType = b, this._hoverDelay = C, this._enterDelay = T, this._leaveDelay = E;
   }
   /**
    * Initializes the menu.
@@ -986,11 +988,11 @@ class I {
           parentElement: this.dom.container,
           controlledMenu: this
         });
-        K("button", { toggle: e.dom.toggle }) || e.dom.toggle.setAttribute("role", "button"), e.dom.toggle.setAttribute("aria-controls", this.dom.menu.id), this._elements.controller = e;
+        $("button", { toggle: e.dom.toggle }) || e.dom.toggle.setAttribute("role", "button"), e.dom.toggle.setAttribute("aria-controls", this.dom.menu.id), this._elements.controller = e;
       }
       window.AccessibleMenu = window.AccessibleMenu || {
         menus: {}
-      }, window.AccessibleMenu.menus[this.dom.menu.id] = this;
+      }, typeof window.AccessibleMenu.menus != "object" && (window.AccessibleMenu.menus = {}), window.AccessibleMenu.menus[this.dom.menu.id] = this;
     }
     this._createChildElements(), this._setTransitionDurations();
   }
@@ -1086,7 +1088,7 @@ class I {
     return this.isTopLevel ? this._openClass : this.elements.rootMenu.openClass;
   }
   set openClass(e) {
-    k({ openClass: e }), this._openClass !== e && (this._openClass = e);
+    D({ openClass: e }), this._openClass !== e && (this._openClass = e);
   }
   /**
    * The class(es) to apply when the menu is closed.
@@ -1102,7 +1104,7 @@ class I {
     return this.isTopLevel ? this._closeClass : this.elements.rootMenu.closeClass;
   }
   set closeClass(e) {
-    k({ closeClass: e }), this._closeClass !== e && (this._closeClass = e);
+    D({ closeClass: e }), this._closeClass !== e && (this._closeClass = e);
   }
   /**
    * The class(es) to apply when the menu is transitioning between open and closed.
@@ -1118,7 +1120,7 @@ class I {
     return this.isTopLevel ? this._transitionClass : this.elements.rootMenu.transitionClass;
   }
   set transitionClass(e) {
-    k({ transitionClass: e }), this._transitionClass !== e && (this._transitionClass = e);
+    D({ transitionClass: e }), this._transitionClass !== e && (this._transitionClass = e);
   }
   /**
    * The duration time (in milliseconds) for the transition between open and closed states.
@@ -1136,7 +1138,7 @@ class I {
     return this.isTopLevel ? this._transitionDuration : this.elements.rootMenu.transitionDuration;
   }
   set transitionDuration(e) {
-    h("number", { value: e }), this._transitionDuration !== e && (this._transitionDuration = e, this._setTransitionDurations());
+    h("number", { transitionDuration: e }), this._transitionDuration !== e && (this._transitionDuration = e, this._setTransitionDurations());
   }
   /**
    * The duration time (in milliseconds) for the transition from closed to open states.
@@ -1156,7 +1158,7 @@ class I {
     return this._openDuration === -1 ? this.transitionDuration : this.isTopLevel ? this._openDuration : this.elements.rootMenu.openDuration;
   }
   set openDuration(e) {
-    h("number", { value: e }), this._openDuration !== e && (this._openDuration = e, this._setTransitionDurations());
+    h("number", { openDuration: e }), this._openDuration !== e && (this._openDuration = e, this._setTransitionDurations());
   }
   /**
    * The duration time (in milliseconds) for the transition from open to closed states.
@@ -1176,7 +1178,7 @@ class I {
     return this._closeDuration === -1 ? this.transitionDuration : this.isTopLevel ? this._closeDuration : this.elements.rootMenu.closeDuration;
   }
   set closeDuration(e) {
-    h("number", { value: e }), this._closeDuration !== e && (this._closeDuration = e, this._setTransitionDurations());
+    h("number", { closeDuration: e }), this._closeDuration !== e && (this._closeDuration = e, this._setTransitionDurations());
   }
   /**
    * The index of the currently selected menu item in the menu.
@@ -1198,7 +1200,7 @@ class I {
     return this._currentChild;
   }
   set currentChild(e) {
-    h("number", { value: e });
+    h("number", { currentChild: e });
     function t(s) {
       if (["mouse", "character"].includes(s.currentEvent) && s.elements.parentMenu) {
         let i = 0, l = !1;
@@ -1226,7 +1228,7 @@ class I {
     return this._focusState;
   }
   set focusState(e) {
-    N({ value: e }), this._focusState !== e && (this._focusState = e), this.elements.submenuToggles.length > 0 && (e === "self" || e === "none") && this.elements.submenuToggles.forEach((t) => {
+    V({ focusState: e }), this._focusState !== e && (this._focusState = e), this.elements.submenuToggles.length > 0 && (e === "self" || e === "none") && this.elements.submenuToggles.forEach((t) => {
       t.elements.controlledMenu.focusState = "none";
     }), this.elements.parentMenu && (e === "self" || e === "child") && (this.elements.parentMenu.focusState = "child");
   }
@@ -1241,7 +1243,7 @@ class I {
     return this._currentEvent;
   }
   set currentEvent(e) {
-    V({ value: e }), this._currentEvent !== e && (this._currentEvent = e, this.elements.submenuToggles.length > 0 && this.elements.submenuToggles.forEach((t) => {
+    P({ currentEvent: e }), this._currentEvent !== e && (this._currentEvent = e, this.elements.submenuToggles.length > 0 && this.elements.submenuToggles.forEach((t) => {
       t.elements.controlledMenu.currentEvent = e;
     }));
   }
@@ -1269,7 +1271,7 @@ class I {
     return this._root ? this._hoverType : this.elements.rootMenu.hoverType;
   }
   set hoverType(e) {
-    q({ value: e }), this._hoverType !== e && (this._hoverType = e);
+    j({ hoverType: e }), this._hoverType !== e && (this._hoverType = e);
   }
   /**
    * The delay time (in milliseconds) used for pointerenter/pointerleave events to take place.
@@ -1285,7 +1287,7 @@ class I {
     return this._root ? this._hoverDelay : this.elements.rootMenu.hoverDelay;
   }
   set hoverDelay(e) {
-    h("number", { value: e }), this._hoverDelay !== e && (this._hoverDelay = e);
+    h("number", { hoverDelay: e }), this._hoverDelay !== e && (this._hoverDelay = e);
   }
   /**
    * The delay time (in milliseconds) used for pointerenter events to take place.
@@ -1303,7 +1305,7 @@ class I {
     return this._enterDelay === -1 ? this.hoverDelay : this._root ? this._enterDelay : this.elements.rootMenu.enterDelay;
   }
   set enterDelay(e) {
-    h("number", { value: e }), this._enterDelay !== e && (this._enterDelay = e);
+    h("number", { enterDelay: e }), this._enterDelay !== e && (this._enterDelay = e);
   }
   /**
    * The delay time (in milliseconds) used for pointerleave events to take place.
@@ -1321,7 +1323,7 @@ class I {
     return this._leaveDelay === -1 ? this.hoverDelay : this._root ? this._leaveDelay : this.elements.rootMenu.leaveDelay;
   }
   set leaveDelay(e) {
-    h("number", { value: e }), this._leaveDelay !== e && (this._leaveDelay = e);
+    h("number", { leaveDelay: e }), this._leaveDelay !== e && (this._leaveDelay = e);
   }
   /**
    * The prefix to use for CSS custom properties.
@@ -1337,7 +1339,7 @@ class I {
     return this._root ? this._prefix : this.elements.rootMenu.prefix;
   }
   set prefix(e) {
-    h("string", { value: e }), this._prefix !== e && (this._prefix = e);
+    h("string", { prefix: e }), this._prefix !== e && (this._prefix = e);
   }
   /**
    * A flag to check if the menu's focus methods should _actually_ move the focus in the DOM.
@@ -1370,7 +1372,7 @@ class I {
     return this._root ? this._hasOpened : this.elements.rootMenu.hasOpened;
   }
   set hasOpened(e) {
-    h("boolean", { value: e }), this._hasOpened !== e && (this._hasOpened = e);
+    h("boolean", { hasOpened: e }), this._hasOpened !== e && (this._hasOpened = e);
   }
   /**
    * Validates all aspects of the menu to ensure proper functionality.
@@ -1381,38 +1383,38 @@ class I {
    */
   _validate() {
     let e = !0, t;
-    this._dom.container !== null || this._dom.controller !== null ? t = D(HTMLElement, {
+    this._dom.container !== null || this._dom.controller !== null ? t = A(HTMLElement, {
       menuElement: this._dom.menu,
       controllerElement: this._dom.controller,
       containerElement: this._dom.container
-    }) : t = D(HTMLElement, {
+    }) : t = A(HTMLElement, {
       menuElement: this._dom.menu
     }), t.status || (this._errors.push(t.error.message), e = !1);
     let s;
-    if (this._selectors.submenuItems !== "" ? s = O({
+    if (this._selectors.submenuItems !== "" ? s = x({
       menuItemSelector: this._selectors.menuItems,
       menuLinkSelector: this._selectors.menuLinks,
       submenuItemSelector: this._selectors.submenuItems,
       submenuToggleSelector: this._selectors.submenuToggles,
       submenuSelector: this._selectors.submenus
-    }) : s = O({
+    }) : s = x({
       menuItemSelector: this._selectors.menuItems,
       menuLinkSelector: this._selectors.menuLinks
     }), s.status || (this._errors.push(s.error.message), e = !1), this._openClass !== "") {
-      const c = k({ openClass: this._openClass });
-      c.status || (this._errors.push(c.error.message), e = !1);
+      const m = D({ openClass: this._openClass });
+      m.status || (this._errors.push(m.error.message), e = !1);
     }
     if (this._closeClass !== "") {
-      const c = k({
+      const m = D({
         closeClass: this._closeClass
       });
-      c.status || (this._errors.push(c.error.message), e = !1);
+      m.status || (this._errors.push(m.error.message), e = !1);
     }
     if (this._transitionClass !== "") {
-      const c = k({
+      const m = D({
         transitionClass: this._transitionClass
       });
-      c.status || (this._errors.push(c.error.message), e = !1);
+      m.status || (this._errors.push(m.error.message), e = !1);
     }
     const n = h("number", {
       transitionDuration: this._transitionDuration
@@ -1428,13 +1430,13 @@ class I {
     l.status || (this._errors.push(l.error.message), e = !1);
     const u = h("boolean", { isTopLevel: this._root });
     if (u.status || (this._errors.push(u.error.message), e = !1), this._elements.parentMenu !== null) {
-      const c = D(I, {
+      const m = A(I, {
         parentMenu: this._elements.parentMenu
       });
-      c.status || (this._errors.push(c.error.message), e = !1);
+      m.status || (this._errors.push(m.error.message), e = !1);
     }
-    const m = q({ hoverType: this._hoverType });
-    m.status || (this._errors.push(m.error.message), e = !1);
+    const c = j({ hoverType: this._hoverType });
+    c.status || (this._errors.push(c.error.message), e = !1);
     const a = h("number", {
       hoverDelay: this._hoverDelay
     });
@@ -1446,7 +1448,10 @@ class I {
     const f = h("number", {
       leaveDelay: this._leaveDelay
     });
-    f.status || (this._errors.push(f.error.message), e = !1);
+    if (f.status || (this._errors.push(f.error.message), e = !1), this._key !== "") {
+      const m = h("string", { key: this._key });
+      m.status || (this._errors.push(m.error.message), e = !1);
+    }
     const p = h("string", { prefix: this._prefix });
     return p.status || (this._errors.push(p.error.message), e = !1), e;
   }
@@ -1467,7 +1472,7 @@ class I {
         throw new Error(
           `AccessibleMenu: The "${e}" element cannot be set through _setDOMElementType.`
         );
-      t !== this.dom.menu && D(HTMLElement, { base: t });
+      t !== this.dom.menu && A(HTMLElement, { base: t });
       const i = Array.from(
         t.querySelectorAll(this.selectors[e])
       ).filter(
@@ -1920,7 +1925,7 @@ class I {
     });
   }
 }
-class P extends L {
+class R extends O {
   /**
    * Constructs a new `DisclosureMenuItem`.
    *
@@ -1952,7 +1957,7 @@ class P extends L {
     }), u && this.initialize();
   }
 }
-class R extends A {
+class U extends L {
   /**
    * Constructs a new `DisclosureMenuToggle`.
    *
@@ -1991,7 +1996,7 @@ class R extends A {
    * @protected
    */
   _setAriaAttributes() {
-    super._setAriaAttributes(), K("button", { toggle: this.dom.toggle }) || this.dom.toggle.setAttribute("role", "button"), this.dom.toggle.setAttribute(
+    super._setAriaAttributes(), $("button", { toggle: this.dom.toggle }) || this.dom.toggle.setAttribute("role", "button"), this.dom.toggle.setAttribute(
       "aria-controls",
       this.elements.controlledMenu.dom.menu.id
     );
@@ -2030,7 +2035,7 @@ class R extends A {
     this.isOpen && this.closeChildren(), super.close();
   }
 }
-class $ extends I {
+class F extends I {
   /**
    * The class to use when generating submenus.
    *
@@ -2038,7 +2043,7 @@ class $ extends I {
    *
    * @type {typeof DisclosureMenu}
    */
-  _MenuType = $;
+  _MenuType = F;
   /**
    * The class to use when generating menu items.
    *
@@ -2046,7 +2051,7 @@ class $ extends I {
    *
    * @type {typeof DisclosureMenuItem}
    */
-  _MenuItemType = P;
+  _MenuItemType = R;
   /**
    * The class to use when generating submenu toggles.
    *
@@ -2054,7 +2059,7 @@ class $ extends I {
    *
    * @type {typeof DisclosureMenuToggle}
    */
-  _MenuToggleType = R;
+  _MenuToggleType = U;
   /**
    * The index of the currently selected menu item in the menu.
    *
@@ -2097,6 +2102,7 @@ class $ extends I {
    * @param {number}             [options.leaveDelay = -1]                  - The delay for closing a menu if the menu is focusable (in milliseconds).
    * @param {boolean}            [options.optionalKeySupport = false]       - A flag to add optional keyboard support (Arrow keys, Home, and End) to the menu.
    * @param {?string}            [options.prefix = am-]                     - The prefix to use for CSS custom properties.
+   * @param {?string}            [options.key = null]                       - The key used to generate IDs throughout the menu.
    * @param {boolean}            [options.initialize = true]                - A flag to initialize the menu immediately upon creation.
    */
   constructor({
@@ -2107,12 +2113,12 @@ class $ extends I {
     submenuToggleSelector: i = "button",
     submenuSelector: l = "ul",
     controllerElement: u = null,
-    containerElement: m = null,
+    containerElement: c = null,
     openClass: a = "show",
     closeClass: d = "hide",
     transitionClass: f = "transitioning",
     transitionDuration: p = 250,
-    openDuration: c = -1,
+    openDuration: m = -1,
     closeDuration: _ = -1,
     isTopLevel: g = !0,
     parentMenu: M = null,
@@ -2120,9 +2126,10 @@ class $ extends I {
     hoverDelay: C = 250,
     enterDelay: T = -1,
     leaveDelay: E = -1,
-    optionalKeySupport: S = !1,
-    prefix: x = "am-",
-    initialize: j = !0
+    optionalKeySupport: v = !1,
+    prefix: S = "am-",
+    key: K = null,
+    initialize: N = !0
   }) {
     super({
       menuElement: e,
@@ -2132,12 +2139,12 @@ class $ extends I {
       submenuToggleSelector: i,
       submenuSelector: l,
       controllerElement: u,
-      containerElement: m,
+      containerElement: c,
       openClass: a,
       closeClass: d,
       transitionClass: f,
       transitionDuration: p,
-      openDuration: c,
+      openDuration: m,
       closeDuration: _,
       isTopLevel: g,
       parentMenu: M,
@@ -2145,8 +2152,9 @@ class $ extends I {
       hoverDelay: C,
       enterDelay: T,
       leaveDelay: E,
-      prefix: x
-    }), this._optionalSupport = S, j && this.initialize();
+      prefix: S,
+      key: K
+    }), this._optionalSupport = v, N && this.initialize();
   }
   /**
    * Initializes the menu.
@@ -2275,7 +2283,7 @@ class $ extends I {
     });
   }
 }
-class U extends L {
+class W extends O {
   /**
    * Constructs a new `MenubarItem`.
    *
@@ -2344,7 +2352,7 @@ class U extends L {
     super.blur(), this.elements.parentMenu.isTopLevel && (this.dom.link.tabIndex = -1);
   }
 }
-class W extends A {
+class Z extends L {
   /**
    * Constructs a new `MenubarToggle`.
    *
@@ -2415,7 +2423,7 @@ class W extends A {
     this.isOpen && (this.closeChildren(), this.elements.parentMenu && this.elements.parentMenu.focusCurrentChild()), super.close();
   }
 }
-class F extends I {
+class z extends I {
   /**
    * The class to use when generating submenus.
    *
@@ -2423,7 +2431,7 @@ class F extends I {
    *
    * @type {typeof Menubar}
    */
-  _MenuType = F;
+  _MenuType = z;
   /**
    * The class to use when generating menu items.
    *
@@ -2431,7 +2439,7 @@ class F extends I {
    *
    * @type {typeof MenubarItem}
    */
-  _MenuItemType = U;
+  _MenuItemType = W;
   /**
    * The class to use when generating submenu toggles.
    *
@@ -2439,7 +2447,7 @@ class F extends I {
    *
    * @type {typeof MenubarToggle}
    */
-  _MenuToggleType = W;
+  _MenuToggleType = Z;
   /**
    * Constructs a new `Menubar`.
    *
@@ -2463,6 +2471,7 @@ class F extends I {
    * @param {number}             [options.enterDelay = -1]                  - The delay for opening a menu if the menu is focusable (in milliseconds).
    * @param {number}             [options.leaveDelay = -1]                  - The delay for closing a menu if the menu is focusable (in milliseconds).
    * @param {?string}            [options.prefix = am-]                     - The prefix to use for CSS custom properties.
+   * @param {?string}            [options.key = null]                       - The key used to generate IDs throughout the menu.
    * @param {boolean}            [options.initialize = true]                - A flag to initialize the menu immediately upon creation.
    */
   constructor({
@@ -2473,19 +2482,20 @@ class F extends I {
     submenuToggleSelector: i = "a",
     submenuSelector: l = "ul",
     controllerElement: u = null,
-    containerElement: m = null,
+    containerElement: c = null,
     openClass: a = "show",
     closeClass: d = "hide",
     transitionClass: f = "transitioning",
     transitionDuration: p = 250,
-    isTopLevel: c = !0,
+    isTopLevel: m = !0,
     parentMenu: _ = null,
     hoverType: g = "off",
     hoverDelay: M = 250,
     enterDelay: b = -1,
     leaveDelay: C = -1,
     prefix: T = "am-",
-    initialize: E = !0
+    key: E = null,
+    initialize: v = !0
   }) {
     super({
       menuElement: e,
@@ -2495,19 +2505,20 @@ class F extends I {
       submenuToggleSelector: i,
       submenuSelector: l,
       controllerElement: u,
-      containerElement: m,
+      containerElement: c,
       openClass: a,
       closeClass: d,
       transitionClass: f,
       transitionDuration: p,
-      isTopLevel: c,
+      isTopLevel: m,
       parentMenu: _,
       hoverType: g,
       hoverDelay: M,
       enterDelay: b,
       leaveDelay: C,
-      prefix: T
-    }), E && this.initialize();
+      prefix: T,
+      key: E
+    }), v && this.initialize();
   }
   /**
    * Initializes the menu.
@@ -2656,7 +2667,7 @@ class F extends I {
           })) : t === "ArrowUp" ? this.currentMenuItem.isSubmenuItem && (o(e), this.currentMenuItem.elements.childMenu.currentEvent = "keyboard", this.currentMenuItem.elements.toggle.open(), requestAnimationFrame(() => {
             this.currentMenuItem.elements.childMenu.focusLastChild();
           })) : t === "Home" ? (o(e), this.focusFirstChild()) : t === "End" ? (o(e), this.focusLastChild()) : t === "Escape" && (this.elements.submenuToggles.some(
-            (m) => m.isOpen
+            (c) => c.isOpen
           ) ? (o(e), this.closeChildren()) : this.isTopLevel && this.elements.controller && this.elements.controller.isOpen && (o(e), this.elements.controller.close(), this.focusController()));
       } else
         t === "Space" || t === "Enter" ? (o(e), this.currentMenuItem.isSubmenuItem ? (this.currentMenuItem.elements.childMenu.currentEvent = "keyboard", this.currentMenuItem.elements.toggle.open(), requestAnimationFrame(() => {
@@ -2704,7 +2715,7 @@ class F extends I {
     }
   }
 }
-class Z extends L {
+class Q extends O {
   /**
    * The declared accessible-menu elements within the menu item.
    *
@@ -2744,7 +2755,7 @@ class Z extends L {
     childMenu: i = null,
     toggle: l = null,
     initialize: u = !0,
-    submenuSibling: m = null
+    submenuSibling: c = null
   }) {
     super({
       menuItemElement: e,
@@ -2753,10 +2764,10 @@ class Z extends L {
       isSubmenuItem: n,
       childMenu: i,
       toggle: l
-    }), this._elements.parentMenu = s, this._elements.childMenu = i, this._elements.toggle = l, this._elements.sibling = m, u && this.initialize();
+    }), this._elements.parentMenu = s, this._elements.childMenu = i, this._elements.toggle = l, this._elements.sibling = c, u && this.initialize();
   }
 }
-class Q extends A {
+class B extends L {
   /**
    * Constructs a new `TopLinkDisclosureMenuToggle`.
    *
@@ -2795,7 +2806,7 @@ class Q extends A {
    * @protected
    */
   _setAriaAttributes() {
-    super._setAriaAttributes(), K("button", { toggle: this.dom.toggle }) || this.dom.toggle.setAttribute("role", "button"), this.dom.toggle.setAttribute(
+    super._setAriaAttributes(), $("button", { toggle: this.dom.toggle }) || this.dom.toggle.setAttribute("role", "button"), this.dom.toggle.setAttribute(
       "aria-controls",
       this.elements.controlledMenu.dom.menu.id
     );
@@ -2828,7 +2839,7 @@ class Q extends A {
     this.isOpen && this.closeChildren(), super.close();
   }
 }
-class z extends I {
+class H extends I {
   /**
    * The class to use when generating submenus.
    *
@@ -2836,7 +2847,7 @@ class z extends I {
    *
    * @type {typeof TopLinkDisclosureMenu}
    */
-  _MenuType = z;
+  _MenuType = H;
   /**
    * The class to use when generating menu items.
    *
@@ -2844,7 +2855,7 @@ class z extends I {
    *
    * @type {typeof TopLinkDisclosureMenuItem}
    */
-  _MenuItemType = Z;
+  _MenuItemType = Q;
   /**
    * The class to use when generating submenu toggles.
    *
@@ -2852,7 +2863,7 @@ class z extends I {
    *
    * @type {typeof TopLinkDisclosureMenuToggle}
    */
-  _MenuToggleType = Q;
+  _MenuToggleType = B;
   /**
    * The index of the currently selected menu item in the menu.
    *
@@ -2916,6 +2927,7 @@ class z extends I {
    * @param {number}                 [options.leaveDelay = -1]                  - The delay for closing a menu if the menu is focusable (in milliseconds).
    * @param {boolean}                [options.optionalKeySupport = false]       - A flag to add optional keyboard support (Arrow keys, Home, and End) to the menu.
    * @param {?string}                [options.prefix = am-]                     - The prefix to use for CSS custom properties.
+   * @param {?string}                [options.key = null]                       - The key used to generate IDs throughout the menu.
    * @param {boolean}                [options.initialize = true]                - A flag to initialize the menu immediately upon creation.
    */
   constructor({
@@ -2926,12 +2938,12 @@ class z extends I {
     submenuToggleSelector: i = "button",
     submenuSelector: l = "ul",
     submenuSubtoggleSelector: u = "a",
-    controllerElement: m = null,
+    controllerElement: c = null,
     containerElement: a = null,
     openClass: d = "show",
     closeClass: f = "hide",
     transitionClass: p = "transitioning",
-    transitionDuration: c = 250,
+    transitionDuration: m = 250,
     isTopLevel: _ = !0,
     parentMenu: g = null,
     hoverType: M = "off",
@@ -2939,8 +2951,9 @@ class z extends I {
     enterDelay: C = -1,
     leaveDelay: T = -1,
     optionalKeySupport: E = !1,
-    prefix: S = "am-",
-    initialize: x = !0
+    prefix: v = "am-",
+    key: S = null,
+    initialize: K = !0
   }) {
     super({
       menuElement: e,
@@ -2949,22 +2962,23 @@ class z extends I {
       submenuItemSelector: n,
       submenuSelector: l,
       submenuToggleSelector: i,
-      controllerElement: m,
+      controllerElement: c,
       containerElement: a,
       openClass: d,
       closeClass: f,
       transitionClass: p,
-      transitionDuration: c,
+      transitionDuration: m,
       isTopLevel: _,
       parentMenu: g,
       hoverType: M,
       hoverDelay: b,
       enterDelay: C,
       leaveDelay: T,
-      prefix: S
+      prefix: v,
+      key: S
     }), this._optionalSupport = E, this._selectors.menuItems = t, this._selectors.submenuItems = n, this._selectors.submenuToggles = i, this._selectors.submenus = l, this._selectors.submenuSubtoggles = u, this._selectors.menuLinks = [
       .../* @__PURE__ */ new Set([s, i])
-    ].join(","), x && this.initialize();
+    ].join(","), K && this.initialize();
   }
   /**
    * Initializes the menu.
@@ -3029,19 +3043,19 @@ class z extends I {
           hoverDelay: this.hoverDelay,
           enterDelay: this.enterDelay,
           leaveDelay: this.leaveDelay
-        }), m = new this._MenuToggleType({
+        }), c = new this._MenuToggleType({
           menuToggleElement: i,
           parentElement: e,
           controlledMenu: u,
           parentMenu: this
         });
-        this._elements.submenuToggles.push(m), i !== n ? (s = new this._MenuItemType({
+        this._elements.submenuToggles.push(c), i !== n ? (s = new this._MenuItemType({
           menuItemElement: e,
           menuLinkElement: i,
           parentMenu: this,
           isSubmenuItem: !0,
           childMenu: u,
-          toggle: m
+          toggle: c
         }), t = new this._MenuItemType({
           menuItemElement: e,
           menuLinkElement: n,
@@ -3053,7 +3067,7 @@ class z extends I {
           parentMenu: this,
           isSubmenuItem: !0,
           childMenu: u,
-          toggle: m
+          toggle: c
         });
       } else
         t = new this._MenuItemType({
@@ -3073,7 +3087,7 @@ class z extends I {
    */
   _validate() {
     let e = super._validate();
-    const t = O({
+    const t = x({
       submenuSubtoggleSelector: this._selectors.submenuSubtoggles
     });
     t.status || (this._errors.push(t.error.message), e = !1);
@@ -3236,7 +3250,7 @@ class z extends I {
     });
   }
 }
-class B extends L {
+class G extends O {
   /**
    * Constructs a new `TreeviewItem`.
    *
@@ -3299,7 +3313,7 @@ class B extends L {
     super.blur(), this.dom.link.tabIndex = -1;
   }
 }
-class G extends A {
+class J extends L {
   /**
    * Constructs a new `TreeviewToggle`.
    *
@@ -3358,7 +3372,7 @@ class G extends A {
     );
   }
 }
-class H extends I {
+class q extends I {
   /**
    * The class to use when generating submenus.
    *
@@ -3366,7 +3380,7 @@ class H extends I {
    *
    * @type {typeof Treeview}
    */
-  _MenuType = H;
+  _MenuType = q;
   /**
    * The class to use when generating menu items.
    *
@@ -3374,7 +3388,7 @@ class H extends I {
    *
    * @type {typeof TreeviewItem}
    */
-  _MenuItemType = B;
+  _MenuItemType = G;
   /**
    * The class to use when generating submenu toggles.
    *
@@ -3382,7 +3396,7 @@ class H extends I {
    *
    * @type {typeof TreeviewToggle}
    */
-  _MenuToggleType = G;
+  _MenuToggleType = J;
   /**
    * Constructs a new `Treeview`.
    *
@@ -3406,6 +3420,7 @@ class H extends I {
    * @param {number}             [options.enterDelay = -1]                  - The delay for opening a menu if the menu is focusable (in milliseconds).
    * @param {number}             [options.leaveDelay = -1]                  - The delay for closing a menu if the menu is focusable (in milliseconds).
    * @param {?string}            [options.prefix = am-]                     - The prefix to use for CSS custom properties.
+   * @param {?string}            [options.key = null]                       - The key used to generate IDs throughout the menu.
    * @param {boolean}            [options.initialize = true]                - A flag to initialize the menu immediately upon creation.
    */
   constructor({
@@ -3416,19 +3431,20 @@ class H extends I {
     submenuToggleSelector: i = "a",
     submenuSelector: l = "ul",
     controllerElement: u = null,
-    containerElement: m = null,
+    containerElement: c = null,
     openClass: a = "show",
     closeClass: d = "hide",
     transitionClass: f = "transitioning",
     transitionDuration: p = 250,
-    isTopLevel: c = !0,
+    isTopLevel: m = !0,
     parentMenu: _ = null,
     hoverType: g = "off",
     hoverDelay: M = 250,
     enterDelay: b = -1,
     leaveDelay: C = -1,
     prefix: T = "am-",
-    initialize: E = !0
+    key: E = null,
+    initialize: v = !0
   }) {
     super({
       menuElement: e,
@@ -3438,19 +3454,20 @@ class H extends I {
       submenuToggleSelector: i,
       submenuSelector: l,
       controllerElement: u,
-      containerElement: m,
+      containerElement: c,
       openClass: a,
       closeClass: d,
       transitionClass: f,
       transitionDuration: p,
-      isTopLevel: c,
+      isTopLevel: m,
       parentMenu: _,
       hoverType: g,
       hoverDelay: M,
       enterDelay: b,
       leaveDelay: C,
-      prefix: T
-    }), E && this.initialize();
+      prefix: T,
+      key: E
+    }), v && this.initialize();
   }
   /**
    * Initializes the menu.
@@ -3658,11 +3675,11 @@ class H extends I {
       ...n.slice(i),
       ...n.slice(0, i)
     ];
-    let u = 0, m = !1;
-    for (; !m && u < l.length; ) {
+    let u = 0, c = !1;
+    for (; !c && u < l.length; ) {
       let a = "";
       if (l[u].dom.item.innerText ? a = l[u].dom.item.innerText : a = l[u].dom.item.textContent, a = a.replace(/[\s]/g, "").toLowerCase().charAt(0), a === s) {
-        m = !0;
+        c = !0;
         const d = l[u].elements.parentMenu, f = d.elements.menuItems.indexOf(l[u]);
         this.elements.rootMenu.blurChildren(), d.focusChild(f);
       }
@@ -3690,12 +3707,12 @@ class H extends I {
     this.currentMenuItem.elements.childMenu.currentEvent = this.currentEvent, this.currentMenuItem.elements.childMenu.focusLastChild(), this.currentMenuItem.elements.childMenu.currentMenuItem.isSubmenuItem && this.currentMenuItem.elements.childMenu.currentMenuItem.elements.toggle.isOpen && (this.currentMenuItem.elements.childMenu.blurCurrentChild(), this.currentMenuItem.elements.childMenu.focusChildsLastNode());
   }
 }
-const J = {
-  DisclosureMenu: $,
-  Menubar: F,
-  TopLinkDisclosureMenu: z,
-  Treeview: H
+const X = {
+  DisclosureMenu: F,
+  Menubar: z,
+  TopLinkDisclosureMenu: H,
+  Treeview: q
 };
 export {
-  J as default
+  X as default
 };
