@@ -65,6 +65,7 @@ class BaseMenu {
    * @property {HTMLElement[]} submenus       - An array of submenu elements.
    * @property {HTMLElement}   controller     - The toggle for this menu.
    * @property {HTMLElement}   container      - The container for this menu.
+   * @property {HTMLElement}   controlled     - The element controlled by the controller.
    */
   _dom = {
     menu: null,
@@ -75,6 +76,7 @@ class BaseMenu {
     submenus: [],
     controller: null,
     container: null,
+    controlled: null,
   };
 
   /**
@@ -84,7 +86,7 @@ class BaseMenu {
    *
    * @type {string[]}
    */
-  _protectedDOMElements = ["menu", "controller", "container"];
+  _protectedDOMElements = ["menu", "controller", "container", "controlled"];
 
   /**
    * The query selectors used by the menu to populate the dom.
@@ -373,6 +375,7 @@ class BaseMenu {
    * @param {string}             [options.submenusSelector = ul]             - The query selector string for submenus.
    * @param {?HTMLElement}       [options.controllerElement = null]          - The element controlling the menu in the DOM.
    * @param {?HTMLElement}       [options.containerElement = null]           - The element containing the menu in the DOM.
+   * @param {?HTMLElement}       [options.controlledElement = null]          - The element controlled by the controller in the DOM (if different from the menu element).
    * @param {?(string|string[])} [options.openClass = show]                  - The class to apply when a menu is "open".
    * @param {?(string|string[])} [options.closeClass = hide]                 - The class to apply when a menu is "closed".
    * @param {?(string|string[])} [options.transitionClass = transitioning]   - The class to apply when a menu is transitioning between "open" and "closed" states.
@@ -400,6 +403,7 @@ class BaseMenu {
     submenusSelector = "ul",
     controllerElement = null,
     containerElement = null,
+    controlledElement = null,
     openClass = "show",
     closeClass = "hide",
     transitionClass = "transitioning",
@@ -422,6 +426,7 @@ class BaseMenu {
     this._dom.menu = menuElement;
     this._dom.controller = controllerElement;
     this._dom.container = containerElement;
+    this._dom.controlled = controlledElement;
 
     // Set DOM selectors.
     this._selectors.menuItems = menuItemsSelector;
@@ -503,35 +508,40 @@ class BaseMenu {
     // Set all of the DOM elements.
     this._setDOMElements();
 
+    if (this.dom.controller) {
+      // Create a new BaseMenuToggle to control the menu.
+      const toggle = new this._MenuToggleType({
+        menuToggleElement: this.dom.controller,
+        controlledMenu: this,
+        parentMenu: this.elements.parentMenu,
+      });
+
+      this._elements.controller = toggle;
+    }
+
     if (this.isTopLevel) {
       // Set the root menu's IDs.
       this._setIds();
 
-      if (this.dom.controller && this.dom.container) {
-        // Create a new BaseMenuToggle to control the menu.
-        const toggle = new this._MenuToggleType({
-          menuToggleElement: this.dom.controller,
-          parentElement: this.dom.container,
-          controlledMenu: this,
-        });
-
+      if (this.elements.controller) {
         // If the toggle isn't a button, add the appropriate role to let
         // screen readers know it should act like a button.
         if (
           !isTag(
             "button",
-            { toggle: toggle.dom.toggle },
+            { toggle: this.elements.controller.dom.toggle },
             { shouldThrow: false }
           ).status
         ) {
-          toggle.dom.toggle.setAttribute("role", "button");
+          this.elements.controller.dom.toggle.setAttribute("role", "button");
         }
 
         // Set the controller's aria attributes.
         // These aren't necessarily the same as the standard menu toggle.
-        toggle.dom.toggle.setAttribute("aria-controls", this.dom.menu.id);
-
-        this._elements.controller = toggle;
+        this.elements.controller.dom.toggle.setAttribute(
+          "aria-controls",
+          this.dom.menu.id
+        );
       }
 
       // Add the menu to a globally accessible list of menus.
@@ -1647,6 +1657,11 @@ class BaseMenu {
   _setIds() {
     this.dom.menu.id = this.dom.menu.id || `menu-${this.key}`;
 
+    if (this.dom.controlled && this.dom.controlled !== this.dom.menu) {
+      this.dom.controlled.id =
+        this.dom.controlled.id || `menu-controlled-${this.key}`;
+    }
+
     if (this.dom.container) {
       this.dom.container.id =
         this.dom.container.id || `menu-container-${this.key}`;
@@ -1688,7 +1703,7 @@ class BaseMenu {
 
       if (this.dom.submenuItems.includes(element)) {
         // The menu's toggle controller DOM element.
-        const toggler = element.querySelector(this.selectors.submenuToggles);
+        const toggle = element.querySelector(this.selectors.submenuToggles);
         // The actual menu DOM element.
         const submenu = element.querySelector(this.selectors.submenus);
 
@@ -1700,6 +1715,8 @@ class BaseMenu {
           submenuItemsSelector: this.selectors.submenuItems,
           submenuTogglesSelector: this.selectors.submenuToggles,
           submenusSelector: this.selectors.submenus,
+          controlledElement: toggle,
+          containerElement: element,
           openClass: this.openClass,
           closeClass: this.closeClass,
           transitionClass: this.transitionClass,
@@ -1715,25 +1732,17 @@ class BaseMenu {
           shouldOpen: false,
         });
 
-        // Create the new menu toggle.
-        const toggle = new this._MenuToggleType({
-          menuToggleElement: toggler,
-          parentElement: element,
-          controlledMenu: menu,
-          parentMenu: this,
-        });
-
         // Add the toggle to the list of toggles.
-        this._elements.submenuToggles.push(toggle);
+        this._elements.submenuToggles.push(menu.elements.controller);
 
         // Create a new menu item.
         menuItem = new this._MenuItemType({
           menuItemElement: element,
-          menuLinkElement: toggler,
+          menuLinkElement: toggle,
           parentMenu: this,
           isSubmenuItem: true,
           childMenu: menu,
-          toggle,
+          toggle: menu.elements.controller,
         });
       } else {
         const link = element.querySelector(this.selectors.menuLinks);

@@ -16,11 +16,9 @@ class BaseMenuToggle {
    * @type {Object<HTMLElement>}
    *
    * @property {HTMLElement} toggle - The menu toggle.
-   * @property {HTMLElement} parent - The menu containing this toggle.
    */
   _dom = {
     toggle: null,
-    parent: null,
   };
 
   /**
@@ -90,19 +88,12 @@ class BaseMenuToggle {
    *
    * @param {object}      options                     - The options for generating the menu toggle.
    * @param {HTMLElement} options.menuToggleElement   - The toggle element in the DOM.
-   * @param {HTMLElement} options.parentElement       - The element containing the controlled menu.
    * @param {BaseMenu}    options.controlledMenu      - The menu controlled by this toggle.
    * @param {?BaseMenu}   [options.parentMenu = null] - The menu containing this toggle.
    */
-  constructor({
-    menuToggleElement,
-    parentElement,
-    controlledMenu,
-    parentMenu = null,
-  }) {
+  constructor({ menuToggleElement, controlledMenu, parentMenu = null }) {
     // Set DOM elements.
     this._dom.toggle = menuToggleElement;
-    this._dom.parent = parentElement;
 
     // Set menu elements.
     this._elements.controlledMenu = controlledMenu;
@@ -310,19 +301,19 @@ class BaseMenuToggle {
     // requestAnimationFrame to add the transition class, remove the close class,
     // add the open class, and finally remove the transition class.
     if (transition && transitionClass !== "") {
-      addClass(transitionClass, this.elements.controlledMenu.dom.menu);
+      addClass(transitionClass, this.elements.controlledMenu.dom.controlled);
 
       requestAnimationFrame(() => {
-        removeClass(closeClass, this.elements.controlledMenu.dom.menu);
+        removeClass(closeClass, this.elements.controlledMenu.dom.controlled);
 
         requestAnimationFrame(() => {
-          addClass(openClass, this.elements.controlledMenu.dom.menu);
+          addClass(openClass, this.elements.controlledMenu.dom.controlled);
 
           requestAnimationFrame(() => {
             setTimeout(() => {
               removeClass(
                 transitionClass,
-                this.elements.controlledMenu.dom.menu
+                this.elements.controlledMenu.dom.controlled
               );
             }, openDuration);
           });
@@ -330,10 +321,10 @@ class BaseMenuToggle {
       });
     } else {
       // Add the open class
-      addClass(openClass, this.elements.controlledMenu.dom.menu);
+      addClass(openClass, this.elements.controlledMenu.dom.controlled);
 
       // Remove the close class.
-      removeClass(closeClass, this.elements.controlledMenu.dom.menu);
+      removeClass(closeClass, this.elements.controlledMenu.dom.controlled);
     }
 
     if (emit) {
@@ -370,19 +361,19 @@ class BaseMenuToggle {
     // requestAnimationFrame to add the transition class, remove the open class,
     // add the close class, and finally remove the transition class.
     if (transition && transitionClass !== "") {
-      addClass(transitionClass, this.elements.controlledMenu.dom.menu);
+      addClass(transitionClass, this.elements.controlledMenu.dom.controlled);
 
       requestAnimationFrame(() => {
-        removeClass(openClass, this.elements.controlledMenu.dom.menu);
+        removeClass(openClass, this.elements.controlledMenu.dom.controlled);
 
         requestAnimationFrame(() => {
-          addClass(closeClass, this.elements.controlledMenu.dom.menu);
+          addClass(closeClass, this.elements.controlledMenu.dom.controlled);
 
           requestAnimationFrame(() => {
             setTimeout(() => {
               removeClass(
                 transitionClass,
-                this.elements.controlledMenu.dom.menu
+                this.elements.controlledMenu.dom.controlled
               );
             }, closeDuration);
           });
@@ -390,10 +381,10 @@ class BaseMenuToggle {
       });
     } else {
       // Add the close class
-      addClass(closeClass, this.elements.controlledMenu.dom.menu);
+      addClass(closeClass, this.elements.controlledMenu.dom.controlled);
 
       // Remove the open class.
-      removeClass(openClass, this.elements.controlledMenu.dom.menu);
+      removeClass(openClass, this.elements.controlledMenu.dom.controlled);
     }
 
     if (emit) {
