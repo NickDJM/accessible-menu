@@ -75,4 +75,43 @@ describe("addClass", () => {
 
     expect(() => addClass([{}, "test"], element)).toThrow();
   });
+
+  // Test passing an empty string.
+  it("should do nothing if the class string is empty", () => {
+    const element = {
+      classList: {
+        add: vi.fn(),
+      },
+    };
+
+    addClass("", element);
+
+    expect(element.classList.add).not.toHaveBeenCalledWith();
+  });
+
+  // Test passing an empty array.
+  it("should do nothing if the class array empty", () => {
+    const element = {
+      classList: {
+        add: vi.fn(),
+      },
+    };
+
+    addClass([], element);
+
+    expect(element.classList.add).not.toHaveBeenCalledWith();
+  });
+
+  // Test passing an array of empty strings.
+  it("should do nothing if the class array is all empty strings", () => {
+    const element = {
+      classList: {
+        add: vi.fn(),
+      },
+    };
+
+    addClass(["", ""], element);
+
+    expect(element.classList.add).not.toHaveBeenCalledWith();
+  });
 });

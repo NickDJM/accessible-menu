@@ -84,50 +84,31 @@ BaseMenuToggle._elements;
 The open state of the menu toggle.
 
 ```js
-BaseMenuToggle._open; // Default: `false`.
+BaseMenuToggle._open; // Default: `new TransactionalValue(false)`.
 ```
 
 #### Type {#property--open--type}
 
-`boolean`
+`TransactionalValue<boolean>`
 
-### _expandEvent <badge type="warning" text="protected" /> {#property--expandEvent}
+### _events <badge type="warning" text="protected" /> {#property--events}
 
-The event that is triggered when the menu toggle expands.
+Custom events that can be triggered throughout the menu toggle.
 
 ```js
-BaseMenuToggle._expandEvent;
+BaseMenuToggle._events;
 ```
 
-#### Type {#property--expandEvent--type}
+#### Type {#property--events--type}
 
-`CustomEvent`
+`Object<CustomEvent>`
 
-#### Properties {#property--expandEvent--properties}
+#### Properties {#property--events--properties}
 
 | Name | Type | Description | Default |
 | --- | --- | --- | --- |
-| bubbles | `boolean` | A flag to bubble the event. | `true` |
-| detail | `Object<BaseMenuToggle>` | The details object containing the BaseMenuToggle itself. | `{ toggle: this }` |
-
-### _collapseEvent <badge type="warning" text="protected" /> {#property--collapseEvent}
-
-The event that is triggered when the menu toggle collapses.
-
-```js
-BaseMenuToggle._collapseEvent;
-```
-
-#### Type {#property--collapseEvent--type}
-
-`CustomEvent`
-
-#### Properties {#property--collapseEvent--properties}
-
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| bubbles | `boolean` | A flag to bubble the event. | `true` |
-| detail | `Object<BaseMenuToggle>` | The details object containing the BaseMenuToggle itself. | `{ toggle: this }` |
+| expand | `CustomEvent` | The event that is triggered when the menu toggle expands.
+| collapse | `CustomEvent` | The event that is triggered when the menu toggle collapses. |
 
 ## Getters and Setters
 
@@ -159,7 +140,21 @@ BaseMenuToggle.elements;
 
 See [_elements](#property--elements) for more information.
 
-### isOpen {#getter-setter--isopen}
+### events <badge type="warning" text="readonly" /> {#getter--events}
+
+Custom events that can be triggered throughout the menu toggle.
+
+::: code-group
+
+```js [getter]
+BaseMenuToggle.events;
+```
+
+:::
+
+See [_events](#property--events) for more information.
+
+### isOpen <badge type="warning" text="readonly" /> {#getter--isopen}
 
 The open state of the toggle.
 
@@ -169,8 +164,18 @@ The open state of the toggle.
 BaseMenuToggle.isOpen;
 ```
 
-```js [setter]
-BaseMenuToggle.isOpen = true;
+:::
+
+See [_open](#property--open) for more information.
+
+### hasOpened <badge type="warning" text="readonly" /> {#getter--hasopened}
+
+The open state of the toggle that the user specifically triggered.
+
+::: code-group
+
+```js [getter]
+BaseMenuToggle.hasOpened;
 ```
 
 :::
@@ -206,12 +211,27 @@ The first steps are to ensure that the toggle has `aria-expanded` is initially s
 
 Then using the toggle and menu's IDs, the menu's `aria-labelledby` is set to the toggle's ID.
 
+### _dispatchEvent <badge type="warning" text="protected" /> {#method--dispatchevent}
+
+Dispatch a custom event on an element in the DOM.
+
+```js
+BaseMenuToggle._dispatchEvent(eventType, element);
+```
+
+#### Parameters {#method--dispatchevent--parameters}
+
+| Name | Type | Description | Default |
+| --- | --- | --- | --- |
+| eventType | `string` | The type of event to dispatch. | `undefined` |
+| element | `HTMLElement` | The element to dispatch the event on. | `undefined` |
+
 ### _expand <badge type="warning" text="protected" /> {#method--expand}
 
 Expands the controlled menu.
 
 ```js
-BaseMenuToggle._expand(emit);
+BaseMenuToggle._expand({ emit, transition });
 ```
 
 Sets the toggle's `aria-expanded` to "true", adds the [open class](./base-menu#getter-setter--openclass) to the toggle's parent menu item and controlled menu, and removes the [closed class](./base-menu#getter-setter--closeclass) from the toggle's parent menu item and controlled menu.
@@ -222,14 +242,16 @@ If `emit` is set to `true`, this will also emit a custom event called [accessibl
 
 | Name | Type | Description | Default |
 | --- | --- | --- | --- |
-| emit | `boolean` | A toggle to emit the expand event once expanded. | `true` |
+| options | `object` | The options for expanding the menu. | `{}` |
+| options.emit | `boolean` | A toggle to emit the expand event once expanded. | `true` |
+| options.transition | `boolean` | A flag to use transitions when expanding. | `true` |
 
 ### _collapse <badge type="warning" text="protected" /> {#method--collapse}
 
 Collapses the controlled menu.
 
 ```js
-BaseMenuToggle._collapse(emit);
+BaseMenuToggle._collapse({ emit, transition });
 ```
 
 Sets the toggle's `aria-expanded` to "false", adds the [closed class](./base-menu#getter-setter--closeclass) to the toggle's parent menu item and controlled menu, and removes the [open class](./base-menu#getter-setter--openclass) from the toggle's parent menu item and controlled menu.
@@ -240,58 +262,120 @@ If `emit` is set to `true`, this will also emit a custom event called [accessibl
 
 | Name | Type | Description | Default |
 | --- | --- | --- | --- |
-| emit | `boolean` | A toggle to emit the collapse event once collapsed. | `true` |
+| options | `object` | The options for collapsing the menu. | `{}` |
+| options.emit | `boolean` | A toggle to emit the collapse event once collapsed. | `true` |
+| options.transition | `boolean` | A flag to use transitions when collapsing. | `true` |
 
 ### open <badge type="tip" text="public" /> {#method--open}
 
 Opens the controlled menu.
 
 ```js
-BaseMenuToggle.open();
+BaseMenuToggle.open({ force, preserveState, emit, transition });
 ```
 
-Sets the controlled menu's [focus state](./base-menu#getter-setter--focusstate) to "self" and the parent menu's focus state to "child", calls [_expand](#method--expand), and sets the [isOpen](#getter-setter--isopen) value to `true`.
+Sets the controlled menu's [focus state](./base-menu#getter-setter--focusstate) to "self" and the parent menu's focus state to "child", calls [_expand](#method--expand), and sets the [isOpen](#getter--isopen) value to `true`.
+
+#### Parameters {#method--open--parameters}
+
+| Name | Type | Description | Default |
+| --- | --- | --- | --- |
+| options | `object` | The options for opening the menu. | `{}` |
+| options.force | `boolean` | A flag to force the menu to open. | `false` |
+| options.preserveState | `boolean` | A flag to preserve the current state. | `false` |
+| options.emit | `boolean` | A flag to emit the expand event. | `true` |
+| options.transition | `boolean` | A flag to use transitions when opening. | `true` |
 
 ### preview <badge type="tip" text="public" /> {#method--preview}
 
 Opens the controlled menu without the current focus entering it.
 
 ```js
-BaseMenuToggle.preview();
+BaseMenuToggle.preview({ force, preserveState, emit, transition });
 ```
 
 Sets the controlled menu's [focus state](./base-menu#getter-setter--focusstate) to "self" and the parent menu's focus state to "child", and calls [_expand](#method--expand).
+
+#### Parameters {#method--preview--parameters}
+
+| Name | Type | Description | Default |
+| --- | --- | --- | --- |
+| options | `object` | The options for previewing the menu. | `{}` |
+| options.force | `boolean` | A flag to force the menu to preview. | `false` |
+| options.preserveState | `boolean` | A flag to preserve the current state. | `false` |
+| options.emit | `boolean` | A flag to emit the expand event. | `true` |
+| options.transition | `boolean` | A flag to use transitions when previewing. | `true` |
 
 ### close <badge type="tip" text="public" /> {#method--close}
 
 Closes the controlled menu.
 
 ```js
-BaseMenuToggle.close();
+BaseMenuToggle.close({ force, preserveState, emit, transition });
 ```
 
-Sets the controlled menu's [focus state](./base-menu#getter-setter--focusstate) to "none" and the parent menu's focus state to "self", blurs the controlled menu and sets it's [currentChild](./base-menu#getter-setter--currentchild) to 0, calls [_collapse](#method--collapse), and sets the [isOpen](#getter-setter--isopen) value to `false`.
+Sets the controlled menu's [focus state](./base-menu#getter-setter--focusstate) to "none" and the parent menu's focus state to "self", blurs the controlled menu and sets it's [currentChild](./base-menu#getter-setter--currentchild) to 0, calls [_collapse](#method--collapse), and sets the [isOpen](#getter--isopen) value to `false`.
+
+#### Parameters {#method--close--parameters}
+
+| Name | Type | Description | Default |
+| --- | --- | --- | --- |
+| options | `object` | The options for closing the menu. | `{}` |
+| options.force | `boolean` | A flag to force the menu to close. | `false` |
+| options.preserveState | `boolean` | A flag to preserve the current state. | `false` |
+| options.emit | `boolean` | A flag to emit the collapse event. | `true` |
+| options.transition | `boolean` | A flag to use transitions when closing. | `true` |
 
 ### toggle <badge type="tip" text="public" /> {#method--toggle}
 
 Toggles the open state of the controlled menu between `true` and `false`.
 
 ```js
-BaseMenuToggle.toggle();
+BaseMenuToggle.toggle({ force, preserveState, emit, transition });
 ```
+
+#### Parameters {#method--toggle--parameters}
+
+| Name | Type | Description | Default |
+| --- | --- | --- | --- |
+| options | `object` | The options for toggling the menu. | `{}` |
+| options.force | `boolean` | A flag to force the menu to open/close. | `false` |
+| options.preserveState | `boolean` | A flag to preserve the current state. | `false` |
+| options.emit | `boolean` | A flag to emit the expand/collapse event. | `true` |
+| options.transition | `boolean` | A flag to use transitions when toggling. | `true` |
 
 ### closeSiblings <badge type="tip" text="public" /> {#method--closesiblings}
 
 Closes all sibling menus.
 
 ```js
-BaseMenuToggle.closeSiblings();
+BaseMenuToggle.closeSiblings({ force, preserveState, emit, transition });
 ```
+
+#### Parameters {#method--closesiblings--parameters}
+
+| Name | Type | Description | Default |
+| --- | --- | --- | --- |
+| options | `object` | The options for closing the sibling menus. | `{}` |
+| options.force | `boolean` | A flag to force the menus to close. | `false` |
+| options.preserveState | `boolean` | A flag to preserve the current state. | `false` |
+| options.emit | `boolean` | A flag to emit the collapse event. | `true` |
+| options.transition | `boolean` | A flag to use transitions when closing. | `true` |
 
 ### closeChildren <badge type="tip" text="public" /> {#method--closechildren}
 
 Closes all child menus.
 
 ```js
-BaseMenuToggle.closeChildren();
+BaseMenuToggle.closeChildren({ force, preserveState, emit, transition });
 ```
+
+#### Parameters {#method--closechildren--parameters}
+
+| Name | Type | Description | Default |
+| --- | --- | --- | --- |
+| options | `object` | The options for closing the child menus. | `{}` |
+| options.force | `boolean` | A flag to force the menus to close. | `false` |
+| options.preserveState | `boolean` | A flag to preserve the current state. | `false` |
+| options.emit | `boolean` | A flag to emit the collapse event. | `true` |
+| options.transition | `boolean` | A flag to use transitions when closing. | `true` |

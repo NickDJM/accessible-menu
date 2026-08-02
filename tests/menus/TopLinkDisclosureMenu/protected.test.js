@@ -47,4 +47,52 @@ describe("TopLinkDisclosureMenu protected methods", () => {
       );
     });
   });
+
+  // Test TopLinkDisclosureMenu _addEventListner().
+  describe("_addEventListner", () => {
+    // Test that TopLinkDisclosureMenu implements the BaseMenu _addEventListner() method.
+    it("should implement the BaseMenu _addEventListner() method", () => {
+      expect(TopLinkDisclosureMenu.prototype._addEventListner).toBe(
+        BaseMenu.prototype._addEventListner
+      );
+    });
+  });
+
+  // Test TopLinkDisclosureMenu _removeEventListner().
+  describe("_removeEventListner", () => {
+    // Test that TopLinkDisclosureMenu implements the BaseMenu _removeEventListner() method.
+    it("should implement the BaseMenu _removeEventListner() method", () => {
+      expect(TopLinkDisclosureMenu.prototype._removeEventListner).toBe(
+        BaseMenu.prototype._removeEventListner
+      );
+    });
+  });
+
+  // Test TopLinkDisclosureMenu _removeEventListners().
+  describe("_removeEventListners", () => {
+    // Test that TopLinkDisclosureMenu implements the BaseMenu _removeEventListners() method.
+    it("should implement the BaseMenu _removeEventListners() method", () => {
+      expect(TopLinkDisclosureMenu.prototype._removeEventListners).toBe(
+        BaseMenu.prototype._removeEventListners
+      );
+    });
+  });
+
+  describe("_store", () => {
+    // Test that TopLinkDisclosureMenu implements the BaseMenu _store() method.
+    it("should implement the BaseMenu _store() method", () => {
+      expect(TopLinkDisclosureMenu.prototype._store).toBe(
+        BaseMenu.prototype._store
+      );
+    });
+  });
+
+  describe("_unstore", () => {
+    // Test that TopLinkDisclosureMenu implements the BaseMenu _unstore() method.
+    it("should implement the BaseMenu _unstore() method", () => {
+      expect(TopLinkDisclosureMenu.prototype._unstore).toBe(
+        BaseMenu.prototype._unstore
+      );
+    });
+  });
 });

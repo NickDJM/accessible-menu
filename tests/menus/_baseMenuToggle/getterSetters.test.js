@@ -107,11 +107,11 @@ describe("BaseMenuToggle getter/setters", () => {
 
       const menuToggle = menu.elements.submenuToggles[0];
 
-      expect(menuToggle.isOpen).toBe(menuToggle._open);
+      expect(menuToggle.isOpen).toBe(menuToggle._open.value);
     });
 
-    // Test that isOpen sets the open state.
-    it("should set the open state", () => {
+    // Test that isOpen cannot be set manually.
+    it("should not be able to set the open state", () => {
       // Create a new BaseMenu instance for testing.
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
@@ -122,9 +122,44 @@ describe("BaseMenuToggle getter/setters", () => {
 
       const menuToggle = menu.elements.submenuToggles[0];
 
-      menuToggle.isOpen = true;
+      expect(() => {
+        menuToggle.isOpen = true;
+      }).toThrow();
+    });
+  });
 
-      expect(menuToggle._open).toBe(true);
+  // Test BaseMenuToggle hasOpened.
+  describe("hasOpened", () => {
+    // Test that hasOpened gets the committed open state.
+    it("should get the committed open state", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+
+      const menuToggle = menu.elements.submenuToggles[0];
+
+      expect(menuToggle.hasOpened).toBe(menuToggle._open.committed);
+    });
+
+    // Test that hasOpened cannot be set manually.
+    it("should not be able to set hasOpened", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+
+      const menuToggle = menu.elements.submenuToggles[0];
+
+      expect(() => {
+        menuToggle.hasOpened = true;
+      }).toThrow();
     });
   });
 });

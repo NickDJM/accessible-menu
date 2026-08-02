@@ -18,6 +18,15 @@ afterEach(() => {
 
 // Test TreeviewToggle protected methods.
 describe("TreeviewToggle protected methods", () => {
+  describe("_dispatchEvent", () => {
+    // Test that TreeviewToggle implements the BaseMenuToggle _dispatchEvent.
+    it("should implement the BaseMenuToggle _dispatchEvent", () => {
+      expect(TreeviewToggle.prototype._dispatchEvent).toBe(
+        BaseMenuToggle.prototype._dispatchEvent
+      );
+    });
+  });
+
   // Test TreeviewToggle _expand().
   describe("_expand", () => {
     // Test that TreeviewToggle implements the BaseMenuToggle _expand.

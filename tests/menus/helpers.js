@@ -6,7 +6,7 @@
 /* global BaseMenu PropertyDescriptor */
 /* eslint-disable jsdoc/reject-any-type */
 
-import { expect } from "vitest";
+import { expect, vi } from "vitest";
 
 /**
  * Extends jsdom MouseEvent class as PointerEvent class
@@ -46,6 +46,7 @@ export function initializeMenu(menu) {
     menu.elements.controller.initialize();
   }
 
+  menu._handleMediaMatch();
   menu._handleFocus();
   menu._handleClick();
   menu._handleHover();
@@ -158,4 +159,32 @@ export function expectInheritedSetter(derivative, base, prop) {
   const derivativeDescriptor = getDescriptor(derivative, prop);
 
   return expect(derivativeDescriptor.set).toBe(baseDescriptor.set);
+}
+
+/**
+ * Creates a matchMedia mock with event listener tracking.
+ *
+ * @param  {boolean} [matches = false] - The initial match state.
+ * @return {{matchMedia: Function, mql: object, listeners: Set<Function>}} - Mock setup.
+ */
+export function setupMatchMedia(matches = false) {
+  const listeners = new Set();
+  const mql = {
+    matches,
+    media: "",
+    addEventListener: vi.fn((type, listener) => {
+      if (type === "change") {
+        listeners.add(listener);
+      }
+    }),
+    removeEventListener: vi.fn((type, listener) => {
+      listeners.delete(listener);
+    }),
+  };
+  const matchMedia = vi.fn((query) => {
+    mql.media = query;
+    return mql;
+  });
+
+  return { matchMedia, mql, listeners };
 }

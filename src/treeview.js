@@ -53,36 +53,39 @@ class Treeview extends BaseMenu {
   /**
    * Constructs a new `Treeview`.
    *
-   * @param {object}             options                                    - The options for generating the menu.
-   * @param {HTMLElement}        options.menuElement                        - The menu element in the DOM.
-   * @param {string}             [options.menuItemSelector = li]            - The query selector string for menu items.
-   * @param {string}             [options.menuLinkSelector = a]             - The query selector string for menu links.
-   * @param {string}             [options.submenuItemSelector = li:has(ul)] - The query selector string for menu items containing submenus.
-   * @param {string}             [options.submenuToggleSelector = a]        - The query selector string for submenu toggle buttons/links.
-   * @param {string}             [options.submenuSelector = ul]             - The query selector string for submenus.
-   * @param {?HTMLElement}       [options.controllerElement = null]         - The element controlling the menu in the DOM.
-   * @param {?HTMLElement}       [options.containerElement = null]          - The element containing the menu in the DOM.
-   * @param {?(string|string[])} [options.openClass = show]                 - The class to apply when a menu is "open".
-   * @param {?(string|string[])} [options.closeClass = hide]                - The class to apply when a menu is "closed".
-   * @param {?(string|string[])} [options.transitionClass = transitioning]  - The class to apply when a menu is transitioning between "open" and "closed" states.
-   * @param {number}             [options.transitionDuration = 250]         - The duration of the transition between "open" and "closed" states (in milliseconds).
-   * @param {boolean}            [options.isTopLevel = true]                - A flag to mark the root menu.
-   * @param {?Treeview}          [options.parentMenu = null]                - The parent menu to this menu.
-   * @param {string}             [options.hoverType = off]                  - The type of hoverability a menu has.
-   * @param {number}             [options.hoverDelay = 250]                 - The delay for opening and closing menus if the menu is hoverable (in milliseconds).
-   * @param {number}             [options.enterDelay = -1]                  - The delay for opening a menu if the menu is focusable (in milliseconds).
-   * @param {number}             [options.leaveDelay = -1]                  - The delay for closing a menu if the menu is focusable (in milliseconds).
-   * @param {?string}            [options.prefix = am-]                     - The prefix to use for CSS custom properties.
-   * @param {?string}            [options.key = null]                       - The key used to generate IDs throughout the menu.
-   * @param {boolean}            [options.initialize = true]                - A flag to initialize the menu immediately upon creation.
+   * @param {object}             options                                     - The options for generating the menu.
+   * @param {HTMLElement}        options.menuElement                         - The menu element in the DOM.
+   * @param {string}             [options.menuItemsSelector = li]            - The query selector string for menu items.
+   * @param {string}             [options.menuLinksSelector = a]             - The query selector string for menu links.
+   * @param {string}             [options.submenuItemsSelector = li:has(ul)] - The query selector string for menu items containing submenus.
+   * @param {string}             [options.submenuTogglesSelector = a]        - The query selector string for submenu toggle buttons/links.
+   * @param {string}             [options.submenusSelector = ul]             - The query selector string for submenus.
+   * @param {?HTMLElement}       [options.controllerElement = null]          - The element controlling the menu in the DOM.
+   * @param {?HTMLElement}       [options.containerElement = null]           - The element containing the menu in the DOM.
+   * @param {?(string|string[])} [options.openClass = show]                  - The class to apply when a menu is "open".
+   * @param {?(string|string[])} [options.closeClass = hide]                 - The class to apply when a menu is "closed".
+   * @param {?(string|string[])} [options.transitionClass = transitioning]   - The class to apply when a menu is transitioning between "open" and "closed" states.
+   * @param {number}             [options.transitionDuration = 250]          - The duration of the transition between "open" and "closed" states (in milliseconds).
+   * @param {boolean}            [options.isTopLevel = true]                 - A flag to mark the root menu.
+   * @param {?Treeview}          [options.parentMenu = null]                 - The parent menu to this menu.
+   * @param {string}             [options.hoverType = off]                   - The type of hoverability a menu has.
+   * @param {number}             [options.hoverDelay = 250]                  - The delay for opening and closing menus if the menu is hoverable (in milliseconds).
+   * @param {number}             [options.enterDelay = -1]                   - The delay for opening a menu if the menu is focusable (in milliseconds).
+   * @param {number}             [options.leaveDelay = -1]                   - The delay for closing a menu if the menu is focusable (in milliseconds).
+   * @param {string}             [options.breakpoint = '']                   - The breakpoint that the menu will automatically open/close itself at.
+   * @param {string}             [options.mediaQuery = '']                   - The media query to use to trigger media query list events.
+   * @param {boolean}            [options.autoOpen = true]                   - A flag to auto open the menu when the media query does not match.
+   * @param {?string}            [options.prefix = am-]                      - The prefix to use for CSS custom properties.
+   * @param {?string}            [options.key = null]                        - The key used to generate IDs throughout the menu.
+   * @param {boolean}            [options.initialize = true]                 - A flag to initialize the menu immediately upon creation.
    */
   constructor({
     menuElement,
-    menuItemSelector = "li",
-    menuLinkSelector = "a",
-    submenuItemSelector = "li:has(ul)",
-    submenuToggleSelector = "a",
-    submenuSelector = "ul",
+    menuItemsSelector = "li",
+    menuLinksSelector = "a",
+    submenuItemsSelector = "li:has(ul)",
+    submenuTogglesSelector = "a",
+    submenusSelector = "ul",
     controllerElement = null,
     containerElement = null,
     openClass = "show",
@@ -95,17 +98,20 @@ class Treeview extends BaseMenu {
     hoverDelay = 250,
     enterDelay = -1,
     leaveDelay = -1,
+    breakpoint = "",
+    mediaQuery = "",
+    autoOpen = true,
     prefix = "am-",
     key = null,
     initialize = true,
   }) {
     super({
       menuElement,
-      menuItemSelector,
-      menuLinkSelector,
-      submenuItemSelector,
-      submenuToggleSelector,
-      submenuSelector,
+      menuItemsSelector,
+      menuLinksSelector,
+      submenuItemsSelector,
+      submenuTogglesSelector,
+      submenusSelector,
       controllerElement,
       containerElement,
       openClass,
@@ -118,6 +124,9 @@ class Treeview extends BaseMenu {
       hoverDelay,
       enterDelay,
       leaveDelay,
+      breakpoint,
+      mediaQuery,
+      autoOpen,
       prefix,
       key,
     });
@@ -156,6 +165,7 @@ class Treeview extends BaseMenu {
         this.dom.menu.setAttribute("role", "group");
       }
 
+      this._handleMediaMatch();
       this._handleFocus();
       this._handleClick();
       this._handleHover();
@@ -213,7 +223,7 @@ class Treeview extends BaseMenu {
    */
   _handleHover() {
     this.elements.menuItems.forEach((menuItem, index) => {
-      menuItem.dom.link.addEventListener("pointerenter", (event) => {
+      this._addEventListener("pointerenter", menuItem.dom.link, (event) => {
         // Exit out of the event if it was not made by a mouse.
         if (event.pointerType === "pen" || event.pointerType === "touch") {
           return;
@@ -267,7 +277,7 @@ class Treeview extends BaseMenu {
       });
 
       if (menuItem.isSubmenuItem) {
-        menuItem.dom.item.addEventListener("pointerleave", (event) => {
+        this._addEventListener("pointerleave", menuItem.dom.item, (event) => {
           // Exit out of the event if it was not made by a mouse.
           if (event.pointerType === "pen" || event.pointerType === "touch") {
             return;
@@ -291,7 +301,7 @@ class Treeview extends BaseMenu {
 
         // Clear hover timeouts any time the mouse enters an item with a submenu. This prevents the
         // menu from closing if the mouse leaves but then re-enters before leaveDelay has elapsed.
-        menuItem.dom.item.addEventListener("pointerenter", (event) => {
+        this._addEventListener("pointerenter", menuItem.dom.item, (event) => {
           // Exit out of the event if it was not made by a mouse.
           if (event.pointerType === "pen" || event.pointerType === "touch") {
             return;
@@ -307,7 +317,7 @@ class Treeview extends BaseMenu {
       }
 
       if (this.isTopLevel) {
-        this.dom.menu.addEventListener("pointerleave", (event) => {
+        this._addEventListener("pointerleave", this.dom.menu, (event) => {
           // Exit out of the event if it was not made by a mouse.
           if (event.pointerType === "pen" || event.pointerType === "touch") {
             return;
@@ -346,7 +356,7 @@ class Treeview extends BaseMenu {
   _handleKeydown() {
     super._handleKeydown();
 
-    this.dom.menu.addEventListener("keydown", (event) => {
+    this._addEventListener("keydown", this.dom.menu, (event) => {
       this.currentEvent = "keyboard";
 
       const key = keyPress(event);
@@ -415,7 +425,7 @@ class Treeview extends BaseMenu {
   _handleKeyup() {
     super._handleKeyup();
 
-    this.dom.menu.addEventListener("keyup", (event) => {
+    this._addEventListener("keyup", this.dom.menu, (event) => {
       this.currentEvent = "keyboard";
 
       const key = keyPress(event);

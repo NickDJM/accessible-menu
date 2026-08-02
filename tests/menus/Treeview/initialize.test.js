@@ -17,6 +17,9 @@ import {
 } from "vitest";
 import { singleLevel, twoLevel } from "../../../demo/menus.js";
 import Treeview from "../../../src/treeview.js";
+import { setupMatchMedia } from "../helpers.js";
+
+let originalMatchMedia;
 
 beforeAll(() => {
   // Mock the console.error method.
@@ -33,11 +36,13 @@ afterAll(() => {
 beforeEach(() => {
   // Create the test menu.
   document.body.innerHTML = twoLevel;
+  originalMatchMedia = window.matchMedia;
 });
 
 afterEach(() => {
   // Remove the test menu.
   document.body.innerHTML = "";
+  window.matchMedia = originalMatchMedia;
 });
 
 // Test the Treeview initialization.
@@ -205,134 +210,202 @@ describe("Treeview (controlled)", () => {
   });
 });
 
+// Test the Treeview media query handling.
+describe("Treeview (media queries)", () => {
+  it("should not call matchMedia when no breakpoint or mediaQuery is set", () => {
+    const matchMedia = vi.fn();
+    window.matchMedia = matchMedia;
+
+    new Treeview({
+      menuElement: document.querySelector("ul"),
+      initialize: true,
+    });
+
+    expect(matchMedia).not.toHaveBeenCalled();
+  });
+
+  it("should auto open when the breakpoint media query does not match", () => {
+    const { matchMedia } = setupMatchMedia(false);
+    window.matchMedia = matchMedia;
+
+    const menu = new Treeview({
+      menuElement: document.querySelector("ul"),
+      containerElement: document.querySelector("nav"),
+      controllerElement: document.querySelector("button"),
+      breakpoint: "40em",
+      initialize: true,
+    });
+
+    expect(matchMedia).toHaveBeenCalledWith("(width <= 40em)");
+    expect(menu.elements.controller.isOpen).toBe(true);
+  });
+
+  it("should not auto open when autoOpen is false", () => {
+    const { matchMedia } = setupMatchMedia(false);
+    window.matchMedia = matchMedia;
+
+    const menu = new Treeview({
+      menuElement: document.querySelector("ul"),
+      containerElement: document.querySelector("nav"),
+      controllerElement: document.querySelector("button"),
+      breakpoint: "40em",
+      autoOpen: false,
+      initialize: true,
+    });
+
+    expect(matchMedia).toHaveBeenCalledWith("(width <= 40em)");
+    expect(menu.elements.controller.isOpen).toBe(false);
+  });
+
+  it("should close when the media query matches and the menu is open", () => {
+    const { matchMedia, mql, listeners } = setupMatchMedia(false);
+    window.matchMedia = matchMedia;
+
+    const menu = new Treeview({
+      menuElement: document.querySelector("ul"),
+      containerElement: document.querySelector("nav"),
+      controllerElement: document.querySelector("button"),
+      mediaQuery: "(width <= 40em)",
+      initialize: true,
+    });
+
+    expect(menu.elements.controller.isOpen).toBe(true);
+
+    mql.matches = true;
+    listeners.forEach((listener) => listener(mql));
+
+    expect(menu.elements.controller.isOpen).toBe(false);
+  });
+});
+
 // Test the Treeview initialization with custom arguments.
 describe("Treeview (custom arguments)", () => {
-  // Test that the Treeview will initialize if a valid menuItemSelector is passed.
-  it("should initialize with a valid menuItemSelector", () => {
+  // Test that the Treeview will initialize if a valid menuItemsSelector is passed.
+  it("should initialize with a valid menuItemsSelector", () => {
     // Test that the menu initializes.
     expect(() => {
       // Create the Treeview instance for testing.
       new Treeview({
         menuElement: document.querySelector("ul"),
-        menuItemSelector: ".menu-item",
+        menuItemsSelector: ".menu-item",
       });
     }).not.toThrow();
   });
 
-  // Test that the Treeview will throw an error if an invalid menuItemSelector is passed.
-  it("should throw an error if an invalid menuItemSelector is passed", () => {
+  // Test that the Treeview will throw an error if an invalid menuItemsSelector is passed.
+  it("should throw an error if an invalid menuItemsSelector is passed", () => {
     // Test that the menu throws an error.
     expect(() => {
       // Create the Treeview instance for testing.
       new Treeview({
         menuElement: document.querySelector("ul"),
-        menuItemSelector: 1,
+        menuItemsSelector: 1,
       });
-    }).toThrow('menuItemSelector must be a valid query selector. "1" given.');
+    }).toThrow('menuItemsSelector must be a valid query selector. "1" given.');
   });
 
-  // Test that the Treeview will initialize if a valid menuLinkSelector is passed.
-  it("should initialize with a valid menuLinkSelector", () => {
+  // Test that the Treeview will initialize if a valid menuLinksSelector is passed.
+  it("should initialize with a valid menuLinksSelector", () => {
     // Test that the menu initializes.
     expect(() => {
       // Create the Treeview instance for testing.
       new Treeview({
         menuElement: document.querySelector("ul"),
-        menuLinkSelector: ".menu-link",
+        menuLinksSelector: ".menu-link",
       });
     }).not.toThrow();
   });
 
-  // Test that the Treeview will throw an error if an invalid menuLinkSelector is passed.
-  it("should throw an error if an invalid menuLinkSelector is passed", () => {
+  // Test that the Treeview will throw an error if an invalid menuLinksSelector is passed.
+  it("should throw an error if an invalid menuLinksSelector is passed", () => {
     // Test that the menu throws an error.
     expect(() => {
       // Create the Treeview instance for testing.
       new Treeview({
         menuElement: document.querySelector("ul"),
-        menuLinkSelector: 1,
+        menuLinksSelector: 1,
       });
-    }).toThrow('menuLinkSelector must be a valid query selector. "1" given.');
+    }).toThrow('menuLinksSelector must be a valid query selector. "1" given.');
   });
 
-  // Test that the Treeview will initialize if a valid submenuItemSelector is passed.
-  it("should initialize with a valid submenuItemSelector", () => {
+  // Test that the Treeview will initialize if a valid submenuItemsSelector is passed.
+  it("should initialize with a valid submenuItemsSelector", () => {
     // Test that the menu initializes.
     expect(() => {
       // Create the Treeview instance for testing.
       new Treeview({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: ".menu-item.dropdown",
+        submenuItemsSelector: ".menu-item.dropdown",
       });
     }).not.toThrow();
   });
 
-  // Test that the Treeview will throw an error if an invalid submenuItemSelector is passed.
-  it("should throw an error if an invalid submenuItemSelector is passed", () => {
+  // Test that the Treeview will throw an error if an invalid submenuItemsSelector is passed.
+  it("should throw an error if an invalid submenuItemsSelector is passed", () => {
     // Test that the menu throws an error.
     expect(() => {
       // Create the Treeview instance for testing.
       new Treeview({
         menuElement: document.querySelector("ul"),
-        submenuItemSelector: 1,
+        submenuItemsSelector: 1,
       });
     }).toThrow(
-      'submenuItemSelector must be a valid query selector. "1" given.'
+      'submenuItemsSelector must be a valid query selector. "1" given.'
     );
   });
 
-  // Test that the Treeview will initialize if a valid submenuToggleSelector is passed when the submenuItemSelector is also passed.
-  it("should initialize with a valid submenuToggleSelector and submenuItemSelector", () => {
+  // Test that the Treeview will initialize if a valid submenuTogglesSelector is passed when the submenuItemsSelector is also passed.
+  it("should initialize with a valid submenuTogglesSelector and submenuItemsSelector", () => {
     // Test that the menu initializes.
     expect(() => {
       // Create the Treeview instance for testing.
       new Treeview({
         menuElement: document.querySelector("ul"),
-        submenuToggleSelector: ".dropdown-toggle",
-        submenuItemSelector: ".menu-item.dropdown",
+        submenuTogglesSelector: ".dropdown-toggle",
+        submenuItemsSelector: ".menu-item.dropdown",
       });
     }).not.toThrow();
   });
 
-  // Test that the Treeview will throw an error if an invalid submenuToggleSelector is passed when the submenuItemSelector is also passed.
-  it("should throw an error if an invalid submenuToggleSelector and submenuItemSelector", () => {
+  // Test that the Treeview will throw an error if an invalid submenuTogglesSelector is passed when the submenuItemsSelector is also passed.
+  it("should throw an error if an invalid submenuTogglesSelector and submenuItemsSelector", () => {
     // Test that the menu throws an error.
     expect(() => {
       // Create the Treeview instance for testing.
       new Treeview({
         menuElement: document.querySelector("ul"),
-        submenuToggleSelector: 1,
-        submenuItemSelector: ".menu-item.dropdown",
+        submenuTogglesSelector: 1,
+        submenuItemsSelector: ".menu-item.dropdown",
       });
     }).toThrow(
-      'submenuToggleSelector must be a valid query selector. "1" given.'
+      'submenuTogglesSelector must be a valid query selector. "1" given.'
     );
   });
 
-  // Test that the Treeview will initialize if a valid submenuSelector is passed when the submenuItemSelector is also passed.
-  it("should initialize with a valid submenuSelector and submenuItemSelector", () => {
+  // Test that the Treeview will initialize if a valid submenusSelector is passed when the submenuItemsSelector is also passed.
+  it("should initialize with a valid submenusSelector and submenuItemsSelector", () => {
     // Test that the menu initializes.
     expect(() => {
       // Create the Treeview instance for testing.
       new Treeview({
         menuElement: document.querySelector("ul"),
-        submenuSelector: ".dropdown-menu",
-        submenuItemSelector: ".menu-item.dropdown",
+        submenusSelector: ".dropdown-menu",
+        submenuItemsSelector: ".menu-item.dropdown",
       });
     }).not.toThrow();
   });
 
-  // Test that the Treeview will throw an error if an invalid submenuSelector is passed when the submenuItemSelector is also passed.
-  it("should throw an error if an invalid submenuSelector and submenuItemSelector", () => {
+  // Test that the Treeview will throw an error if an invalid submenusSelector is passed when the submenuItemsSelector is also passed.
+  it("should throw an error if an invalid submenusSelector and submenuItemsSelector", () => {
     // Test that the menu throws an error.
     expect(() => {
       // Create the Treeview instance for testing.
       new Treeview({
         menuElement: document.querySelector("ul"),
-        submenuSelector: 1,
-        submenuItemSelector: ".menu-item.dropdown",
+        submenusSelector: 1,
+        submenuItemsSelector: ".menu-item.dropdown",
       });
-    }).toThrow('submenuSelector must be a valid query selector. "1" given.');
+    }).toThrow('submenusSelector must be a valid query selector. "1" given.');
   });
 
   // Class list tests.
@@ -589,7 +662,7 @@ describe("Treeview (custom arguments)", () => {
         menuElement: document.querySelector("ul"),
         prefix: 1,
       });
-    }).toThrow('prefix must be a string. "number" given.');
+    }).toThrow('TypeError: prefix must be a string. "number" given.');
   });
 
   // Test that the Treeview will initialize if a valid key is passed.
@@ -613,7 +686,7 @@ describe("Treeview (custom arguments)", () => {
         menuElement: document.querySelector("ul"),
         key: 1,
       });
-    }).toThrow('key must be a string. "number" given.');
+    }).toThrow('TypeError: key must be a string. "number" given.');
   });
 });
 

@@ -47,7 +47,7 @@ describe("BaseMenu (multi-level)", () => {
   // Create a new BaseMenu instance for testing.
   const menu = new BaseMenu({
     menuElement: document.querySelector("ul"),
-    submenuItemSelector: ".dropdown",
+    submenuItemsSelector: ".dropdown",
   });
   initializeMenu(menu);
 

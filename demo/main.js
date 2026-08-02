@@ -53,19 +53,27 @@ const options = {
   openDuration: -1,
   closeDuration: -1,
   optionalKeySupport: true,
+  breakpoint: "",
+  autoOpen: true,
 };
 const container = document.querySelector("header");
 
 let type = "native";
 let structure = "one";
+let currentMenu = null;
 
 /**
  * Generates an accessible-menu.
  */
 function generateMenu() {
   // Remove the last menu from the stack.
+  if (currentMenu) {
+    currentMenu.dispose();
+    currentMenu = null;
+  }
+
   if (window.AccessibleMenu) {
-    window.AccessibleMenu.menus = {};
+    window.AccessibleMenu.clear({ type: "menus" });
   }
 
   // Get the menu class and structure.
@@ -89,7 +97,7 @@ function generateMenu() {
     return;
   }
 
-  new MenuClass({
+  currentMenu = new MenuClass({
     menuElement: nav.querySelector("ul"),
     containerElement: nav,
     controllerElement: nav.querySelector("button"),
@@ -220,6 +228,29 @@ const closeDuration = document.querySelector("#closeDuration");
 closeDuration.addEventListener("change", () => {
   options.closeDuration = Number(closeDuration.value);
   generateMenu();
+});
+
+// Set up the breakpoint input.
+const breakpoint = document.querySelector("#breakpoint");
+
+breakpoint.addEventListener("input", () => {
+  options.breakpoint = breakpoint.value.trim();
+  generateMenu();
+});
+
+// Set up the auto open buttons.
+const autoOpenButtons = document.querySelectorAll("#autoOpenButtons button");
+
+autoOpenButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    options.autoOpen = button.dataset.autoOpen === "true";
+    generateMenu();
+
+    autoOpenButtons.forEach((button) => {
+      button.classList.remove("active");
+    });
+    button.classList.add("active");
+  });
 });
 
 // Set up the theme switcher.

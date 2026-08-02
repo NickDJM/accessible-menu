@@ -82,6 +82,69 @@ describe("TopLinkDisclosureMenu getter/setters", () => {
     });
   });
 
+  // Test TopLinkDisclosureMenu classes.
+  describe("classes", () => {
+    // Test that TopLinkDisclosureMenu implements the BaseMenu classes getter.
+    it("should implement the BaseMenu classes getter", () => {
+      expectInheritedGetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "classes"
+      );
+    });
+
+    // Test that TopLinkDisclosureMenu implements the BaseMenu classes setter.
+    it("should implement the BaseMenu classes setter", () => {
+      expectInheritedSetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "classes"
+      );
+    });
+  });
+
+  // Test TopLinkDisclosureMenu durations.
+  describe("durations", () => {
+    // Test that TopLinkDisclosureMenu implements the BaseMenu durations getter.
+    it("should implement the BaseMenu durations getter", () => {
+      expectInheritedGetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "durations"
+      );
+    });
+
+    // Test that TopLinkDisclosureMenu implements the BaseMenu durations setter.
+    it("should implement the BaseMenu durations setter", () => {
+      expectInheritedSetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "durations"
+      );
+    });
+  });
+
+  // Test TopLinkDisclosureMenu listeners.
+  describe("listeners", () => {
+    // Test that TopLinkDisclosureMenu implements the BaseMenu listeners getter.
+    it("should implement the BaseMenu listeners getter", () => {
+      expectInheritedGetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "listeners"
+      );
+    });
+
+    // Test that TopLinkDisclosureMenu implements the BaseMenu listeners setter.
+    it("should implement the BaseMenu listeners setter", () => {
+      expectInheritedSetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "listeners"
+      );
+    });
+  });
+
   // Test TopLinkDisclosureMenu isTopLevel.
   describe("isTopLevel", () => {
     // Test that TopLinkDisclosureMenu implements the BaseMenu isTopLevel getter.
@@ -99,6 +162,69 @@ describe("TopLinkDisclosureMenu getter/setters", () => {
         TopLinkDisclosureMenu.prototype,
         BaseMenu.prototype,
         "isTopLevel"
+      );
+    });
+  });
+
+  // Test TopLinkDisclosureMenu shouldOpen.
+  describe("shouldOpen", () => {
+    // Test that TopLinkDisclosureMenu implements the BaseMenu shouldOpen getter.
+    it("should implement the BaseMenu shouldOpen getter", () => {
+      expectInheritedGetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "shouldOpen"
+      );
+    });
+
+    // Test that TopLinkDisclosureMenu implements the BaseMenu shouldOpen setter.
+    it("should implement the BaseMenu shouldOpen setter", () => {
+      expectInheritedSetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "shouldOpen"
+      );
+    });
+  });
+
+  // Test TopLinkDisclosureMenu breakpoint.
+  describe("breakpoint", () => {
+    // Test that TopLinkDisclosureMenu implements the BaseMenu breakpoint getter.
+    it("should implement the BaseMenu breakpoint getter", () => {
+      expectInheritedGetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "breakpoint"
+      );
+    });
+
+    // Test that TopLinkDisclosureMenu implements the BaseMenu breakpoint setter.
+    it("should implement the BaseMenu breakpoint setter", () => {
+      expectInheritedSetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "breakpoint"
+      );
+    });
+  });
+
+  // Test TopLinkDisclosureMenu mediaQuery.
+  describe("mediaQuery", () => {
+    // Test that TopLinkDisclosureMenu implements the BaseMenu mediaQuery getter.
+    it("should implement the BaseMenu mediaQuery getter", () => {
+      expectInheritedGetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "mediaQuery"
+      );
+    });
+
+    // Test that TopLinkDisclosureMenu implements the BaseMenu mediaQuery setter.
+    it("should implement the BaseMenu mediaQuery setter", () => {
+      expectInheritedSetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "mediaQuery"
       );
     });
   });
@@ -435,6 +561,27 @@ describe("TopLinkDisclosureMenu getter/setters", () => {
         TopLinkDisclosureMenu.prototype,
         BaseMenu.prototype,
         "key"
+      );
+    });
+  });
+
+  // Test TopLinkDisclosureMenu id.
+  describe("id", () => {
+    // Test that TopLinkDisclosureMenu implements the BaseMenu id getter.
+    it("should implement the BaseMenu id getter", () => {
+      expectInheritedGetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "id"
+      );
+    });
+
+    // Test that TopLinkDisclosureMenu implements the BaseMenu id setter.
+    it("should implement the BaseMenu id setter", () => {
+      expectInheritedSetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "id"
       );
     });
   });

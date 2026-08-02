@@ -55,4 +55,48 @@ describe("Menubar protected methods", () => {
       expect(Menubar.prototype._setIds).toBe(BaseMenu.prototype._setIds);
     });
   });
+
+  // Test Menubar _addEventListner().
+  describe("_addEventListner", () => {
+    // Test that Menubar implements the BaseMenu _addEventListner() method.
+    it("should implement the BaseMenu _addEventListner() method", () => {
+      expect(Menubar.prototype._addEventListner).toBe(
+        BaseMenu.prototype._addEventListner
+      );
+    });
+  });
+
+  // Test Menubar _removeEventListner().
+  describe("_removeEventListner", () => {
+    // Test that Menubar implements the BaseMenu _removeEventListner() method.
+    it("should implement the BaseMenu _removeEventListner() method", () => {
+      expect(Menubar.prototype._removeEventListner).toBe(
+        BaseMenu.prototype._removeEventListner
+      );
+    });
+  });
+
+  // Test Menubar _removeEventListners().
+  describe("_removeEventListners", () => {
+    // Test that Menubar implements the BaseMenu _removeEventListners() method.
+    it("should implement the BaseMenu _removeEventListners() method", () => {
+      expect(Menubar.prototype._removeEventListners).toBe(
+        BaseMenu.prototype._removeEventListners
+      );
+    });
+  });
+
+  describe("_store", () => {
+    // Test that Menubar implements the BaseMenu _store() method.
+    it("should implement the BaseMenu _store() method", () => {
+      expect(Menubar.prototype._store).toBe(BaseMenu.prototype._store);
+    });
+  });
+
+  describe("_unstore", () => {
+    // Test that Menubar implements the BaseMenu _unstore() method.
+    it("should implement the BaseMenu _unstore() method", () => {
+      expect(Menubar.prototype._unstore).toBe(BaseMenu.prototype._unstore);
+    });
+  });
 });

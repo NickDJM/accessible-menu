@@ -57,6 +57,45 @@ describe("Menubar getter/setters", () => {
     });
   });
 
+  // Test Menubar classes.
+  describe("classes", () => {
+    // Test that Menubar implements the BaseMenu classes getter.
+    it("should implement the BaseMenu classes getter", () => {
+      expectInheritedGetter(Menubar.prototype, BaseMenu.prototype, "classes");
+    });
+
+    // Test that Menubar implements the BaseMenu classes setter.
+    it("should implement the BaseMenu classes setter", () => {
+      expectInheritedSetter(Menubar.prototype, BaseMenu.prototype, "classes");
+    });
+  });
+
+  // Test Menubar durations.
+  describe("durations", () => {
+    // Test that Menubar implements the BaseMenu durations getter.
+    it("should implement the BaseMenu durations getter", () => {
+      expectInheritedGetter(Menubar.prototype, BaseMenu.prototype, "durations");
+    });
+
+    // Test that Menubar implements the BaseMenu durations setter.
+    it("should implement the BaseMenu durations setter", () => {
+      expectInheritedSetter(Menubar.prototype, BaseMenu.prototype, "durations");
+    });
+  });
+
+  // Test Menubar listeners.
+  describe("listeners", () => {
+    // Test that Menubar implements the BaseMenu listeners getter.
+    it("should implement the BaseMenu listeners getter", () => {
+      expectInheritedGetter(Menubar.prototype, BaseMenu.prototype, "listeners");
+    });
+
+    // Test that Menubar implements the BaseMenu listeners setter.
+    it("should implement the BaseMenu listeners setter", () => {
+      expectInheritedSetter(Menubar.prototype, BaseMenu.prototype, "listeners");
+    });
+  });
+
   // Test Menubar isTopLevel.
   describe("isTopLevel", () => {
     // Test that Menubar implements the BaseMenu isTopLevel getter.
@@ -74,6 +113,69 @@ describe("Menubar getter/setters", () => {
         Menubar.prototype,
         BaseMenu.prototype,
         "isTopLevel"
+      );
+    });
+  });
+
+  // Test Menubar shouldOpen.
+  describe("shouldOpen", () => {
+    // Test that Menubar implements the BaseMenu shouldOpen getter.
+    it("should implement the BaseMenu shouldOpen getter", () => {
+      expectInheritedGetter(
+        Menubar.prototype,
+        BaseMenu.prototype,
+        "shouldOpen"
+      );
+    });
+
+    // Test that Menubar implements the BaseMenu shouldOpen setter.
+    it("should implement the BaseMenu shouldOpen setter", () => {
+      expectInheritedSetter(
+        Menubar.prototype,
+        BaseMenu.prototype,
+        "shouldOpen"
+      );
+    });
+  });
+
+  // Test Menubar breakpoint.
+  describe("breakpoint", () => {
+    // Test that Menubar implements the BaseMenu breakpoint getter.
+    it("should implement the BaseMenu breakpoint getter", () => {
+      expectInheritedGetter(
+        Menubar.prototype,
+        BaseMenu.prototype,
+        "breakpoint"
+      );
+    });
+
+    // Test that Menubar implements the BaseMenu breakpoint setter.
+    it("should implement the BaseMenu breakpoint setter", () => {
+      expectInheritedSetter(
+        Menubar.prototype,
+        BaseMenu.prototype,
+        "breakpoint"
+      );
+    });
+  });
+
+  // Test Menubar mediaQuery.
+  describe("mediaQuery", () => {
+    // Test that Menubar implements the BaseMenu mediaQuery getter.
+    it("should implement the BaseMenu mediaQuery getter", () => {
+      expectInheritedGetter(
+        Menubar.prototype,
+        BaseMenu.prototype,
+        "mediaQuery"
+      );
+    });
+
+    // Test that Menubar implements the BaseMenu mediaQuery setter.
+    it("should implement the BaseMenu mediaQuery setter", () => {
+      expectInheritedSetter(
+        Menubar.prototype,
+        BaseMenu.prototype,
+        "mediaQuery"
       );
     });
   });
@@ -379,6 +481,19 @@ describe("Menubar getter/setters", () => {
     // Test that Menubar implements the BaseMenu key setter.
     it("should implement the BaseMenu key setter", () => {
       expectInheritedSetter(Menubar.prototype, BaseMenu.prototype, "key");
+    });
+  });
+
+  // Test Menubar id.
+  describe("id", () => {
+    // Test that Menubar implements the BaseMenu id getter.
+    it("should implement the BaseMenu id getter", () => {
+      expectInheritedGetter(Menubar.prototype, BaseMenu.prototype, "id");
+    });
+
+    // Test that Menubar implements the BaseMenu id setter.
+    it("should implement the BaseMenu id setter", () => {
+      expectInheritedSetter(Menubar.prototype, BaseMenu.prototype, "id");
     });
   });
 

@@ -4,13 +4,21 @@ Accessible Menu provides a global storage object that is used to store all insta
 
 ## Usage
 
-The global storage object is available at `window.AccessibleMenu.menus`. This is an object that contains all instances of accessible menu keyed by the menu's ID.
+Menus are stored in the global `StorageManager` instance registered on `window.AccessibleMenuStorage`.
 
 ```js
-// Get the first instance of an accessible menu.
-window.AccessibleMenu.menus[Object.keys(window.AccessibleMenu.menus)[0]];
+// Get a menu by id.
+window.AccessibleMenuStorage.get({
+  key: "menu-id",
+});
+
+// Get all stored menus.
+window.AccessibleMenuStorage.get();
 ```
+
+For more details on the storage API, see the [StorageManager API docs](./api/storage-manager).
 
 ## Caveats
 
-The global storage uses the menu's ID as the key. If you have a menu without an ID it will be stored and accessible, but if you have multiple menus with the same ID, only the last menu will be stored.
+The global storage uses the menu's ID as the key. If you have
+multiple menus with the same ID (which you _shouldn't_), only the last menu will be stored.

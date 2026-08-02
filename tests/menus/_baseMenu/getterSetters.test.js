@@ -107,6 +107,93 @@ describe("BaseMenu getter/setters", () => {
     });
   });
 
+  // Test BaseMenu classes.
+  describe("classes", () => {
+    // Test that classes gets the classes.
+    it("should get the classes", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      expect(menu.classes).toEqual(menu._classes);
+    });
+
+    // Test that classes cannot set the classes.
+    it("should not set the classes", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      expect(() => {
+        menu.classes = {};
+      }).toThrowError(
+        "Cannot set property classes of #<BaseMenu> which has only a getter"
+      );
+    });
+  });
+
+  // Test BaseMenu durations.
+  describe("durations", () => {
+    // Test that durations gets the durations.
+    it("should get the durations", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      expect(menu.durations).toEqual(menu._durations);
+    });
+
+    // Test that durations cannot set the durations.
+    it("should not set the durations", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      expect(() => {
+        menu.durations = {};
+      }).toThrowError(
+        "Cannot set property durations of #<BaseMenu> which has only a getter"
+      );
+    });
+  });
+
+  // Test BaseMenu listeners.
+  describe("listeners", () => {
+    // Test that listeners gets the listeners.
+    it("should get the listeners", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      expect(menu.listeners).toEqual(menu._listeners);
+    });
+
+    // Test that listeners cannot set the listeners.
+    it("should not set the listeners", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      expect(() => {
+        menu.listeners = {};
+      }).toThrowError(
+        "Cannot set property listeners of #<BaseMenu> which has only a getter"
+      );
+    });
+  });
+
   // Test BaseMenu isTopLevel.
   describe("isTopLevel", () => {
     // Test that isTopLevel gets the top-level status.
@@ -146,7 +233,7 @@ describe("BaseMenu getter/setters", () => {
       });
       initializeMenu(menu);
 
-      expect(menu.openClass).toBe(menu._openClass);
+      expect(menu.openClass).toBe(menu._classes.open);
     });
 
     // Test that openClass sets the open class name.
@@ -164,7 +251,7 @@ describe("BaseMenu getter/setters", () => {
       menu.openClass = "test-open";
 
       expect(spy).toHaveBeenCalledWith({ openClass: "test-open" });
-      expect(menu._openClass).toBe("test-open");
+      expect(menu._classes.open).toBe("test-open");
     });
 
     // Test that openClass defaults to the root menu's openClass for submenus.
@@ -193,7 +280,7 @@ describe("BaseMenu getter/setters", () => {
       });
       initializeMenu(menu);
 
-      expect(menu.closeClass).toBe(menu._closeClass);
+      expect(menu.closeClass).toBe(menu._classes.close);
     });
 
     // Test that closeClass sets the close class name.
@@ -211,7 +298,7 @@ describe("BaseMenu getter/setters", () => {
       menu.closeClass = "test-close";
 
       expect(spy).toHaveBeenCalledWith({ closeClass: "test-close" });
-      expect(menu._closeClass).toBe("test-close");
+      expect(menu._classes.close).toBe("test-close");
     });
 
     // Test that closeClass defaults to the root menu's closeClass for submenus.
@@ -240,7 +327,7 @@ describe("BaseMenu getter/setters", () => {
       });
       initializeMenu(menu);
 
-      expect(menu.transitionClass).toBe(menu._transitionClass);
+      expect(menu.transitionClass).toBe(menu._classes.transition);
     });
 
     // Test that transitionClass sets the transition class name.
@@ -258,7 +345,7 @@ describe("BaseMenu getter/setters", () => {
       menu.transitionClass = "test-transition";
 
       expect(spy).toHaveBeenCalledWith({ transitionClass: "test-transition" });
-      expect(menu._transitionClass).toBe("test-transition");
+      expect(menu._classes.transition).toBe("test-transition");
     });
 
     // Test that transitionClass defaults to the root menu's transitionClass for submenus.
@@ -287,7 +374,7 @@ describe("BaseMenu getter/setters", () => {
       });
       initializeMenu(menu);
 
-      expect(menu.transitionDuration).toBe(menu._transitionDuration);
+      expect(menu.transitionDuration).toBe(menu._durations.transition);
     });
 
     // Test that transitionDuration sets the transition duration value.
@@ -305,7 +392,7 @@ describe("BaseMenu getter/setters", () => {
       menu.transitionDuration = 200;
 
       expect(spy).toHaveBeenCalledWith("number", { transitionDuration: 200 });
-      expect(menu._transitionDuration).toBe(200);
+      expect(menu._durations.transition).toBe(200);
     });
 
     // Test that transitionDuration defaults to the root menu's transitionDuration for submenus.
@@ -336,7 +423,7 @@ describe("BaseMenu getter/setters", () => {
 
       // In this case, because we have not set the open duration,
       // it should be the same as the transition duration.
-      expect(menu.openDuration).toBe(menu._transitionDuration);
+      expect(menu.openDuration).toBe(menu._durations.transition);
     });
 
     // Test that openDuration sets the open duration value.
@@ -354,7 +441,7 @@ describe("BaseMenu getter/setters", () => {
       menu.openDuration = 100;
 
       expect(spy).toHaveBeenCalledWith("number", { openDuration: 100 });
-      expect(menu._openDuration).toBe(100);
+      expect(menu._durations.open).toBe(100);
     });
 
     // Test that openDuration defaults to the root menu's openDuration for submenus.
@@ -385,7 +472,7 @@ describe("BaseMenu getter/setters", () => {
 
       // In this case, because we have not set the close duration,
       // it should be the same as the transition duration.
-      expect(menu.closeDuration).toBe(menu._transitionDuration);
+      expect(menu.closeDuration).toBe(menu._durations.transition);
     });
 
     // Test that closeDuration sets the close duration value.
@@ -403,7 +490,7 @@ describe("BaseMenu getter/setters", () => {
       menu.closeDuration = 100;
 
       expect(spy).toHaveBeenCalledWith("number", { closeDuration: 100 });
-      expect(menu._closeDuration).toBe(100);
+      expect(menu._durations.close).toBe(100);
     });
 
     // Test that closeDuration defaults to the root menu's closeDuration for submenus.
@@ -607,7 +694,7 @@ describe("BaseMenu getter/setters", () => {
       });
       initializeMenu(menu);
 
-      expect(menu.hoverDelay).toBe(menu._hoverDelay);
+      expect(menu.hoverDelay).toBe(menu._delays.hover);
     });
 
     // Test that hoverDelay sets the hover delay value.
@@ -625,7 +712,7 @@ describe("BaseMenu getter/setters", () => {
       menu.hoverDelay = 200;
 
       expect(spy).toHaveBeenCalledWith("number", { hoverDelay: 200 });
-      expect(menu._hoverDelay).toBe(200);
+      expect(menu._delays.hover).toBe(200);
     });
 
     // Test that hoverDelay defaults to the root menu's hoverDelay for submenus.
@@ -656,7 +743,7 @@ describe("BaseMenu getter/setters", () => {
 
       // In this case, because we have not set the enter delay,
       // it should be the same as the hover delay.
-      expect(menu.enterDelay).toBe(menu._hoverDelay);
+      expect(menu.enterDelay).toBe(menu._delays.hover);
     });
 
     // Test that enterDelay sets the enter delay value.
@@ -674,7 +761,7 @@ describe("BaseMenu getter/setters", () => {
       menu.enterDelay = 100;
 
       expect(spy).toHaveBeenCalledWith("number", { enterDelay: 100 });
-      expect(menu._enterDelay).toBe(100);
+      expect(menu._delays.enter).toBe(100);
     });
 
     // Test that enterDelay defaults to the root menu's enterDelay for submenus.
@@ -705,7 +792,7 @@ describe("BaseMenu getter/setters", () => {
 
       // In this case, because we have not set the leave delay,
       // it should be the same as the hover delay.
-      expect(menu.leaveDelay).toBe(menu._hoverDelay);
+      expect(menu.leaveDelay).toBe(menu._delays.hover);
     });
 
     // Test that leaveDelay sets the leave delay value.
@@ -723,7 +810,7 @@ describe("BaseMenu getter/setters", () => {
       menu.leaveDelay = 100;
 
       expect(spy).toHaveBeenCalledWith("number", { leaveDelay: 100 });
-      expect(menu._leaveDelay).toBe(100);
+      expect(menu._delays.leave).toBe(100);
     });
 
     // Test that leaveDelay defaults to the root menu's leaveDelay for submenus.
@@ -739,6 +826,117 @@ describe("BaseMenu getter/setters", () => {
       menu.leaveDelay = 100;
 
       expect(submenu.leaveDelay).toBe(menu.leaveDelay);
+    });
+  });
+
+  // Test BaseMenu shouldOpen.
+  describe("shouldOpen", () => {
+    // Test that shouldOpen gets the shouldOpen value.
+    it("should get the shouldOpen value", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      expect(menu.shouldOpen).toBe(menu._shouldOpen);
+    });
+
+    // Test that shouldOpen sets the shouldOpen value.
+    it("should set the shouldOpen value", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      // Set up to check for validation.
+      const spy = vi.spyOn(validation, "isValidType");
+
+      // Set the menu's shouldOpen value.
+      menu.shouldOpen = false;
+
+      expect(spy).toHaveBeenCalledWith("boolean", { shouldOpen: false });
+      expect(menu._shouldOpen).toBe(false);
+    });
+  });
+
+  // Test BaseMenu breakpoint.
+  describe("breakpoint", () => {
+    // Test that breakpoint gets the breakpoint value.
+    it("should get the breakpoint value", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      expect(menu.breakpoint).toBe(menu._breakpoint);
+    });
+
+    // Test that breakpoint sets the breakpoint value.
+    it("should set the breakpoint value", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      // Set up to check for validation.
+      const spy = vi.spyOn(validation, "isValidType");
+
+      // Set the menu's breakpoint value.
+      menu.breakpoint = "64em";
+
+      expect(spy).toHaveBeenCalledWith("string", { breakpoint: "64em" });
+      expect(menu._breakpoint).toBe("64em");
+    });
+  });
+
+  // Test BaseMenu mediaQuery.
+  describe("mediaQuery", () => {
+    // Test that mediaQuery gets the media query value.
+    it("should get the media query value", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      expect(menu.mediaQuery).toBe("");
+    });
+
+    // Test that mediaQuery derives from the breakpoint when no mediaQuery is set.
+    it("should derive the media query from the breakpoint when not set", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      menu.breakpoint = "40em";
+
+      expect(menu.mediaQuery).toBe("(width <= 40em)");
+    });
+
+    // Test that mediaQuery sets the mediaQuery value.
+    it("should set the media query value", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      // Set up to check for validation.
+      const spy = vi.spyOn(validation, "isValidType");
+
+      // Set the menu's mediaQuery value.
+      menu.mediaQuery = "(width <= 50em)";
+
+      expect(spy).toHaveBeenCalledWith("string", {
+        mediaQuery: "(width <= 50em)",
+      });
+      expect(menu._mediaQueryString).toBe("(width <= 50em)");
     });
   });
 
@@ -825,6 +1023,35 @@ describe("BaseMenu getter/setters", () => {
       menu._key = "test";
 
       expect(submenu.key).toBe(`${menu.key}-0`);
+    });
+  });
+
+  // Test BaseMenu id.
+  describe("id", () => {
+    // Test that id gets the id value.
+    it("should get the id value", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      expect(menu.id).toBe(menu._id);
+    });
+
+    // Test that id cannot set the id value.
+    it("should not set the id value", () => {
+      // Create a new BaseMenu instance for testing.
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+
+      expect(() => {
+        menu.id = "test-menu";
+      }).toThrowError(
+        "Cannot set property id of #<BaseMenu> which has only a getter"
+      );
     });
   });
 

@@ -55,4 +55,48 @@ describe("Treeview protected methods", () => {
       expect(Treeview.prototype._setIds).toBe(BaseMenu.prototype._setIds);
     });
   });
+
+  // Test Treeview _addEventListner().
+  describe("_addEventListner", () => {
+    // Test that Treeview implements the BaseMenu _addEventListner() method.
+    it("should implement the BaseMenu _addEventListner() method", () => {
+      expect(Treeview.prototype._addEventListner).toBe(
+        BaseMenu.prototype._addEventListner
+      );
+    });
+  });
+
+  // Test Treeview _removeEventListner().
+  describe("_removeEventListner", () => {
+    // Test that Treeview implements the BaseMenu _removeEventListner() method.
+    it("should implement the BaseMenu _removeEventListner() method", () => {
+      expect(Treeview.prototype._removeEventListner).toBe(
+        BaseMenu.prototype._removeEventListner
+      );
+    });
+  });
+
+  // Test Treeview _removeEventListners().
+  describe("_removeEventListners", () => {
+    // Test that Treeview implements the BaseMenu _removeEventListners() method.
+    it("should implement the BaseMenu _removeEventListners() method", () => {
+      expect(Treeview.prototype._removeEventListners).toBe(
+        BaseMenu.prototype._removeEventListners
+      );
+    });
+  });
+
+  describe("_store", () => {
+    // Test that Treeview implements the BaseMenu _store() method.
+    it("should implement the BaseMenu _store() method", () => {
+      expect(Treeview.prototype._store).toBe(BaseMenu.prototype._store);
+    });
+  });
+
+  describe("_unstore", () => {
+    // Test that Treeview implements the BaseMenu _unstore() method.
+    it("should implement the BaseMenu _unstore() method", () => {
+      expect(Treeview.prototype._unstore).toBe(BaseMenu.prototype._unstore);
+    });
+  });
 });

@@ -2,7 +2,7 @@ import BaseMenu from "./_baseMenu.js";
 import TopLinkDisclosureMenuItem from "./topLinkDisclosureMenuItem.js";
 import TopLinkDisclosureMenuToggle from "./topLinkDisclosureMenuToggle.js";
 import { preventEvent, keyPress } from "./eventHandlers.js";
-import { isQuerySelector, isValidType } from "./validate.js";
+import { isValidType } from "./validate.js";
 
 /**
  * An accessible disclosure menu with top-level links in the DOM.
@@ -95,39 +95,42 @@ class TopLinkDisclosureMenu extends BaseMenu {
   /**
    * Constructs a new `TopLinkDisclosureMenu`.
    *
-   * @param {object}                 options                                    - The options for generating the menu.
-   * @param {HTMLElement}            options.menuElement                        - The menu element in the DOM.
-   * @param {string}                 [options.menuItemSelector = li]            - The query selector string for menu items.
-   * @param {string}                 [options.menuLinkSelector = a]             - The query selector string for menu links.
-   * @param {string}                 [options.submenuItemSelector = li:has(ul)] - The query selector string for menu items containing submenus.
-   * @param {string}                 [options.submenuToggleSelector = button]   - The query selector string for submenu toggle buttons/links.
-   * @param {string}                 [options.submenuSelector = ul]             - The query selector string for submenus.
-   * @param {string}                 [options.submenuSubtoggleSelector = a]     - The query selector string for submenu toggle buttons/links below the top level.
-   * @param {?HTMLElement}           [options.controllerElement = null]         - The element controlling the menu in the DOM.
-   * @param {?HTMLElement}           [options.containerElement = null]          - The element containing the menu in the DOM.
-   * @param {?(string|string[])}     [options.openClass = show]                 - The class to apply when a menu is "open".
-   * @param {?(string|string[])}     [options.closeClass = hide]                - The class to apply when a menu is "closed".
-   * @param {?(string|string[])}     [options.transitionClass = transitioning]  - The class to apply when a menu is transitioning between "open" and "closed" states.
-   * @param {number}                 [options.transitionDuration = 250]         - The duration of the transition between "open" and "closed" states (in milliseconds).
-   * @param {boolean}                [options.isTopLevel = true]                - A flag to mark the root menu.
-   * @param {?TopLinkDisclosureMenu} [options.parentMenu = null]                - The parent menu to this menu.
-   * @param {string}                 [options.hoverType = off]                  - The type of hoverability a menu has.
-   * @param {number}                 [options.hoverDelay = 250]                 - The delay for opening and closing menus if the menu is hoverable (in milliseconds).
-   * @param {number}                 [options.enterDelay = -1]                  - The delay for opening a menu if the menu is focusable (in milliseconds).
-   * @param {number}                 [options.leaveDelay = -1]                  - The delay for closing a menu if the menu is focusable (in milliseconds).
-   * @param {boolean}                [options.optionalKeySupport = false]       - A flag to add optional keyboard support (Arrow keys, Home, and End) to the menu.
-   * @param {?string}                [options.prefix = am-]                     - The prefix to use for CSS custom properties.
-   * @param {?string}                [options.key = null]                       - The key used to generate IDs throughout the menu.
-   * @param {boolean}                [options.initialize = true]                - A flag to initialize the menu immediately upon creation.
+   * @param {object}                 options                                     - The options for generating the menu.
+   * @param {HTMLElement}            options.menuElement                         - The menu element in the DOM.
+   * @param {string}                 [options.menuItemsSelector = li]            - The query selector string for menu items.
+   * @param {string}                 [options.menuLinksSelector = a]             - The query selector string for menu links.
+   * @param {string}                 [options.submenuItemsSelector = li:has(ul)] - The query selector string for menu items containing submenus.
+   * @param {string}                 [options.submenuTogglesSelector = button]   - The query selector string for submenu toggle buttons/links.
+   * @param {string}                 [options.submenusSelector = ul]             - The query selector string for submenus.
+   * @param {string}                 [options.submenuSubtogglesSelector = a]     - The query selector string for submenu toggle buttons/links below the top level.
+   * @param {?HTMLElement}           [options.controllerElement = null]          - The element controlling the menu in the DOM.
+   * @param {?HTMLElement}           [options.containerElement = null]           - The element containing the menu in the DOM.
+   * @param {?(string|string[])}     [options.openClass = show]                  - The class to apply when a menu is "open".
+   * @param {?(string|string[])}     [options.closeClass = hide]                 - The class to apply when a menu is "closed".
+   * @param {?(string|string[])}     [options.transitionClass = transitioning]   - The class to apply when a menu is transitioning between "open" and "closed" states.
+   * @param {number}                 [options.transitionDuration = 250]          - The duration of the transition between "open" and "closed" states (in milliseconds).
+   * @param {boolean}                [options.isTopLevel = true]                 - A flag to mark the root menu.
+   * @param {?TopLinkDisclosureMenu} [options.parentMenu = null]                 - The parent menu to this menu.
+   * @param {string}                 [options.hoverType = off]                   - The type of hoverability a menu has.
+   * @param {number}                 [options.hoverDelay = 250]                  - The delay for opening and closing menus if the menu is hoverable (in milliseconds).
+   * @param {number}                 [options.enterDelay = -1]                   - The delay for opening a menu if the menu is focusable (in milliseconds).
+   * @param {number}                 [options.leaveDelay = -1]                   - The delay for closing a menu if the menu is focusable (in milliseconds).
+   * @param {string}                 [options.breakpoint = '']                   - The breakpoint that the menu will automatically open/close itself at.
+   * @param {string}                 [options.mediaQuery = '']                   - The media query to use to trigger media query list events.
+   * @param {boolean}                [options.autoOpen = true]                   - A flag to auto open the menu when the media query does not match.
+   * @param {boolean}                [options.optionalKeySupport = false]        - A flag to add optional keyboard support (Arrow keys, Home, and End) to the menu.
+   * @param {?string}                [options.prefix = am-]                      - The prefix to use for CSS custom properties.
+   * @param {?string}                [options.key = null]                        - The key used to generate IDs throughout the menu.
+   * @param {boolean}                [options.initialize = true]                 - A flag to initialize the menu immediately upon creation.
    */
   constructor({
     menuElement,
-    menuItemSelector = "li",
-    menuLinkSelector = "a",
-    submenuItemSelector = "li:has(ul)",
-    submenuToggleSelector = "button",
-    submenuSelector = "ul",
-    submenuSubtoggleSelector = "a",
+    menuItemsSelector = "li",
+    menuLinksSelector = "a",
+    submenuItemsSelector = "li:has(ul)",
+    submenuTogglesSelector = "button",
+    submenusSelector = "ul",
+    submenuSubtogglesSelector = "a",
     controllerElement = null,
     containerElement = null,
     openClass = "show",
@@ -140,6 +143,9 @@ class TopLinkDisclosureMenu extends BaseMenu {
     hoverDelay = 250,
     enterDelay = -1,
     leaveDelay = -1,
+    breakpoint = "",
+    mediaQuery = "",
+    autoOpen = true,
     optionalKeySupport = false,
     prefix = "am-",
     key = null,
@@ -147,11 +153,11 @@ class TopLinkDisclosureMenu extends BaseMenu {
   }) {
     super({
       menuElement,
-      menuItemSelector,
-      menuLinkSelector,
-      submenuItemSelector,
-      submenuSelector,
-      submenuToggleSelector,
+      menuItemsSelector,
+      menuLinksSelector,
+      submenuItemsSelector,
+      submenusSelector,
+      submenuTogglesSelector,
       controllerElement,
       containerElement,
       openClass,
@@ -164,6 +170,9 @@ class TopLinkDisclosureMenu extends BaseMenu {
       hoverDelay,
       enterDelay,
       leaveDelay,
+      breakpoint,
+      mediaQuery,
+      autoOpen,
       prefix,
       key,
     });
@@ -172,15 +181,15 @@ class TopLinkDisclosureMenu extends BaseMenu {
     this._optionalSupport = optionalKeySupport;
 
     // Set DOM selectors.
-    this._selectors.menuItems = menuItemSelector;
-    this._selectors.submenuItems = submenuItemSelector;
-    this._selectors.submenuToggles = submenuToggleSelector;
-    this._selectors.submenus = submenuSelector;
-    this._selectors.submenuSubtoggles = submenuSubtoggleSelector;
+    this._selectors.menuItems = menuItemsSelector;
+    this._selectors.submenuItems = submenuItemsSelector;
+    this._selectors.submenuToggles = submenuTogglesSelector;
+    this._selectors.submenus = submenusSelector;
+    this._selectors.submenuSubtoggles = submenuSubtogglesSelector;
 
     // Set unique menu link selectors.
     this._selectors.menuLinks = [
-      ...new Set([menuLinkSelector, submenuToggleSelector]),
+      ...new Set([menuLinksSelector, submenuTogglesSelector]),
     ].join(",");
 
     if (initialize) {
@@ -205,6 +214,7 @@ class TopLinkDisclosureMenu extends BaseMenu {
     try {
       super.initialize();
 
+      this._handleMediaMatch();
       this._handleFocus();
       this._handleClick();
       this._handleHover();
@@ -256,12 +266,12 @@ class TopLinkDisclosureMenu extends BaseMenu {
         // Create the new menu and initialize it.
         const menu = new this._MenuType({
           menuElement: submenu,
-          menuItemSelector: this.selectors.menuItems,
-          menuLinkSelector: this.selectors.menuLinks,
-          submenuItemSelector: this.selectors.submenuItems,
-          submenuToggleSelector: this.selectors.submenuSubtoggles,
-          submenuSelector: this.selectors.submenus,
-          submenuSubtoggleSelector: this.selectors.submenuSubtoggles,
+          menuItemsSelector: this.selectors.menuItems,
+          menuLinksSelector: this.selectors.menuLinks,
+          submenuItemsSelector: this.selectors.submenuItems,
+          submenuTogglesSelector: this.selectors.submenuSubtoggles,
+          submenusSelector: this.selectors.submenus,
+          submenuSubtogglesSelector: this.selectors.submenuSubtoggles,
           openClass: this.openClass,
           closeClass: this.closeClass,
           transitionClass: this.transitionClass,
@@ -340,28 +350,25 @@ class TopLinkDisclosureMenu extends BaseMenu {
    * @return {boolean} - The result of the validation.
    */
   _validate() {
-    let check = super._validate();
+    super._validate();
 
-    const submenuSubtoggleCheck = isQuerySelector({
-      submenuSubtoggleSelector: this._selectors.submenuSubtoggles,
-    });
-
-    if (!submenuSubtoggleCheck.status) {
-      this._errors.push(submenuSubtoggleCheck.error.message);
-      check = false;
-    }
-
-    // Option key support check.
-    const optionalSupportCheck = isValidType("boolean", {
+    // Boolean checks.
+    const booleans = {
       optionalKeySupport: this._optionalSupport,
+    };
+
+    // Check the booleans.
+    const booleanChecks = isValidType("boolean", booleans, {
+      shouldThrow: false,
     });
 
-    if (!optionalSupportCheck.status) {
-      this._errors.push(optionalSupportCheck.error.message);
-      check = false;
+    // Handle boolean check failure.
+    if (!booleanChecks.status) {
+      this._errors = [this._errors, ...booleanChecks.errors];
+      this._valid = false;
     }
 
-    return check;
+    return this._valid;
   }
 
   /**
@@ -378,7 +385,7 @@ class TopLinkDisclosureMenu extends BaseMenu {
     super._handleClick();
 
     // Close the menu if a click event happens outside of it.
-    document.addEventListener("click", (event) => {
+    this._addEventListener("click", document, (event) => {
       if (this.focusState !== "none") {
         this.currentEvent = "mouse";
 
@@ -446,7 +453,7 @@ class TopLinkDisclosureMenu extends BaseMenu {
    */
   _handleHover() {
     this.elements.menuItems.forEach((menuItem, index) => {
-      menuItem.dom.link.addEventListener("pointerenter", (event) => {
+      this._addEventListener("pointerenter", menuItem.dom.link, (event) => {
         // Exit out of the event if it was not made by a mouse.
         if (event.pointerType === "pen" || event.pointerType === "touch") {
           return;
@@ -522,7 +529,7 @@ class TopLinkDisclosureMenu extends BaseMenu {
       });
 
       if (menuItem.isSubmenuItem) {
-        menuItem.dom.item.addEventListener("pointerleave", (event) => {
+        this._addEventListener("pointerleave", menuItem.dom.item, (event) => {
           // Exit out of the event if it was not made by a mouse.
           if (event.pointerType === "pen" || event.pointerType === "touch") {
             return;
@@ -553,7 +560,7 @@ class TopLinkDisclosureMenu extends BaseMenu {
 
         // Clear hover timeouts any time the mouse enters an item with a submenu. This prevents the
         // menu from closing if the mouse leaves but then re-enters before leaveDelay has elapsed.
-        menuItem.dom.item.addEventListener("pointerenter", (event) => {
+        this._addEventListener("pointerenter", menuItem.dom.item, (event) => {
           // Exit out of the event if it was not made by a mouse.
           if (event.pointerType === "pen" || event.pointerType === "touch") {
             return;
@@ -586,7 +593,7 @@ class TopLinkDisclosureMenu extends BaseMenu {
   _handleKeydown() {
     super._handleKeydown();
 
-    this.dom.menu.addEventListener("keydown", (event) => {
+    this._addEventListener("keydown", this.dom.menu, (event) => {
       this.currentEvent = "keyboard";
 
       const key = keyPress(event);
@@ -643,7 +650,7 @@ class TopLinkDisclosureMenu extends BaseMenu {
   _handleKeyup() {
     super._handleKeyup();
 
-    this.dom.menu.addEventListener("keyup", (event) => {
+    this._addEventListener("keyup", this.dom.menu, (event) => {
       this.currentEvent = "keyboard";
 
       const key = keyPress(event);

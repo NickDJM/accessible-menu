@@ -17,7 +17,9 @@ import {
 } from "vitest";
 import { singleLevel, twoLevel } from "../../../demo/menus.js";
 import BaseMenu from "../../../src/_baseMenu.js";
-import { initializeMenu } from "../helpers.js";
+import { initializeMenu, setupMatchMedia } from "../helpers.js";
+
+let originalMatchMedia;
 
 beforeAll(() => {
   // Mock the console.error method.
@@ -34,11 +36,13 @@ afterAll(() => {
 beforeEach(() => {
   // Create the test menu.
   document.body.innerHTML = twoLevel;
+  originalMatchMedia = window.matchMedia;
 });
 
 afterEach(() => {
   // Remove the test menu.
   document.body.innerHTML = "";
+  window.matchMedia = originalMatchMedia;
 });
 
 // Test the BaseMenu initialization.
@@ -87,8 +91,8 @@ describe("BaseMenu", () => {
     );
   });
 
-  // Test that the menu exists in window.AccessibleMenu.menus after initialization.
-  it("should exist in window.AccessibleMenu.menus after initialization", () => {
+  // Test that the menu exists in window.AccessibleMenuStorage storage after initialization.
+  it("should exist in window.AccessibleMenuStorage storage after initialization", () => {
     // Create a new BaseMenu instance for testing.
     const menu = new BaseMenu({
       menuElement: document.querySelector("ul"),
@@ -97,12 +101,14 @@ describe("BaseMenu", () => {
     // Initialize the menu.
     initializeMenu(menu);
 
-    // Test that the menu exists in window.AccessibleMenu.menus.
-    expect(Object.values(window.AccessibleMenu.menus)).toContain(menu);
+    // Test that the menu exists in window.AccessibleMenuStorage.menus.
+    expect(
+      window.AccessibleMenuStorage.get({ type: "menus", key: menu.id })
+    ).toEqual(menu);
   });
 
-  // Test that the menu does not exist in window.AccessibleMenu.menus after failed initialization.
-  it("should not exist in window.AccessibleMenu.menus after failed initialization", () => {
+  // Test that the menu does not exist in window.AccessibleMenuStorage storage after failed initialization.
+  it("should not exist in window.AccessibleMenuStorage storage after failed initialization", () => {
     // Create a new BaseMenu instance for testing.
     const menu = new BaseMenu({
       menuElement: 1,
@@ -115,8 +121,10 @@ describe("BaseMenu", () => {
       // Do nothing.
     }
 
-    // Test that the menu does not exist in window.AccessibleMenu.menus.
-    expect(Object.values(window.AccessibleMenu.menus)).not.toContain(menu);
+    // Test that the menu does not exist in window.AccessibleMenuStorage.storage.menus.
+    expect(
+      window.AccessibleMenuStorage.get({ type: "menus", key: menu.id })
+    ).not.toEqual(menu);
   });
 });
 
@@ -260,12 +268,12 @@ describe("BaseMenu (controlled)", () => {
 
 // Test the BaseMenu initialization with custom arguments.
 describe("BaseMenu (custom arguments)", () => {
-  // Test that the BaseMenu will initialize if a valid menuItemSelector is passed.
-  it("should initialize with a valid menuItemSelector", () => {
+  // Test that the BaseMenu will initialize if a valid menuItemsSelector is passed.
+  it("should initialize with a valid menuItemsSelector", () => {
     // Create the BaseMenu instance for testing.
     const menu = new BaseMenu({
       menuElement: document.querySelector("ul"),
-      menuItemSelector: ".menu-item",
+      menuItemsSelector: ".menu-item",
     });
 
     // Test that the menu initializes.
@@ -274,26 +282,26 @@ describe("BaseMenu (custom arguments)", () => {
     }).not.toThrow();
   });
 
-  // Test that the BaseMenu will throw an error if an invalid menuItemSelector is passed.
-  it("should throw an error if an invalid menuItemSelector is passed", () => {
+  // Test that the BaseMenu will throw an error if an invalid menuItemsSelector is passed.
+  it("should throw an error if an invalid menuItemsSelector is passed", () => {
     // Create the BaseMenu instance for testing.
     const menu = new BaseMenu({
       menuElement: document.querySelector("ul"),
-      menuItemSelector: 1,
+      menuItemsSelector: 1,
     });
 
     // Test that the menu throws an error.
     expect(() => {
       initializeMenu(menu);
-    }).toThrow('menuItemSelector must be a valid query selector. "1" given.');
+    }).toThrow('menuItemsSelector must be a valid query selector. "1" given.');
   });
 
-  // Test that the BaseMenu will initialize if a valid menuLinkSelector is passed.
-  it("should initialize with a valid menuLinkSelector", () => {
+  // Test that the BaseMenu will initialize if a valid menuLinksSelector is passed.
+  it("should initialize with a valid menuLinksSelector", () => {
     // Create the BaseMenu instance for testing.
     const menu = new BaseMenu({
       menuElement: document.querySelector("ul"),
-      menuLinkSelector: ".menu-link",
+      menuLinksSelector: ".menu-link",
     });
 
     // Test that the menu initializes.
@@ -302,26 +310,26 @@ describe("BaseMenu (custom arguments)", () => {
     }).not.toThrow();
   });
 
-  // Test that the BaseMenu will throw an error if an invalid menuLinkSelector is passed.
-  it("should throw an error if an invalid menuLinkSelector is passed", () => {
+  // Test that the BaseMenu will throw an error if an invalid menuLinksSelector is passed.
+  it("should throw an error if an invalid menuLinksSelector is passed", () => {
     // Create the BaseMenu instance for testing.
     const menu = new BaseMenu({
       menuElement: document.querySelector("ul"),
-      menuLinkSelector: 1,
+      menuLinksSelector: 1,
     });
 
     // Test that the menu throws an error.
     expect(() => {
       initializeMenu(menu);
-    }).toThrow('menuLinkSelector must be a valid query selector. "1" given.');
+    }).toThrow('menuLinksSelector must be a valid query selector. "1" given.');
   });
 
-  // Test that the BaseMenu will initialize if a valid submenuItemSelector is passed.
-  it("should initialize with a valid submenuItemSelector", () => {
+  // Test that the BaseMenu will initialize if a valid submenuItemsSelector is passed.
+  it("should initialize with a valid submenuItemsSelector", () => {
     // Create the BaseMenu instance for testing.
     const menu = new BaseMenu({
       menuElement: document.querySelector("ul"),
-      submenuItemSelector: ".menu-item.dropdown",
+      submenuItemsSelector: ".menu-item.dropdown",
     });
 
     // Test that the menu initializes.
@@ -330,61 +338,29 @@ describe("BaseMenu (custom arguments)", () => {
     }).not.toThrow();
   });
 
-  // Test that the BaseMenu will throw an error if an invalid submenuItemSelector is passed.
-  it("should throw an error if an invalid submenuItemSelector is passed", () => {
+  // Test that the BaseMenu will throw an error if an invalid submenuItemsSelector is passed.
+  it("should throw an error if an invalid submenuItemsSelector is passed", () => {
     // Create the BaseMenu instance for testing.
     const menu = new BaseMenu({
       menuElement: document.querySelector("ul"),
-      submenuItemSelector: 1,
-    });
-
-    // Test that the menu throws an error.
-    expect(() => {
-      initializeMenu(menu);
-    }).toThrow(
-      'submenuItemSelector must be a valid query selector. "1" given.'
-    );
-  });
-
-  // Test that the BaseMenu will initialize if a valid submenuToggleSelector is passed when the submenuItemSelector is also passed.
-  it("should initialize with a valid submenuToggleSelector and submenuItemSelector", () => {
-    // Create the BaseMenu instance for testing.
-    const menu = new BaseMenu({
-      menuElement: document.querySelector("ul"),
-      submenuToggleSelector: ".dropdown-toggle",
-      submenuItemSelector: ".menu-item.dropdown",
-    });
-
-    // Test that the menu initializes.
-    expect(() => {
-      initializeMenu(menu);
-    }).not.toThrow();
-  });
-
-  // Test that the BaseMenu will throw an error if an invalid submenuToggleSelector is passed when the submenuItemSelector is also passed.
-  it("should throw an error if an invalid submenuToggleSelector and submenuItemSelector", () => {
-    // Create the BaseMenu instance for testing.
-    const menu = new BaseMenu({
-      menuElement: document.querySelector("ul"),
-      submenuToggleSelector: 1,
-      submenuItemSelector: ".menu-item.dropdown",
+      submenuItemsSelector: 1,
     });
 
     // Test that the menu throws an error.
     expect(() => {
       initializeMenu(menu);
     }).toThrow(
-      'submenuToggleSelector must be a valid query selector. "1" given.'
+      'submenuItemsSelector must be a valid query selector. "1" given.'
     );
   });
 
-  // Test that the BaseMenu will initialize if a valid submenuSelector is passed when the submenuItemSelector is also passed.
-  it("should initialize with a valid submenuSelector and submenuItemSelector", () => {
+  // Test that the BaseMenu will initialize if a valid submenuTogglesSelector is passed when the submenuItemsSelector is also passed.
+  it("should initialize with a valid submenuTogglesSelector and submenuItemsSelector", () => {
     // Create the BaseMenu instance for testing.
     const menu = new BaseMenu({
       menuElement: document.querySelector("ul"),
-      submenuSelector: ".dropdown-menu",
-      submenuItemSelector: ".menu-item.dropdown",
+      submenuTogglesSelector: ".dropdown-toggle",
+      submenuItemsSelector: ".menu-item.dropdown",
     });
 
     // Test that the menu initializes.
@@ -393,19 +369,51 @@ describe("BaseMenu (custom arguments)", () => {
     }).not.toThrow();
   });
 
-  // Test that the BaseMenu will throw an error if an invalid submenuSelector is passed when the submenuItemSelector is also passed.
-  it("should throw an error if an invalid submenuSelector and submenuItemSelector", () => {
+  // Test that the BaseMenu will throw an error if an invalid submenuTogglesSelector is passed when the submenuItemsSelector is also passed.
+  it("should throw an error if an invalid submenuTogglesSelector and submenuItemsSelector", () => {
     // Create the BaseMenu instance for testing.
     const menu = new BaseMenu({
       menuElement: document.querySelector("ul"),
-      submenuSelector: 1,
-      submenuItemSelector: ".menu-item.dropdown",
+      submenuTogglesSelector: 1,
+      submenuItemsSelector: ".menu-item.dropdown",
     });
 
     // Test that the menu throws an error.
     expect(() => {
       initializeMenu(menu);
-    }).toThrow('submenuSelector must be a valid query selector. "1" given.');
+    }).toThrow(
+      'submenuTogglesSelector must be a valid query selector. "1" given.'
+    );
+  });
+
+  // Test that the BaseMenu will initialize if a valid submenusSelector is passed when the submenuItemsSelector is also passed.
+  it("should initialize with a valid submenusSelector and submenuItemsSelector", () => {
+    // Create the BaseMenu instance for testing.
+    const menu = new BaseMenu({
+      menuElement: document.querySelector("ul"),
+      submenusSelector: ".dropdown-menu",
+      submenuItemsSelector: ".menu-item.dropdown",
+    });
+
+    // Test that the menu initializes.
+    expect(() => {
+      initializeMenu(menu);
+    }).not.toThrow();
+  });
+
+  // Test that the BaseMenu will throw an error if an invalid submenusSelector is passed when the submenuItemsSelector is also passed.
+  it("should throw an error if an invalid submenusSelector and submenuItemsSelector", () => {
+    // Create the BaseMenu instance for testing.
+    const menu = new BaseMenu({
+      menuElement: document.querySelector("ul"),
+      submenusSelector: 1,
+      submenuItemsSelector: ".menu-item.dropdown",
+    });
+
+    // Test that the menu throws an error.
+    expect(() => {
+      initializeMenu(menu);
+    }).toThrow('submenusSelector must be a valid query selector. "1" given.');
   });
 
   // Class list tests.
@@ -673,6 +681,102 @@ describe("BaseMenu (custom arguments)", () => {
     }).toThrow('leaveDelay must be a number. "string" given.');
   });
 
+  // Test that the BaseMenu will initialize if a valid breakpoint is passed.
+  it("should initialize if a valid breakpoint is passed", () => {
+    const { matchMedia } = setupMatchMedia(false);
+    window.matchMedia = matchMedia;
+
+    // Create a new BaseMenu instance for testing.
+    const menu = new BaseMenu({
+      menuElement: document.querySelector("ul"),
+      breakpoint: "40em",
+    });
+
+    // Test that the menu initializes.
+    expect(() => {
+      initializeMenu(menu);
+    }).not.toThrow();
+  });
+
+  // Test that the BaseMenu will throw an error if an invalid breakpoint is passed.
+  it("should throw an error if an invalid breakpoint is passed", () => {
+    const { matchMedia } = setupMatchMedia(false);
+    window.matchMedia = matchMedia;
+
+    // Create a new BaseMenu instance for testing.
+    const menu = new BaseMenu({
+      menuElement: document.querySelector("ul"),
+      breakpoint: 40,
+    });
+
+    // Test that the menu throws an error.
+    expect(() => {
+      initializeMenu(menu);
+    }).toThrow('breakpoint must be a string. "number" given.');
+  });
+
+  // Test that the BaseMenu will initialize if a valid mediaQuery is passed.
+  it("should initialize if a valid mediaQuery is passed", () => {
+    const { matchMedia } = setupMatchMedia(false);
+    window.matchMedia = matchMedia;
+
+    // Create a new BaseMenu instance for testing.
+    const menu = new BaseMenu({
+      menuElement: document.querySelector("ul"),
+      mediaQuery: "(width <= 40em)",
+    });
+
+    // Test that the menu initializes.
+    expect(() => {
+      initializeMenu(menu);
+    }).not.toThrow();
+  });
+
+  // Test that the BaseMenu will throw an error if an invalid mediaQuery is passed.
+  it("should throw an error if an invalid mediaQuery is passed", () => {
+    const { matchMedia } = setupMatchMedia(false);
+    window.matchMedia = matchMedia;
+
+    // Create a new BaseMenu instance for testing.
+    const menu = new BaseMenu({
+      menuElement: document.querySelector("ul"),
+      mediaQuery: 40,
+    });
+
+    // Test that the menu throws an error.
+    expect(() => {
+      initializeMenu(menu);
+    }).toThrow('mediaQuery must be a string. "number" given.');
+  });
+
+  // Test that the BaseMenu will initialize if a valid autoOpen is passed.
+  it("should initialize if a valid autoOpen is passed", () => {
+    // Create a new BaseMenu instance for testing.
+    const menu = new BaseMenu({
+      menuElement: document.querySelector("ul"),
+      autoOpen: false,
+    });
+
+    // Test that the menu initializes.
+    expect(() => {
+      initializeMenu(menu);
+    }).not.toThrow();
+  });
+
+  // Test that the BaseMenu will throw an error if an invalid autoOpen is passed.
+  it("should throw an error if an invalid autoOpen is passed", () => {
+    // Create a new BaseMenu instance for testing.
+    const menu = new BaseMenu({
+      menuElement: document.querySelector("ul"),
+      autoOpen: 1,
+    });
+
+    // Test that the menu throws an error.
+    expect(() => {
+      initializeMenu(menu);
+    }).toThrow('autoOpen must be a boolean. "number" given.');
+  });
+
   // Test that the BaseMenu will initialize if a valid prefix is passed.
   it("should initialize if a valid prefix is passed", () => {
     // Create a new BaseMenu instance for testing.
@@ -698,7 +802,7 @@ describe("BaseMenu (custom arguments)", () => {
     // Test that the menu throws an error.
     expect(() => {
       initializeMenu(menu);
-    }).toThrow('prefix must be a string. "number" given.');
+    }).toThrow('TypeError: prefix must be a string. "number" given.');
   });
 
   // Test that the BaseMenu will initialize if a valid key is passed.
@@ -726,6 +830,6 @@ describe("BaseMenu (custom arguments)", () => {
     // Test that the menu throws an error.
     expect(() => {
       initializeMenu(menu);
-    }).toThrow('key must be a string. "number" given.');
+    }).toThrow('TypeError: key must be a string. "number" given.');
   });
 });
