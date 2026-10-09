@@ -153,5 +153,8 @@
     "vitepress": "^1.0.0-rc.20",
     "vitest": "^4.0.16",
     "vitest-axe": "^0.1.0"
+  },
+  "dependencies": {
+    "@accessible-ecosystem/core": "^1.0.0-beta.0"
   }
 }

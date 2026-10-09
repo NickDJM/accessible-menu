@@ -19,6 +19,7 @@ new BaseMenu({
   submenusSelector,
   controllerElement,
   containerElement,
+  initializeClass,
   openClass,
   closeClass,
   transitionClass,
@@ -43,34 +44,35 @@ The constructor populates the dom, selector, CSS class, and hover related proper
 
 ### Parameters {#constructor--parameters}
 
-| Param | Type | Description | Default |
-| --- | --- | --- | --- |
-| options | `object` | The options for generating the menu. | `undefined` |
-| options.menuElement | `HTMLElement` | The menu element in the DOM. | `undefined` |
-| options.menuItemsSelector | `string` | The query selector string for menu items. | `"li"` |
-| options.menuLinksSelector | `string` | The query selector string for menu links. | `"a"` |
-| options.submenuItemsSelector | `string` | The query selector string for menu items containing submenus. | `li:has(ul)` |
-| options.submenuTogglesSelector | `string` | The query selector string for submenu toggle buttons/links. | `"a"` |
-| options.submenusSelector | `string` | The query selector string for submenus. | `"ul"` |
-| options.controllerElement | `HTMLElement`, `null` | The element controlling the menu in the DOM. | `null` |
-| options.containerElement | `HTMLElement`, `null` | The element containing the menu in the DOM. | `null` |
-| options.openClass | `string`, `string[]`, `null` | The class to apply when a menu is "open". | `"show"` |
-| options.closeClass | `string`, `string[]`, `null` | The class to apply when a menu is "closed". | `"hide"` |
-| options.transitionClass | `string`, `string[]`, `null` | The class to apply when a menu is transitioning between "open" and "closed" states. | `transitioning` |
-| options.transitionDuration | `number` | The duration of the transition between "open" and "closed" states (in milliseconds). | `250` |
-| options.openDuration | `number` | The duration of the transition from "closed" to "open" states (in milliseconds). | `250` |
-| options.closeDuration | `number` | The duration of the transition from "open" to "closed" states (in milliseconds). | `250` |
-| options.isTopLevel | `boolean` | A flag to mark the root menu. | `false` |
-| options.parentMenu | `BaseMenu`, `null` | The parent menu to this menu. | `null` |
-| options.hoverType | `string` | The type of hoverability a menu has. | `"off"` |
-| options.hoverDelay | `number` | The delay for opening and closing menus if the menu is hoverable (in milliseconds). | `250` |
-| options.enterDelay | `number` | The delay for opening menus if the menu is hoverable (in milliseconds). | `-1` |
-| options.leaveDelay | `number` | The delay for closing menus if the menu is hoverable (in milliseconds). | `-1` |
-| options.breakpoint | `string` | The breakpoint that the menu will automatically open/close itself at. | `""` |
-| options.mediaQuery | `string` | The media query to use to trigger media query list events. | `""` |
-| options.autoOpen | `boolean` | A flag to auto open the menu when the media query does not match. | `true` |
-| options.prefix | `string`, `null` | The prefix for the CSS custom properties. | `"am-"` |
-| options.key | `string`, `null` | The key used to generate IDs throughout the menu. | `null` |
+| Param                          | Type                         | Description                                                                           | Default           |
+| ------------------------------ | ---------------------------- | ------------------------------------------------------------------------------------- | ----------------- |
+| options                        | `object`                     | The options for generating the menu.                                                  | `undefined`       |
+| options.menuElement            | `HTMLElement`                | The menu element in the DOM.                                                          | `undefined`       |
+| options.menuItemsSelector      | `string`                     | The query selector string for menu items.                                             | `"li"`            |
+| options.menuLinksSelector      | `string`                     | The query selector string for menu links.                                             | `"a"`             |
+| options.submenuItemsSelector   | `string`                     | The query selector string for menu items containing submenus.                         | `li:has(ul)`      |
+| options.submenuTogglesSelector | `string`                     | The query selector string for submenu toggle buttons/links.                           | `"a"`             |
+| options.submenusSelector       | `string`                     | The query selector string for submenus.                                               | `"ul"`            |
+| options.controllerElement      | `HTMLElement`, `null`        | The element controlling the menu in the DOM.                                          | `null`            |
+| options.containerElement       | `HTMLElement`, `null`        | The element containing the menu in the DOM.                                           | `null`            |
+| options.initializeClass        | `string`, `string[]`, `null` | The class(es) to apply when the menu is initializing.                                 | `"initializing"`  |
+| options.openClass              | `string`, `string[]`, `null` | The class(es) to apply when the menu is open.                                         | `"show"`          |
+| options.closeClass             | `string`, `string[]`, `null` | The class(es) to apply when the menu is closed.                                       | `"hide"`          |
+| options.transitionClass        | `string`, `string[]`, `null` | The class(es) to apply when the menu is transitioning between open and closed states. | `"transitioning"` |
+| options.transitionDuration     | `number`                     | The duration of the transition between "open" and "closed" states (in milliseconds).  | `250`             |
+| options.openDuration           | `number`                     | The duration of the transition from "closed" to "open" states (in milliseconds).      | `-1`              |
+| options.closeDuration          | `number`                     | The duration of the transition from "open" to "closed" states (in milliseconds).      | `-1`              |
+| options.isTopLevel             | `boolean`                    | A flag to mark the root menu.                                                         | `true`            |
+| options.parentMenu             | `BaseMenu`, `null`           | The parent menu to this menu.                                                         | `null`            |
+| options.hoverType              | `string`                     | The type of hoverability a menu has.                                                  | `"off"`           |
+| options.hoverDelay             | `number`                     | The delay for opening and closing menus if the menu is hoverable (in milliseconds).   | `250`             |
+| options.enterDelay             | `number`                     | The delay for opening menus if the menu is hoverable (in milliseconds).               | `-1`              |
+| options.leaveDelay             | `number`                     | The delay for closing menus if the menu is hoverable (in milliseconds).               | `-1`              |
+| options.breakpoint             | `string`                     | The breakpoint that the menu will automatically open/close itself at.                 | `""`              |
+| options.mediaQuery             | `string`                     | The media query to use to trigger media query list events.                            | `""`              |
+| options.autoOpen               | `boolean`                    | A flag to auto open the menu when the media query does not match.                     | `true`            |
+| options.prefix                 | `string`, `null`             | The prefix for the CSS custom properties.                                             | `"am-"`           |
+| options.key                    | `string`, `null`             | The key used to generate IDs throughout the menu.                                     | `null`            |
 
 ## Initialize
 
@@ -137,27 +139,40 @@ BaseMenu._dom;
 
 #### Type {#property--dom--type}
 
-`Object<HTMLElement, HTMLElement[]>`
+`Object<string, HTMLElement|HTMLElement[]|null>`
 
 #### Properties {#property--dom--properties}
 
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| menu | `HTMLElement` | The menu element. | `null` |
-| menuItems | `HTMLElement[]` | An array of menu items. | `[]` |
-| menuLinks | `HTMLElement[]` | An array of menu links. | `[]` |
-| submenuItems | `HTMLElement[]` | An array of menu items that also contain submenu elements. | `[]` |
-| submenuToggles | `HTMLElement[]` | An array of menu links that function as submenu toggles. | `[]` |
-| submenus | `HTMLElement[]` | An array of submenu elements. | `[]` |
-| controller | `HTMLElement` | The toggle for this menu. | `null` |
-| container | `HTMLElement` | The container for this menu. | `null` |
+| Name           | Type                  | Description                                                | Default                 |
+| -------------- | --------------------- | ---------------------------------------------------------- | ----------------------- |
+| menu           | `HTMLElement`         | The menu element.                                          | `menuElement`           |
+| menuItems      | `HTMLElement[]`       | An array of menu items.                                    | Populated on initialize |
+| submenuItems   | `HTMLElement[]`       | An array of menu items that also contain submenu elements. | Populated on initialize |
+| submenuToggles | `HTMLElement[]`       | An array of menu links that function as submenu toggles.   | Populated on initialize |
+| submenus       | `HTMLElement[]`       | An array of submenu elements.                              | Populated on initialize |
+| controller     | `HTMLElement`, `null` | The toggle for this menu.                                  | `null`                  |
+| container      | `HTMLElement`, `null` | The container for this menu.                               | `null`                  |
+
+`menuItems`, `submenuItems`, `submenuToggles`, and `submenus` are populated when the menu is initialized. BaseMenu does not populate a `menuLinks` entry in `_dom`.
+
+### _rootDOMElement <badge type="warning" text="protected" /> {#property--rootdomelement}
+
+The key used to get the root DOM element from `_dom`.
+
+```js
+BaseMenu._rootDOMElement; // Default: `"menu"`.
+```
+
+#### Type {#property--rootdomelement--type}
+
+`string`
 
 ### _protectedDOMElements <badge type="warning" text="protected" /> {#property--protecteddomelements}
 
 DOM element keys that cannot be set or reset through `_setDOMElementType` or `_resetDOMElementType`.
 
 ```js
-BaseMenu._protectedDOMElements; // Default: `["menu", "controller", "container"]`.
+BaseMenu._protectedDOMElements; // Default: `["controller", "container"]`.
 ```
 
 #### Type {#property--protecteddomelements--type}
@@ -174,17 +189,17 @@ BaseMenu._selectors;
 
 #### Type {#property--selectors--type}
 
-`Object<string>`
+`Object<string, string>`
 
 #### Properties {#property--selectors--properties}
 
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| menuItems | `string` | The query selector for menu items. | `""` |
-| menuLinks | `string` | The query selector for menu links. | `""` |
-| submenuItems | `string` | The query selector for menu items containing submenus. | `""` |
-| submenuToggles | `string` | The query selector for menu links that function as submenu toggles. | `""` |
-| submenus | `string` | The query selector for for submenus. | `""` |
+| Name           | Type     | Description                                                         | Default |
+| -------------- | -------- | ------------------------------------------------------------------- | ------- |
+| menuItems      | `string` | The query selector for menu items.                                  | `""`    |
+| menuLinks      | `string` | The query selector for menu links.                                  | `""`    |
+| submenuItems   | `string` | The query selector for menu items containing submenus.              | `""`    |
+| submenuToggles | `string` | The query selector for menu links that function as submenu toggles. | `""`    |
+| submenus       | `string` | The query selector for for submenus.                                | `""`    |
 
 ### _elements <badge type="warning" text="protected" /> {#property--elements}
 
@@ -196,17 +211,17 @@ BaseMenu._elements;
 
 #### Type {#property--elements--type}
 
-`Object<BaseMenu, BaseMenuToggle, BaseMenuItem[], BaseMenuToggle[]`
+`Object<string, BaseMenu|BaseMenuToggle|BaseMenuItem[]|BaseMenuToggle[]|null>`
 
 #### Properties {#property--elements--properties}
 
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| menuItems | `BaseMenuItem[]` | An array of menu items. | `[]` |
-| submenuToggles | `BaseMenuToggle[]` | An array of menu toggles. | `[]` |
-| controller | `BaseMenuToggle`, `null` | A menu toggle that controls this menu. | `null` |
-| parentMenu | `BaseMenu`, `null` | The parent menu. | `null` |
-| rootMenu | `BaseMenu`, `null` | The root menu of the menu tree. | `null` |
+| Name           | Type                     | Description                            | Default                                       |
+| -------------- | ------------------------ | -------------------------------------- | --------------------------------------------- |
+| menuItems      | `BaseMenuItem[]`         | An array of menu items.                | `[]`                                          |
+| submenuToggles | `BaseMenuToggle[]`       | An array of menu toggles.              | `[]`                                          |
+| controller     | `BaseMenuToggle`, `null` | A menu toggle that controls this menu. | `null`                                        |
+| parentMenu     | `BaseMenu`, `null`       | The parent menu.                       | `null`                                        |
+| rootMenu       | `BaseMenu`, `null`       | The root menu of the menu tree.        | `this` for a top-level menu; `null` otherwise |
 
 ### _classes <badge type="warning" text="protected" /> {#property--classes}
 
@@ -218,14 +233,15 @@ BaseMenu._classes;
 
 #### Type {#property--classes--type}
 
-`Object<string, string[]>`
+`Object<string, string|string[]>`
 
 #### Properties {#property--classes--properties}
 
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| open | `string`, `string[]` | The class(es) to apply when the menu is open. | `"show"` |
-| close | `string`, `string[]` | The class(es) to apply when the menu is closed. | `"hide"` |
+| Name       | Type                 | Description                                                           | Default           |
+| ---------- | -------------------- | --------------------------------------------------------------------- | ----------------- |
+| initialize | `string`, `string[]` | The class(es) to apply when the menu is initializing.                 | `"initializing"`  |
+| open       | `string`, `string[]` | The class(es) to apply when the menu is open.                         | `"show"`          |
+| close      | `string`, `string[]` | The class(es) to apply when the menu is closed.                       | `"hide"`          |
 | transition | `string`, `string[]` | The class(es) to apply when the menu is transitioning between states. | `"transitioning"` |
 
 ### _durations <badge type="warning" text="protected" /> {#property--durations}
@@ -238,15 +254,15 @@ BaseMenu._durations;
 
 #### Type {#property--durations--type}
 
-`Object<number>`
+`Object<string, number>`
 
 #### Properties {#property--durations--properties}
 
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| transition | `number` | The duration time (in milliseconds) for the transition between open and closed states. | `250` |
-| open | `number` | The duration time (in milliseconds) for the transition from closed to open states. | `-1` |
-| close | `number` | The duration time (in milliseconds) for the transition from open to closed states. | `-1` |
+| Name       | Type     | Description                                                                            | Default |
+| ---------- | -------- | -------------------------------------------------------------------------------------- | ------- |
+| transition | `number` | The duration time (in milliseconds) for the transition between open and closed states. | `250`   |
+| open       | `number` | The duration time (in milliseconds) for the transition from closed to open states.     | `-1`    |
+| close      | `number` | The duration time (in milliseconds) for the transition from open to closed states.     | `-1`    |
 
 ### _delays <badge type="warning" text="protected" /> {#property--delays}
 
@@ -258,19 +274,31 @@ BaseMenu._delays;
 
 #### Type {#property--delays--type}
 
-`Object<number>`
+`Object<string, number>`
 
 #### Properties {#property--delays--properties}
 
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| hover | `number` | The delay time (in milliseconds) used for pointerenter/pointerleave events to take place. | `250` |
-| enter | `number` | The delay time (in milliseconds) used for pointerenter events to take place. | `-1` |
-| leave | `number` | The delay time (in milliseconds) used for pointerleave events to take place. | `-1` |
+| Name  | Type     | Description                                                                               | Default |
+| ----- | -------- | ----------------------------------------------------------------------------------------- | ------- |
+| hover | `number` | The delay time (in milliseconds) used for pointerenter/pointerleave events to take place. | `250`   |
+| enter | `number` | The delay time (in milliseconds) used for pointerenter events to take place.              | `-1`    |
+| leave | `number` | The delay time (in milliseconds) used for pointerleave events to take place.              | `-1`    |
+
+### _intervals <badge type="warning" text="protected" /> {#property--intervals}
+
+Intervals throughout the component.
+
+```js
+BaseMenu._intervals; // Default: `{}`.
+```
+
+#### Type {#property--intervals--type}
+
+`Object<string, Function>`
 
 ### _timeouts <badge type="warning" text="protected" /> {#property--timeouts}
 
-Event timeouts throughout the menu.
+Timeouts throughout the menu.
 
 ```js
 BaseMenu._timeouts; // Default: `{}`.
@@ -278,7 +306,7 @@ BaseMenu._timeouts; // Default: `{}`.
 
 #### Type {#property--timeouts--type}
 
-`Object<Function>`
+`Object<string, Function>`
 
 ### _listeners <badge type="warning" text="protected" /> {#property--listeners}
 
@@ -291,6 +319,18 @@ BaseMenu._listeners; // Default: `[]`.
 #### Type {#property--listeners--type}
 
 `object[]`
+
+### _events <badge type="warning" text="protected" /> {#property--events}
+
+Custom events that can be triggered throughout the component.
+
+```js
+BaseMenu._events; // Default: `{}`.
+```
+
+#### Type {#property--events--type}
+
+`Object<string, CustomEvent>`
 
 ### _root <badge type="warning" text="protected" /> {#property--root}
 
@@ -366,6 +406,11 @@ The prefix for the CSS custom properties.
 
 ```js
 BaseMenu._prefix; // Default: `"am-"`.
+```
+
+#### Type {#property--prefix--type}
+
+`string`
 
 ### _hasOpened <badge type="warning" text="protected" /> {#property--hasopened}
 
@@ -381,10 +426,10 @@ BaseMenu._hasOpened; // Default: `false`.
 
 ### _shouldOpen <badge type="warning" text="protected" /> {#property--shouldopen}
 
-A flag to force the menu open when the media query matches.
+A flag to force the menu open if the media query does not match.
 
 ```js
-BaseMenu._shouldOpen; // Default: `false`.
+BaseMenu._shouldOpen; // Default: `true`.
 ```
 
 #### Type {#property--shouldopen--type}
@@ -472,12 +517,71 @@ BaseMenu._storageKey; // Default: `"menus"`.
 ```
 
 #### Type {#property--storagekey--type}
+`string`
+
+### _name <badge type="warning" text="protected" /> {#property--name}
+
+The component name of the menu.
+
+```js
+BaseMenu._name; // Default: `"Menu"`.
+```
+
+#### Type {#property--name--type}
 
 `string`
 
+### _scope <badge type="warning" text="protected" /> {#property--scope}
+
+The scope of the menu.
+
+```js
+BaseMenu._scope; // Default: `"AccessibleMenu"`.
+```
+
+#### Type {#property--scope--type}
+
+`string`
+
+### _shouldStore <badge type="warning" text="protected" /> {#property--shouldstore}
+
+A flag indicating whether a component should be stored in the StorageManager. BaseMenu's `initialize()` method currently stores the menu unconditionally.
+
+```js
+BaseMenu._shouldStore; // Default: `true`.
+```
+
+#### Type {#property--shouldstore--type}
+
+`boolean`
+
+### _valid <badge type="warning" text="protected" /> {#property--valid}
+
+The validity state of the menu.
+
+```js
+BaseMenu._valid; // Default: `true`.
+```
+
+#### Type {#property--valid--type}
+
+`boolean`
+
+### _initialized <badge type="warning" text="protected" /> {#property--initialized}
+
+The initialized state of the menu. BaseMenu's `initialize()` method currently does not set this flag to `true`.
+
+```js
+BaseMenu._initialized; // Default: `false`.
+```
+
+#### Type {#property--initialized--type}
+
+`boolean`
+
 ### _errors <badge type="warning" text="protected" /> {#property--errors}
 
-An array of error messages generated by the menu.
+An array of error objects generated by the menu.
 
 ```js
 BaseMenu._errors; // Default: `[]`.
@@ -485,7 +589,7 @@ BaseMenu._errors; // Default: `[]`.
 
 #### Type {#property--errors--type}
 
-`string[]`
+`Error[]`
 
 ## Getters and Setters
 
@@ -789,7 +893,7 @@ Attempting to set the current child to a value less than -1 will set the current
 
 Attempting to set the current child to a value greater than or equal to the number of menu items will set the current child to the index of the last menu item in the menu.
 
-If the current menu has a parent menu _and_ the menu's [current event](#property--currentevent) is "mouse", The parent menu will have it's current child updated as well to help with transitioning between mouse and keyboard naviation.
+If the current menu has a parent menu _and_ the menu's [current event](#property--currentevent) is "mouse" or "character", the parent menu will have its current child updated as well to help with transitioning between mouse and keyboard navigation.
 
 See [_currentChild](#property--currentchild) for more information.
 
@@ -1051,7 +1155,7 @@ See [_hasOpened](#property--hasopened) for more information.
 
 ### errors <badge type="warning" text="readonly" /> {#getter--errors}
 
-An array of error messages generated by the menu.
+An array of error objects generated by the menu.
 
 ::: code-group
 
