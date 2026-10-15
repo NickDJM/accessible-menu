@@ -68,13 +68,15 @@ describe("TreeviewToggle protected methods", () => {
       });
 
       const menuToggle = menu.elements.submenuToggles[0];
-      menuToggle.dom.toggle.removeAttribute("aria-expanded");
+      menuToggle.dom.controller.removeAttribute("aria-expanded");
 
       // Call _setAriaAttributes.
       menuToggle._setAriaAttributes();
 
       // Test the toggle's aria-expanded attribute.
-      expect(menuToggle.dom.toggle.getAttribute("aria-expanded")).toBe("false");
+      expect(menuToggle.dom.controller.getAttribute("aria-expanded")).toBe(
+        "false"
+      );
     });
 
     // Test that _setAriaAttributes does not change the toggle's aria-expanded attribute if it is already set to true.
@@ -87,13 +89,15 @@ describe("TreeviewToggle protected methods", () => {
       });
 
       const menuToggle = menu.elements.submenuToggles[0];
-      menuToggle.dom.toggle.setAttribute("aria-expanded", "true");
+      menuToggle.dom.controller.setAttribute("aria-expanded", "true");
 
       // Call _setAriaAttributes.
       menuToggle._setAriaAttributes();
 
       // Test the toggle's aria-expanded attribute.
-      expect(menuToggle.dom.toggle.getAttribute("aria-expanded")).toBe("true");
+      expect(menuToggle.dom.controller.getAttribute("aria-expanded")).toBe(
+        "true"
+      );
     });
 
     // Test that _setAriaAttributes sets the toggle's aria-expanded role to false if it is set to anything other than true.
@@ -106,13 +110,15 @@ describe("TreeviewToggle protected methods", () => {
       });
 
       const menuToggle = menu.elements.submenuToggles[0];
-      menuToggle.dom.toggle.setAttribute("aria-expanded", "invalid");
+      menuToggle.dom.controller.setAttribute("aria-expanded", "invalid");
 
       // Call _setAriaAttributes.
       menuToggle._setAriaAttributes();
 
       // Test the toggle's aria-expanded attribute.
-      expect(menuToggle.dom.toggle.getAttribute("aria-expanded")).toBe("false");
+      expect(menuToggle.dom.controller.getAttribute("aria-expanded")).toBe(
+        "false"
+      );
     });
 
     // Test that _setAriaAttributes sets the toggle's aria-owns attribute to the controlled menu's id.
@@ -125,13 +131,13 @@ describe("TreeviewToggle protected methods", () => {
       });
 
       const menuToggle = menu.elements.submenuToggles[0];
-      menuToggle.dom.toggle.removeAttribute("aria-owns");
+      menuToggle.dom.controller.removeAttribute("aria-owns");
 
       // Call _setAriaAttributes.
       menuToggle._setAriaAttributes();
 
       // Test the toggle's aria-owns attribute.
-      expect(menuToggle.dom.toggle.getAttribute("aria-owns")).toBe(
+      expect(menuToggle.dom.controller.getAttribute("aria-owns")).toBe(
         menuToggle.elements.controlledMenu.dom.menu.id
       );
     });
@@ -146,7 +152,7 @@ describe("TreeviewToggle protected methods", () => {
       });
 
       const menuToggle = menu.elements.submenuToggles[0];
-      menuToggle.dom.toggle.removeAttribute("id");
+      menuToggle.dom.controller.removeAttribute("id");
       menuToggle.elements.controlledMenu.dom.menu.removeAttribute(
         "aria-labelledby"
       );
@@ -159,7 +165,7 @@ describe("TreeviewToggle protected methods", () => {
         menuToggle.elements.controlledMenu.dom.menu.getAttribute(
           "aria-labelledby"
         )
-      ).toBe(menuToggle.dom.toggle.id);
+      ).toBe(menuToggle.dom.controller.id);
     });
   });
 });

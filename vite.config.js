@@ -19,31 +19,38 @@ const lib = {
     entry: resolve(__dirname, "build.js"),
     name: "AccessibleMenu",
     formats,
-    fileName: (format) => `accessible-menu.${format}.js`,
+    fileName: (format) =>
+      format === "cjs" ? "accessible-menu.cjs" : `accessible-menu.${format}.js`,
   },
   DisclosureMenu: {
-    entry: resolve(__dirname, "/src/disclosureMenu.js"),
+    entry: resolve(__dirname, "src/disclosureMenu.js"),
     name: "DisclosureMenu",
     formats,
-    fileName: (format) => `disclosure-menu.${format}.js`,
+    fileName: (format) =>
+      format === "cjs" ? "disclosure-menu.cjs" : `disclosure-menu.${format}.js`,
   },
   Menubar: {
-    entry: resolve(__dirname, "/src/menubar.js"),
+    entry: resolve(__dirname, "src/menubar.js"),
     name: "Menubar",
     formats,
-    fileName: (format) => `menubar.${format}.js`,
+    fileName: (format) =>
+      format === "cjs" ? "menubar.cjs" : `menubar.${format}.js`,
   },
   TopLinkDisclosureMenu: {
-    entry: resolve(__dirname, "/src/topLinkDisclosureMenu.js"),
+    entry: resolve(__dirname, "src/topLinkDisclosureMenu.js"),
     name: "TopLinkDisclosureMenu",
     formats,
-    fileName: (format) => `top-link-disclosure-menu.${format}.js`,
+    fileName: (format) =>
+      format === "cjs"
+        ? "top-link-disclosure-menu.cjs"
+        : `top-link-disclosure-menu.${format}.js`,
   },
   Treeview: {
-    entry: resolve(__dirname, "/src/treeview.js"),
+    entry: resolve(__dirname, "src/treeview.js"),
     name: "Treeview",
     formats,
-    fileName: (format) => `treeview.${format}.js`,
+    fileName: (format) =>
+      format === "cjs" ? "treeview.cjs" : `treeview.${format}.js`,
   },
 };
 
@@ -52,6 +59,11 @@ export default defineConfig({
   build: {
     lib: lib[buildType] || lib.default,
     emptyOutDir: false,
+    rollupOptions: {
+      output: {
+        exports: buildType === "default" || !lib[buildType] ? "named" : "auto",
+      },
+    },
   },
   server: {
     host: "0.0.0.0",

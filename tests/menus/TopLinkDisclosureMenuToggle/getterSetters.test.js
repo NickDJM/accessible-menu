@@ -51,44 +51,44 @@ describe("TopLinkDisclosureMenuToggle getter/setters", () => {
     });
   });
 
-  // Test TopLinkDisclosureMenuToggle isOpen.
-  describe("isOpen", () => {
-    // Test that TopLinkDisclosureMenuToggle implements the BaseMenuToggle isOpen getter.
-    it("should implement the BaseMenuToggle isOpen", () => {
+  // Test TopLinkDisclosureMenuToggle isExpanded.
+  describe("isExpanded", () => {
+    // Test that TopLinkDisclosureMenuToggle implements the BaseMenuToggle isExpanded getter.
+    it("should implement the BaseMenuToggle isExpanded", () => {
       expectInheritedGetter(
         TopLinkDisclosureMenuToggle.prototype,
         BaseMenuToggle.prototype,
-        "isOpen"
+        "isExpanded"
       );
     });
 
-    // Test that TopLinkDisclosureMenuToggle implements the BaseMenuToggle isOpen setter.
-    it("should implement the BaseMenuToggle isOpen setter", () => {
+    // Test that TopLinkDisclosureMenuToggle implements the BaseMenuToggle isExpanded setter.
+    it("should implement the BaseMenuToggle isExpanded setter", () => {
       expectInheritedSetter(
         TopLinkDisclosureMenuToggle.prototype,
         BaseMenuToggle.prototype,
-        "isOpen"
+        "isExpanded"
       );
     });
   });
 
-  // Test TopLinkDisclosureMenuToggle hasOpened.
-  describe("hasOpened", () => {
-    // Test that TopLinkDisclosureMenuToggle implements the BaseMenuToggle hasOpened getter.
-    it("should implement the BaseMenuToggle hasOpened", () => {
+  // Test TopLinkDisclosureMenuToggle shouldBeExpanded.
+  describe("shouldBeExpanded", () => {
+    // Test that TopLinkDisclosureMenuToggle implements the BaseMenuToggle shouldBeExpanded getter.
+    it("should implement the BaseMenuToggle shouldBeExpanded", () => {
       expectInheritedGetter(
         TopLinkDisclosureMenuToggle.prototype,
         BaseMenuToggle.prototype,
-        "hasOpened"
+        "shouldBeExpanded"
       );
     });
 
-    // Test that TopLinkDisclosureMenuToggle implements the BaseMenuToggle hasOpened setter.
-    it("should implement the BaseMenuToggle hasOpened setter", () => {
+    // Test that TopLinkDisclosureMenuToggle implements the BaseMenuToggle shouldBeExpanded setter.
+    it("should implement the BaseMenuToggle shouldBeExpanded setter", () => {
       expectInheritedSetter(
         TopLinkDisclosureMenuToggle.prototype,
         BaseMenuToggle.prototype,
-        "hasOpened"
+        "shouldBeExpanded"
       );
     });
   });

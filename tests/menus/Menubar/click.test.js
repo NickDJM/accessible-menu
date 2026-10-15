@@ -15,7 +15,7 @@ import { twoLevel } from "../../../demo/menus.js";
 import Menubar from "../../../src/menubar.js";
 import { simulatePointerEvent, PointerEvent } from "../helpers.js";
 
-vi.mock("../../../src/eventHandlers.js");
+vi.mock("@accessible-ecosystem/core/eventHelpers.js");
 
 beforeAll(() => {
   // Extend jsdom MouseEvent class as PointerEvent class.
@@ -126,7 +126,8 @@ describe("Menubar", () => {
     // Test that point up calls preventEvent with the current event if triggered on a submenu item.
     it("should call preventEvent with the current event if triggered on a submenu item", async () => {
       // Mock preventEvent.
-      const eventHandlers = await import("../../../src/eventHandlers.js");
+      const eventHandlers =
+        await import("@accessible-ecosystem/core/eventHelpers.js");
       eventHandlers.preventEvent = vi.fn();
 
       // Create a new Menubar instance for testing.
@@ -211,7 +212,7 @@ describe("Menubar", () => {
       });
 
       // Simulate a click event.
-      simulatePointerEvent("click", menu.elements.controller.dom.toggle);
+      simulatePointerEvent("click", menu.elements.controller.dom.controller);
 
       expect(menu.currentEvent).toBe("mouse");
     });
@@ -219,7 +220,8 @@ describe("Menubar", () => {
     // Test that click calls preventEvent with the current event if triggered on the root menu's controller.
     it("should call preventEvent with the current event if triggered on the root menu's controller", async () => {
       // Mock preventEvent.
-      const eventHandlers = await import("../../../src/eventHandlers.js");
+      const eventHandlers =
+        await import("@accessible-ecosystem/core/eventHelpers.js");
       eventHandlers.preventEvent = vi.fn();
 
       // Create a new Menubar instance for testing.
@@ -235,7 +237,7 @@ describe("Menubar", () => {
       // Simulate a click event.
       const event = simulatePointerEvent(
         "click",
-        menu.elements.controller.dom.toggle
+        menu.elements.controller.dom.controller
       );
 
       expect(spy).toHaveBeenCalledWith(event);
@@ -254,7 +256,7 @@ describe("Menubar", () => {
       const spy = vi.spyOn(menu.elements.controller, "toggle");
 
       // Simulate a click event.
-      simulatePointerEvent("click", menu.elements.controller.dom.toggle);
+      simulatePointerEvent("click", menu.elements.controller.dom.controller);
 
       expect(spy).toHaveBeenCalled();
     });
@@ -269,7 +271,7 @@ describe("Menubar", () => {
       });
 
       // Simulate a click event.
-      simulatePointerEvent("click", menu.elements.controller.dom.toggle);
+      simulatePointerEvent("click", menu.elements.controller.dom.controller);
 
       expect(menu.focusState).not.toBe("self");
     });
@@ -284,7 +286,7 @@ describe("Menubar", () => {
       });
 
       // Simulate a click event.
-      simulatePointerEvent("click", menu.elements.controller.dom.toggle);
+      simulatePointerEvent("click", menu.elements.controller.dom.controller);
 
       expect(menu.focusState).toBe("none");
     });
@@ -320,8 +322,8 @@ describe("Menubar", () => {
       expect(menu.currentEvent).not.toBe("mouse");
     });
 
-    // Test that click calls closeChildren if triggered on the document and focus state is not none.
-    it("should call closeChildren if triggered on the document and focus state is not none", () => {
+    // Test that click calls collapseChildren if triggered on the document and focus state is not none.
+    it("should call collapseChildren if triggered on the document and focus state is not none", () => {
       // Create a new Menubar instance for testing.
       const menu = new Menubar({
         menuElement: document.querySelector("ul"),
@@ -330,8 +332,8 @@ describe("Menubar", () => {
       });
       menu.focusState = "self";
 
-      // Spy on closeChildren.
-      const spy = vi.spyOn(menu, "closeChildren");
+      // Spy on collapseChildren.
+      const spy = vi.spyOn(menu, "collapseChildren");
 
       // Simulate a click event.
       simulatePointerEvent("click", document);
@@ -339,8 +341,8 @@ describe("Menubar", () => {
       expect(spy).toHaveBeenCalled();
     });
 
-    // Test that click does not call closeChildren if triggered on the document and focus state is none.
-    it("should not call closeChildren if triggered on the document and focus state is none", () => {
+    // Test that click does not call collapseChildren if triggered on the document and focus state is none.
+    it("should not call collapseChildren if triggered on the document and focus state is none", () => {
       // Create a new Menubar instance for testing.
       const menu = new Menubar({
         menuElement: document.querySelector("ul"),
@@ -348,8 +350,8 @@ describe("Menubar", () => {
         controllerElement: document.querySelector("button"),
       });
 
-      // Spy on closeChildren.
-      const spy = vi.spyOn(menu, "closeChildren");
+      // Spy on collapseChildren.
+      const spy = vi.spyOn(menu, "collapseChildren");
 
       // Simulate a click event.
       simulatePointerEvent("click", document);
@@ -394,7 +396,7 @@ describe("Menubar", () => {
       expect(spy).not.toHaveBeenCalled();
     });
 
-    // Test that click calls close on the controller if triggered on the document and focus state is not none.
+    // Test that click calls collapse on the controller if triggered on the document and focus state is not none.
     it("should call close on the controller if triggered on the document and focus state is not none", () => {
       // Create a new Menubar instance for testing.
       const menu = new Menubar({
@@ -404,8 +406,8 @@ describe("Menubar", () => {
       });
       menu.focusState = "self";
 
-      // Spy on close.
-      const spy = vi.spyOn(menu.elements.controller, "close");
+      // Spy on collapse.
+      const spy = vi.spyOn(menu.elements.controller, "collapse");
 
       // Simulate a click event.
       simulatePointerEvent("click", document);
@@ -422,8 +424,8 @@ describe("Menubar", () => {
         controllerElement: document.querySelector("button"),
       });
 
-      // Spy on close.
-      const spy = vi.spyOn(menu.elements.controller, "close");
+      // Spy on collapse.
+      const spy = vi.spyOn(menu.elements.controller, "collapse");
 
       // Simulate a click event.
       simulatePointerEvent("click", document);

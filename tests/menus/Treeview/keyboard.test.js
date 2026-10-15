@@ -418,7 +418,7 @@ describe("Treeview", () => {
           menu.elements.submenuToggles[0].preview();
 
           // Spy on the current menu toggle's close method.
-          const spy = vi.spyOn(menu.elements.submenuToggles[0], "close");
+          const spy = vi.spyOn(menu.elements.submenuToggles[0], "collapse");
 
           // Trigger a keyup event.
           simulateKeyboardEvent("keyup", menu.dom.menu, {
@@ -493,10 +493,10 @@ describe("Treeview", () => {
           // Set up the menu.
           menu.focusState = "self";
           menu.currentChild = 0;
-          menu.elements.controller.open();
+          menu.elements.controller.expand();
 
           // Spy on the controller's close method.
-          const spy = vi.spyOn(menu.elements.controller, "close");
+          const spy = vi.spyOn(menu.elements.controller, "collapse");
 
           // Trigger a keyup event.
           simulateKeyboardEvent("keyup", menu.dom.menu, {
@@ -517,7 +517,7 @@ describe("Treeview", () => {
           // Set up the menu.
           menu.focusState = "self";
           menu.currentChild = 0;
-          menu.elements.controller.open();
+          menu.elements.controller.expand();
 
           // Spy on the menu's focusController method.
           const spy = vi.spyOn(menu, "focusController");
@@ -644,7 +644,7 @@ describe("Treeview", () => {
 
           // Set up the menu.
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
           menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 5;
 
           // Spy on the menu's focusParentsNextChild method.
@@ -704,7 +704,7 @@ describe("Treeview", () => {
 
           // Set up the menu.
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
           menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 0;
 
           // Spy on the menu's focusNextChild method.
@@ -857,7 +857,7 @@ describe("Treeview", () => {
 
           // Set up the menu.
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
           menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 0;
 
           // Spy on the menu's blurCurrentChild method.
@@ -888,7 +888,7 @@ describe("Treeview", () => {
 
           // Set up the menu.
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
           menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 0;
 
           // Trigger a keyup event.
@@ -913,7 +913,7 @@ describe("Treeview", () => {
 
           // Set up the menu.
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
           menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 0;
 
           // Spy on the menu's focusCurrentChild method.
@@ -970,7 +970,7 @@ describe("Treeview", () => {
 
           // Set up the menu.
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
           menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 1;
 
           // Spy on the menu's focusPreviousChild method.
@@ -1209,7 +1209,7 @@ describe("Treeview", () => {
           menu.elements.submenuToggles[0].preview();
 
           // Spy on the current menu toggle's close method.
-          const spy = vi.spyOn(menu.elements.submenuToggles[0], "close");
+          const spy = vi.spyOn(menu.elements.submenuToggles[0], "collapse");
 
           // Trigger a keyup event.
           simulateKeyboardEvent("keyup", menu.dom.menu, {
@@ -1232,7 +1232,7 @@ describe("Treeview", () => {
 
           // Set up the menu.
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
           menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 0;
 
           // Spy on the menu's blurCurrentChild method.
@@ -1263,7 +1263,7 @@ describe("Treeview", () => {
 
           // Set up the menu.
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
           menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 0;
 
           // Trigger a keyup event.
@@ -1288,7 +1288,7 @@ describe("Treeview", () => {
 
           // Set up the menu.
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
           menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 0;
 
           // Spy on the parent menu's focusCurrentChild method.
@@ -1470,8 +1470,8 @@ describe("Treeview", () => {
 
         expect(event.defaultPrevented).toBeTruthy();
       });
-      // Test that the menu's openChildren method is called.
-      it("should call the menu's openChildren method", () => {
+      // Test that the menu's expandChildren method is called.
+      it("should call the menu's expandChildren method", () => {
         // Create a new Treeview instance for testing.
         const menu = new Treeview({
           menuElement: document.querySelector("ul"),
@@ -1483,8 +1483,8 @@ describe("Treeview", () => {
         menu.focusState = "self";
         menu.currentChild = 0;
 
-        // Spy on the menu's openChildren method.
-        const spy = vi.spyOn(menu, "openChildren");
+        // Spy on the menu's expandChildren method.
+        const spy = vi.spyOn(menu, "expandChildren");
 
         // Trigger a keyup event.
         simulateKeyboardEvent("keyup", menu.dom.menu, {
@@ -1511,7 +1511,7 @@ describe("Treeview Controller", () => {
       });
 
       // Trigger a keydown event on the menu's controller.
-      simulateKeyboardEvent("keydown", menu.elements.controller.dom.toggle);
+      simulateKeyboardEvent("keydown", menu.elements.controller.dom.controller);
 
       expect(menu.currentEvent).toBe("keyboard");
     });
@@ -1530,7 +1530,7 @@ describe("Treeview Controller", () => {
         // Trigger a keydown event on the menu's controller.
         const event = simulateKeyboardEvent(
           "keydown",
-          menu.elements.controller.dom.toggle,
+          menu.elements.controller.dom.controller,
           {
             key,
           }
@@ -1553,7 +1553,7 @@ describe("Treeview Controller", () => {
       });
 
       // Trigger a keyup event on the menu's controller.
-      simulateKeyboardEvent("keyup", menu.elements.controller.dom.toggle);
+      simulateKeyboardEvent("keyup", menu.elements.controller.dom.controller);
 
       expect(menu.currentEvent).toBe("keyboard");
     });
@@ -1572,7 +1572,7 @@ describe("Treeview Controller", () => {
         // Trigger a keyup event on the menu's controller.
         const event = simulateKeyboardEvent(
           "keyup",
-          menu.elements.controller.dom.toggle,
+          menu.elements.controller.dom.controller,
           {
             key,
           }
@@ -1591,14 +1591,18 @@ describe("Treeview Controller", () => {
         });
 
         // Spy on the controller's open method.
-        vi.spyOn(menu.elements.controller, "open");
+        vi.spyOn(menu.elements.controller, "expand");
 
         // Trigger a keyup event on the menu's controller.
-        simulateKeyboardEvent("keyup", menu.elements.controller.dom.toggle, {
-          key,
-        });
+        simulateKeyboardEvent(
+          "keyup",
+          menu.elements.controller.dom.controller,
+          {
+            key,
+          }
+        );
 
-        expect(menu.elements.controller.open).toHaveBeenCalled();
+        expect(menu.elements.controller.expand).toHaveBeenCalled();
       });
 
       // Test that focusFirstChild is called on the menu on Spacebar and Enter keyup events.
@@ -1614,9 +1618,13 @@ describe("Treeview Controller", () => {
         vi.spyOn(menu, "focusFirstChild");
 
         // Trigger a keyup event on the menu's controller.
-        simulateKeyboardEvent("keyup", menu.elements.controller.dom.toggle, {
-          key,
-        });
+        simulateKeyboardEvent(
+          "keyup",
+          menu.elements.controller.dom.controller,
+          {
+            key,
+          }
+        );
 
         expect(menu.focusFirstChild).toHaveBeenCalled();
       });

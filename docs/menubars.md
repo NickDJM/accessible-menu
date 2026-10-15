@@ -18,7 +18,6 @@ The following is an example of how you would set up a single-level Menubar.
     <li><a href="#">Undead</a></li>
   </ul>
 </nav>
-
 ```
 
 ```js

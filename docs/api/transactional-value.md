@@ -1,5 +1,7 @@
 # TransactionalValue
 
+This API is provided by Core. Import it from `@accessible-ecosystem/core/TransactionalValue.js`. Accessible Menu no longer provides a local copy.
+
 A utility class that maintains a current value and a committed value.
 
 Useful for tracking edits and determining if a value has diverged from its last committed state.
@@ -19,11 +21,11 @@ stores a comparator function used by [isDirty](#getter--isdirty).
 
 ### Parameters {#constructor--parameters}
 
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| initialValue | `any` | The starting (and initially committed) value. | `undefined` |
-| options | `object` | Options for configuring the instance. | `{}` |
-| options.equals | `function` | Custom equality comparator. | `Object.is` |
+| Name           | Type       | Description                                   | Default     |
+| -------------- | ---------- | --------------------------------------------- | ----------- |
+| initialValue   | `any`      | The starting (and initially committed) value. | `undefined` |
+| options        | `object`   | Options for configuring the instance.         | `{}`        |
+| options.equals | `function` | Custom equality comparator.                   | `Object.is` |
 
 ## Properties
 
@@ -137,6 +139,6 @@ TransactionalValue.update((current) => current + 1);
 
 #### Parameters {#method--update--parameters}
 
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| fn | `function` | A function that receives the previous value and returns the new one. | `undefined` |
+| Name | Type       | Description                                                          | Default     |
+| ---- | ---------- | -------------------------------------------------------------------- | ----------- |
+| fn   | `function` | A function that receives the previous value and returns the new one. | `undefined` |

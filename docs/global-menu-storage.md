@@ -4,19 +4,20 @@ Accessible Menu provides a global storage object that is used to store all insta
 
 ## Usage
 
-Menus are stored in the global `StorageManager` instance registered on `window.AccessibleMenuStorage`.
+Accessible Menu keeps a list of the menus you create on `window.AccessibleMenuStorage`. You can look up one menu by its HTML ID, or get all of them to work with several menus at once. Submenus are available through their root menu rather than stored separately.
 
 ```js
-// Get a menu by id.
-window.AccessibleMenuStorage.get({
+// Get the menu whose HTML element has id="menu-id".
+const menu = window.AccessibleMenuStorage.get({
+  type: "menus",
   key: "menu-id",
 });
 
 // Get all stored menus.
-window.AccessibleMenuStorage.get();
+const menus = window.AccessibleMenuStorage.get({ type: "menus" });
 ```
 
-For more details on the storage API, see the [StorageManager API docs](./api/storage-manager).
+The `type: "menus"` option selects the stored menus. Once you have a menu, you can use its normal methods, such as `menu.focusFirstChild()`. For the full list of storage methods, see the [StorageManager API docs](./api/storage-manager).
 
 ## Caveats
 

@@ -1,7 +1,7 @@
 /* global DisclosureMenu */
 
 import BaseMenuToggle from "./_baseMenuToggle.js";
-import { isTag } from "./validate.js";
+import { isTag } from "@accessible-ecosystem/core/validate.js";
 
 /**
  * A link or button that controls the visibility of a DisclosureMenu.
@@ -12,18 +12,38 @@ class DisclosureMenuToggle extends BaseMenuToggle {
   /**
    * Constructs a new `DisclosureMenuToggle`.
    *
-   * @param {object}          options                     - The options for generating the menu toggle.
-   * @param {HTMLElement}     options.menuToggleElement   - The toggle element in the DOM.
-   * @param {HTMLElement}     options.parentElement       - The element containing the controlled menu.
-   * @param {DisclosureMenu}  options.controlledMenu      - The menu controlled by this toggle.
-   * @param {?DisclosureMenu} [options.parentMenu = null] - The menu containing this toggle.
-   * @param {boolean}         [options.initialize = true] - A flag to initialize the menu toggle immediately upon creation.
+   * @param {object}          options                                     - The options for generating the menu toggle.
+   * @param {HTMLElement}     options.menuToggleElement                   - The toggle element in the DOM.
+   * @param {HTMLElement}     options.parentElement                       - The element containing the controlled menu.
+   * @param {DisclosureMenu}  options.controlledMenu                      - The menu controlled by this toggle.
+   * @param {?DisclosureMenu} [options.parentMenu = null]                 - The menu containing this toggle.
+   * @param {string}          [options.breakpoint = ""]                   - The breakpoint used to generate the controller's media query.
+   * @param {string}          [options.mediaQuery = ""]                   - The media query used to trigger the controller's media query list events.
+   * @param {boolean}         [options.expandInsideBreakpoint = false]    - A flag to expand the controlled menu when the media query matches.
+   * @param {boolean}         [options.expandOutsideBreakpoint = false]   - A flag to expand the controlled menu when the media query does not match.
+   * @param {boolean}         [options.collapseInsideBreakpoint = false]  - A flag to collapse the controlled menu when the media query matches.
+   * @param {boolean}         [options.collapseOutsideBreakpoint = false] - A flag to collapse the controlled menu when the media query does not match.
+   * @param {boolean}         [options.lockInsideBreakpoint = false]      - A flag to lock the controller when the media query matches.
+   * @param {boolean}         [options.lockOutsideBreakpoint = false]     - A flag to lock the controller when the media query does not match.
+   * @param {boolean}         [options.unlockInsideBreakpoint = false]    - A flag to unlock the controller when the media query matches.
+   * @param {boolean}         [options.unlockOutsideBreakpoint = false]   - A flag to unlock the controller when the media query does not match.
+   * @param {boolean}         [options.initialize = true]                 - A flag to initialize the menu toggle immediately upon creation.
    */
   constructor({
     menuToggleElement,
     parentElement,
     controlledMenu,
     parentMenu = null,
+    breakpoint = "",
+    mediaQuery = "",
+    expandInsideBreakpoint = false,
+    expandOutsideBreakpoint = false,
+    collapseInsideBreakpoint = false,
+    collapseOutsideBreakpoint = false,
+    lockInsideBreakpoint = false,
+    lockOutsideBreakpoint = false,
+    unlockInsideBreakpoint = false,
+    unlockOutsideBreakpoint = false,
     initialize = true,
   }) {
     super({
@@ -31,6 +51,16 @@ class DisclosureMenuToggle extends BaseMenuToggle {
       parentElement,
       controlledMenu,
       parentMenu,
+      breakpoint,
+      mediaQuery,
+      expandInsideBreakpoint,
+      expandOutsideBreakpoint,
+      collapseInsideBreakpoint,
+      collapseOutsideBreakpoint,
+      lockInsideBreakpoint,
+      lockOutsideBreakpoint,
+      unlockInsideBreakpoint,
+      unlockOutsideBreakpoint,
     });
 
     if (initialize) {
@@ -56,14 +86,14 @@ class DisclosureMenuToggle extends BaseMenuToggle {
 
     // If the toggle element is a button, there's no need to add a role.
     if (
-      !isTag("button", { toggle: this.dom.toggle }, { shouldThrow: false })
+      !isTag("button", { toggle: this.dom.controller }, { shouldThrow: false })
         .status
     ) {
-      this.dom.toggle.setAttribute("role", "button");
+      this.dom.controller.setAttribute("role", "button");
     }
 
     // Set the `aria-controls` attribute on the toggle to the menu's ID.
-    this.dom.toggle.setAttribute(
+    this.dom.controller.setAttribute(
       "aria-controls",
       this.elements.controlledMenu.dom.menu.id
     );
@@ -72,47 +102,53 @@ class DisclosureMenuToggle extends BaseMenuToggle {
   /**
    * Opens the controlled menu.
    *
-   * Calls the  closeSiblings method
+   * Calls the collapseSiblings method
    * and _then_ BaseMenuToggle's open method.
    *
-   * @param {object}  [options = {}]                  - The options for opening the menu.
-   * @param {boolean} [options.force = false]         - A flag to force the menu to open.
-   * @param {boolean} [options.preserveState = false] - A flag to preserve the current state.
-   * @param {boolean} [options.emit = true]           - A flag to emit the expand event.
-   * @param {boolean} [options.transition = true]     - A flag to use transitions when opening.
+   * @param {object}  [options = {}]                            - The options for opening the menu.
+   * @param {boolean} [options.force = !this.isInitialized]     - A flag to force the menu to open.
+   * @param {boolean} [options.preserveState = false]           - A flag to preserve the current state.
+   * @param {boolean} [options.emit = this.isInitialized]       - A flag to emit the expand event.
+   * @param {boolean} [options.transition = this.isInitialized] - A flag to use transitions when opening.
    */
-  open({
-    force = false,
+  expand({
+    force = !this.isInitialized,
     preserveState = false,
-    emit = true,
-    transition = true,
+    emit = this.isInitialized,
+    transition = this.isInitialized,
   } = {}) {
     // Close all siblings.
-    this.closeSiblings({ force, preserveState, emit, transition });
+    if (this.isLocked && !force) return;
 
-    super.open({ force, preserveState, emit, transition });
+    if (this.isInitialized)
+      this.collapseSiblings({ force, preserveState, emit, transition });
+
+    super.expand({ force, preserveState, emit, transition });
   }
 
   /**
    * Opens the controlled menu without the current focus entering it.
    *
-   * Calls the  closeSiblings method
+   * Calls the collapseSiblings method
    * and _then_ BaseMenuToggle's preview method.
    *
-   * @param {object}  [options = {}]                  - The options for previewing the menu.
-   * @param {boolean} [options.force = false]         - A flag to force the menu to preview.
-   * @param {boolean} [options.preserveState = false] - A flag to preserve the current state.
-   * @param {boolean} [options.emit = true]           - A flag to emit the expand event.
-   * @param {boolean} [options.transition = true]     - A flag to use transitions when previewing.
+   * @param {object}  [options = {}]                            - The options for previewing the menu.
+   * @param {boolean} [options.force = !this.isInitialized]     - A flag to force the menu to preview.
+   * @param {boolean} [options.preserveState = false]           - A flag to preserve the current state.
+   * @param {boolean} [options.emit = this.isInitialized]       - A flag to emit the expand event.
+   * @param {boolean} [options.transition = this.isInitialized] - A flag to use transitions when previewing.
    */
   preview({
-    force = false,
+    force = !this.isInitialized,
     preserveState = false,
-    emit = true,
-    transition = true,
+    emit = this.isInitialized,
+    transition = this.isInitialized,
   } = {}) {
     // Close all siblings.
-    this.closeSiblings({ force, preserveState, emit, transition });
+    if (this.isLocked && !force) return;
+
+    if (this.isInitialized)
+      this.collapseSiblings({ force, preserveState, emit, transition });
 
     super.preview({ force, preserveState, emit, transition });
   }
@@ -120,27 +156,30 @@ class DisclosureMenuToggle extends BaseMenuToggle {
   /**
    * Closes the controlled menu.
    *
-   * Calls the  closeChildren method
+   * Calls the collapseChildren method
    * and _then_ BaseMenuToggle's close method.
    *
-   * @param {object}  [options = {}]                  - The options for closing the menu.
-   * @param {boolean} [options.force = false]         - A flag to force the menu to close.
-   * @param {boolean} [options.preserveState = false] - A flag to preserve the current state.
-   * @param {boolean} [options.emit = true]           - A flag to emit the collapse event.
-   * @param {boolean} [options.transition = true]     - A flag to use transitions when closing.
+   * @param {object}  [options = {}]                            - The options for closing the menu.
+   * @param {boolean} [options.force = !this.isInitialized]     - A flag to force the menu to close.
+   * @param {boolean} [options.preserveState = false]           - A flag to preserve the current state.
+   * @param {boolean} [options.emit = this.isInitialized]       - A flag to emit the collapse event.
+   * @param {boolean} [options.transition = this.isInitialized] - A flag to use transitions when closing.
    */
-  close({
-    force = false,
+  collapse({
+    force = !this.isInitialized,
     preserveState = false,
-    emit = true,
-    transition = true,
+    emit = this.isInitialized,
+    transition = this.isInitialized,
   } = {}) {
-    if (this.isOpen) {
+    if (this.isExpanded) {
       // Close all children.
-      this.closeChildren({ force, preserveState, emit, transition });
+      if (this.isLocked && !force) return;
+
+      if (this.isInitialized)
+        this.collapseChildren({ force, preserveState, emit, transition });
     }
 
-    super.close({ force, preserveState, emit, transition });
+    super.collapse({ force, preserveState, emit, transition });
   }
 }
 

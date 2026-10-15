@@ -20,9 +20,9 @@ afterEach(() => {
 
 // Test MenubarToggle public methods.
 describe("MenubarToggle public methods", () => {
-  // Test MenubarItem open().
-  describe("open", () => {
-    // Test that open sets the controlled menu's focus state to self.
+  // Test MenubarItem expand().
+  describe("expand", () => {
+    // Test that expand sets the controlled menu's focus state to self.
     it("should set the controlled menu's focus state to self", () => {
       // Create a new Menubar instance for testing.
       const menu = new Menubar({
@@ -33,12 +33,12 @@ describe("MenubarToggle public methods", () => {
 
       const menuToggle = menu.elements.submenuToggles[0];
 
-      menuToggle.open();
+      menuToggle.expand();
 
       expect(menuToggle.elements.controlledMenu.focusState).toEqual("self");
     });
 
-    // Test that open calls _expand().
+    // Test that expand calls _expand().
     it("should call _expand()", () => {
       // Create a new Menubar instance for testing.
       const menu = new Menubar({
@@ -52,12 +52,12 @@ describe("MenubarToggle public methods", () => {
       // Set up to check for _expand() call.
       const spy = vi.spyOn(menuToggle, "_expand");
 
-      menuToggle.open();
+      menuToggle.expand();
 
       expect(spy).toHaveBeenCalled();
     });
 
-    // Test that open sets the open flag to true.
+    // Test that expand sets the expanded flag to true.
     it("should set the open flag to true", () => {
       // Create a new Menubar instance for testing.
       const menu = new Menubar({
@@ -68,13 +68,13 @@ describe("MenubarToggle public methods", () => {
 
       const menuToggle = menu.elements.submenuToggles[0];
 
-      menuToggle.open();
+      menuToggle.expand();
 
-      expect(menuToggle.isOpen).toBe(true);
+      expect(menuToggle.isExpanded).toBe(true);
     });
 
-    // Test that open calls closeSiblings().
-    it("should call closeSiblings()", () => {
+    // Test that expand calls collapseSiblings().
+    it("should call collapseSiblings()", () => {
       // Create a new Menubar instance for testing.
       const menu = new Menubar({
         menuElement: document.querySelector("ul"),
@@ -84,10 +84,10 @@ describe("MenubarToggle public methods", () => {
 
       const menuToggle = menu.elements.submenuToggles[0];
 
-      // Set up to check for closeSiblings() call.
-      const spy = vi.spyOn(menuToggle, "closeSiblings");
+      // Set up to check for collapseSiblings() call.
+      const spy = vi.spyOn(menuToggle, "collapseSiblings");
 
-      menuToggle.open();
+      menuToggle.expand();
 
       expect(spy).toHaveBeenCalled();
     });
@@ -130,7 +130,7 @@ describe("MenubarToggle public methods", () => {
       expect(spy).toHaveBeenCalled();
     });
 
-    // Test that preview sets the open flag to true.
+    // Test that preview sets the expanded flag to true.
     it("should set the open flag to true", () => {
       // Create a new Menubar instance for testing.
       const menu = new Menubar({
@@ -143,11 +143,11 @@ describe("MenubarToggle public methods", () => {
 
       menuToggle.preview();
 
-      expect(menuToggle.isOpen).toBe(true);
+      expect(menuToggle.isExpanded).toBe(true);
     });
 
-    // Test that preview calls closeSiblings().
-    it("should call closeSiblings()", () => {
+    // Test that preview calls collapseSiblings().
+    it("should call collapseSiblings()", () => {
       // Create a new Menubar instance for testing.
       const menu = new Menubar({
         menuElement: document.querySelector("ul"),
@@ -157,8 +157,8 @@ describe("MenubarToggle public methods", () => {
 
       const menuToggle = menu.elements.submenuToggles[0];
 
-      // Set up to check for closeSiblings() call.
-      const spy = vi.spyOn(menuToggle, "closeSiblings");
+      // Set up to check for collapseSiblings() call.
+      const spy = vi.spyOn(menuToggle, "collapseSiblings");
 
       menuToggle.preview();
 
@@ -166,9 +166,9 @@ describe("MenubarToggle public methods", () => {
     });
   });
 
-  // Test MenubarToggle close().
-  describe("close", () => {
-    // Test that close calls blur() on the controlled menu.
+  // Test MenubarToggle collapse().
+  describe("collapse", () => {
+    // Test that collapse calls blur() on the controlled menu.
     it("should call blur() on the controlled menu", () => {
       // Create a new Menubar instance for testing.
       const menu = new Menubar({
@@ -182,15 +182,15 @@ describe("MenubarToggle public methods", () => {
       const spy = vi.spyOn(menuToggle.elements.controlledMenu, "blur");
 
       // Set up the menu.
-      menuToggle.open({ force: true, emit: false, transition: false });
+      menuToggle.expand({ force: true, emit: false, transition: false });
 
       // Close the menu.
-      menuToggle.close();
+      menuToggle.collapse();
 
       expect(spy).toHaveBeenCalled();
     });
 
-    // Test that close sets the parent menu's focus state to self.
+    // Test that collapse sets the parent menu's focus state to self.
     it("should set the parent menu's focus state to self", () => {
       // Create a new Menubar instance for testing.
       const menu = new Menubar({
@@ -203,15 +203,15 @@ describe("MenubarToggle public methods", () => {
 
       // Set up the menu.
       menu.focusState = "child";
-      menuToggle.open({ force: true, emit: false, transition: false });
+      menuToggle.expand({ force: true, emit: false, transition: false });
 
       // Close the menu.
-      menuToggle.close();
+      menuToggle.collapse();
 
       expect(menu.focusState).toEqual("self");
     });
 
-    // Test that close calls _collapse().
+    // Test that collapse calls _collapse().
     it("should call _collapse()", () => {
       // Create a new Menubar instance for testing.
       const menu = new Menubar({
@@ -226,15 +226,15 @@ describe("MenubarToggle public methods", () => {
       const spy = vi.spyOn(menuToggle, "_collapse");
 
       // Set up the menu.
-      menuToggle.open({ force: true, emit: false, transition: false });
+      menuToggle.expand({ force: true, emit: false, transition: false });
 
       // Close the menu.
-      menuToggle.close();
+      menuToggle.collapse();
 
       expect(spy).toHaveBeenCalled();
     });
 
-    // Test that close sets the open flag to false.
+    // Test that collapse sets the expanded flag to false.
     it("should set the open flag to false", () => {
       // Create a new Menubar instance for testing.
       const menu = new Menubar({
@@ -246,16 +246,16 @@ describe("MenubarToggle public methods", () => {
       const menuToggle = menu.elements.submenuToggles[0];
 
       // Set up the menu.
-      menuToggle.open({ force: true, emit: false, transition: false });
+      menuToggle.expand({ force: true, emit: false, transition: false });
 
       // Close the menu.
-      menuToggle.close();
+      menuToggle.collapse();
 
-      expect(menuToggle.isOpen).toBe(false);
+      expect(menuToggle.isExpanded).toBe(false);
     });
 
-    // Test that close calls closeChildren().
-    it("should call closeChildren()", () => {
+    // Test that collapse calls collapseChildren().
+    it("should call collapseChildren()", () => {
       // Create a new Menubar instance for testing.
       const menu = new Menubar({
         menuElement: document.querySelector("ul"),
@@ -265,18 +265,18 @@ describe("MenubarToggle public methods", () => {
 
       const menuToggle = menu.elements.submenuToggles[0];
 
-      // Set up to check for closeChildren() call.
-      const spy = vi.spyOn(menuToggle, "closeChildren");
+      // Set up to check for collapseChildren() call.
+      const spy = vi.spyOn(menuToggle, "collapseChildren");
 
       // Set up the menu.
-      menuToggle.open({ force: true, emit: false, transition: false });
+      menuToggle.expand({ force: true, emit: false, transition: false });
 
-      menuToggle.close();
+      menuToggle.collapse();
 
       expect(spy).toHaveBeenCalled();
     });
 
-    // Test that close calls the parent menu's focusCurrentChild method.
+    // Test that collapse calls the parent menu's focusCurrentChild method.
     it("should call the parent menu's focusCurrentChild method", () => {
       // Create a new Menubar instance for testing.
       const menu = new Menubar({
@@ -287,13 +287,13 @@ describe("MenubarToggle public methods", () => {
 
       const menuToggle = menu.elements.submenuToggles[0];
 
-      // Set up to check for closeChildren() call.
+      // Set up to check for collapseChildren() call.
       const spy = vi.spyOn(menu, "focusCurrentChild");
 
       // Set up the menu.
-      menuToggle.open({ force: true, emit: false, transition: false });
+      menuToggle.expand({ force: true, emit: false, transition: false });
 
-      menuToggle.close();
+      menuToggle.collapse();
 
       expect(spy).toHaveBeenCalled();
     });
@@ -310,10 +310,10 @@ describe("MenubarToggle public methods", () => {
       const menuToggle = menu.elements.controller;
 
       // Set up the menu.
-      menuToggle.open({ force: true, emit: false, transition: false });
+      menuToggle.expand({ force: true, emit: false, transition: false });
 
       expect(() => {
-        menuToggle.close();
+        menuToggle.collapse();
       }).not.toThrow();
     });
   });
@@ -328,22 +328,22 @@ describe("MenubarToggle public methods", () => {
     });
   });
 
-  // Test MenubarToggle closeSiblings().
-  describe("closeSiblings", () => {
-    // Test that MenubarToggle implements the BaseMenuToggle closeSiblings.
-    it("should implement the BaseMenuToggle closeSiblings", () => {
-      expect(MenubarToggle.prototype.closeSiblings).toBe(
-        BaseMenuToggle.prototype.closeSiblings
+  // Test MenubarToggle collapseSiblings().
+  describe("collapseSiblings", () => {
+    // Test that MenubarToggle implements the BaseMenuToggle collapseSiblings.
+    it("should implement the BaseMenuToggle collapseSiblings", () => {
+      expect(MenubarToggle.prototype.collapseSiblings).toBe(
+        BaseMenuToggle.prototype.collapseSiblings
       );
     });
   });
 
-  // Test MenubarToggle closeChildren().
-  describe("closeChildren", () => {
-    // Test that MenubarToggle implements the BaseMenuToggle closeChildren.
-    it("should implement the BaseMenuToggle closeChildren", () => {
-      expect(MenubarToggle.prototype.closeChildren).toBe(
-        BaseMenuToggle.prototype.closeChildren
+  // Test MenubarToggle collapseChildren().
+  describe("collapseChildren", () => {
+    // Test that MenubarToggle implements the BaseMenuToggle collapseChildren.
+    it("should implement the BaseMenuToggle collapseChildren", () => {
+      expect(MenubarToggle.prototype.collapseChildren).toBe(
+        BaseMenuToggle.prototype.collapseChildren
       );
     });
   });

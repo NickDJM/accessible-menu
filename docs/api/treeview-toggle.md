@@ -26,14 +26,24 @@ The constructor will call [BaseMenuToggle's constructor](./base-menu-toggle#cons
 
 ### Parameters {#constructor--parameters}
 
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| options | `object` | The options for generating the menu toggle. | `undefined` |
-| options.menuToggleElement | `HTMLElement` | The toggle element in the DOM. | `undefined` |
-| options.parentElement | `HTMLElement` | The element containing the controlled menu. | `undefined` |
-| options.controlledMenu | `Treeview` | The menu controlled by this toggle. | `undefined` |
-| options.parentMenu | `Treeview`, `null` | The menu containing this toggle. | `null` |
-| options.initialize | `boolean` | A flag to initialize the menu toggle immediately upon creation. | `true` |
+| Name                              | Type               | Description                                                     | Default     |
+| --------------------------------- | ------------------ | --------------------------------------------------------------- | ----------- |
+| options                           | `object`           | The options for generating the menu toggle.                     | `undefined` |
+| options.menuToggleElement         | `HTMLElement`      | The toggle element in the DOM.                                  | `undefined` |
+| options.parentElement             | `HTMLElement`      | The element containing the controlled menu.                     | `undefined` |
+| options.controlledMenu            | `Treeview`         | The menu controlled by this toggle.                             | `undefined` |
+| options.parentMenu                | `Treeview`, `null` | The menu containing this toggle.                                | `null`      |
+| options.breakpoint                | `string`           | The Core controller breakpoint.                                 | `""`        |
+| options.mediaQuery                | `string`           | The explicit Core controller media query.                       | `""`        |
+| options.expandInsideBreakpoint    | `boolean`          | Core's expandInsideBreakpoint responsive action flag.           | `false`     |
+| options.expandOutsideBreakpoint   | `boolean`          | Core's expandOutsideBreakpoint responsive action flag.          | `false`     |
+| options.collapseInsideBreakpoint  | `boolean`          | Core's collapseInsideBreakpoint responsive action flag.         | `false`     |
+| options.collapseOutsideBreakpoint | `boolean`          | Core's collapseOutsideBreakpoint responsive action flag.        | `false`     |
+| options.lockInsideBreakpoint      | `boolean`          | Core's lockInsideBreakpoint responsive action flag.             | `false`     |
+| options.lockOutsideBreakpoint     | `boolean`          | Core's lockOutsideBreakpoint responsive action flag.            | `false`     |
+| options.unlockInsideBreakpoint    | `boolean`          | Core's unlockInsideBreakpoint responsive action flag.           | `false`     |
+| options.unlockOutsideBreakpoint   | `boolean`          | Core's unlockOutsideBreakpoint responsive action flag.          | `false`     |
+| options.initialize                | `boolean`          | A flag to initialize the menu toggle immediately upon creation. | `true`      |
 
 ## Initialize
 
@@ -45,7 +55,7 @@ TreeviewToggle.initialize();
 
 The first steps are to ensure that the toggle and controlled menu have IDs using the [setIds](./base-menu-toggle#method--setIds) method, and to set the ARIA attributes on the toggle and controlled menu using the [setAriaAttributes](#method--setAriaAttributes) method.
 
-Then the [open](./base-menu-toggle#method--open) or [collapse](./base-menu-toggle#method--collapse) method is called based on the state of the toggle's aria-expanded attribute.
+Then the [expand](./base-menu-toggle#method--expand) or [collapse](./base-menu-toggle#method--collapse) method is called based on the state of the toggle's aria-expanded attribute.
 
 ## Properties
 

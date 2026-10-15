@@ -69,13 +69,15 @@ describe("MenubarToggle protected methods", () => {
       });
 
       const menuToggle = menu.elements.submenuToggles[0];
-      menuToggle.dom.toggle.removeAttribute("aria-haspopup");
+      menuToggle.dom.controller.removeAttribute("aria-haspopup");
 
       // Call _setAriaAttributes.
       menuToggle._setAriaAttributes();
 
       // Test the toggle's aria-haspopup attribute.
-      expect(menuToggle.dom.toggle.getAttribute("aria-haspopup")).toBe("true");
+      expect(menuToggle.dom.controller.getAttribute("aria-haspopup")).toBe(
+        "true"
+      );
     });
 
     // Test that _setAriaAttributes sets the toggle's aria-expanded attribute to false.
@@ -88,13 +90,15 @@ describe("MenubarToggle protected methods", () => {
       });
 
       const menuToggle = menu.elements.submenuToggles[0];
-      menuToggle.dom.toggle.removeAttribute("aria-expanded");
+      menuToggle.dom.controller.removeAttribute("aria-expanded");
 
       // Call _setAriaAttributes.
       menuToggle._setAriaAttributes();
 
       // Test the toggle's aria-expanded attribute.
-      expect(menuToggle.dom.toggle.getAttribute("aria-expanded")).toBe("false");
+      expect(menuToggle.dom.controller.getAttribute("aria-expanded")).toBe(
+        "false"
+      );
     });
 
     // Test that _setAriaAttributes sets the controlled menu's aria-labelledby attribute to the toggle's id.
@@ -107,7 +111,7 @@ describe("MenubarToggle protected methods", () => {
       });
 
       const menuToggle = menu.elements.submenuToggles[0];
-      menuToggle.dom.toggle.removeAttribute("id");
+      menuToggle.dom.controller.removeAttribute("id");
       menuToggle.elements.controlledMenu.dom.menu.removeAttribute(
         "aria-labelledby"
       );
@@ -120,7 +124,7 @@ describe("MenubarToggle protected methods", () => {
         menuToggle.elements.controlledMenu.dom.menu.getAttribute(
           "aria-labelledby"
         )
-      ).toBe(menuToggle.dom.toggle.id);
+      ).toBe(menuToggle.dom.controller.id);
     });
   });
 });

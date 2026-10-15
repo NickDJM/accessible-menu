@@ -181,7 +181,7 @@ describe("Treeview", () => {
     describe("pointerleave", () => {
       describe("when a menu item is a submenu item", () => {
         // Test that clearTimeout is called when a menu item is unhovered.
-        it("should call clearTimeout after a delay when a menu item is unhovered", () => {
+        it("should call clearTimeout after a delay when a menu item is unhovered", async () => {
           // Create a new Treeview instance for testing.
           const menu = new Treeview({
             menuElement: document.querySelector("ul"),
@@ -191,7 +191,7 @@ describe("Treeview", () => {
           });
 
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
 
           // Spy on the menu's clearTimeout method.
           const spy = vi.spyOn(
@@ -209,13 +209,13 @@ describe("Treeview", () => {
           // Advance the timers by the menu's leave delay.
           vi.advanceTimersByTime(menu.leaveDelay);
 
-          vi.waitUntil(() => expect(spy).toHaveBeenCalled(), {
+          await vi.waitUntil(() => expect(spy).toHaveBeenCalled(), {
             timeout: 10000,
             interval: 10,
           });
         });
         // Test that the menu's current event is set to mouse after a delay when a menu item is unhovered.
-        it("should set the menu's current event to mouse after a delay when a menu item is unhovered", () => {
+        it("should set the menu's current event to mouse after a delay when a menu item is unhovered", async () => {
           // Create a new Treeview instance for testing.
           const menu = new Treeview({
             menuElement: document.querySelector("ul"),
@@ -225,7 +225,7 @@ describe("Treeview", () => {
           });
 
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
 
           // Simulate the pointerleave event.
           simulatePointerEvent(
@@ -237,7 +237,7 @@ describe("Treeview", () => {
           // Advance the timers by the menu's leave delay.
           vi.advanceTimersByTime(menu.leaveDelay);
 
-          vi.waitUntil(
+          await vi.waitUntil(
             () =>
               expect(
                 menu.elements.submenuToggles[0].elements.controlledMenu
@@ -258,7 +258,7 @@ describe("Treeview", () => {
           });
 
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
 
           // Spy on the menu's clearTimeout method.
           const spy = vi.spyOn(
@@ -287,7 +287,7 @@ describe("Treeview", () => {
           });
 
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
 
           // Simulate the pointerleave event.
           simulatePointerEvent(
@@ -313,7 +313,7 @@ describe("Treeview", () => {
           });
 
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
 
           // Spy on clearTimeout.
           const spy = vi.spyOn(menu, "_clearTimeout");
@@ -335,7 +335,7 @@ describe("Treeview", () => {
           });
 
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
 
           // Spy on clearTimeout.
           const spy = vi.spyOn(menu, "_clearTimeout");
@@ -345,8 +345,8 @@ describe("Treeview", () => {
 
           expect(spy).not.toHaveBeenCalled();
         });
-        // Test that closeChildren is called after a delay when a menu is unhovered.
-        it("should call closeChildren after a delay when a menu is unhovered", () => {
+        // Test that collapseChildren is called after a delay when a menu is unhovered.
+        it("should call collapseChildren after a delay when a menu is unhovered", async () => {
           // Create a new Treeview instance for testing.
           const menu = new Treeview({
             menuElement: document.querySelector("ul"),
@@ -356,10 +356,10 @@ describe("Treeview", () => {
           });
 
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
 
-          // Spy on closeChildren.
-          const spy = vi.spyOn(menu, "closeChildren");
+          // Spy on collapseChildren.
+          const spy = vi.spyOn(menu, "collapseChildren");
 
           // Simulate the pointerleave event.
           simulatePointerEvent("pointerleave", menu.dom.menu);
@@ -367,13 +367,13 @@ describe("Treeview", () => {
           // Advance the timers by the menu's leave delay.
           vi.advanceTimersByTime(menu.leaveDelay);
 
-          vi.waitUntil(() => expect(spy).toHaveBeenCalled(), {
+          await vi.waitUntil(() => expect(spy).toHaveBeenCalled(), {
             timeout: 10000,
             interval: 10,
           });
         });
-        // Test that closeChildren is called immediately when a menu is unhovered and leaveDelay is set to 0.
-        it("should call closeChildren immediately when a menu is unhovered and leaveDelay is set to 0", () => {
+        // Test that collapseChildren is called immediately when a menu is unhovered and leaveDelay is set to 0.
+        it("should call collapseChildren immediately when a menu is unhovered and leaveDelay is set to 0", () => {
           // Create a new Treeview instance for testing.
           const menu = new Treeview({
             menuElement: document.querySelector("ul"),
@@ -384,10 +384,10 @@ describe("Treeview", () => {
           });
 
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
 
-          // Spy on closeChildren.
-          const spy = vi.spyOn(menu, "closeChildren");
+          // Spy on collapseChildren.
+          const spy = vi.spyOn(menu, "collapseChildren");
 
           // Simulate the pointerleave event.
           simulatePointerEvent("pointerleave", menu.dom.menu);
@@ -395,7 +395,7 @@ describe("Treeview", () => {
           expect(spy).toHaveBeenCalled();
         });
         // Test that blur is called after a delay when a menu is unhovered.
-        it("should call blur after a delay when a menu is unhovered", () => {
+        it("should call blur after a delay when a menu is unhovered", async () => {
           // Create a new Treeview instance for testing.
           const menu = new Treeview({
             menuElement: document.querySelector("ul"),
@@ -405,7 +405,7 @@ describe("Treeview", () => {
           });
 
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
 
           // Spy on blur.
           const spy = vi.spyOn(menu, "blur");
@@ -416,7 +416,7 @@ describe("Treeview", () => {
           // Advance the timers by the menu's leave delay.
           vi.advanceTimersByTime(menu.leaveDelay);
 
-          vi.waitUntil(() => expect(spy).toHaveBeenCalled(), {
+          await vi.waitUntil(() => expect(spy).toHaveBeenCalled(), {
             timeout: 10000,
             interval: 10,
           });
@@ -433,7 +433,7 @@ describe("Treeview", () => {
           });
 
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
 
           // Spy on blur.
           const spy = vi.spyOn(menu, "blur");
@@ -445,8 +445,8 @@ describe("Treeview", () => {
         });
       });
       describe("when a menu is not the root menu", () => {
-        // Test that closeChildren is not called when a menu is unhovered.
-        it("should not call closeChildren when a menu is unhovered", () => {
+        // Test that collapseChildren is not called when a menu is unhovered.
+        it("should not call collapseChildren when a menu is unhovered", () => {
           // Create a new Treeview instance for testing.
           const menu = new Treeview({
             menuElement: document.querySelector("ul"),
@@ -457,13 +457,13 @@ describe("Treeview", () => {
           });
 
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
           menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 1;
 
-          // Spy on closeChildren.
+          // Spy on collapseChildren.
           const spy = vi.spyOn(
             menu.elements.submenuToggles[0].elements.controlledMenu,
-            "closeChildren"
+            "collapseChildren"
           );
 
           // Simulate the pointerleave event.
@@ -494,7 +494,7 @@ describe("Treeview", () => {
           });
 
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
 
           // Simulate the pointerenter event.
           simulatePointerEvent(
@@ -525,7 +525,7 @@ describe("Treeview", () => {
           );
 
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
 
           // Simulate the pointerenter event.
           simulatePointerEvent(
@@ -553,7 +553,7 @@ describe("Treeview", () => {
           );
 
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
 
           // Simulate the pointerenter event.
           simulatePointerEvent(
@@ -710,7 +710,7 @@ describe("Treeview", () => {
           });
 
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
 
           // Simulate the pointerenter event.
           simulatePointerEvent(
@@ -734,7 +734,7 @@ describe("Treeview", () => {
           });
 
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
 
           // Spy on the root menu's blurChildren method.
           const spy = vi.spyOn(
@@ -763,7 +763,7 @@ describe("Treeview", () => {
           });
 
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
 
           // Spy on the menu's focusCurrentChild method.
           const spy = vi.spyOn(
@@ -791,7 +791,7 @@ describe("Treeview", () => {
           });
 
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
 
           // Spy on the menu item's clearTimeout method.
           const spy = vi.spyOn(
@@ -819,7 +819,7 @@ describe("Treeview", () => {
           });
 
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
 
           // Spy on the menu's preview method.
           const spy = vi.spyOn(
@@ -855,7 +855,7 @@ describe("Treeview", () => {
           });
 
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
 
           // Spy on the menu's preview method.
           const spy = vi.spyOn(
@@ -886,7 +886,7 @@ describe("Treeview", () => {
           });
 
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
 
           // Simulate the pointerenter event.
           simulatePointerEvent(
@@ -907,7 +907,7 @@ describe("Treeview", () => {
           });
 
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
 
           // Spy on the root menu's blurChildren method.
           const spy = vi.spyOn(menu.elements.rootMenu, "blurChildren");
@@ -931,7 +931,7 @@ describe("Treeview", () => {
           });
 
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
 
           // Spy on the menu's focusCurrentChild method.
           const spy = vi.spyOn(menu, "focusCurrentChild");
@@ -955,7 +955,7 @@ describe("Treeview", () => {
           });
 
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
 
           // Spy on the menu's clearTimeout method.
           const spy = vi.spyOn(menu, "_clearTimeout");
@@ -982,7 +982,7 @@ describe("Treeview", () => {
           });
 
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
 
           // Spy on the menu's preview method.
           const spy = vi.spyOn(menu.elements.submenuToggles[1], "preview");
@@ -1013,7 +1013,7 @@ describe("Treeview", () => {
           });
 
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
 
           // Spy on the menu's preview method.
           const spy = vi.spyOn(menu.elements.submenuToggles[1], "preview");
@@ -1033,7 +1033,7 @@ describe("Treeview", () => {
       describe("if the menu is not the root menu", () => {
         describe("when a menu item is a submenu item", () => {
           // Test that clearTimeout is called when a menu item is unhovered.
-          it("should call clearTimeout when a menu item is unhovered", () => {
+          it("should call clearTimeout when a menu item is unhovered", async () => {
             // Create a new Treeview instance for testing.
             const menu = new Treeview({
               menuElement: document.querySelector("ul"),
@@ -1043,7 +1043,7 @@ describe("Treeview", () => {
             });
 
             menu.currentChild = 1;
-            menu.elements.submenuToggles[0].open();
+            menu.elements.submenuToggles[0].expand();
 
             // Spy on the menu's clearTimeout method.
             const spy = vi.spyOn(
@@ -1061,7 +1061,7 @@ describe("Treeview", () => {
             // Advance the timers by the menu's leave delay.
             vi.advanceTimersByTime(menu.leaveDelay);
 
-            vi.waitUntil(() => expect(spy).toHaveBeenCalled(), {
+            await vi.waitUntil(() => expect(spy).toHaveBeenCalled(), {
               timeout: 10000,
               interval: 10,
             });
@@ -1078,7 +1078,7 @@ describe("Treeview", () => {
             });
 
             menu.currentChild = 1;
-            menu.elements.submenuToggles[0].open();
+            menu.elements.submenuToggles[0].expand();
 
             // Spy on the menu's clearTimeout method.
             const spy = vi.spyOn(

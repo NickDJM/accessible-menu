@@ -118,12 +118,12 @@ describe("TopLinkDisclosureMenu public methods", () => {
     });
   });
 
-  // Test TopLinkDisclosureMenu closeChildren().
-  describe("closeChildren", () => {
-    // Test that TopLinkDisclosureMenu implements the BaseMenu closeChildren() method.
-    it("should implement the BaseMenu closeChildren() method", () => {
-      expect(TopLinkDisclosureMenu.prototype.closeChildren).toBe(
-        BaseMenu.prototype.closeChildren
+  // Test TopLinkDisclosureMenu collapseChildren().
+  describe("collapseChildren", () => {
+    // Test that TopLinkDisclosureMenu implements the BaseMenu collapseChildren() method.
+    it("should implement the BaseMenu collapseChildren() method", () => {
+      expect(TopLinkDisclosureMenu.prototype.collapseChildren).toBe(
+        BaseMenu.prototype.collapseChildren
       );
     });
   });

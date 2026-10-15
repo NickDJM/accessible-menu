@@ -117,99 +117,48 @@ describe("Menubar getter/setters", () => {
     });
   });
 
-  // Test Menubar shouldOpen.
-  describe("shouldOpen", () => {
-    // Test that Menubar implements the BaseMenu shouldOpen getter.
-    it("should implement the BaseMenu shouldOpen getter", () => {
-      expectInheritedGetter(
-        Menubar.prototype,
-        BaseMenu.prototype,
-        "shouldOpen"
-      );
-    });
-
-    // Test that Menubar implements the BaseMenu shouldOpen setter.
-    it("should implement the BaseMenu shouldOpen setter", () => {
-      expectInheritedSetter(
-        Menubar.prototype,
-        BaseMenu.prototype,
-        "shouldOpen"
-      );
-    });
-  });
-
   // Test Menubar breakpoint.
-  describe("breakpoint", () => {
-    // Test that Menubar implements the BaseMenu breakpoint getter.
-    it("should implement the BaseMenu breakpoint getter", () => {
-      expectInheritedGetter(
-        Menubar.prototype,
-        BaseMenu.prototype,
-        "breakpoint"
-      );
-    });
-
-    // Test that Menubar implements the BaseMenu breakpoint setter.
-    it("should implement the BaseMenu breakpoint setter", () => {
-      expectInheritedSetter(
-        Menubar.prototype,
-        BaseMenu.prototype,
-        "breakpoint"
-      );
-    });
-  });
 
   // Test Menubar mediaQuery.
-  describe("mediaQuery", () => {
-    // Test that Menubar implements the BaseMenu mediaQuery getter.
-    it("should implement the BaseMenu mediaQuery getter", () => {
+
+  // Test BaseMenu expandClass.
+  describe("expandClass", () => {
+    // Test that Menubar implements the BaseMenu expandClass getter.
+    it("should implement the BaseMenu expandClass getter", () => {
       expectInheritedGetter(
         Menubar.prototype,
         BaseMenu.prototype,
-        "mediaQuery"
+        "expandClass"
       );
     });
 
-    // Test that Menubar implements the BaseMenu mediaQuery setter.
-    it("should implement the BaseMenu mediaQuery setter", () => {
+    // Test that Menubar implements the BaseMenu expandClass setter.
+    it("should implement the BaseMenu expandClass setter", () => {
       expectInheritedSetter(
         Menubar.prototype,
         BaseMenu.prototype,
-        "mediaQuery"
+        "expandClass"
       );
     });
   });
 
-  // Test BaseMenu openClass.
-  describe("openClass", () => {
-    // Test that Menubar implements the BaseMenu openClass getter.
-    it("should implement the BaseMenu openClass getter", () => {
-      expectInheritedGetter(Menubar.prototype, BaseMenu.prototype, "openClass");
-    });
-
-    // Test that Menubar implements the BaseMenu openClass setter.
-    it("should implement the BaseMenu openClass setter", () => {
-      expectInheritedSetter(Menubar.prototype, BaseMenu.prototype, "openClass");
-    });
-  });
-
-  // Test Menubar closeClass.
-  describe("closeClass", () => {
-    // Test that Menubar implements the BaseMenu closeClass getter.
-    it("should implement the BaseMenu closeClass getter", () => {
+  // Test Menubar collapseClass.
+  describe("collapseClass", () => {
+    // Test that Menubar implements the BaseMenu collapseClass getter.
+    it("should implement the BaseMenu collapseClass getter", () => {
       expectInheritedGetter(
         Menubar.prototype,
         BaseMenu.prototype,
-        "closeClass"
+        "collapseClass"
       );
     });
 
-    // Test that Menubar implements the BaseMenu closeClass setter.
-    it("should implement the BaseMenu closeClass setter", () => {
+    // Test that Menubar implements the BaseMenu collapseClass setter.
+    it("should implement the BaseMenu collapseClass setter", () => {
       expectInheritedSetter(
         Menubar.prototype,
         BaseMenu.prototype,
-        "closeClass"
+        "collapseClass"
       );
     });
   });
@@ -256,44 +205,44 @@ describe("Menubar getter/setters", () => {
     });
   });
 
-  // Test Menubar openDuration.
-  describe("openDuration", () => {
-    // Test that Menubar implements the BaseMenu openDuration getter.
-    it("should implement the BaseMenu openDuration getter", () => {
+  // Test Menubar expandDuration.
+  describe("expandDuration", () => {
+    // Test that Menubar implements the BaseMenu expandDuration getter.
+    it("should implement the BaseMenu expandDuration getter", () => {
       expectInheritedGetter(
         Menubar.prototype,
         BaseMenu.prototype,
-        "openDuration"
+        "expandDuration"
       );
     });
 
-    // Test that Menubar implements the BaseMenu openDuration setter.
-    it("should implement the BaseMenu openDuration setter", () => {
+    // Test that Menubar implements the BaseMenu expandDuration setter.
+    it("should implement the BaseMenu expandDuration setter", () => {
       expectInheritedSetter(
         Menubar.prototype,
         BaseMenu.prototype,
-        "openDuration"
+        "expandDuration"
       );
     });
   });
 
-  // Test Menubar closeDuration.
-  describe("closeDuration", () => {
-    // Test that Menubar implements the BaseMenu closeDuration getter.
-    it("should implement the BaseMenu closeDuration getter", () => {
+  // Test Menubar collapseDuration.
+  describe("collapseDuration", () => {
+    // Test that Menubar implements the BaseMenu collapseDuration getter.
+    it("should implement the BaseMenu collapseDuration getter", () => {
       expectInheritedGetter(
         Menubar.prototype,
         BaseMenu.prototype,
-        "closeDuration"
+        "collapseDuration"
       );
     });
 
-    // Test that Menubar implements the BaseMenu closeDuration setter.
-    it("should implement the BaseMenu closeDuration setter", () => {
+    // Test that Menubar implements the BaseMenu collapseDuration setter.
+    it("should implement the BaseMenu collapseDuration setter", () => {
       expectInheritedSetter(
         Menubar.prototype,
         BaseMenu.prototype,
-        "closeDuration"
+        "collapseDuration"
       );
     });
   });

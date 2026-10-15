@@ -50,9 +50,7 @@ describe("BaseMenuToggle getter/setters", () => {
 
       expect(() => {
         menuToggle.dom = {};
-      }).toThrowError(
-        "Cannot set property dom of #<BaseMenuToggle> which has only a getter"
-      );
+      }).toThrow(TypeError);
     });
   });
 
@@ -87,15 +85,13 @@ describe("BaseMenuToggle getter/setters", () => {
 
       expect(() => {
         menuToggle.elements = {};
-      }).toThrowError(
-        "Cannot set property elements of #<BaseMenuToggle> which has only a getter"
-      );
+      }).toThrow(TypeError);
     });
   });
 
-  // Test BaseMenuToggle isOpen.
-  describe("isOpen", () => {
-    // Test that isOpen gets the open state.
+  // Test BaseMenuToggle isExpanded.
+  describe("isExpanded", () => {
+    // Test that isExpanded gets the expanded state.
     it("should get the open state", () => {
       // Create a new BaseMenu instance for testing.
       const menu = new BaseMenu({
@@ -107,10 +103,10 @@ describe("BaseMenuToggle getter/setters", () => {
 
       const menuToggle = menu.elements.submenuToggles[0];
 
-      expect(menuToggle.isOpen).toBe(menuToggle._open.value);
+      expect(menuToggle.isExpanded).toBe(menuToggle._expanded.value);
     });
 
-    // Test that isOpen cannot be set manually.
+    // Test that isExpanded cannot be set manually.
     it("should not be able to set the open state", () => {
       // Create a new BaseMenu instance for testing.
       const menu = new BaseMenu({
@@ -123,14 +119,14 @@ describe("BaseMenuToggle getter/setters", () => {
       const menuToggle = menu.elements.submenuToggles[0];
 
       expect(() => {
-        menuToggle.isOpen = true;
+        menuToggle.isExpanded = true;
       }).toThrow();
     });
   });
 
-  // Test BaseMenuToggle hasOpened.
-  describe("hasOpened", () => {
-    // Test that hasOpened gets the committed open state.
+  // Test BaseMenuToggle shouldBeExpanded.
+  describe("shouldBeExpanded", () => {
+    // Test that shouldBeExpanded gets the committed expanded state.
     it("should get the committed open state", () => {
       // Create a new BaseMenu instance for testing.
       const menu = new BaseMenu({
@@ -142,11 +138,11 @@ describe("BaseMenuToggle getter/setters", () => {
 
       const menuToggle = menu.elements.submenuToggles[0];
 
-      expect(menuToggle.hasOpened).toBe(menuToggle._open.committed);
+      expect(menuToggle.shouldBeExpanded).toBe(menuToggle._expanded.committed);
     });
 
-    // Test that hasOpened cannot be set manually.
-    it("should not be able to set hasOpened", () => {
+    // Test that shouldBeExpanded cannot be set manually.
+    it("should not be able to set shouldBeExpanded", () => {
       // Create a new BaseMenu instance for testing.
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
@@ -158,7 +154,7 @@ describe("BaseMenuToggle getter/setters", () => {
       const menuToggle = menu.elements.submenuToggles[0];
 
       expect(() => {
-        menuToggle.hasOpened = true;
+        menuToggle.shouldBeExpanded = true;
       }).toThrow();
     });
   });

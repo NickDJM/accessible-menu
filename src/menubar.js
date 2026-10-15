@@ -1,7 +1,10 @@
 import BaseMenu from "./_baseMenu.js";
 import MenubarItem from "./menubarItem.js";
 import MenubarToggle from "./menubarToggle.js";
-import { keyPress, preventEvent } from "./eventHandlers.js";
+import {
+  keyPress,
+  preventEvent,
+} from "@accessible-ecosystem/core/eventHelpers.js";
 
 /**
  * An accessible menubar navigation in the DOM.
@@ -62,19 +65,29 @@ class Menubar extends BaseMenu {
    * @param {string}             [options.submenusSelector = ul]             - The query selector string for submenus.
    * @param {?HTMLElement}       [options.controllerElement = null]          - The element controlling the menu in the DOM.
    * @param {?HTMLElement}       [options.containerElement = null]           - The element containing the menu in the DOM.
-   * @param {?(string|string[])} [options.openClass = show]                  - The class to apply when a menu is "open".
-   * @param {?(string|string[])} [options.closeClass = hide]                 - The class to apply when a menu is "closed".
-   * @param {?(string|string[])} [options.transitionClass = transitioning]   - The class to apply when a menu is transitioning between "open" and "closed" states.
-   * @param {number}             [options.transitionDuration = 250]          - The duration of the transition between "open" and "closed" states (in milliseconds).
+   * @param {?(string|string[])} [options.initializeClass = initializing]    - The class(es) to apply when the menu is initializing.
+   * @param {?(string|string[])} [options.expandClass = show]                - The class to apply when a menu is expanded.
+   * @param {?(string|string[])} [options.collapseClass = hide]              - The class to apply when a menu is "closed".
+   * @param {?(string|string[])} [options.transitionClass = transitioning]   - The class to apply when a menu is transitioning between expanded and collapsed states.
+   * @param {number}             [options.transitionDuration = 250]          - The duration of the transition between expanded and collapsed states (in milliseconds).
+   * @param {number}             [options.expandDuration = -1]               - The duration of the transition from collapsed to expanded states (in milliseconds).
+   * @param {number}             [options.collapseDuration = -1]             - The duration of the transition from expanded to collapsed states (in milliseconds).
    * @param {boolean}            [options.isTopLevel = true]                 - A flag to mark the root menu.
    * @param {?Menubar}           [options.parentMenu = null]                 - The parent menu to this menu.
    * @param {string}             [options.hoverType = off]                   - The type of hoverability a menu has.
    * @param {number}             [options.hoverDelay = 250]                  - The delay for opening and closing menus if the menu is hoverable (in milliseconds).
    * @param {number}             [options.enterDelay = -1]                   - The delay for opening a menu if the menu is focusable (in milliseconds).
    * @param {number}             [options.leaveDelay = -1]                   - The delay for closing a menu if the menu is focusable (in milliseconds).
-   * @param {string}             [options.breakpoint = '']                   - The breakpoint that the menu will automatically open/close itself at.
-   * @param {string}             [options.mediaQuery = '']                   - The media query to use to trigger media query list events.
-   * @param {boolean}            [options.autoOpen = true]                   - A flag to auto open the menu when the media query does not match.
+   * @param {string}             [options.breakpoint = '']                   - The breakpoint used to generate the root controller's media query.
+   * @param {string}             [options.mediaQuery = '']                   - The media query used to trigger the root controller's media query list events.
+   * @param {boolean}            [options.expandInsideBreakpoint = false]    - A flag to expand the controlled menu when the media query matches.
+   * @param {boolean}            [options.expandOutsideBreakpoint = false]   - A flag to expand the controlled menu when the media query does not match.
+   * @param {boolean}            [options.collapseInsideBreakpoint = false]  - A flag to collapse the controlled menu when the media query matches.
+   * @param {boolean}            [options.collapseOutsideBreakpoint = false] - A flag to collapse the controlled menu when the media query does not match.
+   * @param {boolean}            [options.lockInsideBreakpoint = false]      - A flag to lock the controller when the media query matches.
+   * @param {boolean}            [options.lockOutsideBreakpoint = false]     - A flag to lock the controller when the media query does not match.
+   * @param {boolean}            [options.unlockInsideBreakpoint = false]    - A flag to unlock the controller when the media query matches.
+   * @param {boolean}            [options.unlockOutsideBreakpoint = false]   - A flag to unlock the controller when the media query does not match.
    * @param {?string}            [options.prefix = am-]                      - The prefix to use for CSS custom properties.
    * @param {?string}            [options.key = null]                        - The key used to generate IDs throughout the menu.
    * @param {boolean}            [options.initialize = true]                 - A flag to initialize the menu immediately upon creation.
@@ -88,10 +101,13 @@ class Menubar extends BaseMenu {
     submenusSelector = "ul",
     controllerElement = null,
     containerElement = null,
-    openClass = "show",
-    closeClass = "hide",
+    initializeClass = "initializing",
+    expandClass = "show",
+    collapseClass = "hide",
     transitionClass = "transitioning",
     transitionDuration = 250,
+    expandDuration = -1,
+    collapseDuration = -1,
     isTopLevel = true,
     parentMenu = null,
     hoverType = "off",
@@ -100,7 +116,14 @@ class Menubar extends BaseMenu {
     leaveDelay = -1,
     breakpoint = "",
     mediaQuery = "",
-    autoOpen = true,
+    expandInsideBreakpoint = false,
+    expandOutsideBreakpoint = false,
+    collapseInsideBreakpoint = false,
+    collapseOutsideBreakpoint = false,
+    lockInsideBreakpoint = false,
+    lockOutsideBreakpoint = false,
+    unlockInsideBreakpoint = false,
+    unlockOutsideBreakpoint = false,
     prefix = "am-",
     key = null,
     initialize = true,
@@ -114,10 +137,13 @@ class Menubar extends BaseMenu {
       submenusSelector,
       controllerElement,
       containerElement,
-      openClass,
-      closeClass,
+      initializeClass,
+      expandClass,
+      collapseClass,
       transitionClass,
       transitionDuration,
+      expandDuration,
+      collapseDuration,
       isTopLevel,
       parentMenu,
       hoverType,
@@ -126,7 +152,14 @@ class Menubar extends BaseMenu {
       leaveDelay,
       breakpoint,
       mediaQuery,
-      autoOpen,
+      expandInsideBreakpoint,
+      expandOutsideBreakpoint,
+      collapseInsideBreakpoint,
+      collapseOutsideBreakpoint,
+      lockInsideBreakpoint,
+      lockOutsideBreakpoint,
+      unlockInsideBreakpoint,
+      unlockOutsideBreakpoint,
       prefix,
       key,
     });
@@ -137,53 +170,44 @@ class Menubar extends BaseMenu {
   }
 
   /**
-   * Initializes the menu.
+   * Registers the menu's initialization event listener.
    *
-   * Initialize will call the BaseMenu's initialize method
-   * as well as set up focus,
-   * click,
-   * hover,
-   * keydown, and
-   * keyup events for the menu.
+   * If the menu is a root menu, its `role` will be set to "menubar" and the first
+   * menu item's `tabIndex` will be set to 0 in the DOM.
    *
-   * This will also set the menu's `role` to "menubar" in the DOM.
+   * If the menu is not a root menu, its `role` will be set to "menu".
    *
-   * If the menu is a root menu the first menu item's `tabIndex` will be set to
-   * 0 in the DOM.
+   * If the root menu has a controller, removes its `aria-haspopup` attribute.
    *
-   * If the BaseMenu's initialize method throws an error,
-   * this will catch it and log it to the console.
+   * @protected
    */
-  initialize() {
-    try {
-      super.initialize();
+  _bootstrap() {
+    super._bootstrap();
+    this._addEventListener(
+      this.getEventName("initialize"),
+      this.rootDOMElement,
+      (event) => {
+        if (event.detail.component !== this) return;
+        // Set the role of the menu.
+        if (this.isTopLevel) {
+          this.dom.menu.setAttribute("role", "menubar");
+        } else {
+          this.dom.menu.setAttribute("role", "menu");
+        }
 
-      // Set the role of the menu.
-      if (this.isTopLevel) {
-        this.dom.menu.setAttribute("role", "menubar");
-      } else {
-        this.dom.menu.setAttribute("role", "menu");
-      }
+        if (this.isTopLevel) {
+          this.elements.menuItems[0].dom.link.tabIndex = 0;
 
-      this._handleMediaMatch();
-      this._handleFocus();
-      this._handleClick();
-      this._handleHover();
-      this._handleKeydown();
-      this._handleKeyup();
-
-      if (this.isTopLevel) {
-        this.elements.menuItems[0].dom.link.tabIndex = 0;
-
-        // Remove the aria-haspopup attribute from the controller.
-        // It isn't needed for the root toggle.
-        if (this.elements.controller) {
-          this.elements.controller.dom.toggle.removeAttribute("aria-haspopup");
+          // Remove the aria-haspopup attribute from the controller.
+          // It isn't needed for the root toggle.
+          if (this.elements.controller) {
+            this.elements.controller.dom.controller.removeAttribute(
+              "aria-haspopup"
+            );
+          }
         }
       }
-    } catch (error) {
-      console.error(error);
-    }
+    );
   }
 
   /**
@@ -208,14 +232,14 @@ class Menubar extends BaseMenu {
           !this.dom.menu.contains(event.target) &&
           !this.dom.menu !== event.target
         ) {
-          this.closeChildren();
+          this.collapseChildren();
           this.blur();
 
           if (this.elements.controller) {
-            this.elements.controller.close();
+            this.elements.controller.collapse();
           }
 
-          this.elements.rootMenu.hasOpened = false;
+          this.elements.rootMenu.hasExpanded = false;
         }
       }
     });
@@ -247,7 +271,7 @@ class Menubar extends BaseMenu {
         // - Moves focus out of the menu.
         if (this.elements.rootMenu.focusState !== "none") {
           this.elements.rootMenu.blur();
-          this.elements.rootMenu.closeChildren();
+          this.elements.rootMenu.collapseChildren();
         } else {
           this.elements.rootMenu.focus();
         }
@@ -363,7 +387,7 @@ class Menubar extends BaseMenu {
 
             if (this.currentMenuItem.isSubmenuItem) {
               this.currentMenuItem.elements.childMenu.currentEvent = "keyboard";
-              this.currentMenuItem.elements.toggle.open();
+              this.currentMenuItem.elements.toggle.expand();
               // This ensures the the menu is _visually_ open before the child is focussed.
               requestAnimationFrame(() => {
                 this.currentMenuItem.elements.childMenu.focusFirstChild();
@@ -381,7 +405,7 @@ class Menubar extends BaseMenu {
             // Store the current item's info if its an open dropdown.
             const previousChildOpen =
               this.currentMenuItem.isSubmenuItem &&
-              this.currentMenuItem.elements.toggle.isOpen;
+              this.currentMenuItem.elements.toggle.isExpanded;
 
             this.focusNextChild();
 
@@ -392,7 +416,7 @@ class Menubar extends BaseMenu {
                   "keyboard";
                 this.currentMenuItem.elements.toggle.preview();
               } else {
-                this.closeChildren();
+                this.collapseChildren();
               }
             }
           } else if (key === "ArrowLeft") {
@@ -405,7 +429,7 @@ class Menubar extends BaseMenu {
             // Store the current item's info if its an open dropdown.
             const previousChildOpen =
               this.currentMenuItem.isSubmenuItem &&
-              this.currentMenuItem.elements.toggle.isOpen;
+              this.currentMenuItem.elements.toggle.isExpanded;
 
             this.focusPreviousChild();
 
@@ -416,7 +440,7 @@ class Menubar extends BaseMenu {
                   "keyboard";
                 this.currentMenuItem.elements.toggle.preview();
               } else {
-                this.closeChildren();
+                this.collapseChildren();
               }
             }
           } else if (key === "ArrowDown") {
@@ -425,7 +449,7 @@ class Menubar extends BaseMenu {
             if (this.currentMenuItem.isSubmenuItem) {
               preventEvent(event);
               this.currentMenuItem.elements.childMenu.currentEvent = "keyboard";
-              this.currentMenuItem.elements.toggle.open();
+              this.currentMenuItem.elements.toggle.expand();
               // This ensures the the menu is _visually_ open before the child is focussed.
               requestAnimationFrame(() => {
                 this.currentMenuItem.elements.childMenu.focusFirstChild();
@@ -437,7 +461,7 @@ class Menubar extends BaseMenu {
             if (this.currentMenuItem.isSubmenuItem) {
               preventEvent(event);
               this.currentMenuItem.elements.childMenu.currentEvent = "keyboard";
-              this.currentMenuItem.elements.toggle.open();
+              this.currentMenuItem.elements.toggle.expand();
               // This ensures the the menu is _visually_ open before the child is focussed.
               requestAnimationFrame(() => {
                 this.currentMenuItem.elements.childMenu.focusLastChild();
@@ -457,19 +481,19 @@ class Menubar extends BaseMenu {
             // Hitting Escape:
             // - Closes menu.
             const hasOpenChild = this.elements.submenuToggles.some(
-              (toggle) => toggle.isOpen
+              (toggle) => toggle.isExpanded
             );
 
             if (hasOpenChild) {
               preventEvent(event);
-              this.closeChildren();
+              this.collapseChildren();
             } else if (
               this.isTopLevel &&
               this.elements.controller &&
-              this.elements.controller.isOpen
+              this.elements.controller.isExpanded
             ) {
               preventEvent(event);
-              this.elements.controller.close();
+              this.elements.controller.collapse();
               this.focusController();
             }
           }
@@ -482,7 +506,7 @@ class Menubar extends BaseMenu {
 
           if (this.currentMenuItem.isSubmenuItem) {
             this.currentMenuItem.elements.childMenu.currentEvent = "keyboard";
-            this.currentMenuItem.elements.toggle.open();
+            this.currentMenuItem.elements.toggle.expand();
             // This ensures the the menu is _visually_ open before the child is focussed.
             requestAnimationFrame(() => {
               this.currentMenuItem.elements.childMenu.focusFirstChild();
@@ -495,7 +519,7 @@ class Menubar extends BaseMenu {
           // - Closes submenu.
           // - Moves focus to parent menubar item.
           preventEvent(event);
-          this.elements.rootMenu.closeChildren();
+          this.elements.rootMenu.collapseChildren();
           this.elements.rootMenu.focusCurrentChild();
         } else if (key === "ArrowRight") {
           // Hitting the Right Arrow:
@@ -507,14 +531,14 @@ class Menubar extends BaseMenu {
           if (this.currentMenuItem.isSubmenuItem) {
             preventEvent(event);
             this.currentMenuItem.elements.childMenu.currentEvent = "keyboard";
-            this.currentMenuItem.elements.toggle.open();
+            this.currentMenuItem.elements.toggle.expand();
             // This ensures the the menu is _visually_ open before the child is focussed.
             requestAnimationFrame(() => {
               this.currentMenuItem.elements.childMenu.focusFirstChild();
             });
           } else {
             preventEvent(event);
-            this.elements.rootMenu.closeChildren();
+            this.elements.rootMenu.collapseChildren();
             this.elements.rootMenu.focusNextChild();
 
             if (this.elements.rootMenu.currentMenuItem.isSubmenuItem) {
@@ -529,11 +553,11 @@ class Menubar extends BaseMenu {
           //   - Opens submenu of newly focused menubar item, keeping focus on that parent menubar item.
           if (this.elements.parentMenu.currentMenuItem.isSubmenuItem) {
             preventEvent(event);
-            this.elements.parentMenu.currentMenuItem.elements.toggle.close();
+            this.elements.parentMenu.currentMenuItem.elements.toggle.collapse();
             this.elements.parentMenu.focusCurrentChild();
 
             if (this.elements.parentMenu === this.elements.rootMenu) {
-              this.elements.rootMenu.closeChildren();
+              this.elements.rootMenu.collapseChildren();
               this.elements.rootMenu.focusPreviousChild();
 
               if (this.elements.rootMenu.currentMenuItem.isSubmenuItem) {

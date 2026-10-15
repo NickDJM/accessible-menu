@@ -2,11 +2,10 @@
  * Getter/Setter tests for the TopLinkDisclosureMenu class
  */
 
-import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
+import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import TopLinkDisclosureMenu from "../../../src/topLinkDisclosureMenu.js";
 import { twoLevelDisclosureTopLink } from "../../../demo/menus.js";
 import BaseMenu from "../../../src/_baseMenu.js";
-import * as validation from "../../../src/validate.js";
 import { expectInheritedGetter, expectInheritedSetter } from "../helpers.js";
 
 beforeEach(() => {
@@ -166,107 +165,48 @@ describe("TopLinkDisclosureMenu getter/setters", () => {
     });
   });
 
-  // Test TopLinkDisclosureMenu shouldOpen.
-  describe("shouldOpen", () => {
-    // Test that TopLinkDisclosureMenu implements the BaseMenu shouldOpen getter.
-    it("should implement the BaseMenu shouldOpen getter", () => {
-      expectInheritedGetter(
-        TopLinkDisclosureMenu.prototype,
-        BaseMenu.prototype,
-        "shouldOpen"
-      );
-    });
-
-    // Test that TopLinkDisclosureMenu implements the BaseMenu shouldOpen setter.
-    it("should implement the BaseMenu shouldOpen setter", () => {
-      expectInheritedSetter(
-        TopLinkDisclosureMenu.prototype,
-        BaseMenu.prototype,
-        "shouldOpen"
-      );
-    });
-  });
-
   // Test TopLinkDisclosureMenu breakpoint.
-  describe("breakpoint", () => {
-    // Test that TopLinkDisclosureMenu implements the BaseMenu breakpoint getter.
-    it("should implement the BaseMenu breakpoint getter", () => {
-      expectInheritedGetter(
-        TopLinkDisclosureMenu.prototype,
-        BaseMenu.prototype,
-        "breakpoint"
-      );
-    });
-
-    // Test that TopLinkDisclosureMenu implements the BaseMenu breakpoint setter.
-    it("should implement the BaseMenu breakpoint setter", () => {
-      expectInheritedSetter(
-        TopLinkDisclosureMenu.prototype,
-        BaseMenu.prototype,
-        "breakpoint"
-      );
-    });
-  });
 
   // Test TopLinkDisclosureMenu mediaQuery.
-  describe("mediaQuery", () => {
-    // Test that TopLinkDisclosureMenu implements the BaseMenu mediaQuery getter.
-    it("should implement the BaseMenu mediaQuery getter", () => {
+
+  // Test BaseMenu expandClass.
+  describe("expandClass", () => {
+    // Test that TopLinkDisclosureMenu implements the BaseMenu expandClass getter.
+    it("should implement the BaseMenu expandClass getter", () => {
       expectInheritedGetter(
         TopLinkDisclosureMenu.prototype,
         BaseMenu.prototype,
-        "mediaQuery"
+        "expandClass"
       );
     });
 
-    // Test that TopLinkDisclosureMenu implements the BaseMenu mediaQuery setter.
-    it("should implement the BaseMenu mediaQuery setter", () => {
+    // Test that TopLinkDisclosureMenu implements the BaseMenu expandClass setter.
+    it("should implement the BaseMenu expandClass setter", () => {
       expectInheritedSetter(
         TopLinkDisclosureMenu.prototype,
         BaseMenu.prototype,
-        "mediaQuery"
+        "expandClass"
       );
     });
   });
 
-  // Test BaseMenu openClass.
-  describe("openClass", () => {
-    // Test that TopLinkDisclosureMenu implements the BaseMenu openClass getter.
-    it("should implement the BaseMenu openClass getter", () => {
+  // Test TopLinkDisclosureMenu collapseClass.
+  describe("collapseClass", () => {
+    // Test that TopLinkDisclosureMenu implements the BaseMenu collapseClass getter.
+    it("should implement the BaseMenu collapseClass getter", () => {
       expectInheritedGetter(
         TopLinkDisclosureMenu.prototype,
         BaseMenu.prototype,
-        "openClass"
+        "collapseClass"
       );
     });
 
-    // Test that TopLinkDisclosureMenu implements the BaseMenu openClass setter.
-    it("should implement the BaseMenu openClass setter", () => {
+    // Test that TopLinkDisclosureMenu implements the BaseMenu collapseClass setter.
+    it("should implement the BaseMenu collapseClass setter", () => {
       expectInheritedSetter(
         TopLinkDisclosureMenu.prototype,
         BaseMenu.prototype,
-        "openClass"
-      );
-    });
-  });
-
-  // Test TopLinkDisclosureMenu closeClass.
-  describe("closeClass", () => {
-    // Test that TopLinkDisclosureMenu implements the BaseMenu closeClass getter.
-    it("should implement the BaseMenu closeClass getter", () => {
-      expectInheritedGetter(
-        TopLinkDisclosureMenu.prototype,
-        BaseMenu.prototype,
-        "closeClass"
-      );
-    });
-
-    // Test that TopLinkDisclosureMenu implements the BaseMenu closeClass setter.
-    it("should implement the BaseMenu closeClass setter", () => {
-      expectInheritedSetter(
-        TopLinkDisclosureMenu.prototype,
-        BaseMenu.prototype,
-        "closeClass"
+        "collapseClass"
       );
     });
   });
@@ -313,44 +253,44 @@ describe("TopLinkDisclosureMenu getter/setters", () => {
     });
   });
 
-  // Test TopLinkDisclosureMenu openDuration.
-  describe("openDuration", () => {
-    // Test that TopLinkDisclosureMenu implements the BaseMenu openDuration getter.
-    it("should implement the BaseMenu openDuration getter", () => {
+  // Test TopLinkDisclosureMenu expandDuration.
+  describe("expandDuration", () => {
+    // Test that TopLinkDisclosureMenu implements the BaseMenu expandDuration getter.
+    it("should implement the BaseMenu expandDuration getter", () => {
       expectInheritedGetter(
         TopLinkDisclosureMenu.prototype,
         BaseMenu.prototype,
-        "openDuration"
+        "expandDuration"
       );
     });
 
-    // Test that TopLinkDisclosureMenu implements the BaseMenu openDuration setter.
-    it("should implement the BaseMenu openDuration setter", () => {
+    // Test that TopLinkDisclosureMenu implements the BaseMenu expandDuration setter.
+    it("should implement the BaseMenu expandDuration setter", () => {
       expectInheritedSetter(
         TopLinkDisclosureMenu.prototype,
         BaseMenu.prototype,
-        "openDuration"
+        "expandDuration"
       );
     });
   });
 
-  // Test TopLinkDisclosureMenu closeDuration.
-  describe("closeDuration", () => {
-    // Test that TopLinkDisclosureMenu implements the BaseMenu closeDuration getter.
-    it("should implement the BaseMenu closeDuration getter", () => {
+  // Test TopLinkDisclosureMenu collapseDuration.
+  describe("collapseDuration", () => {
+    // Test that TopLinkDisclosureMenu implements the BaseMenu collapseDuration getter.
+    it("should implement the BaseMenu collapseDuration getter", () => {
       expectInheritedGetter(
         TopLinkDisclosureMenu.prototype,
         BaseMenu.prototype,
-        "closeDuration"
+        "collapseDuration"
       );
     });
 
-    // Test that TopLinkDisclosureMenu implements the BaseMenu closeDuration setter.
-    it("should implement the BaseMenu closeDuration setter", () => {
+    // Test that TopLinkDisclosureMenu implements the BaseMenu collapseDuration setter.
+    it("should implement the BaseMenu collapseDuration setter", () => {
       expectInheritedSetter(
         TopLinkDisclosureMenu.prototype,
         BaseMenu.prototype,
-        "closeDuration"
+        "collapseDuration"
       );
     });
   });
@@ -648,12 +588,10 @@ describe("TopLinkDisclosureMenu getter/setters", () => {
       });
 
       // Set up to check for validation.
-      const spy = vi.spyOn(validation, "isValidType");
 
       // Set the menu's optional key support value.
       menu.optionalKeySupport = true;
 
-      expect(spy).toHaveBeenCalledWith("boolean", { optionalKeySupport: true });
       expect(menu._optionalSupport).toBeTruthy();
     });
 

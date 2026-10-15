@@ -3,7 +3,7 @@
 An accessible navigation element in the DOM.
 
 This is intended to be used as a "base" to other menus and not to be used on
-it's own in the DOM.
+its own in the DOM.
 
 ## Constructor
 
@@ -20,12 +20,12 @@ new BaseMenu({
   controllerElement,
   containerElement,
   initializeClass,
-  openClass,
-  closeClass,
+  expandClass,
+  collapseClass,
   transitionClass,
   transitionDuration,
-  openDuration,
-  closeDuration,
+  expandDuration,
+  collapseDuration,
   isTopLevel,
   parentMenu,
   hoverType,
@@ -34,7 +34,14 @@ new BaseMenu({
   leaveDelay,
   breakpoint,
   mediaQuery,
-  autoOpen,
+  expandInsideBreakpoint,
+  expandOutsideBreakpoint,
+  collapseInsideBreakpoint,
+  collapseOutsideBreakpoint,
+  lockInsideBreakpoint,
+  lockOutsideBreakpoint,
+  unlockInsideBreakpoint,
+  unlockOutsideBreakpoint,
   prefix,
   key,
 });
@@ -44,35 +51,42 @@ The constructor populates the dom, selector, CSS class, and hover related proper
 
 ### Parameters {#constructor--parameters}
 
-| Param                          | Type                         | Description                                                                           | Default           |
-| ------------------------------ | ---------------------------- | ------------------------------------------------------------------------------------- | ----------------- |
-| options                        | `object`                     | The options for generating the menu.                                                  | `undefined`       |
-| options.menuElement            | `HTMLElement`                | The menu element in the DOM.                                                          | `undefined`       |
-| options.menuItemsSelector      | `string`                     | The query selector string for menu items.                                             | `"li"`            |
-| options.menuLinksSelector      | `string`                     | The query selector string for menu links.                                             | `"a"`             |
-| options.submenuItemsSelector   | `string`                     | The query selector string for menu items containing submenus.                         | `li:has(ul)`      |
-| options.submenuTogglesSelector | `string`                     | The query selector string for submenu toggle buttons/links.                           | `"a"`             |
-| options.submenusSelector       | `string`                     | The query selector string for submenus.                                               | `"ul"`            |
-| options.controllerElement      | `HTMLElement`, `null`        | The element controlling the menu in the DOM.                                          | `null`            |
-| options.containerElement       | `HTMLElement`, `null`        | The element containing the menu in the DOM.                                           | `null`            |
-| options.initializeClass        | `string`, `string[]`, `null` | The class(es) to apply when the menu is initializing.                                 | `"initializing"`  |
-| options.openClass              | `string`, `string[]`, `null` | The class(es) to apply when the menu is open.                                         | `"show"`          |
-| options.closeClass             | `string`, `string[]`, `null` | The class(es) to apply when the menu is closed.                                       | `"hide"`          |
-| options.transitionClass        | `string`, `string[]`, `null` | The class(es) to apply when the menu is transitioning between open and closed states. | `"transitioning"` |
-| options.transitionDuration     | `number`                     | The duration of the transition between "open" and "closed" states (in milliseconds).  | `250`             |
-| options.openDuration           | `number`                     | The duration of the transition from "closed" to "open" states (in milliseconds).      | `-1`              |
-| options.closeDuration          | `number`                     | The duration of the transition from "open" to "closed" states (in milliseconds).      | `-1`              |
-| options.isTopLevel             | `boolean`                    | A flag to mark the root menu.                                                         | `true`            |
-| options.parentMenu             | `BaseMenu`, `null`           | The parent menu to this menu.                                                         | `null`            |
-| options.hoverType              | `string`                     | The type of hoverability a menu has.                                                  | `"off"`           |
-| options.hoverDelay             | `number`                     | The delay for opening and closing menus if the menu is hoverable (in milliseconds).   | `250`             |
-| options.enterDelay             | `number`                     | The delay for opening menus if the menu is hoverable (in milliseconds).               | `-1`              |
-| options.leaveDelay             | `number`                     | The delay for closing menus if the menu is hoverable (in milliseconds).               | `-1`              |
-| options.breakpoint             | `string`                     | The breakpoint that the menu will automatically open/close itself at.                 | `""`              |
-| options.mediaQuery             | `string`                     | The media query to use to trigger media query list events.                            | `""`              |
-| options.autoOpen               | `boolean`                    | A flag to auto open the menu when the media query does not match.                     | `true`            |
-| options.prefix                 | `string`, `null`             | The prefix for the CSS custom properties.                                             | `"am-"`           |
-| options.key                    | `string`, `null`             | The key used to generate IDs throughout the menu.                                     | `null`            |
+| Param                             | Type                         | Description                                                                             | Default           |
+| --------------------------------- | ---------------------------- | --------------------------------------------------------------------------------------- | ----------------- |
+| options                           | `object`                     | The options for generating the menu.                                                    | `undefined`       |
+| options.menuElement               | `HTMLElement`                | The menu element in the DOM.                                                            | `undefined`       |
+| options.menuItemsSelector         | `string`                     | The query selector string for menu items.                                               | `"li"`            |
+| options.menuLinksSelector         | `string`                     | The query selector string for menu links.                                               | `"a"`             |
+| options.submenuItemsSelector      | `string`                     | The query selector string for menu items containing submenus.                           | `li:has(ul)`      |
+| options.submenuTogglesSelector    | `string`                     | The query selector string for submenu toggle buttons/links.                             | `"a"`             |
+| options.submenusSelector          | `string`                     | The query selector string for submenus.                                                 | `"ul"`            |
+| options.controllerElement         | `HTMLElement`, `null`        | The element controlling the menu in the DOM.                                            | `null`            |
+| options.containerElement          | `HTMLElement`, `null`        | The element containing the menu in the DOM.                                             | `null`            |
+| options.initializeClass           | `string`, `string[]`, `null` | The class(es) to apply when the menu is initializing.                                   | `"initializing"`  |
+| options.expandClass               | `string`, `string[]`, `null` | The class(es) to apply when the menu is open.                                           | `"show"`          |
+| options.collapseClass             | `string`, `string[]`, `null` | The class(es) to apply when the menu is closed.                                         | `"hide"`          |
+| options.transitionClass           | `string`, `string[]`, `null` | The class(es) to apply when the menu is transitioning between open and closed states.   | `"transitioning"` |
+| options.transitionDuration        | `number`                     | The duration of the transition between expanded and collapsed states (in milliseconds). | `250`             |
+| options.expandDuration            | `number`                     | The duration of the transition from collapsed to expanded states (in milliseconds).     | `-1`              |
+| options.collapseDuration          | `number`                     | The duration of the transition from expanded to collapsed states (in milliseconds).     | `-1`              |
+| options.isTopLevel                | `boolean`                    | A flag to mark the root menu.                                                           | `true`            |
+| options.parentMenu                | `BaseMenu`, `null`           | The parent menu to this menu.                                                           | `null`            |
+| options.hoverType                 | `string`                     | The type of hoverability a menu has.                                                    | `"off"`           |
+| options.hoverDelay                | `number`                     | The delay for opening and closing menus if the menu is hoverable (in milliseconds).     | `250`             |
+| options.enterDelay                | `number`                     | The delay for opening menus if the menu is hoverable (in milliseconds).                 | `-1`              |
+| options.leaveDelay                | `number`                     | The delay for closing menus if the menu is hoverable (in milliseconds).                 | `-1`              |
+| options.breakpoint                | `string`                     | The breakpoint used to generate the root controller's media query.                      | `""`              |
+| options.mediaQuery                | `string`                     | The media query used to trigger the root controller's media query list events.          | `""`              |
+| options.expandInsideBreakpoint    | `boolean`                    | A flag to expand the menu when the media query matches.                                 | `false`           |
+| options.expandOutsideBreakpoint   | `boolean`                    | A flag to expand the menu when the media query does not match.                          | `false`           |
+| options.collapseInsideBreakpoint  | `boolean`                    | A flag to collapse the menu when the media query matches.                               | `false`           |
+| options.collapseOutsideBreakpoint | `boolean`                    | A flag to collapse the menu when the media query does not match.                        | `false`           |
+| options.lockInsideBreakpoint      | `boolean`                    | A flag to lock the root controller when the media query matches.                        | `false`           |
+| options.lockOutsideBreakpoint     | `boolean`                    | A flag to lock the root controller when the media query does not match.                 | `false`           |
+| options.unlockInsideBreakpoint    | `boolean`                    | A flag to unlock the root controller when the media query matches.                      | `false`           |
+| options.unlockOutsideBreakpoint   | `boolean`                    | A flag to unlock the root controller when the media query does not match.               | `false`           |
+| options.prefix                    | `string`, `null`             | The prefix for the CSS custom properties.                                               | `"am-"`           |
+| options.key                       | `string`, `null`             | The key used to generate IDs throughout the menu.                                       | `null`            |
 
 ## Initialize
 
@@ -82,16 +96,21 @@ Initializes the menu.
 BaseMenu.initialize();
 ```
 
-The following steps will be taken to initialize the menu:
+Initialization is inherited from Core's `Component`:
 
-- [Validate](#validate) that the menu can initialize,
-- Find the root menu of the menu tree if it isn't already set.
-- Populate all DOM elements within the [dom](#property--dom).
-- If the current menu is the root menu _and_ has a controller, initialize the controller.
-- Populate the menu elements within the [elements](#property--elements).
-- Set the transition duration custom prop for the menu.
+1. Create the root controller without initializing it during `prevalidate`, then validate Core fields and dispatch Menu-specific validation listeners. The controller validates responsive settings.
+2. Apply the initialization class and dispatch `preinitialize`, which finds the root menu.
+3. Generate a key, populate DOM elements, assign IDs and ARIA relationships, and set CSS custom properties.
+4. Initialize the root controller through `_createController()`, then create and initialize menu items, submenus, and their toggles.
+5. Register focus, hover, click, keydown, and keyup handlers once.
+6. Dispatch `initialize`, including subclass role/tabindex listeners.
+7. Store root menus, remove the initialization class, mark the menu initialized, and dispatch `postinitialize`.
+
+The initial media-query callback runs on the next animation frame. Validation failures set `isValid` to `false`, populate `errors`, and are logged rather than thrown to the caller. Subclasses customize lifecycle listeners and concrete hooks instead of replacing this method.
 
 ## Properties
+
+The following properties include fields inherited from Core's `Component` class. Each menu or menu item has its own field values.
 
 ### _MenuType <badge type="warning" text="protected" /> {#property--menutype}
 
@@ -147,13 +166,14 @@ BaseMenu._dom;
 | -------------- | --------------------- | ---------------------------------------------------------- | ----------------------- |
 | menu           | `HTMLElement`         | The menu element.                                          | `menuElement`           |
 | menuItems      | `HTMLElement[]`       | An array of menu items.                                    | Populated on initialize |
+| menuLinks      | `HTMLElement[]`       | An array of menu links.                                    | `[]`                    |
 | submenuItems   | `HTMLElement[]`       | An array of menu items that also contain submenu elements. | Populated on initialize |
 | submenuToggles | `HTMLElement[]`       | An array of menu links that function as submenu toggles.   | Populated on initialize |
 | submenus       | `HTMLElement[]`       | An array of submenu elements.                              | Populated on initialize |
 | controller     | `HTMLElement`, `null` | The toggle for this menu.                                  | `null`                  |
 | container      | `HTMLElement`, `null` | The container for this menu.                               | `null`                  |
 
-`menuItems`, `submenuItems`, `submenuToggles`, and `submenus` are populated when the menu is initialized. BaseMenu does not populate a `menuLinks` entry in `_dom`.
+`menuItems`, `submenuItems`, `submenuToggles`, and `submenus` are populated when the menu is initialized. The `menuLinks` slot starts as an empty array; links for individual items are stored on their menu item instances.
 
 ### _rootDOMElement <badge type="warning" text="protected" /> {#property--rootdomelement}
 
@@ -172,7 +192,7 @@ BaseMenu._rootDOMElement; // Default: `"menu"`.
 DOM element keys that cannot be set or reset through `_setDOMElementType` or `_resetDOMElementType`.
 
 ```js
-BaseMenu._protectedDOMElements; // Default: `["controller", "container"]`.
+BaseMenu._protectedDOMElements; // Default: `["menu", "controller", "container"]`.
 ```
 
 #### Type {#property--protecteddomelements--type}
@@ -193,13 +213,13 @@ BaseMenu._selectors;
 
 #### Properties {#property--selectors--properties}
 
-| Name           | Type     | Description                                                         | Default |
-| -------------- | -------- | ------------------------------------------------------------------- | ------- |
-| menuItems      | `string` | The query selector for menu items.                                  | `""`    |
-| menuLinks      | `string` | The query selector for menu links.                                  | `""`    |
-| submenuItems   | `string` | The query selector for menu items containing submenus.              | `""`    |
-| submenuToggles | `string` | The query selector for menu links that function as submenu toggles. | `""`    |
-| submenus       | `string` | The query selector for for submenus.                                | `""`    |
+| Name           | Type     | Description                                                         | Default        |
+| -------------- | -------- | ------------------------------------------------------------------- | -------------- |
+| menuItems      | `string` | The query selector for menu items.                                  | `"li"`         |
+| menuLinks      | `string` | The query selector for menu links.                                  | `"a"`          |
+| submenuItems   | `string` | The query selector for menu items containing submenus.              | `"li:has(ul)"` |
+| submenuToggles | `string` | The query selector for menu links that function as submenu toggles. | `"a"`          |
+| submenus       | `string` | The query selector for for submenus.                                | `"ul"`         |
 
 ### _elements <badge type="warning" text="protected" /> {#property--elements}
 
@@ -240,8 +260,8 @@ BaseMenu._classes;
 | Name       | Type                 | Description                                                           | Default           |
 | ---------- | -------------------- | --------------------------------------------------------------------- | ----------------- |
 | initialize | `string`, `string[]` | The class(es) to apply when the menu is initializing.                 | `"initializing"`  |
-| open       | `string`, `string[]` | The class(es) to apply when the menu is open.                         | `"show"`          |
-| close      | `string`, `string[]` | The class(es) to apply when the menu is closed.                       | `"hide"`          |
+| expand     | `string`, `string[]` | The class(es) to apply when the menu is open.                         | `"show"`          |
+| collapse   | `string`, `string[]` | The class(es) to apply when the menu is closed.                       | `"hide"`          |
 | transition | `string`, `string[]` | The class(es) to apply when the menu is transitioning between states. | `"transitioning"` |
 
 ### _durations <badge type="warning" text="protected" /> {#property--durations}
@@ -261,8 +281,8 @@ BaseMenu._durations;
 | Name       | Type     | Description                                                                            | Default |
 | ---------- | -------- | -------------------------------------------------------------------------------------- | ------- |
 | transition | `number` | The duration time (in milliseconds) for the transition between open and closed states. | `250`   |
-| open       | `number` | The duration time (in milliseconds) for the transition from closed to open states.     | `-1`    |
-| close      | `number` | The duration time (in milliseconds) for the transition from open to closed states.     | `-1`    |
+| expand     | `number` | The duration time (in milliseconds) for the transition from closed to open states.     | `-1`    |
+| collapse   | `number` | The duration time (in milliseconds) for the transition from open to closed states.     | `-1`    |
 
 ### _delays <badge type="warning" text="protected" /> {#property--delays}
 
@@ -286,7 +306,7 @@ BaseMenu._delays;
 
 ### _intervals <badge type="warning" text="protected" /> {#property--intervals}
 
-Intervals throughout the component.
+Interval IDs indexed by scope.
 
 ```js
 BaseMenu._intervals; // Default: `{}`.
@@ -294,11 +314,11 @@ BaseMenu._intervals; // Default: `{}`.
 
 #### Type {#property--intervals--type}
 
-`Object<string, Function>`
+`Object<string, number>`
 
 ### _timeouts <badge type="warning" text="protected" /> {#property--timeouts}
 
-Timeouts throughout the menu.
+Timeout IDs indexed by scope.
 
 ```js
 BaseMenu._timeouts; // Default: `{}`.
@@ -306,7 +326,7 @@ BaseMenu._timeouts; // Default: `{}`.
 
 #### Type {#property--timeouts--type}
 
-`Object<string, Function>`
+`Object<string, number>`
 
 ### _listeners <badge type="warning" text="protected" /> {#property--listeners}
 
@@ -331,6 +351,10 @@ BaseMenu._events; // Default: `{}`.
 #### Type {#property--events--type}
 
 `Object<string, CustomEvent>`
+
+The constructor registers the `prevalidate`, `validate`, `postvalidate`, `preinitialize`, `initialize`, and `postinitialize` events. Each event includes `{ component: this }` in its `detail`.
+
+Use `getEventName(type)` to get the DOM event name. These events bubble, so custom listeners should check `event.detail.component === this` before running.
 
 ### _root <badge type="warning" text="protected" /> {#property--root}
 
@@ -412,77 +436,17 @@ BaseMenu._prefix; // Default: `"am-"`.
 
 `string`
 
-### _hasOpened <badge type="warning" text="protected" /> {#property--hasopened}
+### _hasExpanded <badge type="warning" text="protected" /> {#property--hasexpanded}
 
 A flag to check if the menu can dynamically hover based on if a menu has been opened already.
 
 ```js
-BaseMenu._hasOpened; // Default: `false`.
+BaseMenu._hasExpanded; // Default: `false`.
 ```
 
-#### Type {#property--hasopened--type}
+#### Type {#property--hasexpanded--type}
 
 `boolean`
-
-### _shouldOpen <badge type="warning" text="protected" /> {#property--shouldopen}
-
-A flag to force the menu open if the media query does not match.
-
-```js
-BaseMenu._shouldOpen; // Default: `true`.
-```
-
-#### Type {#property--shouldopen--type}
-
-`boolean`
-
-### _breakpoint <badge type="warning" text="protected" /> {#property--breakpoint}
-
-The breakpoint that the menu will call media query list events.
-
-```js
-BaseMenu._breakpoint; // Default: `""`.
-```
-
-#### Type {#property--breakpoint--type}
-
-`string`
-
-### _mediaQueryString <badge type="warning" text="protected" /> {#property--mediaquerystring}
-
-The media query to use to trigger media query list events.
-
-```js
-BaseMenu._mediaQueryString; // Default: `""`.
-```
-
-#### Type {#property--mediaquerystring--type}
-
-`string`
-
-### _mediaQueryList <badge type="warning" text="protected" /> {#property--mediaquerylist}
-
-The MediaQueryList for the menu.
-
-```js
-BaseMenu._mediaQueryList; // Default: `null`.
-```
-
-#### Type {#property--mediaquerylist--type}
-
-`MediaQueryList|null`
-
-### _mediaQueryListEventCallback <badge type="warning" text="protected" /> {#property--mediaquerylisteventcallback}
-
-A callback for media query list events.
-
-```js
-BaseMenu._mediaQueryListEventCallback;
-```
-
-#### Type {#property--mediaquerylisteventcallback--type}
-
-`Function`
 
 ### _key <badge type="warning" text="protected" /> {#property--key}
 
@@ -508,6 +472,18 @@ BaseMenu._id; // Default: `""`.
 
 `string`
 
+### _eventPrefix <badge type="warning" text="protected" /> {#property--eventprefix}
+
+The prefix used for event names. Menus, menu items, and toggles use `"accessibleMenu"`.
+
+```js
+BaseMenu._eventPrefix; // Default: `"accessibleMenu"`.
+```
+
+#### Type {#property--eventprefix--type}
+
+`string`
+
 ### _storageKey <badge type="warning" text="protected" /> {#property--storagekey}
 
 The storage type used when storing the menu in the global storage manager.
@@ -517,6 +493,7 @@ BaseMenu._storageKey; // Default: `"menus"`.
 ```
 
 #### Type {#property--storagekey--type}
+
 `string`
 
 ### _name <badge type="warning" text="protected" /> {#property--name}
@@ -545,7 +522,7 @@ BaseMenu._scope; // Default: `"AccessibleMenu"`.
 
 ### _shouldStore <badge type="warning" text="protected" /> {#property--shouldstore}
 
-A flag indicating whether a component should be stored in the StorageManager. BaseMenu's `initialize()` method currently stores the menu unconditionally.
+A flag to store the component in global storage. The constructor sets this to `true` for root menus and `false` for submenus.
 
 ```js
 BaseMenu._shouldStore; // Default: `true`.
@@ -569,7 +546,7 @@ BaseMenu._valid; // Default: `true`.
 
 ### _initialized <badge type="warning" text="protected" /> {#property--initialized}
 
-The initialized state of the menu. BaseMenu's `initialize()` method currently does not set this flag to `true`.
+A flag to check if the component has initialized successfully.
 
 ```js
 BaseMenu._initialized; // Default: `false`.
@@ -679,7 +656,7 @@ See [_delays](#property--delays) for more information.
 
 ### timeouts <badge type="warning" text="readonly" /> {#getter--timeouts}
 
-Timeouts throughout the menu.
+Timeout IDs indexed by scope.
 
 ::: code-group
 
@@ -724,6 +701,7 @@ See [_root](#property--root) for more information.
 The key used to generate IDs throughout the menu.
 
 ::: code-group
+
 ```js [getter]
 BaseMenu.key;
 ```
@@ -740,52 +718,54 @@ See [_key](#property--key) for more information.
 The main ID of the menu element.
 
 ::: code-group
+
 ```js [getter]
 BaseMenu.id;
 ```
+
 :::
 
 See [_id](#property--id) for more information.
 
-### openClass {#getter-setter--openclass}
+### expandClass {#getter-setter--openclass}
 
 The class(es) to apply when the menu is open.
 
 ::: code-group
 
 ```js [getter]
-BaseMenu.openClass;
+BaseMenu.expandClass;
 ```
 
 ```js [setter]
-BaseMenu.openClass = "show";
+BaseMenu.expandClass = "show";
 ```
 
 :::
 
 This functions differently for root vs. submenus. Submenus will always inherit their root menu's open class(es).
 
-See [_classes.open](#property--classes) for more information.
+See [_classes.expand](#property--classes) for more information.
 
-### closeClass {#getter-setter--closeclass}
+### collapseClass {#getter-setter--closeclass}
 
 The class(es) to apply when the menu is closed.
 
 ::: code-group
 
 ```js [getter]
-BaseMenu.closeClass;
+BaseMenu.collapseClass;
 ```
 
 ```js [setter]
-BaseMenu.closeClass = "hide";
+BaseMenu.collapseClass = "hide";
 ```
 
 :::
 
 This functions differently for root vs. submenus. Submenus will always inherit their root menu's close class(es).
 
-See [_classes.close](#property--classes) for more information.
+See [_classes.collapse](#property--classes) for more information.
 
 ### transitionClass {#getter-setter--transitionclass}
 
@@ -829,49 +809,49 @@ Setting this value will also set the `--am-transition-duration` CSS custom prope
 
 See [_durations.transition](#property--durations) for more information.
 
-### openDuration {#getter-setter--openduration}
+### expandDuration {#getter-setter--openduration}
 
 The duration time (in milliseconds) for the transition from closed to open states.
 
 ::: code-group
 
 ```js [getter]
-BaseMenu.openDuration;
+BaseMenu.expandDuration;
 ```
 
 ```js [setter]
-BaseMenu.openDuration = 250;
+BaseMenu.expandDuration = 250;
 ```
 
 :::
 
 This functions differently for root vs. submenus. Submenus will always inherit their root menu's open duration.
 
-Setting this value will also set the `--am-open-transition-duration` CSS custom property on the menu.
+Setting this value will also set the `--am-expand-transition-duration` CSS custom property on the menu.
 
-See [_durations.open](#property--durations) for more information.
+See [_durations.expand](#property--durations) for more information.
 
-### closeDuration {#getter-setter--closeduration}
+### collapseDuration {#getter-setter--closeduration}
 
 The duration time (in milliseconds) for the transition from open to closed states.
 
 ::: code-group
 
 ```js [getter]
-BaseMenu.closeDuration;
+BaseMenu.collapseDuration;
 ```
 
 ```js [setter]
-BaseMenu.closeDuration = 250;
+BaseMenu.collapseDuration = 250;
 ```
 
 :::
 
 This functions differently for root vs. submenus. Submenus will always inherit their root menu's close duration.
 
-Setting this value will also set the `--am-close-transition-duration` CSS custom property on the menu.
+Setting this value will also set the `--am-collapse-transition-duration` CSS custom property on the menu.
 
-See [_durations.close](#property--durations) for more information.
+See [_durations.collapse](#property--durations) for more information.
 
 ### currentChild {#getter-setter--currentchild}
 
@@ -940,62 +920,6 @@ BaseMenu.currentEvent = "mouse";
 Available events are: `"none"`, `"mouse"`, `"keyboard"`, and `"character"`.
 
 See [_currentEvent](#property--currentevent) for more information.
-
-### shouldOpen {#getter-setter--shouldopen}
-
-A flag to auto open the menu when the media query does not match.
-
-::: code-group
-
-```js [getter]
-BaseMenu.shouldOpen;
-```
-
-```js [setter]
-BaseMenu.shouldOpen = true;
-```
-
-:::
-
-See [_shouldOpen](#property--shouldopen) for more information.
-
-### breakpoint {#getter-setter--breakpoint}
-
-The breakpoint that the menu will automatically open/close itself at.
-
-::: code-group
-
-```js [getter]
-BaseMenu.breakpoint;
-```
-
-```js [setter]
-BaseMenu.breakpoint = "40em";
-```
-
-:::
-
-See [_breakpoint](#property--breakpoint) for more information.
-
-### mediaQuery {#getter-setter--mediaquery}
-
-The media query used to trigger media query list events.
-
-::: code-group
-
-```js [getter]
-BaseMenu.mediaQuery;
-```
-
-```js [setter]
-BaseMenu.mediaQuery = "(width <= 40em)";
-```
-
-:::
-
-If the media query is empty, the menu will generate one based on the breakpoint.
-
-See [_mediaQueryString](#property--mediaquerystring) for more information.
 
 ### currentMenuItem <badge type="warning" text="readonly" /> {#getter--currentmenuitem}
 
@@ -1133,25 +1057,25 @@ This will be `false` unless any of the following criteria are met:
 - The menu's current event is "character".
 - The menu's current event is "mouse" _and_ the menu's [hover type](#property--hovertype) is "dynamic".
 
-### hasOpened {#getter-setter--hasopened}
+### hasExpanded {#getter-setter--hasopened}
 
 A flag to check if the menu can dynamically hover.
 
 ::: code-group
 
 ```js [getter]
-BaseMenu.hasOpened;
+BaseMenu.hasExpanded;
 ```
 
 ```js [setter]
-BaseMenu.hasOpened = true;
+BaseMenu.hasExpanded = true;
 ```
 
 :::
 
-This functions differently for root vs. submenus. Submenus will always inherit their root menu's hasOpened.
+This functions differently for root vs. submenus. Submenus will always inherit their root menu's hasExpanded.
 
-See [_hasOpened](#property--hasopened) for more information.
+See [_hasExpanded](#property--hasexpanded) for more information.
 
 ### errors <badge type="warning" text="readonly" /> {#getter--errors}
 
@@ -1179,8 +1103,8 @@ BaseMenu._validate();
 
 #### Returns {#method--validate--returns}
 
-| Type | Description |
-| --- | --- |
+| Type      | Description                   |
+| --------- | ----------------------------- |
 | `boolean` | The result of the validation. |
 
 ### _setDOMElementType <badge type="warning" text="protected" /> {#method--setdomelementtype}
@@ -1195,13 +1119,13 @@ BaseMenu._setDOMElementType(elementType, options);
 
 #### Parameters {#method--setdomelementtype--parameters}
 
-| Param | Type | Description | Default |
-| --- | --- | --- | --- |
-| elementType | `string` | The type of element to populate. | `undefined` |
-| options | `object` | The options for setting the DOM element type. | `{}` |
-| options.context | `HTMLElement` | The element used as the base context for the `querySelectorAll`. | `this.dom.menu` |
-| options.overwrite | `boolean` | A flag to set if the existing elements will be overwritten. | `true` |
-| options.strict | `boolean` | When `true`, only direct children of `context` are stored. | `true` |
+| Param             | Type          | Description                                                      | Default         |
+| ----------------- | ------------- | ---------------------------------------------------------------- | --------------- |
+| elementType       | `string`      | The type of element to populate.                                 | `undefined`     |
+| options           | `object`      | The options for setting the DOM element type.                    | `{}`            |
+| options.context   | `HTMLElement` | The element used as the base context for the `querySelectorAll`. | `this.dom.menu` |
+| options.overwrite | `boolean`     | A flag to set if the existing elements will be overwritten.      | `true`          |
+| options.strict    | `boolean`     | When `true`, only direct children of `context` are stored.       | `true`          |
 
 ### _resetDOMElementType <badge type="warning" text="protected" /> {#method--resetdomelementtype}
 
@@ -1215,8 +1139,8 @@ Elements listed in [_protectedDOMElements](#property--protecteddomelements) cann
 
 #### Parameters {#method--resetdomelementtype--parameters}
 
-| Param | Type | Description | Default |
-| --- | --- | --- | --- |
+| Param       | Type     | Description                   | Default     |
+| ----------- | -------- | ----------------------------- | ----------- |
 | elementType | `string` | The type of element to clear. | `undefined` |
 
 ### _setDOMElements <badge type="warning" text="protected" /> {#method--setdomelements}
@@ -1239,8 +1163,8 @@ BaseMenu._generateKey(regenerate);
 
 #### Parameters {#method--generatekey--parameters}
 
-| Param | Type | Description | Default |
-| --- | --- | --- | --- |
+| Param      | Type      | Description                                           | Default |
+| ---------- | --------- | ----------------------------------------------------- | ------- |
 | regenerate | `boolean` | A flag to determine if the key should be regenerated. | `false` |
 
 ### _setIds <badge type="warning" text="protected" /> {#method--setids}
@@ -1267,9 +1191,9 @@ BaseMenu._findRootMenu(menu);
 
 #### Parameters {#method--findrootmenu--parameters}
 
-| Param | Type | Description | Default |
-| --- | --- | --- | --- |
-| menu | `BaseMenu` | The menu to check. | `undefined` |
+| Param | Type       | Description        | Default     |
+| ----- | ---------- | ------------------ | ----------- |
+| menu  | `BaseMenu` | The menu to check. | `undefined` |
 
 ### _createChildElements <badge type="warning" text="protected" /> {#method--createchildelements}
 
@@ -1289,11 +1213,11 @@ BaseMenu._setTimeout(callback, delay, scope);
 
 #### Parameters {#method--settimeout--parameters}
 
-| Param | Type | Description | Default |
-| --- | --- | --- | --- |
-| callback | `Function` | The callback function. | `undefined` |
-| delay | `number` | The time (in milliseconds) of the delay. | `undefined` |
-| scope | `string` | The scope of the timeout (used to store the timeout in _timeouts). | `"_default"` |
+| Param    | Type       | Description                                                        | Default      |
+| -------- | ---------- | ------------------------------------------------------------------ | ------------ |
+| callback | `Function` | The callback function.                                             | `undefined`  |
+| delay    | `number`   | The time (in milliseconds) of the delay.                           | `undefined`  |
+| scope    | `string`   | The scope of the timeout (used to store the timeout in _timeouts). | `"_default"` |
 
 ### _clearTimeout <badge type="warning" text="protected" /> {#method--cleartimeout}
 
@@ -1305,8 +1229,8 @@ BaseMenu._clearTimeout(scope);
 
 #### Parameters {#method--cleartimeout--parameters}
 
-| Param | Type | Description | Default |
-| --- | --- | --- | --- |
+| Param | Type     | Description                                                        | Default      |
+| ----- | -------- | ------------------------------------------------------------------ | ------------ |
 | scope | `string` | The scope of the timeout (used to get the timeout from _timeouts). | `"_default"` |
 
 ### _clearTimeouts <badge type="warning" text="protected" /> {#method--cleartimeouts}
@@ -1360,14 +1284,14 @@ This method will add the following behaviour:
 
 - When a `pointerenter` event triggers on any menu item the menu's [current child](#property--currentchild) value will change to that menu item.
 - When a `pointerenter` event triggers on a submenu item the [preview method](./base-menu-toggle#method--preview) for the submenu item's toggle will be called.
-- When a `pointerleave` event triggers on an open submenu item the [close method](./base-menu-toggle#method--close) for the submenu item's toggle will be called after a delay set by the menu's hover delay.
+- When a `pointerleave` event triggers on an open submenu item the [collapse method](./base-menu-toggle#method--collapse) for the submenu item's toggle will be called after a delay set by the menu's hover delay.
 
 #### Hover Type "dynamic" {#method--handlehover--hovertype-dynamic}
 
 - When a `pointerenter` event triggers on any menu item the menu's current child value will change to that menu item.
 - When a `pointerenter` event triggers on any menu item, and the menu's [focus state](#property--focusstate) is not "none", the menu item will be focused.
 - When a `pointerenter` event triggers on a submenu item, and a submenu is already open, the preview method for the submenu item's toggle will be called.
-- When a `pointerenter` event triggers on a non-submenu item, and a submenu is already open, the closeChildren method for the menu will be called.
+- When a `pointerenter` event triggers on a non-submenu item, and a submenu is already open, the collapseChildren method for the menu will be called.
 - When a `pointerenter` event triggers on a submenu item, and no submenu is open, no submenu-specific methods will be called.
 - When a `pointerleave` event triggers on an open submenu item that is not a root-level submenu item the close method for the submenu item's toggle will be called and the submenu item will be focused after a delay set by the menu's hover delay.
 - When a `pointerleave` event triggers on an open submenu item that is a root-level submenu item no submenu-specific methods will be called.
@@ -1422,19 +1346,19 @@ Removes the menu from the global `StorageManager` if it exists.
 BaseMenu._unstore();
 ```
 
-### _setTransitionDuration <badge type="warning" text="protected" /> {#method--settransitionduration}
+### _setCustomProps <badge type="warning" text="protected" /> {#method--setcustomprops}
 
 Sets the transition duration of the menu as a CSS custom property.
 
 ```js
-BaseMenu._setTransitionDuration();
+BaseMenu._setCustomProps();
 ```
 
 The custom properties are:
 
 - `--am-transition-duration`,
-- `--am-open-transition-duration`, and
-- `--am-close-transition-duration`.
+- `--am-expand-transition-duration`, and
+- `--am-collapse-transition-duration`.
 
 The prefix of `am-` can be changed by setting the menu's prefix value.
 
@@ -1448,12 +1372,12 @@ BaseMenu._addEventListener(type, element, listener, options);
 
 #### Parameters {#method--addeventlistener--parameters}
 
-| Param | Type | Description | Default |
-| --- | --- | --- | --- |
-| type | `string` | The event type to listen for. | `undefined` |
-| element | `HTMLElement` | The element to add the listener to. | `undefined` |
-| listener | `Function` | The listener callback. | `undefined` |
-| options | `Object`, `boolean` | The options to pass to the listener. | `{}` |
+| Param    | Type                | Description                          | Default     |
+| -------- | ------------------- | ------------------------------------ | ----------- |
+| type     | `string`            | The event type to listen for.        | `undefined` |
+| element  | `HTMLElement`       | The element to add the listener to.  | `undefined` |
+| listener | `Function`          | The listener callback.               | `undefined` |
+| options  | `Object`, `boolean` | The options to pass to the listener. | `{}`        |
 
 ### _removeEventListener <badge type="warning" text="protected" /> {#method--removeeventlistener}
 
@@ -1465,12 +1389,12 @@ BaseMenu._removeEventListener(type, element, listener, options);
 
 #### Parameters {#method--removeeventlistener--parameters}
 
-| Param | Type | Description | Default |
-| --- | --- | --- | --- |
-| type | `string` | The event type to remove. | `undefined` |
-| element | `HTMLElement` | The element to remove the listener from. | `undefined` |
-| listener | `Function` | The listener callback. | `undefined` |
-| options | `Object`, `boolean` | The options that were passed to the listener. | `{}` |
+| Param    | Type                | Description                                   | Default     |
+| -------- | ------------------- | --------------------------------------------- | ----------- |
+| type     | `string`            | The event type to remove.                     | `undefined` |
+| element  | `HTMLElement`       | The element to remove the listener from.      | `undefined` |
+| listener | `Function`          | The listener callback.                        | `undefined` |
+| options  | `Object`, `boolean` | The options that were passed to the listener. | `{}`        |
 
 ### _removeEventListeners <badge type="warning" text="protected" /> {#method--removeeventlisteners}
 
@@ -1482,11 +1406,11 @@ BaseMenu._removeEventListeners();
 
 #### Parameters {#method--removeeventlisteners--parameters}
 
-| Param | Type | Description | Default |
-| --- | --- | --- | --- |
-| options | `Object` | The options for removing the listeners. | `{}` |
-| options.type | `string`, `null` | The type of event to remove. If `null`, all types are removed. | `null` |
-| options.element | `HTMLElement`, `null` | The element to remove listeners from. If `null`, all elements are removed. | `null` |
+| Param           | Type                  | Description                                                                | Default |
+| --------------- | --------------------- | -------------------------------------------------------------------------- | ------- |
+| options         | `Object`              | The options for removing the listeners.                                    | `{}`    |
+| options.type    | `string`, `null`      | The type of event to remove. If `null`, all types are removed.             | `null`  |
+| options.element | `HTMLElement`, `null` | The element to remove listeners from. If `null`, all elements are removed. | `null`  |
 
 ### dispose <badge type="tip" text="public" /> {#method--dispose}
 
@@ -1496,8 +1420,7 @@ Dispose of the menu instance.
 BaseMenu.dispose();
 ```
 
-Removes all event listeners, clears timeouts, removes the menu from the global
-[StorageManager](./storage-manager), and deletes the instance reference.
+Disposes of the menu's submenus, submenu toggles, menu items, and root controller. Then removes the menu's event listeners, intervals, timeouts, and global storage entry. This does not delete references to the menu held by your code.
 
 ### focus <badge type="tip" text="public" /> {#method--focus}
 
@@ -1537,8 +1460,8 @@ BaseMenu.focusChild(index);
 
 #### Parameters {#method--focuschild--parameters}
 
-| Param | Type | Description | Default |
-| --- | --- | --- | --- |
+| Param | Type     | Description                      | Default     |
+| ----- | -------- | -------------------------------- | ----------- |
 | index | `number` | The index of the child to focus. | `undefined` |
 
 ### focusFirstChild <badge type="tip" text="public" /> {#method--focusfirstchild}
@@ -1597,12 +1520,12 @@ Focus the menu's container.
 BaseMenu.focusContainer();
 ```
 
-### closeChildren <badge type="tip" text="public" /> {#method--closechildren}
+### collapseChildren <badge type="tip" text="public" /> {#method--collapsechildren}
 
 Close all submenu children.
 
 ```js
-BaseMenu.closeChildren();
+BaseMenu.collapseChildren();
 ```
 
 ### blurChildren <badge type="tip" text="public" /> {#method--blurchildren}
@@ -1612,3 +1535,187 @@ Blurs all children and submenu's children.
 ```js
 BaseMenu.blurChildren();
 ```
+
+## Inherited Core API
+
+The following members are inherited from Core and are available on this class and its subclasses.
+
+### initialize
+
+Initialize the component.
+
+```js
+initialize();
+```
+
+### init
+
+Calls `initialize()`.
+
+```js
+init();
+```
+
+### rootDOMElement
+
+The root DOM element of the component.
+
+Type: `HTMLElement`. Read-only.
+
+### intervals
+
+Intervals throughout the component.
+
+Type: `object`. Read-only.
+
+### events
+
+Custom events that can be triggered throughout the component.
+
+Type: `Object<string, CustomEvent>`. Read-only.
+
+### initializeClass
+
+The class(es) to apply when the component is in the initialization state.
+
+Type: `string|string[]`. Readable and writable.
+
+### name
+
+The component name.
+
+Type: `string`. Read-only.
+
+### eventPrefix
+
+The prefix used when registering events. Returns `"accessibleMenu"` by default. Inherited from Core and read-only. Subclasses can override `_eventPrefix` before bootstrapping.
+
+Type: `string`. Read-only.
+
+### scope
+
+The scope of the component.
+
+Type: `string`. Read-only.
+
+### isValid
+
+The validity state of the component.
+
+Type: `boolean`. Read-only.
+
+### isInitialized
+
+The initialized state of the component.
+
+Type: `boolean`. Read-only.
+
+### _setInterval
+
+Sets an interval within the component.
+
+```js
+_setInterval(callback, delay, (scope = "_default"));
+```
+
+| Parameter            | Type       | Description                                                           |
+| -------------------- | ---------- | --------------------------------------------------------------------- |
+| `[callback]`         | `Function` | The callback function.                                                |
+| `[delay]`            | `number`   | The time (in milliseconds) of the delay.                              |
+| `[scope = _default]` | `string`   | The scope of the interval (used to store the interval in _intervals). |
+
+### _clearInterval
+
+Clears an interval within the component.
+
+```js
+_clearInterval((scope = "_default"));
+```
+
+| Parameter            | Type     | Description                                                           |
+| -------------------- | -------- | --------------------------------------------------------------------- |
+| `[scope = _default]` | `string` | The scope of the interval (used to get the interval from _intervals). |
+
+### _clearIntervals
+
+Clears all intervals within the component.
+
+```js
+_clearIntervals();
+```
+
+### _registerEvent
+
+Registers a new event type within the component.
+
+```js
+_registerEvent(name, ({ bubbles = true, detail = {} } = {}));
+```
+
+| Parameter                  | Type      | Description                                 |
+| -------------------------- | --------- | ------------------------------------------- |
+| `name`                     | `string`  | The name of the new event type.             |
+| `[options = {}]`           | `object`  | The options for the new event type.         |
+| `[options.bubbles = true]` | `boolean` | A flag to set if the event bubbles.         |
+| `[options.detail = {}]`    | `object`  | Additional details to include in the event. |
+
+### getEventName
+
+Gets the name of an event type stored in the _events object.
+
+```js
+getEventName(type);
+```
+
+| Parameter | Type     | Description                                           |
+| --------- | -------- | ----------------------------------------------------- |
+| `type`    | `string` | The type of the event to get from the _events object. |
+
+Returns `?string`: The event name (or null if none exists).
+
+### _dispatchEvent
+
+Dispatch a custom event on an element in the DOM.
+
+```js
+_dispatchEvent(eventType, (element = this.rootDOMElement));
+```
+
+| Parameter                         | Type          | Description                           |
+| --------------------------------- | ------------- | ------------------------------------- |
+| `eventType`                       | `string`      | The type of the event to dispatch.    |
+| `[element = this.rootDOMElement]` | `HTMLElement` | The element to dispatch the event on. |
+
+### _bootstrap
+
+Registers the menu's validation and initialization event listeners.
+
+Before validation, creates the root controller without initializing it. Before initialization, finds the root menu if it isn't already set.
+
+Validation checks the required DOM elements, controller and container, root flag, parent menu, controller options, and hover type.
+
+### _setAriaAttributes
+
+Sets the ARIA attributes on the root controller.
+
+If the root menu has a controller and container, adds `role="button"` when the controller is not a button and sets `aria-controls` to the root menu's ID. Submenu toggles set their own ARIA attributes.
+
+### _controllerOptions
+
+The responsive options passed to the root controller. Includes `breakpoint`, `mediaQuery`, and the eight breakpoint action flags. All action flags default to `false`. The controller validates these options and registers the media-query listener.
+
+### _createController
+
+Creates and initializes the root controller using `_controllerOptions`.
+
+Before validation, the menu calls this method with `{ initialize: false }` so the controller's options can be checked. During child creation, `_createChildElements()` calls it again to initialize the controller after the menu's IDs and ARIA attributes are set. An initialized controller is not initialized again.
+
+The controller registers its own media-query listener. Submenu toggles do not receive these responsive options.
+
+## Responsive controller configuration
+
+`breakpoint`, `mediaQuery`, and the eight breakpoint action flags are passed to the root controller, `elements.controller`. Submenu toggles do not receive these options.
+
+All action flags default to `false`. To expand outside the breakpoint and collapse inside it, pass `expandOutsideBreakpoint: true` and `collapseInsideBreakpoint: true`.
+
+After initialization, you can read the responsive settings and change action flags through `menu.elements.controller`. The controller registers its media-query listener during initialization. If you change `breakpoint` or `mediaQuery` afterward, you must also reconfigure that listener.

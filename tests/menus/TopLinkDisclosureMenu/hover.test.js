@@ -300,7 +300,7 @@ describe("TopLinkDisclosureMenu", () => {
           expect(spy).not.toHaveBeenCalled();
         });
         // Test that the menu's current event is set to mouse after a delay when a menu item is unhovered.
-        it("should set the menu's current event to mouse after a delay when a menu item is unhovered", () => {
+        it("should set the menu's current event to mouse after a delay when a menu item is unhovered", async () => {
           // Create a new TopLinkDisclosureMenu instance for testing.
           const menu = new TopLinkDisclosureMenu({
             menuElement: document.querySelector("ul"),
@@ -318,13 +318,13 @@ describe("TopLinkDisclosureMenu", () => {
           // Advance the timers by the menu's enter delay.
           vi.advanceTimersByTime(menu.enterDelay);
 
-          vi.waitUntil(() => expect(menu.currentEvent).toBe("mouse"), {
+          await vi.waitUntil(() => expect(menu.currentEvent).toBe("mouse"), {
             timeout: 10000,
             interval: 10,
           });
         });
         // Test that the menu's current menu toggle's close method is called after a delay when a menu item is unhovered.
-        it("should call the menu's current menu toggle's close method after a delay when a menu item is unhovered", () => {
+        it("should call the menu's current menu toggle's close method after a delay when a menu item is unhovered", async () => {
           // Create a new TopLinkDisclosureMenu instance for testing.
           const menu = new TopLinkDisclosureMenu({
             menuElement: document.querySelector("ul"),
@@ -334,7 +334,7 @@ describe("TopLinkDisclosureMenu", () => {
           });
 
           // Spy on the menu's current menu toggle's close method.
-          const spy = vi.spyOn(menu.elements.submenuToggles[0], "close");
+          const spy = vi.spyOn(menu.elements.submenuToggles[0], "collapse");
 
           // Simulate the pointerleave event.
           simulatePointerEvent(
@@ -345,7 +345,7 @@ describe("TopLinkDisclosureMenu", () => {
           // Advance the timers by the menu's enter delay.
           vi.advanceTimersByTime(menu.enterDelay);
 
-          vi.waitUntil(() => expect(spy).toHaveBeenCalled(), {
+          await vi.waitUntil(() => expect(spy).toHaveBeenCalled(), {
             timeout: 10000,
             interval: 10,
           });
@@ -381,7 +381,7 @@ describe("TopLinkDisclosureMenu", () => {
           });
 
           // Spy on the menu's current menu toggle's close method.
-          const spy = vi.spyOn(menu.elements.submenuToggles[0], "close");
+          const spy = vi.spyOn(menu.elements.submenuToggles[0], "collapse");
 
           // Simulate the pointerleave event.
           simulatePointerEvent(
@@ -393,7 +393,7 @@ describe("TopLinkDisclosureMenu", () => {
         });
       });
     });
-    // Test when an open menu item is unhovered and rehovered before the timeout it stays open.
+    // Test when an open menu item is unhovered and rehovered before the timeout it stays expand.
     describe("when an open menu item is unhovered and rehovered before the timeout", () => {
       it("should keep the menu open", () => {
         // Create a new TopLinkDisclosureMenu instance for testing.
@@ -405,10 +405,10 @@ describe("TopLinkDisclosureMenu", () => {
         });
 
         menu.currentChild = 1;
-        menu.elements.submenuToggles[0].open();
+        menu.elements.submenuToggles[0].expand();
 
-        const openSpy = vi.spyOn(menu.elements.submenuToggles[0], "open");
-        const closeSpy = vi.spyOn(menu.elements.submenuToggles[0], "close");
+        const openSpy = vi.spyOn(menu.elements.submenuToggles[0], "expand");
+        const closeSpy = vi.spyOn(menu.elements.submenuToggles[0], "collapse");
 
         // Simulate the pointerleave event.
         simulatePointerEvent(
@@ -427,10 +427,10 @@ describe("TopLinkDisclosureMenu", () => {
 
         expect(openSpy).not.toHaveBeenCalled();
         expect(closeSpy).not.toHaveBeenCalled();
-        expect(menu.elements.submenuToggles[0].isOpen).toBeTruthy();
+        expect(menu.elements.submenuToggles[0].isExpanded).toBeTruthy();
       });
     });
-    // Test when an open menu item's sibling is unhovered and rehovered before the timeout it stays open.
+    // Test when an open menu item's sibling is unhovered and rehovered before the timeout it stays expand.
     describe("when an open menu item's sibling is unhovered and rehovered before the timeout", () => {
       it("should keep the menu open", () => {
         // Create a new TopLinkDisclosureMenu instance for testing.
@@ -442,10 +442,10 @@ describe("TopLinkDisclosureMenu", () => {
         });
 
         menu.currentChild = 1;
-        menu.elements.submenuToggles[0].open();
+        menu.elements.submenuToggles[0].expand();
 
-        const openSpy = vi.spyOn(menu.elements.submenuToggles[0], "open");
-        const closeSpy = vi.spyOn(menu.elements.submenuToggles[0], "close");
+        const openSpy = vi.spyOn(menu.elements.submenuToggles[0], "expand");
+        const closeSpy = vi.spyOn(menu.elements.submenuToggles[0], "collapse");
 
         // Simulate the pointerleave event.
         simulatePointerEvent(
@@ -464,10 +464,10 @@ describe("TopLinkDisclosureMenu", () => {
 
         expect(openSpy).not.toHaveBeenCalled();
         expect(closeSpy).not.toHaveBeenCalled();
-        expect(menu.elements.submenuToggles[0].isOpen).toBeTruthy();
+        expect(menu.elements.submenuToggles[0].isExpanded).toBeTruthy();
       });
     });
-    // Test when an open menu item is unhovered, a sibling menu item is hovered, and then the original item rehovered before the timeout it stays open.
+    // Test when an open menu item is unhovered, a sibling menu item is hovered, and then the original item rehovered before the timeout it stays expand.
     describe("when an open menu item is unhovered, a sibling menu item is hovered, and then the original item rehovered before the timeout", () => {
       it("should keep the menu open", () => {
         // Create a new TopLinkDisclosureMenu instance for testing.
@@ -479,10 +479,10 @@ describe("TopLinkDisclosureMenu", () => {
         });
 
         menu.currentChild = 1;
-        menu.elements.submenuToggles[0].open();
+        menu.elements.submenuToggles[0].expand();
 
-        const openSpy = vi.spyOn(menu.elements.submenuToggles[0], "open");
-        const closeSpy = vi.spyOn(menu.elements.submenuToggles[0], "close");
+        const openSpy = vi.spyOn(menu.elements.submenuToggles[0], "expand");
+        const closeSpy = vi.spyOn(menu.elements.submenuToggles[0], "collapse");
 
         // Simulate the pointerleave event.
         simulatePointerEvent(
@@ -519,10 +519,10 @@ describe("TopLinkDisclosureMenu", () => {
 
         expect(openSpy).not.toHaveBeenCalled();
         expect(closeSpy).not.toHaveBeenCalled();
-        expect(menu.elements.submenuToggles[0].isOpen).toBeTruthy();
+        expect(menu.elements.submenuToggles[0].isExpanded).toBeTruthy();
       });
     });
-    // Test when an open menu item's sibling is unhovered, a sibling menu item is hovered, and then the original item rehovered before the timeout it stays open.
+    // Test when an open menu item's sibling is unhovered, a sibling menu item is hovered, and then the original item rehovered before the timeout it stays expand.
     describe("when an open menu item's sibling is unhovered, a sibling menu item is hovered, and then the original item rehovered before the timeout", () => {
       it("should keep the menu open", () => {
         // Create a new TopLinkDisclosureMenu instance for testing.
@@ -534,10 +534,10 @@ describe("TopLinkDisclosureMenu", () => {
         });
 
         menu.currentChild = 1;
-        menu.elements.submenuToggles[0].open();
+        menu.elements.submenuToggles[0].expand();
 
-        const openSpy = vi.spyOn(menu.elements.submenuToggles[0], "open");
-        const closeSpy = vi.spyOn(menu.elements.submenuToggles[0], "close");
+        const openSpy = vi.spyOn(menu.elements.submenuToggles[0], "expand");
+        const closeSpy = vi.spyOn(menu.elements.submenuToggles[0], "collapse");
 
         // Simulate the pointerleave event.
         simulatePointerEvent(
@@ -574,7 +574,7 @@ describe("TopLinkDisclosureMenu", () => {
 
         expect(openSpy).not.toHaveBeenCalled();
         expect(closeSpy).not.toHaveBeenCalled();
-        expect(menu.elements.submenuToggles[0].isOpen).toBeTruthy();
+        expect(menu.elements.submenuToggles[0].isExpanded).toBeTruthy();
       });
     });
   });
@@ -595,7 +595,7 @@ describe("TopLinkDisclosureMenu", () => {
           });
 
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
 
           // Simulate the pointerenter event.
           simulatePointerEvent(
@@ -626,7 +626,7 @@ describe("TopLinkDisclosureMenu", () => {
           );
 
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
 
           // Simulate the pointerenter event.
           simulatePointerEvent(
@@ -654,7 +654,7 @@ describe("TopLinkDisclosureMenu", () => {
           );
 
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
 
           // Simulate the pointerenter event.
           simulatePointerEvent(
@@ -811,7 +811,7 @@ describe("TopLinkDisclosureMenu", () => {
           });
 
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
 
           // Simulate the pointerenter event.
           simulatePointerEvent(
@@ -835,7 +835,7 @@ describe("TopLinkDisclosureMenu", () => {
           });
 
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
 
           // Spy on the root menu's blurChildren method.
           const spy = vi.spyOn(
@@ -864,7 +864,7 @@ describe("TopLinkDisclosureMenu", () => {
           });
 
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
 
           // Spy on the menu's focusCurrentChild method.
           const spy = vi.spyOn(
@@ -892,7 +892,7 @@ describe("TopLinkDisclosureMenu", () => {
           });
 
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
 
           // Spy on the menu's clearTimeout method.
           const spy = vi.spyOn(
@@ -923,7 +923,7 @@ describe("TopLinkDisclosureMenu", () => {
           });
 
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
 
           // Spy on the menu's preview method.
           const spy = vi.spyOn(
@@ -959,7 +959,7 @@ describe("TopLinkDisclosureMenu", () => {
           });
 
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
 
           // Spy on the menu's preview method.
           const spy = vi.spyOn(
@@ -979,8 +979,8 @@ describe("TopLinkDisclosureMenu", () => {
         });
       });
       describe("if the menu item is not a submenu item and the menu is not the root menu", () => {
-        // Test that the menu's closeChildren method is called after a delay.
-        it("should call the menu's closeChildren method after a delay", () => {
+        // Test that the menu's collapseChildren method is called after a delay.
+        it("should call the menu's collapseChildren method after a delay", async () => {
           // Create a new TopLinkDisclosureMenu instance for testing.
           const menu = new TopLinkDisclosureMenu({
             menuElement: document.querySelector("ul"),
@@ -990,14 +990,14 @@ describe("TopLinkDisclosureMenu", () => {
           });
 
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
           menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 1;
-          menu.elements.submenuToggles[0].elements.controlledMenu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].elements.controlledMenu.elements.submenuToggles[0].expand();
 
-          // Spy on the menu's closeChildren method.
+          // Spy on the menu's collapseChildren method.
           const spy = vi.spyOn(
             menu.elements.submenuToggles[0].elements.controlledMenu,
-            "closeChildren"
+            "collapseChildren"
           );
 
           // Simulate the pointerenter event.
@@ -1010,13 +1010,13 @@ describe("TopLinkDisclosureMenu", () => {
           // Advance the timers by the menu's enter delay.
           vi.advanceTimersByTime(menu.enterDelay);
 
-          vi.waitUntil(() => expect(spy).toHaveBeenCalled(), {
+          await vi.waitUntil(() => expect(spy).toHaveBeenCalled(), {
             timeout: 10000,
             interval: 10,
           });
         });
-        // Test that the menu's closeChildren method is called immediately when enterDelay is set to 0.
-        it("should call the menu's closeChildren method immediately when enterDelay is set to 0", () => {
+        // Test that the menu's collapseChildren method is called immediately when enterDelay is set to 0.
+        it("should call the menu's collapseChildren method immediately when enterDelay is set to 0", () => {
           // Create a new TopLinkDisclosureMenu instance for testing.
           const menu = new TopLinkDisclosureMenu({
             menuElement: document.querySelector("ul"),
@@ -1027,14 +1027,14 @@ describe("TopLinkDisclosureMenu", () => {
           });
 
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
           menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 1;
-          menu.elements.submenuToggles[0].elements.controlledMenu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].elements.controlledMenu.elements.submenuToggles[0].expand();
 
-          // Spy on the menu's closeChildren method.
+          // Spy on the menu's collapseChildren method.
           const spy = vi.spyOn(
             menu.elements.submenuToggles[0].elements.controlledMenu,
-            "closeChildren"
+            "collapseChildren"
           );
 
           // Simulate the pointerenter event.
@@ -1059,7 +1059,7 @@ describe("TopLinkDisclosureMenu", () => {
           });
 
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
 
           // Simulate the pointerenter event.
           simulatePointerEvent(
@@ -1080,7 +1080,7 @@ describe("TopLinkDisclosureMenu", () => {
           });
 
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
 
           // Spy on the root menu's blurChildren method.
           const spy = vi.spyOn(menu.elements.rootMenu, "blurChildren");
@@ -1104,7 +1104,7 @@ describe("TopLinkDisclosureMenu", () => {
           });
 
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
 
           // Spy on the menu's focusCurrentChild method.
           const spy = vi.spyOn(menu, "focusCurrentChild");
@@ -1128,7 +1128,7 @@ describe("TopLinkDisclosureMenu", () => {
           });
 
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
 
           // Spy on the menu's clearTimeout method.
           const spy = vi.spyOn(menu, "_clearTimeout");
@@ -1155,7 +1155,7 @@ describe("TopLinkDisclosureMenu", () => {
           });
 
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
 
           // Spy on the menu's preview method.
           const spy = vi.spyOn(menu.elements.submenuToggles[1], "preview");
@@ -1186,7 +1186,7 @@ describe("TopLinkDisclosureMenu", () => {
           });
 
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
 
           // Spy on the menu's preview method.
           const spy = vi.spyOn(menu.elements.submenuToggles[1], "preview");
@@ -1201,8 +1201,8 @@ describe("TopLinkDisclosureMenu", () => {
         });
       });
       describe("if the menu item is not a submenu item and the menu is the root menu with an open submenu", () => {
-        // Test that the menu's closeChildren method is called after a delay.
-        it("should call the menu's closeChildren method after a delay", () => {
+        // Test that the menu's collapseChildren method is called after a delay.
+        it("should call the menu's collapseChildren method after a delay", async () => {
           // Create a new TopLinkDisclosureMenu instance for testing.
           const menu = new TopLinkDisclosureMenu({
             menuElement: document.querySelector("ul"),
@@ -1212,10 +1212,10 @@ describe("TopLinkDisclosureMenu", () => {
           });
 
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
 
-          // Spy on the menu's closeChildren method.
-          const spy = vi.spyOn(menu, "closeChildren");
+          // Spy on the menu's collapseChildren method.
+          const spy = vi.spyOn(menu, "collapseChildren");
 
           // Simulate the pointerenter event.
           simulatePointerEvent(
@@ -1226,13 +1226,13 @@ describe("TopLinkDisclosureMenu", () => {
           // Advance the timers by the menu's enter delay.
           vi.advanceTimersByTime(menu.enterDelay);
 
-          vi.waitUntil(() => expect(spy).toHaveBeenCalled(), {
+          await vi.waitUntil(() => expect(spy).toHaveBeenCalled(), {
             timeout: 10000,
             interval: 10,
           });
         });
-        // Test that the menu's closeChildren method is called immediately when enterDelay is set to 0.
-        it("should call the menu's closeChildren method immediately when enterDelay is set to 0", () => {
+        // Test that the menu's collapseChildren method is called immediately when enterDelay is set to 0.
+        it("should call the menu's collapseChildren method immediately when enterDelay is set to 0", () => {
           // Create a new TopLinkDisclosureMenu instance for testing.
           const menu = new TopLinkDisclosureMenu({
             menuElement: document.querySelector("ul"),
@@ -1243,10 +1243,10 @@ describe("TopLinkDisclosureMenu", () => {
           });
 
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
 
-          // Spy on the menu's closeChildren method.
-          const spy = vi.spyOn(menu, "closeChildren");
+          // Spy on the menu's collapseChildren method.
+          const spy = vi.spyOn(menu, "collapseChildren");
 
           // Simulate the pointerenter event.
           simulatePointerEvent(
@@ -1269,7 +1269,7 @@ describe("TopLinkDisclosureMenu", () => {
           });
 
           menu.currentChild = 2;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
 
           // Spy on the menu's clearTimeout method.
           const spy = vi.spyOn(menu, "_clearTimeout");
@@ -1293,7 +1293,7 @@ describe("TopLinkDisclosureMenu", () => {
           });
 
           menu.currentChild = 2;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
 
           // Spy on the menu's preview method.
           const spy = vi.spyOn(menu.elements.submenuToggles[1], "preview");
@@ -1324,7 +1324,7 @@ describe("TopLinkDisclosureMenu", () => {
           });
 
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
 
           // Spy on the menu's preview method.
           const spy = vi.spyOn(menu.elements.submenuToggles[1], "preview");
@@ -1344,7 +1344,7 @@ describe("TopLinkDisclosureMenu", () => {
       describe("if the menu is not the root menu", () => {
         describe("when a menu item is a submenu item", () => {
           // Test that clearTimeout is called when a menu item is unhovered.
-          it("should call clearTimeout after a delay when a menu item is unhovered", () => {
+          it("should call clearTimeout after a delay when a menu item is unhovered", async () => {
             // Create a new TopLinkDisclosureMenu instance for testing.
             const menu = new TopLinkDisclosureMenu({
               menuElement: document.querySelector("ul"),
@@ -1354,7 +1354,7 @@ describe("TopLinkDisclosureMenu", () => {
             });
 
             menu.currentChild = 1;
-            menu.elements.submenuToggles[0].open();
+            menu.elements.submenuToggles[0].expand();
 
             // Spy on the window's clearTimeout method.
             const spy = vi.spyOn(
@@ -1372,13 +1372,13 @@ describe("TopLinkDisclosureMenu", () => {
             // Advance the timers by the menu's leave delay.
             vi.advanceTimersByTime(menu.leaveDelay);
 
-            vi.waitUntil(() => expect(spy).toHaveBeenCalled(), {
+            await vi.waitUntil(() => expect(spy).toHaveBeenCalled(), {
               timeout: 10000,
               interval: 10,
             });
           });
           // Test that the menu's current event is set to mouse after a delay when a menu item is unhovered.
-          it("should set the menu's current event to mouse after a delay when a menu item is unhovered", () => {
+          it("should set the menu's current event to mouse after a delay when a menu item is unhovered", async () => {
             // Create a new TopLinkDisclosureMenu instance for testing.
             const menu = new TopLinkDisclosureMenu({
               menuElement: document.querySelector("ul"),
@@ -1388,7 +1388,7 @@ describe("TopLinkDisclosureMenu", () => {
             });
 
             menu.currentChild = 1;
-            menu.elements.submenuToggles[0].open();
+            menu.elements.submenuToggles[0].expand();
 
             // Simulate the pointerleave event.
             simulatePointerEvent(
@@ -1400,7 +1400,7 @@ describe("TopLinkDisclosureMenu", () => {
             // Advance the timers by the menu's leave delay.
             vi.advanceTimersByTime(menu.leaveDelay);
 
-            vi.waitUntil(
+            await vi.waitUntil(
               () =>
                 expect(
                   menu.elements.submenuToggles[0].elements.controlledMenu
@@ -1421,7 +1421,7 @@ describe("TopLinkDisclosureMenu", () => {
             });
 
             menu.currentChild = 1;
-            menu.elements.submenuToggles[0].open();
+            menu.elements.submenuToggles[0].expand();
 
             // Spy on the window's clearTimeout method.
             const spy = vi.spyOn(
@@ -1450,7 +1450,7 @@ describe("TopLinkDisclosureMenu", () => {
             });
 
             menu.currentChild = 1;
-            menu.elements.submenuToggles[0].open();
+            menu.elements.submenuToggles[0].expand();
 
             // Simulate the pointerleave event.
             simulatePointerEvent(
@@ -1467,7 +1467,7 @@ describe("TopLinkDisclosureMenu", () => {
         });
       });
     });
-    // Test when an open menu item is unhovered and rehovered before the timeout it stays open.
+    // Test when an open menu item is unhovered and rehovered before the timeout it stays expand.
     describe("when an open menu item is unhovered and rehovered before the timeout", () => {
       it("should keep the menu open", () => {
         // Create a new TopLinkDisclosureMenu instance for testing.
@@ -1479,19 +1479,19 @@ describe("TopLinkDisclosureMenu", () => {
         });
 
         menu.currentChild = 1;
-        menu.elements.submenuToggles[0].open();
+        menu.elements.submenuToggles[0].expand();
         menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 1;
-        menu.elements.submenuToggles[0].elements.controlledMenu.elements.submenuToggles[0].open();
+        menu.elements.submenuToggles[0].elements.controlledMenu.elements.submenuToggles[0].expand();
 
         const openSpy = vi.spyOn(
           menu.elements.submenuToggles[0].elements.controlledMenu.elements
             .submenuToggles[0],
-          "open"
+          "expand"
         );
         const closeSpy = vi.spyOn(
           menu.elements.submenuToggles[0].elements.controlledMenu.elements
             .submenuToggles[0],
-          "close"
+          "collapse"
         );
 
         // Simulate the pointerleave event.
@@ -1515,11 +1515,11 @@ describe("TopLinkDisclosureMenu", () => {
         expect(closeSpy).not.toHaveBeenCalled();
         expect(
           menu.elements.submenuToggles[0].elements.controlledMenu.elements
-            .submenuToggles[0].isOpen
+            .submenuToggles[0].isExpanded
         ).toBeTruthy();
       });
     });
-    // Test when an open menu item is unhovered, a sibling menu item is hovered, and then the original item rehovered before the timeout it stays open.
+    // Test when an open menu item is unhovered, a sibling menu item is hovered, and then the original item rehovered before the timeout it stays expand.
     describe("when an open menu item is unhovered, a sibling menu item is hovered, and then the original item rehovered before the timeout", () => {
       it("should keep the menu open", () => {
         // Create a new TopLinkDisclosureMenu instance for testing.
@@ -1531,19 +1531,19 @@ describe("TopLinkDisclosureMenu", () => {
         });
 
         menu.currentChild = 1;
-        menu.elements.submenuToggles[0].open();
+        menu.elements.submenuToggles[0].expand();
         menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 1;
-        menu.elements.submenuToggles[0].elements.controlledMenu.elements.submenuToggles[0].open();
+        menu.elements.submenuToggles[0].elements.controlledMenu.elements.submenuToggles[0].expand();
 
         const openSpy = vi.spyOn(
           menu.elements.submenuToggles[0].elements.controlledMenu.elements
             .submenuToggles[0],
-          "open"
+          "expand"
         );
         const closeSpy = vi.spyOn(
           menu.elements.submenuToggles[0].elements.controlledMenu.elements
             .submenuToggles[0],
-          "close"
+          "collapse"
         );
 
         // Simulate the pointerleave event.
@@ -1587,7 +1587,7 @@ describe("TopLinkDisclosureMenu", () => {
         expect(closeSpy).not.toHaveBeenCalled();
         expect(
           menu.elements.submenuToggles[0].elements.controlledMenu.elements
-            .submenuToggles[0].isOpen
+            .submenuToggles[0].isExpanded
         ).toBeTruthy();
       });
     });
@@ -1604,7 +1604,7 @@ describe("TopLinkDisclosureMenu", () => {
         });
 
         menu.currentChild = 1;
-        menu.elements.submenuToggles[0].open();
+        menu.elements.submenuToggles[0].expand();
 
         // Simulate the pointerenter event on the sibling item.
         simulatePointerEvent(
@@ -1612,7 +1612,7 @@ describe("TopLinkDisclosureMenu", () => {
           menu.elements.menuItems[0].dom.link
         );
 
-        expect(menu.elements.submenuToggles[0].isOpen).toBeFalsy();
+        expect(menu.elements.submenuToggles[0].isExpanded).toBeFalsy();
 
         // Simulate the pointerenter event on the toggle.
         simulatePointerEvent(
@@ -1620,7 +1620,7 @@ describe("TopLinkDisclosureMenu", () => {
           menu.elements.menuItems[2].dom.link
         );
 
-        expect(menu.elements.submenuToggles[0].isOpen).toBeTruthy();
+        expect(menu.elements.submenuToggles[0].isExpanded).toBeTruthy();
       });
     });
     // Test that when an open menu is closed because a non-submenu item is hovered, the menu opens again when it's sibling item is hovered.
@@ -1636,7 +1636,7 @@ describe("TopLinkDisclosureMenu", () => {
         });
 
         menu.currentChild = 1;
-        menu.elements.submenuToggles[0].open();
+        menu.elements.submenuToggles[0].expand();
 
         // Simulate the pointerenter event on the non-toggle item.
         simulatePointerEvent(
@@ -1644,7 +1644,7 @@ describe("TopLinkDisclosureMenu", () => {
           menu.elements.menuItems[0].dom.link
         );
 
-        expect(menu.elements.submenuToggles[0].isOpen).toBeFalsy();
+        expect(menu.elements.submenuToggles[0].isExpanded).toBeFalsy();
 
         // Simulate the pointerenter event on the sibling.
         simulatePointerEvent(
@@ -1652,7 +1652,7 @@ describe("TopLinkDisclosureMenu", () => {
           menu.elements.menuItems[1].dom.link
         );
 
-        expect(menu.elements.submenuToggles[0].isOpen).toBeTruthy();
+        expect(menu.elements.submenuToggles[0].isExpanded).toBeTruthy();
       });
     });
   });

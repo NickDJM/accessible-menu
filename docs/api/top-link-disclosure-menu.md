@@ -23,12 +23,12 @@ new TopLinkDisclosureMenu({
   submenuSubtogglesSelector,
   controllerElement,
   containerElement,
-  openClass,
-  closeClass,
+  expandClass,
+  collapseClass,
   transitionClass,
   transitionDuration,
-  openDuration,
-  closeDuration,
+  expandDuration,
+  collapseDuration,
   isTopLevel,
   parentMenu,
   hoverType,
@@ -37,7 +37,14 @@ new TopLinkDisclosureMenu({
   leaveDelay,
   breakpoint,
   mediaQuery,
-  autoOpen,
+  expandInsideBreakpoint,
+  expandOutsideBreakpoint,
+  collapseInsideBreakpoint,
+  collapseOutsideBreakpoint,
+  lockInsideBreakpoint,
+  lockOutsideBreakpoint,
+  unlockInsideBreakpoint,
+  unlockOutsideBreakpoint,
   optionalKeySupport,
   prefix,
   key,
@@ -49,37 +56,45 @@ The constructor will call [BaseMenu's constructor](./base-menu#constructor) with
 
 ### Parameters {#constructor--parameters}
 
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| options | `object` | The options for generating the menu. | `undefined` |
-| options.menuElement | `HTMLElement` | The menu element in the DOM. | `undefined` |
-| options.menuItemsSelector | `string` | The query selector string for menu items. | `"li"` |
-| options.menuLinksSelector | `string` | The query selector string for menu links. | `"a"` |
-| options.submenuItemsSelector | `string` | The query selector string for menu items containing submenus. | `li:has(ul)` |
-| options.submenuTogglesSelector | `string` | The query selector string for submenu toggle buttons/links. | `"button"` |
-| options.submenusSelector | `string` | The query selector string for submenus. | `"ul"` |
-| options.submenuSubtogglesSelector | `string` | The query selector string for submenu toggle buttons/links below the top level. | `"a"` |
-| options.controllerElement | `HTMLElement`, `null` | The element controlling the menu in the DOM. | `null` |
-| options.containerElement | `HTMLElement`, `null` | The element containing the menu in the DOM. | `null` |
-| options.openClass | `(string`, `string[])`, `null` | The class to apply when a menu is "open". | `"show"` |
-| options.closeClass | `(string`, `string[])`, `null` | The class to apply when a menu is "closed". | `"hide"` |
-| options.transitionClass | `(string`, `string[])`, `null` | The class to apply when a menu is transitioning between "open" and "closed" states. | `"transitioning"` |
-| options.transitionDuration | `number` | The duration of the transition between "open" and "closed" states (in milliseconds). | `250` |
-| options.openDuration | `number` | The duration of the transition from "closed" to "open" states (in milliseconds). | `250` |
-| options.closeDuration | `number` | The duration of the transition from "open" to "closed" states (in milliseconds). | `250` |
-| options.isTopLevel | `boolean` | A flag to mark the root menu. | `true` |
-| options.parentMenu | `TopLinkDisclosureMenu`, `null` | The parent menu to this menu. | `null` |
-| options.hoverType | `string` | The type of hoverability a menu has. | `"off"` |
-| options.hoverDelay | `number` | The delay for opening and closing menus if the menu is hoverable (in milliseconds). | `250` |
-| options.enterDelay | `number` | The delay for opening a menu if the menu is focusable (in milliseconds). | `-1` |
-| options.leaveDelay | `number` | The delay for closing a menu if the menu is focusable (in milliseconds). | `-1` |
-| options.breakpoint | `string` | The breakpoint that the menu will automatically open/close itself at. | `""` |
-| options.mediaQuery | `string` | The media query to use to trigger media query list events. | `""` |
-| options.autoOpen | `boolean` | A flag to auto open the menu when the media query does not match. | `true` |
-| options.optionalKeySupport | `boolean` | A flag to add optional keyboard support (Arrow keys, Home, and End) to the menu. | `false` |
-| options.prefix | `string`, `null` | The prefix for the CSS custom properties. | `"am-"` |
-| options.key | `string`, `null` | The key used to generate IDs throughout the menu. | `null` |
-| options.initialize | `boolean` | A flag to initialize the menu immediately upon creation. | `true` |
+| Name                              | Type                            | Description                                                                             | Default           |
+| --------------------------------- | ------------------------------- | --------------------------------------------------------------------------------------- | ----------------- |
+| options                           | `object`                        | The options for generating the menu.                                                    | `undefined`       |
+| options.menuElement               | `HTMLElement`                   | The menu element in the DOM.                                                            | `undefined`       |
+| options.menuItemsSelector         | `string`                        | The query selector string for menu items.                                               | `"li"`            |
+| options.menuLinksSelector         | `string`                        | The query selector string for menu links.                                               | `"a"`             |
+| options.submenuItemsSelector      | `string`                        | The query selector string for menu items containing submenus.                           | `li:has(ul)`      |
+| options.submenuTogglesSelector    | `string`                        | The query selector string for submenu toggle buttons/links.                             | `"button"`        |
+| options.submenusSelector          | `string`                        | The query selector string for submenus.                                                 | `"ul"`            |
+| options.submenuSubtogglesSelector | `string`                        | The query selector string for submenu toggle buttons/links below the top level.         | `"a"`             |
+| options.controllerElement         | `HTMLElement`, `null`           | The element controlling the menu in the DOM.                                            | `null`            |
+| options.containerElement          | `HTMLElement`, `null`           | The element containing the menu in the DOM.                                             | `null`            |
+| options.initializeClass           | `string`, `string[]`, `null`    | The class(es) to apply when the menu is initializing.                                   | `"initializing"`  |
+| options.expandClass               | `(string`, `string[])`, `null`  | The class to apply when a menu is expanded.                                             | `"show"`          |
+| options.collapseClass             | `(string`, `string[])`, `null`  | The class to apply when a menu is "closed".                                             | `"hide"`          |
+| options.transitionClass           | `(string`, `string[])`, `null`  | The class to apply when a menu is transitioning between expanded and collapsed states.  | `"transitioning"` |
+| options.transitionDuration        | `number`                        | The duration of the transition between expanded and collapsed states (in milliseconds). | `250`             |
+| options.expandDuration            | `number`                        | The duration of the transition from collapsed to expanded states (in milliseconds).     | `-1`              |
+| options.collapseDuration          | `number`                        | The duration of the transition from expanded to collapsed states (in milliseconds).     | `-1`              |
+| options.isTopLevel                | `boolean`                       | A flag to mark the root menu.                                                           | `true`            |
+| options.parentMenu                | `TopLinkDisclosureMenu`, `null` | The parent menu to this menu.                                                           | `null`            |
+| options.hoverType                 | `string`                        | The type of hoverability a menu has.                                                    | `"off"`           |
+| options.hoverDelay                | `number`                        | The delay for opening and closing menus if the menu is hoverable (in milliseconds).     | `250`             |
+| options.enterDelay                | `number`                        | The delay for opening a menu if the menu is focusable (in milliseconds).                | `-1`              |
+| options.leaveDelay                | `number`                        | The delay for closing a menu if the menu is focusable (in milliseconds).                | `-1`              |
+| options.breakpoint                | `string`                        | The breakpoint used to generate the root controller's media query.                      | `""`              |
+| options.mediaQuery                | `string`                        | The media query used to trigger the root controller's media query list events.          | `""`              |
+| options.expandInsideBreakpoint    | `boolean`                       | A flag to expand the menu when the media query matches.                                 | `false`           |
+| options.expandOutsideBreakpoint   | `boolean`                       | A flag to expand the menu when the media query does not match.                          | `false`           |
+| options.collapseInsideBreakpoint  | `boolean`                       | A flag to collapse the menu when the media query matches.                               | `false`           |
+| options.collapseOutsideBreakpoint | `boolean`                       | A flag to collapse the menu when the media query does not match.                        | `false`           |
+| options.lockInsideBreakpoint      | `boolean`                       | A flag to lock the root controller when the media query matches.                        | `false`           |
+| options.lockOutsideBreakpoint     | `boolean`                       | A flag to lock the root controller when the media query does not match.                 | `false`           |
+| options.unlockInsideBreakpoint    | `boolean`                       | A flag to unlock the root controller when the media query matches.                      | `false`           |
+| options.unlockOutsideBreakpoint   | `boolean`                       | A flag to unlock the root controller when the media query does not match.               | `false`           |
+| options.optionalKeySupport        | `boolean`                       | A flag to add optional keyboard support (Arrow keys, Home, and End) to the menu.        | `false`           |
+| options.prefix                    | `string`, `null`                | The prefix for the CSS custom properties.                                               | `"am-"`           |
+| options.key                       | `string`, `null`                | The key used to generate IDs throughout the menu.                                       | `null`            |
+| options.initialize                | `boolean`                       | A flag to initialize the menu immediately upon creation.                                | `true`            |
 
 ## Initialize
 
@@ -91,8 +106,7 @@ TopLinkDisclosureMenu.initialize();
 
 Initialize will call [BaseMenu's initialize method](./base-menu#initialize) as well as set up [focus (inherited)](./base-menu#method--handlefocus), [click](#method--handleclick), [hover](#method--handlehover), [keydown](#method--handlekeydown), and [keyup](#method--handlekeyup) events for the menu.
 
-If the BaseMenu's initialize method throws an error,
-this will catch it and log it to the console.
+Core handles initialization failures, sets `isValid` to `false`, and logs the error. Inspect `errors` for validation details.
 
 ## Properties
 
@@ -276,6 +290,7 @@ TopLinkDisclosureMenu._handleKeydown();
 This method exists to assist the [_handleKeyup method](#method--handlekeyup).
 
 This method will do the following:
+
 - Adds all `keydown` listeners from [BaseMenu's _handleKeydown method](./base-menu#method--handlekeydown).
 - Adds a `keydown` listener to the menu/all submenus.
   - Blocks propagation on the following keys: "Space", "Enter", and "Escape".
@@ -293,14 +308,28 @@ Adds all `keyup` listeners from [BaseMenu's _handleKeyup method](./base-menu#met
 
 Adds the following keybindings (explanations are taken from the [WAI ARIA Practices Example Disclosure for Navigation Menus](https://www.w3.org/TR/wai-aria-practices-1.2/examples/disclosure/disclosure-navigation.html#kbd_label):
 
-| Key | Function |
-| --- | --- |
-| _Tab_ or _Shift + Tab_ | Move keyboard focus among top-level buttons, and if a dropdown is open, into and through links in the dropdown. |
-| _Space_ or _Enter_ | <ul><li>If focus is on a disclosure button, activates the button, which toggles the visibility of the dropdown.</li><li>If focus is on a link:<ul><li>If any link has aria-current set, removes it.</li><li>Sets aria-current="page" on the focused link.</li><li>Activates the focused link.</li></ul></li></ul> |
-| _Escape_ | If a dropdown is open, closes it and sets focus on the button that controls that dropdown. |
+| Key                                       | Function                                                                                                                                                                                                                                                                                                                                       |
+| ----------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| _Tab_ or _Shift + Tab_                    | Move keyboard focus among top-level buttons, and if a dropdown is open, into and through links in the dropdown.                                                                                                                                                                                                                                |
+| _Space_ or _Enter_                        | <ul><li>If focus is on a disclosure button, activates the button, which toggles the visibility of the dropdown.</li><li>If focus is on a link:<ul><li>If any link has aria-current set, removes it.</li><li>Sets aria-current="page" on the focused link.</li><li>Activates the focused link.</li></ul></li></ul>                              |
+| _Escape_                                  | If a dropdown is open, closes it and sets focus on the button that controls that dropdown.                                                                                                                                                                                                                                                     |
 | _Down Arrow_ or _Right Arrow_ (Optional}) | <ul><li>If focus is on a button and its dropdown is collapsed, and it is not the last button, moves focus to the next button.</li><li>if focus is on a button and its dropdown is expanded, moves focus to the first link in the dropdown.</li><li>If focus is on a link, and it is not the last link, moves focus to the next link.</li></ul> |
-| _Up Arrow_ or _Left Arrow_ (Optional}) | <ul><li>If focus is on a button, and it is not the first button, moves focus to the previous button.</li><li>If focus is on a link, and it is not the first link, moves focus to the previous link.</li></ul> |
-| _Home_ (Optional}) | <ul><li>If focus is on a button, and it is not the first button, moves focus to the first button.</li><li>If focus is on a link, and it is not the first link, moves focus to the first link.</li></ul> |
-| _End_ (Optional}) | <ul><li>If focus is on a button, and it is not the last button, moves focus to the last button.</li><li>If focus is on a link, and it is not the last link, moves focus to the last link.</li></ul> |
+| _Up Arrow_ or _Left Arrow_ (Optional})    | <ul><li>If focus is on a button, and it is not the first button, moves focus to the previous button.</li><li>If focus is on a link, and it is not the first link, moves focus to the previous link.</li></ul>                                                                                                                                  |
+| _Home_ (Optional})                        | <ul><li>If focus is on a button, and it is not the first button, moves focus to the first button.</li><li>If focus is on a link, and it is not the first link, moves focus to the first link.</li></ul>                                                                                                                                        |
+| _End_ (Optional})                         | <ul><li>If focus is on a button, and it is not the last button, moves focus to the last button.</li><li>If focus is on a link, and it is not the last link, moves focus to the last link.</li></ul>                                                                                                                                            |
 
 The optional keybindings are controlled by the menu's [optionalKeySupport](#getter-setter--optionalkeysupport) value.
+
+### _bootstrap
+
+Registers the menu's validation event listener.
+
+Validation checks the optionalKeySupport flag.
+
+## Responsive controller configuration
+
+`breakpoint`, `mediaQuery`, and the eight breakpoint action flags are passed to the root controller, `elements.controller`. Submenu toggles do not receive these options.
+
+All action flags default to `false`. To expand outside the breakpoint and collapse inside it, pass `expandOutsideBreakpoint: true` and `collapseInsideBreakpoint: true`.
+
+After initialization, you can read the responsive settings and change action flags through `menu.elements.controller`. The controller registers its media-query listener during initialization. If you change `breakpoint` or `mediaQuery` afterward, you must also reconfigure that listener.

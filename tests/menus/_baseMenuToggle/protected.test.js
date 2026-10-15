@@ -1,498 +1,71 @@
 /**
- * Tests for protected methods in the BaseMenuToggle class.
+ * Tests for Menu-specific protected behavior and Core method inheritance.
  */
 
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
+import Component from "@accessible-ecosystem/core";
+import CollapsibleComponent from "@accessible-ecosystem/core/CollapsibleComponent.js";
 import { twoLevel } from "../../../demo/menus.js";
 import BaseMenu from "../../../src/_baseMenu.js";
+import BaseMenuToggle from "../../../src/_baseMenuToggle.js";
 import { initializeMenu } from "../helpers.js";
-
-vi.mock("../../../src/domHelpers.js");
 
 beforeEach(() => {
   document.body.innerHTML = twoLevel;
-
-  // Make sure to use fake timers.
-  vi.useFakeTimers({ shouldAdvanceTime: true });
-
-  // Mock requestAnimationFrame.
-  vi.spyOn(window, "requestAnimationFrame").mockImplementation((callback) => {
-    callback();
-  });
 });
 
 afterEach(() => {
   document.body.innerHTML = "";
+  delete window.AccessibleMenuStorage;
+  vi.restoreAllMocks();
 });
 
-// Test BaseMenuToggle protected methods.
+const createToggle = () => {
+  const menu = new BaseMenu({
+    menuElement: document.querySelector("ul"),
+    transitionClass: "",
+  });
+  initializeMenu(menu);
+
+  return { menu, toggle: menu.elements.submenuToggles[0] };
+};
+
 describe("BaseMenuToggle protected methods", () => {
   describe("_dispatchEvent", () => {
-    // Test that _dispatchEvent dispatches a the expand event when prompted.
-    it("should dispatch a expand event when promted", () => {
-      // Create a new BaseMenu instance for testing.
-      const menu = new BaseMenu({
-        menuElement: document.querySelector("ul"),
-        containerElement: document.querySelector("nav"),
-        controllerElement: document.querySelector("button"),
-      });
-      initializeMenu(menu);
-
-      const menuToggle = menu.elements.submenuToggles[0];
-
-      // Set up to check for the event.
-      const spy = vi.spyOn(menuToggle.dom.toggle, "dispatchEvent");
-
-      // Dispatch the event.
-      menuToggle._dispatchEvent("expand", menuToggle.dom.toggle);
-
-      expect(spy).toHaveBeenCalledWith(menuToggle.events.expand);
-    });
-
-    // Test that _dispatchEvent dispatches a the collapse event when prompted.
-    it("should dispatch a collapse event when promted", () => {
-      // Create a new BaseMenu instance for testing.
-      const menu = new BaseMenu({
-        menuElement: document.querySelector("ul"),
-        containerElement: document.querySelector("nav"),
-        controllerElement: document.querySelector("button"),
-      });
-      initializeMenu(menu);
-
-      const menuToggle = menu.elements.submenuToggles[0];
-
-      // Set up to check for the event.
-      const spy = vi.spyOn(menuToggle.dom.toggle, "dispatchEvent");
-
-      // Dispatch the event.
-      menuToggle._dispatchEvent("collapse", menuToggle.dom.toggle);
-
-      expect(spy).toHaveBeenCalledWith(menuToggle.events.collapse);
+    it("should inherit Core event dispatch", () => {
+      expect(BaseMenuToggle.prototype._dispatchEvent).toBe(
+        Component.prototype._dispatchEvent
+      );
     });
   });
 
-  // Test BaseMenuToggle _expand().
-  // todo: See if we can test the order in which the classes are added and removed.
-  describe("_expand", () => {
-    // Test that expand sets the aria-expanded attribute on the toggle to true.
-    it("should set the aria-expanded attribute on the toggle to true", () => {
-      // Create a new BaseMenu instance for testing.
-      const menu = new BaseMenu({
-        menuElement: document.querySelector("ul"),
-        containerElement: document.querySelector("nav"),
-        controllerElement: document.querySelector("button"),
-      });
-      initializeMenu(menu);
-
-      const menuToggle = menu.elements.submenuToggles[0];
-
-      // Expand the menu.
-      menuToggle._expand();
-
-      expect(menuToggle.dom.toggle.getAttribute("aria-expanded")).toBe("true");
-    });
-
-    // Test that expand sets the root menu's hasOpened value to true.
-    it("should set the root menu's hasOpened value to true", () => {
-      // Create a new BaseMenu instance for testing.
-      const menu = new BaseMenu({
-        menuElement: document.querySelector("ul"),
-        containerElement: document.querySelector("nav"),
-        controllerElement: document.querySelector("button"),
-      });
-      initializeMenu(menu);
-
-      const menuToggle = menu.elements.submenuToggles[0];
-
-      // Expand the menu.
-      menuToggle._expand();
-
-      expect(menu.hasOpened).toBe(true);
-    });
-
-    // Test that expand emits accessibleMenuExpand event.
-    it("should emit accessibleMenuExpand event", () => {
-      // Create a new BaseMenu instance for testing.
-      const menu = new BaseMenu({
-        menuElement: document.querySelector("ul"),
-        containerElement: document.querySelector("nav"),
-        controllerElement: document.querySelector("button"),
-      });
-      initializeMenu(menu);
-
-      const menuToggle = menu.elements.submenuToggles[0];
-
-      // Set up to check for the accessibleMenuExpand event.
-      const spy = vi.spyOn(menuToggle, "_dispatchEvent");
-
-      // Expand the menu.
-      menuToggle._expand();
-
-      expect(spy).toHaveBeenCalledWith("expand", menuToggle.dom.toggle);
-    });
-
-    // Test that expand does not emit accessibleMenuExpand event if emit is false.
-    it("should not emit accessibleMenuExpand event if emit is false", () => {
-      // Create a new BaseMenu instance for testing.
-      const menu = new BaseMenu({
-        menuElement: document.querySelector("ul"),
-        containerElement: document.querySelector("nav"),
-        controllerElement: document.querySelector("button"),
-      });
-      initializeMenu(menu);
-
-      const menuToggle = menu.elements.submenuToggles[0];
-
-      // Set up to check for the accessibleMenuExpand event.
-      const spy = vi.spyOn(menuToggle, "_dispatchEvent");
-
-      // Expand the menu.
-      menuToggle._expand({ emit: false });
-
-      expect(spy).not.toHaveBeenCalled();
-    });
-
-    // Test that expand removes the close class from the controlled menu.
-    it("should remove the close class from the controlled menu", async () => {
-      // Mock class helpers.
-      const domHelpers = await import("../../../src/domHelpers.js");
-      domHelpers.removeClass = vi.fn();
-      domHelpers.addClass = vi.fn();
-
-      // Create a new BaseMenu instance for testing.
-      const menu = new BaseMenu({
-        menuElement: document.querySelector("ul"),
-        containerElement: document.querySelector("nav"),
-        controllerElement: document.querySelector("button"),
-      });
-      initializeMenu(menu);
-
-      const menuToggle = menu.elements.submenuToggles[0];
-
-      const spy = vi.spyOn(domHelpers, "removeClass");
-
-      // Expand the menu.
-      menuToggle._expand();
-
-      expect(spy).toHaveBeenCalledWith(
-        menu.closeClass,
-        menuToggle.elements.controlledMenu.dom.menu
-      );
-    });
-
-    // Test that expand adds the open class to the controlled menu.
-    it("should add the open class to the controlled menu", async () => {
-      // Mock class helpers.
-      const domHelpers = await import("../../../src/domHelpers.js");
-      domHelpers.removeClass = vi.fn();
-      domHelpers.addClass = vi.fn();
-
-      // Create a new BaseMenu instance for testing.
-      const menu = new BaseMenu({
-        menuElement: document.querySelector("ul"),
-        containerElement: document.querySelector("nav"),
-        controllerElement: document.querySelector("button"),
-      });
-      initializeMenu(menu);
-
-      const menuToggle = menu.elements.submenuToggles[0];
-
-      const spy = vi.spyOn(domHelpers, "addClass");
-
-      // Expand the menu.
-      menuToggle._expand();
-
-      expect(spy).toHaveBeenCalledWith(
-        menu.openClass,
-        menuToggle.elements.controlledMenu.dom.menu
-      );
-    });
-
-    // Test that expand adds the transition class to the controlled menu.
-    it("should add the transition class to the controlled menu", async () => {
-      // Mock class helpers.
-      const domHelpers = await import("../../../src/domHelpers.js");
-      domHelpers.removeClass = vi.fn();
-      domHelpers.addClass = vi.fn();
-
-      // Create a new BaseMenu instance for testing.
-      const menu = new BaseMenu({
-        menuElement: document.querySelector("ul"),
-        containerElement: document.querySelector("nav"),
-        controllerElement: document.querySelector("button"),
-      });
-      initializeMenu(menu);
-
-      const menuToggle = menu.elements.submenuToggles[0];
-
-      const spy = vi.spyOn(domHelpers, "addClass");
-
-      // Expand the menu.
-      menuToggle._expand();
-
-      expect(spy).toHaveBeenCalledWith(
-        menu.transitionClass,
-        menuToggle.elements.controlledMenu.dom.menu
-      );
-    });
-
-    // Test that expand removes the transition class from the controlled menu.
-    it("should remove the transition class from the controlled menu after the transition is complete", async () => {
-      // Mock class helpers.
-      const domHelpers = await import("../../../src/domHelpers.js");
-      domHelpers.removeClass = vi.fn();
-      domHelpers.addClass = vi.fn();
-
-      // Create a new BaseMenu instance for testing.
-      const menu = new BaseMenu({
-        menuElement: document.querySelector("ul"),
-        containerElement: document.querySelector("nav"),
-        controllerElement: document.querySelector("button"),
-      });
-      initializeMenu(menu);
-
-      const menuToggle = menu.elements.submenuToggles[0];
-
-      const spy = vi.spyOn(domHelpers, "removeClass");
-
-      // Expand the menu.
-      menuToggle._expand();
-
-      // Advance the timers by the menu's transition duration.
-      vi.advanceTimersByTime(menu.transitionDuration);
-
-      expect(spy).toHaveBeenCalledWith(
-        menu.transitionClass,
-        menuToggle.elements.controlledMenu.dom.menu
-      );
-    });
-
-    // Test that expand skips transition classes when transition is false.
-    it("should not add the transition class when transition is false", async () => {
-      // Mock class helpers.
-      const domHelpers = await import("../../../src/domHelpers.js");
-      domHelpers.removeClass = vi.fn();
-      domHelpers.addClass = vi.fn();
-
-      const menu = new BaseMenu({
-        menuElement: document.querySelector("ul"),
-        containerElement: document.querySelector("nav"),
-        controllerElement: document.querySelector("button"),
-      });
-      initializeMenu(menu);
-
-      const menuToggle = menu.elements.submenuToggles[0];
-
-      const spy = vi.spyOn(domHelpers, "addClass");
-
-      menuToggle._expand({ transition: false });
-
-      expect(spy).not.toHaveBeenCalledWith(menu.transitionClass);
-    });
-  });
-
-  // Test BaseMenuToggle _collapse().
-  // todo: See if we can test the order in which the classes are added and removed.
   describe("_collapse", () => {
-    // Test that collapse sets the aria-expanded attribute on the toggle to false.
-    it("should set the aria-expanded attribute on the toggle to false", () => {
-      // Create a new BaseMenu instance for testing.
-      const menu = new BaseMenu({
-        menuElement: document.querySelector("ul"),
-        containerElement: document.querySelector("nav"),
-        controllerElement: document.querySelector("button"),
-      });
-      initializeMenu(menu);
-
-      const menuToggle = menu.elements.submenuToggles[0];
-
-      // Set up the menu.
-      menuToggle.dom.toggle.setAttribute("aria-expanded", "true");
-
-      // Collapse the menu.
-      menuToggle._collapse();
-
-      expect(menuToggle.dom.toggle.getAttribute("aria-expanded")).toBe("false");
-    });
-
-    // Test that collapse emits accessibleMenuCollapse event.
-    it("should emit accessibleMenuCollapse event", () => {
-      // Create a new BaseMenu instance for testing.
-      const menu = new BaseMenu({
-        menuElement: document.querySelector("ul"),
-        containerElement: document.querySelector("nav"),
-        controllerElement: document.querySelector("button"),
-      });
-      initializeMenu(menu);
-
-      const menuToggle = menu.elements.submenuToggles[0];
-
-      // Set up to check for the accessibleMenuCollapse event.
-      const spy = vi.spyOn(menuToggle, "_dispatchEvent");
-
-      // Collapse the menu.
-      menuToggle._collapse();
-
-      expect(spy).toHaveBeenCalledWith("collapse", menuToggle.dom.toggle);
-    });
-
-    // Test that collapse does not emit accessibleMenuCollapse event if emit is false.
-    it("should not emit accessibleMenuCollapse event if emit is false", () => {
-      // Create a new BaseMenu instance for testing.
-      const menu = new BaseMenu({
-        menuElement: document.querySelector("ul"),
-        containerElement: document.querySelector("nav"),
-        controllerElement: document.querySelector("button"),
-      });
-      initializeMenu(menu);
-
-      const menuToggle = menu.elements.submenuToggles[0];
-
-      // Set up to check for the accessibleMenuCollapse event.
-      const spy = vi.spyOn(menuToggle, "_dispatchEvent");
-
-      // Collapse the menu.
-      menuToggle._collapse({ emit: false });
-
-      expect(spy).not.toHaveBeenCalled();
-    });
-
-    // Test that collapse removes the open class from the controlled menu.
-    it("should remove the open class from the controlled menu", async () => {
-      // Mock class helpers.
-      const domHelpers = await import("../../../src/domHelpers.js");
-      domHelpers.removeClass = vi.fn();
-      domHelpers.addClass = vi.fn();
-
-      // Create a new BaseMenu instance for testing.
-      const menu = new BaseMenu({
-        menuElement: document.querySelector("ul"),
-        containerElement: document.querySelector("nav"),
-        controllerElement: document.querySelector("button"),
-      });
-      initializeMenu(menu);
-
-      const menuToggle = menu.elements.submenuToggles[0];
-
-      const spy = vi.spyOn(domHelpers, "removeClass");
-
-      // Collapse the menu.
-      menuToggle._collapse();
-
-      expect(spy).toHaveBeenCalledWith(
-        menu.openClass,
-        menuToggle.elements.controlledMenu.dom.menu
+    it("should inherit Core collapse behavior", () => {
+      expect(BaseMenuToggle.prototype._collapse).toBe(
+        CollapsibleComponent.prototype._collapse
       );
     });
+  });
 
-    // Test that collapse adds the close class to the controlled menu.
-    it("should add the close class to the controlled menu", async () => {
-      // Mock class helpers.
-      const domHelpers = await import("../../../src/domHelpers.js");
-      domHelpers.removeClass = vi.fn();
-      domHelpers.addClass = vi.fn();
+  describe("_expand", () => {
+    it("should mark the root menu as having opened", () => {
+      const { menu, toggle } = createToggle();
 
-      // Create a new BaseMenu instance for testing.
-      const menu = new BaseMenu({
-        menuElement: document.querySelector("ul"),
-        containerElement: document.querySelector("nav"),
-        controllerElement: document.querySelector("button"),
-      });
-      initializeMenu(menu);
+      toggle._expand({ emit: false, transition: false });
 
-      const menuToggle = menu.elements.submenuToggles[0];
-
-      const spy = vi.spyOn(domHelpers, "addClass");
-
-      // Collapse the menu.
-      menuToggle._collapse();
-
-      expect(spy).toHaveBeenCalledWith(
-        menu.closeClass,
-        menuToggle.elements.controlledMenu.dom.menu
-      );
+      expect(menu.hasExpanded).toBe(true);
     });
 
-    // Test that collapse adds the transition class to the controlled menu.
-    it("should add the transition class to the controlled menu", async () => {
-      // Mock class helpers.
-      const domHelpers = await import("../../../src/domHelpers.js");
-      domHelpers.removeClass = vi.fn();
-      domHelpers.addClass = vi.fn();
+    it("should delegate expansion to Core", () => {
+      const { toggle } = createToggle();
+      const expand = vi
+        .spyOn(CollapsibleComponent.prototype, "_expand")
+        .mockImplementation(() => {});
+      const options = { emit: false, transition: false };
 
-      // Create a new BaseMenu instance for testing.
-      const menu = new BaseMenu({
-        menuElement: document.querySelector("ul"),
-        containerElement: document.querySelector("nav"),
-        controllerElement: document.querySelector("button"),
-      });
-      initializeMenu(menu);
+      toggle._expand(options);
 
-      const menuToggle = menu.elements.submenuToggles[0];
-
-      const spy = vi.spyOn(domHelpers, "addClass");
-
-      // Collapse the menu.
-      menuToggle._collapse();
-
-      expect(spy).toHaveBeenCalledWith(
-        menu.transitionClass,
-        menuToggle.elements.controlledMenu.dom.menu
-      );
-    });
-
-    // Test that collapse removes the transition class from the controlled menu.
-    it("should remove the transition class from the controlled menu after the transition is complete", async () => {
-      // Mock class helpers.
-      const domHelpers = await import("../../../src/domHelpers.js");
-      domHelpers.removeClass = vi.fn();
-      domHelpers.addClass = vi.fn();
-
-      // Create a new BaseMenu instance for testing.
-      const menu = new BaseMenu({
-        menuElement: document.querySelector("ul"),
-        containerElement: document.querySelector("nav"),
-        controllerElement: document.querySelector("button"),
-      });
-      initializeMenu(menu);
-
-      const menuToggle = menu.elements.submenuToggles[0];
-
-      const spy = vi.spyOn(domHelpers, "removeClass");
-
-      // Collapse the menu.
-      menuToggle._collapse();
-
-      // Advance the timers by the menu's transition duration.
-      vi.advanceTimersByTime(menu.transitionDuration);
-
-      expect(spy).toHaveBeenCalledWith(
-        menu.transitionClass,
-        menuToggle.elements.controlledMenu.dom.menu
-      );
-    });
-
-    // Test that collapse skips transition classes when transition is false.
-    it("should not add the transition class when transition is false", async () => {
-      // Mock class helpers.
-      const domHelpers = await import("../../../src/domHelpers.js");
-      domHelpers.removeClass = vi.fn();
-      domHelpers.addClass = vi.fn();
-
-      const menu = new BaseMenu({
-        menuElement: document.querySelector("ul"),
-        containerElement: document.querySelector("nav"),
-        controllerElement: document.querySelector("button"),
-      });
-      initializeMenu(menu);
-
-      const menuToggle = menu.elements.submenuToggles[0];
-
-      const spy = vi.spyOn(domHelpers, "addClass");
-
-      menuToggle._collapse({ transition: false });
-
-      expect(spy).not.toHaveBeenCalledWith(menu.transitionClass);
+      expect(expand).toHaveBeenCalledExactlyOnceWith(options);
     });
   });
 
@@ -508,13 +81,13 @@ describe("BaseMenuToggle protected methods", () => {
       initializeMenu(menu);
 
       const menuToggle = menu.elements.submenuToggles[0];
-      menuToggle.dom.toggle.removeAttribute("id");
+      menuToggle.dom.controller.removeAttribute("id");
 
       // Call _setIds.
       menuToggle._setIds();
 
       // Get the generated id.
-      const generatedId = menuToggle.dom.toggle.getAttribute("id");
+      const generatedId = menuToggle.dom.controller.getAttribute("id");
 
       // Test the generated id.
       // The pattern for the generated id is "menu-button{- optional menu toggle's inner text}-{a string 1-10 characters long}-{the level the menu is compared to the root}".
@@ -532,13 +105,13 @@ describe("BaseMenuToggle protected methods", () => {
       initializeMenu(menu);
 
       const menuToggle = menu.elements.submenuToggles[0];
-      menuToggle.dom.toggle.setAttribute("id", "test-id");
+      menuToggle.dom.controller.setAttribute("id", "test-id");
 
       // Call _setIds.
       menuToggle._setIds();
 
       // Test the toggle's id.
-      expect(menuToggle.dom.toggle.getAttribute("id")).toBe("test-id");
+      expect(menuToggle.dom.controller.getAttribute("id")).toBe("test-id");
     });
 
     // Test that _setIds sets the toggle's parent's id attribute to a generated value when it doesn't have an existing id.
@@ -601,13 +174,15 @@ describe("BaseMenuToggle protected methods", () => {
       initializeMenu(menu);
 
       const menuToggle = menu.elements.submenuToggles[0];
-      menuToggle.dom.toggle.removeAttribute("aria-expanded");
+      menuToggle.dom.controller.removeAttribute("aria-expanded");
 
       // Call _setAriaAttributes.
       menuToggle._setAriaAttributes();
 
       // Test the toggle's aria-expanded attribute.
-      expect(menuToggle.dom.toggle.getAttribute("aria-expanded")).toBe("false");
+      expect(menuToggle.dom.controller.getAttribute("aria-expanded")).toBe(
+        "false"
+      );
     });
 
     // Test that _setAriaAttributes sets the controlled menu's aria-labelledby attribute to the toggle's id.
@@ -621,7 +196,7 @@ describe("BaseMenuToggle protected methods", () => {
       initializeMenu(menu);
 
       const menuToggle = menu.elements.submenuToggles[0];
-      menuToggle.dom.toggle.removeAttribute("id");
+      menuToggle.dom.controller.removeAttribute("id");
       menuToggle.elements.controlledMenu.dom.menu.removeAttribute(
         "aria-labelledby"
       );
@@ -634,7 +209,7 @@ describe("BaseMenuToggle protected methods", () => {
         menuToggle.elements.controlledMenu.dom.menu.getAttribute(
           "aria-labelledby"
         )
-      ).toBe(menuToggle.dom.toggle.id);
+      ).toBe(menuToggle.dom.controller.id);
     });
   });
 });

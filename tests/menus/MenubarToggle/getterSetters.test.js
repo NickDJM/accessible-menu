@@ -51,44 +51,44 @@ describe("MenubarToggle getter/setters", () => {
     });
   });
 
-  // Test MenubarToggle isOpen.
-  describe("isOpen", () => {
-    // Test that MenubarToggle implements the BaseMenuToggle isOpen getter.
-    it("should implement the BaseMenuToggle isOpen", () => {
+  // Test MenubarToggle isExpanded.
+  describe("isExpanded", () => {
+    // Test that MenubarToggle implements the BaseMenuToggle isExpanded getter.
+    it("should implement the BaseMenuToggle isExpanded", () => {
       expectInheritedGetter(
         MenubarToggle.prototype,
         BaseMenuToggle.prototype,
-        "isOpen"
+        "isExpanded"
       );
     });
 
-    // Test that MenubarToggle implements the BaseMenuToggle isOpen setter.
-    it("should implement the BaseMenuToggle isOpen setter", () => {
+    // Test that MenubarToggle implements the BaseMenuToggle isExpanded setter.
+    it("should implement the BaseMenuToggle isExpanded setter", () => {
       expectInheritedSetter(
         MenubarToggle.prototype,
         BaseMenuToggle.prototype,
-        "isOpen"
+        "isExpanded"
       );
     });
   });
 
-  // Test MenubarToggle hasOpened.
-  describe("hasOpened", () => {
-    // Test that MenubarToggle implements the BaseMenuToggle hasOpened getter.
-    it("should implement the BaseMenuToggle hasOpened", () => {
+  // Test MenubarToggle shouldBeExpanded.
+  describe("shouldBeExpanded", () => {
+    // Test that MenubarToggle implements the BaseMenuToggle shouldBeExpanded getter.
+    it("should implement the BaseMenuToggle shouldBeExpanded", () => {
       expectInheritedGetter(
         MenubarToggle.prototype,
         BaseMenuToggle.prototype,
-        "hasOpened"
+        "shouldBeExpanded"
       );
     });
 
-    // Test that MenubarToggle implements the BaseMenuToggle hasOpened setter.
-    it("should implement the BaseMenuToggle hasOpened setter", () => {
+    // Test that MenubarToggle implements the BaseMenuToggle shouldBeExpanded setter.
+    it("should implement the BaseMenuToggle shouldBeExpanded setter", () => {
       expectInheritedSetter(
         MenubarToggle.prototype,
         BaseMenuToggle.prototype,
-        "hasOpened"
+        "shouldBeExpanded"
       );
     });
   });

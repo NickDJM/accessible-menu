@@ -1,8 +1,11 @@
 import BaseMenu from "./_baseMenu.js";
 import TopLinkDisclosureMenuItem from "./topLinkDisclosureMenuItem.js";
 import TopLinkDisclosureMenuToggle from "./topLinkDisclosureMenuToggle.js";
-import { preventEvent, keyPress } from "./eventHandlers.js";
-import { isValidType } from "./validate.js";
+import {
+  preventEvent,
+  keyPress,
+} from "@accessible-ecosystem/core/eventHelpers.js";
+import { isValidType } from "@accessible-ecosystem/core/validate.js";
 
 /**
  * An accessible disclosure menu with top-level links in the DOM.
@@ -11,6 +14,8 @@ import { isValidType } from "./validate.js";
  *
  * @extends BaseMenu
  *
+ * @property {Object<string, string>} _selectors                   - The query selectors used by the menu to populate the dom.
+ * @property {string}                 _selectors.submenuSubtoggles - The selector for toggles below the root menu.
  * @example
  * // Import the class.
  * import { TopLinkDisclosureMenu } from "accessible-menu";
@@ -61,29 +66,6 @@ class TopLinkDisclosureMenu extends BaseMenu {
   _currentChild = -1;
 
   /**
-   * The query selectors used by the menu to populate the dom.
-   *
-   * @protected
-   *
-   * @type {Object<string>}
-   *
-   * @property {string} menuItems         - The query selector for menu items.
-   * @property {string} menuLinks         - The query selector for menu links.
-   * @property {string} submenuItems      - The query selector for menu items containing submenus.
-   * @property {string} submenuToggles    - The query selector for menu links that function as submenu toggles.
-   * @property {string} submenus          - The query selector for for submenus.
-   * @property {string} submenuSubtoggles - The query selector for menu links that function as submenu toggles below the top level.
-   */
-  _selectors = {
-    menuItems: "",
-    menuLinks: "",
-    submenuItems: "",
-    submenuToggles: "",
-    submenus: "",
-    submenuSubtoggles: "",
-  };
-
-  /**
    * A flag to add optional keyboard support (Arrow keys, "Home", and "End") to the menu.
    *
    * @protected
@@ -105,19 +87,29 @@ class TopLinkDisclosureMenu extends BaseMenu {
    * @param {string}                 [options.submenuSubtogglesSelector = a]     - The query selector string for submenu toggle buttons/links below the top level.
    * @param {?HTMLElement}           [options.controllerElement = null]          - The element controlling the menu in the DOM.
    * @param {?HTMLElement}           [options.containerElement = null]           - The element containing the menu in the DOM.
-   * @param {?(string|string[])}     [options.openClass = show]                  - The class to apply when a menu is "open".
-   * @param {?(string|string[])}     [options.closeClass = hide]                 - The class to apply when a menu is "closed".
-   * @param {?(string|string[])}     [options.transitionClass = transitioning]   - The class to apply when a menu is transitioning between "open" and "closed" states.
-   * @param {number}                 [options.transitionDuration = 250]          - The duration of the transition between "open" and "closed" states (in milliseconds).
+   * @param {?(string|string[])}     [options.initializeClass = initializing]    - The class(es) to apply when the menu is initializing.
+   * @param {?(string|string[])}     [options.expandClass = show]                - The class to apply when a menu is expanded.
+   * @param {?(string|string[])}     [options.collapseClass = hide]              - The class to apply when a menu is "closed".
+   * @param {?(string|string[])}     [options.transitionClass = transitioning]   - The class to apply when a menu is transitioning between expanded and collapsed states.
+   * @param {number}                 [options.transitionDuration = 250]          - The duration of the transition between expanded and collapsed states (in milliseconds).
+   * @param {number}                 [options.expandDuration = -1]               - The duration of the transition from collapsed to expanded states (in milliseconds).
+   * @param {number}                 [options.collapseDuration = -1]             - The duration of the transition from expanded to collapsed states (in milliseconds).
    * @param {boolean}                [options.isTopLevel = true]                 - A flag to mark the root menu.
    * @param {?TopLinkDisclosureMenu} [options.parentMenu = null]                 - The parent menu to this menu.
    * @param {string}                 [options.hoverType = off]                   - The type of hoverability a menu has.
    * @param {number}                 [options.hoverDelay = 250]                  - The delay for opening and closing menus if the menu is hoverable (in milliseconds).
    * @param {number}                 [options.enterDelay = -1]                   - The delay for opening a menu if the menu is focusable (in milliseconds).
    * @param {number}                 [options.leaveDelay = -1]                   - The delay for closing a menu if the menu is focusable (in milliseconds).
-   * @param {string}                 [options.breakpoint = '']                   - The breakpoint that the menu will automatically open/close itself at.
-   * @param {string}                 [options.mediaQuery = '']                   - The media query to use to trigger media query list events.
-   * @param {boolean}                [options.autoOpen = true]                   - A flag to auto open the menu when the media query does not match.
+   * @param {string}                 [options.breakpoint = '']                   - The breakpoint used to generate the root controller's media query.
+   * @param {string}                 [options.mediaQuery = '']                   - The media query used to trigger the root controller's media query list events.
+   * @param {boolean}                [options.expandInsideBreakpoint = false]    - A flag to expand the controlled menu when the media query matches.
+   * @param {boolean}                [options.expandOutsideBreakpoint = false]   - A flag to expand the controlled menu when the media query does not match.
+   * @param {boolean}                [options.collapseInsideBreakpoint = false]  - A flag to collapse the controlled menu when the media query matches.
+   * @param {boolean}                [options.collapseOutsideBreakpoint = false] - A flag to collapse the controlled menu when the media query does not match.
+   * @param {boolean}                [options.lockInsideBreakpoint = false]      - A flag to lock the controller when the media query matches.
+   * @param {boolean}                [options.lockOutsideBreakpoint = false]     - A flag to lock the controller when the media query does not match.
+   * @param {boolean}                [options.unlockInsideBreakpoint = false]    - A flag to unlock the controller when the media query matches.
+   * @param {boolean}                [options.unlockOutsideBreakpoint = false]   - A flag to unlock the controller when the media query does not match.
    * @param {boolean}                [options.optionalKeySupport = false]        - A flag to add optional keyboard support (Arrow keys, Home, and End) to the menu.
    * @param {?string}                [options.prefix = am-]                      - The prefix to use for CSS custom properties.
    * @param {?string}                [options.key = null]                        - The key used to generate IDs throughout the menu.
@@ -133,10 +125,13 @@ class TopLinkDisclosureMenu extends BaseMenu {
     submenuSubtogglesSelector = "a",
     controllerElement = null,
     containerElement = null,
-    openClass = "show",
-    closeClass = "hide",
+    initializeClass = "initializing",
+    expandClass = "show",
+    collapseClass = "hide",
     transitionClass = "transitioning",
     transitionDuration = 250,
+    expandDuration = -1,
+    collapseDuration = -1,
     isTopLevel = true,
     parentMenu = null,
     hoverType = "off",
@@ -145,7 +140,14 @@ class TopLinkDisclosureMenu extends BaseMenu {
     leaveDelay = -1,
     breakpoint = "",
     mediaQuery = "",
-    autoOpen = true,
+    expandInsideBreakpoint = false,
+    expandOutsideBreakpoint = false,
+    collapseInsideBreakpoint = false,
+    collapseOutsideBreakpoint = false,
+    lockInsideBreakpoint = false,
+    lockOutsideBreakpoint = false,
+    unlockInsideBreakpoint = false,
+    unlockOutsideBreakpoint = false,
     optionalKeySupport = false,
     prefix = "am-",
     key = null,
@@ -160,10 +162,13 @@ class TopLinkDisclosureMenu extends BaseMenu {
       submenuTogglesSelector,
       controllerElement,
       containerElement,
-      openClass,
-      closeClass,
+      initializeClass,
+      expandClass,
+      collapseClass,
       transitionClass,
       transitionDuration,
+      expandDuration,
+      collapseDuration,
       isTopLevel,
       parentMenu,
       hoverType,
@@ -172,7 +177,14 @@ class TopLinkDisclosureMenu extends BaseMenu {
       leaveDelay,
       breakpoint,
       mediaQuery,
-      autoOpen,
+      expandInsideBreakpoint,
+      expandOutsideBreakpoint,
+      collapseInsideBreakpoint,
+      collapseOutsideBreakpoint,
+      lockInsideBreakpoint,
+      lockOutsideBreakpoint,
+      unlockInsideBreakpoint,
+      unlockOutsideBreakpoint,
       prefix,
       key,
     });
@@ -181,10 +193,6 @@ class TopLinkDisclosureMenu extends BaseMenu {
     this._optionalSupport = optionalKeySupport;
 
     // Set DOM selectors.
-    this._selectors.menuItems = menuItemsSelector;
-    this._selectors.submenuItems = submenuItemsSelector;
-    this._selectors.submenuToggles = submenuTogglesSelector;
-    this._selectors.submenus = submenusSelector;
     this._selectors.submenuSubtoggles = submenuSubtogglesSelector;
 
     // Set unique menu link selectors.
@@ -198,31 +206,37 @@ class TopLinkDisclosureMenu extends BaseMenu {
   }
 
   /**
-   * Initializes the menu.
+   * Registers the menu's validation event listener.
    *
-   * Initialize will call the BaseMenu's initialize method
-   * as well as set up focus,
-   * click,
-   * hover,
-   * keydown, and
-   * keyup events for the menu.
+   * Validation checks the optionalKeySupport flag.
    *
-   * If the BaseMenu's initialize method throws an error,
-   * this will catch it and log it to the console.
+   * @protected
    */
-  initialize() {
-    try {
-      super.initialize();
+  _bootstrap() {
+    super._bootstrap();
+    this._addEventListener(
+      this.getEventName("validate"),
+      this.rootDOMElement,
+      (event) => {
+        if (event.detail.component !== this) return;
 
-      this._handleMediaMatch();
-      this._handleFocus();
-      this._handleClick();
-      this._handleHover();
-      this._handleKeydown();
-      this._handleKeyup();
-    } catch (error) {
-      console.error(error);
-    }
+        // Boolean checks.
+        const booleans = {
+          optionalKeySupport: this._optionalSupport,
+        };
+
+        // Check the booleans.
+        const booleanChecks = isValidType("boolean", booleans, {
+          shouldThrow: false,
+        });
+
+        // Handle boolean check failure.
+        if (!booleanChecks.status) {
+          this._errors = [...this._errors, ...booleanChecks.errors];
+          this._valid = false;
+        }
+      }
+    );
   }
 
   /**
@@ -253,6 +267,8 @@ class TopLinkDisclosureMenu extends BaseMenu {
    * @protected
    */
   _createChildElements() {
+    this._createController();
+
     this.dom.menuItems.forEach((element) => {
       let menuItem, menuToggleItem;
       const link = element.querySelector(this.selectors.menuLinks);
@@ -272,8 +288,8 @@ class TopLinkDisclosureMenu extends BaseMenu {
           submenuTogglesSelector: this.selectors.submenuSubtoggles,
           submenusSelector: this.selectors.submenus,
           submenuSubtogglesSelector: this.selectors.submenuSubtoggles,
-          openClass: this.openClass,
-          closeClass: this.closeClass,
+          expandClass: this.expandClass,
+          collapseClass: this.collapseClass,
           transitionClass: this.transitionClass,
           isTopLevel: false,
           parentMenu: this,
@@ -343,35 +359,6 @@ class TopLinkDisclosureMenu extends BaseMenu {
   }
 
   /**
-   * Validates all aspects of the menu to ensure proper functionality.
-   *
-   * @protected
-   *
-   * @return {boolean} - The result of the validation.
-   */
-  _validate() {
-    super._validate();
-
-    // Boolean checks.
-    const booleans = {
-      optionalKeySupport: this._optionalSupport,
-    };
-
-    // Check the booleans.
-    const booleanChecks = isValidType("boolean", booleans, {
-      shouldThrow: false,
-    });
-
-    // Handle boolean check failure.
-    if (!booleanChecks.status) {
-      this._errors = [this._errors, ...booleanChecks.errors];
-      this._valid = false;
-    }
-
-    return this._valid;
-  }
-
-  /**
    * Handles click events throughout the menu for proper use.
    *
    * - Adds all event listeners listed in
@@ -393,14 +380,14 @@ class TopLinkDisclosureMenu extends BaseMenu {
           !this.dom.menu.contains(event.target) &&
           !this.dom.menu !== event.target
         ) {
-          this.closeChildren();
+          this.collapseChildren();
           this.blur();
 
           if (this.elements.controller) {
-            this.elements.controller.close();
+            this.elements.controller.collapse();
           }
 
-          this.elements.rootMenu.hasOpened = false;
+          this.elements.rootMenu.hasExpanded = false;
         }
       }
     });
@@ -436,7 +423,7 @@ class TopLinkDisclosureMenu extends BaseMenu {
    * - When a `pointerenter` event triggers on a submenu item, and a submenu is
    *   already open, the preview method for the submenu item's toggle will be called.
    * - When a `pointerenter` event triggers on a non-submenu item, and a submenu
-   *   is already open, the closeChildren method for the menu will be called.
+   *   is already open, the collapseChildren method for the menu will be called.
    * - When a `pointerenter` event triggers on a submenu item, and no submenu is
    *   open, no submenu-specific methods will be called.
    * - When a `pointerleave` event triggers on an open submenu item that is not a
@@ -475,7 +462,6 @@ class TopLinkDisclosureMenu extends BaseMenu {
           if (toggle === null) return;
 
           if (this.enterDelay > 0) {
-            this._clearTimeout();
             this._setTimeout(() => {
               toggle.preview();
             }, this.enterDelay);
@@ -491,7 +477,7 @@ class TopLinkDisclosureMenu extends BaseMenu {
             this.focusCurrentChild();
           }
 
-          if (!this.isTopLevel || this.hasOpened) {
+          if (!this.isTopLevel || this.hasExpanded) {
             this.currentEvent = "mouse";
             this.elements.rootMenu.blurChildren();
             this.focusCurrentChild();
@@ -507,7 +493,6 @@ class TopLinkDisclosureMenu extends BaseMenu {
 
             if (toggle !== null) {
               if (this.enterDelay > 0) {
-                this._clearTimeout();
                 this._setTimeout(() => {
                   toggle.preview();
                 }, this.enterDelay);
@@ -516,12 +501,11 @@ class TopLinkDisclosureMenu extends BaseMenu {
               }
             } else {
               if (this.enterDelay > 0) {
-                this._clearTimeout();
                 this._setTimeout(() => {
-                  this.closeChildren();
+                  this.collapseChildren();
                 }, this.enterDelay);
               } else {
-                this.closeChildren();
+                this.collapseChildren();
               }
             }
           }
@@ -537,18 +521,16 @@ class TopLinkDisclosureMenu extends BaseMenu {
 
           if (this.hoverType === "on") {
             if (this.leaveDelay > 0) {
-              this._clearTimeout();
               this._setTimeout(() => {
                 this.currentEvent = "mouse";
-                menuItem.elements.toggle.close();
+                menuItem.elements.toggle.collapse();
               }, this.leaveDelay);
             } else {
               this.currentEvent = "mouse";
-              menuItem.elements.toggle.close();
+              menuItem.elements.toggle.collapse();
             }
           } else if (this.hoverType === "dynamic") {
             if (this.leaveDelay > 0) {
-              this._clearTimeout();
               this._setTimeout(() => {
                 this.currentEvent = "mouse";
               }, this.leaveDelay);
@@ -662,8 +644,8 @@ class TopLinkDisclosureMenu extends BaseMenu {
           preventEvent(event);
 
           if (this.currentMenuItem.isSubmenuItem) {
-            if (this.currentMenuItem.elements.toggle.isOpen) {
-              this.currentMenuItem.elements.toggle.close();
+            if (this.currentMenuItem.elements.toggle.isExpanded) {
+              this.currentMenuItem.elements.toggle.collapse();
             } else {
               this.currentMenuItem.elements.toggle.preview();
             }
@@ -675,23 +657,23 @@ class TopLinkDisclosureMenu extends BaseMenu {
           // - If a dropdown is open, closes it.
           // - If was within the closed dropdown, sets focus on the button that controls that dropdown.
           const hasOpenChild = this.elements.submenuToggles.some(
-            (toggle) => toggle.isOpen
+            (toggle) => toggle.isExpanded
           );
 
           if (hasOpenChild) {
             preventEvent(event);
-            this.closeChildren();
+            this.collapseChildren();
           } else if (this.elements.parentMenu) {
             preventEvent(event);
             this.elements.parentMenu.currentEvent = this.currentEvent;
-            this.elements.parentMenu.closeChildren();
+            this.elements.parentMenu.collapseChildren();
             this.elements.parentMenu.focusCurrentChild();
           } else if (
             this.isTopLevel &&
             this.elements.controller &&
-            this.elements.controller.isOpen
+            this.elements.controller.isExpanded
           ) {
-            this.elements.controller.close();
+            this.elements.controller.collapse();
             this.focusController();
           }
         } else if (this.optionalKeySupport) {
@@ -704,7 +686,7 @@ class TopLinkDisclosureMenu extends BaseMenu {
 
             if (
               this.currentMenuItem.isSubmenuItem &&
-              this.currentMenuItem.elements.toggle.isOpen
+              this.currentMenuItem.elements.toggle.isExpanded
             ) {
               this.currentMenuItem.elements.childMenu.currentEvent = "keyboard";
               this.currentMenuItem.elements.childMenu.focusFirstChild();

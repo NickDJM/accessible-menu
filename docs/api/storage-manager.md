@@ -1,5 +1,7 @@
 # StorageManager
 
+This API is provided by Core. Import it from `@accessible-ecosystem/core/StorageManager.js`. Accessible Menu no longer provides a local copy.
+
 A utility class for storing and retrieving Accessible Menu data in the browser.
 Instances can be scoped and registered on `window` for global access across the
 library.
@@ -21,12 +23,12 @@ the instance (registering it on `window`) unless `initialize` is set to `false`.
 
 ### Parameters {#constructor--parameters}
 
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| options | `object` | The options for generating the storage manager. | `undefined` |
-| options.scope | `string` | The key used to register the storage on `window`. | `undefined` |
-| options.type | `string`, `null` | The default storage type. | `"_default"` |
-| options.initialize | `boolean` | Whether to call [initialize](#method--initialize) immediately. | `true` |
+| Name               | Type             | Description                                                    | Default      |
+| ------------------ | ---------------- | -------------------------------------------------------------- | ------------ |
+| options            | `object`         | The options for generating the storage manager.                | `undefined`  |
+| options.scope      | `string`         | The key used to register the storage on `window`.              | `undefined`  |
+| options.type       | `string`, `null` | The default storage type.                                      | `"_default"` |
+| options.initialize | `boolean`        | Whether to call [initialize](#method--initialize) immediately. | `true`       |
 
 ## Initialize
 
@@ -148,11 +150,11 @@ StorageManager.get({
 
 #### Parameters {#method--get--parameters}
 
-| Param | Type | Description | Default |
-| --- | --- | --- | --- |
-| options | `object` | The options for getting the storage. | `{}` |
-| options.type | `string` | The type of storage to get. | `StorageManager.type` |
-| options.key | `string`, `null` | The key to get the value from. If `null`, the whole type is returned. | `null` |
+| Param        | Type             | Description                                                           | Default               |
+| ------------ | ---------------- | --------------------------------------------------------------------- | --------------------- |
+| options      | `object`         | The options for getting the storage.                                  | `{}`                  |
+| options.type | `string`         | The type of storage to get.                                           | `StorageManager.type` |
+| options.key  | `string`, `null` | The key to get the value from. If `null`, the whole type is returned. | `null`                |
 
 ### set <badge type="tip" text="public" /> {#method--set}
 
@@ -169,12 +171,12 @@ StorageManager.set({
 
 #### Parameters {#method--set--parameters}
 
-| Param | Type | Description | Default |
-| --- | --- | --- | --- |
-| options | `object` | The options for setting the storage. | `{}` |
-| options.type | `string` | The type of storage to set. | `StorageManager.type` |
-| options.key | `string`, `null` | The key to set the value to. If `null`, the entire type is replaced. | `null` |
-| options.data | `object` | The data to set. | `{}` |
+| Param        | Type             | Description                                                          | Default               |
+| ------------ | ---------------- | -------------------------------------------------------------------- | --------------------- |
+| options      | `object`         | The options for setting the storage.                                 | `{}`                  |
+| options.type | `string`         | The type of storage to set.                                          | `StorageManager.type` |
+| options.key  | `string`, `null` | The key to set the value to. If `null`, the entire type is replaced. | `null`                |
+| options.data | `object`         | The data to set.                                                     | `{}`                  |
 
 ### clear <badge type="tip" text="public" /> {#method--clear}
 
@@ -189,11 +191,11 @@ StorageManager.clear({
 
 #### Parameters {#method--clear--parameters}
 
-| Param | Type | Description | Default |
-| --- | --- | --- | --- |
-| options | `object` | The options for removing from storage. | `{}` |
-| options.type | `string` | The type of storage to remove from. | `StorageManager.type` |
-| options.key | `string`, `null` | The key to remove the value from. If `null`, the entire type is removed. | `null` |
+| Param        | Type             | Description                                                              | Default               |
+| ------------ | ---------------- | ------------------------------------------------------------------------ | --------------------- |
+| options      | `object`         | The options for removing from storage.                                   | `{}`                  |
+| options.type | `string`         | The type of storage to remove from.                                      | `StorageManager.type` |
+| options.key  | `string`, `null` | The key to remove the value from. If `null`, the entire type is removed. | `null`                |
 
 ### dispose <badge type="tip" text="public" /> {#method--dispose}
 

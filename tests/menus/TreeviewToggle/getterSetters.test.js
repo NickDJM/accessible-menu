@@ -51,44 +51,44 @@ describe("TreeviewToggle getter/setters", () => {
     });
   });
 
-  // Test TreeviewToggle isOpen.
-  describe("isOpen", () => {
-    // Test that TreeviewToggle implements the BaseMenuToggle isOpen getter.
-    it("should implement the BaseMenuToggle isOpen", () => {
+  // Test TreeviewToggle isExpanded.
+  describe("isExpanded", () => {
+    // Test that TreeviewToggle implements the BaseMenuToggle isExpanded getter.
+    it("should implement the BaseMenuToggle isExpanded", () => {
       expectInheritedGetter(
         TreeviewToggle.prototype,
         BaseMenuToggle.prototype,
-        "isOpen"
+        "isExpanded"
       );
     });
 
-    // Test that TreeviewToggle implements the BaseMenuToggle isOpen setter.
-    it("should implement the BaseMenuToggle isOpen setter", () => {
+    // Test that TreeviewToggle implements the BaseMenuToggle isExpanded setter.
+    it("should implement the BaseMenuToggle isExpanded setter", () => {
       expectInheritedSetter(
         TreeviewToggle.prototype,
         BaseMenuToggle.prototype,
-        "isOpen"
+        "isExpanded"
       );
     });
   });
 
-  // Test TreeviewToggle hasOpened.
-  describe("hasOpened", () => {
-    // Test that TreeviewToggle implements the BaseMenuToggle hasOpened getter.
-    it("should implement the BaseMenuToggle hasOpened", () => {
+  // Test TreeviewToggle shouldBeExpanded.
+  describe("shouldBeExpanded", () => {
+    // Test that TreeviewToggle implements the BaseMenuToggle shouldBeExpanded getter.
+    it("should implement the BaseMenuToggle shouldBeExpanded", () => {
       expectInheritedGetter(
         TreeviewToggle.prototype,
         BaseMenuToggle.prototype,
-        "hasOpened"
+        "shouldBeExpanded"
       );
     });
 
-    // Test that TreeviewToggle implements the BaseMenuToggle hasOpened setter.
-    it("should implement the BaseMenuToggle hasOpened setter", () => {
+    // Test that TreeviewToggle implements the BaseMenuToggle shouldBeExpanded setter.
+    it("should implement the BaseMenuToggle shouldBeExpanded setter", () => {
       expectInheritedSetter(
         TreeviewToggle.prototype,
         BaseMenuToggle.prototype,
-        "hasOpened"
+        "shouldBeExpanded"
       );
     });
   });

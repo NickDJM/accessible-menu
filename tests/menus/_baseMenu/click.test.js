@@ -19,7 +19,7 @@ import {
   PointerEvent,
 } from "../helpers.js";
 
-vi.mock("../../../src/eventHandlers.js");
+vi.mock("@accessible-ecosystem/core/eventHelpers.js");
 
 beforeAll(() => {
   // Extend jsdom MouseEvent class as PointerEvent class.
@@ -135,7 +135,8 @@ describe("BaseMenu", () => {
     // Test that point up calls preventEvent with the current event if triggered on a submenu item.
     it("should call preventEvent with the current event if triggered on a submenu item", async () => {
       // Mock preventEvent.
-      const eventHandlers = await import("../../../src/eventHandlers.js");
+      const eventHandlers =
+        await import("@accessible-ecosystem/core/eventHelpers.js");
       eventHandlers.preventEvent = vi.fn();
 
       // Create a new BaseMenu instance for testing.
@@ -225,7 +226,7 @@ describe("BaseMenu", () => {
       initializeMenu(menu);
 
       // Simulate a click event.
-      simulatePointerEvent("click", menu.elements.controller.dom.toggle);
+      simulatePointerEvent("click", menu.elements.controller.dom.controller);
 
       expect(menu.currentEvent).toBe("mouse");
     });
@@ -233,7 +234,8 @@ describe("BaseMenu", () => {
     // Test that click calls preventEvent with the current event if triggered on the root menu's controller.
     it("should call preventEvent with the current event if triggered on the root menu's controller", async () => {
       // Mock preventEvent.
-      const eventHandlers = await import("../../../src/eventHandlers.js");
+      const eventHandlers =
+        await import("@accessible-ecosystem/core/eventHelpers.js");
       eventHandlers.preventEvent = vi.fn();
 
       // Create a new BaseMenu instance for testing.
@@ -250,7 +252,7 @@ describe("BaseMenu", () => {
       // Simulate a click event.
       const event = simulatePointerEvent(
         "click",
-        menu.elements.controller.dom.toggle
+        menu.elements.controller.dom.controller
       );
 
       expect(spy).toHaveBeenCalledWith(event);
@@ -270,7 +272,7 @@ describe("BaseMenu", () => {
       const spy = vi.spyOn(menu.elements.controller, "toggle");
 
       // Simulate a click event.
-      simulatePointerEvent("click", menu.elements.controller.dom.toggle);
+      simulatePointerEvent("click", menu.elements.controller.dom.controller);
 
       expect(spy).toHaveBeenCalled();
     });
@@ -286,7 +288,7 @@ describe("BaseMenu", () => {
       initializeMenu(menu);
 
       // Simulate a click event.
-      simulatePointerEvent("click", menu.elements.controller.dom.toggle);
+      simulatePointerEvent("click", menu.elements.controller.dom.controller);
 
       expect(menu.focusState).not.toBe("self");
     });
@@ -302,7 +304,7 @@ describe("BaseMenu", () => {
       initializeMenu(menu);
 
       // Simulate a click event.
-      simulatePointerEvent("click", menu.elements.controller.dom.toggle);
+      simulatePointerEvent("click", menu.elements.controller.dom.controller);
 
       expect(menu.focusState).toBe("none");
     });
@@ -321,7 +323,7 @@ describe("BaseMenu", () => {
       const spy = vi.spyOn(menu.elements.controller, "toggle");
 
       // Simulate a click event with button property set to 1.
-      simulatePointerEvent("click", menu.elements.controller.dom.toggle, {
+      simulatePointerEvent("click", menu.elements.controller.dom.controller, {
         button: 1,
       });
 
@@ -342,7 +344,7 @@ describe("BaseMenu", () => {
       const spy = vi.spyOn(menu.elements.controller, "toggle");
 
       // Simulate a click event with button property set to 0.
-      simulatePointerEvent("click", menu.elements.controller.dom.toggle, {
+      simulatePointerEvent("click", menu.elements.controller.dom.controller, {
         button: 0,
       });
 

@@ -113,12 +113,12 @@ describe("Treeview public methods", () => {
     });
   });
 
-  // Test Treeview closeChildren().
-  describe("closeChildren", () => {
-    // Test that Treeview implements the BaseMenu closeChildren() method.
-    it("should implement the BaseMenu closeChildren() method", () => {
-      expect(Treeview.prototype.closeChildren).toBe(
-        BaseMenu.prototype.closeChildren
+  // Test Treeview collapseChildren().
+  describe("collapseChildren", () => {
+    // Test that Treeview implements the BaseMenu collapseChildren() method.
+    it("should implement the BaseMenu collapseChildren() method", () => {
+      expect(Treeview.prototype.collapseChildren).toBe(
+        BaseMenu.prototype.collapseChildren
       );
     });
   });
@@ -143,7 +143,7 @@ describe("Treeview public methods", () => {
       document.body.innerHTML = "";
     });
 
-    // Test that focusLastNode calls focusLastChild() when the last child is not open.
+    // Test that focusLastNode calls focusLastChild() when the last child is not expand.
     it("should call focusLastChild() when the last child is not open", () => {
       // Create a new Treeview instance for testing.
       const menu = new Treeview({
@@ -160,7 +160,7 @@ describe("Treeview public methods", () => {
       expect(spy).toHaveBeenCalled();
     });
 
-    // Test that focusLastNode does not call focusLastChild() when the last child is open.
+    // Test that focusLastNode does not call focusLastChild() when the last child is expand.
     it("should not call focusLastChild() when the last child is open", () => {
       // Create a new Treeview instance for testing.
       const menu = new Treeview({
@@ -172,7 +172,7 @@ describe("Treeview public methods", () => {
       // Open the last child.
       menu.elements.submenuToggles[
         menu.elements.submenuToggles.length - 1
-      ].open();
+      ].expand();
 
       // Set up to check for focus.
       const spy = vi.spyOn(menu, "focusLastChild");
@@ -194,7 +194,7 @@ describe("Treeview public methods", () => {
       // Open the last child.
       menu.elements.submenuToggles[
         menu.elements.submenuToggles.length - 1
-      ].open();
+      ].expand();
 
       // Set up to check for focus.
       const spy = vi.spyOn(
@@ -209,8 +209,8 @@ describe("Treeview public methods", () => {
     });
   });
 
-  // Test openChildren().
-  describe("openChildren", () => {
+  // Test expandChildren().
+  describe("expandChildren", () => {
     beforeEach(() => {
       document.body.innerHTML = twoLevel;
     });
@@ -236,7 +236,7 @@ describe("Treeview public methods", () => {
       const spy5 = vi.spyOn(menu.elements.submenuToggles[4], "preview");
       const spy6 = vi.spyOn(menu.elements.submenuToggles[5], "preview");
 
-      menu.openChildren();
+      menu.expandChildren();
 
       expect(spy1).toHaveBeenCalled();
       expect(spy2).toHaveBeenCalled();
@@ -320,7 +320,7 @@ describe("Treeview public methods", () => {
       });
 
       // Open the first submenu.
-      menu.elements.submenuToggles[0].open();
+      menu.elements.submenuToggles[0].expand();
 
       // Set up to check for focus.
       const spy = vi.spyOn(
@@ -343,10 +343,10 @@ describe("Treeview public methods", () => {
       });
 
       // Open the first submenu.
-      menu.elements.submenuToggles[0].open();
+      menu.elements.submenuToggles[0].expand();
 
       // Open the first submenu's submenu.
-      menu.elements.submenuToggles[0].elements.controlledMenu.elements.submenuToggles[0].open();
+      menu.elements.submenuToggles[0].elements.controlledMenu.elements.submenuToggles[0].expand();
 
       // Set up to check for focus.
       const spy = vi.spyOn(
@@ -370,7 +370,7 @@ describe("Treeview public methods", () => {
       });
 
       // Open the first submenu.
-      menu.elements.submenuToggles[0].open();
+      menu.elements.submenuToggles[0].expand();
 
       // Set up to check for focus.
       const spy = vi.spyOn(menu, "focusChild");
@@ -392,10 +392,10 @@ describe("Treeview public methods", () => {
       });
 
       // Open the first submenu.
-      menu.elements.submenuToggles[0].open();
+      menu.elements.submenuToggles[0].expand();
 
       // Open the first submenu's submenu.
-      menu.elements.submenuToggles[0].elements.controlledMenu.elements.submenuToggles[0].open();
+      menu.elements.submenuToggles[0].elements.controlledMenu.elements.submenuToggles[0].expand();
 
       // Set up to check for focus.
       const spy = vi.spyOn(menu, "focusChild");
@@ -431,7 +431,7 @@ describe("Treeview public methods", () => {
       menu.currentChild = 1;
 
       // Open the first submenu.
-      menu.elements.submenuToggles[0].open();
+      menu.elements.submenuToggles[0].expand();
 
       // Set up to check for focus.
       const spy1 = vi.spyOn(menu, "focusNextChild");
@@ -456,13 +456,13 @@ describe("Treeview public methods", () => {
       menu.currentChild = 1;
 
       // Open the first submenu.
-      menu.elements.submenuToggles[0].open();
+      menu.elements.submenuToggles[0].expand();
 
       // Set the submenu's currentChild to 4.
       menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 4;
 
       // Open the third submenu in the first submenu.
-      menu.elements.submenuToggles[0].elements.controlledMenu.elements.submenuToggles[2].open();
+      menu.elements.submenuToggles[0].elements.controlledMenu.elements.submenuToggles[2].expand();
 
       // Set up to check for focus.
       const spy1 = vi.spyOn(
@@ -518,7 +518,7 @@ describe("Treeview public methods", () => {
       menu.currentChild = 1;
 
       // Open the first submenu.
-      menu.elements.submenuToggles[0].open();
+      menu.elements.submenuToggles[0].expand();
 
       // Set up to check for focus.
       const spy = vi.spyOn(
@@ -544,13 +544,13 @@ describe("Treeview public methods", () => {
       menu.currentChild = 1;
 
       // Open the first submenu.
-      menu.elements.submenuToggles[0].open();
+      menu.elements.submenuToggles[0].expand();
 
       // Set the submenu's currentChild to 4.
       menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 4;
 
       // Open the third submenu in the first submenu.
-      menu.elements.submenuToggles[0].elements.controlledMenu.elements.submenuToggles[2].open();
+      menu.elements.submenuToggles[0].elements.controlledMenu.elements.submenuToggles[2].expand();
 
       // Set up to check for focus.
       const spy = vi.spyOn(

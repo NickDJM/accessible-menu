@@ -141,107 +141,48 @@ describe("Treeview getter/setters", () => {
     });
   });
 
-  // Test Treeview shouldOpen.
-  describe("shouldOpen", () => {
-    // Test that Treeview implements the BaseMenu shouldOpen getter.
-    it("should implement the BaseMenu shouldOpen getter", () => {
-      expectInheritedGetter(
-        Treeview.prototype,
-        BaseMenu.prototype,
-        "shouldOpen"
-      );
-    });
-
-    // Test that Treeview implements the BaseMenu shouldOpen setter.
-    it("should implement the BaseMenu shouldOpen setter", () => {
-      expectInheritedSetter(
-        Treeview.prototype,
-        BaseMenu.prototype,
-        "shouldOpen"
-      );
-    });
-  });
-
   // Test Treeview breakpoint.
-  describe("breakpoint", () => {
-    // Test that Treeview implements the BaseMenu breakpoint getter.
-    it("should implement the BaseMenu breakpoint getter", () => {
-      expectInheritedGetter(
-        Treeview.prototype,
-        BaseMenu.prototype,
-        "breakpoint"
-      );
-    });
-
-    // Test that Treeview implements the BaseMenu breakpoint setter.
-    it("should implement the BaseMenu breakpoint setter", () => {
-      expectInheritedSetter(
-        Treeview.prototype,
-        BaseMenu.prototype,
-        "breakpoint"
-      );
-    });
-  });
 
   // Test Treeview mediaQuery.
-  describe("mediaQuery", () => {
-    // Test that Treeview implements the BaseMenu mediaQuery getter.
-    it("should implement the BaseMenu mediaQuery getter", () => {
+
+  // Test BaseMenu expandClass.
+  describe("expandClass", () => {
+    // Test that Treeview implements the BaseMenu expandClass getter.
+    it("should implement the BaseMenu expandClass getter", () => {
       expectInheritedGetter(
         Treeview.prototype,
         BaseMenu.prototype,
-        "mediaQuery"
+        "expandClass"
       );
     });
 
-    // Test that Treeview implements the BaseMenu mediaQuery setter.
-    it("should implement the BaseMenu mediaQuery setter", () => {
+    // Test that Treeview implements the BaseMenu expandClass setter.
+    it("should implement the BaseMenu expandClass setter", () => {
       expectInheritedSetter(
         Treeview.prototype,
         BaseMenu.prototype,
-        "mediaQuery"
+        "expandClass"
       );
     });
   });
 
-  // Test BaseMenu openClass.
-  describe("openClass", () => {
-    // Test that Treeview implements the BaseMenu openClass getter.
-    it("should implement the BaseMenu openClass getter", () => {
+  // Test Treeview collapseClass.
+  describe("collapseClass", () => {
+    // Test that Treeview implements the BaseMenu collapseClass getter.
+    it("should implement the BaseMenu collapseClass getter", () => {
       expectInheritedGetter(
         Treeview.prototype,
         BaseMenu.prototype,
-        "openClass"
+        "collapseClass"
       );
     });
 
-    // Test that Treeview implements the BaseMenu openClass setter.
-    it("should implement the BaseMenu openClass setter", () => {
+    // Test that Treeview implements the BaseMenu collapseClass setter.
+    it("should implement the BaseMenu collapseClass setter", () => {
       expectInheritedSetter(
         Treeview.prototype,
         BaseMenu.prototype,
-        "openClass"
-      );
-    });
-  });
-
-  // Test Treeview closeClass.
-  describe("closeClass", () => {
-    // Test that Treeview implements the BaseMenu closeClass getter.
-    it("should implement the BaseMenu closeClass getter", () => {
-      expectInheritedGetter(
-        Treeview.prototype,
-        BaseMenu.prototype,
-        "closeClass"
-      );
-    });
-
-    // Test that Treeview implements the BaseMenu closeClass setter.
-    it("should implement the BaseMenu closeClass setter", () => {
-      expectInheritedSetter(
-        Treeview.prototype,
-        BaseMenu.prototype,
-        "closeClass"
+        "collapseClass"
       );
     });
   });
@@ -288,44 +229,44 @@ describe("Treeview getter/setters", () => {
     });
   });
 
-  // Test Treeview openDuration.
-  describe("openDuration", () => {
-    // Test that Treeview implements the BaseMenu openDuration getter.
-    it("should implement the BaseMenu openDuration getter", () => {
+  // Test Treeview expandDuration.
+  describe("expandDuration", () => {
+    // Test that Treeview implements the BaseMenu expandDuration getter.
+    it("should implement the BaseMenu expandDuration getter", () => {
       expectInheritedGetter(
         Treeview.prototype,
         BaseMenu.prototype,
-        "openDuration"
+        "expandDuration"
       );
     });
 
-    // Test that Treeview implements the BaseMenu openDuration setter.
-    it("should implement the BaseMenu openDuration setter", () => {
+    // Test that Treeview implements the BaseMenu expandDuration setter.
+    it("should implement the BaseMenu expandDuration setter", () => {
       expectInheritedSetter(
         Treeview.prototype,
         BaseMenu.prototype,
-        "openDuration"
+        "expandDuration"
       );
     });
   });
 
-  // Test Treeview closeDuration.
-  describe("closeDuration", () => {
-    // Test that Treeview implements the BaseMenu closeDuration getter.
-    it("should implement the BaseMenu closeDuration getter", () => {
+  // Test Treeview collapseDuration.
+  describe("collapseDuration", () => {
+    // Test that Treeview implements the BaseMenu collapseDuration getter.
+    it("should implement the BaseMenu collapseDuration getter", () => {
       expectInheritedGetter(
         Treeview.prototype,
         BaseMenu.prototype,
-        "closeDuration"
+        "collapseDuration"
       );
     });
 
-    // Test that Treeview implements the BaseMenu closeDuration setter.
-    it("should implement the BaseMenu closeDuration setter", () => {
+    // Test that Treeview implements the BaseMenu collapseDuration setter.
+    it("should implement the BaseMenu collapseDuration setter", () => {
       expectInheritedSetter(
         Treeview.prototype,
         BaseMenu.prototype,
-        "closeDuration"
+        "collapseDuration"
       );
     });
   });

@@ -72,13 +72,15 @@ describe("TopLinkDisclosureMenuToggle protected methods", () => {
       });
 
       const menuToggle = menu.elements.submenuToggles[0];
-      menuToggle.dom.toggle.removeAttribute("aria-expanded");
+      menuToggle.dom.controller.removeAttribute("aria-expanded");
 
       // Call _setAriaAttributes.
       menuToggle._setAriaAttributes();
 
       // Test the toggle's aria-expanded attribute.
-      expect(menuToggle.dom.toggle.getAttribute("aria-expanded")).toBe("false");
+      expect(menuToggle.dom.controller.getAttribute("aria-expanded")).toBe(
+        "false"
+      );
     });
 
     // Test that _setAriaAttributes sets the toggle's role attribute to button if the toggle is not a button.
@@ -94,13 +96,13 @@ describe("TopLinkDisclosureMenuToggle protected methods", () => {
       });
 
       const menuToggle = menu.elements.submenuToggles[0];
-      menuToggle.dom.toggle.removeAttribute("role");
+      menuToggle.dom.controller.removeAttribute("role");
 
       // Call _setAriaAttributes.
       menuToggle._setAriaAttributes();
 
       // Test the toggle's role attribute.
-      expect(menuToggle.dom.toggle.getAttribute("role")).toBe("button");
+      expect(menuToggle.dom.controller.getAttribute("role")).toBe("button");
     });
 
     // Test that _setAriaAttributes does not set the toggle's role attribute to button if the toggle is a button.
@@ -115,7 +117,7 @@ describe("TopLinkDisclosureMenuToggle protected methods", () => {
       const menuToggle = menu.elements.submenuToggles[0];
 
       // Test the toggle's role attribute.
-      expect(menuToggle.dom.toggle.getAttribute("role")).not.toBe("button");
+      expect(menuToggle.dom.controller.getAttribute("role")).not.toBe("button");
     });
 
     // Test that _setAriaAttributes sets the toggle's aria-controls attribute to the controlled menu's id.
@@ -128,13 +130,13 @@ describe("TopLinkDisclosureMenuToggle protected methods", () => {
       });
 
       const menuToggle = menu.elements.submenuToggles[0];
-      menuToggle.dom.toggle.removeAttribute("aria-controls");
+      menuToggle.dom.controller.removeAttribute("aria-controls");
 
       // Call _setAriaAttributes.
       menuToggle._setAriaAttributes();
 
       // Test the toggle's aria-controls attribute.
-      expect(menuToggle.dom.toggle.getAttribute("aria-controls")).toBe(
+      expect(menuToggle.dom.controller.getAttribute("aria-controls")).toBe(
         menuToggle.elements.controlledMenu.dom.menu.id
       );
     });
@@ -149,7 +151,7 @@ describe("TopLinkDisclosureMenuToggle protected methods", () => {
       });
 
       const menuToggle = menu.elements.submenuToggles[0];
-      menuToggle.dom.toggle.removeAttribute("id");
+      menuToggle.dom.controller.removeAttribute("id");
       menuToggle.elements.controlledMenu.dom.menu.removeAttribute(
         "aria-labelledby"
       );
@@ -162,7 +164,7 @@ describe("TopLinkDisclosureMenuToggle protected methods", () => {
         menuToggle.elements.controlledMenu.dom.menu.getAttribute(
           "aria-labelledby"
         )
-      ).toBe(menuToggle.dom.toggle.id);
+      ).toBe(menuToggle.dom.controller.id);
     });
   });
 });

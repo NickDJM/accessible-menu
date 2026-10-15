@@ -9,7 +9,7 @@
   "jsdelivr": "dist/accessible-menu.iife.js",
   "unpkg": "dist/accessible-menu.iife.js",
   "browser": "dist/accessible-menu.iife.js",
-  "main": "dist/accessible-menu.cjs.js",
+  "main": "dist/accessible-menu.cjs",
   "module": "dist/accessible-menu.es.js",
   "files": [
     "index.js",
@@ -19,23 +19,23 @@
   "exports": {
     ".": {
       "import": "./dist/accessible-menu.es.js",
-      "require": "./dist/accessible-menu.cjs.js"
+      "require": "./dist/accessible-menu.cjs"
     },
     "./disclosure-menu": {
       "import": "./dist/disclosure-menu.es.js",
-      "require": "./dist/disclosure-menu.cjs.js"
+      "require": "./dist/disclosure-menu.cjs"
     },
     "./menubar": {
       "import": "./dist/menubar.es.js",
-      "require": "./dist/menubar.cjs.js"
+      "require": "./dist/menubar.cjs"
     },
     "./top-link-disclosure-menu": {
       "import": "./dist/top-link-disclosure-menu.es.js",
-      "require": "./dist/top-link-disclosure-menu.cjs.js"
+      "require": "./dist/top-link-disclosure-menu.cjs"
     },
     "./treeview": {
       "import": "./dist/treeview.es.js",
-      "require": "./dist/treeview.cjs.js"
+      "require": "./dist/treeview.cjs"
     },
     "./src/disclosureMenu.js": {
       "import": "./src/disclosureMenu.js"
@@ -72,15 +72,6 @@
     },
     "./src/treeviewToggle.js": {
       "import": "./src/treeviewToggle.js"
-    },
-    "./src/domHelpers.js": {
-      "import": "./src/domHelpers.js"
-    },
-    "./src/eventHandlers.js": {
-      "import": "./src/eventHandlers.js"
-    },
-    "./src/validate.js": {
-      "import": "./src/validate.js"
     }
   },
   "scripts": {
@@ -155,6 +146,6 @@
     "vitest-axe": "^0.1.0"
   },
   "dependencies": {
-    "@accessible-ecosystem/core": "^1.0.0-beta.0"
+    "@accessible-ecosystem/core": "^1.0.0-beta.5"
   }
 }

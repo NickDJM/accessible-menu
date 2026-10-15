@@ -571,10 +571,10 @@ describe("BaseMenu public methods", () => {
     });
   });
 
-  // Test BaseMenu closeChildren().
-  describe("closeChildren", () => {
-    // Test that closeChildren calls close() and all submenuToggles.
-    it("should call close() and all submenuToggles", () => {
+  // Test BaseMenu collapseChildren().
+  describe("collapseChildren", () => {
+    // Test that collapseChildren calls collapse() and all submenuToggles.
+    it("should call collapse() and all submenuToggles", () => {
       // Create a new BaseMenu instance for testing.
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
@@ -583,15 +583,15 @@ describe("BaseMenu public methods", () => {
       });
       initializeMenu(menu);
 
-      // Spy on all submenuToggles and close() methods.
-      const spy1 = vi.spyOn(menu.elements.submenuToggles[0], "close");
-      const spy2 = vi.spyOn(menu.elements.submenuToggles[1], "close");
-      const spy3 = vi.spyOn(menu.elements.submenuToggles[2], "close");
-      const spy4 = vi.spyOn(menu.elements.submenuToggles[3], "close");
-      const spy5 = vi.spyOn(menu.elements.submenuToggles[4], "close");
-      const spy6 = vi.spyOn(menu.elements.submenuToggles[5], "close");
+      // Spy on all submenuToggles and collapse() methods.
+      const spy1 = vi.spyOn(menu.elements.submenuToggles[0], "collapse");
+      const spy2 = vi.spyOn(menu.elements.submenuToggles[1], "collapse");
+      const spy3 = vi.spyOn(menu.elements.submenuToggles[2], "collapse");
+      const spy4 = vi.spyOn(menu.elements.submenuToggles[3], "collapse");
+      const spy5 = vi.spyOn(menu.elements.submenuToggles[4], "collapse");
+      const spy6 = vi.spyOn(menu.elements.submenuToggles[5], "collapse");
 
-      menu.closeChildren();
+      menu.collapseChildren();
 
       expect(spy1).toHaveBeenCalled();
       expect(spy2).toHaveBeenCalled();
@@ -704,7 +704,9 @@ describe("BaseMenu public methods", () => {
       expect(removeListenersSpy).toHaveBeenCalled();
       expect(clearTimeoutsSpy).toHaveBeenCalled();
       expect(unstoreSpy).toHaveBeenCalled();
-      expect(window.AccessibleMenuStorage.get({ key: id })).toBeUndefined();
+      expect(
+        window.AccessibleMenuStorage.get({ key: id, type: "menus" })
+      ).toBeUndefined();
     });
   });
 });

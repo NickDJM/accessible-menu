@@ -9,3 +9,5 @@ export default {
   TopLinkDisclosureMenu,
   Treeview,
 };
+
+export { DisclosureMenu, Menubar, TopLinkDisclosureMenu, Treeview };

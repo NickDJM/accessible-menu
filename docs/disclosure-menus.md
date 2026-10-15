@@ -18,7 +18,6 @@ The following is an example of how you would set up a single-level Disclosure Me
     <li><a href="#">Undead</a></li>
   </ul>
 </nav>
-
 ```
 
 ```js
@@ -45,7 +44,7 @@ The following is an example of how you would set up a multi-level Disclosure Men
     <li><a href="#">Humanoids</a></li>
     <li><a href="#">Beasts</a></li>
     <li class="dropdown">
-      <a href="#">Dragons</a>
+      <button>Dragons</button>
       <ul>
         <li><a href="#">Chromatic</a></li>
         <li><a href="#">Metallic</a></li>

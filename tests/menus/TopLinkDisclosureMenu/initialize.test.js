@@ -5,41 +5,22 @@
  * that the TopLinkDisclosureMenu class can be initialized.
  */
 
-import {
-  describe,
-  it,
-  expect,
-  vi,
-  beforeAll,
-  afterAll,
-  beforeEach,
-  afterEach,
-} from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { singleLevel, twoLevelDisclosureTopLink } from "../../../demo/menus.js";
 import TopLinkDisclosureMenu from "../../../src/topLinkDisclosureMenu.js";
 import { setupMatchMedia } from "../helpers.js";
 
 let originalMatchMedia;
 
-beforeAll(() => {
-  // Mock the console.error method.
-  console.error = vi.fn((error) => {
-    throw new Error(error);
-  });
-});
-
-afterAll(() => {
-  // Restore the mocked method.
-  vi.restoreAllMocks();
-});
-
 beforeEach(() => {
+  vi.spyOn(console, "error").mockImplementation(() => {});
   // Create the test menu.
   document.body.innerHTML = twoLevelDisclosureTopLink;
   originalMatchMedia = window.matchMedia;
 });
 
 afterEach(() => {
+  vi.restoreAllMocks();
   // Remove the test menu.
   document.body.innerHTML = "";
   window.matchMedia = originalMatchMedia;
@@ -62,27 +43,25 @@ describe("TopLinkDisclosureMenu", () => {
   });
 
   // Test that the TopLinkDisclosureMenu will throw an error if no menuElement is passed.
-  it("should throw an error if no menuElement is passed", () => {
+  it("should report a validation failure if no menuElement is passed", () => {
     // Test that the menu throws an error.
-    expect(() => {
-      // Create a new TopLinkDisclosureMenu instance for testing.
-      new TopLinkDisclosureMenu({});
-    }).toThrow(
-      'menuElement must be an instance of HTMLElement. "undefined" given.'
-    );
+
+    // Create a new TopLinkDisclosureMenu instance for testing.
+    new TopLinkDisclosureMenu({});
+
+    expect(console.error).toHaveBeenCalled();
   });
 
   // Test that the TopLinkDisclosureMenu will throw an error if the menuElement is invalid.
-  it("should throw an error if the menuElement is invalid", () => {
+  it("should report a validation failure if the menuElement is invalid", () => {
     // Test that the menu throws an error.
-    expect(() => {
-      // Create a new TopLinkDisclosureMenu instance for testing.
-      new TopLinkDisclosureMenu({
-        menuElement: 1,
-      });
-    }).toThrow(
-      'menuElement must be an instance of HTMLElement. "number" given.'
-    );
+
+    // Create a new TopLinkDisclosureMenu instance for testing.
+    new TopLinkDisclosureMenu({
+      menuElement: 1,
+    });
+
+    expect(console.error).toHaveBeenCalled();
   });
 });
 
@@ -105,113 +84,107 @@ describe("TopLinkDisclosureMenu (controlled)", () => {
   });
 
   // Test that the TopLinkDisclosureMenu will throw an error if no menuElement is passed.
-  it("should throw an error if no menuElement is passed", () => {
+  it("should report a validation failure if no menuElement is passed", () => {
     // Create the test menu.
     document.body.innerHTML = singleLevel;
 
     // Test that the menu throws an error.
-    expect(() => {
-      // Create a new TopLinkDisclosureMenu instance for testing.
-      new TopLinkDisclosureMenu({
-        containerElement: document.querySelector("nav"),
-        controllerElement: document.querySelector("button"),
-      });
-    }).toThrow(
-      'menuElement must be an instance of HTMLElement. "undefined" given.'
-    );
+
+    // Create a new TopLinkDisclosureMenu instance for testing.
+    new TopLinkDisclosureMenu({
+      containerElement: document.querySelector("nav"),
+      controllerElement: document.querySelector("button"),
+    });
+
+    expect(console.error).toHaveBeenCalled();
   });
 
   // Test that the TopLinkDisclosureMenu will throw an error if the menuElement is invalid.
-  it("should throw an error if the menuElement is invalid", () => {
+  it("should report a validation failure if the menuElement is invalid", () => {
     // Create the test menu.
     document.body.innerHTML = singleLevel;
 
     // Test that the menu throws an error.
-    expect(() => {
-      // Create a new TopLinkDisclosureMenu instance for testing.
-      new TopLinkDisclosureMenu({
-        menuElement: 1,
-        containerElement: document.querySelector("nav"),
-        controllerElement: document.querySelector("button"),
-      });
-    }).toThrow(
-      'menuElement must be an instance of HTMLElement. "number" given.'
-    );
+
+    // Create a new TopLinkDisclosureMenu instance for testing.
+    new TopLinkDisclosureMenu({
+      menuElement: 1,
+      containerElement: document.querySelector("nav"),
+      controllerElement: document.querySelector("button"),
+    });
+
+    expect(console.error).toHaveBeenCalled();
   });
 
   // Test that the TopLinkDisclosureMenu will throw an error if no containerElement is passed when a controllerElement is.
-  it("should throw an error if no containerElement is passed when a controllerElement is", () => {
+  it("should report a validation failure if no containerElement is passed when a controllerElement is", () => {
     // Create the test menu.
     document.body.innerHTML = singleLevel;
 
     // Test that the menu throws an error.
-    expect(() => {
-      // Create a new TopLinkDisclosureMenu instance for testing.
-      new TopLinkDisclosureMenu({
-        menuElement: document.querySelector("ul"),
-        controllerElement: document.querySelector("button"),
-      });
-    }).toThrow(
-      'containerElement must be an instance of HTMLElement. "object" given.'
-    );
+
+    // Create a new TopLinkDisclosureMenu instance for testing.
+    new TopLinkDisclosureMenu({
+      menuElement: document.querySelector("ul"),
+      controllerElement: document.querySelector("button"),
+    });
+
+    expect(console.error).toHaveBeenCalled();
   });
 
   // Test that the TopLinkDisclosureMenu will throw an error if the containerElement is invalid when a controllerElement is.
-  it("should throw an error if the containerElement is invalid when a controllerElement is", () => {
+  it("should report a validation failure if the containerElement is invalid when a controllerElement is", () => {
     // Create the test menu.
     document.body.innerHTML = singleLevel;
 
     // Test that the menu throws an error.
-    expect(() => {
-      // Create a new TopLinkDisclosureMenu instance for testing.
-      new TopLinkDisclosureMenu({
-        menuElement: document.querySelector("ul"),
-        containerElement: 1,
-        controllerElement: document.querySelector("button"),
-      });
-    }).toThrow(
-      'containerElement must be an instance of HTMLElement. "number" given.'
-    );
+
+    // Create a new TopLinkDisclosureMenu instance for testing.
+    new TopLinkDisclosureMenu({
+      menuElement: document.querySelector("ul"),
+      containerElement: 1,
+      controllerElement: document.querySelector("button"),
+    });
+
+    expect(console.error).toHaveBeenCalled();
   });
 
   // Test that the TopLinkDisclosureMenu will throw an error if no controllerElement is passed when a containerElement is.
-  it("should throw an error if no controllerElement is passed when a containerElement is", () => {
+  it("should report a validation failure if no controllerElement is passed when a containerElement is", () => {
     // Create the test menu.
     document.body.innerHTML = singleLevel;
 
     // Test that the menu throws an error.
-    expect(() => {
-      // Create a new TopLinkDisclosureMenu instance for testing.
-      new TopLinkDisclosureMenu({
-        menuElement: document.querySelector("ul"),
-        containerElement: document.querySelector("nav"),
-      });
-    }).toThrow(
-      'controllerElement must be an instance of HTMLElement. "object" given.'
-    );
+
+    // Create a new TopLinkDisclosureMenu instance for testing.
+    new TopLinkDisclosureMenu({
+      menuElement: document.querySelector("ul"),
+      containerElement: document.querySelector("nav"),
+    });
+
+    expect(console.error).toHaveBeenCalled();
   });
 
   // Test that the TopLinkDisclosureMenu will throw an error if the controllerElement is invalid when a containerElement is.
-  it("should throw an error if the controllerElement is invalid when a containerElement is", () => {
+  it("should report a validation failure if the controllerElement is invalid when a containerElement is", () => {
     // Create the test menu.
     document.body.innerHTML = singleLevel;
 
     // Test that the menu throws an error.
-    expect(() => {
-      // Create a new TopLinkDisclosureMenu instance for testing.
-      new TopLinkDisclosureMenu({
-        menuElement: document.querySelector("ul"),
-        containerElement: document.querySelector("nav"),
-        controllerElement: 1,
-      });
-    }).toThrow(
-      'controllerElement must be an instance of HTMLElement. "number" given.'
-    );
+
+    // Create a new TopLinkDisclosureMenu instance for testing.
+    new TopLinkDisclosureMenu({
+      menuElement: document.querySelector("ul"),
+      containerElement: document.querySelector("nav"),
+      controllerElement: 1,
+    });
+
+    expect(console.error).toHaveBeenCalled();
   });
 });
 
 // Test the TopLinkDisclosureMenu media query handling.
-describe("TopLinkDisclosureMenu (media queries)", () => {
+describe("TopLinkDisclosureMenu (media queries)", async () => {
   it("should not call matchMedia when no breakpoint or mediaQuery is set", () => {
     const matchMedia = vi.fn();
     window.matchMedia = matchMedia;
@@ -224,7 +197,7 @@ describe("TopLinkDisclosureMenu (media queries)", () => {
     expect(matchMedia).not.toHaveBeenCalled();
   });
 
-  it("should auto open when the breakpoint media query does not match", () => {
+  it("should auto open when the breakpoint media query does not match", async () => {
     const { matchMedia } = setupMatchMedia(false);
     window.matchMedia = matchMedia;
 
@@ -233,14 +206,18 @@ describe("TopLinkDisclosureMenu (media queries)", () => {
       containerElement: document.querySelector("nav"),
       controllerElement: document.querySelector("button"),
       breakpoint: "40em",
+      expandOutsideBreakpoint: true,
+      collapseInsideBreakpoint: true,
       initialize: true,
     });
 
     expect(matchMedia).toHaveBeenCalledWith("(width <= 40em)");
-    expect(menu.elements.controller.isOpen).toBe(true);
+    await new Promise(requestAnimationFrame);
+
+    expect(menu.elements.controller.isExpanded).toBe(true);
   });
 
-  it("should not auto open when autoOpen is false", () => {
+  it("should not auto open when expandOutsideBreakpoint is false", async () => {
     const { matchMedia } = setupMatchMedia(false);
     window.matchMedia = matchMedia;
 
@@ -249,15 +226,17 @@ describe("TopLinkDisclosureMenu (media queries)", () => {
       containerElement: document.querySelector("nav"),
       controllerElement: document.querySelector("button"),
       breakpoint: "40em",
-      autoOpen: false,
+      expandOutsideBreakpoint: false,
       initialize: true,
     });
 
     expect(matchMedia).toHaveBeenCalledWith("(width <= 40em)");
-    expect(menu.elements.controller.isOpen).toBe(false);
+    await new Promise(requestAnimationFrame);
+
+    expect(menu.elements.controller.isExpanded).toBe(false);
   });
 
-  it("should close when the media query matches and the menu is open", () => {
+  it("should close when the media query matches and the menu is open", async () => {
     const { matchMedia, mql, listeners } = setupMatchMedia(false);
     window.matchMedia = matchMedia;
 
@@ -266,15 +245,21 @@ describe("TopLinkDisclosureMenu (media queries)", () => {
       containerElement: document.querySelector("nav"),
       controllerElement: document.querySelector("button"),
       mediaQuery: "(width <= 40em)",
+      expandOutsideBreakpoint: true,
+      collapseInsideBreakpoint: true,
       initialize: true,
     });
 
-    expect(menu.elements.controller.isOpen).toBe(true);
+    await new Promise(requestAnimationFrame);
+
+    expect(menu.elements.controller.isExpanded).toBe(true);
 
     mql.matches = true;
     listeners.forEach((listener) => listener(mql));
 
-    expect(menu.elements.controller.isOpen).toBe(false);
+    await new Promise(requestAnimationFrame);
+
+    expect(menu.elements.controller.isExpanded).toBe(false);
   });
 });
 
@@ -293,15 +278,16 @@ describe("TopLinkDisclosureMenu (custom arguments)", () => {
   });
 
   // Test that the TopLinkDisclosureMenu will throw an error if an invalid menuItemsSelector is passed.
-  it("should throw an error if an invalid menuItemsSelector is passed", () => {
+  it("should report a validation failure if an invalid menuItemsSelector is passed", () => {
     // Test that the menu throws an error.
-    expect(() => {
-      // Create the TopLinkDisclosureMenu instance for testing.
-      new TopLinkDisclosureMenu({
-        menuElement: document.querySelector("ul"),
-        menuItemsSelector: 1,
-      });
-    }).toThrow('menuItemsSelector must be a valid query selector. "1" given.');
+
+    // Create the TopLinkDisclosureMenu instance for testing.
+    new TopLinkDisclosureMenu({
+      menuElement: document.querySelector("ul"),
+      menuItemsSelector: 1,
+    });
+
+    expect(console.error).toHaveBeenCalled();
   });
 
   // Test that the TopLinkDisclosureMenu will initialize if a valid menuLinksSelector is passed.
@@ -317,17 +303,16 @@ describe("TopLinkDisclosureMenu (custom arguments)", () => {
   });
 
   // Test that the TopLinkDisclosureMenu will throw an error if an invalid menuLinksSelector is passed.
-  it("should throw an error if an invalid menuLinksSelector is passed", () => {
+  it("should report a validation failure if an invalid menuLinksSelector is passed", () => {
     // Test that the menu throws an error.
-    expect(() => {
-      // Create the TopLinkDisclosureMenu instance for testing.
-      new TopLinkDisclosureMenu({
-        menuElement: document.querySelector("ul"),
-        menuLinksSelector: 1,
-      });
-    }).toThrow(
-      'menuLinksSelector must be a valid query selector. "1,button" given.'
-    );
+
+    // Create the TopLinkDisclosureMenu instance for testing.
+    new TopLinkDisclosureMenu({
+      menuElement: document.querySelector("ul"),
+      menuLinksSelector: 1,
+    });
+
+    expect(console.error).toHaveBeenCalled();
   });
 
   // Test that the TopLinkDisclosureMenu will initialize if a valid submenuItemsSelector is passed.
@@ -343,17 +328,16 @@ describe("TopLinkDisclosureMenu (custom arguments)", () => {
   });
 
   // Test that the TopLinkDisclosureMenu will throw an error if an invalid submenuItemsSelector is passed.
-  it("should throw an error if an invalid submenuItemsSelector is passed", () => {
+  it("should report a validation failure if an invalid submenuItemsSelector is passed", () => {
     // Test that the menu throws an error.
-    expect(() => {
-      // Create the TopLinkDisclosureMenu instance for testing.
-      new TopLinkDisclosureMenu({
-        menuElement: document.querySelector("ul"),
-        submenuItemsSelector: 1,
-      });
-    }).toThrow(
-      'submenuItemsSelector must be a valid query selector. "1" given.'
-    );
+
+    // Create the TopLinkDisclosureMenu instance for testing.
+    new TopLinkDisclosureMenu({
+      menuElement: document.querySelector("ul"),
+      submenuItemsSelector: 1,
+    });
+
+    expect(console.error).toHaveBeenCalled();
   });
 
   // Test that the TopLinkDisclosureMenu will initialize if a valid submenuTogglesSelector is passed when the submenuItemsSelector is also passed.
@@ -370,18 +354,17 @@ describe("TopLinkDisclosureMenu (custom arguments)", () => {
   });
 
   // Test that the TopLinkDisclosureMenu will throw an error if an invalid submenuTogglesSelector is passed when the submenuItemsSelector is also passed.
-  it("should throw an error if an invalid submenuTogglesSelector and submenuItemsSelector", () => {
+  it("should report a validation failure if an invalid submenuTogglesSelector and submenuItemsSelector", () => {
     // Test that the menu throws an error.
-    expect(() => {
-      // Create the TopLinkDisclosureMenu instance for testing.
-      new TopLinkDisclosureMenu({
-        menuElement: document.querySelector("ul"),
-        submenuTogglesSelector: 1,
-        submenuItemsSelector: ".menu-item.dropdown",
-      });
-    }).toThrow(
-      'menuLinksSelector must be a valid query selector. "a,1" given.'
-    );
+
+    // Create the TopLinkDisclosureMenu instance for testing.
+    new TopLinkDisclosureMenu({
+      menuElement: document.querySelector("ul"),
+      submenuTogglesSelector: 1,
+      submenuItemsSelector: ".menu-item.dropdown",
+    });
+
+    expect(console.error).toHaveBeenCalled();
   });
 
   // Test that the TopLinkDisclosureMenu will initialize if a valid submenusSelector is passed when the submenuItemsSelector is also passed.
@@ -398,20 +381,21 @@ describe("TopLinkDisclosureMenu (custom arguments)", () => {
   });
 
   // Test that the TopLinkDisclosureMenu will throw an error if an invalid submenusSelector is passed when the submenuItemsSelector is also passed.
-  it("should throw an error if an invalid submenusSelector and submenuItemsSelector", () => {
+  it("should report a validation failure if an invalid submenusSelector and submenuItemsSelector", () => {
     // Test that the menu throws an error.
-    expect(() => {
-      // Create the TopLinkDisclosureMenu instance for testing.
-      new TopLinkDisclosureMenu({
-        menuElement: document.querySelector("ul"),
-        submenusSelector: 1,
-        submenuItemsSelector: ".menu-item.dropdown",
-      });
-    }).toThrow('submenusSelector must be a valid query selector. "1" given.');
+
+    // Create the TopLinkDisclosureMenu instance for testing.
+    new TopLinkDisclosureMenu({
+      menuElement: document.querySelector("ul"),
+      submenusSelector: 1,
+      submenuItemsSelector: ".menu-item.dropdown",
+    });
+
+    expect(console.error).toHaveBeenCalled();
   });
 
   // Class list tests.
-  const classLists = ["openClass", "closeClass", "transitionClass"];
+  const classLists = ["expandClass", "collapseClass", "transitionClass"];
 
   // Test that the TopLinkDisclosureMenu will initialize if valid class lists are passed.
   it.each(classLists)(
@@ -430,18 +414,17 @@ describe("TopLinkDisclosureMenu (custom arguments)", () => {
 
   // Test that the TopLinkDisclosureMenu will throw an error if an invalid class list is passed.
   it.each(classLists)(
-    "should throw an error if an invalid %s class list is passed",
+    "should report a validation failure if an invalid %s class list is passed",
     (classList) => {
       // Test that the menu throws an error.
-      expect(() => {
-        // Create a new TopLinkDisclosureMenu instance for testing.
-        new TopLinkDisclosureMenu({
-          menuElement: document.querySelector("ul"),
-          [classList]: 1,
-        });
-      }).toThrow(
-        `${classList} must be a string or an array of strings. "number" given.`
-      );
+
+      // Create a new TopLinkDisclosureMenu instance for testing.
+      new TopLinkDisclosureMenu({
+        menuElement: document.querySelector("ul"),
+        [classList]: 1,
+      });
+
+      expect(console.error).toHaveBeenCalled();
     }
   );
 
@@ -458,27 +441,29 @@ describe("TopLinkDisclosureMenu (custom arguments)", () => {
   });
 
   // Test that the TopLinkDisclosureMenu will throw an error if isTopLevel not a boolean.
-  it("should throw an error if isTopLevel is not a boolean", () => {
+  it("should report a validation failure if isTopLevel is not a boolean", () => {
     // Test that the menu throws an error.
-    expect(() => {
-      // Create a new TopLinkDisclosureMenu instance for testing.
-      new TopLinkDisclosureMenu({
-        menuElement: document.querySelector("ul"),
-        isTopLevel: 1,
-      });
-    }).toThrow('isTopLevel must be a boolean. "number" given.');
+
+    // Create a new TopLinkDisclosureMenu instance for testing.
+    new TopLinkDisclosureMenu({
+      menuElement: document.querySelector("ul"),
+      isTopLevel: 1,
+    });
+
+    expect(console.error).toHaveBeenCalled();
   });
 
   // Test that the TopLinkDisclosureMenu will throw an error is isTopLevel is false and no parentMenu is passed.
-  it("should throw an error if isTopLevel is false and no parentMenu is passed", () => {
+  it("should report a validation failure if isTopLevel is false and no parentMenu is passed", () => {
     // Test that the menu throws an error.
-    expect(() => {
-      // Create a new TopLinkDisclosureMenu instance for testing.
-      new TopLinkDisclosureMenu({
-        menuElement: document.querySelector("ul"),
-        isTopLevel: false,
-      });
-    }).toThrow("Cannot find root menu.");
+
+    // Create a new TopLinkDisclosureMenu instance for testing.
+    new TopLinkDisclosureMenu({
+      menuElement: document.querySelector("ul"),
+      isTopLevel: false,
+    });
+
+    expect(console.error).toHaveBeenCalled();
   });
 
   // Test that the TopLinkDisclosureMenu will initialize if isTopLevel is false and a parentMenu is passed.
@@ -500,16 +485,17 @@ describe("TopLinkDisclosureMenu (custom arguments)", () => {
   });
 
   // Test that the TopLinkDisclosureMenu will throw an error if isTopLevel is false and an invalid parentMenu is passed.
-  it("should throw an error if isTopLevel is false and an invalid parentMenu is passed", () => {
+  it("should report a validation failure if isTopLevel is false and an invalid parentMenu is passed", () => {
     // Test that the menu throws an error.
-    expect(() => {
-      // Create a new TopLinkDisclosureMenu instance for testing.
-      new TopLinkDisclosureMenu({
-        menuElement: document.querySelector("ul"),
-        isTopLevel: false,
-        parentMenu: 1,
-      });
-    }).toThrow('parentMenu must be an instance of BaseMenu. "number" given.');
+
+    // Create a new TopLinkDisclosureMenu instance for testing.
+    new TopLinkDisclosureMenu({
+      menuElement: document.querySelector("ul"),
+      isTopLevel: false,
+      parentMenu: 1,
+    });
+
+    expect(console.error).toHaveBeenCalled();
   });
 
   // Test that the TopLinkDisclosureMenu will initialize if a valid parentMenu is passed.
@@ -530,15 +516,16 @@ describe("TopLinkDisclosureMenu (custom arguments)", () => {
   });
 
   // Test that the TopLinkDisclosureMenu will throw an error if an invalid parentMenu is passed.
-  it("should throw an error if an invalid parentMenu is passed", () => {
+  it("should report a validation failure if an invalid parentMenu is passed", () => {
     // Test that the menu throws an error.
-    expect(() => {
-      // Create a new TopLinkDisclosureMenu instance for testing.
-      new TopLinkDisclosureMenu({
-        menuElement: document.querySelector("ul"),
-        parentMenu: 1,
-      });
-    }).toThrow('parentMenu must be an instance of BaseMenu. "number" given.');
+
+    // Create a new TopLinkDisclosureMenu instance for testing.
+    new TopLinkDisclosureMenu({
+      menuElement: document.querySelector("ul"),
+      parentMenu: 1,
+    });
+
+    expect(console.error).toHaveBeenCalled();
   });
 
   // Test that the TopLinkDisclosureMenu will initialize if a valid hoverType is passed.
@@ -558,17 +545,16 @@ describe("TopLinkDisclosureMenu (custom arguments)", () => {
   );
 
   // Test that the TopLinkDisclosureMenu will throw an error if an invalid hoverType is passed.
-  it("should throw an error if an invalid hoverType is passed", () => {
+  it("should report a validation failure if an invalid hoverType is passed", () => {
     // Test that the menu throws an error.
-    expect(() => {
-      // Create a new TopLinkDisclosureMenu instance for testing.
-      new TopLinkDisclosureMenu({
-        menuElement: document.querySelector("ul"),
-        hoverType: 1,
-      });
-    }).toThrow(
-      'hoverType must be one of the following values: off, on, dynamic. "1" given.'
-    );
+
+    // Create a new TopLinkDisclosureMenu instance for testing.
+    new TopLinkDisclosureMenu({
+      menuElement: document.querySelector("ul"),
+      hoverType: 1,
+    });
+
+    expect(console.error).toHaveBeenCalled();
   });
 
   // Test that the TopLinkDisclosureMenu will initialize if a valid hoverDelay is passed.
@@ -584,15 +570,16 @@ describe("TopLinkDisclosureMenu (custom arguments)", () => {
   });
 
   // Test that the TopLinkDisclosureMenu will throw an error if an invalid hoverDelay is passed.
-  it("should throw an error if an invalid hoverDelay is passed", () => {
+  it("should report a validation failure if an invalid hoverDelay is passed", () => {
     // Test that the menu throws an error.
-    expect(() => {
-      // Create a new TopLinkDisclosureMenu instance for testing.
-      new TopLinkDisclosureMenu({
-        menuElement: document.querySelector("ul"),
-        hoverDelay: "1",
-      });
-    }).toThrow('hoverDelay must be a number. "string" given.');
+
+    // Create a new TopLinkDisclosureMenu instance for testing.
+    new TopLinkDisclosureMenu({
+      menuElement: document.querySelector("ul"),
+      hoverDelay: "1",
+    });
+
+    expect(console.error).toHaveBeenCalled();
   });
 
   // Test that the TopLinkDisclosureMenu will initialize if a valid enterDelay is passed.
@@ -608,15 +595,16 @@ describe("TopLinkDisclosureMenu (custom arguments)", () => {
   });
 
   // Test that the TopLinkDisclosureMenu will throw an error if an invalid enterDelay is passed.
-  it("should throw an error if an invalid enterDelay is passed", () => {
+  it("should report a validation failure if an invalid enterDelay is passed", () => {
     // Test that the menu throws an error.
-    expect(() => {
-      // Create a new TopLinkDisclosureMenu instance for testing.
-      new TopLinkDisclosureMenu({
-        menuElement: document.querySelector("ul"),
-        enterDelay: "1",
-      });
-    }).toThrow('enterDelay must be a number. "string" given.');
+
+    // Create a new TopLinkDisclosureMenu instance for testing.
+    new TopLinkDisclosureMenu({
+      menuElement: document.querySelector("ul"),
+      enterDelay: "1",
+    });
+
+    expect(console.error).toHaveBeenCalled();
   });
 
   // Test that the TopLinkDisclosureMenu will initialize if a valid leaveDelay is passed.
@@ -632,15 +620,16 @@ describe("TopLinkDisclosureMenu (custom arguments)", () => {
   });
 
   // Test that the TopLinkDisclosureMenu will throw an error if an invalid leaveDelay is passed.
-  it("should throw an error if an invalid leaveDelay is passed", () => {
+  it("should report a validation failure if an invalid leaveDelay is passed", () => {
     // Test that the menu throws an error.
-    expect(() => {
-      // Create a new TopLinkDisclosureMenu instance for testing.
-      new TopLinkDisclosureMenu({
-        menuElement: document.querySelector("ul"),
-        leaveDelay: "1",
-      });
-    }).toThrow('leaveDelay must be a number. "string" given.');
+
+    // Create a new TopLinkDisclosureMenu instance for testing.
+    new TopLinkDisclosureMenu({
+      menuElement: document.querySelector("ul"),
+      leaveDelay: "1",
+    });
+
+    expect(console.error).toHaveBeenCalled();
   });
 
   // Test that the TopLinkDisclosureMenu will initialize if a valid prefix is passed.
@@ -656,15 +645,16 @@ describe("TopLinkDisclosureMenu (custom arguments)", () => {
   });
 
   // Test that the TopLinkDisclosureMenu will throw an error if an invalid prefix is passed.
-  it("should throw an error if an invalid prefix is passed", () => {
+  it("should report a validation failure if an invalid prefix is passed", () => {
     // Test that the menu throws an error.
-    expect(() => {
-      // Create a new TopLinkDisclosureMenu instance for testing.
-      new TopLinkDisclosureMenu({
-        menuElement: document.querySelector("ul"),
-        prefix: 1,
-      });
-    }).toThrow('TypeError: prefix must be a string. "number" given.');
+
+    // Create a new TopLinkDisclosureMenu instance for testing.
+    new TopLinkDisclosureMenu({
+      menuElement: document.querySelector("ul"),
+      prefix: 1,
+    });
+
+    expect(console.error).toHaveBeenCalled();
   });
 
   // Test that the TopLinkDisclosureMenu will initialize if a valid key is passed.
@@ -680,15 +670,16 @@ describe("TopLinkDisclosureMenu (custom arguments)", () => {
   });
 
   // Test that the TopLinkDisclosureMenu will throw an error if an invalid key is passed.
-  it("should throw an error if an invalid key is passed", () => {
+  it("should report a validation failure if an invalid key is passed", () => {
     // Test that the menu throws an error.
-    expect(() => {
-      // Create a new TopLinkDisclosureMenu instance for testing.
-      new TopLinkDisclosureMenu({
-        menuElement: document.querySelector("ul"),
-        key: 1,
-      });
-    }).toThrow('TypeError: key must be a string. "number" given.');
+
+    // Create a new TopLinkDisclosureMenu instance for testing.
+    new TopLinkDisclosureMenu({
+      menuElement: document.querySelector("ul"),
+      key: 1,
+    });
+
+    expect(console.error).toHaveBeenCalled();
   });
 
   // Test that the TopLinkDisclosureMenu will initialize if a valid optionalKeySupport is passed.
@@ -704,15 +695,16 @@ describe("TopLinkDisclosureMenu (custom arguments)", () => {
   });
 
   // Test that the TopLinkDisclosureMenu will throw an error if an invalid optionalKeySupport is passed.
-  it("should throw an error if an invalid optionalKeySupport is passed", () => {
+  it("should report a validation failure if an invalid optionalKeySupport is passed", () => {
     // Test that the menu throws an error.
-    expect(() => {
-      // Create a new TopLinkDisclosureMenu instance for testing.
-      new TopLinkDisclosureMenu({
-        menuElement: document.querySelector("ul"),
-        optionalKeySupport: 1,
-      });
-    }).toThrow('optionalKeySupport must be a boolean. "number" given.');
+
+    // Create a new TopLinkDisclosureMenu instance for testing.
+    new TopLinkDisclosureMenu({
+      menuElement: document.querySelector("ul"),
+      optionalKeySupport: 1,
+    });
+
+    expect(console.error).toHaveBeenCalled();
   });
 });
 

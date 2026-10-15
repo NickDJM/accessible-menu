@@ -80,8 +80,8 @@ describe("BaseMenu", () => {
       expect(menu.focusState).toBe("none");
     });
 
-    // Test that the closeChildren method is called when the menu loses focus.
-    it("should call the closeChildren method when the menu loses focus", () => {
+    // Test that the collapseChildren method is called when the menu loses focus.
+    it("should call the collapseChildren method when the menu loses focus", () => {
       // Create a new BaseMenu instance for testing.
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
@@ -94,8 +94,8 @@ describe("BaseMenu", () => {
       menu.elements.menuItems[0].dom.link.focus();
       menu.currentEvent = "keyboard";
 
-      // Spy on the closeChildren method.
-      const spy = vi.spyOn(menu, "closeChildren");
+      // Spy on the collapseChildren method.
+      const spy = vi.spyOn(menu, "collapseChildren");
 
       // Trigger a focusout event on the menu.
       menu.dom.menu.dispatchEvent(
@@ -125,8 +125,8 @@ describe("BaseMenu", () => {
       expect(menu.focusState).not.toBe("none");
     });
 
-    // Test that the closeChildren method is not called when the menu loses focus but the current event is not keyboard.
-    it("should not call the closeChildren method when the menu loses focus but the current event is not keyboard", () => {
+    // Test that the collapseChildren method is not called when the menu loses focus but the current event is not keyboard.
+    it("should not call the collapseChildren method when the menu loses focus but the current event is not keyboard", () => {
       // Create a new BaseMenu instance for testing.
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
@@ -139,8 +139,8 @@ describe("BaseMenu", () => {
       menu.elements.menuItems[0].dom.link.focus();
       menu.currentEvent = "mouse";
 
-      // Spy on the closeChildren method.
-      const spy = vi.spyOn(menu, "closeChildren");
+      // Spy on the collapseChildren method.
+      const spy = vi.spyOn(menu, "collapseChildren");
 
       // Trigger a focusout event on the menu.
       menu.dom.menu.dispatchEvent(new FocusEvent("focusout"));
@@ -172,8 +172,8 @@ describe("BaseMenu", () => {
       expect(menu.focusState).not.toBe("none");
     });
 
-    // Test that the closeChildren method is not called when the menu loses focus but the relatedTarget is contained within the menu.
-    it("should not call the closeChildren method when the menu loses focus but the relatedTarget is contained within the menu", () => {
+    // Test that the collapseChildren method is not called when the menu loses focus but the relatedTarget is contained within the menu.
+    it("should not call the collapseChildren method when the menu loses focus but the relatedTarget is contained within the menu", () => {
       // Create a new BaseMenu instance for testing.
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
@@ -186,8 +186,8 @@ describe("BaseMenu", () => {
       menu.elements.menuItems[0].dom.link.focus();
       menu.currentEvent = "keyboard";
 
-      // Spy on the closeChildren method.
-      const spy = vi.spyOn(menu, "closeChildren");
+      // Spy on the collapseChildren method.
+      const spy = vi.spyOn(menu, "collapseChildren");
 
       // Trigger a focusout event on the menu with a relatedTarget that is contained within the menu.
       menu.dom.menu.dispatchEvent(
@@ -223,8 +223,8 @@ describe("BaseMenu", () => {
       expect(menu.focusState).not.toBe("none");
     });
 
-    // Test that the closeChildren method is not called when the menu loses focus but the relatedTarget is null.
-    it("should not call the closeChildren method when the menu loses focus but the relatedTarget is null", () => {
+    // Test that the collapseChildren method is not called when the menu loses focus but the relatedTarget is null.
+    it("should not call the collapseChildren method when the menu loses focus but the relatedTarget is null", () => {
       // Create a new BaseMenu instance for testing.
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
@@ -237,8 +237,8 @@ describe("BaseMenu", () => {
       menu.elements.menuItems[0].dom.link.focus();
       menu.currentEvent = "keyboard";
 
-      // Spy on the closeChildren method.
-      const spy = vi.spyOn(menu, "closeChildren");
+      // Spy on the collapseChildren method.
+      const spy = vi.spyOn(menu, "collapseChildren");
 
       // Trigger a focusout event on the menu with a relatedTarget that is null.
       menu.dom.menu.dispatchEvent(

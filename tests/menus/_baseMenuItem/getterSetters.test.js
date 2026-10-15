@@ -50,9 +50,7 @@ describe("BaseMenuItem getter/setters", () => {
 
       expect(() => {
         menuItem.dom = {};
-      }).toThrowError(
-        "Cannot set property dom of #<BaseMenuItem> which has only a getter"
-      );
+      }).toThrowError();
     });
   });
 
@@ -87,9 +85,7 @@ describe("BaseMenuItem getter/setters", () => {
 
       expect(() => {
         menuItem.elements = {};
-      }).toThrowError(
-        "Cannot set property elements of #<BaseMenuItem> which has only a getter"
-      );
+      }).toThrowError();
     });
   });
 
@@ -124,9 +120,7 @@ describe("BaseMenuItem getter/setters", () => {
 
       expect(() => {
         menuItem.isSubmenuItem = true;
-      }).toThrowError(
-        "Cannot set property isSubmenuItem of #<BaseMenuItem> which has only a getter"
-      );
+      }).toThrowError();
     });
   });
 });

@@ -32,7 +32,7 @@ describe("BaseMenu Controller", () => {
       initializeMenu(menu);
 
       // Trigger a keydown event on the menu's controller.
-      simulateKeyboardEvent("keydown", menu.elements.controller.dom.toggle);
+      simulateKeyboardEvent("keydown", menu.elements.controller.dom.controller);
 
       expect(menu.currentEvent).toBe("keyboard");
     });
@@ -52,7 +52,7 @@ describe("BaseMenu Controller", () => {
         // Trigger a keydown event on the menu's controller.
         const event = simulateKeyboardEvent(
           "keydown",
-          menu.elements.controller.dom.toggle,
+          menu.elements.controller.dom.controller,
           {
             key,
           }
@@ -76,7 +76,7 @@ describe("BaseMenu Controller", () => {
       initializeMenu(menu);
 
       // Trigger a keyup event on the menu's controller.
-      simulateKeyboardEvent("keyup", menu.elements.controller.dom.toggle);
+      simulateKeyboardEvent("keyup", menu.elements.controller.dom.controller);
 
       expect(menu.currentEvent).toBe("keyboard");
     });
@@ -96,7 +96,7 @@ describe("BaseMenu Controller", () => {
         // Trigger a keyup event on the menu's controller.
         const event = simulateKeyboardEvent(
           "keyup",
-          menu.elements.controller.dom.toggle,
+          menu.elements.controller.dom.controller,
           {
             key,
           }
@@ -119,14 +119,18 @@ describe("BaseMenu Controller", () => {
         vi.spyOn(menu.elements.controller, "toggle");
 
         // Trigger a keyup event on the menu's controller.
-        simulateKeyboardEvent("keyup", menu.elements.controller.dom.toggle, {
-          key,
-        });
+        simulateKeyboardEvent(
+          "keyup",
+          menu.elements.controller.dom.controller,
+          {
+            key,
+          }
+        );
 
         expect(menu.elements.controller.toggle).toHaveBeenCalled();
       });
 
-      // Test that focusFirstChild is called on the menu on Spacebar and Enter keyup events if the controlled is open.
+      // Test that focusFirstChild is called on the menu on Spacebar and Enter keyup events if the controlled is expand.
       it("should call focusFirstChild on the menu on %s keyup events if the controlled is open", () => {
         // Create a new BaseMenu instance for testing.
         const menu = new BaseMenu({
@@ -140,14 +144,18 @@ describe("BaseMenu Controller", () => {
         vi.spyOn(menu, "focusFirstChild");
 
         // Trigger a keyup event on the menu's controller.
-        simulateKeyboardEvent("keyup", menu.elements.controller.dom.toggle, {
-          key,
-        });
+        simulateKeyboardEvent(
+          "keyup",
+          menu.elements.controller.dom.controller,
+          {
+            key,
+          }
+        );
 
         expect(menu.focusFirstChild).toHaveBeenCalled();
       });
 
-      // Test that focusFirstChild is not called on the menu on Spacebar and Enter keyup events if the controlled is open.
+      // Test that focusFirstChild is not called on the menu on Spacebar and Enter keyup events if the controlled is expand.
       it("should not call focusFirstChild on the menu on %s keyup events if the controlled is open", () => {
         // Create a new BaseMenu instance for testing.
         const menu = new BaseMenu({
@@ -157,15 +165,19 @@ describe("BaseMenu Controller", () => {
         });
         initializeMenu(menu);
 
-        menu.elements.controller.open();
+        menu.elements.controller.expand();
 
         // Spy on the menu's focusFirstChild method.
         vi.spyOn(menu, "focusFirstChild");
 
         // Trigger a keyup event on the menu's controller.
-        simulateKeyboardEvent("keyup", menu.elements.controller.dom.toggle, {
-          key,
-        });
+        simulateKeyboardEvent(
+          "keyup",
+          menu.elements.controller.dom.controller,
+          {
+            key,
+          }
+        );
 
         expect(menu.focusFirstChild).not.toHaveBeenCalled();
       });

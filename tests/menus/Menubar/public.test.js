@@ -207,12 +207,12 @@ describe("Menubar public methods", () => {
     });
   });
 
-  // Test Menubar closeChildren().
-  describe("closeChildren", () => {
-    // Test that Menubar implements the BaseMenu closeChildren() method.
-    it("should implement the BaseMenu closeChildren() method", () => {
-      expect(Menubar.prototype.closeChildren).toBe(
-        BaseMenu.prototype.closeChildren
+  // Test Menubar collapseChildren().
+  describe("collapseChildren", () => {
+    // Test that Menubar implements the BaseMenu collapseChildren() method.
+    it("should implement the BaseMenu collapseChildren() method", () => {
+      expect(Menubar.prototype.collapseChildren).toBe(
+        BaseMenu.prototype.collapseChildren
       );
     });
   });

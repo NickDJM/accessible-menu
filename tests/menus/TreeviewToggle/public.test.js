@@ -8,11 +8,13 @@ import BaseMenuToggle from "../../../src/_baseMenuToggle.js";
 
 // Test TreeviewToggle public methods.
 describe("TreeviewToggle public methods", () => {
-  // Test TreeviewItem open().
-  describe("open", () => {
-    // Test that TreeviewToggle implements the BaseMenuToggle open.
+  // Test TreeviewItem expand().
+  describe("expand", () => {
+    // Test that TreeviewToggle implements the BaseMenuToggle expand.
     it("should implement the BaseMenuToggle open", () => {
-      expect(TreeviewToggle.prototype.open).toBe(BaseMenuToggle.prototype.open);
+      expect(TreeviewToggle.prototype.expand).toBe(
+        BaseMenuToggle.prototype.expand
+      );
     });
   });
 
@@ -26,12 +28,12 @@ describe("TreeviewToggle public methods", () => {
     });
   });
 
-  // Test TreeviewToggle close().
-  describe("close", () => {
-    // Test that TreeviewToggle implements the BaseMenuToggle close.
+  // Test TreeviewToggle collapse().
+  describe("collapse", () => {
+    // Test that TreeviewToggle implements the BaseMenuToggle collapse.
     it("should implement the BaseMenuToggle close", () => {
-      expect(TreeviewToggle.prototype.close).toBe(
-        BaseMenuToggle.prototype.close
+      expect(TreeviewToggle.prototype.collapse).toBe(
+        BaseMenuToggle.prototype.collapse
       );
     });
   });
@@ -46,22 +48,22 @@ describe("TreeviewToggle public methods", () => {
     });
   });
 
-  // Test TreeviewToggle closeSiblings().
-  describe("closeSiblings", () => {
-    // Test that TreeviewToggle implements the BaseMenuToggle closeSiblings.
-    it("should implement the BaseMenuToggle closeSiblings", () => {
-      expect(TreeviewToggle.prototype.closeSiblings).toBe(
-        BaseMenuToggle.prototype.closeSiblings
+  // Test TreeviewToggle collapseSiblings().
+  describe("collapseSiblings", () => {
+    // Test that TreeviewToggle implements the BaseMenuToggle collapseSiblings.
+    it("should implement the BaseMenuToggle collapseSiblings", () => {
+      expect(TreeviewToggle.prototype.collapseSiblings).toBe(
+        BaseMenuToggle.prototype.collapseSiblings
       );
     });
   });
 
-  // Test TreeviewToggle closeChildren().
-  describe("closeChildren", () => {
-    // Test that TreeviewToggle implements the BaseMenuToggle closeChildren.
-    it("should implement the BaseMenuToggle closeChildren", () => {
-      expect(TreeviewToggle.prototype.closeChildren).toBe(
-        BaseMenuToggle.prototype.closeChildren
+  // Test TreeviewToggle collapseChildren().
+  describe("collapseChildren", () => {
+    // Test that TreeviewToggle implements the BaseMenuToggle collapseChildren.
+    it("should implement the BaseMenuToggle collapseChildren", () => {
+      expect(TreeviewToggle.prototype.collapseChildren).toBe(
+        BaseMenuToggle.prototype.collapseChildren
       );
     });
   });

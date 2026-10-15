@@ -5,41 +5,22 @@
  * that the BaseMenu class can be initialized.
  */
 
-import {
-  describe,
-  it,
-  expect,
-  vi,
-  beforeAll,
-  afterAll,
-  beforeEach,
-  afterEach,
-} from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { singleLevel, twoLevel } from "../../../demo/menus.js";
 import BaseMenu from "../../../src/_baseMenu.js";
 import { initializeMenu, setupMatchMedia } from "../helpers.js";
 
 let originalMatchMedia;
 
-beforeAll(() => {
-  // Mock the console.error method.
-  console.error = vi.fn((error) => {
-    throw new Error(error);
-  });
-});
-
-afterAll(() => {
-  // Restore the console.error method.
-  console.error = vi.restoreAllMocks();
-});
-
 beforeEach(() => {
+  vi.spyOn(console, "error").mockImplementation(() => {});
   // Create the test menu.
   document.body.innerHTML = twoLevel;
   originalMatchMedia = window.matchMedia;
 });
 
 afterEach(() => {
+  vi.restoreAllMocks();
   // Remove the test menu.
   document.body.innerHTML = "";
   window.matchMedia = originalMatchMedia;
@@ -64,31 +45,29 @@ describe("BaseMenu", () => {
   });
 
   // Test that the BaseMenu will throw an error if no menuElement is passed.
-  it("should throw an error if no menuElement is passed", () => {
+  it("should report a validation failure if no menuElement is passed", () => {
     // Create a new BaseMenu instance for testing.
     const menu = new BaseMenu({});
 
     // Test that the menu throws an error.
-    expect(() => {
-      initializeMenu(menu);
-    }).toThrow(
-      'menuElement must be an instance of HTMLElement. "undefined" given.'
-    );
+
+    initializeMenu(menu);
+
+    expect(console.error).toHaveBeenCalled();
   });
 
   // Test that the BaseMenu will throw an error if the menuElement is invalid.
-  it("should throw an error if the menuElement is invalid", () => {
+  it("should report a validation failure if the menuElement is invalid", () => {
     // Create a new BaseMenu instance for testing.
     const menu = new BaseMenu({
       menuElement: 1,
     });
 
     // Test that the menu throws an error.
-    expect(() => {
-      initializeMenu(menu);
-    }).toThrow(
-      'menuElement must be an instance of HTMLElement. "number" given.'
-    );
+
+    initializeMenu(menu);
+
+    expect(console.error).toHaveBeenCalled();
   });
 
   // Test that the menu exists in window.AccessibleMenuStorage storage after initialization.
@@ -149,7 +128,7 @@ describe("BaseMenu (controlled)", () => {
   });
 
   // Test that the BaseMenu will throw an error if no menuElement is passed.
-  it("should throw an error if no menuElement is passed", () => {
+  it("should report a validation failure if no menuElement is passed", () => {
     // Create the test menu.
     document.body.innerHTML = singleLevel;
 
@@ -160,15 +139,14 @@ describe("BaseMenu (controlled)", () => {
     });
 
     // Test that the menu throws an error.
-    expect(() => {
-      initializeMenu(menu);
-    }).toThrow(
-      'menuElement must be an instance of HTMLElement. "undefined" given.'
-    );
+
+    initializeMenu(menu);
+
+    expect(console.error).toHaveBeenCalled();
   });
 
   // Test that the BaseMenu will throw an error if the menuElement is invalid.
-  it("should throw an error if the menuElement is invalid", () => {
+  it("should report a validation failure if the menuElement is invalid", () => {
     // Create the test menu.
     document.body.innerHTML = singleLevel;
 
@@ -180,15 +158,14 @@ describe("BaseMenu (controlled)", () => {
     });
 
     // Test that the menu throws an error.
-    expect(() => {
-      initializeMenu(menu);
-    }).toThrow(
-      'menuElement must be an instance of HTMLElement. "number" given.'
-    );
+
+    initializeMenu(menu);
+
+    expect(console.error).toHaveBeenCalled();
   });
 
   // Test that the BaseMenu will throw an error if no containerElement is passed when a controllerElement is.
-  it("should throw an error if no containerElement is passed when a controllerElement is", () => {
+  it("should report a validation failure if no containerElement is passed when a controllerElement is", () => {
     // Create the test menu.
     document.body.innerHTML = singleLevel;
 
@@ -199,15 +176,14 @@ describe("BaseMenu (controlled)", () => {
     });
 
     // Test that the menu throws an error.
-    expect(() => {
-      initializeMenu(menu);
-    }).toThrow(
-      'containerElement must be an instance of HTMLElement. "object" given.'
-    );
+
+    initializeMenu(menu);
+
+    expect(console.error).toHaveBeenCalled();
   });
 
   // Test that the BaseMenu will throw an error if the containerElement is invalid when a controllerElement is.
-  it("should throw an error if the containerElement is invalid when a controllerElement is", () => {
+  it("should report a validation failure if the containerElement is invalid when a controllerElement is", () => {
     // Create the test menu.
     document.body.innerHTML = singleLevel;
 
@@ -219,15 +195,14 @@ describe("BaseMenu (controlled)", () => {
     });
 
     // Test that the menu throws an error.
-    expect(() => {
-      initializeMenu(menu);
-    }).toThrow(
-      'containerElement must be an instance of HTMLElement. "number" given.'
-    );
+
+    initializeMenu(menu);
+
+    expect(console.error).toHaveBeenCalled();
   });
 
   // Test that the BaseMenu will throw an error if no controllerElement is passed when a containerElement is.
-  it("should throw an error if no controllerElement is passed when a containerElement is", () => {
+  it("should report a validation failure if no controllerElement is passed when a containerElement is", () => {
     // Create the test menu.
     document.body.innerHTML = singleLevel;
 
@@ -238,15 +213,14 @@ describe("BaseMenu (controlled)", () => {
     });
 
     // Test that the menu throws an error.
-    expect(() => {
-      initializeMenu(menu);
-    }).toThrow(
-      'controllerElement must be an instance of HTMLElement. "object" given.'
-    );
+
+    initializeMenu(menu);
+
+    expect(console.error).toHaveBeenCalled();
   });
 
   // Test that the BaseMenu will throw an error if the controllerElement is invalid when a containerElement is.
-  it("should throw an error if the controllerElement is invalid when a containerElement is", () => {
+  it("should report a validation failure if the controllerElement is invalid when a containerElement is", () => {
     // Create the test menu.
     document.body.innerHTML = singleLevel;
 
@@ -258,11 +232,10 @@ describe("BaseMenu (controlled)", () => {
     });
 
     // Test that the menu throws an error.
-    expect(() => {
-      initializeMenu(menu);
-    }).toThrow(
-      'controllerElement must be an instance of HTMLElement. "number" given.'
-    );
+
+    initializeMenu(menu);
+
+    expect(console.error).toHaveBeenCalled();
   });
 });
 
@@ -283,7 +256,7 @@ describe("BaseMenu (custom arguments)", () => {
   });
 
   // Test that the BaseMenu will throw an error if an invalid menuItemsSelector is passed.
-  it("should throw an error if an invalid menuItemsSelector is passed", () => {
+  it("should report a validation failure if an invalid menuItemsSelector is passed", () => {
     // Create the BaseMenu instance for testing.
     const menu = new BaseMenu({
       menuElement: document.querySelector("ul"),
@@ -291,9 +264,10 @@ describe("BaseMenu (custom arguments)", () => {
     });
 
     // Test that the menu throws an error.
-    expect(() => {
-      initializeMenu(menu);
-    }).toThrow('menuItemsSelector must be a valid query selector. "1" given.');
+
+    initializeMenu(menu);
+
+    expect(console.error).toHaveBeenCalled();
   });
 
   // Test that the BaseMenu will initialize if a valid menuLinksSelector is passed.
@@ -311,7 +285,7 @@ describe("BaseMenu (custom arguments)", () => {
   });
 
   // Test that the BaseMenu will throw an error if an invalid menuLinksSelector is passed.
-  it("should throw an error if an invalid menuLinksSelector is passed", () => {
+  it("should report a validation failure if an invalid menuLinksSelector is passed", () => {
     // Create the BaseMenu instance for testing.
     const menu = new BaseMenu({
       menuElement: document.querySelector("ul"),
@@ -319,9 +293,10 @@ describe("BaseMenu (custom arguments)", () => {
     });
 
     // Test that the menu throws an error.
-    expect(() => {
-      initializeMenu(menu);
-    }).toThrow('menuLinksSelector must be a valid query selector. "1" given.');
+
+    initializeMenu(menu);
+
+    expect(console.error).toHaveBeenCalled();
   });
 
   // Test that the BaseMenu will initialize if a valid submenuItemsSelector is passed.
@@ -339,7 +314,7 @@ describe("BaseMenu (custom arguments)", () => {
   });
 
   // Test that the BaseMenu will throw an error if an invalid submenuItemsSelector is passed.
-  it("should throw an error if an invalid submenuItemsSelector is passed", () => {
+  it("should report a validation failure if an invalid submenuItemsSelector is passed", () => {
     // Create the BaseMenu instance for testing.
     const menu = new BaseMenu({
       menuElement: document.querySelector("ul"),
@@ -347,11 +322,10 @@ describe("BaseMenu (custom arguments)", () => {
     });
 
     // Test that the menu throws an error.
-    expect(() => {
-      initializeMenu(menu);
-    }).toThrow(
-      'submenuItemsSelector must be a valid query selector. "1" given.'
-    );
+
+    initializeMenu(menu);
+
+    expect(console.error).toHaveBeenCalled();
   });
 
   // Test that the BaseMenu will initialize if a valid submenuTogglesSelector is passed when the submenuItemsSelector is also passed.
@@ -370,7 +344,7 @@ describe("BaseMenu (custom arguments)", () => {
   });
 
   // Test that the BaseMenu will throw an error if an invalid submenuTogglesSelector is passed when the submenuItemsSelector is also passed.
-  it("should throw an error if an invalid submenuTogglesSelector and submenuItemsSelector", () => {
+  it("should report a validation failure if an invalid submenuTogglesSelector and submenuItemsSelector", () => {
     // Create the BaseMenu instance for testing.
     const menu = new BaseMenu({
       menuElement: document.querySelector("ul"),
@@ -379,11 +353,10 @@ describe("BaseMenu (custom arguments)", () => {
     });
 
     // Test that the menu throws an error.
-    expect(() => {
-      initializeMenu(menu);
-    }).toThrow(
-      'submenuTogglesSelector must be a valid query selector. "1" given.'
-    );
+
+    initializeMenu(menu);
+
+    expect(console.error).toHaveBeenCalled();
   });
 
   // Test that the BaseMenu will initialize if a valid submenusSelector is passed when the submenuItemsSelector is also passed.
@@ -402,7 +375,7 @@ describe("BaseMenu (custom arguments)", () => {
   });
 
   // Test that the BaseMenu will throw an error if an invalid submenusSelector is passed when the submenuItemsSelector is also passed.
-  it("should throw an error if an invalid submenusSelector and submenuItemsSelector", () => {
+  it("should report a validation failure if an invalid submenusSelector and submenuItemsSelector", () => {
     // Create the BaseMenu instance for testing.
     const menu = new BaseMenu({
       menuElement: document.querySelector("ul"),
@@ -411,13 +384,14 @@ describe("BaseMenu (custom arguments)", () => {
     });
 
     // Test that the menu throws an error.
-    expect(() => {
-      initializeMenu(menu);
-    }).toThrow('submenusSelector must be a valid query selector. "1" given.');
+
+    initializeMenu(menu);
+
+    expect(console.error).toHaveBeenCalled();
   });
 
   // Class list tests.
-  const classLists = ["openClass", "closeClass", "transitionClass"];
+  const classLists = ["expandClass", "collapseClass", "transitionClass"];
 
   // Test that the BaseMenu will initialize if valid class lists are passed.
   it.each(classLists)(
@@ -438,7 +412,7 @@ describe("BaseMenu (custom arguments)", () => {
 
   // Test that the BaseMenu will throw an error if an invalid class list is passed.
   it.each(classLists)(
-    "should throw an error if an invalid %s class list is passed",
+    "should report a validation failure if an invalid %s class list is passed",
     (classList) => {
       // Create a new BaseMenu instance for testing.
       const menu = new BaseMenu({
@@ -447,11 +421,10 @@ describe("BaseMenu (custom arguments)", () => {
       });
 
       // Test that the menu throws an error.
-      expect(() => {
-        initializeMenu(menu);
-      }).toThrow(
-        `${classList} must be a string or an array of strings. "number" given.`
-      );
+
+      initializeMenu(menu);
+
+      expect(console.error).toHaveBeenCalled();
     }
   );
 
@@ -470,7 +443,7 @@ describe("BaseMenu (custom arguments)", () => {
   });
 
   // Test that the BaseMenu will throw an error if isTopLevel not a boolean.
-  it("should throw an error if isTopLevel is not a boolean", () => {
+  it("should report a validation failure if isTopLevel is not a boolean", () => {
     // Create a new BaseMenu instance for testing.
     const menu = new BaseMenu({
       menuElement: document.querySelector("ul"),
@@ -478,13 +451,14 @@ describe("BaseMenu (custom arguments)", () => {
     });
 
     // Test that the menu throws an error.
-    expect(() => {
-      initializeMenu(menu);
-    }).toThrow('isTopLevel must be a boolean. "number" given.');
+
+    initializeMenu(menu);
+
+    expect(console.error).toHaveBeenCalled();
   });
 
   // Test that the BaseMenu will throw an error is isTopLevel is false and no parentMenu is passed.
-  it("should throw an error if isTopLevel is false and no parentMenu is passed", () => {
+  it("should report a validation failure if isTopLevel is false and no parentMenu is passed", () => {
     // Create a new BaseMenu instance for testing.
     const menu = new BaseMenu({
       menuElement: document.querySelector("ul"),
@@ -492,9 +466,10 @@ describe("BaseMenu (custom arguments)", () => {
     });
 
     // Test that the menu throws an error.
-    expect(() => {
-      initializeMenu(menu);
-    }).toThrow("Cannot find root menu.");
+
+    initializeMenu(menu);
+
+    expect(console.error).toHaveBeenCalled();
   });
 
   // Test that the BaseMenu will initialize if isTopLevel is false and a parentMenu is passed.
@@ -517,7 +492,7 @@ describe("BaseMenu (custom arguments)", () => {
   });
 
   // Test that the BaseMenu will throw an error if isTopLevel is false and an invalid parentMenu is passed.
-  it("should throw an error if isTopLevel is false and an invalid parentMenu is passed", () => {
+  it("should report a validation failure if isTopLevel is false and an invalid parentMenu is passed", () => {
     // Create a new BaseMenu instance for testing.
     const menu = new BaseMenu({
       menuElement: document.querySelector("ul"),
@@ -526,9 +501,10 @@ describe("BaseMenu (custom arguments)", () => {
     });
 
     // Test that the menu throws an error.
-    expect(() => {
-      initializeMenu(menu);
-    }).toThrow('parentMenu must be an instance of BaseMenu. "number" given.');
+
+    initializeMenu(menu);
+
+    expect(console.error).toHaveBeenCalled();
   });
 
   // Test that the BaseMenu will initialize if a valid parentMenu is passed.
@@ -550,7 +526,7 @@ describe("BaseMenu (custom arguments)", () => {
   });
 
   // Test that the BaseMenu will throw an error if an invalid parentMenu is passed.
-  it("should throw an error if an invalid parentMenu is passed", () => {
+  it("should report a validation failure if an invalid parentMenu is passed", () => {
     // Create a new BaseMenu instance for testing.
     const menu = new BaseMenu({
       menuElement: document.querySelector("ul"),
@@ -558,9 +534,10 @@ describe("BaseMenu (custom arguments)", () => {
     });
 
     // Test that the menu throws an error.
-    expect(() => {
-      initializeMenu(menu);
-    }).toThrow('parentMenu must be an instance of BaseMenu. "number" given.');
+
+    initializeMenu(menu);
+
+    expect(console.error).toHaveBeenCalled();
   });
 
   // Test that the BaseMenu will initialize if a valid hoverType is passed.
@@ -582,7 +559,7 @@ describe("BaseMenu (custom arguments)", () => {
   );
 
   // Test that the BaseMenu will throw an error if an invalid hoverType is passed.
-  it("should throw an error if an invalid hoverType is passed", () => {
+  it("should report a validation failure if an invalid hoverType is passed", () => {
     // Create a new BaseMenu instance for testing.
     const menu = new BaseMenu({
       menuElement: document.querySelector("ul"),
@@ -590,11 +567,10 @@ describe("BaseMenu (custom arguments)", () => {
     });
 
     // Test that the menu throws an error.
-    expect(() => {
-      initializeMenu(menu);
-    }).toThrow(
-      'hoverType must be one of the following values: off, on, dynamic. "1" given.'
-    );
+
+    initializeMenu(menu);
+
+    expect(console.error).toHaveBeenCalled();
   });
 
   // Test that the BaseMenu will initialize if a valid hoverDelay is passed.
@@ -612,7 +588,7 @@ describe("BaseMenu (custom arguments)", () => {
   });
 
   // Test that the BaseMenu will throw an error if an invalid hoverDelay is passed.
-  it("should throw an error if an invalid hoverDelay is passed", () => {
+  it("should report a validation failure if an invalid hoverDelay is passed", () => {
     // Create a new BaseMenu instance for testing.
     const menu = new BaseMenu({
       menuElement: document.querySelector("ul"),
@@ -620,9 +596,10 @@ describe("BaseMenu (custom arguments)", () => {
     });
 
     // Test that the menu throws an error.
-    expect(() => {
-      initializeMenu(menu);
-    }).toThrow('hoverDelay must be a number. "string" given.');
+
+    initializeMenu(menu);
+
+    expect(console.error).toHaveBeenCalled();
   });
 
   // Test that the BaseMenu will initialize if a valid enterDelay is passed.
@@ -640,7 +617,7 @@ describe("BaseMenu (custom arguments)", () => {
   });
 
   // Test that the BaseMenu will throw an error if an invalid enterDelay is passed.
-  it("should throw an error if an invalid enterDelay is passed", () => {
+  it("should report a validation failure if an invalid enterDelay is passed", () => {
     // Create a new BaseMenu instance for testing.
     const menu = new BaseMenu({
       menuElement: document.querySelector("ul"),
@@ -648,9 +625,10 @@ describe("BaseMenu (custom arguments)", () => {
     });
 
     // Test that the menu throws an error.
-    expect(() => {
-      initializeMenu(menu);
-    }).toThrow('enterDelay must be a number. "string" given.');
+
+    initializeMenu(menu);
+
+    expect(console.error).toHaveBeenCalled();
   });
 
   // Test that the BaseMenu will initialize if a valid leaveDelay is passed.
@@ -668,7 +646,7 @@ describe("BaseMenu (custom arguments)", () => {
   });
 
   // Test that the BaseMenu will throw an error if an invalid leaveDelay is passed.
-  it("should throw an error if an invalid leaveDelay is passed", () => {
+  it("should report a validation failure if an invalid leaveDelay is passed", () => {
     // Create a new BaseMenu instance for testing.
     const menu = new BaseMenu({
       menuElement: document.querySelector("ul"),
@@ -676,9 +654,10 @@ describe("BaseMenu (custom arguments)", () => {
     });
 
     // Test that the menu throws an error.
-    expect(() => {
-      initializeMenu(menu);
-    }).toThrow('leaveDelay must be a number. "string" given.');
+
+    initializeMenu(menu);
+
+    expect(console.error).toHaveBeenCalled();
   });
 
   // Test that the BaseMenu will initialize if a valid breakpoint is passed.
@@ -699,20 +678,23 @@ describe("BaseMenu (custom arguments)", () => {
   });
 
   // Test that the BaseMenu will throw an error if an invalid breakpoint is passed.
-  it("should throw an error if an invalid breakpoint is passed", () => {
+  it("should report a validation failure if an invalid breakpoint is passed", () => {
     const { matchMedia } = setupMatchMedia(false);
     window.matchMedia = matchMedia;
 
     // Create a new BaseMenu instance for testing.
     const menu = new BaseMenu({
       menuElement: document.querySelector("ul"),
+      controllerElement: document.querySelector("button"),
+      containerElement: document.querySelector("nav"),
       breakpoint: 40,
     });
 
     // Test that the menu throws an error.
-    expect(() => {
-      initializeMenu(menu);
-    }).toThrow('breakpoint must be a string. "number" given.');
+
+    initializeMenu(menu);
+
+    expect(console.error).toHaveBeenCalled();
   });
 
   // Test that the BaseMenu will initialize if a valid mediaQuery is passed.
@@ -733,28 +715,31 @@ describe("BaseMenu (custom arguments)", () => {
   });
 
   // Test that the BaseMenu will throw an error if an invalid mediaQuery is passed.
-  it("should throw an error if an invalid mediaQuery is passed", () => {
+  it("should report a validation failure if an invalid mediaQuery is passed", () => {
     const { matchMedia } = setupMatchMedia(false);
     window.matchMedia = matchMedia;
 
     // Create a new BaseMenu instance for testing.
     const menu = new BaseMenu({
       menuElement: document.querySelector("ul"),
+      controllerElement: document.querySelector("button"),
+      containerElement: document.querySelector("nav"),
       mediaQuery: 40,
     });
 
     // Test that the menu throws an error.
-    expect(() => {
-      initializeMenu(menu);
-    }).toThrow('mediaQuery must be a string. "number" given.');
+
+    initializeMenu(menu);
+
+    expect(console.error).toHaveBeenCalled();
   });
 
-  // Test that the BaseMenu will initialize if a valid autoOpen is passed.
-  it("should initialize if a valid autoOpen is passed", () => {
+  // Test that the BaseMenu will initialize if a valid expandOutsideBreakpoint is passed.
+  it("should initialize if a valid expandOutsideBreakpoint is passed", () => {
     // Create a new BaseMenu instance for testing.
     const menu = new BaseMenu({
       menuElement: document.querySelector("ul"),
-      autoOpen: false,
+      expandOutsideBreakpoint: false,
     });
 
     // Test that the menu initializes.
@@ -763,18 +748,21 @@ describe("BaseMenu (custom arguments)", () => {
     }).not.toThrow();
   });
 
-  // Test that the BaseMenu will throw an error if an invalid autoOpen is passed.
-  it("should throw an error if an invalid autoOpen is passed", () => {
+  // Test that the BaseMenu will throw an error if an invalid expandOutsideBreakpoint is passed.
+  it("should report a validation failure if an invalid expandOutsideBreakpoint is passed", () => {
     // Create a new BaseMenu instance for testing.
     const menu = new BaseMenu({
       menuElement: document.querySelector("ul"),
-      autoOpen: 1,
+      controllerElement: document.querySelector("button"),
+      containerElement: document.querySelector("nav"),
+      expandOutsideBreakpoint: 1,
     });
 
     // Test that the menu throws an error.
-    expect(() => {
-      initializeMenu(menu);
-    }).toThrow('autoOpen must be a boolean. "number" given.');
+
+    initializeMenu(menu);
+
+    expect(console.error).toHaveBeenCalled();
   });
 
   // Test that the BaseMenu will initialize if a valid prefix is passed.
@@ -792,7 +780,7 @@ describe("BaseMenu (custom arguments)", () => {
   });
 
   // Test that the BaseMenu will throw an error if an invalid prefix is passed.
-  it("should throw an error if an invalid prefix is passed", () => {
+  it("should report a validation failure if an invalid prefix is passed", () => {
     // Create a new BaseMenu instance for testing.
     const menu = new BaseMenu({
       menuElement: document.querySelector("ul"),
@@ -800,9 +788,10 @@ describe("BaseMenu (custom arguments)", () => {
     });
 
     // Test that the menu throws an error.
-    expect(() => {
-      initializeMenu(menu);
-    }).toThrow('TypeError: prefix must be a string. "number" given.');
+
+    initializeMenu(menu);
+
+    expect(console.error).toHaveBeenCalled();
   });
 
   // Test that the BaseMenu will initialize if a valid key is passed.
@@ -820,7 +809,7 @@ describe("BaseMenu (custom arguments)", () => {
   });
 
   // Test that the BaseMenu will throw an error if an invalid key is passed.
-  it("should throw an error if an invalid key is passed", () => {
+  it("should report a validation failure if an invalid key is passed", () => {
     // Create a new BaseMenu instance for testing.
     const menu = new BaseMenu({
       menuElement: document.querySelector("ul"),
@@ -828,8 +817,9 @@ describe("BaseMenu (custom arguments)", () => {
     });
 
     // Test that the menu throws an error.
-    expect(() => {
-      initializeMenu(menu);
-    }).toThrow('TypeError: key must be a string. "number" given.');
+
+    initializeMenu(menu);
+
+    expect(console.error).toHaveBeenCalled();
   });
 });

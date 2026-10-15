@@ -81,8 +81,8 @@ describe("Menubar", () => {
         expect(menu.blur).not.toHaveBeenCalled();
       });
 
-      // Test that closeChildren is called on the menu on Tab keydown events if focus state is not none.
-      it("should call closeChildren on the menu on Tab keydown events if focus state is not none", () => {
+      // Test that collapseChildren is called on the menu on Tab keydown events if focus state is not none.
+      it("should call collapseChildren on the menu on Tab keydown events if focus state is not none", () => {
         // Create a new Menubar instance for testing.
         const menu = new Menubar({
           menuElement: document.querySelector("ul"),
@@ -93,19 +93,19 @@ describe("Menubar", () => {
         // Set up the menu.
         menu.focusState = "self";
 
-        // Spy on the menu's closeChildren method.
-        vi.spyOn(menu, "closeChildren");
+        // Spy on the menu's collapseChildren method.
+        vi.spyOn(menu, "collapseChildren");
 
         // Trigger a keydown event.
         simulateKeyboardEvent("keydown", menu.dom.menu, {
           key: "Tab",
         });
 
-        expect(menu.closeChildren).toHaveBeenCalled();
+        expect(menu.collapseChildren).toHaveBeenCalled();
       });
 
-      // Test that closeChildren is not called on the menu on Tab keydown events if focus state is none.
-      it("should not call closeChildren on the menu on Tab keydown events if focus state is none", () => {
+      // Test that collapseChildren is not called on the menu on Tab keydown events if focus state is none.
+      it("should not call collapseChildren on the menu on Tab keydown events if focus state is none", () => {
         // Create a new Menubar instance for testing.
         const menu = new Menubar({
           menuElement: document.querySelector("ul"),
@@ -113,15 +113,15 @@ describe("Menubar", () => {
           controllerElement: document.querySelector("button"),
         });
 
-        // Spy on the menu's closeChildren method.
-        vi.spyOn(menu, "closeChildren");
+        // Spy on the menu's collapseChildren method.
+        vi.spyOn(menu, "collapseChildren");
 
         // Trigger a keydown event.
         simulateKeyboardEvent("keydown", menu.dom.menu, {
           key: "Tab",
         });
 
-        expect(menu.closeChildren).not.toHaveBeenCalled();
+        expect(menu.collapseChildren).not.toHaveBeenCalled();
       });
 
       // Test that focus is called on the menu on Tab keydown events if focus state is none.
@@ -383,7 +383,7 @@ describe("Menubar", () => {
           });
 
           // Set up the menu.
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
           menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 0;
 
           // Trigger a keydown event.
@@ -555,7 +555,7 @@ describe("Menubar", () => {
             menu.currentChild = 1;
 
             // Spy on the menu toggle's open method.
-            const spy = vi.spyOn(menu.elements.submenuToggles[0], "open");
+            const spy = vi.spyOn(menu.elements.submenuToggles[0], "expand");
 
             // Trigger a keyup event.
             simulateKeyboardEvent("keyup", menu.dom.menu, {
@@ -740,8 +740,8 @@ describe("Menubar", () => {
 
             expect(spy).toHaveBeenCalled();
           });
-          // Test that the menu's closeChildren method is called if the current menu item is not a submenu item.
-          it("should call the menu's closeChildren method if the current menu item is not a submenu item", () => {
+          // Test that the menu's collapseChildren method is called if the current menu item is not a submenu item.
+          it("should call the menu's collapseChildren method if the current menu item is not a submenu item", () => {
             // Create a new Menubar instance for testing.
             const menu = new Menubar({
               menuElement: document.querySelector("ul"),
@@ -754,8 +754,8 @@ describe("Menubar", () => {
             menu.currentChild = 5;
             menu.elements.submenuToggles[4].preview();
 
-            // Spy on the menu's closeChildren method.
-            const spy = vi.spyOn(menu, "closeChildren");
+            // Spy on the menu's collapseChildren method.
+            const spy = vi.spyOn(menu, "collapseChildren");
 
             // Trigger a keyup event.
             simulateKeyboardEvent("keyup", menu.dom.menu, {
@@ -862,8 +862,8 @@ describe("Menubar", () => {
 
             expect(spy).toHaveBeenCalled();
           });
-          // Test that the menu's closeChildren method is called if the current menu item is not a submenu item.
-          it("should call the menu's closeChildren method if the current menu item is not a submenu item", () => {
+          // Test that the menu's collapseChildren method is called if the current menu item is not a submenu item.
+          it("should call the menu's collapseChildren method if the current menu item is not a submenu item", () => {
             // Create a new Menubar instance for testing.
             const menu = new Menubar({
               menuElement: document.querySelector("ul"),
@@ -876,8 +876,8 @@ describe("Menubar", () => {
             menu.currentChild = 1;
             menu.elements.submenuToggles[0].preview();
 
-            // Spy on the menu's closeChildren method.
-            const spy = vi.spyOn(menu, "closeChildren");
+            // Spy on the menu's collapseChildren method.
+            const spy = vi.spyOn(menu, "collapseChildren");
 
             // Trigger a keyup event.
             simulateKeyboardEvent("keyup", menu.dom.menu, {
@@ -949,7 +949,7 @@ describe("Menubar", () => {
             menu.currentChild = 1;
 
             // Spy on the current menu toggle's open method.
-            const spy = vi.spyOn(menu.elements.submenuToggles[0], "open");
+            const spy = vi.spyOn(menu.elements.submenuToggles[0], "expand");
 
             // Trigger a keyup event.
             simulateKeyboardEvent("keyup", menu.dom.menu, {
@@ -1076,7 +1076,7 @@ describe("Menubar", () => {
             menu.currentChild = 1;
 
             // Spy on the current menu toggle's open method.
-            const spy = vi.spyOn(menu.elements.submenuToggles[0], "open");
+            const spy = vi.spyOn(menu.elements.submenuToggles[0], "expand");
 
             // Trigger a keyup event.
             simulateKeyboardEvent("keyup", menu.dom.menu, {
@@ -1261,8 +1261,8 @@ describe("Menubar", () => {
 
             expect(event.defaultPrevented).toBeTruthy();
           });
-          // Test that the menu's closeChildren method is called.
-          it("should call the menu's closeChildren method", () => {
+          // Test that the menu's collapseChildren method is called.
+          it("should call the menu's collapseChildren method", () => {
             // Create a new Menubar instance for testing.
             const menu = new Menubar({
               menuElement: document.querySelector("ul"),
@@ -1275,8 +1275,8 @@ describe("Menubar", () => {
             menu.currentChild = 0;
             menu.elements.submenuToggles[0].preview();
 
-            // Spy on the menu's closeChildren method.
-            const spy = vi.spyOn(menu, "closeChildren");
+            // Spy on the menu's collapseChildren method.
+            const spy = vi.spyOn(menu, "collapseChildren");
 
             // Trigger a keyup event.
             simulateKeyboardEvent("keyup", menu.dom.menu, {
@@ -1300,7 +1300,7 @@ describe("Menubar", () => {
             // Set up the menu.
             menu.focusState = "self";
             menu.currentChild = 0;
-            menu.elements.controller.open();
+            menu.elements.controller.expand();
 
             // Trigger a keyup event.
             const event = simulateKeyboardEvent("keyup", menu.dom.menu, {
@@ -1321,10 +1321,10 @@ describe("Menubar", () => {
             // Set up the menu.
             menu.focusState = "self";
             menu.currentChild = 0;
-            menu.elements.controller.open();
+            menu.elements.controller.expand();
 
             // Spy on the controller's close method.
-            const spy = vi.spyOn(menu.elements.controller, "close");
+            const spy = vi.spyOn(menu.elements.controller, "collapse");
 
             // Trigger a keyup event.
             simulateKeyboardEvent("keyup", menu.dom.menu, {
@@ -1345,7 +1345,7 @@ describe("Menubar", () => {
             // Set up the menu.
             menu.focusState = "self";
             menu.currentChild = 0;
-            menu.elements.controller.open();
+            menu.elements.controller.expand();
 
             // Spy on the menu's focusController method.
             const spy = vi.spyOn(menu, "focusController");
@@ -1377,7 +1377,7 @@ describe("Menubar", () => {
 
             // Set up the menu.
             menu.currentChild = 1;
-            menu.elements.submenuToggles[0].open();
+            menu.elements.submenuToggles[0].expand();
             menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 1;
 
             // Trigger a keyup event.
@@ -1402,7 +1402,7 @@ describe("Menubar", () => {
 
             // Set up the menu.
             menu.currentChild = 1;
-            menu.elements.submenuToggles[0].open();
+            menu.elements.submenuToggles[0].expand();
             menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 1;
 
             // Trigger a keyup event.
@@ -1430,14 +1430,14 @@ describe("Menubar", () => {
 
             // Set up the menu.
             menu.currentChild = 1;
-            menu.elements.submenuToggles[0].open();
+            menu.elements.submenuToggles[0].expand();
             menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 1;
 
             // Spy on the current menu toggle's open method.
             const spy = vi.spyOn(
               menu.elements.submenuToggles[0].elements.controlledMenu.elements
                 .submenuToggles[0],
-              "open"
+              "expand"
             );
 
             // Trigger a keyup event.
@@ -1462,7 +1462,7 @@ describe("Menubar", () => {
 
             // Set up the menu.
             menu.currentChild = 1;
-            menu.elements.submenuToggles[0].open();
+            menu.elements.submenuToggles[0].expand();
             menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 1;
 
             // Spy on the current menu's focusFirstChild method.
@@ -1496,7 +1496,7 @@ describe("Menubar", () => {
 
             // Set up the menu.
             menu.currentChild = 0;
-            menu.elements.submenuToggles[0].open();
+            menu.elements.submenuToggles[0].expand();
             menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 0;
 
             // Trigger a keyup event.
@@ -1517,7 +1517,7 @@ describe("Menubar", () => {
 
             // Set up the menu.
             menu.currentChild = 0;
-            menu.elements.submenuToggles[0].open();
+            menu.elements.submenuToggles[0].expand();
             menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 0;
 
             // Spy on the current menu link's click method.
@@ -1554,7 +1554,7 @@ describe("Menubar", () => {
 
           // Set up the menu.
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
           menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 0;
 
           // Trigger a keyup event.
@@ -1568,8 +1568,8 @@ describe("Menubar", () => {
 
           expect(event.defaultPrevented).toBeTruthy();
         });
-        // Test that the root menu's closeChildren method is called.
-        it("should call the root menu's closeChildren method", () => {
+        // Test that the root menu's collapseChildren method is called.
+        it("should call the root menu's collapseChildren method", () => {
           // Create a new Menubar instance for testing.
           const menu = new Menubar({
             menuElement: document.querySelector("ul"),
@@ -1579,11 +1579,11 @@ describe("Menubar", () => {
 
           // Set up the menu.
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
           menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 0;
 
-          // Spy on the root menu's closeChildren method.
-          const spy = vi.spyOn(menu, "closeChildren");
+          // Spy on the root menu's collapseChildren method.
+          const spy = vi.spyOn(menu, "collapseChildren");
 
           // Trigger a keyup event.
           simulateKeyboardEvent(
@@ -1607,7 +1607,7 @@ describe("Menubar", () => {
 
           // Set up the menu.
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
           menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 0;
 
           // Spy on the root menu's focusCurrentChild method.
@@ -1640,7 +1640,7 @@ describe("Menubar", () => {
 
             // Set up the menu.
             menu.currentChild = 1;
-            menu.elements.submenuToggles[0].open();
+            menu.elements.submenuToggles[0].expand();
             menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 1;
 
             // Trigger a keyup event.
@@ -1665,7 +1665,7 @@ describe("Menubar", () => {
 
             // Set up the menu.
             menu.currentChild = 1;
-            menu.elements.submenuToggles[0].open();
+            menu.elements.submenuToggles[0].expand();
             menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 1;
 
             // Trigger a keyup event.
@@ -1693,14 +1693,14 @@ describe("Menubar", () => {
 
             // Set up the menu.
             menu.currentChild = 1;
-            menu.elements.submenuToggles[0].open();
+            menu.elements.submenuToggles[0].expand();
             menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 1;
 
             // Spy on the current menu toggle's open method.
             const spy = vi.spyOn(
               menu.elements.submenuToggles[0].elements.controlledMenu.elements
                 .submenuToggles[0],
-              "open"
+              "expand"
             );
 
             // Trigger a keyup event.
@@ -1725,7 +1725,7 @@ describe("Menubar", () => {
 
             // Set up the menu.
             menu.currentChild = 1;
-            menu.elements.submenuToggles[0].open();
+            menu.elements.submenuToggles[0].expand();
             menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 1;
 
             // Spy on the child menu's focusFirstChild method.
@@ -1759,7 +1759,7 @@ describe("Menubar", () => {
 
             // Set up the menu.
             menu.currentChild = 1;
-            menu.elements.submenuToggles[0].open();
+            menu.elements.submenuToggles[0].expand();
             menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 0;
 
             // Trigger a keyup event.
@@ -1773,8 +1773,8 @@ describe("Menubar", () => {
 
             expect(event.defaultPrevented).toBeTruthy();
           });
-          // Test that the root menu's closeChildren method is called.
-          it("should call the root menu's closeChildren method", () => {
+          // Test that the root menu's collapseChildren method is called.
+          it("should call the root menu's collapseChildren method", () => {
             // Create a new Menubar instance for testing.
             const menu = new Menubar({
               menuElement: document.querySelector("ul"),
@@ -1784,11 +1784,11 @@ describe("Menubar", () => {
 
             // Set up the menu.
             menu.currentChild = 1;
-            menu.elements.submenuToggles[0].open();
+            menu.elements.submenuToggles[0].expand();
             menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 0;
 
-            // Spy on the menu's closeChildren method.
-            const spy = vi.spyOn(menu, "closeChildren");
+            // Spy on the menu's collapseChildren method.
+            const spy = vi.spyOn(menu, "collapseChildren");
 
             // Trigger a keyup event.
             simulateKeyboardEvent(
@@ -1812,7 +1812,7 @@ describe("Menubar", () => {
 
             // Set up the menu.
             menu.currentChild = 1;
-            menu.elements.submenuToggles[0].open();
+            menu.elements.submenuToggles[0].expand();
             menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 0;
 
             // Spy on the menu's focusNextChild method.
@@ -1840,7 +1840,7 @@ describe("Menubar", () => {
 
             // Set up the menu.
             menu.currentChild = 1;
-            menu.elements.submenuToggles[0].open();
+            menu.elements.submenuToggles[0].expand();
             menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 0;
 
             // Spy on the menu item's preview method.
@@ -1874,7 +1874,7 @@ describe("Menubar", () => {
 
             // Set up the menu.
             menu.currentChild = 1;
-            menu.elements.submenuToggles[0].open();
+            menu.elements.submenuToggles[0].expand();
             menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 0;
 
             // Trigger a keyup event.
@@ -1900,11 +1900,11 @@ describe("Menubar", () => {
 
           // Set up the menu.
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
           menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 0;
 
           // Spy on the menu toggle's close method.
-          const spy = vi.spyOn(menu.elements.submenuToggles[0], "close");
+          const spy = vi.spyOn(menu.elements.submenuToggles[0], "collapse");
 
           // Trigger a keyup event.
           simulateKeyboardEvent(
@@ -1928,7 +1928,7 @@ describe("Menubar", () => {
 
           // Set up the menu.
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
           menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 0;
 
           // Spy on the menu toggle's focusCurrentChild method.
@@ -1947,8 +1947,8 @@ describe("Menubar", () => {
         });
 
         describe("when the parent menu is also the root menu", () => {
-          // Test that the parent menu's closeChildren method is called.
-          it("should call the parent menu's closeChildren method", () => {
+          // Test that the parent menu's collapseChildren method is called.
+          it("should call the parent menu's collapseChildren method", () => {
             // Create a new Menubar instance for testing.
             const menu = new Menubar({
               menuElement: document.querySelector("ul"),
@@ -1958,11 +1958,11 @@ describe("Menubar", () => {
 
             // Set up the menu.
             menu.currentChild = 1;
-            menu.elements.submenuToggles[0].open();
+            menu.elements.submenuToggles[0].expand();
             menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 0;
 
-            // Spy on the menu's closeChildren method.
-            const spy = vi.spyOn(menu, "closeChildren");
+            // Spy on the menu's collapseChildren method.
+            const spy = vi.spyOn(menu, "collapseChildren");
 
             // Trigger a keyup event.
             simulateKeyboardEvent(
@@ -1986,7 +1986,7 @@ describe("Menubar", () => {
 
             // Set up the menu.
             menu.currentChild = 1;
-            menu.elements.submenuToggles[0].open();
+            menu.elements.submenuToggles[0].expand();
             menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 0;
 
             // Spy on the menu's focusPreviousChild method.
@@ -2016,7 +2016,7 @@ describe("Menubar", () => {
 
               // Set up the menu.
               menu.currentChild = 2;
-              menu.elements.submenuToggles[1].open();
+              menu.elements.submenuToggles[1].expand();
               menu.elements.submenuToggles[1].elements.controlledMenu.currentChild = 0;
 
               // Trigger a keyup event.
@@ -2045,7 +2045,7 @@ describe("Menubar", () => {
 
               // Set up the menu.
               menu.currentChild = 2;
-              menu.elements.submenuToggles[1].open();
+              menu.elements.submenuToggles[1].expand();
               menu.elements.submenuToggles[1].elements.controlledMenu.currentChild = 0;
 
               // Spy on the menu toggle's preview method.
@@ -2080,7 +2080,7 @@ describe("Menubar", () => {
 
           // Set up the menu.
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
           menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 0;
 
           // Trigger a keyup event.
@@ -2105,7 +2105,7 @@ describe("Menubar", () => {
 
           // Set up the menu.
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
           menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 0;
 
           // Spy on the menu's focusNextChild method.
@@ -2140,7 +2140,7 @@ describe("Menubar", () => {
 
           // Set up the menu.
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
           menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 0;
 
           // Trigger a keyup event.
@@ -2165,7 +2165,7 @@ describe("Menubar", () => {
 
           // Set up the menu.
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
           menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 0;
 
           // Spy on the menu's focusPreviousChild method.
@@ -2200,7 +2200,7 @@ describe("Menubar", () => {
 
           // Set up the menu.
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
           menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 0;
 
           // Trigger a keyup event.
@@ -2225,7 +2225,7 @@ describe("Menubar", () => {
 
           // Set up the menu.
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
           menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 0;
 
           // Spy on the menu's focusFirstChild method.
@@ -2260,7 +2260,7 @@ describe("Menubar", () => {
 
           // Set up the menu.
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
           menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 0;
 
           // Trigger a keyup event.
@@ -2285,7 +2285,7 @@ describe("Menubar", () => {
 
           // Set up the menu.
           menu.currentChild = 1;
-          menu.elements.submenuToggles[0].open();
+          menu.elements.submenuToggles[0].expand();
           menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 0;
 
           // Spy on the menu's focusLastChild method.
@@ -2323,7 +2323,10 @@ describe("Menubar", () => {
         });
 
         // Trigger a keydown event.
-        simulateKeyboardEvent("keydown", menu.elements.controller.dom.toggle);
+        simulateKeyboardEvent(
+          "keydown",
+          menu.elements.controller.dom.controller
+        );
 
         expect(menu.currentEvent).toBe("keyboard");
       });
@@ -2342,7 +2345,7 @@ describe("Menubar", () => {
           // Trigger a keydown event.
           const event = simulateKeyboardEvent(
             "keydown",
-            menu.elements.controller.dom.toggle,
+            menu.elements.controller.dom.controller,
             {
               key,
             }
@@ -2365,7 +2368,7 @@ describe("Menubar", () => {
         });
 
         // Trigger a keyup event on the menu's controller.
-        simulateKeyboardEvent("keyup", menu.elements.controller.dom.toggle);
+        simulateKeyboardEvent("keyup", menu.elements.controller.dom.controller);
 
         expect(menu.currentEvent).toBe("keyboard");
       });
@@ -2384,7 +2387,7 @@ describe("Menubar", () => {
           // Trigger a keyup event on the menu's controller.
           const event = simulateKeyboardEvent(
             "keyup",
-            menu.elements.controller.dom.toggle,
+            menu.elements.controller.dom.controller,
             {
               key,
             }
@@ -2403,14 +2406,18 @@ describe("Menubar", () => {
           });
 
           // Spy on the controller's open method.
-          vi.spyOn(menu.elements.controller, "open");
+          vi.spyOn(menu.elements.controller, "expand");
 
           // Trigger a keyup event on the menu's controller.
-          simulateKeyboardEvent("keyup", menu.elements.controller.dom.toggle, {
-            key,
-          });
+          simulateKeyboardEvent(
+            "keyup",
+            menu.elements.controller.dom.controller,
+            {
+              key,
+            }
+          );
 
-          expect(menu.elements.controller.open).toHaveBeenCalled();
+          expect(menu.elements.controller.expand).toHaveBeenCalled();
         });
 
         // Test that focusFirstChild is called on the menu on Spacebar and Enter keyup events.
@@ -2426,9 +2433,13 @@ describe("Menubar", () => {
           vi.spyOn(menu, "focusFirstChild");
 
           // Trigger a keyup event on the menu's controller.
-          simulateKeyboardEvent("keyup", menu.elements.controller.dom.toggle, {
-            key,
-          });
+          simulateKeyboardEvent(
+            "keyup",
+            menu.elements.controller.dom.controller,
+            {
+              key,
+            }
+          );
 
           expect(menu.focusFirstChild).toHaveBeenCalled();
         });

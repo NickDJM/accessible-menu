@@ -22,12 +22,12 @@ new Menubar({
   submenusSelector,
   controllerElement,
   containerElement,
-  openClass,
-  closeClass,
+  expandClass,
+  collapseClass,
   transitionClass,
   transitionDuration,
-  openDuration,
-  closeDuration,
+  expandDuration,
+  collapseDuration,
   isTopLevel,
   parentMenu,
   hoverType,
@@ -36,7 +36,14 @@ new Menubar({
   leaveDelay,
   breakpoint,
   mediaQuery,
-  autoOpen,
+  expandInsideBreakpoint,
+  expandOutsideBreakpoint,
+  collapseInsideBreakpoint,
+  collapseOutsideBreakpoint,
+  lockInsideBreakpoint,
+  lockOutsideBreakpoint,
+  unlockInsideBreakpoint,
+  unlockOutsideBreakpoint,
   prefix,
   key,
   initialize,
@@ -47,35 +54,43 @@ The constructor will call [BaseMenu's constructor](./base-menu#constructor) with
 
 ### Parameters {#constructor--parameters}
 
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| options | `object` | The options for generating the menu. | `undefined` |
-| options.menuElement | `HTMLElement` | The menu element in the DOM. | `undefined` |
-| options.menuItemsSelector | `string` | The query selector string for menu items. | `"li"` |
-| options.menuLinksSelector | `string` | The query selector string for menu links. | `"a"` |
-| options.submenuItemsSelector | `string` | The query selector string for menu items containing submenus. | `li:has(ul)` |
-| options.submenuTogglesSelector | `string` | The query selector string for submenu toggle buttons/links. | `"a"` |
-| options.submenusSelector | `string` | The query selector string for submenus. | `"ul"` |
-| options.controllerElement | `HTMLElement`, `null` | The element controlling the menu in the DOM. | `null` |
-| options.containerElement | `HTMLElement`, `null` | The element containing the menu in the DOM. | `null` |
-| options.openClass | `string`, `string[]`, `null` | The class to apply when a menu is "open". | `"show"` |
-| options.closeClass | `string`, `string[]`, `null` | The class to apply when a menu is "closed". | `"hide"` |
-| options.transitionClass | `string`, `string[]`, `null` | The class to apply when a menu is transitioning between "open" and "closed" states. | `"transitioning"` |
-| options.transitionDuration | `number` | The duration of the transition between "open" and "closed" states (in milliseconds). | `250` |
-| options.openDuration | `number` | The duration of the transition from "closed" to "open" states (in milliseconds). | `250` |
-| options.closeDuration | `number` | The duration of the transition from "open" to "closed" states (in milliseconds). | `250` |
-| options.isTopLevel | `boolean` | A flag to mark the root menu. | `true` |
-| options.parentMenu | `Menubar`, `null` | The parent menu to this menu. | `null` |
-| options.hoverType | `string` | The type of hoverability a menu has. | `"off"` |
-| options.hoverDelay | `number` | The delay for opening and closing menus if the menu is hoverable (in milliseconds). | `250` |
-| options.enterDelay | `number` | The delay for opening a menu if the menu is focusable (in milliseconds). | `-1` |
-| options.leaveDelay | `number` | The delay for closing a menu if the menu is focusable (in milliseconds). | `-1` |
-| options.breakpoint | `string` | The breakpoint that the menu will automatically open/close itself at. | `""` |
-| options.mediaQuery | `string` | The media query to use to trigger media query list events. | `""` |
-| options.autoOpen | `boolean` | A flag to auto open the menu when the media query does not match. | `true` |
-| options.prefix | `string`, `null` | The prefix for the CSS custom properties. | `"am-"` |
-| options.key | `string`, `null` | The key used to generate IDs throughout the menu. | `null` |
-| options.initialize | `boolean` | A flag to initialize the menu immediately upon creation. | `true` |
+| Name                              | Type                         | Description                                                                             | Default           |
+| --------------------------------- | ---------------------------- | --------------------------------------------------------------------------------------- | ----------------- |
+| options                           | `object`                     | The options for generating the menu.                                                    | `undefined`       |
+| options.menuElement               | `HTMLElement`                | The menu element in the DOM.                                                            | `undefined`       |
+| options.menuItemsSelector         | `string`                     | The query selector string for menu items.                                               | `"li"`            |
+| options.menuLinksSelector         | `string`                     | The query selector string for menu links.                                               | `"a"`             |
+| options.submenuItemsSelector      | `string`                     | The query selector string for menu items containing submenus.                           | `li:has(ul)`      |
+| options.submenuTogglesSelector    | `string`                     | The query selector string for submenu toggle buttons/links.                             | `"a"`             |
+| options.submenusSelector          | `string`                     | The query selector string for submenus.                                                 | `"ul"`            |
+| options.controllerElement         | `HTMLElement`, `null`        | The element controlling the menu in the DOM.                                            | `null`            |
+| options.containerElement          | `HTMLElement`, `null`        | The element containing the menu in the DOM.                                             | `null`            |
+| options.initializeClass           | `string`, `string[]`, `null` | The class(es) to apply when the menu is initializing.                                   | `"initializing"`  |
+| options.expandClass               | `string`, `string[]`, `null` | The class to apply when a menu is expanded.                                             | `"show"`          |
+| options.collapseClass             | `string`, `string[]`, `null` | The class to apply when a menu is "closed".                                             | `"hide"`          |
+| options.transitionClass           | `string`, `string[]`, `null` | The class to apply when a menu is transitioning between expanded and collapsed states.  | `"transitioning"` |
+| options.transitionDuration        | `number`                     | The duration of the transition between expanded and collapsed states (in milliseconds). | `250`             |
+| options.expandDuration            | `number`                     | The duration of the transition from collapsed to expanded states (in milliseconds).     | `-1`              |
+| options.collapseDuration          | `number`                     | The duration of the transition from expanded to collapsed states (in milliseconds).     | `-1`              |
+| options.isTopLevel                | `boolean`                    | A flag to mark the root menu.                                                           | `true`            |
+| options.parentMenu                | `Menubar`, `null`            | The parent menu to this menu.                                                           | `null`            |
+| options.hoverType                 | `string`                     | The type of hoverability a menu has.                                                    | `"off"`           |
+| options.hoverDelay                | `number`                     | The delay for opening and closing menus if the menu is hoverable (in milliseconds).     | `250`             |
+| options.enterDelay                | `number`                     | The delay for opening a menu if the menu is focusable (in milliseconds).                | `-1`              |
+| options.leaveDelay                | `number`                     | The delay for closing a menu if the menu is focusable (in milliseconds).                | `-1`              |
+| options.breakpoint                | `string`                     | The breakpoint used to generate the root controller's media query.                      | `""`              |
+| options.mediaQuery                | `string`                     | The media query used to trigger the root controller's media query list events.          | `""`              |
+| options.expandInsideBreakpoint    | `boolean`                    | A flag to expand the menu when the media query matches.                                 | `false`           |
+| options.expandOutsideBreakpoint   | `boolean`                    | A flag to expand the menu when the media query does not match.                          | `false`           |
+| options.collapseInsideBreakpoint  | `boolean`                    | A flag to collapse the menu when the media query matches.                               | `false`           |
+| options.collapseOutsideBreakpoint | `boolean`                    | A flag to collapse the menu when the media query does not match.                        | `false`           |
+| options.lockInsideBreakpoint      | `boolean`                    | A flag to lock the root controller when the media query matches.                        | `false`           |
+| options.lockOutsideBreakpoint     | `boolean`                    | A flag to lock the root controller when the media query does not match.                 | `false`           |
+| options.unlockInsideBreakpoint    | `boolean`                    | A flag to unlock the root controller when the media query matches.                      | `false`           |
+| options.unlockOutsideBreakpoint   | `boolean`                    | A flag to unlock the root controller when the media query does not match.               | `false`           |
+| options.prefix                    | `string`, `null`             | The prefix for the CSS custom properties.                                               | `"am-"`           |
+| options.key                       | `string`, `null`             | The key used to generate IDs throughout the menu.                                       | `null`            |
+| options.initialize                | `boolean`                    | A flag to initialize the menu immediately upon creation.                                | `true`            |
 
 ## Initialize
 
@@ -91,7 +106,7 @@ This will also set the menu's `role` to "menubar" in the DOM.
 
 If the menu is a root menu the first menu item's `tabIndex` will be set to 0 in the DOM.
 
-If the BaseMenu's initialize method throws an error, this will catch it and log it to the console.
+Core handles initialization failures, sets `isValid` to `false`, and logs the error. Inspect `errors` for validation details.
 
 ## Properties
 
@@ -187,30 +202,30 @@ Adds the following keybindings (explanations are taken from the [Navigation Menu
 
 #### Menubar
 
-| Key | Function |
-| --- | --- |
-| _Space_ or _Enter_ | Opens submenu and moves focus to first item in the submenu. |
-| _Right Arrow_ | <ul><li>Moves focus to the next item in the menubar.</li><li>If focus is on the last item, moves focus to the first item.</li></ul> |
-| _Left Arrow_ | <ul><li>Moves focus to the previous item in the menubar.</li><li>If focus is on the first item, moves focus to the last item.</li></ul> |
-| _Down Arrow_ | Opens submenu and moves focus to first item in the submenu. |
-| _Up Arrow_ | Opens submenu and moves focus to last item in the submenu. |
-| _Home_ | Moves focus to first item in the menubar. |
-| _End_ | Moves focus to last item in the menubar. |
-| _Character_ | <ul><li>Moves focus to next item in the menubar having a name that starts with the typed character.</li><li>If none of the items have a name starting with the typed character, focus does not move.</li></ul> |
+| Key                | Function                                                                                                                                                                                                       |
+| ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| _Space_ or _Enter_ | Opens submenu and moves focus to first item in the submenu.                                                                                                                                                    |
+| _Right Arrow_      | <ul><li>Moves focus to the next item in the menubar.</li><li>If focus is on the last item, moves focus to the first item.</li></ul>                                                                            |
+| _Left Arrow_       | <ul><li>Moves focus to the previous item in the menubar.</li><li>If focus is on the first item, moves focus to the last item.</li></ul>                                                                        |
+| _Down Arrow_       | Opens submenu and moves focus to first item in the submenu.                                                                                                                                                    |
+| _Up Arrow_         | Opens submenu and moves focus to last item in the submenu.                                                                                                                                                     |
+| _Home_             | Moves focus to first item in the menubar.                                                                                                                                                                      |
+| _End_              | Moves focus to last item in the menubar.                                                                                                                                                                       |
+| _Character_        | <ul><li>Moves focus to next item in the menubar having a name that starts with the typed character.</li><li>If none of the items have a name starting with the typed character, focus does not move.</li></ul> |
 
 #### Submenu
 
-| Key | Function |
-| --- | --- |
-| _Space_ or _Enter_ | <ul><li>Activates menu item, causing the link to be activated.</li><li>NOTE: the links go to dummy pages; use the browser go-back function to return to this menubar example page.</li></ul> |
-| _Escape_ | <ul><li>Closes submenu.</li><li>Moves focus to parent menubar item.</li></ul> |
-| _Right Arrow_ | <ul><li>If focus is on an item with a submenu, opens the submenu and places focus on the first item.</li><li>If focus is on an item that does not have a submenu:<ul><li>Closes submenu.</li><li>Moves focus to next item in the menubar.</li><li>Opens submenu of newly focused menubar item, keeping focus on that parent menubar item.</li></ul></li></ul> |
-| _Left Arrow_ | <ul><li>Closes submenu and moves focus to parent menu item.</li><li>If parent menu item is in the menubar, also:<ul><li>moves focus to previous item in the menubar.</li><li>Opens submenu of newly focused menubar item, keeping focus on that parent menubar item.</li></ul></li></ul> |
-| _Down Arrow_ | <ul><li>Moves focus to the next item in the submenu.</li><li>If focus is on the last item, moves focus to the first item.</li></ul> |
-| _Up Arrow_ | <ul><li>Moves focus to previous item in the submenu.</li><li>If focus is on the first item, moves focus to the last item.</li></ul> |
-| Home | Moves focus to the first item in the submenu. |
-| End | Moves focus to the last item in the submenu. |
-| _Character_ | <ul><li>Moves focus to the next item having a name that starts with the typed character.</li><li>If none of the items have a name starting with the typed character, focus does not move.</li></ul> |
+| Key                | Function                                                                                                                                                                                                                                                                                                                                                      |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| _Space_ or _Enter_ | <ul><li>Activates menu item, causing the link to be activated.</li><li>NOTE: the links go to dummy pages; use the browser go-back function to return to this menubar example page.</li></ul>                                                                                                                                                                  |
+| _Escape_           | <ul><li>Closes submenu.</li><li>Moves focus to parent menubar item.</li></ul>                                                                                                                                                                                                                                                                                 |
+| _Right Arrow_      | <ul><li>If focus is on an item with a submenu, opens the submenu and places focus on the first item.</li><li>If focus is on an item that does not have a submenu:<ul><li>Closes submenu.</li><li>Moves focus to next item in the menubar.</li><li>Opens submenu of newly focused menubar item, keeping focus on that parent menubar item.</li></ul></li></ul> |
+| _Left Arrow_       | <ul><li>Closes submenu and moves focus to parent menu item.</li><li>If parent menu item is in the menubar, also:<ul><li>moves focus to previous item in the menubar.</li><li>Opens submenu of newly focused menubar item, keeping focus on that parent menubar item.</li></ul></li></ul>                                                                      |
+| _Down Arrow_       | <ul><li>Moves focus to the next item in the submenu.</li><li>If focus is on the last item, moves focus to the first item.</li></ul>                                                                                                                                                                                                                           |
+| _Up Arrow_         | <ul><li>Moves focus to previous item in the submenu.</li><li>If focus is on the first item, moves focus to the last item.</li></ul>                                                                                                                                                                                                                           |
+| Home               | Moves focus to the first item in the submenu.                                                                                                                                                                                                                                                                                                                 |
+| End                | Moves focus to the last item in the submenu.                                                                                                                                                                                                                                                                                                                  |
+| _Character_        | <ul><li>Moves focus to the next item having a name that starts with the typed character.</li><li>If none of the items have a name starting with the typed character, focus does not move.</li></ul>                                                                                                                                                           |
 
 ### focusNextChild <badge type="tip" text="public" /> {#method--focusnextchild}
 
@@ -242,6 +257,24 @@ Menubar.focusNextChildWithCharacter(char);
 
 #### Parameters {#method--focusnextchildwithcharacter--parameters}
 
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
+| Name | Type     | Description                | Default     |
+| ---- | -------- | -------------------------- | ----------- |
 | char | `string` | The character to look for. | `undefined` |
+
+### _bootstrap
+
+Registers the menu's initialization event listener.
+
+If the menu is a root menu, its `role` will be set to "menubar" and the first menu item's `tabIndex` will be set to 0 in the DOM.
+
+If the menu is not a root menu, its `role` will be set to "menu".
+
+If the root menu has a controller, removes its `aria-haspopup` attribute.
+
+## Responsive controller configuration
+
+`breakpoint`, `mediaQuery`, and the eight breakpoint action flags are passed to the root controller, `elements.controller`. Submenu toggles do not receive these options.
+
+All action flags default to `false`. To expand outside the breakpoint and collapse inside it, pass `expandOutsideBreakpoint: true` and `collapseInsideBreakpoint: true`.
+
+After initialization, you can read the responsive settings and change action flags through `menu.elements.controller`. The controller registers its media-query listener during initialization. If you change `breakpoint` or `mediaQuery` afterward, you must also reconfigure that listener.
