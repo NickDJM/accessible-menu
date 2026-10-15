@@ -1,8 +1,11 @@
 import BaseMenu from "./_baseMenu.js";
 import DisclosureMenuItem from "./disclosureMenuItem.js";
 import DisclosureMenuToggle from "./disclosureMenuToggle.js";
-import { preventEvent, keyPress } from "./eventHandlers.js";
-import { isValidType } from "./validate.js";
+import {
+  preventEvent,
+  keyPress,
+} from "@accessible-ecosystem/core/eventHelpers.js";
+import { isValidType } from "@accessible-ecosystem/core/validate.js";
 
 /**
  * An accessible disclosure menu in the DOM.
@@ -69,21 +72,29 @@ class DisclosureMenu extends BaseMenu {
    * @param {string}             [options.submenusSelector = ul]             - The query selector string for submenus.
    * @param {?HTMLElement}       [options.controllerElement = null]          - The element controlling the menu in the DOM.
    * @param {?HTMLElement}       [options.containerElement = null]           - The element containing the menu in the DOM.
-   * @param {?(string|string[])} [options.openClass = show]                  - The class to apply when a menu is "open".
-   * @param {?(string|string[])} [options.closeClass = hide]                 - The class to apply when a menu is "closed".
-   * @param {?(string|string[])} [options.transitionClass = transitioning]   - The class to apply when a menu is transitioning between "open" and "closed" states.
-   * @param {number}             [options.transitionDuration = 250]          - The duration of the transition between "open" and "closed" states (in milliseconds).
-   * @param {boolean}            [options.openDuration = -1]                 - The duration of the transition from "closed" to "open" states (in milliseconds).
-   * @param {boolean}            [options.closeDuration = -1]                - The duration of the transition from "open" to "closed" states (in milliseconds).
+   * @param {?(string|string[])} [options.initializeClass = initializing]    - The class(es) to apply when the menu is initializing.
+   * @param {?(string|string[])} [options.expandClass = show]                - The class to apply when a menu is expanded.
+   * @param {?(string|string[])} [options.collapseClass = hide]              - The class to apply when a menu is "closed".
+   * @param {?(string|string[])} [options.transitionClass = transitioning]   - The class to apply when a menu is transitioning between expanded and collapsed states.
+   * @param {number}             [options.transitionDuration = 250]          - The duration of the transition between expanded and collapsed states (in milliseconds).
+   * @param {number}             [options.expandDuration = -1]               - The duration of the transition from collapsed to expanded states (in milliseconds).
+   * @param {number}             [options.collapseDuration = -1]             - The duration of the transition from expanded to collapsed states (in milliseconds).
    * @param {boolean}            [options.isTopLevel = true]                 - A flag to mark the root menu.
    * @param {?DisclosureMenu}    [options.parentMenu = null]                 - The parent menu to this menu.
    * @param {string}             [options.hoverType = off]                   - The type of hoverability a menu has.
    * @param {number}             [options.hoverDelay = 250]                  - The delay for opening and closing menus if the menu is hoverable (in milliseconds).
    * @param {number}             [options.enterDelay = -1]                   - The delay for opening a menu if the menu is focusable (in milliseconds).
    * @param {number}             [options.leaveDelay = -1]                   - The delay for closing a menu if the menu is focusable (in milliseconds).
-   * @param {string}             [options.breakpoint = '']                   - The breakpoint that the menu will automatically open/close itself at.
-   * @param {string}             [options.mediaQuery = '']                   - The media query to use to trigger media query list events.
-   * @param {boolean}            [options.autoOpen = true]                   - A flag to auto open the menu when the media query does not match.
+   * @param {string}             [options.breakpoint = '']                   - The breakpoint used to generate the root controller's media query.
+   * @param {string}             [options.mediaQuery = '']                   - The media query used to trigger the root controller's media query list events.
+   * @param {boolean}            [options.expandInsideBreakpoint = false]    - A flag to expand the controlled menu when the media query matches.
+   * @param {boolean}            [options.expandOutsideBreakpoint = false]   - A flag to expand the controlled menu when the media query does not match.
+   * @param {boolean}            [options.collapseInsideBreakpoint = false]  - A flag to collapse the controlled menu when the media query matches.
+   * @param {boolean}            [options.collapseOutsideBreakpoint = false] - A flag to collapse the controlled menu when the media query does not match.
+   * @param {boolean}            [options.lockInsideBreakpoint = false]      - A flag to lock the controller when the media query matches.
+   * @param {boolean}            [options.lockOutsideBreakpoint = false]     - A flag to lock the controller when the media query does not match.
+   * @param {boolean}            [options.unlockInsideBreakpoint = false]    - A flag to unlock the controller when the media query matches.
+   * @param {boolean}            [options.unlockOutsideBreakpoint = false]   - A flag to unlock the controller when the media query does not match.
    * @param {boolean}            [options.optionalKeySupport = false]        - A flag to add optional keyboard support (Arrow keys, Home, and End) to the menu.
    * @param {?string}            [options.prefix = am-]                      - The prefix to use for CSS custom properties.
    * @param {?string}            [options.key = null]                        - The key used to generate IDs throughout the menu.
@@ -98,12 +109,13 @@ class DisclosureMenu extends BaseMenu {
     submenusSelector = "ul",
     controllerElement = null,
     containerElement = null,
-    openClass = "show",
-    closeClass = "hide",
+    initializeClass = "initializing",
+    expandClass = "show",
+    collapseClass = "hide",
     transitionClass = "transitioning",
     transitionDuration = 250,
-    openDuration = -1,
-    closeDuration = -1,
+    expandDuration = -1,
+    collapseDuration = -1,
     isTopLevel = true,
     parentMenu = null,
     hoverType = "off",
@@ -112,7 +124,14 @@ class DisclosureMenu extends BaseMenu {
     leaveDelay = -1,
     breakpoint = "",
     mediaQuery = "",
-    autoOpen = true,
+    expandInsideBreakpoint = false,
+    expandOutsideBreakpoint = false,
+    collapseInsideBreakpoint = false,
+    collapseOutsideBreakpoint = false,
+    lockInsideBreakpoint = false,
+    lockOutsideBreakpoint = false,
+    unlockInsideBreakpoint = false,
+    unlockOutsideBreakpoint = false,
     optionalKeySupport = false,
     prefix = "am-",
     key = null,
@@ -127,12 +146,13 @@ class DisclosureMenu extends BaseMenu {
       submenusSelector,
       controllerElement,
       containerElement,
-      openClass,
-      closeClass,
+      initializeClass,
+      expandClass,
+      collapseClass,
       transitionClass,
       transitionDuration,
-      openDuration,
-      closeDuration,
+      expandDuration,
+      collapseDuration,
       isTopLevel,
       parentMenu,
       hoverType,
@@ -141,7 +161,14 @@ class DisclosureMenu extends BaseMenu {
       leaveDelay,
       breakpoint,
       mediaQuery,
-      autoOpen,
+      expandInsideBreakpoint,
+      expandOutsideBreakpoint,
+      collapseInsideBreakpoint,
+      collapseOutsideBreakpoint,
+      lockInsideBreakpoint,
+      lockOutsideBreakpoint,
+      unlockInsideBreakpoint,
+      unlockOutsideBreakpoint,
       prefix,
       key,
     });
@@ -155,31 +182,37 @@ class DisclosureMenu extends BaseMenu {
   }
 
   /**
-   * Initializes the menu.
+   * Registers the menu's validation event listener.
    *
-   * Initialize will call BaseMenu's initialize method
-   * as well as set up focus,
-   * click,
-   * hover,
-   * keydown, and
-   * keyup events for the menu.
+   * Validation checks the optionalKeySupport flag.
    *
-   * If the BaseMenu's initialize method throws an error,
-   * this will catch it and log it to the console.
+   * @protected
    */
-  initialize() {
-    try {
-      super.initialize();
+  _bootstrap() {
+    super._bootstrap();
+    this._addEventListener(
+      this.getEventName("validate"),
+      this.rootDOMElement,
+      (event) => {
+        if (event.detail.component !== this) return;
 
-      this._handleMediaMatch();
-      this._handleFocus();
-      this._handleClick();
-      this._handleHover();
-      this._handleKeydown();
-      this._handleKeyup();
-    } catch (error) {
-      console.error(error);
-    }
+        // Boolean checks.
+        const booleans = {
+          optionalKeySupport: this._optionalSupport,
+        };
+
+        // Check the booleans.
+        const booleanChecks = isValidType("boolean", booleans, {
+          shouldThrow: false,
+        });
+
+        // Handle boolean check failure.
+        if (!booleanChecks.status) {
+          this._errors = [...this._errors, ...booleanChecks.errors];
+          this._valid = false;
+        }
+      }
+    );
   }
 
   /**
@@ -205,35 +238,6 @@ class DisclosureMenu extends BaseMenu {
   }
 
   /**
-   * Validates all aspects of the menu to ensure proper functionality.
-   *
-   * @protected
-   *
-   * @return {boolean} - The result of the validation.
-   */
-  _validate() {
-    super._validate();
-
-    // Boolean checks.
-    const booleans = {
-      optionalKeySupport: this._optionalSupport,
-    };
-
-    // Check the booleans.
-    const booleanChecks = isValidType("boolean", booleans, {
-      shouldThrow: false,
-    });
-
-    // Handle boolean check failure.
-    if (!booleanChecks.status) {
-      this._errors = [this._errors, ...booleanChecks.errors];
-      this._valid = false;
-    }
-
-    return this._valid;
-  }
-
-  /**
    * Handles click events throughout the menu for proper use.
    *
    * - Adds all event listeners listed in
@@ -255,14 +259,14 @@ class DisclosureMenu extends BaseMenu {
           !this.dom.menu.contains(event.target) &&
           !this.dom.menu !== event.target
         ) {
-          this.closeChildren();
+          this.collapseChildren();
           this.blur();
 
           if (this.elements.controller) {
-            this.elements.controller.close();
+            this.elements.controller.collapse();
           }
 
-          this.elements.rootMenu.hasOpened = false;
+          this.elements.rootMenu.hasExpanded = false;
         }
       }
     });
@@ -353,8 +357,8 @@ class DisclosureMenu extends BaseMenu {
           preventEvent(event);
 
           if (this.currentMenuItem.isSubmenuItem) {
-            if (this.currentMenuItem.elements.toggle.isOpen) {
-              this.currentMenuItem.elements.toggle.close();
+            if (this.currentMenuItem.elements.toggle.isExpanded) {
+              this.currentMenuItem.elements.toggle.collapse();
             } else {
               this.currentMenuItem.elements.toggle.preview();
             }
@@ -366,23 +370,23 @@ class DisclosureMenu extends BaseMenu {
           // - If a dropdown is open, closes it.
           // - If was within the closed dropdown, sets focus on the button that controls that dropdown.
           const hasOpenChild = this.elements.submenuToggles.some(
-            (toggle) => toggle.isOpen
+            (toggle) => toggle.isExpanded
           );
 
           if (hasOpenChild) {
             preventEvent(event);
-            this.closeChildren();
+            this.collapseChildren();
           } else if (this.elements.parentMenu) {
             preventEvent(event);
             this.elements.parentMenu.currentEvent = this.currentEvent;
-            this.elements.parentMenu.closeChildren();
+            this.elements.parentMenu.collapseChildren();
             this.elements.parentMenu.focusCurrentChild();
           } else if (
             this.isTopLevel &&
             this.elements.controller &&
-            this.elements.controller.isOpen
+            this.elements.controller.isExpanded
           ) {
-            this.elements.controller.close();
+            this.elements.controller.collapse();
             this.focusController();
           }
         } else if (this.optionalKeySupport) {
@@ -395,7 +399,7 @@ class DisclosureMenu extends BaseMenu {
 
             if (
               this.currentMenuItem.isSubmenuItem &&
-              this.currentMenuItem.elements.toggle.isOpen
+              this.currentMenuItem.elements.toggle.isExpanded
             ) {
               this.currentMenuItem.elements.childMenu.currentEvent = "keyboard";
               this.currentMenuItem.elements.childMenu.focusFirstChild();

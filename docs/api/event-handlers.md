@@ -1,5 +1,7 @@
 # Event Handlers
 
+This API is provided by Core. Import it from `@accessible-ecosystem/core/eventHelpers.js`. Accessible Menu no longer provides a local copy.
+
 ## keyPress
 
 Retrieves the pressed key from an event.

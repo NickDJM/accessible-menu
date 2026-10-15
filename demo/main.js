@@ -50,11 +50,12 @@ const options = {
   leaveDelay: -1,
   transitionClass: "transitioning",
   transitionDuration: 250,
-  openDuration: -1,
-  closeDuration: -1,
+  expandDuration: -1,
+  collapseDuration: -1,
   optionalKeySupport: true,
   breakpoint: "",
-  autoOpen: true,
+  expandOutsideBreakpoint: true,
+  collapseInsideBreakpoint: true,
 };
 const container = document.querySelector("header");
 
@@ -215,18 +216,18 @@ transitionDuration.addEventListener("change", () => {
 });
 
 // Set up the open duration input.
-const openDuration = document.querySelector("#openDuration");
+const expandDuration = document.querySelector("#expandDuration");
 
-openDuration.addEventListener("change", () => {
-  options.openDuration = Number(openDuration.value);
+expandDuration.addEventListener("change", () => {
+  options.expandDuration = Number(expandDuration.value);
   generateMenu();
 });
 
 // Set up the close duration input.
-const closeDuration = document.querySelector("#closeDuration");
+const collapseDuration = document.querySelector("#collapseDuration");
 
-closeDuration.addEventListener("change", () => {
-  options.closeDuration = Number(closeDuration.value);
+collapseDuration.addEventListener("change", () => {
+  options.collapseDuration = Number(collapseDuration.value);
   generateMenu();
 });
 
@@ -243,7 +244,8 @@ const autoOpenButtons = document.querySelectorAll("#autoOpenButtons button");
 
 autoOpenButtons.forEach((button) => {
   button.addEventListener("click", () => {
-    options.autoOpen = button.dataset.autoOpen === "true";
+    options.expandOutsideBreakpoint =
+      button.dataset.expandOutsideBreakpoint === "true";
     generateMenu();
 
     autoOpenButtons.forEach((button) => {

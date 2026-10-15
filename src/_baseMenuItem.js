@@ -1,40 +1,24 @@
-/* global BaseMenu, BaseMenuToggle */
+import Component from "@accessible-ecosystem/core";
+import BaseMenu from "./_baseMenu.js";
+import BaseMenuToggle from "./_baseMenuToggle.js";
+import {
+  isValidInstance,
+  isValidType,
+} from "@accessible-ecosystem/core/validate.js";
 
 /**
  * A basic navigation link contained inside of a BaseMenu.
+ *
+ * @extends Component
  */
-class BaseMenuItem {
-  /**
-   * The DOM elements within the menu item.
-   *
-   * @protected
-   *
-   * @type {Object<HTMLElement>}
-   *
-   * @property {HTMLElement} item - The menu item.
-   * @property {HTMLElement} link - The menu item's link.
-   */
-  _dom = {
-    item: null,
-    link: null,
-  };
-
-  /**
-   * The declared accessible-menu elements within the menu item.
-   *
-   * @protected
-   *
-   * @type {Object<BaseMenu, BaseMenuToggle>}
-   *
-   * @property {BaseMenu}        parentMenu - The menu containing this menu item.
-   * @property {?BaseMenu}       childMenu  - The menu contained within this menu item.
-   * @property {?BaseMenuToggle} toggle     - The menu toggle within this menu item that controls the `childMenu`.
-   */
-  _elements = {
-    parentMenu: null,
-    childMenu: null,
-    toggle: null,
-  };
+class BaseMenuItem extends Component {
+  _scope = "AccessibleMenu";
+  _name = "MenuItem";
+  _eventPrefix = "accessibleMenu";
+  _storageKey = "menuItems";
+  _shouldStore = false;
+  _rootDOMElement = "item";
+  _protectedDOMElements = ["item", "link"];
 
   /**
    * A flag marking a submenu item.
@@ -64,6 +48,8 @@ class BaseMenuItem {
     childMenu = null,
     toggle = null,
   }) {
+    super({ prefix: "am-", initializeClass: "", bootstrap: false });
+
     // Set DOM elements.
     this._dom.item = menuItemElement;
     this._dom.link = menuLinkElement;
@@ -74,37 +60,109 @@ class BaseMenuItem {
     this._elements.toggle = toggle;
 
     this._submenu = isSubmenuItem;
+    this._bootstrap();
   }
 
   /**
-   * Initialize the menu item.
+   * Registers the menu item's validation event listener.
+   *
+   * Validation checks the required DOM elements, submenu flag, parent menu,
+   * child menu, and submenu toggle.
+   *
+   * @protected
    */
-  initialize() {}
+  _bootstrap() {
+    super._bootstrap();
+    this._addEventListener(
+      this.getEventName("validate"),
+      this.rootDOMElement,
+      (event) => {
+        if (event.detail.component !== this) return;
 
-  /**
-   * The DOM elements within the menu item.
-   *
-   * @readonly
-   *
-   * @type {Object<HTMLElement>}
-   *
-   * @see _dom
-   */
-  get dom() {
-    return this._dom;
+        // DOM checks.
+        // Check for null elements, which Component validation allows.
+        const domElements = {};
+
+        for (const name of ["item", "link"]) {
+          if (this.dom[name] === null) {
+            domElements[`${name}Element`] = this.dom[name];
+          }
+        }
+
+        // Check the required DOM elements.
+        const domChecks = isValidInstance(HTMLElement, domElements, {
+          shouldThrow: false,
+        });
+
+        // Handle DOM check failure.
+        if (!domChecks.status) {
+          this._errors = [...this._errors, ...domChecks.errors];
+          this._valid = false;
+        }
+
+        // Boolean checks.
+        const booleans = {
+          isSubmenuItem: this._submenu,
+        };
+
+        // Check the booleans.
+        const booleanChecks = isValidType("boolean", booleans, {
+          shouldThrow: false,
+        });
+
+        // Handle boolean check failure.
+        if (!booleanChecks.status) {
+          this._errors = [...this._errors, ...booleanChecks.errors];
+          this._valid = false;
+        }
+
+        // Menu checks.
+        const menus = {
+          parentMenu: this.elements.parentMenu,
+        };
+
+        if (this.elements.childMenu !== null || this.isSubmenuItem) {
+          menus.childMenu = this.elements.childMenu;
+        }
+
+        // Check the menu relationships.
+        const menuChecks = isValidInstance(BaseMenu, menus, {
+          shouldThrow: false,
+        });
+
+        // Handle menu check failure.
+        if (!menuChecks.status) {
+          this._errors = [...this._errors, ...menuChecks.errors];
+          this._valid = false;
+        }
+
+        // Toggle checks.
+        if (this.elements.toggle !== null || this.isSubmenuItem) {
+          const toggleChecks = isValidInstance(
+            BaseMenuToggle,
+            { toggle: this.elements.toggle },
+            { shouldThrow: false }
+          );
+
+          // Handle toggle check failure.
+          if (!toggleChecks.status) {
+            this._errors = [...this._errors, ...toggleChecks.errors];
+            this._valid = false;
+          }
+        }
+      }
+    );
   }
 
   /**
-   * The declared accessible-menu elements within the menu item.
+   * A flag to check if the parent menu allows the menu item to be focused in the DOM.
    *
    * @readonly
    *
-   * @type {Object<BaseMenu, BaseMenuToggle>}
-   *
-   * @see _elements
+   * @type {boolean}
    */
-  get elements() {
-    return this._elements;
+  get shouldFocus() {
+    return this.elements.parentMenu.shouldFocus;
   }
 
   /**
@@ -121,13 +179,24 @@ class BaseMenuItem {
   }
 
   /**
+   * Sets the component ID to the menu item's existing ID.
+   *
+   * @protected
+   */
+  _setIds() {
+    this._id = this.dom.item.id;
+  }
+
+  /**
    * Focuses the menu item's link if the parent menu's
    * shouldFocus value is `true`.
    *
    * @public
    */
   focus() {
-    if (this.elements.parentMenu.shouldFocus) {
+    this.focusState = "self";
+
+    if (this.shouldFocus) {
       requestAnimationFrame(() => {
         this.dom.link.focus();
       });
@@ -141,7 +210,9 @@ class BaseMenuItem {
    * @public
    */
   blur() {
-    if (this.elements.parentMenu.shouldFocus) {
+    this.focusState = "none";
+
+    if (this.shouldFocus) {
       requestAnimationFrame(() => {
         this.dom.link.blur();
       });

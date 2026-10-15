@@ -1,32 +1,17 @@
 /* global TopLinkDisclosureMenu, TopLinkDisclosureMenuToggle */
 
 import BaseMenuItem from "./_baseMenuItem.js";
+import { isValidInstance } from "@accessible-ecosystem/core/validate.js";
 
 /**
  * A basic navigation link contained inside of a TopLinkDisclosureMenu.
  *
  * @extends BaseMenuItem
+ *
+ * @property {Object<string, TopLinkDisclosureMenu|TopLinkDisclosureMenuToggle|TopLinkDisclosureMenuItem|null>} _elements         - The declared accessible-menu elements within the menu item.
+ * @property {?TopLinkDisclosureMenuItem}                                                                       _elements.sibling - The sibling menu item that controls a submenu.
  */
 class TopLinkDisclosureMenuItem extends BaseMenuItem {
-  /**
-   * The declared accessible-menu elements within the menu item.
-   *
-   * @type {Object<TopLinkDisclosureMenu, TopLinkDisclosureMenuToggle>}
-   *
-   * @protected
-   *
-   * @property {TopLinkDisclosureMenu}                   parentMenu - The menu containing this menu item.
-   * @property {?TopLinkDisclosureMenu}                  childMenu  - The menu contained within this menu item.
-   * @property {?TopLinkDisclosureMenuToggle}            toggle     - The menu toggle within this menu item that controls the `childMenu`.
-   * @property {?TopLinkDisclosureMenuItem}              sibling    - The sibling menu item that is a submenu item.
-   */
-  _elements = {
-    parentMenu: null,
-    childMenu: null,
-    toggle: null,
-    sibling: null,
-  };
-
   /**
    * Constructs a new `TopLinkDisclosureMenuItem`.
    *
@@ -60,14 +45,44 @@ class TopLinkDisclosureMenuItem extends BaseMenuItem {
     });
 
     // Set menu elements.
-    this._elements.parentMenu = parentMenu;
-    this._elements.childMenu = childMenu;
-    this._elements.toggle = toggle;
     this._elements.sibling = submenuSibling;
 
     if (initialize) {
       this.initialize();
     }
+  }
+
+  /**
+   * Registers the menu item's validation event listener.
+   *
+   * Validation checks the sibling menu item if it is set.
+   *
+   * @protected
+   */
+  _bootstrap() {
+    super._bootstrap();
+    this._addEventListener(
+      this.getEventName("validate"),
+      this.rootDOMElement,
+      (event) => {
+        if (event.detail.component !== this) return;
+
+        // Sibling checks.
+        if (this.elements.sibling !== null) {
+          const siblingChecks = isValidInstance(
+            TopLinkDisclosureMenuItem,
+            { submenuSibling: this.elements.sibling },
+            { shouldThrow: false }
+          );
+
+          // Handle sibling check failure.
+          if (!siblingChecks.status) {
+            this._errors = [...this._errors, ...siblingChecks.errors];
+            this._valid = false;
+          }
+        }
+      }
+    );
   }
 }
 

@@ -26,14 +26,24 @@ The constructor will call [BaseMenuToggle's constructor](./base-menu-toggle#cons
 
 ### Parameters {#constructor--parameters}
 
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| options | `object` | The options for generating the menu toggle. | `undefined` |
-| options.menuToggleElement | `HTMLElement` | The toggle element in the DOM. | `undefined` |
-| options.parentElement | `HTMLElement` | The element containing the controlled menu. | `undefined` |
-| options.controlledMenu | `TopLinkDisclosureMenu` | The menu controlled by this toggle. | `undefined` |
-| options.parentMenu | `TopLinkDisclosureMenu`, `null` | The menu containing this toggle. | `null` |
-| options.initialize | `boolean` | A flag to initialize the menu toggle immediately upon creation. | `true` |
+| Name                              | Type                            | Description                                                     | Default     |
+| --------------------------------- | ------------------------------- | --------------------------------------------------------------- | ----------- |
+| options                           | `object`                        | The options for generating the menu toggle.                     | `undefined` |
+| options.menuToggleElement         | `HTMLElement`                   | The toggle element in the DOM.                                  | `undefined` |
+| options.parentElement             | `HTMLElement`                   | The element containing the controlled menu.                     | `undefined` |
+| options.controlledMenu            | `TopLinkDisclosureMenu`         | The menu controlled by this toggle.                             | `undefined` |
+| options.parentMenu                | `TopLinkDisclosureMenu`, `null` | The menu containing this toggle.                                | `null`      |
+| options.breakpoint                | `string`                        | The Core controller breakpoint.                                 | `""`        |
+| options.mediaQuery                | `string`                        | The explicit Core controller media query.                       | `""`        |
+| options.expandInsideBreakpoint    | `boolean`                       | Core's expandInsideBreakpoint responsive action flag.           | `false`     |
+| options.expandOutsideBreakpoint   | `boolean`                       | Core's expandOutsideBreakpoint responsive action flag.          | `false`     |
+| options.collapseInsideBreakpoint  | `boolean`                       | Core's collapseInsideBreakpoint responsive action flag.         | `false`     |
+| options.collapseOutsideBreakpoint | `boolean`                       | Core's collapseOutsideBreakpoint responsive action flag.        | `false`     |
+| options.lockInsideBreakpoint      | `boolean`                       | Core's lockInsideBreakpoint responsive action flag.             | `false`     |
+| options.lockOutsideBreakpoint     | `boolean`                       | Core's lockOutsideBreakpoint responsive action flag.            | `false`     |
+| options.unlockInsideBreakpoint    | `boolean`                       | Core's unlockInsideBreakpoint responsive action flag.           | `false`     |
+| options.unlockOutsideBreakpoint   | `boolean`                       | Core's unlockOutsideBreakpoint responsive action flag.          | `false`     |
+| options.initialize                | `boolean`                       | A flag to initialize the menu toggle immediately upon creation. | `true`      |
 
 ## Initialize
 
@@ -65,15 +75,15 @@ Ensures the toggle element has a `role` of "button" if it is not already a butto
 
 Then using the toggle and menu's IDs, the toggle's `aria-controls` is set to the menu's ID.
 
-### open <badge type="tip" text="public" /> {#method--open}
+### expand <badge type="tip" text="public" /> {#method--expand}
 
 Opens and controlled menu.
 
 ```js
-TopLinkDisclosureMenuToggle.open();
+TopLinkDisclosureMenuToggle.expand();
 ```
 
-Calls the [closeSiblings (inherited) method](./base-menu-toggle#method--closesiblings) and _then_ [BaseMenuToggle's open method](./base-menu-toggle#method--open).
+Calls the [collapseSiblings (inherited) method](./base-menu-toggle#method--collapsesiblings) and _then_ [BaseMenuToggle's expand method](./base-menu-toggle#method--expand).
 
 ### preview <badge type="tip" text="public" /> {#method--preview}
 
@@ -83,14 +93,14 @@ Opens the controlled menu without the current focus entering it.
 TopLinkDisclosureMenuToggle.preview();
 ```
 
-Calls the [closeSiblings (inherited) method](./base-menu-toggle#method--closesiblings) and _then_ [BaseMenuToggle's preview method](./base-menu-toggle#method--preview).
+Calls the [collapseSiblings (inherited) method](./base-menu-toggle#method--collapsesiblings) and _then_ [BaseMenuToggle's preview method](./base-menu-toggle#method--preview).
 
-### close <badge type="tip" text="public" /> {#method--close}
+### collapse <badge type="tip" text="public" /> {#method--collapse}
 
 Closes the controlled menu.
 
 ```js
-TopLinkDisclosureMenuToggle.close();
+TopLinkDisclosureMenuToggle.collapse();
 ```
 
-Calls the [closeChildren (inherited) method](./base-menu-toggle#method--closechildren) and _then_ [BaseMenuToggle's close method](./base-menu-toggle#method--close).
+Calls the [collapseChildren (inherited) method](./base-menu-toggle#method--collapsechildren) and _then_ [BaseMenuToggle's collapse method](./base-menu-toggle#method--collapse).

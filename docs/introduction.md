@@ -21,6 +21,8 @@ Here is an example:
 import { DisclosureMenu } from "accessible-menu";
 
 const menu = new DisclosureMenu({
-  menuElement: document.querySelector("#example-menu"),
+  menuElement: document.querySelector("#example-menu ul"),
 });
 ```
+
+Pass the `<ul>` to `menuElement`. The surrounding `<nav>` identifies the navigation area, while the list contains the menu items Accessible Menu will manage.

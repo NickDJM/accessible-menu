@@ -42,7 +42,7 @@ The fastest setup for Accessible Menu is a single-level menu.
 import { DisclosureMenu } from "accessible-menu";
 
 const menu = new DisclosureMenu({
-  menuElement: document.querySelector("#example-menu"),
+  menuElement: document.querySelector("#example-menu ul"),
 });
 ```
 
@@ -50,7 +50,7 @@ const menu = new DisclosureMenu({
 import { Menubar } from "accessible-menu";
 
 const menu = new Menubar({
-  menuElement: document.querySelector("#example-menu"),
+  menuElement: document.querySelector("#example-menu ul"),
 });
 ```
 
@@ -58,13 +58,13 @@ const menu = new Menubar({
 import { Treeview } from "accessible-menu";
 
 const menu = new Treeview({
-  menuElement: document.querySelector("#example-menu"),
+  menuElement: document.querySelector("#example-menu ul"),
 });
 ```
 
 :::
 
-Accessible Menu will self-initialize once created adding the appropriate roles, attributes, and keybindings.
+Pass the `<ul>` element to `menuElement`. Accessible Menu sets up the menu when you create it, adding the roles, attributes, and keyboard controls it needs.
 
 ### Two-level Menu
 
@@ -93,7 +93,8 @@ You can also generate two-level menus with Accessible Menu. By default, any `<li
 import { DisclosureMenu } from "accessible-menu";
 
 const menu = new DisclosureMenu({
-  menuElement: document.querySelector("#example-menu"),
+  menuElement: document.querySelector("#example-menu ul"),
+  submenuTogglesSelector: "a",
 });
 ```
 
@@ -101,7 +102,7 @@ const menu = new DisclosureMenu({
 import { Menubar } from "accessible-menu";
 
 const menu = new Menubar({
-  menuElement: document.querySelector("#example-menu"),
+  menuElement: document.querySelector("#example-menu ul"),
 });
 ```
 
@@ -109,8 +110,10 @@ const menu = new Menubar({
 import { Treeview } from "accessible-menu";
 
 const menu = new Treeview({
-  menuElement: document.querySelector("#example-menu"),
+  menuElement: document.querySelector("#example-menu ul"),
 });
 ```
 
 :::
+
+The Disclosure Menu example sets `submenuTogglesSelector: "a"` because the Projects toggle in this HTML is a link. If you use a `<button>` for it instead, you can leave that option at its default.

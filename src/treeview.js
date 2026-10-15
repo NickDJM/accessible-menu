@@ -1,7 +1,10 @@
 import BaseMenu from "./_baseMenu.js";
 import TreeviewItem from "./treeviewItem.js";
 import TreeviewToggle from "./treeviewToggle.js";
-import { keyPress, preventEvent } from "./eventHandlers.js";
+import {
+  keyPress,
+  preventEvent,
+} from "@accessible-ecosystem/core/eventHelpers.js";
 
 /**
  * An accessible treeview navigation in the DOM.
@@ -62,19 +65,29 @@ class Treeview extends BaseMenu {
    * @param {string}             [options.submenusSelector = ul]             - The query selector string for submenus.
    * @param {?HTMLElement}       [options.controllerElement = null]          - The element controlling the menu in the DOM.
    * @param {?HTMLElement}       [options.containerElement = null]           - The element containing the menu in the DOM.
-   * @param {?(string|string[])} [options.openClass = show]                  - The class to apply when a menu is "open".
-   * @param {?(string|string[])} [options.closeClass = hide]                 - The class to apply when a menu is "closed".
-   * @param {?(string|string[])} [options.transitionClass = transitioning]   - The class to apply when a menu is transitioning between "open" and "closed" states.
-   * @param {number}             [options.transitionDuration = 250]          - The duration of the transition between "open" and "closed" states (in milliseconds).
+   * @param {?(string|string[])} [options.initializeClass = initializing]    - The class(es) to apply when the menu is initializing.
+   * @param {?(string|string[])} [options.expandClass = show]                - The class to apply when a menu is expanded.
+   * @param {?(string|string[])} [options.collapseClass = hide]              - The class to apply when a menu is "closed".
+   * @param {?(string|string[])} [options.transitionClass = transitioning]   - The class to apply when a menu is transitioning between expanded and collapsed states.
+   * @param {number}             [options.transitionDuration = 250]          - The duration of the transition between expanded and collapsed states (in milliseconds).
+   * @param {number}             [options.expandDuration = -1]               - The duration of the transition from collapsed to expanded states (in milliseconds).
+   * @param {number}             [options.collapseDuration = -1]             - The duration of the transition from expanded to collapsed states (in milliseconds).
    * @param {boolean}            [options.isTopLevel = true]                 - A flag to mark the root menu.
    * @param {?Treeview}          [options.parentMenu = null]                 - The parent menu to this menu.
    * @param {string}             [options.hoverType = off]                   - The type of hoverability a menu has.
    * @param {number}             [options.hoverDelay = 250]                  - The delay for opening and closing menus if the menu is hoverable (in milliseconds).
    * @param {number}             [options.enterDelay = -1]                   - The delay for opening a menu if the menu is focusable (in milliseconds).
    * @param {number}             [options.leaveDelay = -1]                   - The delay for closing a menu if the menu is focusable (in milliseconds).
-   * @param {string}             [options.breakpoint = '']                   - The breakpoint that the menu will automatically open/close itself at.
-   * @param {string}             [options.mediaQuery = '']                   - The media query to use to trigger media query list events.
-   * @param {boolean}            [options.autoOpen = true]                   - A flag to auto open the menu when the media query does not match.
+   * @param {string}             [options.breakpoint = '']                   - The breakpoint used to generate the root controller's media query.
+   * @param {string}             [options.mediaQuery = '']                   - The media query used to trigger the root controller's media query list events.
+   * @param {boolean}            [options.expandInsideBreakpoint = false]    - A flag to expand the controlled menu when the media query matches.
+   * @param {boolean}            [options.expandOutsideBreakpoint = false]   - A flag to expand the controlled menu when the media query does not match.
+   * @param {boolean}            [options.collapseInsideBreakpoint = false]  - A flag to collapse the controlled menu when the media query matches.
+   * @param {boolean}            [options.collapseOutsideBreakpoint = false] - A flag to collapse the controlled menu when the media query does not match.
+   * @param {boolean}            [options.lockInsideBreakpoint = false]      - A flag to lock the controller when the media query matches.
+   * @param {boolean}            [options.lockOutsideBreakpoint = false]     - A flag to lock the controller when the media query does not match.
+   * @param {boolean}            [options.unlockInsideBreakpoint = false]    - A flag to unlock the controller when the media query matches.
+   * @param {boolean}            [options.unlockOutsideBreakpoint = false]   - A flag to unlock the controller when the media query does not match.
    * @param {?string}            [options.prefix = am-]                      - The prefix to use for CSS custom properties.
    * @param {?string}            [options.key = null]                        - The key used to generate IDs throughout the menu.
    * @param {boolean}            [options.initialize = true]                 - A flag to initialize the menu immediately upon creation.
@@ -88,10 +101,13 @@ class Treeview extends BaseMenu {
     submenusSelector = "ul",
     controllerElement = null,
     containerElement = null,
-    openClass = "show",
-    closeClass = "hide",
+    initializeClass = "initializing",
+    expandClass = "show",
+    collapseClass = "hide",
     transitionClass = "transitioning",
     transitionDuration = 250,
+    expandDuration = -1,
+    collapseDuration = -1,
     isTopLevel = true,
     parentMenu = null,
     hoverType = "off",
@@ -100,7 +116,14 @@ class Treeview extends BaseMenu {
     leaveDelay = -1,
     breakpoint = "",
     mediaQuery = "",
-    autoOpen = true,
+    expandInsideBreakpoint = false,
+    expandOutsideBreakpoint = false,
+    collapseInsideBreakpoint = false,
+    collapseOutsideBreakpoint = false,
+    lockInsideBreakpoint = false,
+    lockOutsideBreakpoint = false,
+    unlockInsideBreakpoint = false,
+    unlockOutsideBreakpoint = false,
     prefix = "am-",
     key = null,
     initialize = true,
@@ -114,10 +137,13 @@ class Treeview extends BaseMenu {
       submenusSelector,
       controllerElement,
       containerElement,
-      openClass,
-      closeClass,
+      initializeClass,
+      expandClass,
+      collapseClass,
       transitionClass,
       transitionDuration,
+      expandDuration,
+      collapseDuration,
       isTopLevel,
       parentMenu,
       hoverType,
@@ -126,7 +152,14 @@ class Treeview extends BaseMenu {
       leaveDelay,
       breakpoint,
       mediaQuery,
-      autoOpen,
+      expandInsideBreakpoint,
+      expandOutsideBreakpoint,
+      collapseInsideBreakpoint,
+      collapseOutsideBreakpoint,
+      lockInsideBreakpoint,
+      lockOutsideBreakpoint,
+      unlockInsideBreakpoint,
+      unlockOutsideBreakpoint,
       prefix,
       key,
     });
@@ -137,49 +170,38 @@ class Treeview extends BaseMenu {
   }
 
   /**
-   * Initializes the menu.
+   * Registers the menu's initialization event listener.
    *
-   * Initialize will call the BaseMenu's initialize method
-   * as well as set up focus,
-   * click,
-   * hover,
-   * keydown, and
-   * keyup events for the menu.
-   *
-   * If the menu is a root menu it's `role` will be set to "tree" and the first
+   * If the menu is a root menu, its `role` will be set to "tree" and the first
    * menu item's `tabIndex` will be set to 0 in the DOM.
    *
-   * If the menu is _not_ a root menu it's `role` will be set to "group".
+   * If the menu is not a root menu, its `role` will be set to "group".
    *
-   * If the BaseMenu's initialize method throws an error,
-   * this will catch it and log it to the console.
+   * If the root menu has a controller, removes its `aria-owns` attribute.
+   *
+   * @protected
    */
-  initialize() {
-    try {
-      super.initialize();
+  _bootstrap() {
+    super._bootstrap();
+    this._addEventListener(
+      this.getEventName("initialize"),
+      this.rootDOMElement,
+      (event) => {
+        if (event.detail.component !== this) return;
+        if (this.isTopLevel) {
+          this.dom.menu.setAttribute("role", "tree");
+          this.elements.menuItems[0].dom.link.tabIndex = 0;
+        } else {
+          this.dom.menu.setAttribute("role", "group");
+        }
 
-      if (this.isTopLevel) {
-        this.dom.menu.setAttribute("role", "tree");
-        this.elements.menuItems[0].dom.link.tabIndex = 0;
-      } else {
-        this.dom.menu.setAttribute("role", "group");
+        // Remove the aria-owns attribute from the controller.
+        // It isn't needed for the root toggle.
+        if (this.isTopLevel && this.elements.controller) {
+          this.elements.controller.dom.controller.removeAttribute("aria-owns");
+        }
       }
-
-      this._handleMediaMatch();
-      this._handleFocus();
-      this._handleClick();
-      this._handleHover();
-      this._handleKeydown();
-      this._handleKeyup();
-
-      // Remove the aria-owns attribute from the controller.
-      // It isn't needed for the root toggle.
-      if (this.isTopLevel && this.elements.controller) {
-        this.elements.controller.dom.toggle.removeAttribute("aria-owns");
-      }
-    } catch (error) {
-      console.error(error);
-    }
+    );
   }
 
   /**
@@ -200,7 +222,7 @@ class Treeview extends BaseMenu {
    *   preview method for the submenu item's
    *   toggle will be called.
    * - When a `pointerleave` event triggers on the menu itself the
-   *   closeChildren method will be called after a delay
+   *   collapseChildren method will be called after a delay
    *   set by the menu's hover delay.
    *
    * <strong>Hover Type "dynamic"</strong>
@@ -212,7 +234,7 @@ class Treeview extends BaseMenu {
    * - When a `pointerenter` event triggers on a submenu item, and a submenu is
    *   already open, the preview method for the submenu item's toggle will be called.
    * - When a `pointerenter` event triggers on a non-submenu item, and a submenu
-   *   is already open, the closeChildren method for the menu will be called.
+   *   is already open, the collapseChildren method for the menu will be called.
    * - When a `pointerenter` event triggers on a submenu item, and no submenu is
    *   open, no submenu-specific methods will be called.
    *
@@ -236,7 +258,6 @@ class Treeview extends BaseMenu {
 
           if (menuItem.isSubmenuItem) {
             if (this.enterDelay > 0) {
-              this._clearTimeout();
               this._setTimeout(() => {
                 menuItem.elements.toggle.preview();
               }, this.enterDelay);
@@ -253,14 +274,13 @@ class Treeview extends BaseMenu {
             this.focusCurrentChild();
           }
 
-          if (!this.isTopLevel || this.hasOpened) {
+          if (!this.isTopLevel || this.hasExpanded) {
             this.currentEvent = "mouse";
             this.elements.rootMenu.blurChildren();
             this.focusCurrentChild();
 
             if (menuItem.isSubmenuItem) {
               if (this.enterDelay > 0) {
-                this._clearTimeout();
                 this._setTimeout(() => {
                   menuItem.elements.toggle.preview();
                 }, this.enterDelay);
@@ -289,7 +309,6 @@ class Treeview extends BaseMenu {
             }
           } else if (this.hoverType === "dynamic") {
             if (this.leaveDelay > 0) {
-              this._clearTimeout();
               this._setTimeout(() => {
                 this.currentEvent = "mouse";
               }, this.leaveDelay);
@@ -325,13 +344,12 @@ class Treeview extends BaseMenu {
 
           if (this.hoverType === "on") {
             if (this.leaveDelay > 0) {
-              this._clearTimeout();
               this._setTimeout(() => {
-                this.closeChildren();
+                this.collapseChildren();
                 this.blur();
               }, this.leaveDelay);
             } else {
-              this.closeChildren();
+              this.collapseChildren();
               this.blur();
             }
           }
@@ -448,8 +466,8 @@ class Treeview extends BaseMenu {
           preventEvent(event);
 
           if (this.currentMenuItem.isSubmenuItem) {
-            if (this.currentMenuItem.elements.toggle.isOpen) {
-              this.currentMenuItem.elements.toggle.close();
+            if (this.currentMenuItem.elements.toggle.isExpanded) {
+              this.currentMenuItem.elements.toggle.collapse();
             } else {
               this.currentMenuItem.elements.toggle.preview();
             }
@@ -460,9 +478,9 @@ class Treeview extends BaseMenu {
           if (
             this.isTopLevel &&
             this.elements.controller &&
-            this.elements.controller.isOpen
+            this.elements.controller.isExpanded
           ) {
-            this.elements.controller.close();
+            this.elements.controller.collapse();
             this.focusController();
           }
         } else if (key === "ArrowDown") {
@@ -473,7 +491,7 @@ class Treeview extends BaseMenu {
 
           if (
             this.currentMenuItem.isSubmenuItem &&
-            this.currentMenuItem.elements.toggle.isOpen
+            this.currentMenuItem.elements.toggle.isExpanded
           ) {
             this.blurCurrentChild();
             this.currentMenuItem.elements.childMenu.currentEvent =
@@ -499,7 +517,7 @@ class Treeview extends BaseMenu {
           if (
             previousMenuItem &&
             previousMenuItem.isSubmenuItem &&
-            previousMenuItem.elements.toggle.isOpen
+            previousMenuItem.elements.toggle.isExpanded
           ) {
             this.blurCurrentChild();
             this.currentChild = this.currentChild - 1;
@@ -521,7 +539,7 @@ class Treeview extends BaseMenu {
           if (this.currentMenuItem.isSubmenuItem) {
             preventEvent(event);
 
-            if (this.currentMenuItem.elements.toggle.isOpen) {
+            if (this.currentMenuItem.elements.toggle.isExpanded) {
               this.blurCurrentChild();
               this.currentMenuItem.elements.childMenu.currentEvent =
                 this.currentEvent;
@@ -539,10 +557,10 @@ class Treeview extends BaseMenu {
 
           if (
             this.currentMenuItem.isSubmenuItem &&
-            this.currentMenuItem.elements.toggle.isOpen
+            this.currentMenuItem.elements.toggle.isExpanded
           ) {
             this.currentMenuItem.elements.childMenu.blurCurrentChild();
-            this.currentMenuItem.elements.toggle.close();
+            this.currentMenuItem.elements.toggle.collapse();
           } else if (!this.isTopLevel) {
             this.blurCurrentChild();
             this.elements.parentMenu.currentEvent = this.currentEvent;
@@ -565,7 +583,7 @@ class Treeview extends BaseMenu {
           // - Expands all closed sibling nodes that are at the same level as the focused node.
           // - Focus does not move.
           preventEvent(event);
-          this.openChildren();
+          this.expandChildren();
         }
       }
     });
@@ -582,7 +600,7 @@ class Treeview extends BaseMenu {
     const numberOfItems = this.elements.menuItems.length - 1;
     const lastChild = this.elements.menuItems[numberOfItems];
 
-    if (lastChild.isSubmenuItem && lastChild.elements.toggle.isOpen) {
+    if (lastChild.isSubmenuItem && lastChild.elements.toggle.isExpanded) {
       this.currentChild = numberOfItems;
       lastChild.elements.childMenu.currentEvent = this.currentEvent;
       lastChild.elements.childMenu.focusLastNode();
@@ -596,7 +614,7 @@ class Treeview extends BaseMenu {
    *
    * @public
    */
-  openChildren() {
+  expandChildren() {
     this.elements.submenuToggles.forEach((toggle) => toggle.preview());
   }
 
@@ -615,7 +633,7 @@ class Treeview extends BaseMenu {
     /**
      * Gets all the menu's items and submenu's items.
      *
-     * @param  {Treeview}       menu - The menu.
+     * @param {Treeview} menu - The menu.
      * @return {TreeviewItem[]}      - The menu items.
      */
     function getOpenMenuItems(menu) {
@@ -624,7 +642,7 @@ class Treeview extends BaseMenu {
       menu.elements.menuItems.forEach((menuItem) => {
         menuItems.push(menuItem);
 
-        if (menuItem.isSubmenuItem && menuItem.elements.toggle.isOpen) {
+        if (menuItem.isSubmenuItem && menuItem.elements.toggle.isExpanded) {
           menuItems = [
             ...menuItems,
             ...getOpenMenuItems(
@@ -714,7 +732,7 @@ class Treeview extends BaseMenu {
     if (
       this.currentMenuItem.elements.childMenu.currentMenuItem.isSubmenuItem &&
       this.currentMenuItem.elements.childMenu.currentMenuItem.elements.toggle
-        .isOpen
+        .isExpanded
     ) {
       this.currentMenuItem.elements.childMenu.blurCurrentChild();
       this.currentMenuItem.elements.childMenu.focusChildsLastNode();

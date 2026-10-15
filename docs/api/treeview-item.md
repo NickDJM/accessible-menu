@@ -28,16 +28,16 @@ The constructor will call [BaseMenuItem's constructor](./base-menu-item#construc
 
 ### Parameters {#constructor--parameters}
 
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| options | `object` | The options for generating the menu item. | `undefined` |
-| options.menuItemElement | `HTMLElement` | The menu item in the DOM. | `undefined` |
-| options.menuLinkElement | `HTMLElement` | The menu item's link in the DOM. | `undefined` |
-| options.parentMenu | `Treeview` | The parent menu. | `undefined` |
-| options.isSubmenuItem | `boolean` | A flag to mark if the menu item is controlling a submenu. | `false` |
-| options.childMenu | `Treeview`, `null` | The child menu. | `null` |
-| options.toggle | `TreeviewToggle`, `null` | The controller for the child menu. | `null` |
-| options.initialize | `boolean` | A flag to initialize the menu item immediately upon creation. | `true` |
+| Name                    | Type                     | Description                                                   | Default     |
+| ----------------------- | ------------------------ | ------------------------------------------------------------- | ----------- |
+| options                 | `object`                 | The options for generating the menu item.                     | `undefined` |
+| options.menuItemElement | `HTMLElement`            | The menu item in the DOM.                                     | `undefined` |
+| options.menuLinkElement | `HTMLElement`            | The menu item's link in the DOM.                              | `undefined` |
+| options.parentMenu      | `Treeview`               | The parent menu.                                              | `undefined` |
+| options.isSubmenuItem   | `boolean`                | A flag to mark if the menu item is controlling a submenu.     | `false`     |
+| options.childMenu       | `Treeview`, `null`       | The child menu.                                               | `null`      |
+| options.toggle          | `TreeviewToggle`, `null` | The controller for the child menu.                            | `null`      |
+| options.initialize      | `boolean`                | A flag to initialize the menu item immediately upon creation. | `true`      |
 
 ## Initialize
 
@@ -80,3 +80,9 @@ TreeviewItem.blur();
 ```
 
 This will call the [BaseMenuItem's focus method](./base-menu-item#method--focus) as well as set the menu link's `tabIndex` to -1 if the parent menu is the root menu.
+
+### _bootstrap
+
+Registers the menu item's initialization event listener.
+
+Sets the menu item's `role` to "none", the menu link's `role` to "treeitem", and the menu link's `tabIndex` to -1 in the DOM.

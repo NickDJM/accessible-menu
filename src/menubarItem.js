@@ -44,19 +44,26 @@ class MenubarItem extends BaseMenuItem {
   }
 
   /**
-   * Initialize the menu item.
+   * Registers the menu item's initialization event listener.
    *
-   * Initialize will call the BaseMenuItem's initialize method
-   * as well as set the menu item's `role` to "none",
+   * Sets the menu item's `role` to "none",
    * the menu link's `role` to "menuitem", and
    * the menu link's `tabIndex` to -1 in the DOM.
+   *
+   * @protected
    */
-  initialize() {
-    super.initialize();
-
-    this.dom.item.setAttribute("role", "none");
-    this.dom.link.setAttribute("role", "menuitem");
-    this.dom.link.tabIndex = -1;
+  _bootstrap() {
+    super._bootstrap();
+    this._addEventListener(
+      this.getEventName("initialize"),
+      this.rootDOMElement,
+      (event) => {
+        if (event.detail.component !== this) return;
+        this.dom.item.setAttribute("role", "none");
+        this.dom.link.setAttribute("role", "menuitem");
+        this.dom.link.tabIndex = -1;
+      }
+    );
   }
 
   /**

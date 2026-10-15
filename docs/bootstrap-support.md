@@ -19,4 +19,6 @@ It is recommended you upgrade your own projects to Bootstrap 5 and use the Acces
 
 ### Sub-Menus
 
-Bootstrap differs in the way it handles sub-menus. Bootstrap will add/remove it's "openClass" based on the state of the menus, but it will _not_ remove the "closeClass" when the menu is open. This means that, when open, the submenus will have both the "openClass" and "closeClass" applied to them.
+Bootstrap and Accessible Menu use different class changes to show and hide submenus. Bootstrap keeps the class used for a closed submenu even when that submenu is open. Accessible Menu normally removes its `collapseClass` when adding its `expandClass`.
+
+Because the two expect different classes, combining them directly can cause a submenu to display incorrectly. The Bootstrap projects linked above handle these differences for you.

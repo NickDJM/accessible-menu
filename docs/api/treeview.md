@@ -22,12 +22,12 @@ new Treeview({
   submenusSelector,
   controllerElement,
   containerElement,
-  openClass,
-  closeClass,
+  expandClass,
+  collapseClass,
   transitionClass,
   transitionDuration,
-  openDuration,
-  closeDuration,
+  expandDuration,
+  collapseDuration,
   isTopLevel,
   parentMenu,
   hoverType,
@@ -36,7 +36,14 @@ new Treeview({
   leaveDelay,
   breakpoint,
   mediaQuery,
-  autoOpen,
+  expandInsideBreakpoint,
+  expandOutsideBreakpoint,
+  collapseInsideBreakpoint,
+  collapseOutsideBreakpoint,
+  lockInsideBreakpoint,
+  lockOutsideBreakpoint,
+  unlockInsideBreakpoint,
+  unlockOutsideBreakpoint,
   prefix,
   key,
   initialize,
@@ -47,35 +54,43 @@ The constructor will call [BaseMenu's constructor](./base-menu#constructor) with
 
 ### Parameters {#constructor--parameters}
 
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| options | `object` | The options for generating the menu. | `undefined` |
-| options.menuElement | `HTMLElement` | The menu element in the DOM. | `undefined` |
-| options.menuItemsSelector | `string` | The query selector string for menu items. | `"li"` |
-| options.menuLinksSelector | `string` | The query selector string for menu links. | `"a"` |
-| options.submenuItemsSelector | `string` | The query selector string for menu items containing submenus. | `li:has(ul)` |
-| options.submenuTogglesSelector | `string` | The query selector string for submenu toggle buttons/links. | `"a"` |
-| options.submenusSelector | `string` | The query selector string for submenus. | `"ul"` |
-| options.controllerElement | `HTMLElement`, `null` | The element controlling the menu in the DOM. | `null` |
-| options.containerElement | `HTMLElement`, `null` | The element containing the menu in the DOM. | `null` |
-| options.openClass | `string`, `string[]`, `null` | The class to apply when a menu is "open". | `null` |
-| options.closeClass | `string`, `string[]`, `null` | The class to apply when a menu is "closed". | `null` |
-| options.transitionClass | `string`, `string[]`, `null` | The class to apply when a menu is transitioning between "open" and "closed" states. | `null` |
-| options.transitionDuration | `number` | The duration of the transition between "open" and "closed" states (in milliseconds). | `250` |
-| options.openDuration | `number` | The duration of the transition from "closed" to "open" states (in milliseconds). | `250` |
-| options.closeDuration | `number` | The duration of the transition from "open" to "closed" states (in milliseconds). | `250` |
-| options.isTopLevel | `boolean` | A flag to mark the root menu. | `true` |
-| options.parentMenu | `Treeview`, `null` | The parent menu to this menu. | `null` |
-| options.hoverType | `string` | The type of hoverability a menu has. | `"off"` |
-| options.hoverDelay | `number` | The delay for opening and closing menus if the menu is hoverable (in milliseconds). | `250` |
-| options.enterDelay | `number` | The delay for opening a menu if the menu is focusable (in milliseconds). | `-1` |
-| options.leaveDelay | `number` | The delay for closing a menu if the menu is focusable (in milliseconds). | `-1` |
-| options.breakpoint | `string` | The breakpoint that the menu will automatically open/close itself at. | `""` |
-| options.mediaQuery | `string` | The media query to use to trigger media query list events. | `""` |
-| options.autoOpen | `boolean` | A flag to auto open the menu when the media query does not match. | `true` |
-| options.prefix | `string`, `null` | The prefix for the CSS custom properties. | `"am-"` |
-| options.key | `string`, `null` | The key used to generate IDs throughout the menu. | `null` |
-| options.initialize | `boolean` | A flag to initialize the menu immediately upon creation. | `true` |
+| Name                              | Type                         | Description                                                                             | Default          |
+| --------------------------------- | ---------------------------- | --------------------------------------------------------------------------------------- | ---------------- |
+| options                           | `object`                     | The options for generating the menu.                                                    | `undefined`      |
+| options.menuElement               | `HTMLElement`                | The menu element in the DOM.                                                            | `undefined`      |
+| options.menuItemsSelector         | `string`                     | The query selector string for menu items.                                               | `"li"`           |
+| options.menuLinksSelector         | `string`                     | The query selector string for menu links.                                               | `"a"`            |
+| options.submenuItemsSelector      | `string`                     | The query selector string for menu items containing submenus.                           | `li:has(ul)`     |
+| options.submenuTogglesSelector    | `string`                     | The query selector string for submenu toggle buttons/links.                             | `"a"`            |
+| options.submenusSelector          | `string`                     | The query selector string for submenus.                                                 | `"ul"`           |
+| options.controllerElement         | `HTMLElement`, `null`        | The element controlling the menu in the DOM.                                            | `null`           |
+| options.containerElement          | `HTMLElement`, `null`        | The element containing the menu in the DOM.                                             | `null`           |
+| options.initializeClass           | `string`, `string[]`, `null` | The class(es) to apply when the menu is initializing.                                   | `"initializing"` |
+| options.expandClass               | `string`, `string[]`, `null` | The class to apply when a menu is expanded.                                             | `null`           |
+| options.collapseClass             | `string`, `string[]`, `null` | The class to apply when a menu is "closed".                                             | `null`           |
+| options.transitionClass           | `string`, `string[]`, `null` | The class to apply when a menu is transitioning between expanded and collapsed states.  | `null`           |
+| options.transitionDuration        | `number`                     | The duration of the transition between expanded and collapsed states (in milliseconds). | `250`            |
+| options.expandDuration            | `number`                     | The duration of the transition from collapsed to expanded states (in milliseconds).     | `-1`             |
+| options.collapseDuration          | `number`                     | The duration of the transition from expanded to collapsed states (in milliseconds).     | `-1`             |
+| options.isTopLevel                | `boolean`                    | A flag to mark the root menu.                                                           | `true`           |
+| options.parentMenu                | `Treeview`, `null`           | The parent menu to this menu.                                                           | `null`           |
+| options.hoverType                 | `string`                     | The type of hoverability a menu has.                                                    | `"off"`          |
+| options.hoverDelay                | `number`                     | The delay for opening and closing menus if the menu is hoverable (in milliseconds).     | `250`            |
+| options.enterDelay                | `number`                     | The delay for opening a menu if the menu is focusable (in milliseconds).                | `-1`             |
+| options.leaveDelay                | `number`                     | The delay for closing a menu if the menu is focusable (in milliseconds).                | `-1`             |
+| options.breakpoint                | `string`                     | The breakpoint used to generate the root controller's media query.                      | `""`             |
+| options.mediaQuery                | `string`                     | The media query used to trigger the root controller's media query list events.          | `""`             |
+| options.expandInsideBreakpoint    | `boolean`                    | A flag to expand the menu when the media query matches.                                 | `false`          |
+| options.expandOutsideBreakpoint   | `boolean`                    | A flag to expand the menu when the media query does not match.                          | `false`          |
+| options.collapseInsideBreakpoint  | `boolean`                    | A flag to collapse the menu when the media query matches.                               | `false`          |
+| options.collapseOutsideBreakpoint | `boolean`                    | A flag to collapse the menu when the media query does not match.                        | `false`          |
+| options.lockInsideBreakpoint      | `boolean`                    | A flag to lock the root controller when the media query matches.                        | `false`          |
+| options.lockOutsideBreakpoint     | `boolean`                    | A flag to lock the root controller when the media query does not match.                 | `false`          |
+| options.unlockInsideBreakpoint    | `boolean`                    | A flag to unlock the root controller when the media query matches.                      | `false`          |
+| options.unlockOutsideBreakpoint   | `boolean`                    | A flag to unlock the root controller when the media query does not match.               | `false`          |
+| options.prefix                    | `string`, `null`             | The prefix for the CSS custom properties.                                               | `"am-"`          |
+| options.key                       | `string`, `null`             | The key used to generate IDs throughout the menu.                                       | `null`           |
+| options.initialize                | `boolean`                    | A flag to initialize the menu immediately upon creation.                                | `true`           |
 
 ## Initialize
 
@@ -92,8 +107,7 @@ menu item's `tabIndex` will be set to 0 in the DOM.
 
 If the menu is _not_ a root menu it's `role` will be set to "group".
 
-If the BaseMenu's initialize method throws an error,
-this will catch it and log it to the console.
+Core handles initialization failures, sets `isValid` to `false`, and logs the error. Inspect `errors` for validation details.
 
 ## Properties
 
@@ -151,7 +165,7 @@ Handles hover events throughout the menu for proper use.
 BaseMenu._handleHover();
 ```
 
-Adds `pointerenter` listeners to all menu items and `pointerleave` listeners to all submenu items which function differently depending on the menu's [hover type](#property--hovertype).
+Adds `pointerenter` listeners to all menu items and `pointerleave` listeners to all submenu items which function differently depending on the menu's [hover type](./base-menu#property--hovertype).
 
 Before executing anything, the event is checked to make sure the event wasn't triggered by a pen or touch.
 
@@ -159,16 +173,16 @@ This method will add the following behaviour:
 
 #### Hover Type "on" {#method--handlehover--hovertype-on}
 
-- When a `pointerenter` event triggers on any menu item the menu's [current child](#property--currentchild) value will change to that menu item.
+- When a `pointerenter` event triggers on any menu item the menu's [current child](./base-menu#property--currentchild) value will change to that menu item.
 - When a `pointerenter` event triggers on a submenu item the [preview method](./base-menu-toggle#method--preview) for the submenu item's toggle will be called.
-- When a `pointerleave` event triggers on the menu itself the [closeChildren method](./base-menu#method--closechildren) will be called after a delay set by the menu's hover delay.
+- When a `pointerleave` event triggers on the menu itself the [collapseChildren method](./base-menu#method--collapsechildren) will be called after a delay set by the menu's hover delay.
 
 #### Hover Type "dynamic" {#method--handlehover--hovertype-dynamic}
 
 - When a `pointerenter` event triggers on any menu item the menu's current child value will change to that menu item.
-- When a `pointerenter` event triggers on any menu item, and the menu's [focus state](#property--focusstate) is not "none", the menu item will be focused.
+- When a `pointerenter` event triggers on any menu item, and the menu's [focus state](./base-menu#property--focusstate) is not "none", the menu item will be focused.
 - When a `pointerenter` event triggers on a submenu item, and a submenu is already open, the preview method for the submenu item's toggle will be called.
-- When a `pointerenter` event triggers on a non-submenu item, and a submenu is already open, the closeChildren method for the menu will be called.
+- When a `pointerenter` event triggers on a non-submenu item, and a submenu is already open, the collapseChildren method for the menu will be called.
 - When a `pointerenter` event triggers on a submenu item, and no submenu is open, no submenu-specific methods will be called.
 
 #### Hover Type "off" {#method--handlehover--hovertype-off}
@@ -206,18 +220,18 @@ Adds all `keyup` listeners from [BaseMenu's _handleKeyup method](./base-menu#met
 
 Adds the following keybindings (explanations are taken from the [Navigation Treeview Example Using Computed Properties](https://www.w3.org/TR/2019/WD-wai-aria-practices-1.2-20191218/examples/treeview/treeview-2/treeview-2a.html#kbd_label)):
 
-| Key | Function |
-| --- | --- |
-| _Enter_ or _Space_ | Performs the default action (e.g. onclick event) for the focused node. |
-| _Down arrow_ | <ul><li>Moves focus to the next node that is focusable without opening or closing a node.</li><li>If focus is on the last node, does nothing.</li></ul> |
-| _Up arrow_ | <ul><li>Moves focus to the previous node that is focusable without opening or closing a node.</li><li>If focus is on the first node, does nothing.</li></ul> |
-| _Right arrow_ | <ul><li>When focus is on a closed node, opens the node; focus does not move.</li><li>When focus is on a open node, moves focus to the first child node.</li><li>When focus is on an end node, does nothing.</li></ul> |
-| _Left arrow_ | <ul><li>When focus is on an open node, closes the node.</li><li>When focus is on a child node that is also either an end node or a closed node, moves focus to its parent node.</li><li>When focus is on a root node that is also either an end node or a closed node, does nothing.</li></ul> |
-| _Home_ | Moves focus to first node without opening or closing a node. |
-| _End_ | Moves focus to the last node that can be focused without expanding any nodes that are closed. |
-| _a-z_, _A-Z_ | <ul><li>Focus moves to the next node with a name that starts with the typed character.</li><li>Search wraps to first node if a matching name is not found among the nodes that follow the focused node.</li><li>Search ignores nodes that are descendants of closed nodes.</li></ul> |
-| _* (asterisk)_ | <ul><li>Expands all closed sibling nodes that are at the same level as the focused node.</li><li>Focus does not move.</li></ul> |
-| _Escape_ | If the root menu is collapsible, collapses the menu and focuses the menu's controlling element. |
+| Key                | Function                                                                                                                                                                                                                                                                                       |
+| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| _Enter_ or _Space_ | Performs the default action (e.g. onclick event) for the focused node.                                                                                                                                                                                                                         |
+| _Down arrow_       | <ul><li>Moves focus to the next node that is focusable without opening or closing a node.</li><li>If focus is on the last node, does nothing.</li></ul>                                                                                                                                        |
+| _Up arrow_         | <ul><li>Moves focus to the previous node that is focusable without opening or closing a node.</li><li>If focus is on the first node, does nothing.</li></ul>                                                                                                                                   |
+| _Right arrow_      | <ul><li>When focus is on a closed node, opens the node; focus does not move.</li><li>When focus is on a open node, moves focus to the first child node.</li><li>When focus is on an end node, does nothing.</li></ul>                                                                          |
+| _Left arrow_       | <ul><li>When focus is on an open node, closes the node.</li><li>When focus is on a child node that is also either an end node or a closed node, moves focus to its parent node.</li><li>When focus is on a root node that is also either an end node or a closed node, does nothing.</li></ul> |
+| _Home_             | Moves focus to first node without opening or closing a node.                                                                                                                                                                                                                                   |
+| _End_              | Moves focus to the last node that can be focused without expanding any nodes that are closed.                                                                                                                                                                                                  |
+| _a-z_, _A-Z_       | <ul><li>Focus moves to the next node with a name that starts with the typed character.</li><li>Search wraps to first node if a matching name is not found among the nodes that follow the focused node.</li><li>Search ignores nodes that are descendants of closed nodes.</li></ul>           |
+| _\* (asterisk)_    | <ul><li>Expands all closed sibling nodes that are at the same level as the focused node.</li><li>Focus does not move.</li></ul>                                                                                                                                                                |
+| _Escape_           | If the root menu is collapsible, collapses the menu and focuses the menu's controlling element.                                                                                                                                                                                                |
 
 ### focusLastNode <badge type="tip" text="public" /> {#method--focuslastnode}
 
@@ -229,12 +243,12 @@ Treeview.focusLastNode();
 
 This includes all _open_ child menu items.
 
-### openChildren <badge type="tip" text="public" /> {#method--openchildren}
+### expandChildren <badge type="tip" text="public" /> {#method--expandchildren}
 
 Open all submenu children.
 
 ```js
-Treeview.openChildren();
+Treeview.expandChildren();
 ```
 
 ### focusNextNodeWithCharacter <badge type="tip" text="public" /> {#method--focusnextnodewithcharacter}
@@ -251,8 +265,8 @@ Wraps to the first node if no match is found after the current node.
 
 #### Parameters {#method--focusnextnodewithcharacter--parameters}
 
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
+| Name | Type     | Description                | Default     |
+| ---- | -------- | -------------------------- | ----------- |
 | char | `string` | The character to look for. | `undefined` |
 
 ### focusParentsNextChild <badge type="tip" text="public" /> {#method--focusparentsnextchild}
@@ -274,3 +288,21 @@ Treeview.focusChildsLastNode();
 ```
 
 This will cascade down through to the last open menu.
+
+### _bootstrap
+
+Registers the menu's initialization event listener.
+
+If the menu is a root menu, its `role` will be set to "tree" and the first menu item's `tabIndex` will be set to 0 in the DOM.
+
+If the menu is not a root menu, its `role` will be set to "group".
+
+If the root menu has a controller, removes its `aria-owns` attribute.
+
+## Responsive controller configuration
+
+`breakpoint`, `mediaQuery`, and the eight breakpoint action flags are passed to the root controller, `elements.controller`. Submenu toggles do not receive these options.
+
+All action flags default to `false`. To expand outside the breakpoint and collapse inside it, pass `expandOutsideBreakpoint: true` and `collapseInsideBreakpoint: true`.
+
+After initialization, you can read the responsive settings and change action flags through `menu.elements.controller`. The controller registers its media-query listener during initialization. If you change `breakpoint` or `mediaQuery` afterward, you must also reconfigure that listener.

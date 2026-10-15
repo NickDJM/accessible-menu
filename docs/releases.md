@@ -22,7 +22,7 @@ npm run release
 
 This command uses [standard-version](https://github.com/conventional-changelog/standard-version) to parse through your commits, decide what kind of release will be created, and automatically generates a CHANGELOG.md file for your project. These changes are then commited using the message `chore(release): <version number>`.
 
-A pre-release script will run  `lint`, `build`, and `test` scripts to ensure all code meets the coding standards, all changes to the source code are captured in the bundled version, and all code continues to function as expected. If any of theses scripts fail, a release will not be created.
+A pre-release script will run `lint`, `build`, and `test` scripts to ensure all code meets the coding standards, all changes to the source code are captured in the bundled version, and all code continues to function as expected. If any of theses scripts fail, a release will not be created.
 
 Once the script has succeeded, you can run `git push --follow-tags origin` to have your release pushed up to the repository.
 

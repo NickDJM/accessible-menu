@@ -49,6 +49,7 @@ Everybody loves a thorough bug report!
 - Run `npm install` to ensure you have all the tools needed.
 - Keep all functional code inside of the `src/` directory.
 - Keep all test code inside of the `tests/` directory.
+- Name unit test files `.unit.test.js` and run them with `npm run test:unit`.
 - Use the coding standards provided.
 
 This project follows a set of coding standards combining [StandardJS](https://standardjs.com/), [Prettier](https://prettier.io/), and [JSDoc](https://jsdoc.app/).

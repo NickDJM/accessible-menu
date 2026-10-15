@@ -11,18 +11,38 @@ class TreeviewToggle extends BaseMenuToggle {
   /**
    * Constructs a new `TreeviewToggle`.
    *
-   * @param {object}      options                     - The options for generating the menu toggle.
-   * @param {HTMLElement} options.menuToggleElement   - The toggle element in the DOM.
-   * @param {HTMLElement} options.parentElement       - The element containing the controlled menu.
-   * @param {Treeview}    options.controlledMenu      - The menu controlled by this toggle.
-   * @param {?Treeview}   [options.parentMenu = null] - The menu containing this toggle.
-   * @param {boolean}     [options.initialize = true] - A flag to initialize the menu toggle immediately upon creation.
+   * @param {object}      options                                     - The options for generating the menu toggle.
+   * @param {HTMLElement} options.menuToggleElement                   - The toggle element in the DOM.
+   * @param {HTMLElement} options.parentElement                       - The element containing the controlled menu.
+   * @param {Treeview}    options.controlledMenu                      - The menu controlled by this toggle.
+   * @param {?Treeview}   [options.parentMenu = null]                 - The menu containing this toggle.
+   * @param {string}      [options.breakpoint = ""]                   - The breakpoint used to generate the controller's media query.
+   * @param {string}      [options.mediaQuery = ""]                   - The media query used to trigger the controller's media query list events.
+   * @param {boolean}     [options.expandInsideBreakpoint = false]    - A flag to expand the controlled menu when the media query matches.
+   * @param {boolean}     [options.expandOutsideBreakpoint = false]   - A flag to expand the controlled menu when the media query does not match.
+   * @param {boolean}     [options.collapseInsideBreakpoint = false]  - A flag to collapse the controlled menu when the media query matches.
+   * @param {boolean}     [options.collapseOutsideBreakpoint = false] - A flag to collapse the controlled menu when the media query does not match.
+   * @param {boolean}     [options.lockInsideBreakpoint = false]      - A flag to lock the controller when the media query matches.
+   * @param {boolean}     [options.lockOutsideBreakpoint = false]     - A flag to lock the controller when the media query does not match.
+   * @param {boolean}     [options.unlockInsideBreakpoint = false]    - A flag to unlock the controller when the media query matches.
+   * @param {boolean}     [options.unlockOutsideBreakpoint = false]   - A flag to unlock the controller when the media query does not match.
+   * @param {boolean}     [options.initialize = true]                 - A flag to initialize the menu toggle immediately upon creation.
    */
   constructor({
     menuToggleElement,
     parentElement,
     controlledMenu,
     parentMenu = null,
+    breakpoint = "",
+    mediaQuery = "",
+    expandInsideBreakpoint = false,
+    expandOutsideBreakpoint = false,
+    collapseInsideBreakpoint = false,
+    collapseOutsideBreakpoint = false,
+    lockInsideBreakpoint = false,
+    lockOutsideBreakpoint = false,
+    unlockInsideBreakpoint = false,
+    unlockOutsideBreakpoint = false,
     initialize = true,
   }) {
     super({
@@ -30,35 +50,20 @@ class TreeviewToggle extends BaseMenuToggle {
       parentElement,
       controlledMenu,
       parentMenu,
+      breakpoint,
+      mediaQuery,
+      expandInsideBreakpoint,
+      expandOutsideBreakpoint,
+      collapseInsideBreakpoint,
+      collapseOutsideBreakpoint,
+      lockInsideBreakpoint,
+      lockOutsideBreakpoint,
+      unlockInsideBreakpoint,
+      unlockOutsideBreakpoint,
     });
 
     if (initialize) {
       this.initialize();
-    }
-  }
-
-  /**
-   * Initializes the menu toggle.
-   *
-   * The first steps are to ensure that the toggle and controlled menu have IDs
-   * using the setIds method, and to set the ARIA attributes on the toggle
-   * and controlled menu using the setAriaAttributes method.
-   *
-   * Then the open or collapse method is called based on the state of the
-   * toggle's aria-expanded attribute.
-   */
-  initialize() {
-    // Ensure both toggle and menu have IDs.
-    this._setIds();
-
-    // Set ARIA attributes.
-    this._setAriaAttributes();
-
-    // Open the menu if aria-expanded is true, otherwise collapse it.
-    if (this.dom.toggle.getAttribute("aria-expanded") === "true") {
-      this.open();
-    } else {
-      this._collapse(false);
     }
   }
 
@@ -75,16 +80,16 @@ class TreeviewToggle extends BaseMenuToggle {
    */
   _setAriaAttributes() {
     // If the toggle element doesn't have aria-expanded set to true, set it to false.
-    if (this.dom.toggle.getAttribute("aria-expanded") !== "true") {
-      this.dom.toggle.setAttribute("aria-expanded", "false");
+    if (this.dom.controller.getAttribute("aria-expanded") !== "true") {
+      this.dom.controller.setAttribute("aria-expanded", "false");
     }
 
     // Set up proper aria label and control.
     this.elements.controlledMenu.dom.menu.setAttribute(
       "aria-labelledby",
-      this.dom.toggle.id
+      this.dom.controller.id
     );
-    this.dom.toggle.setAttribute(
+    this.dom.controller.setAttribute(
       "aria-owns",
       this.elements.controlledMenu.dom.menu.id
     );

@@ -1,5 +1,7 @@
 # Validation
 
+This API is provided by Core. Import it from `@accessible-ecosystem/core/validate.js`. Accessible Menu no longer provides a local copy.
+
 ## Overview
 
 All validation functions expect all elements/values they are validating to be passed to them inside of an object. This is to achieve two things:
@@ -174,3 +176,40 @@ isTag(tagName, elements);
 The elements [must be provided inside of an object](#overview) so the variable name can be retrieved in case of errors.
 
 Will return `true` if the check is successful.
+
+## isValidEventType
+
+Check to see if the provided event type is valid for dispatching.
+
+Will return `{ status: true }` if the check is successful.
+
+```js
+function isValidEventType(eventType, component, { shouldThrow = true } = {}) {}
+```
+
+| Parameter                      | Type        | Description                             |
+| ------------------------------ | ----------- | --------------------------------------- |
+| `eventType`                    | `string`    | The event type to check.                |
+| `component`                    | `Component` | The component to check.                 |
+| `[options = {}]`               | `object`    | Additional options.                     |
+| `[options.shouldThrow = true]` | `boolean`   | Whether to throw on error or return it. |
+
+Returns `Object<boolean, Error[]>` - The result of the check.
+
+## hasValidRootDOMElement
+
+Check to see if the component has a valid root DOM element.
+
+Will return `{ status: true }` if the check is successful.
+
+```js
+function hasValidRootDOMElement(component, { shouldThrow = true } = {}) {}
+```
+
+| Parameter                    | Type        | Description                             |
+| ---------------------------- | ----------- | --------------------------------------- |
+| `component`                  | `Component` | The component to check.                 |
+| `[options = {}]`             | `object`    | Additional options.                     |
+| `[options.shouldThrow=true]` | `boolean`   | Whether to throw on error or return it. |
+
+Returns `Object<boolean, Error[]>` - The result of the check.

@@ -1,193 +1,268 @@
-/* global BaseMenu */
-
-import { addClass, removeClass } from "./domHelpers.js";
-import { isValidInstance } from "./validate.js";
-import TransactionalValue from "./TransactionalValue.js";
+import BaseMenu from "./_baseMenu.js";
+import { isValidInstance } from "@accessible-ecosystem/core/validate.js";
+import CollapsibleComponent from "@accessible-ecosystem/core/CollapsibleComponent.js";
 
 /**
  * A link or button that controls the visibility of a BaseMenu.
+ *
+ * @extends CollapsibleComponent
  */
-class BaseMenuToggle {
-  /**
-   * The DOM elements within the menu toggle.
-   *
-   * @protected
-   *
-   * @type {Object<HTMLElement>}
-   *
-   * @property {HTMLElement} toggle - The menu toggle.
-   * @property {HTMLElement} parent - The menu containing this toggle.
-   */
-  _dom = {
-    toggle: null,
-    parent: null,
-  };
-
-  /**
-   * The declared accessible-menu elements within the menu toggle.
-   *
-   * @protected
-   *
-   * @type {Object<BaseMenu>}
-   *
-   * @property {BaseMenu} controlledMenu - The menu controlled by this toggle.
-   * @property {BaseMenu} parentMenu     - The menu containing this toggle.
-   */
-  _elements = {
-    controlledMenu: null,
-    parentMenu: null,
-  };
-
-  /**
-   * The open state of the menu toggle.
-   *
-   * @protected
-   *
-   * @type {TransactionalValue<boolean>}
-   */
-  _open = new TransactionalValue(false);
-
-  /**
-   * Custom events that can be triggered throughout the menu toggle.
-   *
-   * @protected
-   *
-   * @type {Object<CustomEvent>}
-   */
-  _events = {
-    /**
-     * The event that is triggered when the menu toggle expands.
-     *
-     * @event accessibleMenuExpand
-     *
-     * @type {CustomEvent}
-     *
-     * @property {boolean}                bubbles - A flag to bubble the event.
-     * @property {Object<BaseMenuToggle>} details - The details object containing the BaseMenuToggle itself.
-     */
-    expand: new CustomEvent("accessibleMenuExpand", {
-      bubbles: true,
-      detail: { toggle: this },
-    }),
-    /**
-     * The event that is triggered when the menu toggle collapses.
-     *
-     * @event accessibleMenuCollapse
-     *
-     * @type {CustomEvent}
-     *
-     * @property {boolean}                bubbles - A flag to bubble the event.
-     * @property {Object<BaseMenuToggle>} details - The details object containing the BaseMenuToggle itself.
-     */
-    collapse: new CustomEvent("accessibleMenuCollapse", {
-      bubbles: true,
-      detail: { toggle: this },
-    }),
-  };
+class BaseMenuToggle extends CollapsibleComponent {
+  _scope = "AccessibleMenu";
+  _name = "MenuToggle";
+  _eventPrefix = "accessibleMenu";
+  _storageKey = "menuToggles";
+  _shouldStore = false;
+  _rootDOMElement = "controller";
 
   /**
    * Constructs a new `BaseMenuToggle`.
    *
-   * @param {object}      options                     - The options for generating the menu toggle.
-   * @param {HTMLElement} options.menuToggleElement   - The toggle element in the DOM.
-   * @param {HTMLElement} options.parentElement       - The element containing the controlled menu.
-   * @param {BaseMenu}    options.controlledMenu      - The menu controlled by this toggle.
-   * @param {?BaseMenu}   [options.parentMenu = null] - The menu containing this toggle.
+   * @param {object}      options                                     - The options for generating the menu toggle.
+   * @param {HTMLElement} options.menuToggleElement                   - The toggle element in the DOM.
+   * @param {HTMLElement} options.parentElement                       - The element containing the controlled menu.
+   * @param {BaseMenu}    options.controlledMenu                      - The menu controlled by this toggle.
+   * @param {?BaseMenu}   [options.parentMenu = null]                 - The menu containing this toggle.
+   * @param {string}      [options.breakpoint = ""]                   - The breakpoint used to generate the controller's media query.
+   * @param {string}      [options.mediaQuery = ""]                   - The media query used to trigger the controller's media query list events.
+   * @param {boolean}     [options.expandInsideBreakpoint = false]    - A flag to expand the controlled menu when the media query matches.
+   * @param {boolean}     [options.expandOutsideBreakpoint = false]   - A flag to expand the controlled menu when the media query does not match.
+   * @param {boolean}     [options.collapseInsideBreakpoint = false]  - A flag to collapse the controlled menu when the media query matches.
+   * @param {boolean}     [options.collapseOutsideBreakpoint = false] - A flag to collapse the controlled menu when the media query does not match.
+   * @param {boolean}     [options.lockInsideBreakpoint = false]      - A flag to lock the controller when the media query matches.
+   * @param {boolean}     [options.lockOutsideBreakpoint = false]     - A flag to lock the controller when the media query does not match.
+   * @param {boolean}     [options.unlockInsideBreakpoint = false]    - A flag to unlock the controller when the media query matches.
+   * @param {boolean}     [options.unlockOutsideBreakpoint = false]   - A flag to unlock the controller when the media query does not match.
    */
   constructor({
     menuToggleElement,
     parentElement,
     controlledMenu,
     parentMenu = null,
+    breakpoint = "",
+    mediaQuery = "",
+    expandInsideBreakpoint = false,
+    expandOutsideBreakpoint = false,
+    collapseInsideBreakpoint = false,
+    collapseOutsideBreakpoint = false,
+    lockInsideBreakpoint = false,
+    lockOutsideBreakpoint = false,
+    unlockInsideBreakpoint = false,
+    unlockOutsideBreakpoint = false,
   }) {
+    // Submenus may not have a rootMenu yet, so read their configured fields.
+    super({
+      controllerElement: menuToggleElement,
+      controlledElement: controlledMenu?.dom?.menu,
+      expandClass: controlledMenu?.classes?.expand,
+      collapseClass: controlledMenu?.classes?.collapse,
+      transitionClass: controlledMenu?.classes?.transition,
+      transitionDuration: controlledMenu?.durations?.transition,
+      expandDuration: controlledMenu?.durations?.expand,
+      collapseDuration: controlledMenu?.durations?.collapse,
+      prefix: "am-",
+      initializeClass: "",
+      breakpoint,
+      mediaQuery,
+      expandInsideBreakpoint,
+      expandOutsideBreakpoint,
+      collapseInsideBreakpoint,
+      collapseOutsideBreakpoint,
+      lockInsideBreakpoint,
+      lockOutsideBreakpoint,
+      unlockInsideBreakpoint,
+      unlockOutsideBreakpoint,
+      bootstrap: false,
+    });
+
     // Set DOM elements.
-    this._dom.toggle = menuToggleElement;
+    this._protectedDOMElements.push("parent");
     this._dom.parent = parentElement;
 
     // Set menu elements.
     this._elements.controlledMenu = controlledMenu;
     this._elements.parentMenu = parentMenu;
+
+    this._bootstrap();
   }
 
   /**
-   * Initializes the menu toggle.
+   * Registers the menu toggle's validation event listener.
    *
-   * The first steps are to ensure that the toggle and controlled menu have IDs
-   * using the setIds method, and to set the ARIA attributes on the toggle
-   * and controlled menu using the setAriaAttributes method.
+   * Validation checks the required DOM elements, controlled menu, and parent menu.
    *
-   * Then the collapse method is called to make sure the submenu is closed.
+   * @protected
    */
-  initialize() {
-    // Ensure both toggle and menu have IDs.
-    this._setIds();
+  _bootstrap() {
+    super._bootstrap();
+    this._addEventListener(
+      this.getEventName("validate"),
+      this.rootDOMElement,
+      (event) => {
+        if (event.detail.component !== this) return;
 
-    // Set ARIA attributes.
-    this._setAriaAttributes();
+        // DOM checks.
+        // Check for null elements, which Component validation allows.
+        const domElements = {};
 
-    // Collapse the menu.
-    this._collapse(false);
+        for (const name of ["controller", "controlled", "parent"]) {
+          if (this.dom[name] === null) {
+            domElements[`${name}Element`] = this.dom[name];
+          }
+        }
+
+        // Check the required DOM elements.
+        const domChecks = isValidInstance(HTMLElement, domElements, {
+          shouldThrow: false,
+        });
+
+        // Handle DOM check failure.
+        if (!domChecks.status) {
+          this._errors = [...this._errors, ...domChecks.errors];
+          this._valid = false;
+        }
+
+        // Menu checks.
+        const menus = {
+          controlledMenu: this.elements.controlledMenu,
+        };
+
+        if (this.elements.parentMenu !== null) {
+          menus.parentMenu = this.elements.parentMenu;
+        }
+
+        // Check the menu relationships.
+        const menuChecks = isValidInstance(BaseMenu, menus, {
+          shouldThrow: false,
+        });
+
+        // Handle menu check failure.
+        if (!menuChecks.status) {
+          this._errors = [...this._errors, ...menuChecks.errors];
+          this._valid = false;
+        }
+      }
+    );
   }
 
   /**
-   * The DOM elements within the toggle.
+   * The class(es) to apply when the controlled menu is expanded.
    *
-   * @readonly
-   *
-   * @type {Object<HTMLElement>}
-   *
-   * @see _dom
+   * @type {string|string[]}
    */
-  get dom() {
-    return this._dom;
+  get expandClass() {
+    const menu = this.elements.controlledMenu;
+
+    return menu.elements.rootMenu ? menu.expandClass : super.expandClass;
+  }
+
+  set expandClass(value) {
+    const menu = this.elements.controlledMenu;
+    const rootMenu = menu.elements.rootMenu || menu;
+
+    rootMenu.expandClass = value;
+    this._classes.expand = value;
   }
 
   /**
-   * The declared accessible-menu elements within the toggle.
+   * The class(es) to apply when the controlled menu is collapsed.
    *
-   * @readonly
-   *
-   * @type {Object<BaseMenu>}
-   *
-   * @see _elements
+   * @type {string|string[]}
    */
-  get elements() {
-    return this._elements;
+  get collapseClass() {
+    const menu = this.elements.controlledMenu;
+
+    return menu.elements.rootMenu ? menu.collapseClass : super.collapseClass;
+  }
+
+  set collapseClass(value) {
+    const menu = this.elements.controlledMenu;
+    const rootMenu = menu.elements.rootMenu || menu;
+
+    rootMenu.collapseClass = value;
+    this._classes.collapse = value;
   }
 
   /**
-   * Custom events that can be triggered throughout the menu toggle.
+   * The class(es) to apply when the controlled menu is transitioning.
    *
-   * @readonly
-   *
-   * @type {object}
-   *
-   * @see _events
+   * @type {string|string[]}
    */
-  get events() {
-    return this._events;
+  get transitionClass() {
+    const menu = this.elements.controlledMenu;
+
+    return menu.elements.rootMenu
+      ? menu.transitionClass
+      : super.transitionClass;
+  }
+
+  set transitionClass(value) {
+    const menu = this.elements.controlledMenu;
+    const rootMenu = menu.elements.rootMenu || menu;
+
+    rootMenu.transitionClass = value;
+    this._classes.transition = value;
   }
 
   /**
-   * The open state on the toggle.
+   * The duration of the transition between expanded and collapsed states (in milliseconds).
    *
-   * @type {boolean}
-   *
-   * @see _open
+   * @type {number}
    */
-  get isOpen() {
-    return this._open.value;
+  get transitionDuration() {
+    const menu = this.elements.controlledMenu;
+
+    return menu.elements.rootMenu
+      ? menu.transitionDuration
+      : super.transitionDuration;
+  }
+
+  set transitionDuration(value) {
+    const menu = this.elements.controlledMenu;
+    const rootMenu = menu.elements.rootMenu || menu;
+
+    rootMenu.transitionDuration = value;
+    this._durations.transition = value;
   }
 
   /**
-   * The open state of the toggle that the user specifically triggered.
+   * The duration of the transition from collapsed to expanded states (in milliseconds).
    *
-   * @type {boolean}
-   *
-   * @see _open
+   * @type {number}
    */
-  get hasOpened() {
-    return this._open.committed;
+  get expandDuration() {
+    const menu = this.elements.controlledMenu;
+
+    return menu.elements.rootMenu ? menu.expandDuration : super.expandDuration;
+  }
+
+  set expandDuration(value) {
+    const menu = this.elements.controlledMenu;
+    const rootMenu = menu.elements.rootMenu || menu;
+
+    rootMenu.expandDuration = value;
+    this._durations.expand = value;
+  }
+
+  /**
+   * The duration of the transition from expanded to collapsed states (in milliseconds).
+   *
+   * @type {number}
+   */
+  get collapseDuration() {
+    const menu = this.elements.controlledMenu;
+
+    return menu.elements.rootMenu
+      ? menu.collapseDuration
+      : super.collapseDuration;
+  }
+
+  set collapseDuration(value) {
+    const menu = this.elements.controlledMenu;
+    const rootMenu = menu.elements.rootMenu || menu;
+
+    rootMenu.collapseDuration = value;
+    this._durations.collapse = value;
   }
 
   /**
@@ -202,17 +277,18 @@ class BaseMenuToggle {
    */
   _setIds() {
     if (
-      this.dom.toggle.id === "" ||
+      this.dom.controller.id === "" ||
       this.elements.controlledMenu.dom.menu.id === ""
     ) {
-      let id = this.dom.toggle.innerText?.replace(/[^a-zA-Z0-9\s]/g, "") || "";
+      let id =
+        this.dom.controller.innerText?.replace(/[^a-zA-Z0-9\s]/g, "") || "";
       let finalID = this.elements.controlledMenu.key;
 
       if (
         !id.replace(/\s/g, "").length &&
-        this.dom.toggle.getAttribute("aria-label")
+        this.dom.controller.getAttribute("aria-label")
       ) {
-        id = this.dom.toggle
+        id = this.dom.controller
           .getAttribute("aria-label")
           .replace(/[^a-zA-Z0-9\s]/g, "");
       }
@@ -231,10 +307,13 @@ class BaseMenuToggle {
         finalID = `${id}-${finalID}`;
       }
 
-      this.dom.toggle.id = this.dom.toggle.id || `menu-button-${finalID}`;
+      this.dom.controller.id =
+        this.dom.controller.id || `menu-button-${finalID}`;
       this.elements.controlledMenu.dom.menu.id =
         this.elements.controlledMenu.dom.menu.id || `menu-${finalID}`;
     }
+
+    this._id = this.dom.controller.id;
   }
 
   /**
@@ -250,155 +329,36 @@ class BaseMenuToggle {
    */
   _setAriaAttributes() {
     // Set up proper aria attributes.
-    this.dom.toggle.setAttribute("aria-expanded", "false");
+    this.dom.controller.setAttribute("aria-expanded", "false");
 
     // Set up proper aria label and control.
     this.elements.controlledMenu.dom.menu.setAttribute(
       "aria-labelledby",
-      this.dom.toggle.id
+      this.dom.controller.id
     );
-  }
-
-  /**
-   * Dispatch a custom event on an element in the DOM.
-   *
-   * @param {string}      eventType - The type of the event to dispatch.
-   * @param {HTMLElement} element   - The element to dispatch the event on.
-   */
-  _dispatchEvent(eventType, element) {
-    // Make sure the event type exists.
-    if (!Object.keys(this.events).includes(eventType)) {
-      throw new Error(
-        `Accessible Menu: "${eventType}" is not a valid event type.`
-      );
-    }
-
-    // Make sure the element is actually an HTML Element.
-    isValidInstance(HTMLElement, { element });
-
-    // Dispatch the event.
-    element.dispatchEvent(this.events[eventType]);
   }
 
   /**
    * Expands the controlled menu.
    *
-   * Sets the toggle's `aria-expanded` to "true", adds the
-   * open class to the toggle's parent menu item
-   * and controlled menu, and removes the closed class
-   * from the toggle's parent menu item and controlled menu.
+   * Sets the root menu's hasExpanded value to `true`, then calls
+   * CollapsibleComponent's _expand method to set the ARIA attributes,
+   * classes, and transitions on the controlled menu.
    *
-   * If `emit` is set to `true`, this will also emit a custom event
-   * called accessibleMenuExpand
+   * If `emit` is set to `true`, this will also emit the expand event.
    *
    * @protected
    *
-   * @fires accessibleMenuExpand
-   *
-   * @param {object}  [options = {}]              - The options for expanding the menu.
-   * @param {boolean} [options.emit = true]       - A toggle to emit the expand event once expanded.
-   * @param {boolean} [options.transition = true] - A flag to use transitions when expanding.
+   * @param {object}  [options = {}]                            - The options for expanding the menu.
+   * @param {boolean} [options.emit = this.isInitialized]       - A toggle to emit the expand event once expanded.
+   * @param {boolean} [options.transition = this.isInitialized] - A flag to use transitions when expanding.
    */
-  _expand({ emit = true, transition = true } = {}) {
-    const { closeClass, openClass, transitionClass, openDuration } =
-      this.elements.controlledMenu;
+  _expand(options = {}) {
+    const rootMenu = this.elements.controlledMenu.elements.rootMenu;
 
-    this.dom.toggle.setAttribute("aria-expanded", "true");
-    this.elements.controlledMenu.elements.rootMenu.hasOpened = true;
+    if (rootMenu) rootMenu.hasExpanded = true;
 
-    // If we're dealing with transition classes, then we need to utilize
-    // requestAnimationFrame to add the transition class, remove the close class,
-    // add the open class, and finally remove the transition class.
-    if (transition && transitionClass !== "") {
-      addClass(transitionClass, this.elements.controlledMenu.dom.menu);
-
-      requestAnimationFrame(() => {
-        removeClass(closeClass, this.elements.controlledMenu.dom.menu);
-
-        requestAnimationFrame(() => {
-          addClass(openClass, this.elements.controlledMenu.dom.menu);
-
-          requestAnimationFrame(() => {
-            setTimeout(() => {
-              removeClass(
-                transitionClass,
-                this.elements.controlledMenu.dom.menu
-              );
-            }, openDuration);
-          });
-        });
-      });
-    } else {
-      // Add the open class
-      addClass(openClass, this.elements.controlledMenu.dom.menu);
-
-      // Remove the close class.
-      removeClass(closeClass, this.elements.controlledMenu.dom.menu);
-    }
-
-    if (emit) {
-      this._dispatchEvent("expand", this.dom.toggle);
-    }
-  }
-
-  /**
-   * Collapses the controlled menu.
-   *
-   * Sets the toggle's `aria-expanded` to "false", adds the
-   * closed class to the toggle's parent menu item
-   * and controlled menu, and removes the open class
-   * from the toggle's parent menu item and controlled menu.
-   *
-   * If `emit` is set to `true`, this will also emit a custom event
-   * called accessibleMenuCollapse
-   *
-   * @protected
-   *
-   * @fires accessibleMenuCollapse
-   *
-   * @param {object}  [options = {}]              - The options for collapsing the menu.
-   * @param {boolean} [options.emit = true]       - A toggle to emit the collapse event once collapsed.
-   * @param {boolean} [options.transition = true] - A flag to use transitions when collapsing.
-   */
-  _collapse({ emit = true, transition = true } = {}) {
-    const { closeClass, openClass, transitionClass, closeDuration } =
-      this.elements.controlledMenu;
-
-    this.dom.toggle.setAttribute("aria-expanded", "false");
-
-    // If we're dealing with transition classes, then we need to utilize
-    // requestAnimationFrame to add the transition class, remove the open class,
-    // add the close class, and finally remove the transition class.
-    if (transition && transitionClass !== "") {
-      addClass(transitionClass, this.elements.controlledMenu.dom.menu);
-
-      requestAnimationFrame(() => {
-        removeClass(openClass, this.elements.controlledMenu.dom.menu);
-
-        requestAnimationFrame(() => {
-          addClass(closeClass, this.elements.controlledMenu.dom.menu);
-
-          requestAnimationFrame(() => {
-            setTimeout(() => {
-              removeClass(
-                transitionClass,
-                this.elements.controlledMenu.dom.menu
-              );
-            }, closeDuration);
-          });
-        });
-      });
-    } else {
-      // Add the close class
-      addClass(closeClass, this.elements.controlledMenu.dom.menu);
-
-      // Remove the open class.
-      removeClass(openClass, this.elements.controlledMenu.dom.menu);
-    }
-
-    if (emit) {
-      this._dispatchEvent("collapse", this.dom.toggle);
-    }
+    super._expand(options);
   }
 
   /**
@@ -406,34 +366,25 @@ class BaseMenuToggle {
    *
    * Sets the controlled menu's focus state to "self"
    * and the parent menu's focus state to "child", calls expand,
-   * and sets the isOpen value to `true`.
+   * and sets the isExpanded value to `true`.
    *
-   * @param {object}  [options = {}]                  - The options for opening the menu.
-   * @param {boolean} [options.force = false]         - A flag to force the menu to open.
-   * @param {boolean} [options.preserveState = false] - A flag to preserve the current state.
-   * @param {boolean} [options.emit = true]           - A flag to emit the expand event.
-   * @param {boolean} [options.transition = true]     - A flag to use transitions when opening.
+   * @param {object}  [options = {}]                            - The options for opening the menu.
+   * @param {boolean} [options.force = !this.isInitialized]     - A flag to force the menu to open, including when locked.
+   * @param {boolean} [options.preserveState = false]           - A flag to preserve the current state.
+   * @param {boolean} [options.emit = this.isInitialized]       - A flag to emit the expand event.
+   * @param {boolean} [options.transition = this.isInitialized] - A flag to use transitions when opening.
    */
-  open({
-    force = false,
+  expand({
+    force = !this.isInitialized,
     preserveState = false,
-    emit = true,
-    transition = true,
+    emit = this.isInitialized,
+    transition = this.isInitialized,
   } = {}) {
-    // Set proper focus state on the child.
-    this.elements.controlledMenu.focusState = "self";
+    if (this.isLocked && !force) return;
 
-    // If the toggle is already open and we're not forcing it, just return.
-    if (this.isOpen && !force) return;
+    if (this.isInitialized) this.elements.controlledMenu.focusState = "self";
 
-    this._expand({ emit, transition });
-
-    // Set the open flag.
-    this._open.value = true;
-
-    if (!preserveState) {
-      this._open.commit();
-    }
+    super.expand({ force, preserveState, emit, transition });
   }
 
   /**
@@ -443,34 +394,24 @@ class BaseMenuToggle {
    * and the parent menu's focus state to "child",
    * and calls expand.
    *
-   * @param {object}  [options = {}]                  - The options for previewing the menu.
-   * @param {boolean} [options.force = false]         - A flag to force the menu to preview.
-   * @param {boolean} [options.preserveState = false] - A flag to preserve the current state.
-   * @param {boolean} [options.emit = true]           - A flag to emit the expand event.
-   * @param {boolean} [options.transition = true]     - A flag to use transitions when previewing.
+   * @param {object}  [options = {}]                            - The options for previewing the menu.
+   * @param {boolean} [options.force = !this.isInitialized]     - A flag to force the menu to preview, including when locked.
+   * @param {boolean} [options.preserveState = false]           - A flag to preserve the current state.
+   * @param {boolean} [options.emit = this.isInitialized]       - A flag to emit the expand event.
+   * @param {boolean} [options.transition = this.isInitialized] - A flag to use transitions when previewing.
    */
   preview({
-    force = false,
+    force = !this.isInitialized,
     preserveState = false,
-    emit = true,
-    transition = true,
+    emit = this.isInitialized,
+    transition = this.isInitialized,
   } = {}) {
-    // Set proper focus state on the parent.
-    if (this.elements.parentMenu) {
+    if (this.isLocked && !force) return;
+
+    if (this.isInitialized && this.elements.parentMenu)
       this.elements.parentMenu.focusState = "self";
-    }
 
-    // If the toggle is already open and we're not forcing it, just return.
-    if (this.isOpen && !force) return;
-
-    this._expand({ emit, transition });
-
-    // Set the open flag.
-    this._open.value = true;
-
-    if (!preserveState) {
-      this._open.commit();
-    }
+    super.preview({ force, preserveState, emit, transition });
   }
 
   /**
@@ -480,64 +421,29 @@ class BaseMenuToggle {
    * and the parent menu's focus state to "self", blurs the controlled menu
    * and sets it's current child index to 0,
    * calls collapse, and sets
-   * the isOpen value to `false`.
+   * the isExpanded value to `false`.
    *
-   * @param {object}  [options = {}]                  - The options for closing the menu.
-   * @param {boolean} [options.force = false]         - A flag to force the menu to close.
-   * @param {boolean} [options.preserveState = false] - A flag to preserve the current state.
-   * @param {boolean} [options.emit = true]           - A flag to emit the collapse event.
-   * @param {boolean} [options.transition = true]     - A flag to use transitions when closing.
+   * @param {object}  [options = {}]                            - The options for closing the menu.
+   * @param {boolean} [options.force = !this.isInitialized]     - A flag to force the menu to close, including when locked.
+   * @param {boolean} [options.preserveState = false]           - A flag to preserve the current state.
+   * @param {boolean} [options.emit = this.isInitialized]       - A flag to emit the collapse event.
+   * @param {boolean} [options.transition = this.isInitialized] - A flag to use transitions when closing.
    */
-  close({
-    force = false,
+  collapse({
+    force = !this.isInitialized,
     preserveState = false,
-    emit = true,
-    transition = true,
+    emit = this.isInitialized,
+    transition = this.isInitialized,
   } = {}) {
-    // If the toggle is already closed and we're not forcing it, just return.
-    if (!this.isOpen && !force) return;
+    if (this.isLocked && !force) return;
 
-    // Reset controlled menu.
-    this.elements.controlledMenu.blur();
+    if (!this.isExpanded && !force) return;
 
-    // Set proper focus states on the parent.
-    if (this.elements.parentMenu) {
+    if (this.isInitialized) this.elements.controlledMenu.blur();
+    if (this.isInitialized && this.elements.parentMenu)
       this.elements.parentMenu.focusState = "self";
-    }
 
-    // Collapse the controlled menu.
-    this._collapse({ emit, transition });
-
-    // Set the open flag.
-    this._open.value = false;
-
-    if (!preserveState) {
-      this._open.commit();
-    }
-  }
-
-  /**
-   * Toggles the open state of the controlled menu between `true` and `false`.
-   *
-   * @public
-   *
-   * @param {object}  [options = {}]                  - The options for toggling the menu.
-   * @param {boolean} [options.force = false]         - A flag to force the menu to open/close.
-   * @param {boolean} [options.preserveState = false] - A flag to preserve the current state.
-   * @param {boolean} [options.emit = true]           - A flag to emit the expand/collapse event.
-   * @param {boolean} [options.transition = true]     - A flag to use transitions when toggling.
-   */
-  toggle({
-    force = false,
-    preserveState = false,
-    emit = true,
-    transition = true,
-  } = {}) {
-    if (this.isOpen) {
-      this.close({ force, preserveState, emit, transition });
-    } else {
-      this.open({ force, preserveState, emit, transition });
-    }
+    super.collapse({ force, preserveState, emit, transition });
   }
 
   /**
@@ -545,22 +451,22 @@ class BaseMenuToggle {
    *
    * @public
    *
-   * @param {object}  [options = {}]                  - The options for closing the sibling menus.
-   * @param {boolean} [options.force = false]         - A flag to force the menus to close.
-   * @param {boolean} [options.preserveState = false] - A flag to preserve the current state.
-   * @param {boolean} [options.emit = true]           - A flag to emit the collapse event.
-   * @param {boolean} [options.transition = true]     - A flag to use transitions when closing.
+   * @param {object}  [options = {}]                            - The options for closing the sibling menus.
+   * @param {boolean} [options.force = !this.isInitialized]     - A flag to force the menus to close.
+   * @param {boolean} [options.preserveState = false]           - A flag to preserve the current state.
+   * @param {boolean} [options.emit = this.isInitialized]       - A flag to emit the collapse event.
+   * @param {boolean} [options.transition = this.isInitialized] - A flag to use transitions when closing.
    */
-  closeSiblings({
-    force = false,
+  collapseSiblings({
+    force = !this.isInitialized,
     preserveState = false,
-    emit = true,
-    transition = true,
+    emit = this.isInitialized,
+    transition = this.isInitialized,
   } = {}) {
     if (this.elements.parentMenu) {
       this.elements.parentMenu.elements.submenuToggles.forEach((toggle) => {
         if (toggle !== this)
-          toggle.close({ force, preserveState, emit, transition });
+          toggle.collapse({ force, preserveState, emit, transition });
       });
     }
   }
@@ -570,20 +476,20 @@ class BaseMenuToggle {
    *
    * @public
    *
-   * @param {object}  [options = {}]                  - The options for closing the child menus.
-   * @param {boolean} [options.force = false]         - A flag to force the menus to close.
-   * @param {boolean} [options.preserveState = false] - A flag to preserve the current state.
-   * @param {boolean} [options.emit = true]           - A flag to emit the collapse event.
-   * @param {boolean} [options.transition = true]     - A flag to use transitions when closing.
+   * @param {object}  [options = {}]                            - The options for closing the child menus.
+   * @param {boolean} [options.force = !this.isInitialized]     - A flag to force the menus to close.
+   * @param {boolean} [options.preserveState = false]           - A flag to preserve the current state.
+   * @param {boolean} [options.emit = this.isInitialized]       - A flag to emit the collapse event.
+   * @param {boolean} [options.transition = this.isInitialized] - A flag to use transitions when closing.
    */
-  closeChildren({
-    force = false,
+  collapseChildren({
+    force = !this.isInitialized,
     preserveState = false,
-    emit = true,
-    transition = true,
+    emit = this.isInitialized,
+    transition = this.isInitialized,
   } = {}) {
     this.elements.controlledMenu.elements.submenuToggles.forEach((toggle) =>
-      toggle.close({ force, preserveState, emit, transition })
+      toggle.collapse({ force, preserveState, emit, transition })
     );
   }
 }
