@@ -69,9 +69,17 @@ export default defineConfig({
     host: "0.0.0.0",
   },
   test: {
-    environment: "jsdom",
-    environmentOptions: {
-      pretendToBeVisual: true,
-    },
+    projects: [
+      {
+        test: {
+          name: "unit",
+          environment: "jsdom",
+          environmentOptions: {
+            pretendToBeVisual: true,
+          },
+          include: ["tests/**/*.unit.{test,spec}.{js,ts,jsx,tsx}"],
+        },
+      },
+    ],
   },
 });
