@@ -26,12 +26,12 @@ const CURRENT_RELEASE_PATH = path.resolve(__dirname, "../CURRENT_RELEASE.md");
  *
  * Examples:
  * - ### [4.2.2](...) (2025-05-27)
- * - ## [4.2.2-beta.1](...)
+ * - ## 4.2.2-beta.1 (2025-05-27)
  *
  * @type {RegExp}
  */
 const RELEASE_HEADING_RE =
-  /^#{2,3}\s+\[(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)(?:-[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?(?:\+[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?\][^\n]*$/gm;
+  /^#{2,3}\s+(?:\[(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)(?:-[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?(?:\+[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?\](?:\([^\n]*\))?|(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)(?:-[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?(?:\+[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?)[^\n]*$/gm;
 
 /**
  * Normalizes Windows-style CRLF newlines to LF.
@@ -72,7 +72,7 @@ function extractLatestRelease(changelog) {
   const firstMatch = RELEASE_HEADING_RE.exec(text);
   if (!firstMatch) {
     throw new Error(
-      "No release headings found. Expected a heading like '### [4.2.2](...) (YYYY-MM-DD)'."
+      "No release headings found. Expected a heading like '### 4.2.2 (YYYY-MM-DD)' or '### [4.2.2](...)'."
     );
   }
 
