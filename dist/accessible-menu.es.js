@@ -1,10 +1,4 @@
-function A(o, e) {
-  o === "" || o.length === 0 || (typeof o == "string" ? e.classList.add(o) : e.classList.add(...o));
-}
-function D(o, e) {
-  o === "" || o.length === 0 || (typeof o == "string" ? e.classList.remove(o) : e.classList.remove(...o));
-}
-function S(o, e, { shouldThrow: t = !0 } = {}) {
+function y(o, e, { shouldThrow: t = !0 } = {}) {
   const s = {
     status: !0,
     errors: []
@@ -34,7 +28,7 @@ function S(o, e, { shouldThrow: t = !0 } = {}) {
     throw s.errors[0];
   return s;
 }
-function h(o, e, { shouldThrow: t = !0 } = {}) {
+function u(o, e, { shouldThrow: t = !0 } = {}) {
   const s = {
     status: !0,
     errors: []
@@ -63,7 +57,7 @@ function h(o, e, { shouldThrow: t = !0 } = {}) {
     throw s.errors[0];
   return s;
 }
-function P(o, { shouldThrow: e = !0 } = {}) {
+function ne(o, { shouldThrow: e = !0 } = {}) {
   const t = {
     status: !0,
     errors: []
@@ -96,7 +90,7 @@ function P(o, { shouldThrow: e = !0 } = {}) {
     throw t.errors[0];
   return t;
 }
-function K(o, { shouldThrow: e = !0 } = {}) {
+function L(o, { shouldThrow: e = !0 } = {}) {
   const t = {
     status: !0,
     errors: []
@@ -110,23 +104,32 @@ function K(o, { shouldThrow: e = !0 } = {}) {
     }
     for (const s in o)
       try {
-        const i = typeof o[s];
-        if (i !== "string")
-          if (Array.isArray(o[s]))
-            o[s].forEach((n) => {
-              if (typeof n != "string")
-                throw new TypeError(
-                  `${s} must be a string or an array of strings. An array containing non-strings given.`
-                );
-            });
-          else
+        const i = o[s];
+        if (i === "")
+          continue;
+        if (typeof i == "string") {
+          if (/\s/.test(i))
             throw new TypeError(
-              `${s} must be a string or an array of strings. "${i}" given.`
+              `${s} must be a valid class token without whitespace. "${i}" given.`
             );
-        else {
-          const n = {};
-          n[s] = o[s], P(n);
+          continue;
         }
+        if (Array.isArray(i)) {
+          i.forEach((n) => {
+            if (typeof n != "string")
+              throw new TypeError(
+                `${s} must be a string or an array of strings. An array containing non-strings given.`
+              );
+            if (n !== "" && /\s/.test(n))
+              throw new TypeError(
+                `${s} must be a valid class token without whitespace. "${n}" given.`
+              );
+          });
+          continue;
+        }
+        throw new TypeError(
+          `${s} must be a string or an array of strings. "${typeof i}" given.`
+        );
       } catch (i) {
         t.status = !1, t.errors.push(i);
       }
@@ -137,7 +140,7 @@ function K(o, { shouldThrow: e = !0 } = {}) {
     throw t.errors[0];
   return t;
 }
-function U(o, { shouldThrow: e = !0 } = {}) {
+function re(o, { shouldThrow: e = !0 } = {}) {
   const t = {
     status: !0,
     errors: []
@@ -168,7 +171,7 @@ function U(o, { shouldThrow: e = !0 } = {}) {
     throw t.errors[0];
   return t;
 }
-function W(o, { shouldThrow: e = !0 } = {}) {
+function oe(o, { shouldThrow: e = !0 } = {}) {
   const t = {
     status: !0,
     errors: []
@@ -199,7 +202,7 @@ function W(o, { shouldThrow: e = !0 } = {}) {
     throw t.errors[0];
   return t;
 }
-function V(o, { shouldThrow: e = !0 } = {}) {
+function ee(o, { shouldThrow: e = !0 } = {}) {
   const t = {
     status: !0,
     errors: []
@@ -230,13 +233,13 @@ function V(o, { shouldThrow: e = !0 } = {}) {
     throw t.errors[0];
   return t;
 }
-function z(o, e, { shouldThrow: t = !0 } = {}) {
+function U(o, e, { shouldThrow: t = !0 } = {}) {
   const s = {
     status: !0,
     errors: []
   };
   try {
-    if (h("string", { tagName: o }, { shouldThrow: !0 }).status && S(HTMLElement, e, { shouldThrow: !0 }).status) {
+    if (u("string", { tagName: o }, { shouldThrow: !0 }).status && y(HTMLElement, e, { shouldThrow: !0 }).status) {
       const i = o.toLowerCase();
       for (const n in e)
         try {
@@ -255,7 +258,1354 @@ function z(o, e, { shouldThrow: t = !0 } = {}) {
     throw s.errors[0];
   return s;
 }
-class Z {
+function le(o, e, { shouldThrow: t = !0 } = {}) {
+  const s = {
+    status: !0,
+    errors: []
+  };
+  try {
+    if (!Object.prototype.hasOwnProperty.call(e.events, o))
+      throw new TypeError(
+        `Event type "${o}" is not valid for ${e.constructor.name}. Valid event types are: "${Object.keys(e.events).join('", ')}".`
+      );
+  } catch (i) {
+    s.status = !1, s.errors.push(i);
+  }
+  if (t && !s.status)
+    throw s.errors[0];
+  return s;
+}
+function he(o, { shouldThrow: e = !0 } = {}) {
+  const t = {
+    status: !0,
+    errors: []
+  };
+  try {
+    if (!Object.prototype.hasOwnProperty.call(
+      o._dom,
+      o._rootDOMElement
+    ))
+      throw new Error(
+        `The root DOM element "${o._rootDOMElement}" does not exist in the ${o.constructor.name}'s _dom property. It must be one of the following: "${Object.keys(
+          o._dom
+        ).join('", "')}".`
+      );
+  } catch (s) {
+    t.status = !1, t.errors.push(s);
+  }
+  if (e && !t.status)
+    throw t.errors[0];
+  return t;
+}
+function ae(o) {
+  return u("string", { value: o }), `${o.charAt(0).toLowerCase()}${o.slice(1)}`;
+}
+function te(o) {
+  return u("string", { value: o }), `${o.charAt(0).toUpperCase()}${o.slice(1)}`;
+}
+class Q {
+  /**
+   * The scope of the storage.
+   *
+   * @protected
+   *
+   * @type {string}
+   */
+  _scope;
+  /**
+   * The type of storage.
+   *
+   * @protected
+   *
+   * @type {string}
+   */
+  _type = "_default";
+  /**
+   * The storage object.
+   *
+   * @protected
+   *
+   * @type {object}
+   */
+  _storage = {};
+  /**
+   * A flag to replace existing storage in the same scope.
+   *
+   * @protected
+   *
+   * @type {boolean}
+   */
+  _crush = !1;
+  /**
+   * Constructs a new `StorageManager`.
+   *
+   * @param {object}  [options = {}]              - The options for the storage.
+   * @param {string}  options.scope               - The scope of the storage.
+   * @param {?string} [options.type = null]       - The type of storage.
+   * @param {boolean} [options.crush = false]     - A flag to replace existing storage in the same scope.
+   * @param {boolean} [options.initialize = true] - Whether to initialize the storage.
+   */
+  constructor({ scope: e, type: t = null, crush: s = !1, initialize: i = !0 } = {}) {
+    this._scope = e, this._type = t || "_default", this._crush = s, i && this.initialize();
+  }
+  /**
+   * Initialize the storage.
+   */
+  initialize() {
+    try {
+      !this._crush && typeof window[this.scope] < "u" && (y(
+        Q,
+        { storage: window[this.scope] },
+        { shouldThrow: !1 }
+      ).status || typeof window[this.scope].storage < "u" && typeof window[this.scope].scope < "u" && typeof window[this.scope].type < "u") && (this._storage = window[this.scope].storage);
+    } catch {
+    } finally {
+      window[this.scope] = this;
+    }
+  }
+  /**
+   * The scope of the storage.
+   *
+   * @readonly
+   *
+   * @type {string}
+   *
+   * @see _scope
+   */
+  get scope() {
+    return this._scope;
+  }
+  /**
+   * The type of storage.
+   *
+   * @type {string}
+   *
+   * @see _type
+   */
+  get type() {
+    return this._type;
+  }
+  set type(e) {
+    u("string", { type: e }) && (this._type = e);
+  }
+  /**
+   * The storage object.
+   *
+   * @readonly
+   *
+   * @type {object}
+   *
+   * @see _storage
+   */
+  get storage() {
+    return this._storage;
+  }
+  /**
+   * Get the storage object.
+   *
+   * @param  {object}  [options = {}]             - The options for getting the storage.
+   * @param  {string}  [options.type = this.type] - The type of storage to get.
+   * @param  {?string} [options.key = null]       - The key to get the value from.
+   * @return {object}                             - The storage object.
+   */
+  get({ type: e = this.type, key: t = null } = {}) {
+    const s = u("string", { type: e }, { shouldThrow: !1 });
+    if (!s.status)
+      throw s.errors[0];
+    if (!this.storage[e])
+      throw new Error(
+        `StorageManager (${this.scope}): Type "${e}" is not initialized.`
+      );
+    if (t !== null) {
+      const i = u("string", { key: t }, { shouldThrow: !1 });
+      if (!i.status)
+        throw i.errors[0];
+      return this.storage[e][t];
+    }
+    return this.storage[e];
+  }
+  /**
+   * Set the storage object.
+   *
+   * @param {object}  [options = {}]             - The options for setting the storage.
+   * @param {string}  [options.type = this.type] - The type of storage to set.
+   * @param {?string} [options.key = null]       - The key to set the value to.
+   * @param {object}  [options.data = {}]        - The data to set.
+   */
+  set({ type: e = this.type, key: t = null, data: s = {} } = {}) {
+    const i = u("string", { type: e }, { shouldThrow: !1 }), n = u("object", { data: s }, { shouldThrow: !1 });
+    if (!i.status)
+      throw i.errors[0];
+    if (!n.status)
+      throw n.errors[0];
+    if (t !== null) {
+      const r = u("string", { key: t }, { shouldThrow: !1 });
+      if (!r.status)
+        throw r.errors[0];
+      this._storage[e] || (this._storage[e] = {}), this._storage[e][t] = s;
+    } else
+      this._storage[e] = s;
+  }
+  /**
+   * Remove a value from the storage object.
+   *
+   * @param {object}  [options = {}]             - The options for removing from storage.
+   * @param {string}  [options.type = this.type] - The type of storage to remove from.
+   * @param {?string} [options.key = null]       - The key to remove the value from.
+   */
+  clear({ type: e = this.type, key: t = null } = {}) {
+    const s = u("string", { type: e }, { shouldThrow: !1 });
+    if (!s.status)
+      throw s.errors[0];
+    if (t !== null) {
+      const i = u("string", { key: t }, { shouldThrow: !1 });
+      if (!i.status)
+        throw i.errors[0];
+      delete this.storage[e][t];
+    } else
+      delete this.storage[e];
+  }
+  dispose() {
+    typeof window < "u" && window[this.scope] === this && delete window[this.scope], delete this._storage;
+  }
+}
+function j(o, e) {
+  if (!(o === "" || o.length === 0))
+    if (typeof o == "string")
+      e.classList.add(o);
+    else {
+      const t = o.filter((s) => s !== "");
+      t.length > 0 && e.classList.add(...t);
+    }
+}
+function N(o, e) {
+  if (!(o === "" || o.length === 0))
+    if (typeof o == "string")
+      e.classList.remove(o);
+    else {
+      const t = o.filter((s) => s !== "");
+      t.length > 0 && e.classList.remove(...t);
+    }
+}
+class W {
+  /**
+   * The DOM elements within the component.
+   *
+   * @protected
+   *
+   * @type {Object<string, HTMLElement|HTMLElement[]>}
+   */
+  _dom = {};
+  /**
+   * The key used to get the root element from _dom.
+   *
+   * @protected
+   *
+   * @type {string}
+   */
+  _rootDOMElement = "";
+  /**
+   * The DOM elements within the component that cannot be reset or generated by the component itself.
+   *
+   * @protected
+   *
+   * @type {string[]}
+   */
+  _protectedDOMElements = [];
+  /**
+   * The query selectors used by the component.
+   *
+   * @protected
+   *
+   * @type {Object<string, string>}
+   */
+  _selectors = {};
+  /**
+   * The instantiated elements within the component.
+   *
+   * @protected
+   *
+   * @type {object}
+   */
+  _elements = {};
+  /**
+   * The CSS classes to apply when the component is in various states.
+   *
+   * @protected
+   *
+   * @type {Object<string, string|string[]>}
+   *
+   * @property {string|string[]} initialize - The class(es) to apply when the component is in the initialization state.
+   */
+  _classes = {
+    initialize: ""
+  };
+  /**
+   * The duration times (in milliseconds) for component transitions.
+   *
+   * @protected
+   *
+   * @type {Object<string, number>}
+   */
+  _durations = {};
+  /**
+   * The delay times (in milliseconds) for component events.
+   *
+   * @protected
+   *
+   * @type {Object<string, number>}
+   */
+  _delays = {};
+  /**
+   * The current state of the component's focus.
+   *
+   * @protected
+   *
+   * @type {string}
+   */
+  _focusState = "none";
+  /**
+   * The last type of event triggered within the component.
+   *
+   * @protected
+   *
+   * @type {string}
+   */
+  _currentEvent = "none";
+  /**
+   * Intervals throughout the component.
+   *
+   * @protected
+   *
+   * @type {Object<string, Function>}
+   */
+  _intervals = {};
+  /**
+   * Timeouts throughout the component.
+   *
+   * @protected
+   *
+   * @type {Object<string, Function>}
+   */
+  _timeouts = {};
+  /**
+   * Event listeners throughout the component.
+   *
+   * @protected
+   *
+   * @type {object[]}
+   */
+  _listeners = [];
+  /**
+   * Custom events that can be triggered throughout the component.
+   *
+   * @protected
+   *
+   * @type {Object<string, CustomEvent>}
+   */
+  _events = {};
+  /**
+   * The prefix used for CSS custom properties and attributes.
+   *
+   * @protected
+   *
+   * @type {string}
+   */
+  _prefix = "ae-";
+  /**
+   * The key used to generate IDs throughout the component.
+   *
+   * @protected
+   *
+   * @type {string}
+   */
+  _key = "";
+  /**
+   * The component name.
+   *
+   * @protected
+   *
+   * @type {string}
+   */
+  _name = "Component";
+  /**
+   * The scope of the component.
+   *
+   * @protected
+   *
+   * @type {string}
+   */
+  _scope = "AccessibleEcosystem";
+  /**
+   * The prefix used for event names instead of the scope and component name.
+   *
+   * An empty string uses the scope and component name.
+   *
+   * @protected
+   *
+   * @type {string}
+   */
+  _eventPrefix = "";
+  /**
+   * The key used for storage.
+   *
+   * @protected
+   *
+   * @type {string}
+   */
+  _storageKey = "components";
+  /**
+   * A flag to check if the component should be stored in the StorageManager.
+   *
+   * @protected
+   *
+   * @type {boolean}
+   */
+  _shouldStore = !0;
+  /**
+   * The main ID of the component.
+   *
+   * @protected
+   *
+   * @type {string}
+   */
+  _id = "";
+  /**
+   * The validity state of the component.
+   *
+   * @protected
+   *
+   * @type {boolean}
+   */
+  _valid = !0;
+  /**
+   * The initialized state of the component.
+   *
+   * @protected
+   *
+   * @type {boolean}
+   */
+  _initialized = !1;
+  /**
+   * The errors found throughout the component.
+   *
+   * @protected
+   *
+   * @type {Error[]}
+   */
+  _errors = [];
+  /**
+   * Constructs a new component.
+   *
+   * @param {object}             [options = {}]                           - The options for generating the component.
+   * @param {?string}            [options.prefix = ae-]                   - The prefix used for CSS custom properties and attributes.
+   * @param {?string}            [options.key = null]                     - The key used to generate IDs throughout the component.
+   * @param {?(string|string[])} [options.initializeClass = initializing] - The class(es) to apply when the component is in the initialization state.
+   * @param {boolean}            [options.bootstrap = true]               - A flag to determine if the component should bootstrap itself.
+   */
+  constructor({
+    prefix: e = "ae-",
+    key: t = null,
+    initializeClass: s = "initializing",
+    bootstrap: i = !0
+  } = {}) {
+    this._classes.initialize = s || "", this._prefix = e || "", this._key = t || "", i && this._bootstrap();
+  }
+  /**
+   * Bootstraps the component by registering the base events.
+   *
+   * @protected
+   */
+  _bootstrap() {
+    try {
+      this._registerEvent("initialize"), this._registerEvent("preinitialize"), this._registerEvent("postinitialize"), this._registerEvent("validate"), this._registerEvent("prevalidate"), this._registerEvent("postvalidate");
+    } catch (e) {
+      this._valid = !1, console.error(e);
+    }
+  }
+  /**
+   * Initialize the component.
+   */
+  initialize() {
+    try {
+      if (!this._validate())
+        throw new Error(
+          `${this.scope} ${this.name}: Cannot initialize component. The following errors have been found:
+ - ${this.errors.map((e) => e.message).join(`
+ - `)}`
+        );
+      j(this.initializeClass, this.rootDOMElement), this._dispatchEvent("preinitialize", this.rootDOMElement), this._generateKey(), this._setDOMElements(), this._setIds(), this._setAriaAttributes(), this._setCustomProps(), this._createChildElements(), this._handleFocus(), this._handleHover(), this._handleClick(), this._handleKeydown(), this._handleKeyup(), this._dispatchEvent("initialize", this.rootDOMElement), this._store(), N(this.initializeClass, this.rootDOMElement), this._initialized = !0, this._dispatchEvent("postinitialize", this.rootDOMElement);
+    } catch (e) {
+      this._valid = !1, console.error(e);
+    }
+  }
+  init() {
+    this.initialize();
+  }
+  /**
+   * The DOM elements within the component.
+   *
+   * @readonly
+   *
+   * @type {object}
+   *
+   * @see _dom
+   */
+  get dom() {
+    return this._dom;
+  }
+  /**
+   * The root DOM element of the component.
+   *
+   * @readonly
+   *
+   * @type {HTMLElement}
+   *
+   * @see _rootDOMElement
+   */
+  get rootDOMElement() {
+    const e = this._dom[this._rootDOMElement];
+    return e instanceof HTMLElement ? e : document.documentElement;
+  }
+  /**
+   * The query selectors used by the component.
+   *
+   * @readonly
+   *
+   * @type {object}
+   *
+   * @see _selectors
+   */
+  get selectors() {
+    return this._selectors;
+  }
+  /**
+   * The instantiated elements within the component.
+   *
+   * @readonly
+   *
+   * @type {object}
+   *
+   * @see _elements
+   */
+  get elements() {
+    return this._elements;
+  }
+  /**
+   * The CSS classes to apply when the component is in various states.
+   *
+   * @readonly
+   *
+   * @type {object}
+   *
+   * @see _classes
+   */
+  get classes() {
+    return this._classes;
+  }
+  /**
+   * The duration times (in milliseconds) for component transitions.
+   *
+   * @readonly
+   *
+   * @type {object}
+   *
+   * @see _durations
+   */
+  get durations() {
+    return this._durations;
+  }
+  /**
+   * The delay times (in milliseconds) for component events.
+   *
+   * @readonly
+   *
+   * @type {object}
+   *
+   * @see _delays
+   */
+  get delays() {
+    return this._delays;
+  }
+  /**
+   * Intervals throughout the component.
+   *
+   * @readonly
+   *
+   * @type {object}
+   *
+   * @see _intervals
+   */
+  get intervals() {
+    return this._intervals;
+  }
+  /**
+   * Timeouts throughout the component.
+   *
+   * @readonly
+   *
+   * @type {object}
+   *
+   * @see _timeouts
+   */
+  get timeouts() {
+    return this._timeouts;
+  }
+  /**
+   * Event listeners throughout the component.
+   *
+   * @readonly
+   *
+   * @type {object[]}
+   *
+   * @see _listeners
+   */
+  get listeners() {
+    return this._listeners;
+  }
+  /**
+   * Custom events that can be triggered throughout the component.
+   *
+   * @readonly
+   *
+   * @type {Object<string, CustomEvent>}
+   *
+   * @see _events
+   */
+  get events() {
+    return this._events;
+  }
+  /**
+   * The class(es) to apply when the component is in the initialization state.
+   *
+   * @type {string|string[]}
+   *
+   * @see _classes.initialize
+   */
+  get initializeClass() {
+    return this._classes.initialize;
+  }
+  set initializeClass(e) {
+    L({ initializeClass: e }), this._classes.initialize !== e && (this._classes.initialize = e);
+  }
+  /**
+   * The current state of the component's focus.
+   *
+   * @type {string}
+   *
+   * @see _focusState
+   */
+  get focusState() {
+    return this._focusState;
+  }
+  set focusState(e) {
+    re({ focusState: e }), this._focusState !== e && (this._focusState = e);
+  }
+  /**
+   * The last type of event triggered within the component.
+   *
+   * @type {string}
+   *
+   * @see _currentEvent
+   */
+  get currentEvent() {
+    return this._currentEvent;
+  }
+  set currentEvent(e) {
+    oe({ currentEvent: e }), this._currentEvent !== e && (this._currentEvent = e);
+  }
+  /**
+   * A flag to check if the component's focus methods should move focus in the DOM.
+   *
+   * This will be `true` when the component's current event is "keyboard".
+   *
+   * @readonly
+   *
+   * @type {boolean}
+   */
+  get shouldFocus() {
+    let e = !1;
+    return this.currentEvent === "keyboard" && (e = !0), e;
+  }
+  /**
+   * The prefix used for CSS custom properties and attributes.
+   *
+   * @readonly
+   *
+   * @type {string}
+   *
+   * @see _prefix
+   */
+  get prefix() {
+    return this._prefix;
+  }
+  /**
+   * The key used to generate IDs throughout the component.
+   *
+   * @readonly
+   *
+   * @type {string}
+   *
+   * @see _key
+   */
+  get key() {
+    return this._key;
+  }
+  /**
+   * The component name.
+   *
+   * @readonly
+   *
+   * @type {string}
+   *
+   * @see _name
+   */
+  get name() {
+    return this._name;
+  }
+  /**
+   * The scope of the component.
+   *
+   * @readonly
+   *
+   * @type {string}
+   *
+   * @see _scope
+   */
+  get scope() {
+    return this._scope;
+  }
+  /**
+   * The prefix used for event names.
+   *
+   * Combines the scope and component name when _eventPrefix is an empty string.
+   * Subclasses can override _eventPrefix before bootstrapping.
+   *
+   * @readonly
+   *
+   * @type {string}
+   *
+   * @see _eventPrefix
+   */
+  get eventPrefix() {
+    return this._eventPrefix !== "" ? this._eventPrefix : `${ae(this.scope)}${te(this.name)}`;
+  }
+  /**
+   * The main ID of the component.
+   *
+   * @readonly
+   *
+   * @type {string}
+   *
+   * @see _id
+   */
+  get id() {
+    return this._id;
+  }
+  /**
+   * The validity state of the component.
+   *
+   * @readonly
+   *
+   * @type {boolean}
+   *
+   * @see _valid
+   */
+  get isValid() {
+    return this._valid;
+  }
+  /**
+   * The initialized state of the component.
+   *
+   * @readonly
+   *
+   * @type {boolean}
+   *
+   * @see _initialized
+   */
+  get isInitialized() {
+    return this._initialized;
+  }
+  /**
+   * An array to hold validation errors.
+   *
+   * @readonly
+   *
+   * @type {Error[]}
+   *
+   * @see _errors
+   */
+  get errors() {
+    return this._errors;
+  }
+  /**
+   * Validates the component's DOM elements, selectors, classes, durations, delays, and options.
+   *
+   * Error names match the constructor options where possible.
+   *
+   * @protected
+   *
+   * @return {boolean} - The result of the validation checks.
+   */
+  _validate() {
+    this._errors = [], this._valid = !0, this._dispatchEvent("prevalidate", this.rootDOMElement);
+    const e = he(this, {
+      shouldThrow: !1
+    });
+    if (e.status || (this._errors = [...this._errors, ...e.errors], this._valid = !1), Object.keys(this._dom).length > 0) {
+      const r = {};
+      for (const a of Object.keys(this._dom))
+        Array.isArray(this._dom[a]) ? this._dom[a].forEach((c, d) => {
+          r[`${a}Element[${d}]`] = c;
+        }) : this._dom[a] !== null && (r[`${a}Element`] = this._dom[a]);
+      const l = y(HTMLElement, r, {
+        shouldThrow: !1
+      });
+      l.status || (this._errors = [...this._errors, ...l.errors], this._valid = !1);
+    }
+    if (Object.keys(this._selectors).length > 0) {
+      const r = {};
+      for (const a of Object.keys(this._selectors))
+        r[`${a}Selector`] = this._selectors[a];
+      const l = ne(r, {
+        shouldThrow: !1
+      });
+      l.status || (this._errors = [...this._errors, ...l.errors], this._valid = !1);
+    }
+    if (Object.keys(this._classes).length > 0) {
+      const r = {};
+      for (const a of Object.keys(this._classes))
+        this._classes[a] !== "" && (r[`${a}Class`] = this._classes[a]);
+      const l = L(r, { shouldThrow: !1 });
+      l.status || (this._errors = [...this._errors, ...l.errors], this._valid = !1);
+    }
+    if (Object.keys(this._durations).length > 0) {
+      const r = {};
+      for (const a of Object.keys(this._durations))
+        r[`${a}Duration`] = this._durations[a];
+      const l = u("number", r, {
+        shouldThrow: !1
+      });
+      l.status || (this._errors = [...this._errors, ...l.errors], this._valid = !1);
+    }
+    if (Object.keys(this.delays).length > 0) {
+      const r = {};
+      for (const a of Object.keys(this.delays))
+        r[`${a}Delay`] = this.delays[a];
+      const l = u("number", r, { shouldThrow: !1 });
+      l.status || (this._errors = [...this._errors, ...l.errors], this._valid = !1);
+    }
+    const t = {
+      _name: this._name,
+      _scope: this._scope,
+      _eventPrefix: this._eventPrefix,
+      _storageKey: this._storageKey,
+      key: this._key,
+      prefix: this._prefix
+    };
+    this._protectedDOMElements.forEach((r) => {
+      t[`_protectedDOMElementType[${r}]`] = r;
+    });
+    const s = u("string", t, { shouldThrow: !1 });
+    s.status || (this._errors = [...this._errors, ...s.errors], this._valid = !1);
+    const i = {
+      _shouldStore: this._shouldStore
+    }, n = u("boolean", i, {
+      shouldThrow: !1
+    });
+    return n.status || (this._errors = [...this._errors, ...n.errors], this._valid = !1), this._dispatchEvent("validate", this.rootDOMElement), this._dispatchEvent("postvalidate", this.rootDOMElement), this._valid;
+  }
+  /**
+   * Generates a key for the component.
+   *
+   * @param {boolean} [regenerate = false] - A flag to determine if the key should be regenerated.
+   */
+  _generateKey(e = !1) {
+    (this._key === "" || e) && (this._key = Math.random().toString(36).replace(/[^a-z]+/g, "").substring(0, 10));
+  }
+  /**
+   * Sets IDs throughout the component.
+   *
+   * @abstract
+   */
+  _setIds() {
+  }
+  /**
+   * Sets ARIA attributes throughout the component.
+   *
+   * @abstract
+   */
+  _setAriaAttributes() {
+  }
+  /**
+   * Sets custom props throughout the component.
+   *
+   * @abstract
+   */
+  _setCustomProps() {
+  }
+  /**
+   * Sets DOM elements throughout the component.
+   *
+   * Elements listed in _protectedDOMElements cannot be set using this method.
+   *
+   * @protected
+   *
+   * @param {string}                      elementType                - The type of element to populate.
+   * @param {Object<HTMLElement,boolean>} [options = {}]             - The options for setting the DOM element type.
+   * @param {HTMLElement}                 [options.context]          - The element used as the base context for the querySelector.
+   * @param {boolean}                     [options.overwrite = true] - A flag to set if the existing elements will be overwritten.
+   * @param {boolean}                     [options.strict = false]   - A flag to set if the elements must be direct children of the base.
+   */
+  _setDOMElementType(e, { context: t, overwrite: s = !0, strict: i = !1 } = {}) {
+    if (typeof this.selectors[e] != "string")
+      throw new Error(
+        `${this.scope} ${this.name}: "${e}" is not a valid element type.`
+      );
+    if (this._rootDOMElement === e || this._protectedDOMElements.includes(e))
+      throw new Error(
+        `${this.scope} ${this.name}: "${e}" element cannot be set through _setDOMElementType because it is a protected element.`
+      );
+    y(HTMLElement, { context: t });
+    const r = Array.from(
+      t.querySelectorAll(this.selectors[e])
+    ).filter(
+      (l) => i ? l.parentElement === t : !0
+    );
+    Array.isArray(this._dom[e]) ? s ? this._dom[e] = r : this._dom[e] = [
+      ...this._dom[e],
+      ...r
+    ] : this._dom[e] = r[0] || null;
+  }
+  /**
+   * Resets DOM elements throughout the component.
+   *
+   * Elements listed in _protectedDOMElements cannot be reset using this method.
+   *
+   * @protected
+   *
+   * @param {string} elementType - The type of element to clear.
+   */
+  _resetDOMElementType(e) {
+    if (typeof this.selectors[e] != "string")
+      throw new Error(
+        `${this.scope} ${this.name}: "${e}" is not a valid element type.`
+      );
+    if (this._rootDOMElement === e || this._protectedDOMElements.includes(e))
+      throw new Error(
+        `${this.scope} ${this.name}: "${e}" element cannot be reset through _resetDOMElementType because it is a protected element.`
+      );
+    Array.isArray(this._dom[e]) ? this._dom[e] = [] : this._dom[e] = null;
+  }
+  /**
+   * Sets all DOM elements throughout the component.
+   *
+   * Uses _setDOMElementType and _resetDOMElementType.
+   *
+   * @abstract
+   *
+   * @protected
+   */
+  _setDOMElements() {
+  }
+  /**
+   * Creates and initializes child elements throughout the component.
+   *
+   * @abstract
+   *
+   * @protected
+   */
+  _createChildElements() {
+  }
+  /**
+   * Handles focus events through the component.
+   *
+   * @abstract
+   *
+   * @protected
+   */
+  _handleFocus() {
+  }
+  /**
+   * Handles click events through the component.
+   *
+   * @abstract
+   *
+   * @protected
+   */
+  _handleClick() {
+  }
+  /**
+   * Handles hover events through the component.
+   *
+   * @abstract
+   *
+   * @protected
+   */
+  _handleHover() {
+  }
+  /**
+   * Handles keydown events through the component.
+   *
+   * @abstract
+   *
+   * @protected
+   */
+  _handleKeydown() {
+  }
+  /**
+   * Handles keyup events through the component.
+   *
+   * @abstract
+   *
+   * @protected
+   */
+  _handleKeyup() {
+  }
+  /**
+   * Stores the component into the global storage object.
+   *
+   * @protected
+   */
+  _store() {
+    this._shouldStore && (y(
+      Q,
+      { storage: window[`${this.scope}Storage`] },
+      { shouldThrow: !1 }
+    ).status || new Q({ scope: `${this.scope}Storage` }), window[`${this.scope}Storage`].set({
+      key: this.id !== "" ? this.id : this.key,
+      type: this._storageKey,
+      data: this
+    }));
+  }
+  /**
+   * Removes the component from the global storage object.
+   *
+   * @protected
+   */
+  _unstore() {
+    this._shouldStore && y(
+      Q,
+      { storage: window[`${this.scope}Storage`] },
+      { shouldThrow: !1 }
+    ).status && window[`${this.scope}Storage`].clear({
+      key: this.id !== "" ? this.id : this.key,
+      type: this._storageKey
+    });
+  }
+  /**
+   * Sets an interval within the component.
+   *
+   * @protected
+   *
+   * @param {Function} [callback]         - The callback function.
+   * @param {number}   [delay]            - The time (in milliseconds) of the delay.
+   * @param {string}   [scope = _default] - The scope of the interval (used to store the interval in _intervals).
+   */
+  _setInterval(e, t, s = "_default") {
+    this._clearInterval(s), this._intervals[s] = setInterval(e, t);
+  }
+  /**
+   * Clears an interval within the component.
+   *
+   * @protected
+   *
+   * @param {string} [scope = _default] - The scope of the interval (used to get the interval from _intervals).
+   */
+  _clearInterval(e = "_default") {
+    clearInterval(this._intervals[e]);
+  }
+  /**
+   * Clears all intervals within the component.
+   *
+   * @protected
+   */
+  _clearIntervals() {
+    for (const e of Object.keys(this._intervals))
+      this._clearInterval(e);
+  }
+  /**
+   * Sets a timeout within the component.
+   *
+   * @protected
+   *
+   * @param {Function} [callback]         - The callback function.
+   * @param {number}   [delay]            - The time (in milliseconds) of the delay.
+   * @param {string}   [scope = _default] - The scope of the timeout (used to store the timeout in _timeouts).
+   */
+  _setTimeout(e, t, s = "_default") {
+    this._clearTimeout(s), this._timeouts[s] = setTimeout(e, t);
+  }
+  /**
+   * Clears a timeout within the component.
+   *
+   * @protected
+   *
+   * @param {string} [scope = _default] - The scope of the timeout (used to get the timeout from _timeouts).
+   */
+  _clearTimeout(e = "_default") {
+    clearTimeout(this._timeouts[e]);
+  }
+  /**
+   * Clears all timeouts within the component.
+   *
+   * @protected
+   */
+  _clearTimeouts() {
+    for (const e of Object.keys(this._timeouts))
+      this._clearTimeout(e);
+  }
+  /**
+   * Registers a new event type within the component.
+   *
+   * Uses eventPrefix as the prefix for the event name.
+   * Appends the event type with its first character upper case.
+   *
+   * @protected
+   *
+   * @param {string}  name                     - The name of the new event type.
+   * @param {object}  [options = {}]           - The options for the new event type.
+   * @param {boolean} [options.bubbles = true] - A flag to set if the event bubbles.
+   * @param {object}  [options.detail = {}]    - Additional details to include in the event.
+   */
+  _registerEvent(e, { bubbles: t = !0, detail: s = {} } = {}) {
+    u("string", { name: e }), u("boolean", { bubbles: t }), u("object", { detail: s });
+    const i = `${this.eventPrefix}${te(e)}`;
+    this._events[e] = new CustomEvent(i, {
+      bubbles: t,
+      detail: { component: this, ...s }
+    });
+  }
+  /**
+   * Gets the name of an event type stored in the _events object.
+   *
+   * @param  {string}  type - The type of the event to get from the _events object.
+   * @return {?string}      - The event name (or null if none exists).
+   */
+  getEventName(e) {
+    return Object.keys(this._events).includes(e) ? this._events[e].type : null;
+  }
+  /**
+   * Dispatch a custom event on an element in the DOM.
+   *
+   * @param {string}      eventType                       - The type of the event to dispatch.
+   * @param {HTMLElement} [element = this.rootDOMElement] - The element to dispatch the event on.
+   */
+  _dispatchEvent(e, t = this.rootDOMElement) {
+    le(e, this), y(HTMLElement, { element: t }), t.dispatchEvent(this.events[e]);
+  }
+  /**
+   * Add an event listener to an element and register it within the component.
+   *
+   * @param {string}         type           - The type of event to listen for.
+   * @param {HTMLElement}    element        - The element to add the listener to.
+   * @param {Function}       listener       - The listener callback.
+   * @param {object|boolean} [options = {}] - Options to pass to the listener.
+   */
+  _addEventListener(e, t, s, i = {}) {
+    t.addEventListener(e, s, i), this._listeners.push({
+      type: e,
+      element: t,
+      listener: s,
+      options: i
+    });
+  }
+  /**
+   * Remove an event listener from an element and unregister it within the component.
+   *
+   * @param {string}         type           - The type of event to remove.
+   * @param {HTMLElement}    element        - The element to remove the listener from.
+   * @param {Function}       listener       - The listener callback.
+   * @param {object|boolean} [options = {}] - Options to pass to the listener.
+   */
+  _removeEventListener(e, t, s, i = {}) {
+    t.removeEventListener(e, s, i);
+    let n = -1;
+    this._listeners.forEach((r, l) => {
+      r.type === e && r.element === t && r.listener === s && JSON.stringify(r.options) === JSON.stringify(i) && (n = l);
+    }), n !== -1 && this._listeners.splice(n, 1);
+  }
+  /**
+   * Removes all event listeners registered in the component.
+   *
+   * This can be filtered by type and/or element.
+   *
+   * @protected
+   *
+   * @param {object}       [options = {}]           - Options for removing listeners.
+   * @param {?string}      [options.type = null]    - The type of event to remove. If null, all types are removed.
+   * @param {?HTMLElement} [options.element = null] - The element to remove listeners from. If null, all elements are removed.
+   */
+  _removeEventListeners({ type: e = null, element: t = null } = {}) {
+    [...this._listeners].forEach((i) => {
+      e !== null && i.type !== e || t !== null && i.element !== t || this._removeEventListener(
+        i.type,
+        i.element,
+        i.listener,
+        i.options
+      );
+    });
+  }
+  /**
+   * Focus the component.
+   *
+   * Sets the component's focus state to "self" and
+   * focuses the component if the component's shouldFocus
+   * value is `true`.
+   */
+  focus() {
+    this.focusState = "self", this.shouldFocus && this.rootDOMElement.focus();
+  }
+  /**
+   * Unfocus the component.
+   *
+   * Sets the component's focus state to "none"
+   * and blurs the component if the component's shouldFocus
+   * value is `true`.
+   */
+  blur() {
+    this.focusState = "none", this.shouldFocus && this.rootDOMElement.blur();
+  }
+  /**
+   * Disposes of the current instantiated component.
+   *
+   * Removes all intervals, timeouts, and event listeners, and removes the component
+   * from the global storage.
+   */
+  dispose() {
+    this._clearIntervals(), this._clearTimeouts(), this._removeEventListeners(), this._unstore(), delete this;
+  }
+}
+class ue extends W {
+  _name = "ResponsiveComponent";
+  /**
+   * The breakpoint used to generate the component's media query.
+   *
+   * @protected
+   *
+   * @type {string}
+   */
+  _breakpoint = "";
+  /**
+   * The media query to use to trigger media query list events.
+   *
+   * @type {string}
+   */
+  _mediaQueryString = "";
+  /**
+   * The MediaQueryList for the component.
+   *
+   * @protected
+   *
+   * @type {MediaQueryList|null}
+   */
+  _mediaQueryList = null;
+  /**
+   * Constructs a new component.
+   *
+   * @param {object}             [options = {}]                           - The options for generating the component.
+   * @param {?string}            [options.breakpoint = ""]                - The breakpoint used to generate the component's media query.
+   * @param {?string}            [options.mediaQuery = ""]                - An explicit media query to use to trigger media query list events.
+   * @param {?string}            [options.prefix = ae-]                   - The prefix used for CSS custom properties and attributes.
+   * @param {?string}            [options.key = null]                     - The key used to generate IDs throughout the component.
+   * @param {?(string|string[])} [options.initializeClass = initializing] - The class(es) to apply when the component is in the initialization state.
+   * @param {boolean}            [options.bootstrap = true]               - A flag to determine if the component should bootstrap itself.
+   */
+  constructor({
+    breakpoint: e = "",
+    mediaQuery: t = "",
+    prefix: s = "ae-",
+    key: i = null,
+    initializeClass: n = "initializing",
+    bootstrap: r = !0
+  } = {}) {
+    super({ prefix: s, key: i, initializeClass: n, bootstrap: !1 }), this._breakpoint = e || "", this._mediaQueryString = t || "", r && this._bootstrap();
+  }
+  /**
+   * Bootstraps the component by registering the base events.
+   *
+   * @protected
+   */
+  _bootstrap() {
+    try {
+      super._bootstrap(), this._addEventListener(
+        this.getEventName("validate"),
+        this.rootDOMElement,
+        (e) => {
+          if (e.detail.component !== this) return;
+          const t = {
+            mediaQuery: this._mediaQueryString,
+            breakpoint: this._breakpoint
+          }, s = u("string", t, {
+            shouldThrow: !1
+          });
+          s.status || (this._errors = [...this._errors, ...s.errors], this._valid = !1);
+        }
+      ), this._addEventListener(
+        this.getEventName("initialize"),
+        this.rootDOMElement,
+        (e) => {
+          e.detail.component === this && this._handleMediaMatch();
+        }
+      );
+    } catch (e) {
+      this._valid = !1, console.error(e);
+    }
+  }
+  /**
+   * The breakpoint used to generate the component's media query.
+   *
+   * @type {string}
+   *
+   * @see _breakpoint
+   */
+  get breakpoint() {
+    return this._breakpoint;
+  }
+  set breakpoint(e) {
+    u("string", { breakpoint: e }), this._breakpoint !== e && (this._breakpoint = e);
+  }
+  /**
+   * The media query to use to trigger media query list events.
+   *
+   * @type {string}
+   *
+   * @see _mediaQueryString
+   */
+  get mediaQuery() {
+    return this._mediaQueryString !== "" ? this._mediaQueryString : this._breakpoint === "" ? "" : `(width <= ${this._breakpoint})`;
+  }
+  set mediaQuery(e) {
+    u("string", { mediaQuery: e }), this._mediaQueryString !== e && (this._mediaQueryString = e);
+  }
+  /**
+   * A callback for media query list events.
+   *
+   * @protected
+   *
+   * @abstract
+   *
+   * @param {MediaQueryListEvent} event - The event.
+   */
+  _mediaQueryListEventCallback(e) {
+    e.matches;
+  }
+  /**
+   * Handles media match events throughout the component.
+   *
+   * @protected
+   */
+  _handleMediaMatch() {
+    this.mediaQuery !== "" && (this._mediaQueryList = window.matchMedia(this.mediaQuery), this._addEventListener(
+      "change",
+      this._mediaQueryList,
+      (e) => this._mediaQueryListEventCallback(e)
+    ), requestAnimationFrame(() => {
+      this._mediaQueryListEventCallback(this._mediaQueryList);
+    }));
+  }
+}
+class se {
   /**
    * A comparator function used to check equality between
    * the current and committed values.
@@ -274,7 +1624,7 @@ class Z {
    */
   _current;
   /**
-   * The last committed (baseline) value.
+   * The last committed value.
    *
    * @protected
    *
@@ -282,11 +1632,11 @@ class Z {
    */
   _committed;
   /**
-   * Creates a new TransactionalValue instance.
+   * Constructs a new `TransactionalValue`.
    *
    * @param {*}                       initialValue                 - The starting (and initially committed) value.
-   * @param {object}                  [options = {}]               - Options for configuring the instance.
-   * @param {function(*, *): boolean} [options.equals = Object.is] - Custom equality comparator. Defaults to `Object.is`.
+   * @param {object}                  [options = {}]               - The options for generating the value.
+   * @param {function(*, *): boolean} [options.equals = Object.is] - The function used to compare the current and committed values.
    */
   constructor(e, { equals: t = Object.is } = {}) {
     this._equals = t || Object.is, this._current = e, this._committed = e;
@@ -294,7 +1644,7 @@ class Z {
   /**
    * Gets the current editable value.
    *
-   * @return {*} The current value.
+   * @return {*} - The current value.
    *
    * @see _current
    */
@@ -334,7 +1684,7 @@ class Z {
     return !this._equals(this._current, this._committed);
   }
   /**
-   * Commits the current value, setting it as the new baseline.
+   * Sets the committed value to the current value.
    *
    * @return {TransactionalValue} - The current instance.
    */
@@ -342,7 +1692,7 @@ class Z {
     return this._committed = this._current, this;
   }
   /**
-   * Resets the current value to the committed baseline.
+   * Sets the current value to the committed value.
    *
    * @return {TransactionalValue} - The current instance.
    */
@@ -350,7 +1700,7 @@ class Z {
     return this._current = this._committed, this;
   }
   /**
-   * Applies a functional update to the current value.
+   * Updates the current value using a function.
    *
    * @param  {function(*): *}     fn - A function that receives the previous value and returns the new one.
    * @return {TransactionalValue}    - The current instance.
@@ -363,164 +1713,865 @@ class Z {
     return this._current = e(this._current), this;
   }
 }
-class x {
+class ce extends ue {
+  _name = "CollapsibleComponent";
   /**
-   * The DOM elements within the menu toggle.
-   *
-   * @protected
-   *
-   * @type {Object<HTMLElement>}
-   *
-   * @property {HTMLElement} toggle - The menu toggle.
-   * @property {HTMLElement} parent - The menu containing this toggle.
-   */
-  _dom = {
-    toggle: null,
-    parent: null
-  };
-  /**
-   * The declared accessible-menu elements within the menu toggle.
-   *
-   * @protected
-   *
-   * @type {Object<BaseMenu>}
-   *
-   * @property {BaseMenu} controlledMenu - The menu controlled by this toggle.
-   * @property {BaseMenu} parentMenu     - The menu containing this toggle.
-   */
-  _elements = {
-    controlledMenu: null,
-    parentMenu: null
-  };
-  /**
-   * The open state of the menu toggle.
+   * Whether the component is expanded or collapsed.
    *
    * @protected
    *
    * @type {TransactionalValue<boolean>}
    */
-  _open = new Z(!1);
+  _expanded = new se(!1);
   /**
-   * Custom events that can be triggered throughout the menu toggle.
+   * Whether the component is locked or unlocked.
    *
    * @protected
    *
-   * @type {Object<CustomEvent>}
+   * @type {TransactionalValue<boolean>}
    */
-  _events = {
-    /**
-     * The event that is triggered when the menu toggle expands.
-     *
-     * @event accessibleMenuExpand
-     *
-     * @type {CustomEvent}
-     *
-     * @property {boolean}                bubbles - A flag to bubble the event.
-     * @property {Object<BaseMenuToggle>} details - The details object containing the BaseMenuToggle itself.
-     */
-    expand: new CustomEvent("accessibleMenuExpand", {
-      bubbles: !0,
-      detail: { toggle: this }
-    }),
-    /**
-     * The event that is triggered when the menu toggle collapses.
-     *
-     * @event accessibleMenuCollapse
-     *
-     * @type {CustomEvent}
-     *
-     * @property {boolean}                bubbles - A flag to bubble the event.
-     * @property {Object<BaseMenuToggle>} details - The details object containing the BaseMenuToggle itself.
-     */
-    collapse: new CustomEvent("accessibleMenuCollapse", {
-      bubbles: !0,
-      detail: { toggle: this }
-    })
-  };
+  _locked = new se(!1);
+  /**
+   * Whether the component should expand inside the breakpoint.
+   *
+   * @protected
+   *
+   * @type {boolean}
+   */
+  _expandInsideBreakpoint = !1;
+  /**
+   * Whether the component should expand outside the breakpoint.
+   *
+   * @protected
+   *
+   * @type {boolean}
+   */
+  _expandOutsideBreakpoint = !1;
+  /**
+   * Whether the component should collapse inside the breakpoint.
+   *
+   * @protected
+   *
+   * @type {boolean}
+   */
+  _collapseInsideBreakpoint = !1;
+  /**
+   * Whether the component should collapse outside the breakpoint.
+   *
+   * @protected
+   *
+   * @type {boolean}
+   */
+  _collapseOutsideBreakpoint = !1;
+  /**
+   * Whether the component should lock inside the breakpoint.
+   *
+   * @protected
+   *
+   * @type {boolean}
+   */
+  _lockInsideBreakpoint = !1;
+  /**
+   * Whether the component should lock outside the breakpoint.
+   *
+   * @protected
+   *
+   * @type {boolean}
+   */
+  _lockOutsideBreakpoint = !1;
+  /**
+   * Whether the component should unlock inside the breakpoint.
+   *
+   * @protected
+   *
+   * @type {boolean}
+   */
+  _unlockInsideBreakpoint = !1;
+  /**
+   * Whether the component should unlock outside the breakpoint.
+   *
+   * @protected
+   *
+   * @type {boolean}
+   */
+  _unlockOutsideBreakpoint = !1;
+  /**
+   * Constructs a collapsible component.
+   *
+   * @param {object}             [options = {}]                              - The options for generating the component.
+   * @param {HTMLElement}        options.controllerElement                   - The element controlling expansion.
+   * @param {HTMLElement}        options.controlledElement                   - The element to expand or collapse.
+   * @param {?(string|string[])} [options.lockClass = locked]                - The class(es) to apply when the component is in the locked state.
+   * @param {?(string|string[])} [options.unlockClass = unlocked]            - The class(es) to apply when the component is in the unlocked state.
+   * @param {?(string|string[])} [options.expandClass = show]                - The class(es) to apply when the component is in the expanded state.
+   * @param {?(string|string[])} [options.collapseClass = hide]              - The class(es) to apply when the component is in the collapsed state.
+   * @param {?(string|string[])} [options.transitionClass = transitioning]   - The class(es) to apply when the component is transitioning between expanded and collapsed states.
+   * @param {number}             [options.transitionDelay = 250]             - The transition delay in milliseconds.
+   * @param {number}             [options.transitionDuration = 150]          - The transition duration in milliseconds.
+   * @param {number}             [options.expandDuration = -1]               - The transition duration for expanding in milliseconds.
+   * @param {number}             [options.collapseDuration = -1]             - The transition duration for collapsing in milliseconds.
+   * @param {boolean}            [options.expandInsideBreakpoint = fal se]   - Whether to expand inside the breakpoint.
+   * @param {boolean}            [options.expandOutsideBreakpoint = false]   - Whether to expand outside the breakpoint.
+   * @param {boolean}            [options.collapseInsideBreakpoint = false]  - Whether to collapse inside the breakpoint.
+   * @param {boolean}            [options.collapseOutsideBreakpoint = false] - Whether to collapse outside the breakpoint.
+   * @param {boolean}            [options.lockInsideBreakpoint = false]      - Whether to lock inside the breakpoint.
+   * @param {boolean}            [options.lockOutsideBreakpoint = false]     - Whether to lock outside the breakpoint.
+   * @param {boolean}            [options.unlockInsideBreakpoint = false]    - Whether to unlock inside the breakpoint.
+   * @param {boolean}            [options.unlockOutsideBreakpoint = false]   - Whether to unlock outside the breakpoint.
+   * @param {boolean}            [options.locked = false]                    - The initial locked state.
+   * @param {?string}            [options.breakpoint = ""]                   - The breakpoint used to generate the component's media query.
+   * @param {?string}            [options.mediaQuery = ""]                   - An explicit media query to use to trigger media query list events.
+   * @param {?string}            [options.prefix = ae-]                      - The prefix for CSS properties and attributes.
+   * @param {?string}            [options.key = null]                        - The key for generated IDs.
+   * @param {?(string|string[])} [options.initializeClass = initializing]    - The class(es) to apply when the component is in the initialization state.
+   * @param {boolean}            [options.bootstrap = true]                  - Whether to bootstrap the component.
+   */
+  constructor({
+    controllerElement: e,
+    controlledElement: t,
+    lockClass: s = "locked",
+    unlockClass: i = "unlocked",
+    expandClass: n = "show",
+    collapseClass: r = "hide",
+    transitionClass: l = "transitioning",
+    transitionDelay: a = 250,
+    transitionDuration: c = 150,
+    expandDuration: d = -1,
+    collapseDuration: m = -1,
+    expandInsideBreakpoint: p = !1,
+    expandOutsideBreakpoint: f = !1,
+    collapseInsideBreakpoint: _ = !1,
+    collapseOutsideBreakpoint: g = !1,
+    lockInsideBreakpoint: E = !1,
+    lockOutsideBreakpoint: b = !1,
+    unlockInsideBreakpoint: M = !1,
+    unlockOutsideBreakpoint: k = !1,
+    locked: C = !1,
+    breakpoint: I = "",
+    mediaQuery: v = "",
+    prefix: w = "ae-",
+    key: T = null,
+    initializeClass: x = "initializing",
+    bootstrap: D = !0
+  } = {}) {
+    super({
+      breakpoint: I,
+      mediaQuery: v,
+      prefix: w,
+      key: T,
+      initializeClass: x,
+      bootstrap: !1
+    }), this._dom.controller = e, this._dom.controlled = t, this._protectedDOMElements.push("controller", "controlled"), this._classes.locked = s || "", this._classes.unlocked = i || "", this._classes.expand = n || "", this._classes.collapse = r || "", this._classes.transition = l || "", this._delays.transition = a, this._durations.transition = c, this._durations.expand = d, this._durations.collapse = m, this._expandInsideBreakpoint = p, this._expandOutsideBreakpoint = f, this._collapseInsideBreakpoint = _, this._collapseOutsideBreakpoint = g, this._lockInsideBreakpoint = E, this._lockOutsideBreakpoint = b, this._unlockInsideBreakpoint = M, this._unlockOutsideBreakpoint = k, this._locked.value = C, this._locked.commit(), D && this._bootstrap();
+  }
+  /**
+   * Bootstraps the component.
+   *
+   * @protected
+   */
+  _bootstrap() {
+    super._bootstrap(), this._registerEvent("preexpand"), this._registerEvent("expand"), this._registerEvent("postexpand"), this._registerEvent("precollapse"), this._registerEvent("collapse"), this._registerEvent("postcollapse"), this._registerEvent("prelock"), this._registerEvent("lock"), this._registerEvent("postlock"), this._registerEvent("preunlock"), this._registerEvent("unlock"), this._registerEvent("postunlock"), this._addEventListener(
+      this.getEventName("validate"),
+      this.rootDOMElement,
+      (e) => {
+        if (e.detail.component !== this) return;
+        const t = {
+          locked: this._locked.value,
+          _expandInsideBreakpoint: this._expandInsideBreakpoint,
+          _expandOutsideBreakpoint: this._expandOutsideBreakpoint,
+          _collapseInsideBreakpoint: this._collapseInsideBreakpoint,
+          _collapseOutsideBreakpoint: this._collapseOutsideBreakpoint,
+          _lockInsideBreakpoint: this._lockInsideBreakpoint,
+          _lockOutsideBreakpoint: this._lockOutsideBreakpoint,
+          _unlockInsideBreakpoint: this._unlockInsideBreakpoint,
+          _unlockOutsideBreakpoint: this._unlockOutsideBreakpoint
+        }, s = u("boolean", t, {
+          shouldThrow: !1
+        });
+        s.status || (this._errors = [...this._errors, ...s.errors], this._valid = !1);
+      }
+    ), this._addEventListener(
+      this.getEventName("initialize"),
+      this.rootDOMElement,
+      (e) => {
+        e.detail.component === this && (this.dom.controller.getAttribute("aria-expanded") === "true" ? this.expand() : this.collapse(), this.isLocked ? this.lock() : this.unlock());
+      }
+    );
+  }
+  /**
+   * The class(es) to apply when the component is in the locked state.
+   *
+   * @type {string|string[]}
+   *
+   * @see _classes.locked
+   */
+  get lockedClass() {
+    return this._classes.locked;
+  }
+  set lockedClass(e) {
+    L({ lockedClass: e }), this._classes.locked !== e && (this._classes.locked = e);
+  }
+  /**
+   * The class(es) to apply when the component is in the unlocked state.
+   *
+   * @type {string|string[]}
+   *
+   * @see _classes.unlocked
+   */
+  get unlockedClass() {
+    return this._classes.unlocked;
+  }
+  set unlockedClass(e) {
+    L({ unlockedClass: e }), this._classes.unlocked !== e && (this._classes.unlocked = e);
+  }
+  /**
+   * The class(es) to apply when the component is in the expanded state.
+   *
+   * @type {string|string[]}
+   *
+   * @see _classes.expand
+   */
+  get expandClass() {
+    return this._classes.expand;
+  }
+  set expandClass(e) {
+    L({ expandClass: e }), this._classes.expand !== e && (this._classes.expand = e);
+  }
+  /**
+   * The class(es) to apply when the component is in the collapsed state.
+   *
+   * @type {string|string[]}
+   *
+   * @see _classes.collapse
+   */
+  get collapseClass() {
+    return this._classes.collapse;
+  }
+  set collapseClass(e) {
+    L({ collapseClass: e }), this._classes.collapse !== e && (this._classes.collapse = e);
+  }
+  /**
+   * The class(es) to apply when the component is transitioning between expanded and collapsed states.
+   *
+   * @type {string|string[]}
+   *
+   * @see _classes.transition
+   */
+  get transitionClass() {
+    return this._classes.transition;
+  }
+  set transitionClass(e) {
+    L({ transitionClass: e }), this._classes.transition !== e && (this._classes.transition = e);
+  }
+  /**
+   * The duration time (in milliseconds) for the transition between expanded and collapsed states.
+   *
+   * Setting this value will also set the --ae-transition-duration CSS custom property on the component.
+   *
+   * @type {number}
+   *
+   * @see _durations.transition
+   */
+  get transitionDuration() {
+    return this._durations.transition;
+  }
+  set transitionDuration(e) {
+    u("number", { transitionDuration: e }), this._durations.transition !== e && (this._durations.transition = e, this._setCustomProps());
+  }
+  /**
+   * The duration time (in milliseconds) for the transition from collapsed to expanded states.
+   *
+   * If expandDuration is set to -1, the transitionDuration value will be used instead.
+   *
+   * Setting this value will also set the --ae-expand-transition-duration CSS custom property on the component.
+   *
+   * @type {number}
+   *
+   * @see _durations.expand
+   */
+  get expandDuration() {
+    return this._durations.expand === -1 ? this.transitionDuration : this._durations.expand;
+  }
+  set expandDuration(e) {
+    u("number", { expandDuration: e }), this._durations.expand !== e && (this._durations.expand = e, this._setCustomProps());
+  }
+  /**
+   * The duration time (in milliseconds) for the transition from expanded to collapsed states.
+   *
+   * If collapseDuration is set to -1, the transitionDuration value will be used instead.
+   *
+   * Setting this value will also set the --ae-collapse-transition-duration CSS custom property on the component.
+   *
+   * @type {number}
+   *
+   * @see _durations.collapse
+   */
+  get collapseDuration() {
+    return this._durations.collapse === -1 ? this.transitionDuration : this._durations.collapse;
+  }
+  set collapseDuration(e) {
+    u("number", { collapseDuration: e }), this._durations.collapse !== e && (this._durations.collapse = e, this._setCustomProps());
+  }
+  /**
+   * Whether to expand the component when it gains focus in the DOM.
+   *
+   * @type {boolean}
+   *
+   * @see _expandOnFocus
+   */
+  get expandOnFocus() {
+    return this._expandOnFocus;
+  }
+  set expandOnFocus(e) {
+    u("boolean", { expandOnFocus: e }), this._expandOnFocus !== e && (this._expandOnFocus = e);
+  }
+  /**
+   * Whether to collapse the component when it loses focus in the DOM.
+   *
+   * @type {boolean}
+   *
+   * @see _collapseOnBlur
+   */
+  get collapseOnBlur() {
+    return this._collapseOnBlur;
+  }
+  set collapseOnBlur(e) {
+    u("boolean", { collapseOnBlur: e }), this._collapseOnBlur !== e && (this._collapseOnBlur = e);
+  }
+  /**
+   * The expanded state of the component.
+   *
+   * @readonly
+   *
+   * @type {boolean}
+   *
+   * @see _expand
+   */
+  get isExpanded() {
+    return this._expanded.value;
+  }
+  /**
+   * The committed expanded state of the component.
+   *
+   * @readonly
+   *
+   * @type {boolean}
+   *
+   * @see _expand
+   */
+  get shouldBeExpanded() {
+    return this._expanded.committed;
+  }
+  /**
+   * A flag to expand the component when inside the breakpoint.
+   *
+   * @type {boolean}
+   *
+   * @see _expandInsideBreakpoint
+   */
+  get expandInsideBreakpoint() {
+    return this._expandInsideBreakpoint;
+  }
+  set expandInsideBreakpoint(e) {
+    u("boolean", { expandInsideBreakpoint: e }), this._expandInsideBreakpoint !== e && (this._expandInsideBreakpoint = e);
+  }
+  /**
+   * A flag to expand the component when outside the breakpoint.
+   *
+   * @type {boolean}
+   *
+   * @see _expandOutsideBreakpoint
+   */
+  get expandOutsideBreakpoint() {
+    return this._expandOutsideBreakpoint;
+  }
+  set expandOutsideBreakpoint(e) {
+    u("boolean", { expandOutsideBreakpoint: e }), this._expandOutsideBreakpoint !== e && (this._expandOutsideBreakpoint = e);
+  }
+  /**
+   * A flag to collapse the component when inside the breakpoint.
+   *
+   * @type {boolean}
+   *
+   * @see _collapseInsideBreakpoint
+   */
+  get collapseInsideBreakpoint() {
+    return this._collapseInsideBreakpoint;
+  }
+  set collapseInsideBreakpoint(e) {
+    u("boolean", { collapseInsideBreakpoint: e }), this._collapseInsideBreakpoint !== e && (this._collapseInsideBreakpoint = e);
+  }
+  /**
+   * A flag to collapse the component when outside the breakpoint.
+   *
+   * @type {boolean}
+   *
+   * @see _collapseOutsideBreakpoint
+   */
+  get collapseOutsideBreakpoint() {
+    return this._collapseOutsideBreakpoint;
+  }
+  set collapseOutsideBreakpoint(e) {
+    u("boolean", { collapseOutsideBreakpoint: e }), this._collapseOutsideBreakpoint !== e && (this._collapseOutsideBreakpoint = e);
+  }
+  /**
+   * A flag to lock the component in its current state when inside the breakpoint.
+   *
+   * @type {boolean}
+   *
+   * @see _lockInsideBreakpoint
+   */
+  get lockInsideBreakpoint() {
+    return this._lockInsideBreakpoint;
+  }
+  set lockInsideBreakpoint(e) {
+    u("boolean", { lockInsideBreakpoint: e }), this._lockInsideBreakpoint !== e && (this._lockInsideBreakpoint = e);
+  }
+  /**
+   * A flag to lock the component in its current state when outside the breakpoint.
+   *
+   * @type {boolean}
+   *
+   * @see _lockOutsideBreakpoint
+   */
+  get lockOutsideBreakpoint() {
+    return this._lockOutsideBreakpoint;
+  }
+  set lockOutsideBreakpoint(e) {
+    u("boolean", { lockOutsideBreakpoint: e }), this._lockOutsideBreakpoint !== e && (this._lockOutsideBreakpoint = e);
+  }
+  /**
+   * A flag to unlock the component when inside the breakpoint.
+   *
+   * @type {boolean}
+   */
+  get unlockInsideBreakpoint() {
+    return this._unlockInsideBreakpoint;
+  }
+  set unlockInsideBreakpoint(e) {
+    u("boolean", { unlockInsideBreakpoint: e }), this._unlockInsideBreakpoint = e;
+  }
+  /**
+   * A flag to unlock the component when outside the breakpoint.
+   *
+   * @type {boolean}
+   */
+  get unlockOutsideBreakpoint() {
+    return this._unlockOutsideBreakpoint;
+  }
+  set unlockOutsideBreakpoint(e) {
+    u("boolean", { unlockOutsideBreakpoint: e }), this._unlockOutsideBreakpoint = e;
+  }
+  /**
+   * The locked state of the component.
+   *
+   * @readonly
+   *
+   * @type {boolean}
+   *
+   * @see _locked
+   */
+  get isLocked() {
+    return this._locked.value;
+  }
+  /**
+   * The committed lock state of the component.
+   *
+   * @readonly
+   *
+   * @type {boolean}
+   *
+   * @see _locked
+   */
+  get shouldBeLocked() {
+    return this._locked.committed;
+  }
+  /**
+   * A callback for media query list events.
+   *
+   * @protected
+   *
+   * @param {MediaQueryListEvent} event - The event.
+   */
+  _mediaQueryListEventCallback(e) {
+    e.matches ? (this.unlockInsideBreakpoint && this.unlock(), this.isExpanded && this.collapseInsideBreakpoint ? (this.isLocked && this.unlock(), this.collapse({ preserveState: !0 })) : !this.isExpanded && this.expandInsideBreakpoint && (this.isLocked && this.unlock(), this.expand()), this.lockInsideBreakpoint && this.lock()) : (this.unlockOutsideBreakpoint && this.unlock(), this.isExpanded && this.collapseOutsideBreakpoint ? (this.isLocked && this.unlock(), this.collapse({ preserveState: !0 })) : !this.isExpanded && this.expandOutsideBreakpoint && (this.isLocked && this.unlock(), this.expand()), this.lockOutsideBreakpoint && this.lock());
+  }
+  /**
+   * Applies the required attributes and classes for the component's expanded state.
+   *
+   * Sets the controller's `aria-expanded` to "true", adds the expand class(es) to
+   * the controlled element, and removes the collapse class(es) from the controlled element.
+   *
+   * @protected
+   *
+   * @fires this._events.preexpand
+   *
+   * @fires this._events.expand
+   *
+   * @fires this._events.postexpand
+   *
+   * @param {Object<boolean>} [options = {}]                            - Options for expanding the component.
+   * @param {boolean}         [options.emit = this.isInitialized]       - Emit the expand events.
+   * @param {boolean}         [options.transition = this.isInitialized] - A flag to use transitions when changing the expanded state.
+   */
+  _expand({ emit: e = this.isInitialized, transition: t = this.isInitialized } = {}) {
+    e && this._dispatchEvent("preexpand"), this.dom.controller.setAttribute("aria-expanded", "true"), t && this.transitionClass !== "" ? (j(this.transitionClass, this.dom.controlled), requestAnimationFrame(() => {
+      N(this.collapseClass, this.dom.controlled), requestAnimationFrame(() => {
+        j(this.expandClass, this.dom.controlled), requestAnimationFrame(() => {
+          setTimeout(() => {
+            N(this.transitionClass, this.dom.controlled);
+          }, this.expandDuration);
+        });
+      });
+    })) : (j(this.expandClass, this.dom.controlled), N(this.collapseClass, this.dom.controlled)), e && (this._dispatchEvent("expand"), this._dispatchEvent("postexpand"));
+  }
+  /**
+   * Applies the required attributes and classes for the component's collapsed state.
+   *
+   * Sets the controller's `aria-expanded` to "false", adds the collapse class(es) to
+   * the controlled element, and removes the expand class(es) from the controlled element.
+   *
+   * @protected
+   *
+   * @fires this._events.precollapse
+   *
+   * @fires this._events.collapse
+   *
+   * @fires this._events.postcollapse
+   *
+   * @param {Object<boolean>} [options = {}]                            - Options for collapsing the component.
+   * @param {boolean}         [options.emit = this.isInitialized]       - Emit the collapse events.
+   * @param {boolean}         [options.transition = this.isInitialized] - A flag to use transitions when changing the expanded state.
+   */
+  _collapse({
+    emit: e = this.isInitialized,
+    transition: t = this.isInitialized
+  } = {}) {
+    e && this._dispatchEvent("precollapse"), this.dom.controller.setAttribute("aria-expanded", "false"), t && this.transitionClass !== "" ? (j(this.transitionClass, this.dom.controlled), requestAnimationFrame(() => {
+      N(this.expandClass, this.dom.controlled), requestAnimationFrame(() => {
+        j(this.collapseClass, this.dom.controlled), requestAnimationFrame(() => {
+          setTimeout(() => {
+            N(this.transitionClass, this.dom.controlled);
+          }, this.collapseDuration);
+        });
+      });
+    })) : (j(this.collapseClass, this.dom.controlled), N(this.expandClass, this.dom.controlled)), e && (this._dispatchEvent("collapse"), this._dispatchEvent("postcollapse"));
+  }
+  /**
+   * Applies the required attributes and classes for the component's locked state.
+   *
+   * @protected
+   *
+   * @param {Object<boolean>} [options = {}]                      - Options for locking the component.
+   * @param {boolean}         [options.emit = this.isInitialized] - Emit the lock events.
+   */
+  _lock({ emit: e = this.isInitialized } = {}) {
+    e && this._dispatchEvent("prelock"), j(this.lockedClass, this.dom.controlled), N(this.unlockedClass, this.dom.controlled), this.dom.controller.setAttribute("disabled", "true"), e && (this._dispatchEvent("lock"), this._dispatchEvent("postlock"));
+  }
+  /**
+   * Applies the required attributes and classes for the component's unlocked state.
+   *
+   * @protected
+   *
+   * @param {Object<boolean>} [options = {}]                      - Options for unlocking the component.
+   * @param {boolean}         [options.emit = this.isInitialized] - Emit the unlock events.
+   */
+  _unlock({ emit: e = this.isInitialized } = {}) {
+    e && this._dispatchEvent("preunlock"), j(this.unlockedClass, this.dom.controlled), N(this.lockedClass, this.dom.controlled), this.dom.controller.removeAttribute("disabled"), e && (this._dispatchEvent("unlock"), this._dispatchEvent("postunlock"));
+  }
+  /**
+   * Expands the component.
+   *
+   * Sets the component's focus state to "self", calls _expand, and sets isExpanded to `true`.
+   *
+   * @param {Object<boolean>} [options = {}]                            - Options for expanding the component.
+   * @param {boolean}         [options.force = !this.isInitialized]     - Force the expand action.
+   * @param {boolean}         [options.emit = this.isInitialized]       - Emit the expand events.
+   * @param {boolean}         [options.transition = this.isInitialized] - A flag to use transitions when changing the expanded state.
+   * @param {boolean}         [options.preserveState = false]           - Preserve the expanded state.
+   */
+  expand({
+    force: e = !this.isInitialized,
+    emit: t = this.isInitialized,
+    transition: s = this.isInitialized,
+    preserveState: i = !1
+  } = {}) {
+    this.isExpanded && !e || this.isLocked && !e || (this.focusState = "self", this._expand({ emit: t, transition: s }), this._expanded.value = !0, i || this._expanded.commit());
+  }
+  /**
+   * Previews the component.
+   *
+   * Sets the component's focus state to "none", calls _expand, and sets isExpanded to `true`.
+   *
+   * @param {Object<boolean>} [options = {}]                            - Options for previewing the component.
+   * @param {boolean}         [options.force = !this.isInitialized]     - Force the preview action.
+   * @param {boolean}         [options.emit = this.isInitialized]       - Emit the expand events.
+   * @param {boolean}         [options.transition = this.isInitialized] - A flag to use transitions when changing the expanded state.
+   * @param {boolean}         [options.preserveState = false]           - Preserve the expanded state.
+   */
+  preview({
+    force: e = !this.isInitialized,
+    emit: t = this.isInitialized,
+    transition: s = this.isInitialized,
+    preserveState: i = !1
+  } = {}) {
+    this.isExpanded && !e || this.isLocked && !e || (this.focusState = "none", this._expand({ emit: t, transition: s }), this._expanded.value = !0, i || this._expanded.commit());
+  }
+  /**
+   * Collapses the component.
+   *
+   * Sets the component's focus state to "none", calls _collapse, and sets isExpanded to `false`.
+   *
+   * @param {Object<boolean>} [options = {}]                            - Options for closing the component.
+   * @param {boolean}         [options.force = !this.isInitialized]     - Force the collapse action.
+   * @param {boolean}         [options.emit = this.isInitialized]       - Emit the collapse events.
+   * @param {boolean}         [options.transition = this.isInitialized] - A flag to use transitions when changing the expanded state.
+   * @param {boolean}         [options.preserveState = false]           - Preserve the expanded state.
+   */
+  collapse({
+    force: e = !this.isInitialized,
+    emit: t = this.isInitialized,
+    transition: s = this.isInitialized,
+    preserveState: i = !1
+  } = {}) {
+    !this.isExpanded && !e || this.isLocked && !e || (this.focusState = "none", this._collapse({ emit: t, transition: s }), this._expanded.value = !1, i || this._expanded.commit());
+  }
+  /**
+   * Toggles expanding and collapsing the component.
+   *
+   * @param {Object<boolean>} [options = {}]                            - Options for expanding/collapsing the component.
+   * @param {boolean}         [options.force = !this.isInitialized]     - Force the expand or collapse action.
+   * @param {boolean}         [options.emit = this.isInitialized]       - Emit the expand/collapse events.
+   * @param {boolean}         [options.transition = this.isInitialized] - A flag to use transitions when changing the expanded state.
+   * @param {boolean}         [options.preserveState = false]           - Preserve the expanded state.
+   */
+  toggle({
+    force: e = !this.isInitialized,
+    emit: t = this.isInitialized,
+    transition: s = this.isInitialized,
+    preserveState: i = !1
+  } = {}) {
+    this.isExpanded ? this.collapse({ force: e, emit: t, transition: s, preserveState: i }) : this.expand({ force: e, emit: t, transition: s, preserveState: i });
+  }
+  /**
+   * Locks the component.
+   *
+   * @param {Object<boolean>} [options = {}]                        - Options for locking the component.
+   * @param {boolean}         [options.force = !this.isInitialized] - Force the lock action.
+   * @param {boolean}         [options.emit = this.isInitialized]   - Emit the lock events.
+   * @param {boolean}         [options.preserveState = false]       - Preserve the locked state.
+   */
+  lock({
+    force: e = !this.isInitialized,
+    emit: t = this.isInitialized,
+    preserveState: s = !1
+  } = {}) {
+    this.isLocked && !e || (this._locked.value = !0, this._lock({ emit: t }), s || this._locked.commit());
+  }
+  /**
+   * Unlocks the component.
+   *
+   * @param {Object<boolean>} [options = {}]                        - Options for unlocking the component.
+   * @param {boolean}         [options.force = !this.isInitialized] - Force the unlock action.
+   * @param {boolean}         [options.emit = this.isInitialized]   - Emit the unlock event.
+   * @param {boolean}         [options.preserveState = false]       - Preserve the unlocked state.
+   */
+  unlock({
+    force: e = !this.isInitialized,
+    emit: t = this.isInitialized,
+    preserveState: s = !1
+  } = {}) {
+    !this.isLocked && !e || (this._locked.value = !1, this._unlock({ emit: t }), s || this._locked.commit());
+  }
+  /**
+   * Toggles locking and unlocking the component.
+   *
+   * @param {Object<boolean>} [options = {}]                        - Options for locking/unlocking the component.
+   * @param {boolean}         [options.force = !this.isInitialized] - Force the toggle action.
+   * @param {boolean}         [options.emit = this.isInitialized]   - Emit the lock/unlock events.
+   * @param {boolean}         [options.preserveState = false]       - Preserve the locked state.
+   */
+  toggleLock({
+    force: e = !this.isInitialized,
+    emit: t = this.isInitialized,
+    preserveState: s = !1
+  } = {}) {
+    this.isLocked ? this.unlock({ force: e, emit: t, preserveState: s }) : this.lock({ force: e, emit: t, preserveState: s });
+  }
+}
+class H extends ce {
+  _scope = "AccessibleMenu";
+  _name = "MenuToggle";
+  _eventPrefix = "accessibleMenu";
+  _storageKey = "menuToggles";
+  _shouldStore = !1;
+  _rootDOMElement = "controller";
   /**
    * Constructs a new `BaseMenuToggle`.
    *
-   * @param {object}      options                     - The options for generating the menu toggle.
-   * @param {HTMLElement} options.menuToggleElement   - The toggle element in the DOM.
-   * @param {HTMLElement} options.parentElement       - The element containing the controlled menu.
-   * @param {BaseMenu}    options.controlledMenu      - The menu controlled by this toggle.
-   * @param {?BaseMenu}   [options.parentMenu = null] - The menu containing this toggle.
+   * @param {object}      options                                     - The options for generating the menu toggle.
+   * @param {HTMLElement} options.menuToggleElement                   - The toggle element in the DOM.
+   * @param {HTMLElement} options.parentElement                       - The element containing the controlled menu.
+   * @param {BaseMenu}    options.controlledMenu                      - The menu controlled by this toggle.
+   * @param {?BaseMenu}   [options.parentMenu = null]                 - The menu containing this toggle.
+   * @param {string}      [options.breakpoint = ""]                   - The breakpoint used to generate the controller's media query.
+   * @param {string}      [options.mediaQuery = ""]                   - The media query used to trigger the controller's media query list events.
+   * @param {boolean}     [options.expandInsideBreakpoint = false]    - A flag to expand the controlled menu when the media query matches.
+   * @param {boolean}     [options.expandOutsideBreakpoint = false]   - A flag to expand the controlled menu when the media query does not match.
+   * @param {boolean}     [options.collapseInsideBreakpoint = false]  - A flag to collapse the controlled menu when the media query matches.
+   * @param {boolean}     [options.collapseOutsideBreakpoint = false] - A flag to collapse the controlled menu when the media query does not match.
+   * @param {boolean}     [options.lockInsideBreakpoint = false]      - A flag to lock the controller when the media query matches.
+   * @param {boolean}     [options.lockOutsideBreakpoint = false]     - A flag to lock the controller when the media query does not match.
+   * @param {boolean}     [options.unlockInsideBreakpoint = false]    - A flag to unlock the controller when the media query matches.
+   * @param {boolean}     [options.unlockOutsideBreakpoint = false]   - A flag to unlock the controller when the media query does not match.
    */
   constructor({
     menuToggleElement: e,
     parentElement: t,
     controlledMenu: s,
-    parentMenu: i = null
+    parentMenu: i = null,
+    breakpoint: n = "",
+    mediaQuery: r = "",
+    expandInsideBreakpoint: l = !1,
+    expandOutsideBreakpoint: a = !1,
+    collapseInsideBreakpoint: c = !1,
+    collapseOutsideBreakpoint: d = !1,
+    lockInsideBreakpoint: m = !1,
+    lockOutsideBreakpoint: p = !1,
+    unlockInsideBreakpoint: f = !1,
+    unlockOutsideBreakpoint: _ = !1
   }) {
-    this._dom.toggle = e, this._dom.parent = t, this._elements.controlledMenu = s, this._elements.parentMenu = i;
+    super({
+      controllerElement: e,
+      controlledElement: s?.dom?.menu,
+      expandClass: s?.classes?.expand,
+      collapseClass: s?.classes?.collapse,
+      transitionClass: s?.classes?.transition,
+      transitionDuration: s?.durations?.transition,
+      expandDuration: s?.durations?.expand,
+      collapseDuration: s?.durations?.collapse,
+      prefix: "am-",
+      initializeClass: "",
+      breakpoint: n,
+      mediaQuery: r,
+      expandInsideBreakpoint: l,
+      expandOutsideBreakpoint: a,
+      collapseInsideBreakpoint: c,
+      collapseOutsideBreakpoint: d,
+      lockInsideBreakpoint: m,
+      lockOutsideBreakpoint: p,
+      unlockInsideBreakpoint: f,
+      unlockOutsideBreakpoint: _,
+      bootstrap: !1
+    }), this._protectedDOMElements.push("parent"), this._dom.parent = t, this._elements.controlledMenu = s, this._elements.parentMenu = i, this._bootstrap();
   }
   /**
-   * Initializes the menu toggle.
+   * Registers the menu toggle's validation event listener.
    *
-   * The first steps are to ensure that the toggle and controlled menu have IDs
-   * using the setIds method, and to set the ARIA attributes on the toggle
-   * and controlled menu using the setAriaAttributes method.
+   * Validation checks the required DOM elements, controlled menu, and parent menu.
    *
-   * Then the collapse method is called to make sure the submenu is closed.
+   * @protected
    */
-  initialize() {
-    this._setIds(), this._setAriaAttributes(), this._collapse(!1);
+  _bootstrap() {
+    super._bootstrap(), this._addEventListener(
+      this.getEventName("validate"),
+      this.rootDOMElement,
+      (e) => {
+        if (e.detail.component !== this) return;
+        const t = {};
+        for (const r of ["controller", "controlled", "parent"])
+          this.dom[r] === null && (t[`${r}Element`] = this.dom[r]);
+        const s = y(HTMLElement, t, {
+          shouldThrow: !1
+        });
+        s.status || (this._errors = [...this._errors, ...s.errors], this._valid = !1);
+        const i = {
+          controlledMenu: this.elements.controlledMenu
+        };
+        this.elements.parentMenu !== null && (i.parentMenu = this.elements.parentMenu);
+        const n = y(P, i, {
+          shouldThrow: !1
+        });
+        n.status || (this._errors = [...this._errors, ...n.errors], this._valid = !1);
+      }
+    );
   }
   /**
-   * The DOM elements within the toggle.
+   * The class(es) to apply when the controlled menu is expanded.
    *
-   * @readonly
-   *
-   * @type {Object<HTMLElement>}
-   *
-   * @see _dom
+   * @type {string|string[]}
    */
-  get dom() {
-    return this._dom;
+  get expandClass() {
+    const e = this.elements.controlledMenu;
+    return e.elements.rootMenu ? e.expandClass : super.expandClass;
+  }
+  set expandClass(e) {
+    const t = this.elements.controlledMenu, s = t.elements.rootMenu || t;
+    s.expandClass = e, this._classes.expand = e;
   }
   /**
-   * The declared accessible-menu elements within the toggle.
+   * The class(es) to apply when the controlled menu is collapsed.
    *
-   * @readonly
-   *
-   * @type {Object<BaseMenu>}
-   *
-   * @see _elements
+   * @type {string|string[]}
    */
-  get elements() {
-    return this._elements;
+  get collapseClass() {
+    const e = this.elements.controlledMenu;
+    return e.elements.rootMenu ? e.collapseClass : super.collapseClass;
+  }
+  set collapseClass(e) {
+    const t = this.elements.controlledMenu, s = t.elements.rootMenu || t;
+    s.collapseClass = e, this._classes.collapse = e;
   }
   /**
-   * Custom events that can be triggered throughout the menu toggle.
+   * The class(es) to apply when the controlled menu is transitioning.
    *
-   * @readonly
-   *
-   * @type {object}
-   *
-   * @see _events
+   * @type {string|string[]}
    */
-  get events() {
-    return this._events;
+  get transitionClass() {
+    const e = this.elements.controlledMenu;
+    return e.elements.rootMenu ? e.transitionClass : super.transitionClass;
+  }
+  set transitionClass(e) {
+    const t = this.elements.controlledMenu, s = t.elements.rootMenu || t;
+    s.transitionClass = e, this._classes.transition = e;
   }
   /**
-   * The open state on the toggle.
+   * The duration of the transition between expanded and collapsed states (in milliseconds).
    *
-   * @type {boolean}
-   *
-   * @see _open
+   * @type {number}
    */
-  get isOpen() {
-    return this._open.value;
+  get transitionDuration() {
+    const e = this.elements.controlledMenu;
+    return e.elements.rootMenu ? e.transitionDuration : super.transitionDuration;
+  }
+  set transitionDuration(e) {
+    const t = this.elements.controlledMenu, s = t.elements.rootMenu || t;
+    s.transitionDuration = e, this._durations.transition = e;
   }
   /**
-   * The open state of the toggle that the user specifically triggered.
+   * The duration of the transition from collapsed to expanded states (in milliseconds).
    *
-   * @type {boolean}
-   *
-   * @see _open
+   * @type {number}
    */
-  get hasOpened() {
-    return this._open.committed;
+  get expandDuration() {
+    const e = this.elements.controlledMenu;
+    return e.elements.rootMenu ? e.expandDuration : super.expandDuration;
+  }
+  set expandDuration(e) {
+    const t = this.elements.controlledMenu, s = t.elements.rootMenu || t;
+    s.expandDuration = e, this._durations.expand = e;
+  }
+  /**
+   * The duration of the transition from expanded to collapsed states (in milliseconds).
+   *
+   * @type {number}
+   */
+  get collapseDuration() {
+    const e = this.elements.controlledMenu;
+    return e.elements.rootMenu ? e.collapseDuration : super.collapseDuration;
+  }
+  set collapseDuration(e) {
+    const t = this.elements.controlledMenu, s = t.elements.rootMenu || t;
+    s.collapseDuration = e, this._durations.collapse = e;
   }
   /**
    * Sets unique IDs for the toggle and controlled menu.
@@ -533,10 +2584,11 @@ class x {
    * @protected
    */
   _setIds() {
-    if (this.dom.toggle.id === "" || this.elements.controlledMenu.dom.menu.id === "") {
-      let e = this.dom.toggle.innerText?.replace(/[^a-zA-Z0-9\s]/g, "") || "", t = this.elements.controlledMenu.key;
-      !e.replace(/\s/g, "").length && this.dom.toggle.getAttribute("aria-label") && (e = this.dom.toggle.getAttribute("aria-label").replace(/[^a-zA-Z0-9\s]/g, "")), e.replace(/\s/g, "").length > 0 && (e = e.toLowerCase().replace(/\s+/g, "-"), e.startsWith("-") && (e = e.substring(1)), e.endsWith("-") && (e = e.slice(0, -1)), t = `${e}-${t}`), this.dom.toggle.id = this.dom.toggle.id || `menu-button-${t}`, this.elements.controlledMenu.dom.menu.id = this.elements.controlledMenu.dom.menu.id || `menu-${t}`;
+    if (this.dom.controller.id === "" || this.elements.controlledMenu.dom.menu.id === "") {
+      let e = this.dom.controller.innerText?.replace(/[^a-zA-Z0-9\s]/g, "") || "", t = this.elements.controlledMenu.key;
+      !e.replace(/\s/g, "").length && this.dom.controller.getAttribute("aria-label") && (e = this.dom.controller.getAttribute("aria-label").replace(/[^a-zA-Z0-9\s]/g, "")), e.replace(/\s/g, "").length > 0 && (e = e.toLowerCase().replace(/\s+/g, "-"), e.startsWith("-") && (e = e.substring(1)), e.endsWith("-") && (e = e.slice(0, -1)), t = `${e}-${t}`), this.dom.controller.id = this.dom.controller.id || `menu-button-${t}`, this.elements.controlledMenu.dom.menu.id = this.elements.controlledMenu.dom.menu.id || `menu-${t}`;
     }
+    this._id = this.dom.controller.id;
   }
   /**
    * Sets the ARIA attributes on the toggle and controlled menu.
@@ -550,112 +2602,50 @@ class x {
    * @protected
    */
   _setAriaAttributes() {
-    this.dom.toggle.setAttribute("aria-expanded", "false"), this.elements.controlledMenu.dom.menu.setAttribute(
+    this.dom.controller.setAttribute("aria-expanded", "false"), this.elements.controlledMenu.dom.menu.setAttribute(
       "aria-labelledby",
-      this.dom.toggle.id
+      this.dom.controller.id
     );
-  }
-  /**
-   * Dispatch a custom event on an element in the DOM.
-   *
-   * @param {string}      eventType - The type of the event to dispatch.
-   * @param {HTMLElement} element   - The element to dispatch the event on.
-   */
-  _dispatchEvent(e, t) {
-    if (!Object.keys(this.events).includes(e))
-      throw new Error(
-        `Accessible Menu: "${e}" is not a valid event type.`
-      );
-    S(HTMLElement, { element: t }), t.dispatchEvent(this.events[e]);
   }
   /**
    * Expands the controlled menu.
    *
-   * Sets the toggle's `aria-expanded` to "true", adds the
-   * open class to the toggle's parent menu item
-   * and controlled menu, and removes the closed class
-   * from the toggle's parent menu item and controlled menu.
+   * Sets the root menu's hasExpanded value to `true`, then calls
+   * CollapsibleComponent's _expand method to set the ARIA attributes,
+   * classes, and transitions on the controlled menu.
    *
-   * If `emit` is set to `true`, this will also emit a custom event
-   * called accessibleMenuExpand
+   * If `emit` is set to `true`, this will also emit the expand event.
    *
    * @protected
    *
-   * @fires accessibleMenuExpand
-   *
-   * @param {object}  [options = {}]              - The options for expanding the menu.
-   * @param {boolean} [options.emit = true]       - A toggle to emit the expand event once expanded.
-   * @param {boolean} [options.transition = true] - A flag to use transitions when expanding.
+   * @param {object}  [options = {}]                            - The options for expanding the menu.
+   * @param {boolean} [options.emit = this.isInitialized]       - A toggle to emit the expand event once expanded.
+   * @param {boolean} [options.transition = this.isInitialized] - A flag to use transitions when expanding.
    */
-  _expand({ emit: e = !0, transition: t = !0 } = {}) {
-    const { closeClass: s, openClass: i, transitionClass: n, openDuration: r } = this.elements.controlledMenu;
-    this.dom.toggle.setAttribute("aria-expanded", "true"), this.elements.controlledMenu.elements.rootMenu.hasOpened = !0, t && n !== "" ? (A(n, this.elements.controlledMenu.dom.menu), requestAnimationFrame(() => {
-      D(s, this.elements.controlledMenu.dom.menu), requestAnimationFrame(() => {
-        A(i, this.elements.controlledMenu.dom.menu), requestAnimationFrame(() => {
-          setTimeout(() => {
-            D(
-              n,
-              this.elements.controlledMenu.dom.menu
-            );
-          }, r);
-        });
-      });
-    })) : (A(i, this.elements.controlledMenu.dom.menu), D(s, this.elements.controlledMenu.dom.menu)), e && this._dispatchEvent("expand", this.dom.toggle);
-  }
-  /**
-   * Collapses the controlled menu.
-   *
-   * Sets the toggle's `aria-expanded` to "false", adds the
-   * closed class to the toggle's parent menu item
-   * and controlled menu, and removes the open class
-   * from the toggle's parent menu item and controlled menu.
-   *
-   * If `emit` is set to `true`, this will also emit a custom event
-   * called accessibleMenuCollapse
-   *
-   * @protected
-   *
-   * @fires accessibleMenuCollapse
-   *
-   * @param {object}  [options = {}]              - The options for collapsing the menu.
-   * @param {boolean} [options.emit = true]       - A toggle to emit the collapse event once collapsed.
-   * @param {boolean} [options.transition = true] - A flag to use transitions when collapsing.
-   */
-  _collapse({ emit: e = !0, transition: t = !0 } = {}) {
-    const { closeClass: s, openClass: i, transitionClass: n, closeDuration: r } = this.elements.controlledMenu;
-    this.dom.toggle.setAttribute("aria-expanded", "false"), t && n !== "" ? (A(n, this.elements.controlledMenu.dom.menu), requestAnimationFrame(() => {
-      D(i, this.elements.controlledMenu.dom.menu), requestAnimationFrame(() => {
-        A(s, this.elements.controlledMenu.dom.menu), requestAnimationFrame(() => {
-          setTimeout(() => {
-            D(
-              n,
-              this.elements.controlledMenu.dom.menu
-            );
-          }, r);
-        });
-      });
-    })) : (A(s, this.elements.controlledMenu.dom.menu), D(i, this.elements.controlledMenu.dom.menu)), e && this._dispatchEvent("collapse", this.dom.toggle);
+  _expand(e = {}) {
+    const t = this.elements.controlledMenu.elements.rootMenu;
+    t && (t.hasExpanded = !0), super._expand(e);
   }
   /**
    * Opens the controlled menu.
    *
    * Sets the controlled menu's focus state to "self"
    * and the parent menu's focus state to "child", calls expand,
-   * and sets the isOpen value to `true`.
+   * and sets the isExpanded value to `true`.
    *
-   * @param {object}  [options = {}]                  - The options for opening the menu.
-   * @param {boolean} [options.force = false]         - A flag to force the menu to open.
-   * @param {boolean} [options.preserveState = false] - A flag to preserve the current state.
-   * @param {boolean} [options.emit = true]           - A flag to emit the expand event.
-   * @param {boolean} [options.transition = true]     - A flag to use transitions when opening.
+   * @param {object}  [options = {}]                            - The options for opening the menu.
+   * @param {boolean} [options.force = !this.isInitialized]     - A flag to force the menu to open, including when locked.
+   * @param {boolean} [options.preserveState = false]           - A flag to preserve the current state.
+   * @param {boolean} [options.emit = this.isInitialized]       - A flag to emit the expand event.
+   * @param {boolean} [options.transition = this.isInitialized] - A flag to use transitions when opening.
    */
-  open({
-    force: e = !1,
+  expand({
+    force: e = !this.isInitialized,
     preserveState: t = !1,
-    emit: s = !0,
-    transition: i = !0
+    emit: s = this.isInitialized,
+    transition: i = this.isInitialized
   } = {}) {
-    this.elements.controlledMenu.focusState = "self", !(this.isOpen && !e) && (this._expand({ emit: s, transition: i }), this._open.value = !0, t || this._open.commit());
+    this.isLocked && !e || (this.isInitialized && (this.elements.controlledMenu.focusState = "self"), super.expand({ force: e, preserveState: t, emit: s, transition: i }));
   }
   /**
    * Opens the controlled menu without the current focus entering it.
@@ -664,19 +2654,19 @@ class x {
    * and the parent menu's focus state to "child",
    * and calls expand.
    *
-   * @param {object}  [options = {}]                  - The options for previewing the menu.
-   * @param {boolean} [options.force = false]         - A flag to force the menu to preview.
-   * @param {boolean} [options.preserveState = false] - A flag to preserve the current state.
-   * @param {boolean} [options.emit = true]           - A flag to emit the expand event.
-   * @param {boolean} [options.transition = true]     - A flag to use transitions when previewing.
+   * @param {object}  [options = {}]                            - The options for previewing the menu.
+   * @param {boolean} [options.force = !this.isInitialized]     - A flag to force the menu to preview, including when locked.
+   * @param {boolean} [options.preserveState = false]           - A flag to preserve the current state.
+   * @param {boolean} [options.emit = this.isInitialized]       - A flag to emit the expand event.
+   * @param {boolean} [options.transition = this.isInitialized] - A flag to use transitions when previewing.
    */
   preview({
-    force: e = !1,
+    force: e = !this.isInitialized,
     preserveState: t = !1,
-    emit: s = !0,
-    transition: i = !0
+    emit: s = this.isInitialized,
+    transition: i = this.isInitialized
   } = {}) {
-    this.elements.parentMenu && (this.elements.parentMenu.focusState = "self"), !(this.isOpen && !e) && (this._expand({ emit: s, transition: i }), this._open.value = !0, t || this._open.commit());
+    this.isLocked && !e || (this.isInitialized && this.elements.parentMenu && (this.elements.parentMenu.focusState = "self"), super.preview({ force: e, preserveState: t, emit: s, transition: i }));
   }
   /**
    * Closes the controlled menu.
@@ -685,60 +2675,41 @@ class x {
    * and the parent menu's focus state to "self", blurs the controlled menu
    * and sets it's current child index to 0,
    * calls collapse, and sets
-   * the isOpen value to `false`.
+   * the isExpanded value to `false`.
    *
-   * @param {object}  [options = {}]                  - The options for closing the menu.
-   * @param {boolean} [options.force = false]         - A flag to force the menu to close.
-   * @param {boolean} [options.preserveState = false] - A flag to preserve the current state.
-   * @param {boolean} [options.emit = true]           - A flag to emit the collapse event.
-   * @param {boolean} [options.transition = true]     - A flag to use transitions when closing.
+   * @param {object}  [options = {}]                            - The options for closing the menu.
+   * @param {boolean} [options.force = !this.isInitialized]     - A flag to force the menu to close, including when locked.
+   * @param {boolean} [options.preserveState = false]           - A flag to preserve the current state.
+   * @param {boolean} [options.emit = this.isInitialized]       - A flag to emit the collapse event.
+   * @param {boolean} [options.transition = this.isInitialized] - A flag to use transitions when closing.
    */
-  close({
-    force: e = !1,
+  collapse({
+    force: e = !this.isInitialized,
     preserveState: t = !1,
-    emit: s = !0,
-    transition: i = !0
+    emit: s = this.isInitialized,
+    transition: i = this.isInitialized
   } = {}) {
-    !this.isOpen && !e || (this.elements.controlledMenu.blur(), this.elements.parentMenu && (this.elements.parentMenu.focusState = "self"), this._collapse({ emit: s, transition: i }), this._open.value = !1, t || this._open.commit());
-  }
-  /**
-   * Toggles the open state of the controlled menu between `true` and `false`.
-   *
-   * @public
-   *
-   * @param {object}  [options = {}]                  - The options for toggling the menu.
-   * @param {boolean} [options.force = false]         - A flag to force the menu to open/close.
-   * @param {boolean} [options.preserveState = false] - A flag to preserve the current state.
-   * @param {boolean} [options.emit = true]           - A flag to emit the expand/collapse event.
-   * @param {boolean} [options.transition = true]     - A flag to use transitions when toggling.
-   */
-  toggle({
-    force: e = !1,
-    preserveState: t = !1,
-    emit: s = !0,
-    transition: i = !0
-  } = {}) {
-    this.isOpen ? this.close({ force: e, preserveState: t, emit: s, transition: i }) : this.open({ force: e, preserveState: t, emit: s, transition: i });
+    this.isLocked && !e || !this.isExpanded && !e || (this.isInitialized && this.elements.controlledMenu.blur(), this.isInitialized && this.elements.parentMenu && (this.elements.parentMenu.focusState = "self"), super.collapse({ force: e, preserveState: t, emit: s, transition: i }));
   }
   /**
    * Closes all sibling menus.
    *
    * @public
    *
-   * @param {object}  [options = {}]                  - The options for closing the sibling menus.
-   * @param {boolean} [options.force = false]         - A flag to force the menus to close.
-   * @param {boolean} [options.preserveState = false] - A flag to preserve the current state.
-   * @param {boolean} [options.emit = true]           - A flag to emit the collapse event.
-   * @param {boolean} [options.transition = true]     - A flag to use transitions when closing.
+   * @param {object}  [options = {}]                            - The options for closing the sibling menus.
+   * @param {boolean} [options.force = !this.isInitialized]     - A flag to force the menus to close.
+   * @param {boolean} [options.preserveState = false]           - A flag to preserve the current state.
+   * @param {boolean} [options.emit = this.isInitialized]       - A flag to emit the collapse event.
+   * @param {boolean} [options.transition = this.isInitialized] - A flag to use transitions when closing.
    */
-  closeSiblings({
-    force: e = !1,
+  collapseSiblings({
+    force: e = !this.isInitialized,
     preserveState: t = !1,
-    emit: s = !0,
-    transition: i = !0
+    emit: s = this.isInitialized,
+    transition: i = this.isInitialized
   } = {}) {
     this.elements.parentMenu && this.elements.parentMenu.elements.submenuToggles.forEach((n) => {
-      n !== this && n.close({ force: e, preserveState: t, emit: s, transition: i });
+      n !== this && n.collapse({ force: e, preserveState: t, emit: s, transition: i });
     });
   }
   /**
@@ -746,54 +2717,31 @@ class x {
    *
    * @public
    *
-   * @param {object}  [options = {}]                  - The options for closing the child menus.
-   * @param {boolean} [options.force = false]         - A flag to force the menus to close.
-   * @param {boolean} [options.preserveState = false] - A flag to preserve the current state.
-   * @param {boolean} [options.emit = true]           - A flag to emit the collapse event.
-   * @param {boolean} [options.transition = true]     - A flag to use transitions when closing.
+   * @param {object}  [options = {}]                            - The options for closing the child menus.
+   * @param {boolean} [options.force = !this.isInitialized]     - A flag to force the menus to close.
+   * @param {boolean} [options.preserveState = false]           - A flag to preserve the current state.
+   * @param {boolean} [options.emit = this.isInitialized]       - A flag to emit the collapse event.
+   * @param {boolean} [options.transition = this.isInitialized] - A flag to use transitions when closing.
    */
-  closeChildren({
-    force: e = !1,
+  collapseChildren({
+    force: e = !this.isInitialized,
     preserveState: t = !1,
-    emit: s = !0,
-    transition: i = !0
+    emit: s = this.isInitialized,
+    transition: i = this.isInitialized
   } = {}) {
     this.elements.controlledMenu.elements.submenuToggles.forEach(
-      (n) => n.close({ force: e, preserveState: t, emit: s, transition: i })
+      (n) => n.collapse({ force: e, preserveState: t, emit: s, transition: i })
     );
   }
 }
-class $ {
-  /**
-   * The DOM elements within the menu item.
-   *
-   * @protected
-   *
-   * @type {Object<HTMLElement>}
-   *
-   * @property {HTMLElement} item - The menu item.
-   * @property {HTMLElement} link - The menu item's link.
-   */
-  _dom = {
-    item: null,
-    link: null
-  };
-  /**
-   * The declared accessible-menu elements within the menu item.
-   *
-   * @protected
-   *
-   * @type {Object<BaseMenu, BaseMenuToggle>}
-   *
-   * @property {BaseMenu}        parentMenu - The menu containing this menu item.
-   * @property {?BaseMenu}       childMenu  - The menu contained within this menu item.
-   * @property {?BaseMenuToggle} toggle     - The menu toggle within this menu item that controls the `childMenu`.
-   */
-  _elements = {
-    parentMenu: null,
-    childMenu: null,
-    toggle: null
-  };
+class V extends W {
+  _scope = "AccessibleMenu";
+  _name = "MenuItem";
+  _eventPrefix = "accessibleMenu";
+  _storageKey = "menuItems";
+  _shouldStore = !1;
+  _rootDOMElement = "item";
+  _protectedDOMElements = ["item", "link"];
   /**
    * A flag marking a submenu item.
    *
@@ -821,36 +2769,62 @@ class $ {
     childMenu: n = null,
     toggle: r = null
   }) {
-    this._dom.item = e, this._dom.link = t, this._elements.parentMenu = s, this._elements.childMenu = n, this._elements.toggle = r, this._submenu = i;
+    super({ prefix: "am-", initializeClass: "", bootstrap: !1 }), this._dom.item = e, this._dom.link = t, this._elements.parentMenu = s, this._elements.childMenu = n, this._elements.toggle = r, this._submenu = i, this._bootstrap();
   }
   /**
-   * Initialize the menu item.
+   * Registers the menu item's validation event listener.
+   *
+   * Validation checks the required DOM elements, submenu flag, parent menu,
+   * child menu, and submenu toggle.
+   *
+   * @protected
    */
-  initialize() {
+  _bootstrap() {
+    super._bootstrap(), this._addEventListener(
+      this.getEventName("validate"),
+      this.rootDOMElement,
+      (e) => {
+        if (e.detail.component !== this) return;
+        const t = {};
+        for (const a of ["item", "link"])
+          this.dom[a] === null && (t[`${a}Element`] = this.dom[a]);
+        const s = y(HTMLElement, t, {
+          shouldThrow: !1
+        });
+        s.status || (this._errors = [...this._errors, ...s.errors], this._valid = !1);
+        const i = {
+          isSubmenuItem: this._submenu
+        }, n = u("boolean", i, {
+          shouldThrow: !1
+        });
+        n.status || (this._errors = [...this._errors, ...n.errors], this._valid = !1);
+        const r = {
+          parentMenu: this.elements.parentMenu
+        };
+        (this.elements.childMenu !== null || this.isSubmenuItem) && (r.childMenu = this.elements.childMenu);
+        const l = y(P, r, {
+          shouldThrow: !1
+        });
+        if (l.status || (this._errors = [...this._errors, ...l.errors], this._valid = !1), this.elements.toggle !== null || this.isSubmenuItem) {
+          const a = y(
+            H,
+            { toggle: this.elements.toggle },
+            { shouldThrow: !1 }
+          );
+          a.status || (this._errors = [...this._errors, ...a.errors], this._valid = !1);
+        }
+      }
+    );
   }
   /**
-   * The DOM elements within the menu item.
+   * A flag to check if the parent menu allows the menu item to be focused in the DOM.
    *
    * @readonly
    *
-   * @type {Object<HTMLElement>}
-   *
-   * @see _dom
+   * @type {boolean}
    */
-  get dom() {
-    return this._dom;
-  }
-  /**
-   * The declared accessible-menu elements within the menu item.
-   *
-   * @readonly
-   *
-   * @type {Object<BaseMenu, BaseMenuToggle>}
-   *
-   * @see _elements
-   */
-  get elements() {
-    return this._elements;
+  get shouldFocus() {
+    return this.elements.parentMenu.shouldFocus;
   }
   /**
    * A flag marking a submenu item.
@@ -865,13 +2839,21 @@ class $ {
     return this._submenu;
   }
   /**
+   * Sets the component ID to the menu item's existing ID.
+   *
+   * @protected
+   */
+  _setIds() {
+    this._id = this.dom.item.id;
+  }
+  /**
    * Focuses the menu item's link if the parent menu's
    * shouldFocus value is `true`.
    *
    * @public
    */
   focus() {
-    this.elements.parentMenu.shouldFocus && requestAnimationFrame(() => {
+    this.focusState = "self", this.shouldFocus && requestAnimationFrame(() => {
       this.dom.link.focus();
     });
   }
@@ -882,12 +2864,12 @@ class $ {
    * @public
    */
   blur() {
-    this.elements.parentMenu.shouldFocus && requestAnimationFrame(() => {
+    this.focusState = "none", this.shouldFocus && requestAnimationFrame(() => {
       this.dom.link.blur();
     });
   }
 }
-function p(o) {
+function S(o) {
   try {
     const e = o.key || o.keyCode, t = {
       Enter: e === "Enter" || e === 13,
@@ -908,158 +2890,16 @@ function p(o) {
     return "";
   }
 }
-function l(o) {
+function h(o) {
   o.preventDefault(), o.stopPropagation();
 }
-class j {
-  /**
-   * The scope of the storage.
-   *
-   * @protected
-   *
-   * @type {string}
-   */
-  _scope;
-  /**
-   * The type of storage.
-   *
-   * @protected
-   *
-   * @type {string}
-   */
-  _type = "_default";
-  /**
-   * The storage object.
-   *
-   * @protected
-   *
-   * @type {object}
-   */
-  _storage = {};
-  /**
-   * Creates a Storage instance.
-   *
-   * @param {object}  [options = {}]              - The options for the storage.
-   * @param {string}  options.scope               - The scope of the storage.
-   * @param {?string} [options.type = null]       - The type of storage.
-   * @param {boolean} [options.initialize = true] - Whether to initialize the storage.
-   */
-  constructor({ scope: e, type: t = null, initialize: s = !0 } = {}) {
-    this._scope = e, this._type = t || "_default", s && this.initialize();
-  }
-  /**
-   * Initialize the storage.
-   */
-  initialize() {
-    window[this.scope] = this;
-  }
-  /**
-   * The scope of the storage.
-   *
-   * @readonly
-   *
-   * @type {string}
-   *
-   * @see _scope
-   */
-  get scope() {
-    return this._scope;
-  }
-  /**
-   * The type of storage.
-   *
-   * @type {string}
-   *
-   * @see _type
-   */
-  get type() {
-    return this._type;
-  }
-  set type(e) {
-    h("string", { type: e }) && (this._type = e);
-  }
-  /**
-   * The storage object.
-   *
-   * @readonly
-   *
-   * @type {object}
-   *
-   * @see _storage
-   */
-  get storage() {
-    return this._storage;
-  }
-  /**
-   * Get the storage object.
-   *
-   * @param  {object}  [options = {}]             - The options for getting the storage.
-   * @param  {string}  [options.type = this.type] - The type of storage to get.
-   * @param  {?string} [options.key = null]       - The key to get the value from.
-   * @return {object}  - The storage object.
-   */
-  get({ type: e = this.type, key: t = null } = {}) {
-    const s = h("string", { type: e });
-    if (!s.status)
-      throw new Error(`StorageManager (${this.scope}): ${s.message}`);
-    if (!this.storage[e])
-      throw new Error(
-        `StorageManager (${this.scope}): Type "${e}" is not initialized.`
-      );
-    if (t !== null) {
-      const i = h("string", { key: t });
-      if (!i.status)
-        throw new Error(`StorageManager (${this.scope}): ${i.message}`);
-      return this.storage[e][t];
-    }
-    return this.storage[e];
-  }
-  /**
-   * Set the storage object.
-   *
-   * @param {object}  [options = {}]             - The options for setting the storage.
-   * @param {string}  [options.type = this.type] - The type of storage to set.
-   * @param {?string} [options.key = null]       - The key to set the value to.
-   * @param {object}  [options.data = {}]        - The data to set.
-   */
-  set({ type: e = this.type, key: t = null, data: s = {} } = {}) {
-    const i = h("string", { type: e }), n = h("object", { data: s });
-    if (!i.status)
-      throw new Error(`StorageManager (${this.scope}): ${i.message}`);
-    if (!n.status)
-      throw new Error(`StorageManager (${this.scope}): ${n.message}`);
-    if (t !== null) {
-      const r = h("string", { key: t });
-      if (!r.status)
-        throw new Error(`StorageManager (${this.scope}): ${r.message}`);
-      this._storage[e] || (this._storage[e] = {}), this._storage[e][t] = s;
-    } else
-      this._storage[e] = s;
-  }
-  /**
-   * Remove a value from the storage object.
-   *
-   * @param {object}  [options = {}]             - The options for removing from storage.
-   * @param {string}  [options.type = this.type] - The type of storage to remove from.
-   * @param {?string} [options.key = null]       - The key to remove the value from.
-   */
-  clear({ type: e = this.type, key: t = null } = {}) {
-    const s = h("string", { type: e });
-    if (!s.status)
-      throw new Error(`StorageManager (${this.scope}): ${s.message}`);
-    if (t !== null) {
-      const i = h("string", { key: t });
-      if (!i.status)
-        throw new Error(`StorageManager (${this.scope}): ${i.message}`);
-      delete this.storage[e][t];
-    } else
-      delete this.storage[e];
-  }
-  dispose() {
-    delete this._storage, delete this;
-  }
-}
-class L {
+class P extends W {
+  _scope = "AccessibleMenu";
+  _name = "Menu";
+  _eventPrefix = "accessibleMenu";
+  _storageKey = "menus";
+  _rootDOMElement = "menu";
+  _protectedDOMElements = ["menu", "controller", "container"];
   /**
    * The class to use when generating submenus.
    *
@@ -1067,7 +2907,7 @@ class L {
    *
    * @type {typeof BaseMenu}
    */
-  _MenuType = L;
+  _MenuType = P;
   /**
    * The class to use when generating menu items.
    *
@@ -1075,7 +2915,7 @@ class L {
    *
    * @type {typeof BaseMenuItem}
    */
-  _MenuItemType = $;
+  _MenuItemType = V;
   /**
    * The class to use when generating submenu toggles.
    *
@@ -1083,129 +2923,7 @@ class L {
    *
    * @type {typeof BaseMenuToggle}
    */
-  _MenuToggleType = x;
-  /**
-   * The DOM elements within the menu.
-   *
-   * @protected
-   *
-   * @type {Object<HTMLElement, HTMLElement[]>}
-   *
-   * @property {HTMLElement}   menu           - The menu element.
-   * @property {HTMLElement[]} menuItems      - An array of menu items.
-   * @property {HTMLElement[]} submenuItems   - An array of menu items that also contain submenu elements.
-   * @property {HTMLElement[]} menuLinks      - An array of menu links.
-   * @property {HTMLElement[]} submenuToggles - An array of menu links that function as submenu toggles.
-   * @property {HTMLElement[]} submenus       - An array of submenu elements.
-   * @property {HTMLElement}   controller     - The toggle for this menu.
-   * @property {HTMLElement}   container      - The container for this menu.
-   */
-  _dom = {
-    menu: null,
-    menuItems: [],
-    menuLinks: [],
-    submenuItems: [],
-    submenuToggles: [],
-    submenus: [],
-    controller: null,
-    container: null
-  };
-  /**
-   * The DOM elements within the menu that cannot be reset or generated by the menu itself.
-   *
-   * @protected
-   *
-   * @type {string[]}
-   */
-  _protectedDOMElements = ["menu", "controller", "container"];
-  /**
-   * The query selectors used by the menu to populate the dom.
-   *
-   * @protected
-   *
-   * @type {Object<string>}
-   *
-   * @property {string} menuItems      - The query selector for menu items.
-   * @property {string} menuLinks      - The query selector for menu links.
-   * @property {string} submenuItems   - The query selector for menu items containing submenus.
-   * @property {string} submenuToggles - The query selector for menu links that function as submenu toggles.
-   * @property {string} submenus       - The query selector for for submenus.
-   */
-  _selectors = {
-    menuItems: "",
-    menuLinks: "",
-    submenuItems: "",
-    submenuToggles: "",
-    submenus: ""
-  };
-  /**
-   * The declared accessible-menu elements within the menu.
-   *
-   * @protected
-   *
-   * @type {Object<BaseMenu, BaseMenuToggle, BaseMenuItem[], BaseMenuToggle[]>}
-   *
-   * @property {BaseMenuItem[]}   menuItems      - An array of menu items.
-   * @property {BaseMenuToggle[]} submenuToggles - An array of menu toggles.
-   * @property {?BaseMenuToggle}  controller     - A menu toggle that controls this menu.
-   * @property {?BaseMenu}        parentMenu     - The parent menu.
-   * @property {?BaseMenu}        rootMenu       - The root menu of the menu tree.
-   */
-  _elements = {
-    menuItems: [],
-    submenuToggles: [],
-    controller: null,
-    parentMenu: null,
-    rootMenu: null
-  };
-  /**
-   * The classes to apply when the menu is in various states.
-   *
-   * @protected
-   *
-   * @type {Object<string|string[]>}
-   *
-   * @property {string|string[]} open       - The class(es) to apply when the menu is open.
-   * @property {string|string[]} close      - The class(es) to apply when the menu is closed.
-   * @property {string|string[]} transition - The class(es) to apply when the menu is transitioning between states.
-   */
-  _classes = {
-    open: "show",
-    close: "hide",
-    transition: "transitioning"
-  };
-  /**
-   * The duration times (in milliseconds) for various menu transitions and events.
-   *
-   * @protected
-   *
-   * @type {Object<number>}
-   *
-   * @property {number} transition - The duration time (in milliseconds) for the transition between open and closed states.
-   * @property {number} open       - The duration time (in milliseconds) for the transition from closed to open states.
-   * @property {number} close      - The duration time (in milliseconds) for the transition from open to closed states.
-   */
-  _durations = {
-    transition: 250,
-    open: -1,
-    close: -1
-  };
-  /**
-   * The delay times (in milliseconds) for various menu transitions and events.
-   *
-   * @protected
-   *
-   * @type {Object<number>}
-   *
-   * @property {number} hover      - The delay time (in milliseconds) used for pointerenter/pointerleave events to take place.
-   * @property {number} enter      - The delay time (in milliseconds) used for pointerenter events to take place.
-   * @property {number} leave      - The delay time (in milliseconds) used for pointerleave events to take place.
-   */
-  _delays = {
-    hover: 250,
-    enter: -1,
-    leave: -1
-  };
+  _MenuToggleType = H;
   /**
    * A flag marking the root menu.
    *
@@ -1223,22 +2941,6 @@ class L {
    */
   _currentChild = 0;
   /**
-   * The current state of the menu's focus.
-   *
-   * @protected
-   *
-   * @type {string}
-   */
-  _focusState = "none";
-  /**
-   * This last event triggered on the menu.
-   *
-   * @protected
-   *
-   * @type {string}
-   */
-  _currentEvent = "none";
-  /**
    * The type of hoverability for the menu.
    *
    * @protected
@@ -1247,118 +2949,21 @@ class L {
    */
   _hoverType = "off";
   /**
-   * The prefix to use for CSS custom properties.
-   *
-   * @protected
-   *
-   * @type {string}
-   */
-  _prefix = "am-";
-  /**
    * A flag to check if the menu can dynamically hover based on if a menu has been opened already.
    *
    * @protected
    *
    * @type {boolean}
    */
-  _hasOpened = !1;
+  _hasExpanded = !1;
   /**
-   * A flag to force the menu open when the media query matches.
-   */
-  _shouldOpen = !1;
-  /**
-   * Timeouts throughout the component.
+   * The options passed to the root controller.
    *
    * @protected
    *
-   * @type {Object<Function>}
+   * @type {object}
    */
-  _timeouts = {};
-  /**
-   * Event listeners throughout the menu.
-   *
-   * @protected
-   *
-   * @type {object[]}
-   */
-  _listeners = [];
-  /**
-   * The breakoint that the menu will call media query list events.
-   *
-   * @protected
-   *
-   * @type {string}
-   */
-  _breakpoint = "";
-  /**
-   * The media query to use to trigger media query list events.
-   *
-   * @type {string}
-   */
-  _mediaQueryString = "";
-  /**
-   * This MediaQueryList for the menu.
-   *
-   * @protected
-   *
-   * @type {MediaQueryList|null}
-   */
-  _mediaQueryList = null;
-  /**
-   * A callback for media query list events.
-   *
-   * @protected
-   *
-   * @type {Function}
-   *
-   * @param {MediaQueryListEvent} event - The event.
-   */
-  _mediaQueryListEventCallback = (e) => {
-    this.elements.controller !== null && (e.matches && this.elements.controller.isOpen ? this.elements.controller.close({
-      preserveState: !0,
-      transition: !1
-    }) : !e.matches && !this.elements.controller.isOpen && (this.elements.controller.hasOpened || this.shouldOpen) && this.elements.controller.open({ transition: !1 }));
-  };
-  /**
-   * The key used to generate IDs throughout the menu.
-   *
-   * @protected
-   *
-   * @type {string}
-   */
-  _key = "";
-  /**
-   * The key used for storage.
-   *
-   * @protected
-   *
-   * @type {string}
-   */
-  _storageKey = "menus";
-  /**
-   * The main ID of the menu.
-   *
-   * @protected
-   *
-   * @type {string}
-   */
-  _id = "";
-  /**
-   * The validity state of the menu.
-   *
-   * @protected
-   *
-   * @type {boolean}
-   */
-  _valid = !0;
-  /**
-   * An array of error messages generated by the menu.
-   *
-   * @protected
-   *
-   * @type {Error[]}
-   */
-  _errors = [];
+  _controllerOptions = {};
   /**
    * Constructs a new `BaseMenu`.
    *
@@ -1371,21 +2976,29 @@ class L {
    * @param {string}             [options.submenusSelector = ul]             - The query selector string for submenus.
    * @param {?HTMLElement}       [options.controllerElement = null]          - The element controlling the menu in the DOM.
    * @param {?HTMLElement}       [options.containerElement = null]           - The element containing the menu in the DOM.
-   * @param {?(string|string[])} [options.openClass = show]                  - The class to apply when a menu is "open".
-   * @param {?(string|string[])} [options.closeClass = hide]                 - The class to apply when a menu is "closed".
-   * @param {?(string|string[])} [options.transitionClass = transitioning]   - The class to apply when a menu is transitioning between "open" and "closed" states.
-   * @param {number}             [options.transitionDuration = 250]          - The duration of the transition between "open" and "closed" states (in milliseconds).
-   * @param {boolean}            [options.openDuration = -1]                 - The duration of the transition from "closed" to "open" states (in milliseconds).
-   * @param {boolean}            [options.closeDuration = -1]                - The duration of the transition from "open" to "closed" states (in milliseconds).
+   * @param {?(string|string[])} [options.initializeClass = initializing]    - The class(es) to apply when the menu is initializing.
+   * @param {?(string|string[])} [options.expandClass = show]                - The class(es) to apply when the menu is open.
+   * @param {?(string|string[])} [options.collapseClass = hide]              - The class(es) to apply when the menu is closed.
+   * @param {?(string|string[])} [options.transitionClass = transitioning]   - The class(es) to apply when the menu is transitioning between open and closed states.
+   * @param {number}             [options.transitionDuration = 250]          - The duration of the transition between expanded and collapsed states (in milliseconds).
+   * @param {number}             [options.expandDuration = -1]               - The duration of the transition from collapsed to expanded states (in milliseconds).
+   * @param {number}             [options.collapseDuration = -1]             - The duration of the transition from expanded to collapsed states (in milliseconds).
    * @param {boolean}            [options.isTopLevel = false]                - A flag to mark the root menu.
    * @param {?BaseMenu}          [options.parentMenu = null]                 - The parent menu to this menu.
    * @param {string}             [options.hoverType = off]                   - The type of hoverability a menu has.
    * @param {number}             [options.hoverDelay = 250]                  - The delay for opening and closing menus if the menu is hoverable (in milliseconds).
    * @param {number}             [options.enterDelay = -1]                   - The delay for opening menus if the menu is hoverable (in milliseconds).
    * @param {number}             [options.leaveDelay = -1]                   - The delay for closing menus if the menu is hoverable (in milliseconds).
-   * @param {string}             [options.breakpoint = '']                   - The breakpoint that the menu will automatically open/close itself at.
-   * @param {string}             [options.mediaQuery = '']                   - The media query to use to trigger media query list events.
-   * @param {boolean}            [options.autoOpen = true]                   - A flag to auto open the menu when the media query does not match.
+   * @param {string}             [options.breakpoint = '']                   - The breakpoint used to generate the root controller's media query.
+   * @param {string}             [options.mediaQuery = '']                   - The media query used to trigger the root controller's media query list events.
+   * @param {boolean}            [options.expandInsideBreakpoint = false]    - A flag to expand the controlled menu when the media query matches.
+   * @param {boolean}            [options.expandOutsideBreakpoint = false]   - A flag to expand the controlled menu when the media query does not match.
+   * @param {boolean}            [options.collapseInsideBreakpoint = false]  - A flag to collapse the controlled menu when the media query matches.
+   * @param {boolean}            [options.collapseOutsideBreakpoint = false] - A flag to collapse the controlled menu when the media query does not match.
+   * @param {boolean}            [options.lockInsideBreakpoint = false]      - A flag to lock the controller when the media query matches.
+   * @param {boolean}            [options.lockOutsideBreakpoint = false]     - A flag to lock the controller when the media query does not match.
+   * @param {boolean}            [options.unlockInsideBreakpoint = false]    - A flag to unlock the controller when the media query matches.
+   * @param {boolean}            [options.unlockOutsideBreakpoint = false]   - A flag to unlock the controller when the media query does not match.
    * @param {?string}            [options.prefix = am-]                      - The prefix to use for CSS custom properties.
    * @param {?string}            [options.key = null]                        - The key used to generate IDs throughout the menu.
    */
@@ -1396,166 +3009,117 @@ class L {
     submenuItemsSelector: i = "li:has(ul)",
     submenuTogglesSelector: n = "a",
     submenusSelector: r = "ul",
-    controllerElement: u = null,
+    controllerElement: l = null,
     containerElement: a = null,
-    openClass: c = "show",
-    closeClass: m = "hide",
-    transitionClass: d = "transitioning",
-    transitionDuration: g = 250,
-    openDuration: _ = -1,
-    closeDuration: y = -1,
-    isTopLevel: f = !0,
-    parentMenu: M = null,
-    hoverType: b = "off",
-    hoverDelay: C = 250,
-    enterDelay: E = -1,
-    leaveDelay: T = -1,
-    breakpoint: w = "",
-    mediaQuery: v = "",
-    autoOpen: k = !0,
-    prefix: I = "am-",
-    key: O = null
+    initializeClass: c = "initializing",
+    expandClass: d = "show",
+    collapseClass: m = "hide",
+    transitionClass: p = "transitioning",
+    transitionDuration: f = 250,
+    expandDuration: _ = -1,
+    collapseDuration: g = -1,
+    isTopLevel: E = !0,
+    parentMenu: b = null,
+    hoverType: M = "off",
+    hoverDelay: k = 250,
+    enterDelay: C = -1,
+    leaveDelay: I = -1,
+    breakpoint: v = "",
+    mediaQuery: w = "",
+    expandInsideBreakpoint: T = !1,
+    expandOutsideBreakpoint: x = !1,
+    collapseInsideBreakpoint: D = !1,
+    collapseOutsideBreakpoint: O = !1,
+    lockInsideBreakpoint: z = !1,
+    lockOutsideBreakpoint: A = !1,
+    unlockInsideBreakpoint: $ = !1,
+    unlockOutsideBreakpoint: B = !1,
+    prefix: K = "am-",
+    key: F = null
   }) {
-    this._dom.menu = e, this._dom.controller = u, this._dom.container = a, this._selectors.menuItems = t, this._selectors.menuLinks = s, this._selectors.submenuItems = i, this._selectors.submenuToggles = n, this._selectors.submenus = r, this._elements.menuItems = [], this._elements.submenuToggles = [], this._elements.controller = null, this._elements.parentMenu = M, this._elements.rootMenu = f ? this : null, this._classes.open = c || "", this._classes.close = m || "", this._classes.transition = d || "", this._durations.transition = g, this._durations.open = _, this._durations.close = y, this._prefix = I || "", this._key = O || "", this._root = f, this._hoverType = b, this._delays.hover = C, this._delays.enter = E, this._delays.leave = T, this._breakpoint = w, this._mediaQueryString = v, this._shouldOpen = k;
+    super({
+      prefix: K,
+      key: F,
+      initializeClass: c,
+      bootstrap: !1
+    }), this._dom.menu = e, this._dom.menuItems = [], this._dom.menuLinks = [], this._dom.submenuItems = [], this._dom.submenuToggles = [], this._dom.submenus = [], this._dom.controller = l, this._dom.container = a, this._selectors.menuItems = t, this._selectors.menuLinks = s, this._selectors.submenuItems = i, this._selectors.submenuToggles = n, this._selectors.submenus = r, this._elements.menuItems = [], this._elements.submenuToggles = [], this._elements.controller = null, this._elements.parentMenu = b, this._elements.rootMenu = E ? this : null, this._classes.expand = d || "", this._classes.collapse = m || "", this._classes.transition = p || "", this._durations.transition = f, this._durations.expand = _, this._durations.collapse = g, this._root = E, this._hoverType = M, this._delays.hover = k, this._delays.enter = C, this._delays.leave = I, this._controllerOptions = {
+      breakpoint: v,
+      mediaQuery: w,
+      expandInsideBreakpoint: T,
+      expandOutsideBreakpoint: x,
+      collapseInsideBreakpoint: D,
+      collapseOutsideBreakpoint: O,
+      lockInsideBreakpoint: z,
+      lockOutsideBreakpoint: A,
+      unlockInsideBreakpoint: $,
+      unlockOutsideBreakpoint: B
+    }, this._shouldStore = E, this._bootstrap();
   }
   /**
-   * Initializes the menu.
+   * Registers the menu's validation and initialization event listeners.
    *
-   * The following steps will be taken to initialize the menu:
-   * - Validate that the menu can initialize.
-   * - Find the root menu of the menu tree if it isn't already set.
-   * - Populate all DOM elements within the dom.
-   * - If the current menu is the root menu, set the ID's on the menu, controller,
-   *   and container.
-   * - If the current menu is the root menu _and_ has a controller, initialize
-   *   the controller.
-   * - If the current menu is the root menu, add it to the AccessibleMenu storage in the window.
-   * - Populate the menu elements within the elements.
-   * - Set the transition duration custom prop for the menu.
+   * Before validation, creates the root controller without initializing it.
+   * Before initialization, finds the root menu if it isn't already set.
    *
-   * @public
+   * Validation checks the required DOM elements, controller and container,
+   * root flag, parent menu, controller options, and hover type.
    *
-   * @throws {Error} Will throw an Error if validate returns `false`.
+   * @protected
    */
-  initialize() {
-    if (!this._validate())
-      throw new Error(
-        `AccessibleMenu: cannot initialize menu. The following errors have been found:
- - ${this.errors.map((e) => e.toString()).join(`
- - `)}`
-      );
-    if (this.elements.rootMenu === null && this._findRootMenu(this), this._generateKey(), this._setDOMElements(), this.isTopLevel) {
-      if (this._setIds(), this.dom.controller && this.dom.container) {
-        const e = new this._MenuToggleType({
-          menuToggleElement: this.dom.controller,
-          parentElement: this.dom.container,
-          controlledMenu: this
-        });
-        z(
-          "button",
-          { toggle: e.dom.toggle },
-          { shouldThrow: !1 }
-        ).status || e.dom.toggle.setAttribute("role", "button"), e.dom.toggle.setAttribute("aria-controls", this.dom.menu.id), this._elements.controller = e;
+  _bootstrap() {
+    super._bootstrap(), this._addEventListener(
+      this.getEventName("prevalidate"),
+      this.rootDOMElement,
+      (e) => {
+        e.detail.component === this && this._createController({ initialize: !1 });
       }
-      this._store();
-    }
-    this._createChildElements(), this._setTransitionDurations();
-  }
-  /**
-   * The DOM elements within the menu.
-   *
-   * @readonly
-   *
-   * @type {Object<HTMLElement, HTMLElement[]>}
-   *
-   * @see _dom
-   */
-  get dom() {
-    return this._dom;
-  }
-  /**
-   * The query selectors used by the menu to populate the dom.
-   *
-   * @readonly
-   *
-   * @type {Object<string>}
-   *
-   * @see _selectors
-   */
-  get selectors() {
-    return this._selectors;
-  }
-  /**
-   * The declared accessible-menu elements within the menu.
-   *
-   * @readonly
-   *
-   * @type {Object<BaseMenu, BaseMenuToggle, BaseMenuItem[], BaseMenuToggle[]>}
-   *
-   * @see _elements
-   */
-  get elements() {
-    return this._elements;
-  }
-  /**
-   * The classes to apply when the menu is in various states.
-   *
-   * @readonly
-   *
-   * @type {Object<string|string[]>}
-   *
-   * @see _classes
-   */
-  get classes() {
-    return this._classes;
-  }
-  /**
-   * The durations (in milliseconds) for various menu transitions and events.
-   *
-   * @readonly
-   *
-   * @type {Object<number>}
-   *
-   * @see _durations
-   */
-  get durations() {
-    return this._durations;
-  }
-  /**
-   * The delays (in milliseconds) for various menu transitions and events.
-   *
-   * @readonly
-   *
-   * @type {Object<number>}
-   *
-   * @see _delays
-   */
-  get delays() {
-    return this._delays;
-  }
-  /**
-   * Timeouts throughout the menu.
-   *
-   * @readonly
-   *
-   * @type {object}
-   *
-   * @see _timeouts
-   */
-  get timeouts() {
-    return this._timeouts;
-  }
-  /**
-   * Event listeners throughout the menu.
-   *
-   * @readonly
-   *
-   * @type {object[]}
-   *
-   * @see _listeners
-   */
-  get listeners() {
-    return this._listeners;
+    ), this._addEventListener(
+      this.getEventName("preinitialize"),
+      this.rootDOMElement,
+      (e) => {
+        e.detail.component === this && this.elements.rootMenu === null && this._findRootMenu(this);
+      }
+    ), this._addEventListener(
+      this.getEventName("validate"),
+      this.rootDOMElement,
+      (e) => {
+        if (e.detail.component !== this) return;
+        if (this.dom.menu === null) {
+          const n = y(
+            HTMLElement,
+            { menuElement: this.dom.menu },
+            { shouldThrow: !1 }
+          );
+          n.status || (this._errors = [...this._errors, ...n.errors], this._valid = !1);
+        }
+        this.dom.controller === null != (this.dom.container === null) && (this._errors.push(
+          new TypeError(
+            "controllerElement and containerElement must be provided together."
+          )
+        ), this._valid = !1);
+        const t = {
+          isTopLevel: this._root
+        }, s = u("boolean", t, {
+          shouldThrow: !1
+        });
+        if (s.status || (this._errors = [...this._errors, ...s.errors], this._valid = !1), !this._root && this.elements.parentMenu === null)
+          this._errors.push(new TypeError("A submenu requires a parentMenu.")), this._valid = !1;
+        else if (this.elements.parentMenu !== null) {
+          const n = y(
+            P,
+            { parentMenu: this.elements.parentMenu },
+            { shouldThrow: !1 }
+          );
+          n.status || (this._errors = [...this._errors, ...n.errors], this._valid = !1);
+        }
+        this.elements.controller !== null && !this.elements.controller._validate() && (this._errors = [...this._errors, ...this.elements.controller.errors], this._valid = !1);
+        const i = ee(
+          { hoverType: this._hoverType },
+          { shouldThrow: !1 }
+        );
+        i.status || (this._errors = [...this._errors, ...i.errors], this._valid = !1);
+      }
+    );
   }
   /**
    * The flag marking the root menu.
@@ -1588,42 +3152,6 @@ class L {
     return `${this.elements.parentMenu.key}-${e}`;
   }
   /**
-   * The main ID of the menu.
-   *
-   * @readonly
-   *
-   * @type {string}
-   *
-   * @see _id
-   */
-  get id() {
-    return this._id;
-  }
-  /**
-   * The validity state of the menu.
-   *
-   * @readonly
-   *
-   * @type {boolean}
-   *
-   * @see _valid
-   */
-  get isValid() {
-    return this._valid;
-  }
-  /**
-   * An array of error messages generated by the menu.
-   *
-   * @readonly
-   *
-   * @type {string[]}
-   *
-   * @see _errors
-   */
-  get errors() {
-    return this._errors;
-  }
-  /**
    * The class(es) to apply when the menu is open.
    *
    * This functions differently for root vs. submenus.
@@ -1631,13 +3159,13 @@ class L {
    *
    * @type {string|string[]}
    *
-   * @see _classes.open
+   * @see _classes.expand
    */
-  get openClass() {
-    return this.isTopLevel ? this._classes.open : this.elements.rootMenu.openClass;
+  get expandClass() {
+    return this.isTopLevel ? this._classes.expand : this.elements.rootMenu.expandClass;
   }
-  set openClass(e) {
-    K({ openClass: e }), this._classes.open !== e && (this._classes.open = e);
+  set expandClass(e) {
+    L({ expandClass: e }), this._classes.expand !== e && (this._classes.expand = e);
   }
   /**
    * The class(es) to apply when the menu is closed.
@@ -1647,13 +3175,13 @@ class L {
    *
    * @type {string|string[]}
    *
-   * @see _classes.close
+   * @see _classes.collapse
    */
-  get closeClass() {
-    return this.isTopLevel ? this._classes.close : this.elements.rootMenu.closeClass;
+  get collapseClass() {
+    return this.isTopLevel ? this._classes.collapse : this.elements.rootMenu.collapseClass;
   }
-  set closeClass(e) {
-    K({ closeClass: e }), this._classes.close !== e && (this._classes.close = e);
+  set collapseClass(e) {
+    L({ collapseClass: e }), this._classes.collapse !== e && (this._classes.collapse = e);
   }
   /**
    * The class(es) to apply when the menu is transitioning between open and closed.
@@ -1669,7 +3197,7 @@ class L {
     return this.isTopLevel ? this._classes.transition : this.elements.rootMenu.transitionClass;
   }
   set transitionClass(e) {
-    K({ transitionClass: e }), this._classes.transition !== e && (this._classes.transition = e);
+    L({ transitionClass: e }), this._classes.transition !== e && (this._classes.transition = e);
   }
   /**
    * The duration time (in milliseconds) for the transition between open and closed states.
@@ -1687,47 +3215,47 @@ class L {
     return this.isTopLevel ? this._durations.transition : this.elements.rootMenu.transitionDuration;
   }
   set transitionDuration(e) {
-    h("number", { transitionDuration: e }), this._durations.transition !== e && (this._durations.transition = e, this._setTransitionDurations());
+    u("number", { transitionDuration: e }), this._durations.transition !== e && (this._durations.transition = e, this._setCustomProps());
   }
   /**
    * The duration time (in milliseconds) for the transition from closed to open states.
    *
    * This functions differently for root vs. submenus.
-   * Submenus will always inherit their root menu's openDuration.
+   * Submenus will always inherit their root menu's expandDuration.
    *
-   * If openDuration is set to -1, the transitionDuration value will be used instead.
+   * If expandDuration is set to -1, the transitionDuration value will be used instead.
    *
-   * Setting this value will also set the --am-open-transition-duration CSS custom property on the menu.
+   * Setting this value will also set the --am-expand-transition-duration CSS custom property on the menu.
    *
    * @type {number}
    *
-   * @see _durations.open
+   * @see _durations.expand
    */
-  get openDuration() {
-    return this._durations.open === -1 ? this.transitionDuration : this.isTopLevel ? this._durations.open : this.elements.rootMenu.openDuration;
+  get expandDuration() {
+    return this.isTopLevel ? this._durations.expand === -1 ? this.transitionDuration : this._durations.expand : this.elements.rootMenu.expandDuration;
   }
-  set openDuration(e) {
-    h("number", { openDuration: e }), this._durations.open !== e && (this._durations.open = e, this._setTransitionDurations());
+  set expandDuration(e) {
+    u("number", { expandDuration: e }), this._durations.expand !== e && (this._durations.expand = e, this._setCustomProps());
   }
   /**
    * The duration time (in milliseconds) for the transition from open to closed states.
    *
    * This functions differently for root vs. submenus.
-   * Submenus will always inherit their root menu's closeDuration.
+   * Submenus will always inherit their root menu's collapseDuration.
    *
-   * If closeDuration is set to -1, the transitionDuration value will be used instead.
+   * If collapseDuration is set to -1, the transitionDuration value will be used instead.
    *
-   * Setting this value will also set the --am-close-transition-duration CSS custom property on the menu.
+   * Setting this value will also set the --am-collapse-transition-duration CSS custom property on the menu.
    *
    * @type {number}
    *
-   * @see _durations.close
+   * @see _durations.collapse
    */
-  get closeDuration() {
-    return this._durations.close === -1 ? this.transitionDuration : this.isTopLevel ? this._durations.close : this.elements.rootMenu.closeDuration;
+  get collapseDuration() {
+    return this.isTopLevel ? this._durations.collapse === -1 ? this.transitionDuration : this._durations.collapse : this.elements.rootMenu.collapseDuration;
   }
-  set closeDuration(e) {
-    h("number", { closeDuration: e }), this._durations.close !== e && (this._durations.close = e, this._setTransitionDurations());
+  set collapseDuration(e) {
+    u("number", { collapseDuration: e }), this._durations.collapse !== e && (this._durations.collapse = e, this._setCustomProps());
   }
   /**
    * The index of the currently selected menu item in the menu.
@@ -1749,13 +3277,13 @@ class L {
     return this._currentChild;
   }
   set currentChild(e) {
-    h("number", { currentChild: e });
+    u("number", { currentChild: e });
     function t(s) {
       if (["mouse", "character"].includes(s.currentEvent) && s.elements.parentMenu) {
         let n = 0, r = !1;
         for (; !r && n < s.elements.parentMenu.elements.menuItems.length; ) {
-          const u = s.elements.parentMenu.elements.menuItems[n];
-          u.isSubmenuItem && u.elements.toggle.elements.controlledMenu === s && (r = !0, s.elements.parentMenu.currentEvent = s.currentEvent, s.elements.parentMenu.currentChild = n), n++;
+          const l = s.elements.parentMenu.elements.menuItems[n];
+          l.isSubmenuItem && l.elements.toggle.elements.controlledMenu === s && (r = !0, s.elements.parentMenu.currentEvent = s.currentEvent, s.elements.parentMenu.currentChild = n), n++;
         }
       }
     }
@@ -1774,10 +3302,10 @@ class L {
    * @see _focusState
    */
   get focusState() {
-    return this._focusState;
+    return super.focusState;
   }
   set focusState(e) {
-    U({ focusState: e }), this._focusState !== e && (this._focusState = e), this.elements.submenuToggles.length > 0 && (e === "self" || e === "none") && this.elements.submenuToggles.forEach((t) => {
+    super.focusState = e, this.elements.submenuToggles.length > 0 && (e === "self" || e === "none") && this.elements.submenuToggles.forEach((t) => {
       t.elements.controlledMenu.focusState = "none";
     }), this.elements.parentMenu && (e === "self" || e === "child") && (this.elements.parentMenu.focusState = "child");
   }
@@ -1789,54 +3317,13 @@ class L {
    * @see _currentEvent
    */
   get currentEvent() {
-    return this._currentEvent;
+    return super.currentEvent;
   }
   set currentEvent(e) {
-    W({ currentEvent: e }), this._currentEvent !== e && (this._currentEvent = e, this.elements.submenuToggles.length > 0 && this.elements.submenuToggles.forEach((t) => {
-      t.elements.controlledMenu.currentEvent = e;
-    }));
-  }
-  /**
-   * A flag to force the menu open when the media query matches.
-   *
-   * @type {boolean}
-   *
-   * @see _shouldOpen
-   */
-  get shouldOpen() {
-    return this._shouldOpen;
-  }
-  set shouldOpen(e) {
-    h("boolean", { shouldOpen: e }), this._shouldOpen !== e && (this._shouldOpen = e);
-  }
-  /**
-   * The breakpoint that the menu will automatically open/close itself at.
-   *
-   * @type {string}
-   *
-   * @see _breakpoint
-   */
-  get breakpoint() {
-    return this._breakpoint;
-  }
-  set breakpoint(e) {
-    h("string", { breakpoint: e }), this._breakpoint !== e && (this._breakpoint = e);
-  }
-  /**
-   * The media query to use to trigger media query list events.
-   *
-   * If the mediaQueryString is empty, the media query will be generated
-   * based on the breakpoint.
-   *
-   * @type {string}
-   *
-   * @see _mediaQueryString
-   */
-  get mediaQuery() {
-    return this._mediaQueryString !== "" ? this._mediaQueryString : this._breakpoint === "" ? "" : `(width <= ${this._breakpoint})`;
-  }
-  set mediaQuery(e) {
-    h("string", { mediaQuery: e }), this._mediaQueryString !== e && (this._mediaQueryString = e);
+    const t = super.currentEvent;
+    super.currentEvent = e, t !== e && this.elements.submenuToggles.length > 0 && this.elements.submenuToggles.forEach((s) => {
+      s.elements.controlledMenu.currentEvent = e;
+    });
   }
   /**
    * The currently selected menu item.
@@ -1862,7 +3349,7 @@ class L {
     return this._root ? this._hoverType : this.elements.rootMenu.hoverType;
   }
   set hoverType(e) {
-    V({ hoverType: e }), this._hoverType !== e && (this._hoverType = e);
+    ee({ hoverType: e }), this._hoverType !== e && (this._hoverType = e);
   }
   /**
    * The delay time (in milliseconds) used for pointerenter/pointerleave events to take place.
@@ -1878,7 +3365,7 @@ class L {
     return this._root ? this._delays.hover : this.elements.rootMenu.hoverDelay;
   }
   set hoverDelay(e) {
-    h("number", { hoverDelay: e }), this._delays.hover !== e && (this._delays.hover = e);
+    u("number", { hoverDelay: e }), this._delays.hover !== e && (this._delays.hover = e);
   }
   /**
    * The delay time (in milliseconds) used for pointerenter events to take place.
@@ -1896,7 +3383,7 @@ class L {
     return this._delays.enter === -1 ? this.hoverDelay : this._root ? this._delays.enter : this.elements.rootMenu.enterDelay;
   }
   set enterDelay(e) {
-    h("number", { enterDelay: e }), this._delays.enter !== e && (this._delays.enter = e);
+    u("number", { enterDelay: e }), this._delays.enter !== e && (this._delays.enter = e);
   }
   /**
    * The delay time (in milliseconds) used for pointerleave events to take place.
@@ -1914,7 +3401,7 @@ class L {
     return this._delays.leave === -1 ? this.hoverDelay : this._root ? this._delays.leave : this.elements.rootMenu.leaveDelay;
   }
   set leaveDelay(e) {
-    h("number", { leaveDelay: e }), this._delays.leave !== e && (this._delays.leave = e);
+    u("number", { leaveDelay: e }), this._delays.leave !== e && (this._delays.leave = e);
   }
   /**
    * The prefix to use for CSS custom properties.
@@ -1930,7 +3417,7 @@ class L {
     return this._root ? this._prefix : this.elements.rootMenu.prefix;
   }
   set prefix(e) {
-    h("string", { prefix: e }), this._prefix !== e && (this._prefix = e);
+    u("string", { prefix: e }), this._prefix !== e && (this._prefix = e);
   }
   /**
    * A flag to check if the menu's focus methods should _actually_ move the focus in the DOM.
@@ -1946,130 +3433,23 @@ class L {
    * @type {boolean}
    */
   get shouldFocus() {
-    let e = !1;
-    return (this.currentEvent === "keyboard" || this.currentEvent === "character") && (e = !0), this.currentEvent === "mouse" && this.hoverType === "dynamic" && (e = !0), e;
+    return super.shouldFocus || this.currentEvent === "character" || this.currentEvent === "mouse" && this.hoverType === "dynamic";
   }
   /**
    * A flag to check if the menu can dynamically hover.
    *
    * This functions differently for root vs. submenus.
-   * Submenus will always inherit their root menu's hasOpened.
+   * Submenus will always inherit their root menu's hasExpanded.
    *
    * @type {boolean}
    *
-   * @see _hasOpened
+   * @see _hasExpanded
    */
-  get hasOpened() {
-    return this._root ? this._hasOpened : this.elements.rootMenu.hasOpened;
+  get hasExpanded() {
+    return this._root ? this._hasExpanded : this.elements.rootMenu.hasExpanded;
   }
-  set hasOpened(e) {
-    h("boolean", { hasOpened: e }), this._hasOpened !== e && (this._hasOpened = e);
-  }
-  /**
-   * Validates all aspects of the menu to ensure proper functionality.
-   *
-   * @protected
-   *
-   * @return {boolean} - The result of the validation.
-   */
-  _validate() {
-    if (Object.keys(this._dom).length > 0) {
-      const i = {};
-      for (const r of Object.keys(this._dom))
-        Array.isArray(this._dom[r]) ? this._dom[r].forEach((u, a) => {
-          i[`${r}Element[${a}]`] = u;
-        }) : i[`${r}Element`] = this._dom[r];
-      i.controllerElement === null && i.containerElement === null && (delete i.controllerElement, delete i.containerElement);
-      const n = S(HTMLElement, i, {
-        shouldThrow: !1
-      });
-      n.status || (this._errors = [...this._errors, ...n.errors], this._valid = !1);
-    }
-    if (Object.keys(this._selectors).length > 0) {
-      const i = {};
-      for (const r of Object.keys(this._selectors))
-        i[`${r}Selector`] = this._selectors[r];
-      const n = P(i, {
-        shouldThrow: !1
-      });
-      n.status || (this._errors = [...this._errors, ...n.errors], this._valid = !1);
-    }
-    if (Object.keys(this._classes).length > 0) {
-      const i = {};
-      for (const r of Object.keys(this._classes))
-        this._classes[r] !== "" && (i[`${r}Class`] = this._classes[r]);
-      const n = K(i, { shouldThrow: !1 });
-      n.status || (this._errors = [...this._errors, ...n.errors], this._valid = !1);
-    }
-    if (Object.keys(this._durations).length > 0) {
-      const i = {};
-      for (const r of Object.keys(this._durations))
-        i[`${r}Duration`] = this._durations[r];
-      const n = h("number", i, {
-        shouldThrow: !1
-      });
-      n.status || (this._errors = [...this._errors, ...n.errors], this._valid = !1);
-    }
-    if (Object.keys(this._delays).length > 0) {
-      const i = {};
-      for (const r of Object.keys(this._delays))
-        i[`${r}Delay`] = this._delays[r];
-      const n = h("number", i, { shouldThrow: !1 });
-      n.status || (this._errors = [...this._errors, ...n.errors], this._valid = !1);
-    }
-    const e = {
-      isTopLevel: this._root,
-      autoOpen: this._shouldOpen
-    }, t = h("boolean", e, {
-      shouldThrow: !1
-    });
-    if (t.status || (this._errors = [...this._errors, ...t.errors], this._valid = !1), this._elements.parentMenu !== null) {
-      const i = S(
-        L,
-        {
-          parentMenu: this._elements.parentMenu
-        },
-        { shouldThrow: !1 }
-      );
-      i.status || (this._errors = [...this._errors, ...i.errors], this._valid = !1);
-    }
-    const s = V(
-      { hoverType: this._hoverType },
-      { shouldThrow: !1 }
-    );
-    if (s.status || (this._errors = [...this._errors, ...s.errors], this._valid = !1), this._breakpoint !== "") {
-      const i = h(
-        "string",
-        { breakpoint: this._breakpoint },
-        { shouldThrow: !1 }
-      );
-      i.status || (this._errors = [...this._errors, ...i.errors], this._valid = !1);
-    }
-    if (this._mediaQueryString !== "") {
-      const i = h(
-        "string",
-        { mediaQuery: this._mediaQueryString },
-        { shouldThrow: !1 }
-      );
-      i.status || (this._errors = [...this._errors, ...i.errors], this._valid = !1);
-    }
-    if (this._key !== "") {
-      const i = h(
-        "string",
-        { key: this._key },
-        { shouldThrow: !1 }
-      );
-      i.status || (this._errors = [...this._errors, ...i.errors], this._valid = !1);
-    }
-    if (this._prefix !== "") {
-      const i = h(
-        "string",
-        { prefix: this._prefix },
-        { shouldThrow: !1 }
-      );
-      i.status || (this._errors = [...this._errors, ...i.errors], this._valid = !1);
-    }
-    return this._valid;
+  set hasExpanded(e) {
+    u("boolean", { hasExpanded: e }), this._hasExpanded !== e && (this._hasExpanded = e);
   }
   /**
    * Sets DOM elements throughout the menu.
@@ -2085,44 +3465,7 @@ class L {
    * @param {boolean}                     [options.strict = true]           - A flag to set if the elements must be direct children of the base.
    */
   _setDOMElementType(e, { context: t = this.dom.menu, overwrite: s = !0, strict: i = !0 } = {}) {
-    if (typeof this.selectors[e] != "string")
-      throw new Error(
-        `AccessibleMenu: "${e}" is not a valid element type.`
-      );
-    if (this._protectedDOMElements.includes(e))
-      throw new Error(
-        `AccessibleMenu: "${e}" element cannot be set through _setDOMElementType because it is a protected element.`
-      );
-    S(HTMLElement, { context: t });
-    const r = Array.from(
-      t.querySelectorAll(this.selectors[e])
-    ).filter(
-      (u) => i ? u.parentElement === t : !0
-    );
-    Array.isArray(this._dom[e]) ? s ? this._dom[e] = r : this._dom[e] = [
-      ...this._dom[e],
-      ...r
-    ] : this._dom[e] = r[0] || null;
-  }
-  /**
-   * Resets DOM elements throughout the menu.
-   *
-   * Elements listed in _protectedDOMElements cannot be reset using this method.
-   *
-   * @protected
-   *
-   * @param {string} elementType - The type of element to clear.
-   */
-  _resetDOMElementType(e) {
-    if (typeof this.selectors[e] != "string")
-      throw new Error(
-        `AccessibleMenu: "${e}" is not a valid element type.`
-      );
-    if (this._protectedDOMElements.includes(e))
-      throw new Error(
-        `AccessibleMenu: "${e}" element cannot be reset through _resetDOMElementType because it is a protected element.`
-      );
-    Array.isArray(this._dom[e]) ? this._dom[e] = [] : this._dom[e] = null;
+    super._setDOMElementType(e, { context: t, overwrite: s, strict: i });
   }
   /**
    * Sets all DOM elements within the menu.
@@ -2144,14 +3487,6 @@ class L {
     }));
   }
   /**
-   * Generates a key for the menu.
-   *
-   * @param {boolean} [regenerate = false] - A flag to determine if the key should be regenerated.
-   */
-  _generateKey(e = !1) {
-    (this.key === "" || e) && (this._key = Math.random().toString(36).replace(/[^a-z]+/g, "").substring(0, 10));
-  }
-  /**
    * Sets the IDs of the menu and it's elements if they do not already exist.
    *
    * The generated IDs use the key and follow the format:
@@ -2161,6 +3496,34 @@ class L {
    */
   _setIds() {
     this.dom.menu.id = this.dom.menu.id || `menu-${this.key}`, this.dom.container && (this.dom.container.id = this.dom.container.id || `menu-container-${this.key}`), this.dom.controller && (this.dom.controller.id = this.dom.controller.id || `menu-controller-${this.key}`), this._id = this.dom.menu.id;
+  }
+  /**
+   * Sets the ARIA attributes on the root controller.
+   *
+   * @protected
+   */
+  _setAriaAttributes() {
+    if (this.isTopLevel && this.dom.controller && this.dom.container) {
+      const e = this.dom.controller;
+      U("button", { controller: e }, { shouldThrow: !1 }).status || e.setAttribute("role", "button"), e.setAttribute("aria-controls", this.dom.menu.id);
+    }
+  }
+  /**
+   * Creates and initializes the root controller.
+   *
+   * @protected
+   *
+   * @param {object}  [options = {}]              - The options for creating the controller.
+   * @param {boolean} [options.initialize = true] - A flag to initialize the controller. Set to false before validation.
+   */
+  _createController({ initialize: e = !0 } = {}) {
+    !this.isTopLevel || !this.dom.controller || !this.dom.container || (this.elements.controller === null && (this._elements.controller = new this._MenuToggleType({
+      menuToggleElement: this.dom.controller,
+      parentElement: this.dom.container,
+      controlledMenu: this,
+      ...this._controllerOptions,
+      initialize: !1
+    })), e && !this.elements.controller.isInitialized && this.elements.controller.initialize());
   }
   /**
    * Finds the root menu element.
@@ -2183,7 +3546,7 @@ class L {
    * @protected
    */
   _createChildElements() {
-    this.dom.menuItems.forEach((e) => {
+    this._createController(), this.dom.menuItems.forEach((e) => {
       let t;
       if (this.dom.submenuItems.includes(e)) {
         const s = e.querySelector(this.selectors.submenuToggles), i = e.querySelector(this.selectors.submenus), n = new this._MenuType({
@@ -2193,26 +3556,27 @@ class L {
           submenuItemsSelector: this.selectors.submenuItems,
           submenuTogglesSelector: this.selectors.submenuToggles,
           submenusSelector: this.selectors.submenus,
-          openClass: this.openClass,
-          closeClass: this.closeClass,
+          expandClass: this.expandClass,
+          collapseClass: this.collapseClass,
           transitionClass: this.transitionClass,
           transitionDuration: this.transitionDuration,
-          openDuration: this.openDuration,
-          closeDuration: this.closeDuration,
+          expandDuration: this.expandDuration,
+          collapseDuration: this.collapseDuration,
           isTopLevel: !1,
           parentMenu: this,
           hoverType: this.hoverType,
           hoverDelay: this.hoverDelay,
           enterDelay: this.enterDelay,
-          leaveDelay: this.leaveDelay,
-          shouldOpen: !1
-        }), r = new this._MenuToggleType({
+          leaveDelay: this.leaveDelay
+        });
+        n.isInitialized || n.initialize();
+        const r = new this._MenuToggleType({
           menuToggleElement: s,
           parentElement: e,
           controlledMenu: n,
           parentMenu: this
         });
-        this._elements.submenuToggles.push(r), t = new this._MenuItemType({
+        r.isInitialized || r.initialize(), this._elements.submenuToggles.push(r), t = new this._MenuItemType({
           menuItemElement: e,
           menuLinkElement: s,
           parentMenu: this,
@@ -2228,23 +3592,8 @@ class L {
           parentMenu: this
         });
       }
-      this._elements.menuItems.push(t);
+      t.isInitialized || t.initialize(), this._elements.menuItems.push(t);
     });
-  }
-  /**
-   * Handles media match events throughout the menu.
-   *
-   * - Adds a `change` listener to the menu's media query list so when the media query
-   *   state changes, it will properly open/close the menu.
-   *
-   * @protected
-   */
-  _handleMediaMatch() {
-    this.mediaQuery !== "" && (this._mediaQueryList = window.matchMedia(this.mediaQuery), this._addEventListener(
-      "change",
-      this._mediaQueryList,
-      this._mediaQueryListEventCallback
-    ), this._mediaQueryListEventCallback(this._mediaQueryList));
   }
   /**
    * Handles focus events throughout the menu for proper menu use.
@@ -2263,7 +3612,7 @@ class L {
         this.focusState = "self", this.currentChild = t;
       });
     }), this._addEventListener("focusout", this.dom.menu, (e) => {
-      this.currentEvent !== "keyboard" || e.relatedTarget === null || this.dom.menu.contains(e.relatedTarget) || (this.focusState = "none", this.closeChildren());
+      this.currentEvent !== "keyboard" || e.relatedTarget === null || this.dom.menu.contains(e.relatedTarget) || (this.focusState = "none", this.collapseChildren());
     });
   }
   /**
@@ -2282,7 +3631,7 @@ class L {
    */
   _handleClick() {
     function e(t, s, i) {
-      l(i), i.button === 0 && (s.toggle(), s.isOpen && (t.focusState = "self", s.elements.controlledMenu.focusState = "none"));
+      h(i), i.button === 0 && (s.toggle(), s.isExpanded && (t.focusState = "self", s.elements.controlledMenu.focusState = "none"));
     }
     this.elements.menuItems.forEach((t, s) => {
       this._addEventListener(
@@ -2294,21 +3643,19 @@ class L {
         { passive: !0 }
       ), t.isSubmenuItem && this._addEventListener(
         "click",
-        t.elements.toggle.dom.toggle,
+        t.elements.toggle.dom.controller,
         (i) => {
           this.currentEvent = "mouse", e(this, t.elements.toggle, i);
         }
       );
     }), this.isTopLevel && this.elements.controller && this._addEventListener(
       "click",
-      this.elements.controller.dom.toggle,
+      this.elements.controller.dom.controller,
       (t) => {
         this.currentEvent = "mouse", e(this, this.elements.controller, t);
       }
     ), this._addEventListener("click", document, (t) => {
-      this.focusState !== "none" && (this.currentEvent = "mouse", !this.dom.menu.contains(t.target) && !this.dom.menu !== t.target && (this.elements.rootMenu.hasOpened = this.elements.submenuToggles.some(
-        (s) => s.isOpen
-      )));
+      this.focusState !== "none" && (this.currentEvent = "mouse", !this.dom.menu.contains(t.target) && !this.dom.menu !== t.target && (this.elements.rootMenu.hasExpanded = this.elements.submenuToggles.some((s) => s.isExpanded)));
     });
   }
   /**
@@ -2341,7 +3688,7 @@ class L {
    * - When a `pointerenter` event triggers on a submenu item, and a submenu is
    *   already open, the preview method for the submenu item's toggle will be called.
    * - When a `pointerenter` event triggers on a non-submenu item, and a submenu
-   *   is already open, the closeChildren method for the menu will be called.
+   *   is already open, the collapseChildren method for the menu will be called.
    * - When a `pointerenter` event triggers on a submenu item, and no submenu is
    *   open, no submenu-specific methods will be called.
    * - When a `pointerleave` event triggers on an open submenu item that is not a
@@ -2359,19 +3706,19 @@ class L {
   _handleHover() {
     this.elements.menuItems.forEach((e, t) => {
       this._addEventListener("pointerenter", e.dom.link, (s) => {
-        s.pointerType === "pen" || s.pointerType === "touch" || (this.hoverType === "on" ? (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusChild(t), e.isSubmenuItem && (this.enterDelay > 0 ? (this._clearTimeout(), this._setTimeout(() => {
+        s.pointerType === "pen" || s.pointerType === "touch" || (this.hoverType === "on" ? (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusChild(t), e.isSubmenuItem && (this.enterDelay > 0 ? this._setTimeout(() => {
           e.elements.toggle.preview();
-        }, this.enterDelay)) : e.elements.toggle.preview())) : this.hoverType === "dynamic" && (this.currentChild = t, (!this.isTopLevel || this.focusState !== "none") && (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild()), (!this.isTopLevel || this.hasOpened) && (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild(), e.isSubmenuItem ? this.enterDelay > 0 ? (this._clearTimeout(), this._setTimeout(() => {
+        }, this.enterDelay) : e.elements.toggle.preview())) : this.hoverType === "dynamic" && (this.currentChild = t, (!this.isTopLevel || this.focusState !== "none") && (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild()), (!this.isTopLevel || this.hasExpanded) && (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild(), e.isSubmenuItem ? this.enterDelay > 0 ? this._setTimeout(() => {
           e.elements.toggle.preview();
-        }, this.enterDelay)) : e.elements.toggle.preview() : this.enterDelay > 0 ? (this._clearTimeout(), this._setTimeout(() => {
-          this.closeChildren();
-        }, this.enterDelay)) : this.closeChildren())));
+        }, this.enterDelay) : e.elements.toggle.preview() : this.enterDelay > 0 ? this._setTimeout(() => {
+          this.collapseChildren();
+        }, this.enterDelay) : this.collapseChildren())));
       }), e.isSubmenuItem && (this._addEventListener("pointerleave", e.dom.item, (s) => {
-        s.pointerType === "pen" || s.pointerType === "touch" || (this.hoverType === "on" ? this.leaveDelay > 0 ? (this._clearTimeout(), this._setTimeout(() => {
-          this.currentEvent = "mouse", e.elements.toggle.close();
-        }, this.leaveDelay)) : (this.currentEvent = "mouse", e.elements.toggle.close()) : this.hoverType === "dynamic" && (this.leaveDelay > 0 ? (this._clearTimeout(), this._setTimeout(() => {
+        s.pointerType === "pen" || s.pointerType === "touch" || (this.hoverType === "on" ? this.leaveDelay > 0 ? this._setTimeout(() => {
+          this.currentEvent = "mouse", e.elements.toggle.collapse();
+        }, this.leaveDelay) : (this.currentEvent = "mouse", e.elements.toggle.collapse()) : this.hoverType === "dynamic" && (this.leaveDelay > 0 ? this._setTimeout(() => {
           this.currentEvent = "mouse";
-        }, this.leaveDelay)) : this.currentEvent = "mouse"));
+        }, this.leaveDelay) : this.currentEvent = "mouse"));
       }), this._addEventListener("pointerenter", e.dom.item, (s) => {
         s.pointerType === "pen" || s.pointerType === "touch" || e.isSubmenuItem && (this.hoverType === "on" || this.hoverType === "dynamic") && this.leaveDelay > 0 && this._clearTimeout();
       }));
@@ -2390,11 +3737,11 @@ class L {
   _handleKeydown() {
     this.isTopLevel && this.elements.controller && this._addEventListener(
       "keydown",
-      this.elements.controller.dom.toggle,
+      this.elements.controller.dom.controller,
       (e) => {
         this.currentEvent = "keyboard";
-        const t = p(e);
-        (t === "Space" || t === "Enter") && l(e);
+        const t = S(e);
+        (t === "Space" || t === "Enter") && h(e);
       }
     );
   }
@@ -2409,176 +3756,49 @@ class L {
   _handleKeyup() {
     this.isTopLevel && this.elements.controller && this._addEventListener(
       "keyup",
-      this.elements.controller.dom.toggle,
+      this.elements.controller.dom.controller,
       (e) => {
         this.currentEvent = "keyboard";
-        const t = p(e);
-        (t === "Space" || t === "Enter") && (l(e), this.elements.controller.toggle(), this.elements.controller.isOpen && this.focusFirstChild());
+        const t = S(e);
+        (t === "Space" || t === "Enter") && (h(e), this.elements.controller.toggle(), this.elements.controller.isExpanded && this.focusFirstChild());
       }
     );
-  }
-  /**
-   * Stores the menu into the global storage object.
-   *
-   * @protected
-   */
-  _store() {
-    S(
-      j,
-      { storage: window.AccessibleMenuStorage },
-      { shouldThrow: !1 }
-    ).status || new j({
-      scope: "AccessibleMenuStorage",
-      type: this._storageKey
-    }), window.AccessibleMenuStorage.set({
-      key: this.id !== "" ? this.id : this.key,
-      data: this
-    });
-  }
-  /**
-   * Removes the menu from the global storage object.
-   *
-   * @protected
-   */
-  _unstore() {
-    S(
-      j,
-      { storage: window.AccessibleMenuStorage },
-      { shouldThrow: !1 }
-    ).status && window.AccessibleMenuStorage.clear({
-      key: this.id !== "" ? this.id : this.key
-    });
   }
   /**
    * Sets the transition durations of the menu as a CSS custom properties.
    *
    * The custom properties are:
    *   - `--am-transition-duration`,
-   *   - `--am-open-transition-duration`, and
-   *   - `--am-close-transition-duration`.
+   *   - `--am-expand-transition-duration`, and
+   *   - `--am-collapse-transition-duration`.
    *
    * The prefix of `am-` can be changed by setting the menu's prefix value.
    *
    * @protected
    */
-  _setTransitionDurations() {
+  _setCustomProps() {
     this.dom.menu.style.setProperty(
       `--${this.prefix}transition-duration`,
       `${this.transitionDuration}ms`
     ), this.dom.menu.style.setProperty(
-      `--${this.prefix}open-transition-duration`,
-      `${this.openDuration}ms`
+      `--${this.prefix}expand-transition-duration`,
+      `${this.expandDuration}ms`
     ), this.dom.menu.style.setProperty(
-      `--${this.prefix}close-transition-duration`,
-      `${this.closeDuration}ms`
-    );
-  }
-  /**
-   * Sets a timeout within the menu.
-   *
-   * @protected
-   *
-   * @param {Function} [callback]         - The callback function.
-   * @param {number}   [delay]            - The time (in milliseconds) of the delay.
-   * @param {string}   [scope = _default] - The scope of the timeout (used to store the timeout in _timeouts).
-   */
-  _setTimeout(e, t, s = "_default") {
-    this._clearTimeout(s), this._timeouts[s] = setTimeout(e, t);
-  }
-  /**
-   * Clears a timeout within the menu.
-   *
-   * @protected
-   *
-   * @param {string} [scope = _default] - The scope of the timeout (used to get the timeout from _timeouts).
-   */
-  _clearTimeout(e = "_default") {
-    clearTimeout(this._timeouts[e]);
-  }
-  /**
-   * Clears all timeouts within the menu.
-   *
-   * @protected
-   */
-  _clearTimeouts() {
-    for (const e of Object.keys(this._timeouts))
-      this._clearTimeout(e);
-  }
-  /**
-   * Add an event listener to an element and register it within the menu.
-   *
-   * @param {string}         type           - The type of event to listen for.
-   * @param {HTMLElement}    element        - The element to add the listener to.
-   * @param {Function}       listener       - The listener callback.
-   * @param {object|boolean} [options = {}] - Options to pass to the listener.
-   */
-  _addEventListener(e, t, s, i = {}) {
-    t.addEventListener(e, s, i), this._listeners.push({
-      type: e,
-      element: t,
-      listener: s,
-      options: i
+      `--${this.prefix}collapse-transition-duration`,
+      `${this.collapseDuration}ms`
+    ), this.elements.submenuToggles.forEach((e) => {
+      e.elements.controlledMenu._setCustomProps();
     });
   }
   /**
-   * Remove an event listener from an element and unregister it within the menu.
-   *
-   * @param {string}         type           - The type of event to remove.
-   * @param {HTMLElement}    element        - The element to remove the listener from.
-   * @param {Function}       listener       - The listener callback.
-   * @param {object|boolean} [options = {}] - Options to pass to the listener.
-   */
-  _removeEventListener(e, t, s, i = {}) {
-    t.removeEventListener(e, s, i);
-    let n = -1;
-    this._listeners.forEach((r, u) => {
-      r.type === e && r.element === t && r.listener === s && JSON.stringify(r.options) === JSON.stringify(i) && (n = u);
-    }), n !== -1 && this._listeners.splice(n, 1);
-  }
-  /**
-   * Removes all event listeners registered in the menu.
-   *
-   * This can be filtered by type and/or element.
-   *
-   * @protected
-   *
-   * @param {object}       [options = {}]           - Options for removing listeners.
-   * @param {?string}      [options.type = null]    - The type of event to remove. If null, all types are removed.
-   * @param {?HTMLElement} [options.element = null] - The element to remove listeners from. If null, all elements are removed.
-   */
-  _removeEventListeners({ type: e = null, element: t = null } = {}) {
-    [...this._listeners].forEach((i) => {
-      e !== null && i.type !== e || t !== null && i.element !== t || this._removeEventListener(
-        i.type,
-        i.element,
-        i.listener,
-        i.options
-      );
-    });
-  }
-  /**
-   * Focus the menu.
-   *
-   * Sets the menu's focus state to "self" and
-   * focusses the menu if the menu's shouldFocus
-   * value is `true`.
+   * Disposes of the menu, its controller, menu items, submenus, and submenu toggles.
    *
    * @public
    */
-  focus() {
-    this.focusState = "self", this.shouldFocus && this.dom.menu.focus();
-  }
-  /**
-   * Unfocus the menu.
-   *
-   * Sets the menu's focus state to "none"
-   * and blurs the menu if the menu's shouldFocus
-   * value is `true`.
-   *
-   * @public
-   */
-  blur() {
-    this.focusState = "none", this.shouldFocus && this.dom.menu.blur();
+  dispose() {
+    this.elements.submenuToggles.forEach((e) => {
+      e.elements.controlledMenu.dispose(), e.dispose();
+    }), this.elements.menuItems.forEach((e) => e.dispose()), this.elements.controller?.dispose(), super.dispose();
   }
   /**
    * Focus the menu's current child.
@@ -2659,8 +3879,8 @@ class L {
    *
    * @public
    */
-  closeChildren() {
-    this.elements.submenuToggles.forEach((e) => e.close());
+  collapseChildren() {
+    this.elements.submenuToggles.forEach((e) => e.collapse());
   }
   /**
    * Blurs all children and submenu's children.
@@ -2672,16 +3892,8 @@ class L {
       e.blur(), e.isSubmenuItem && e.elements.childMenu.blurChildren();
     });
   }
-  /**
-   * Disposes of the menu.
-   *
-   * Removes all event listeners, clears all timeouts, removes the menu from storage, and deletes the menu instance.
-   */
-  dispose() {
-    this._removeEventListeners(), this._clearTimeouts(), this._unstore(), delete this;
-  }
 }
-class J extends $ {
+class de extends V {
   /**
    * Constructs a new `DisclosureMenuItem`.
    *
@@ -2701,7 +3913,7 @@ class J extends $ {
     isSubmenuItem: i = !1,
     childMenu: n = null,
     toggle: r = null,
-    initialize: u = !0
+    initialize: l = !0
   }) {
     super({
       menuItemElement: e,
@@ -2710,33 +3922,63 @@ class J extends $ {
       isSubmenuItem: i,
       childMenu: n,
       toggle: r
-    }), u && this.initialize();
+    }), l && this.initialize();
   }
 }
-class B extends x {
+class me extends H {
   /**
    * Constructs a new `DisclosureMenuToggle`.
    *
-   * @param {object}          options                     - The options for generating the menu toggle.
-   * @param {HTMLElement}     options.menuToggleElement   - The toggle element in the DOM.
-   * @param {HTMLElement}     options.parentElement       - The element containing the controlled menu.
-   * @param {DisclosureMenu}  options.controlledMenu      - The menu controlled by this toggle.
-   * @param {?DisclosureMenu} [options.parentMenu = null] - The menu containing this toggle.
-   * @param {boolean}         [options.initialize = true] - A flag to initialize the menu toggle immediately upon creation.
+   * @param {object}          options                                     - The options for generating the menu toggle.
+   * @param {HTMLElement}     options.menuToggleElement                   - The toggle element in the DOM.
+   * @param {HTMLElement}     options.parentElement                       - The element containing the controlled menu.
+   * @param {DisclosureMenu}  options.controlledMenu                      - The menu controlled by this toggle.
+   * @param {?DisclosureMenu} [options.parentMenu = null]                 - The menu containing this toggle.
+   * @param {string}          [options.breakpoint = ""]                   - The breakpoint used to generate the controller's media query.
+   * @param {string}          [options.mediaQuery = ""]                   - The media query used to trigger the controller's media query list events.
+   * @param {boolean}         [options.expandInsideBreakpoint = false]    - A flag to expand the controlled menu when the media query matches.
+   * @param {boolean}         [options.expandOutsideBreakpoint = false]   - A flag to expand the controlled menu when the media query does not match.
+   * @param {boolean}         [options.collapseInsideBreakpoint = false]  - A flag to collapse the controlled menu when the media query matches.
+   * @param {boolean}         [options.collapseOutsideBreakpoint = false] - A flag to collapse the controlled menu when the media query does not match.
+   * @param {boolean}         [options.lockInsideBreakpoint = false]      - A flag to lock the controller when the media query matches.
+   * @param {boolean}         [options.lockOutsideBreakpoint = false]     - A flag to lock the controller when the media query does not match.
+   * @param {boolean}         [options.unlockInsideBreakpoint = false]    - A flag to unlock the controller when the media query matches.
+   * @param {boolean}         [options.unlockOutsideBreakpoint = false]   - A flag to unlock the controller when the media query does not match.
+   * @param {boolean}         [options.initialize = true]                 - A flag to initialize the menu toggle immediately upon creation.
    */
   constructor({
     menuToggleElement: e,
     parentElement: t,
     controlledMenu: s,
     parentMenu: i = null,
-    initialize: n = !0
+    breakpoint: n = "",
+    mediaQuery: r = "",
+    expandInsideBreakpoint: l = !1,
+    expandOutsideBreakpoint: a = !1,
+    collapseInsideBreakpoint: c = !1,
+    collapseOutsideBreakpoint: d = !1,
+    lockInsideBreakpoint: m = !1,
+    lockOutsideBreakpoint: p = !1,
+    unlockInsideBreakpoint: f = !1,
+    unlockOutsideBreakpoint: _ = !1,
+    initialize: g = !0
   }) {
     super({
       menuToggleElement: e,
       parentElement: t,
       controlledMenu: s,
-      parentMenu: i
-    }), n && this.initialize();
+      parentMenu: i,
+      breakpoint: n,
+      mediaQuery: r,
+      expandInsideBreakpoint: l,
+      expandOutsideBreakpoint: a,
+      collapseInsideBreakpoint: c,
+      collapseOutsideBreakpoint: d,
+      lockInsideBreakpoint: m,
+      lockOutsideBreakpoint: p,
+      unlockInsideBreakpoint: f,
+      unlockOutsideBreakpoint: _
+    }), g && this.initialize();
   }
   /**
    * Sets the ARIA attributes on the toggle and controlled menu.
@@ -2752,7 +3994,7 @@ class B extends x {
    * @protected
    */
   _setAriaAttributes() {
-    super._setAriaAttributes(), z("button", { toggle: this.dom.toggle }, { shouldThrow: !1 }).status || this.dom.toggle.setAttribute("role", "button"), this.dom.toggle.setAttribute(
+    super._setAriaAttributes(), U("button", { toggle: this.dom.controller }, { shouldThrow: !1 }).status || this.dom.controller.setAttribute("role", "button"), this.dom.controller.setAttribute(
       "aria-controls",
       this.elements.controlledMenu.dom.menu.id
     );
@@ -2760,65 +4002,69 @@ class B extends x {
   /**
    * Opens the controlled menu.
    *
-   * Calls the  closeSiblings method
+   * Calls the collapseSiblings method
    * and _then_ BaseMenuToggle's open method.
    *
-   * @param {object}  [options = {}]                  - The options for opening the menu.
-   * @param {boolean} [options.force = false]         - A flag to force the menu to open.
-   * @param {boolean} [options.preserveState = false] - A flag to preserve the current state.
-   * @param {boolean} [options.emit = true]           - A flag to emit the expand event.
-   * @param {boolean} [options.transition = true]     - A flag to use transitions when opening.
+   * @param {object}  [options = {}]                            - The options for opening the menu.
+   * @param {boolean} [options.force = !this.isInitialized]     - A flag to force the menu to open.
+   * @param {boolean} [options.preserveState = false]           - A flag to preserve the current state.
+   * @param {boolean} [options.emit = this.isInitialized]       - A flag to emit the expand event.
+   * @param {boolean} [options.transition = this.isInitialized] - A flag to use transitions when opening.
    */
-  open({
-    force: e = !1,
+  expand({
+    force: e = !this.isInitialized,
     preserveState: t = !1,
-    emit: s = !0,
-    transition: i = !0
+    emit: s = this.isInitialized,
+    transition: i = this.isInitialized
   } = {}) {
-    this.closeSiblings({ force: e, preserveState: t, emit: s, transition: i }), super.open({ force: e, preserveState: t, emit: s, transition: i });
+    this.isLocked && !e || (this.isInitialized && this.collapseSiblings({ force: e, preserveState: t, emit: s, transition: i }), super.expand({ force: e, preserveState: t, emit: s, transition: i }));
   }
   /**
    * Opens the controlled menu without the current focus entering it.
    *
-   * Calls the  closeSiblings method
+   * Calls the collapseSiblings method
    * and _then_ BaseMenuToggle's preview method.
    *
-   * @param {object}  [options = {}]                  - The options for previewing the menu.
-   * @param {boolean} [options.force = false]         - A flag to force the menu to preview.
-   * @param {boolean} [options.preserveState = false] - A flag to preserve the current state.
-   * @param {boolean} [options.emit = true]           - A flag to emit the expand event.
-   * @param {boolean} [options.transition = true]     - A flag to use transitions when previewing.
+   * @param {object}  [options = {}]                            - The options for previewing the menu.
+   * @param {boolean} [options.force = !this.isInitialized]     - A flag to force the menu to preview.
+   * @param {boolean} [options.preserveState = false]           - A flag to preserve the current state.
+   * @param {boolean} [options.emit = this.isInitialized]       - A flag to emit the expand event.
+   * @param {boolean} [options.transition = this.isInitialized] - A flag to use transitions when previewing.
    */
   preview({
-    force: e = !1,
+    force: e = !this.isInitialized,
     preserveState: t = !1,
-    emit: s = !0,
-    transition: i = !0
+    emit: s = this.isInitialized,
+    transition: i = this.isInitialized
   } = {}) {
-    this.closeSiblings({ force: e, preserveState: t, emit: s, transition: i }), super.preview({ force: e, preserveState: t, emit: s, transition: i });
+    this.isLocked && !e || (this.isInitialized && this.collapseSiblings({ force: e, preserveState: t, emit: s, transition: i }), super.preview({ force: e, preserveState: t, emit: s, transition: i }));
   }
   /**
    * Closes the controlled menu.
    *
-   * Calls the  closeChildren method
+   * Calls the collapseChildren method
    * and _then_ BaseMenuToggle's close method.
    *
-   * @param {object}  [options = {}]                  - The options for closing the menu.
-   * @param {boolean} [options.force = false]         - A flag to force the menu to close.
-   * @param {boolean} [options.preserveState = false] - A flag to preserve the current state.
-   * @param {boolean} [options.emit = true]           - A flag to emit the collapse event.
-   * @param {boolean} [options.transition = true]     - A flag to use transitions when closing.
+   * @param {object}  [options = {}]                            - The options for closing the menu.
+   * @param {boolean} [options.force = !this.isInitialized]     - A flag to force the menu to close.
+   * @param {boolean} [options.preserveState = false]           - A flag to preserve the current state.
+   * @param {boolean} [options.emit = this.isInitialized]       - A flag to emit the collapse event.
+   * @param {boolean} [options.transition = this.isInitialized] - A flag to use transitions when closing.
    */
-  close({
-    force: e = !1,
+  collapse({
+    force: e = !this.isInitialized,
     preserveState: t = !1,
-    emit: s = !0,
-    transition: i = !0
+    emit: s = this.isInitialized,
+    transition: i = this.isInitialized
   } = {}) {
-    this.isOpen && this.closeChildren({ force: e, preserveState: t, emit: s, transition: i }), super.close({ force: e, preserveState: t, emit: s, transition: i });
+    if (this.isExpanded) {
+      if (this.isLocked && !e) return;
+      this.isInitialized && this.collapseChildren({ force: e, preserveState: t, emit: s, transition: i });
+    }
+    super.collapse({ force: e, preserveState: t, emit: s, transition: i });
   }
 }
-class q extends L {
+class Z extends P {
   /**
    * The class to use when generating submenus.
    *
@@ -2826,7 +4072,7 @@ class q extends L {
    *
    * @type {typeof DisclosureMenu}
    */
-  _MenuType = q;
+  _MenuType = Z;
   /**
    * The class to use when generating menu items.
    *
@@ -2834,7 +4080,7 @@ class q extends L {
    *
    * @type {typeof DisclosureMenuItem}
    */
-  _MenuItemType = J;
+  _MenuItemType = de;
   /**
    * The class to use when generating submenu toggles.
    *
@@ -2842,7 +4088,7 @@ class q extends L {
    *
    * @type {typeof DisclosureMenuToggle}
    */
-  _MenuToggleType = B;
+  _MenuToggleType = me;
   /**
    * The index of the currently selected menu item in the menu.
    *
@@ -2871,21 +4117,29 @@ class q extends L {
    * @param {string}             [options.submenusSelector = ul]             - The query selector string for submenus.
    * @param {?HTMLElement}       [options.controllerElement = null]          - The element controlling the menu in the DOM.
    * @param {?HTMLElement}       [options.containerElement = null]           - The element containing the menu in the DOM.
-   * @param {?(string|string[])} [options.openClass = show]                  - The class to apply when a menu is "open".
-   * @param {?(string|string[])} [options.closeClass = hide]                 - The class to apply when a menu is "closed".
-   * @param {?(string|string[])} [options.transitionClass = transitioning]   - The class to apply when a menu is transitioning between "open" and "closed" states.
-   * @param {number}             [options.transitionDuration = 250]          - The duration of the transition between "open" and "closed" states (in milliseconds).
-   * @param {boolean}            [options.openDuration = -1]                 - The duration of the transition from "closed" to "open" states (in milliseconds).
-   * @param {boolean}            [options.closeDuration = -1]                - The duration of the transition from "open" to "closed" states (in milliseconds).
+   * @param {?(string|string[])} [options.initializeClass = initializing]    - The class(es) to apply when the menu is initializing.
+   * @param {?(string|string[])} [options.expandClass = show]                - The class to apply when a menu is expanded.
+   * @param {?(string|string[])} [options.collapseClass = hide]              - The class to apply when a menu is "closed".
+   * @param {?(string|string[])} [options.transitionClass = transitioning]   - The class to apply when a menu is transitioning between expanded and collapsed states.
+   * @param {number}             [options.transitionDuration = 250]          - The duration of the transition between expanded and collapsed states (in milliseconds).
+   * @param {number}             [options.expandDuration = -1]               - The duration of the transition from collapsed to expanded states (in milliseconds).
+   * @param {number}             [options.collapseDuration = -1]             - The duration of the transition from expanded to collapsed states (in milliseconds).
    * @param {boolean}            [options.isTopLevel = true]                 - A flag to mark the root menu.
    * @param {?DisclosureMenu}    [options.parentMenu = null]                 - The parent menu to this menu.
    * @param {string}             [options.hoverType = off]                   - The type of hoverability a menu has.
    * @param {number}             [options.hoverDelay = 250]                  - The delay for opening and closing menus if the menu is hoverable (in milliseconds).
    * @param {number}             [options.enterDelay = -1]                   - The delay for opening a menu if the menu is focusable (in milliseconds).
    * @param {number}             [options.leaveDelay = -1]                   - The delay for closing a menu if the menu is focusable (in milliseconds).
-   * @param {string}             [options.breakpoint = '']                   - The breakpoint that the menu will automatically open/close itself at.
-   * @param {string}             [options.mediaQuery = '']                   - The media query to use to trigger media query list events.
-   * @param {boolean}            [options.autoOpen = true]                   - A flag to auto open the menu when the media query does not match.
+   * @param {string}             [options.breakpoint = '']                   - The breakpoint used to generate the root controller's media query.
+   * @param {string}             [options.mediaQuery = '']                   - The media query used to trigger the root controller's media query list events.
+   * @param {boolean}            [options.expandInsideBreakpoint = false]    - A flag to expand the controlled menu when the media query matches.
+   * @param {boolean}            [options.expandOutsideBreakpoint = false]   - A flag to expand the controlled menu when the media query does not match.
+   * @param {boolean}            [options.collapseInsideBreakpoint = false]  - A flag to collapse the controlled menu when the media query matches.
+   * @param {boolean}            [options.collapseOutsideBreakpoint = false] - A flag to collapse the controlled menu when the media query does not match.
+   * @param {boolean}            [options.lockInsideBreakpoint = false]      - A flag to lock the controller when the media query matches.
+   * @param {boolean}            [options.lockOutsideBreakpoint = false]     - A flag to lock the controller when the media query does not match.
+   * @param {boolean}            [options.unlockInsideBreakpoint = false]    - A flag to unlock the controller when the media query matches.
+   * @param {boolean}            [options.unlockOutsideBreakpoint = false]   - A flag to unlock the controller when the media query does not match.
    * @param {boolean}            [options.optionalKeySupport = false]        - A flag to add optional keyboard support (Arrow keys, Home, and End) to the menu.
    * @param {?string}            [options.prefix = am-]                      - The prefix to use for CSS custom properties.
    * @param {?string}            [options.key = null]                        - The key used to generate IDs throughout the menu.
@@ -2898,26 +4152,34 @@ class q extends L {
     submenuItemsSelector: i = "li:has(ul)",
     submenuTogglesSelector: n = "button",
     submenusSelector: r = "ul",
-    controllerElement: u = null,
+    controllerElement: l = null,
     containerElement: a = null,
-    openClass: c = "show",
-    closeClass: m = "hide",
-    transitionClass: d = "transitioning",
-    transitionDuration: g = 250,
-    openDuration: _ = -1,
-    closeDuration: y = -1,
-    isTopLevel: f = !0,
-    parentMenu: M = null,
-    hoverType: b = "off",
-    hoverDelay: C = 250,
-    enterDelay: E = -1,
-    leaveDelay: T = -1,
-    breakpoint: w = "",
-    mediaQuery: v = "",
-    autoOpen: k = !0,
-    optionalKeySupport: I = !1,
-    prefix: O = "am-",
-    key: F = null,
+    initializeClass: c = "initializing",
+    expandClass: d = "show",
+    collapseClass: m = "hide",
+    transitionClass: p = "transitioning",
+    transitionDuration: f = 250,
+    expandDuration: _ = -1,
+    collapseDuration: g = -1,
+    isTopLevel: E = !0,
+    parentMenu: b = null,
+    hoverType: M = "off",
+    hoverDelay: k = 250,
+    enterDelay: C = -1,
+    leaveDelay: I = -1,
+    breakpoint: v = "",
+    mediaQuery: w = "",
+    expandInsideBreakpoint: T = !1,
+    expandOutsideBreakpoint: x = !1,
+    collapseInsideBreakpoint: D = !1,
+    collapseOutsideBreakpoint: O = !1,
+    lockInsideBreakpoint: z = !1,
+    lockOutsideBreakpoint: A = !1,
+    unlockInsideBreakpoint: $ = !1,
+    unlockOutsideBreakpoint: B = !1,
+    optionalKeySupport: K = !1,
+    prefix: F = "am-",
+    key: q = null,
     initialize: R = !0
   }) {
     super({
@@ -2927,46 +4189,56 @@ class q extends L {
       submenuItemsSelector: i,
       submenuTogglesSelector: n,
       submenusSelector: r,
-      controllerElement: u,
+      controllerElement: l,
       containerElement: a,
-      openClass: c,
-      closeClass: m,
-      transitionClass: d,
-      transitionDuration: g,
-      openDuration: _,
-      closeDuration: y,
-      isTopLevel: f,
-      parentMenu: M,
-      hoverType: b,
-      hoverDelay: C,
-      enterDelay: E,
-      leaveDelay: T,
-      breakpoint: w,
-      mediaQuery: v,
-      autoOpen: k,
-      prefix: O,
-      key: F
-    }), this._optionalSupport = I, R && this.initialize();
+      initializeClass: c,
+      expandClass: d,
+      collapseClass: m,
+      transitionClass: p,
+      transitionDuration: f,
+      expandDuration: _,
+      collapseDuration: g,
+      isTopLevel: E,
+      parentMenu: b,
+      hoverType: M,
+      hoverDelay: k,
+      enterDelay: C,
+      leaveDelay: I,
+      breakpoint: v,
+      mediaQuery: w,
+      expandInsideBreakpoint: T,
+      expandOutsideBreakpoint: x,
+      collapseInsideBreakpoint: D,
+      collapseOutsideBreakpoint: O,
+      lockInsideBreakpoint: z,
+      lockOutsideBreakpoint: A,
+      unlockInsideBreakpoint: $,
+      unlockOutsideBreakpoint: B,
+      prefix: F,
+      key: q
+    }), this._optionalSupport = K, R && this.initialize();
   }
   /**
-   * Initializes the menu.
+   * Registers the menu's validation event listener.
    *
-   * Initialize will call BaseMenu's initialize method
-   * as well as set up focus,
-   * click,
-   * hover,
-   * keydown, and
-   * keyup events for the menu.
+   * Validation checks the optionalKeySupport flag.
    *
-   * If the BaseMenu's initialize method throws an error,
-   * this will catch it and log it to the console.
+   * @protected
    */
-  initialize() {
-    try {
-      super.initialize(), this._handleMediaMatch(), this._handleFocus(), this._handleClick(), this._handleHover(), this._handleKeydown(), this._handleKeyup();
-    } catch (e) {
-      console.error(e);
-    }
+  _bootstrap() {
+    super._bootstrap(), this._addEventListener(
+      this.getEventName("validate"),
+      this.rootDOMElement,
+      (e) => {
+        if (e.detail.component !== this) return;
+        const t = {
+          optionalKeySupport: this._optionalSupport
+        }, s = u("boolean", t, {
+          shouldThrow: !1
+        });
+        s.status || (this._errors = [...this._errors, ...s.errors], this._valid = !1);
+      }
+    );
   }
   /**
    * A flag to add optional keyboard support (Arrow keys, "Home", and "End") to the menu.
@@ -2982,23 +4254,7 @@ class q extends L {
     return this.isTopLevel ? this._optionalSupport : this.elements.rootMenu.optionalKeySupport;
   }
   set optionalKeySupport(e) {
-    h("boolean", { optionalKeySupport: e }), this._optionalSupport = e;
-  }
-  /**
-   * Validates all aspects of the menu to ensure proper functionality.
-   *
-   * @protected
-   *
-   * @return {boolean} - The result of the validation.
-   */
-  _validate() {
-    super._validate();
-    const e = {
-      optionalKeySupport: this._optionalSupport
-    }, t = h("boolean", e, {
-      shouldThrow: !1
-    });
-    return t.status || (this._errors = [this._errors, ...t.errors], this._valid = !1), this._valid;
+    u("boolean", { optionalKeySupport: e }), this._optionalSupport = e;
   }
   /**
    * Handles click events throughout the menu for proper use.
@@ -3012,7 +4268,7 @@ class q extends L {
    */
   _handleClick() {
     super._handleClick(), this._addEventListener("click", document, (e) => {
-      this.focusState !== "none" && (this.currentEvent = "mouse", !this.dom.menu.contains(e.target) && !this.dom.menu !== e.target && (this.closeChildren(), this.blur(), this.elements.controller && this.elements.controller.close(), this.elements.rootMenu.hasOpened = !1));
+      this.focusState !== "none" && (this.currentEvent = "mouse", !this.dom.menu.contains(e.target) && !this.dom.menu !== e.target && (this.collapseChildren(), this.blur(), this.elements.controller && this.elements.controller.collapse(), this.elements.rootMenu.hasExpanded = !1));
     });
   }
   /**
@@ -3031,7 +4287,7 @@ class q extends L {
   _handleKeydown() {
     super._handleKeydown(), this._addEventListener("keydown", this.dom.menu, (e) => {
       this.currentEvent = "keyboard";
-      const t = p(e);
+      const t = S(e);
       if (this.focusState === "self") {
         const s = ["Space", "Enter"], i = ["Escape"], n = ["Escape"], r = [
           "ArrowUp",
@@ -3041,7 +4297,7 @@ class q extends L {
           "Home",
           "End"
         ];
-        (s.includes(t) || this.optionalKeySupport && r.includes(t) || this.elements.controller && i.includes(t) || this.elements.parentMenu && n.includes(t)) && l(e);
+        (s.includes(t) || this.optionalKeySupport && r.includes(t) || this.elements.controller && i.includes(t) || this.elements.parentMenu && n.includes(t)) && h(e);
       }
     });
   }
@@ -3070,14 +4326,14 @@ class q extends L {
   _handleKeyup() {
     super._handleKeyup(), this._addEventListener("keyup", this.dom.menu, (e) => {
       this.currentEvent = "keyboard";
-      const t = p(e);
-      this.focusState === "self" && (t === "Space" || t === "Enter" ? (l(e), this.currentMenuItem.isSubmenuItem ? this.currentMenuItem.elements.toggle.isOpen ? this.currentMenuItem.elements.toggle.close() : this.currentMenuItem.elements.toggle.preview() : this.currentMenuItem.dom.link.click()) : t === "Escape" ? this.elements.submenuToggles.some(
-        (i) => i.isOpen
-      ) ? (l(e), this.closeChildren()) : this.elements.parentMenu ? (l(e), this.elements.parentMenu.currentEvent = this.currentEvent, this.elements.parentMenu.closeChildren(), this.elements.parentMenu.focusCurrentChild()) : this.isTopLevel && this.elements.controller && this.elements.controller.isOpen && (this.elements.controller.close(), this.focusController()) : this.optionalKeySupport && (t === "ArrowDown" || t === "ArrowRight" ? (l(e), this.currentMenuItem.isSubmenuItem && this.currentMenuItem.elements.toggle.isOpen ? (this.currentMenuItem.elements.childMenu.currentEvent = "keyboard", this.currentMenuItem.elements.childMenu.focusFirstChild()) : this.focusNextChild()) : t === "ArrowUp" || t === "ArrowLeft" ? (l(e), this.focusPreviousChild()) : t === "Home" ? (l(e), this.focusFirstChild()) : t === "End" && (l(e), this.focusLastChild())));
+      const t = S(e);
+      this.focusState === "self" && (t === "Space" || t === "Enter" ? (h(e), this.currentMenuItem.isSubmenuItem ? this.currentMenuItem.elements.toggle.isExpanded ? this.currentMenuItem.elements.toggle.collapse() : this.currentMenuItem.elements.toggle.preview() : this.currentMenuItem.dom.link.click()) : t === "Escape" ? this.elements.submenuToggles.some(
+        (i) => i.isExpanded
+      ) ? (h(e), this.collapseChildren()) : this.elements.parentMenu ? (h(e), this.elements.parentMenu.currentEvent = this.currentEvent, this.elements.parentMenu.collapseChildren(), this.elements.parentMenu.focusCurrentChild()) : this.isTopLevel && this.elements.controller && this.elements.controller.isExpanded && (this.elements.controller.collapse(), this.focusController()) : this.optionalKeySupport && (t === "ArrowDown" || t === "ArrowRight" ? (h(e), this.currentMenuItem.isSubmenuItem && this.currentMenuItem.elements.toggle.isExpanded ? (this.currentMenuItem.elements.childMenu.currentEvent = "keyboard", this.currentMenuItem.elements.childMenu.focusFirstChild()) : this.focusNextChild()) : t === "ArrowUp" || t === "ArrowLeft" ? (h(e), this.focusPreviousChild()) : t === "Home" ? (h(e), this.focusFirstChild()) : t === "End" && (h(e), this.focusLastChild())));
     });
   }
 }
-class G extends $ {
+class pe extends V {
   /**
    * Constructs a new `MenubarItem`.
    *
@@ -3097,7 +4353,7 @@ class G extends $ {
     isSubmenuItem: i = !1,
     childMenu: n = null,
     toggle: r = null,
-    initialize: u = !0
+    initialize: l = !0
   }) {
     super({
       menuItemElement: e,
@@ -3106,18 +4362,25 @@ class G extends $ {
       isSubmenuItem: i,
       childMenu: n,
       toggle: r
-    }), u && this.initialize();
+    }), l && this.initialize();
   }
   /**
-   * Initialize the menu item.
+   * Registers the menu item's initialization event listener.
    *
-   * Initialize will call the BaseMenuItem's initialize method
-   * as well as set the menu item's `role` to "none",
+   * Sets the menu item's `role` to "none",
    * the menu link's `role` to "menuitem", and
    * the menu link's `tabIndex` to -1 in the DOM.
+   *
+   * @protected
    */
-  initialize() {
-    super.initialize(), this.dom.item.setAttribute("role", "none"), this.dom.link.setAttribute("role", "menuitem"), this.dom.link.tabIndex = -1;
+  _bootstrap() {
+    super._bootstrap(), this._addEventListener(
+      this.getEventName("initialize"),
+      this.rootDOMElement,
+      (e) => {
+        e.detail.component === this && (this.dom.item.setAttribute("role", "none"), this.dom.link.setAttribute("role", "menuitem"), this.dom.link.tabIndex = -1);
+      }
+    );
   }
   /**
    * Focuses the menu item's link if the parent menu's
@@ -3146,30 +4409,60 @@ class G extends $ {
     super.blur(), this.elements.parentMenu.isTopLevel && (this.dom.link.tabIndex = -1);
   }
 }
-class X extends x {
+class fe extends H {
   /**
    * Constructs a new `MenubarToggle`.
    *
-   * @param {object}      options                     - The options for generating the menu toggle.
-   * @param {HTMLElement} options.menuToggleElement   - The toggle element in the DOM.
-   * @param {HTMLElement} options.parentElement       - The element containing the controlled menu.
-   * @param {Menubar}     options.controlledMenu      - The menu controlled by this toggle.
-   * @param {?Menubar}    [options.parentMenu = null] - The menu containing this toggle.
-   * @param {boolean}     [options.initialize = true] - A flag to initialize the menu toggle immediately upon creation.
+   * @param {object}      options                                     - The options for generating the menu toggle.
+   * @param {HTMLElement} options.menuToggleElement                   - The toggle element in the DOM.
+   * @param {HTMLElement} options.parentElement                       - The element containing the controlled menu.
+   * @param {Menubar}     options.controlledMenu                      - The menu controlled by this toggle.
+   * @param {?Menubar}    [options.parentMenu = null]                 - The menu containing this toggle.
+   * @param {string}      [options.breakpoint = ""]                   - The breakpoint used to generate the controller's media query.
+   * @param {string}      [options.mediaQuery = ""]                   - The media query used to trigger the controller's media query list events.
+   * @param {boolean}     [options.expandInsideBreakpoint = false]    - A flag to expand the controlled menu when the media query matches.
+   * @param {boolean}     [options.expandOutsideBreakpoint = false]   - A flag to expand the controlled menu when the media query does not match.
+   * @param {boolean}     [options.collapseInsideBreakpoint = false]  - A flag to collapse the controlled menu when the media query matches.
+   * @param {boolean}     [options.collapseOutsideBreakpoint = false] - A flag to collapse the controlled menu when the media query does not match.
+   * @param {boolean}     [options.lockInsideBreakpoint = false]      - A flag to lock the controller when the media query matches.
+   * @param {boolean}     [options.lockOutsideBreakpoint = false]     - A flag to lock the controller when the media query does not match.
+   * @param {boolean}     [options.unlockInsideBreakpoint = false]    - A flag to unlock the controller when the media query matches.
+   * @param {boolean}     [options.unlockOutsideBreakpoint = false]   - A flag to unlock the controller when the media query does not match.
+   * @param {boolean}     [options.initialize = true]                 - A flag to initialize the menu toggle immediately upon creation.
    */
   constructor({
     menuToggleElement: e,
     parentElement: t,
     controlledMenu: s,
     parentMenu: i = null,
-    initialize: n = !0
+    breakpoint: n = "",
+    mediaQuery: r = "",
+    expandInsideBreakpoint: l = !1,
+    expandOutsideBreakpoint: a = !1,
+    collapseInsideBreakpoint: c = !1,
+    collapseOutsideBreakpoint: d = !1,
+    lockInsideBreakpoint: m = !1,
+    lockOutsideBreakpoint: p = !1,
+    unlockInsideBreakpoint: f = !1,
+    unlockOutsideBreakpoint: _ = !1,
+    initialize: g = !0
   }) {
     super({
       menuToggleElement: e,
       parentElement: t,
       controlledMenu: s,
-      parentMenu: i
-    }), n && this.initialize();
+      parentMenu: i,
+      breakpoint: n,
+      mediaQuery: r,
+      expandInsideBreakpoint: l,
+      expandOutsideBreakpoint: a,
+      collapseInsideBreakpoint: c,
+      collapseOutsideBreakpoint: d,
+      lockInsideBreakpoint: m,
+      lockOutsideBreakpoint: p,
+      unlockInsideBreakpoint: f,
+      unlockOutsideBreakpoint: _
+    }), g && this.initialize();
   }
   /**
    * Sets the ARIA attributes on the toggle and controlled menu.
@@ -3181,70 +4474,74 @@ class X extends x {
    * @protected
    */
   _setAriaAttributes() {
-    super._setAriaAttributes(), this.dom.toggle.setAttribute("aria-haspopup", "true");
+    super._setAriaAttributes(), this.dom.controller.setAttribute("aria-haspopup", "true");
   }
   /**
    * Opens the controlled menu.
    *
-   * Calls the  closeSiblings method
+   * Calls the collapseSiblings method
    * and _then_ BaseMenuToggle's open method.
    *
-   * @param {object}  [options = {}]                  - The options for opening the menu.
-   * @param {boolean} [options.force = false]         - A flag to force the menu to open.
-   * @param {boolean} [options.preserveState = false] - A flag to preserve the current state.
-   * @param {boolean} [options.emit = true]           - A flag to emit the expand event.
-   * @param {boolean} [options.transition = true]     - A flag to use transitions when opening.
+   * @param {object}  [options = {}]                            - The options for opening the menu.
+   * @param {boolean} [options.force = !this.isInitialized]     - A flag to force the menu to open.
+   * @param {boolean} [options.preserveState = false]           - A flag to preserve the current state.
+   * @param {boolean} [options.emit = this.isInitialized]       - A flag to emit the expand event.
+   * @param {boolean} [options.transition = this.isInitialized] - A flag to use transitions when opening.
    */
-  open({
-    force: e = !1,
+  expand({
+    force: e = !this.isInitialized,
     preserveState: t = !1,
-    emit: s = !0,
-    transition: i = !0
+    emit: s = this.isInitialized,
+    transition: i = this.isInitialized
   } = {}) {
-    this.closeSiblings({ force: e, preserveState: t, emit: s, transition: i }), super.open({ force: e, preserveState: t, emit: s, transition: i });
+    this.isLocked && !e || (this.isInitialized && this.collapseSiblings({ force: e, preserveState: t, emit: s, transition: i }), super.expand({ force: e, preserveState: t, emit: s, transition: i }));
   }
   /**
    * Opens the controlled menu without the current focus entering it.
    *
-   * Calls the  closeSiblings method
+   * Calls the collapseSiblings method
    * and _then_ BaseMenuToggle's preview method.
    *
-   * @param {object}  [options = {}]                  - The options for previewing the menu.
-   * @param {boolean} [options.force = false]         - A flag to force the menu to preview.
-   * @param {boolean} [options.preserveState = false] - A flag to preserve the current state.
-   * @param {boolean} [options.emit = true]           - A flag to emit the expand event.
-   * @param {boolean} [options.transition = true]     - A flag to use transitions when previewing.
+   * @param {object}  [options = {}]                            - The options for previewing the menu.
+   * @param {boolean} [options.force = !this.isInitialized]     - A flag to force the menu to preview.
+   * @param {boolean} [options.preserveState = false]           - A flag to preserve the current state.
+   * @param {boolean} [options.emit = this.isInitialized]       - A flag to emit the expand event.
+   * @param {boolean} [options.transition = this.isInitialized] - A flag to use transitions when previewing.
    */
   preview({
-    force: e = !1,
+    force: e = !this.isInitialized,
     preserveState: t = !1,
-    emit: s = !0,
-    transition: i = !0
+    emit: s = this.isInitialized,
+    transition: i = this.isInitialized
   } = {}) {
-    this.closeSiblings({ force: e, preserveState: t, emit: s, transition: i }), super.preview({ force: e, preserveState: t, emit: s, transition: i });
+    this.isLocked && !e || (this.isInitialized && this.collapseSiblings({ force: e, preserveState: t, emit: s, transition: i }), super.preview({ force: e, preserveState: t, emit: s, transition: i }));
   }
   /**
    * Closes the controlled menu.
    *
-   * Calls the  closeChildren method
+   * Calls the collapseChildren method
    * and _then_ BaseMenuToggle's close method.
    *
-   * @param {object}  [options = {}]                  - The options for closing the menu.
-   * @param {boolean} [options.force = false]         - A flag to force the menu to close.
-   * @param {boolean} [options.preserveState = false] - A flag to preserve the current state.
-   * @param {boolean} [options.emit = true]           - A flag to emit the collapse event.
-   * @param {boolean} [options.transition = true]     - A flag to use transitions when closing.
+   * @param {object}  [options = {}]                            - The options for closing the menu.
+   * @param {boolean} [options.force = !this.isInitialized]     - A flag to force the menu to close.
+   * @param {boolean} [options.preserveState = false]           - A flag to preserve the current state.
+   * @param {boolean} [options.emit = this.isInitialized]       - A flag to emit the collapse event.
+   * @param {boolean} [options.transition = this.isInitialized] - A flag to use transitions when closing.
    */
-  close({
-    force: e = !1,
+  collapse({
+    force: e = !this.isInitialized,
     preserveState: t = !1,
-    emit: s = !0,
-    transition: i = !0
+    emit: s = this.isInitialized,
+    transition: i = this.isInitialized
   } = {}) {
-    this.isOpen && (this.closeChildren({ force: e, preserveState: t, emit: s, transition: i }), this.elements.parentMenu && this.elements.parentMenu.focusCurrentChild()), super.close({ force: e, preserveState: t, emit: s, transition: i });
+    if (this.isExpanded) {
+      if (this.isLocked && !e) return;
+      this.isInitialized && this.collapseChildren({ force: e, preserveState: t, emit: s, transition: i }), this.elements.parentMenu && this.elements.parentMenu.focusCurrentChild();
+    }
+    super.collapse({ force: e, preserveState: t, emit: s, transition: i });
   }
 }
-class H extends L {
+class J extends P {
   /**
    * The class to use when generating submenus.
    *
@@ -3252,7 +4549,7 @@ class H extends L {
    *
    * @type {typeof Menubar}
    */
-  _MenuType = H;
+  _MenuType = J;
   /**
    * The class to use when generating menu items.
    *
@@ -3260,7 +4557,7 @@ class H extends L {
    *
    * @type {typeof MenubarItem}
    */
-  _MenuItemType = G;
+  _MenuItemType = pe;
   /**
    * The class to use when generating submenu toggles.
    *
@@ -3268,7 +4565,7 @@ class H extends L {
    *
    * @type {typeof MenubarToggle}
    */
-  _MenuToggleType = X;
+  _MenuToggleType = fe;
   /**
    * Constructs a new `Menubar`.
    *
@@ -3281,19 +4578,29 @@ class H extends L {
    * @param {string}             [options.submenusSelector = ul]             - The query selector string for submenus.
    * @param {?HTMLElement}       [options.controllerElement = null]          - The element controlling the menu in the DOM.
    * @param {?HTMLElement}       [options.containerElement = null]           - The element containing the menu in the DOM.
-   * @param {?(string|string[])} [options.openClass = show]                  - The class to apply when a menu is "open".
-   * @param {?(string|string[])} [options.closeClass = hide]                 - The class to apply when a menu is "closed".
-   * @param {?(string|string[])} [options.transitionClass = transitioning]   - The class to apply when a menu is transitioning between "open" and "closed" states.
-   * @param {number}             [options.transitionDuration = 250]          - The duration of the transition between "open" and "closed" states (in milliseconds).
+   * @param {?(string|string[])} [options.initializeClass = initializing]    - The class(es) to apply when the menu is initializing.
+   * @param {?(string|string[])} [options.expandClass = show]                - The class to apply when a menu is expanded.
+   * @param {?(string|string[])} [options.collapseClass = hide]              - The class to apply when a menu is "closed".
+   * @param {?(string|string[])} [options.transitionClass = transitioning]   - The class to apply when a menu is transitioning between expanded and collapsed states.
+   * @param {number}             [options.transitionDuration = 250]          - The duration of the transition between expanded and collapsed states (in milliseconds).
+   * @param {number}             [options.expandDuration = -1]               - The duration of the transition from collapsed to expanded states (in milliseconds).
+   * @param {number}             [options.collapseDuration = -1]             - The duration of the transition from expanded to collapsed states (in milliseconds).
    * @param {boolean}            [options.isTopLevel = true]                 - A flag to mark the root menu.
    * @param {?Menubar}           [options.parentMenu = null]                 - The parent menu to this menu.
    * @param {string}             [options.hoverType = off]                   - The type of hoverability a menu has.
    * @param {number}             [options.hoverDelay = 250]                  - The delay for opening and closing menus if the menu is hoverable (in milliseconds).
    * @param {number}             [options.enterDelay = -1]                   - The delay for opening a menu if the menu is focusable (in milliseconds).
    * @param {number}             [options.leaveDelay = -1]                   - The delay for closing a menu if the menu is focusable (in milliseconds).
-   * @param {string}             [options.breakpoint = '']                   - The breakpoint that the menu will automatically open/close itself at.
-   * @param {string}             [options.mediaQuery = '']                   - The media query to use to trigger media query list events.
-   * @param {boolean}            [options.autoOpen = true]                   - A flag to auto open the menu when the media query does not match.
+   * @param {string}             [options.breakpoint = '']                   - The breakpoint used to generate the root controller's media query.
+   * @param {string}             [options.mediaQuery = '']                   - The media query used to trigger the root controller's media query list events.
+   * @param {boolean}            [options.expandInsideBreakpoint = false]    - A flag to expand the controlled menu when the media query matches.
+   * @param {boolean}            [options.expandOutsideBreakpoint = false]   - A flag to expand the controlled menu when the media query does not match.
+   * @param {boolean}            [options.collapseInsideBreakpoint = false]  - A flag to collapse the controlled menu when the media query matches.
+   * @param {boolean}            [options.collapseOutsideBreakpoint = false] - A flag to collapse the controlled menu when the media query does not match.
+   * @param {boolean}            [options.lockInsideBreakpoint = false]      - A flag to lock the controller when the media query matches.
+   * @param {boolean}            [options.lockOutsideBreakpoint = false]     - A flag to lock the controller when the media query does not match.
+   * @param {boolean}            [options.unlockInsideBreakpoint = false]    - A flag to unlock the controller when the media query matches.
+   * @param {boolean}            [options.unlockOutsideBreakpoint = false]   - A flag to unlock the controller when the media query does not match.
    * @param {?string}            [options.prefix = am-]                      - The prefix to use for CSS custom properties.
    * @param {?string}            [options.key = null]                        - The key used to generate IDs throughout the menu.
    * @param {boolean}            [options.initialize = true]                 - A flag to initialize the menu immediately upon creation.
@@ -3305,24 +4612,34 @@ class H extends L {
     submenuItemsSelector: i = "li:has(ul)",
     submenuTogglesSelector: n = "a",
     submenusSelector: r = "ul",
-    controllerElement: u = null,
+    controllerElement: l = null,
     containerElement: a = null,
-    openClass: c = "show",
-    closeClass: m = "hide",
-    transitionClass: d = "transitioning",
-    transitionDuration: g = 250,
-    isTopLevel: _ = !0,
-    parentMenu: y = null,
-    hoverType: f = "off",
-    hoverDelay: M = 250,
-    enterDelay: b = -1,
-    leaveDelay: C = -1,
-    breakpoint: E = "",
-    mediaQuery: T = "",
-    autoOpen: w = !0,
-    prefix: v = "am-",
-    key: k = null,
-    initialize: I = !0
+    initializeClass: c = "initializing",
+    expandClass: d = "show",
+    collapseClass: m = "hide",
+    transitionClass: p = "transitioning",
+    transitionDuration: f = 250,
+    expandDuration: _ = -1,
+    collapseDuration: g = -1,
+    isTopLevel: E = !0,
+    parentMenu: b = null,
+    hoverType: M = "off",
+    hoverDelay: k = 250,
+    enterDelay: C = -1,
+    leaveDelay: I = -1,
+    breakpoint: v = "",
+    mediaQuery: w = "",
+    expandInsideBreakpoint: T = !1,
+    expandOutsideBreakpoint: x = !1,
+    collapseInsideBreakpoint: D = !1,
+    collapseOutsideBreakpoint: O = !1,
+    lockInsideBreakpoint: z = !1,
+    lockOutsideBreakpoint: A = !1,
+    unlockInsideBreakpoint: $ = !1,
+    unlockOutsideBreakpoint: B = !1,
+    prefix: K = "am-",
+    key: F = null,
+    initialize: q = !0
   }) {
     super({
       menuElement: e,
@@ -3331,49 +4648,57 @@ class H extends L {
       submenuItemsSelector: i,
       submenuTogglesSelector: n,
       submenusSelector: r,
-      controllerElement: u,
+      controllerElement: l,
       containerElement: a,
-      openClass: c,
-      closeClass: m,
-      transitionClass: d,
-      transitionDuration: g,
-      isTopLevel: _,
-      parentMenu: y,
-      hoverType: f,
-      hoverDelay: M,
-      enterDelay: b,
-      leaveDelay: C,
-      breakpoint: E,
-      mediaQuery: T,
-      autoOpen: w,
-      prefix: v,
-      key: k
-    }), I && this.initialize();
+      initializeClass: c,
+      expandClass: d,
+      collapseClass: m,
+      transitionClass: p,
+      transitionDuration: f,
+      expandDuration: _,
+      collapseDuration: g,
+      isTopLevel: E,
+      parentMenu: b,
+      hoverType: M,
+      hoverDelay: k,
+      enterDelay: C,
+      leaveDelay: I,
+      breakpoint: v,
+      mediaQuery: w,
+      expandInsideBreakpoint: T,
+      expandOutsideBreakpoint: x,
+      collapseInsideBreakpoint: D,
+      collapseOutsideBreakpoint: O,
+      lockInsideBreakpoint: z,
+      lockOutsideBreakpoint: A,
+      unlockInsideBreakpoint: $,
+      unlockOutsideBreakpoint: B,
+      prefix: K,
+      key: F
+    }), q && this.initialize();
   }
   /**
-   * Initializes the menu.
+   * Registers the menu's initialization event listener.
    *
-   * Initialize will call the BaseMenu's initialize method
-   * as well as set up focus,
-   * click,
-   * hover,
-   * keydown, and
-   * keyup events for the menu.
+   * If the menu is a root menu, its `role` will be set to "menubar" and the first
+   * menu item's `tabIndex` will be set to 0 in the DOM.
    *
-   * This will also set the menu's `role` to "menubar" in the DOM.
+   * If the menu is not a root menu, its `role` will be set to "menu".
    *
-   * If the menu is a root menu the first menu item's `tabIndex` will be set to
-   * 0 in the DOM.
+   * If the root menu has a controller, removes its `aria-haspopup` attribute.
    *
-   * If the BaseMenu's initialize method throws an error,
-   * this will catch it and log it to the console.
+   * @protected
    */
-  initialize() {
-    try {
-      super.initialize(), this.isTopLevel ? this.dom.menu.setAttribute("role", "menubar") : this.dom.menu.setAttribute("role", "menu"), this._handleMediaMatch(), this._handleFocus(), this._handleClick(), this._handleHover(), this._handleKeydown(), this._handleKeyup(), this.isTopLevel && (this.elements.menuItems[0].dom.link.tabIndex = 0, this.elements.controller && this.elements.controller.dom.toggle.removeAttribute("aria-haspopup"));
-    } catch (e) {
-      console.error(e);
-    }
+  _bootstrap() {
+    super._bootstrap(), this._addEventListener(
+      this.getEventName("initialize"),
+      this.rootDOMElement,
+      (e) => {
+        e.detail.component === this && (this.isTopLevel ? this.dom.menu.setAttribute("role", "menubar") : this.dom.menu.setAttribute("role", "menu"), this.isTopLevel && (this.elements.menuItems[0].dom.link.tabIndex = 0, this.elements.controller && this.elements.controller.dom.controller.removeAttribute(
+          "aria-haspopup"
+        )));
+      }
+    );
   }
   /**
    * Handles click events throughout the menu for proper use.
@@ -3387,7 +4712,7 @@ class H extends L {
    */
   _handleClick() {
     super._handleClick(), this._addEventListener("click", document, (e) => {
-      this.focusState !== "none" && (this.currentEvent = "mouse", !this.dom.menu.contains(e.target) && !this.dom.menu !== e.target && (this.closeChildren(), this.blur(), this.elements.controller && this.elements.controller.close(), this.elements.rootMenu.hasOpened = !1));
+      this.focusState !== "none" && (this.currentEvent = "mouse", !this.dom.menu.contains(e.target) && !this.dom.menu !== e.target && (this.collapseChildren(), this.blur(), this.elements.controller && this.elements.controller.collapse(), this.elements.rootMenu.hasExpanded = !1));
     });
   }
   /**
@@ -3406,9 +4731,9 @@ class H extends L {
   _handleKeydown() {
     super._handleKeydown(), this._addEventListener("keydown", this.dom.menu, (e) => {
       this.currentEvent = "keyboard";
-      const t = p(e);
-      if (t === "Tab" && (this.elements.rootMenu.focusState !== "none" ? (this.elements.rootMenu.blur(), this.elements.rootMenu.closeChildren()) : this.elements.rootMenu.focus()), t === "Character")
-        l(e);
+      const t = S(e);
+      if (t === "Tab" && (this.elements.rootMenu.focusState !== "none" ? (this.elements.rootMenu.blur(), this.elements.rootMenu.collapseChildren()) : this.elements.rootMenu.focus()), t === "Character")
+        h(e);
       else if (this.isTopLevel) {
         if (this.focusState === "self") {
           const s = [
@@ -3419,7 +4744,7 @@ class H extends L {
             "Home",
             "End"
           ], i = ["ArrowDown", "ArrowUp"], n = ["Escape"];
-          (s.includes(t) || this.currentMenuItem.isSubmenuItem && i.includes(t) || this.elements.controller && n.includes(t)) && l(e);
+          (s.includes(t) || this.currentMenuItem.isSubmenuItem && i.includes(t) || this.elements.controller && n.includes(t)) && h(e);
         }
       } else
         [
@@ -3432,7 +4757,7 @@ class H extends L {
           "ArrowUp",
           "Home",
           "End"
-        ].includes(t) && l(e);
+        ].includes(t) && h(e);
     });
   }
   /**
@@ -3475,36 +4800,36 @@ class H extends L {
   _handleKeyup() {
     super._handleKeyup(), this._addEventListener("keyup", this.dom.menu, (e) => {
       this.currentEvent = "keyboard";
-      const t = p(e), { altKey: s, crtlKey: i, metaKey: n } = e;
+      const t = S(e), { altKey: s, crtlKey: i, metaKey: n } = e;
       if (t === "Character" && !(s || i || n))
-        l(e), this.elements.rootMenu.currentEvent = "character", this.focusNextChildWithCharacter(e.key);
+        h(e), this.elements.rootMenu.currentEvent = "character", this.focusNextChildWithCharacter(e.key);
       else if (this.isTopLevel) {
         if (this.focusState === "self")
           if (t === "Space" || t === "Enter")
-            l(e), this.currentMenuItem.isSubmenuItem ? (this.currentMenuItem.elements.childMenu.currentEvent = "keyboard", this.currentMenuItem.elements.toggle.open(), requestAnimationFrame(() => {
+            h(e), this.currentMenuItem.isSubmenuItem ? (this.currentMenuItem.elements.childMenu.currentEvent = "keyboard", this.currentMenuItem.elements.toggle.expand(), requestAnimationFrame(() => {
               this.currentMenuItem.elements.childMenu.focusFirstChild();
             })) : this.currentMenuItem.dom.link.click();
           else if (t === "ArrowRight") {
-            l(e);
-            const u = this.currentMenuItem.isSubmenuItem && this.currentMenuItem.elements.toggle.isOpen;
-            this.focusNextChild(), u && (this.currentMenuItem.isSubmenuItem ? (this.currentMenuItem.elements.childMenu.currentEvent = "keyboard", this.currentMenuItem.elements.toggle.preview()) : this.closeChildren());
+            h(e);
+            const l = this.currentMenuItem.isSubmenuItem && this.currentMenuItem.elements.toggle.isExpanded;
+            this.focusNextChild(), l && (this.currentMenuItem.isSubmenuItem ? (this.currentMenuItem.elements.childMenu.currentEvent = "keyboard", this.currentMenuItem.elements.toggle.preview()) : this.collapseChildren());
           } else if (t === "ArrowLeft") {
-            l(e);
-            const u = this.currentMenuItem.isSubmenuItem && this.currentMenuItem.elements.toggle.isOpen;
-            this.focusPreviousChild(), u && (this.currentMenuItem.isSubmenuItem ? (this.currentMenuItem.elements.childMenu.currentEvent = "keyboard", this.currentMenuItem.elements.toggle.preview()) : this.closeChildren());
-          } else t === "ArrowDown" ? this.currentMenuItem.isSubmenuItem && (l(e), this.currentMenuItem.elements.childMenu.currentEvent = "keyboard", this.currentMenuItem.elements.toggle.open(), requestAnimationFrame(() => {
+            h(e);
+            const l = this.currentMenuItem.isSubmenuItem && this.currentMenuItem.elements.toggle.isExpanded;
+            this.focusPreviousChild(), l && (this.currentMenuItem.isSubmenuItem ? (this.currentMenuItem.elements.childMenu.currentEvent = "keyboard", this.currentMenuItem.elements.toggle.preview()) : this.collapseChildren());
+          } else t === "ArrowDown" ? this.currentMenuItem.isSubmenuItem && (h(e), this.currentMenuItem.elements.childMenu.currentEvent = "keyboard", this.currentMenuItem.elements.toggle.expand(), requestAnimationFrame(() => {
             this.currentMenuItem.elements.childMenu.focusFirstChild();
-          })) : t === "ArrowUp" ? this.currentMenuItem.isSubmenuItem && (l(e), this.currentMenuItem.elements.childMenu.currentEvent = "keyboard", this.currentMenuItem.elements.toggle.open(), requestAnimationFrame(() => {
+          })) : t === "ArrowUp" ? this.currentMenuItem.isSubmenuItem && (h(e), this.currentMenuItem.elements.childMenu.currentEvent = "keyboard", this.currentMenuItem.elements.toggle.expand(), requestAnimationFrame(() => {
             this.currentMenuItem.elements.childMenu.focusLastChild();
-          })) : t === "Home" ? (l(e), this.focusFirstChild()) : t === "End" ? (l(e), this.focusLastChild()) : t === "Escape" && (this.elements.submenuToggles.some(
-            (a) => a.isOpen
-          ) ? (l(e), this.closeChildren()) : this.isTopLevel && this.elements.controller && this.elements.controller.isOpen && (l(e), this.elements.controller.close(), this.focusController()));
+          })) : t === "Home" ? (h(e), this.focusFirstChild()) : t === "End" ? (h(e), this.focusLastChild()) : t === "Escape" && (this.elements.submenuToggles.some(
+            (a) => a.isExpanded
+          ) ? (h(e), this.collapseChildren()) : this.isTopLevel && this.elements.controller && this.elements.controller.isExpanded && (h(e), this.elements.controller.collapse(), this.focusController()));
       } else
-        t === "Space" || t === "Enter" ? (l(e), this.currentMenuItem.isSubmenuItem ? (this.currentMenuItem.elements.childMenu.currentEvent = "keyboard", this.currentMenuItem.elements.toggle.open(), requestAnimationFrame(() => {
+        t === "Space" || t === "Enter" ? (h(e), this.currentMenuItem.isSubmenuItem ? (this.currentMenuItem.elements.childMenu.currentEvent = "keyboard", this.currentMenuItem.elements.toggle.expand(), requestAnimationFrame(() => {
           this.currentMenuItem.elements.childMenu.focusFirstChild();
-        })) : this.currentMenuItem.dom.link.click()) : t === "Escape" ? (l(e), this.elements.rootMenu.closeChildren(), this.elements.rootMenu.focusCurrentChild()) : t === "ArrowRight" ? this.currentMenuItem.isSubmenuItem ? (l(e), this.currentMenuItem.elements.childMenu.currentEvent = "keyboard", this.currentMenuItem.elements.toggle.open(), requestAnimationFrame(() => {
+        })) : this.currentMenuItem.dom.link.click()) : t === "Escape" ? (h(e), this.elements.rootMenu.collapseChildren(), this.elements.rootMenu.focusCurrentChild()) : t === "ArrowRight" ? this.currentMenuItem.isSubmenuItem ? (h(e), this.currentMenuItem.elements.childMenu.currentEvent = "keyboard", this.currentMenuItem.elements.toggle.expand(), requestAnimationFrame(() => {
           this.currentMenuItem.elements.childMenu.focusFirstChild();
-        })) : (l(e), this.elements.rootMenu.closeChildren(), this.elements.rootMenu.focusNextChild(), this.elements.rootMenu.currentMenuItem.isSubmenuItem && this.elements.rootMenu.currentMenuItem.elements.toggle.preview()) : t === "ArrowLeft" ? this.elements.parentMenu.currentMenuItem.isSubmenuItem && (l(e), this.elements.parentMenu.currentMenuItem.elements.toggle.close(), this.elements.parentMenu.focusCurrentChild(), this.elements.parentMenu === this.elements.rootMenu && (this.elements.rootMenu.closeChildren(), this.elements.rootMenu.focusPreviousChild(), this.elements.rootMenu.currentMenuItem.isSubmenuItem && (this.elements.rootMenu.currentMenuItem.elements.childMenu.currentEvent = "keyboard", this.elements.rootMenu.currentMenuItem.elements.toggle.preview()))) : t === "ArrowDown" ? (l(e), this.focusNextChild()) : t === "ArrowUp" ? (l(e), this.focusPreviousChild()) : t === "Home" ? (l(e), this.focusFirstChild()) : t === "End" && (l(e), this.focusLastChild());
+        })) : (h(e), this.elements.rootMenu.collapseChildren(), this.elements.rootMenu.focusNextChild(), this.elements.rootMenu.currentMenuItem.isSubmenuItem && this.elements.rootMenu.currentMenuItem.elements.toggle.preview()) : t === "ArrowLeft" ? this.elements.parentMenu.currentMenuItem.isSubmenuItem && (h(e), this.elements.parentMenu.currentMenuItem.elements.toggle.collapse(), this.elements.parentMenu.focusCurrentChild(), this.elements.parentMenu === this.elements.rootMenu && (this.elements.rootMenu.collapseChildren(), this.elements.rootMenu.focusPreviousChild(), this.elements.rootMenu.currentMenuItem.isSubmenuItem && (this.elements.rootMenu.currentMenuItem.elements.childMenu.currentEvent = "keyboard", this.elements.rootMenu.currentMenuItem.elements.toggle.preview()))) : t === "ArrowDown" ? (h(e), this.focusNextChild()) : t === "ArrowUp" ? (h(e), this.focusPreviousChild()) : t === "Home" ? (h(e), this.focusFirstChild()) : t === "End" && (h(e), this.focusLastChild());
     });
   }
   /**
@@ -3545,25 +4870,7 @@ class H extends L {
     }
   }
 }
-class Y extends $ {
-  /**
-   * The declared accessible-menu elements within the menu item.
-   *
-   * @type {Object<TopLinkDisclosureMenu, TopLinkDisclosureMenuToggle>}
-   *
-   * @protected
-   *
-   * @property {TopLinkDisclosureMenu}                   parentMenu - The menu containing this menu item.
-   * @property {?TopLinkDisclosureMenu}                  childMenu  - The menu contained within this menu item.
-   * @property {?TopLinkDisclosureMenuToggle}            toggle     - The menu toggle within this menu item that controls the `childMenu`.
-   * @property {?TopLinkDisclosureMenuItem}              sibling    - The sibling menu item that is a submenu item.
-   */
-  _elements = {
-    parentMenu: null,
-    childMenu: null,
-    toggle: null,
-    sibling: null
-  };
+class G extends V {
   /**
    * Constructs a new `TopLinkDisclosureMenuItem`.
    *
@@ -3584,7 +4891,7 @@ class Y extends $ {
     isSubmenuItem: i = !1,
     childMenu: n = null,
     toggle: r = null,
-    initialize: u = !0,
+    initialize: l = !0,
     submenuSibling: a = null
   }) {
     super({
@@ -3594,33 +4901,86 @@ class Y extends $ {
       isSubmenuItem: i,
       childMenu: n,
       toggle: r
-    }), this._elements.parentMenu = s, this._elements.childMenu = n, this._elements.toggle = r, this._elements.sibling = a, u && this.initialize();
+    }), this._elements.sibling = a, l && this.initialize();
+  }
+  /**
+   * Registers the menu item's validation event listener.
+   *
+   * Validation checks the sibling menu item if it is set.
+   *
+   * @protected
+   */
+  _bootstrap() {
+    super._bootstrap(), this._addEventListener(
+      this.getEventName("validate"),
+      this.rootDOMElement,
+      (e) => {
+        if (e.detail.component === this && this.elements.sibling !== null) {
+          const t = y(
+            G,
+            { submenuSibling: this.elements.sibling },
+            { shouldThrow: !1 }
+          );
+          t.status || (this._errors = [...this._errors, ...t.errors], this._valid = !1);
+        }
+      }
+    );
   }
 }
-class ee extends x {
+class _e extends H {
   /**
    * Constructs a new `TopLinkDisclosureMenuToggle`.
    *
-   * @param {object}                 options                     - The options for generating the menu toggle.
-   * @param {HTMLElement}            options.menuToggleElement   - The toggle element in the DOM.
-   * @param {HTMLElement}            options.parentElement       - The element containing the controlled menu.
-   * @param {TopLinkDisclosureMenu}  options.controlledMenu      - The menu controlled by this toggle.
-   * @param {?TopLinkDisclosureMenu} [options.parentMenu = null] - The menu containing this toggle.
-   * @param {boolean}                [options.initialize = true] - A flag to initialize the menu toggle immediately upon creation.
+   * @param {object}                 options                                     - The options for generating the menu toggle.
+   * @param {HTMLElement}            options.menuToggleElement                   - The toggle element in the DOM.
+   * @param {HTMLElement}            options.parentElement                       - The element containing the controlled menu.
+   * @param {TopLinkDisclosureMenu}  options.controlledMenu                      - The menu controlled by this toggle.
+   * @param {?TopLinkDisclosureMenu} [options.parentMenu = null]                 - The menu containing this toggle.
+   * @param {string}                 [options.breakpoint = ""]                   - The breakpoint used to generate the controller's media query.
+   * @param {string}                 [options.mediaQuery = ""]                   - The media query used to trigger the controller's media query list events.
+   * @param {boolean}                [options.expandInsideBreakpoint = false]    - A flag to expand the controlled menu when the media query matches.
+   * @param {boolean}                [options.expandOutsideBreakpoint = false]   - A flag to expand the controlled menu when the media query does not match.
+   * @param {boolean}                [options.collapseInsideBreakpoint = false]  - A flag to collapse the controlled menu when the media query matches.
+   * @param {boolean}                [options.collapseOutsideBreakpoint = false] - A flag to collapse the controlled menu when the media query does not match.
+   * @param {boolean}                [options.lockInsideBreakpoint = false]      - A flag to lock the controller when the media query matches.
+   * @param {boolean}                [options.lockOutsideBreakpoint = false]     - A flag to lock the controller when the media query does not match.
+   * @param {boolean}                [options.unlockInsideBreakpoint = false]    - A flag to unlock the controller when the media query matches.
+   * @param {boolean}                [options.unlockOutsideBreakpoint = false]   - A flag to unlock the controller when the media query does not match.
+   * @param {boolean}                [options.initialize = true]                 - A flag to initialize the menu toggle immediately upon creation.
    */
   constructor({
     menuToggleElement: e,
     parentElement: t,
     controlledMenu: s,
     parentMenu: i = null,
-    initialize: n = !0
+    breakpoint: n = "",
+    mediaQuery: r = "",
+    expandInsideBreakpoint: l = !1,
+    expandOutsideBreakpoint: a = !1,
+    collapseInsideBreakpoint: c = !1,
+    collapseOutsideBreakpoint: d = !1,
+    lockInsideBreakpoint: m = !1,
+    lockOutsideBreakpoint: p = !1,
+    unlockInsideBreakpoint: f = !1,
+    unlockOutsideBreakpoint: _ = !1,
+    initialize: g = !0
   }) {
     super({
       menuToggleElement: e,
       parentElement: t,
       controlledMenu: s,
-      parentMenu: i
-    }), n && this.initialize();
+      parentMenu: i,
+      breakpoint: n,
+      mediaQuery: r,
+      expandInsideBreakpoint: l,
+      expandOutsideBreakpoint: a,
+      collapseInsideBreakpoint: c,
+      collapseOutsideBreakpoint: d,
+      lockInsideBreakpoint: m,
+      lockOutsideBreakpoint: p,
+      unlockInsideBreakpoint: f,
+      unlockOutsideBreakpoint: _
+    }), g && this.initialize();
   }
   /**
    * Sets the ARIA attributes on the toggle and controlled menu.
@@ -3636,7 +4996,7 @@ class ee extends x {
    * @protected
    */
   _setAriaAttributes() {
-    super._setAriaAttributes(), z("button", { toggle: this.dom.toggle }, { shouldThrow: !1 }).status || this.dom.toggle.setAttribute("role", "button"), this.dom.toggle.setAttribute(
+    super._setAriaAttributes(), U("button", { toggle: this.dom.controller }, { shouldThrow: !1 }).status || this.dom.controller.setAttribute("role", "button"), this.dom.controller.setAttribute(
       "aria-controls",
       this.elements.controlledMenu.dom.menu.id
     );
@@ -3644,65 +5004,65 @@ class ee extends x {
   /**
    * Opens the controlled menu.
    *
-   * Calls the  closeSiblings method
+   * Calls the collapseSiblings method
    * and _then_ BaseMenuToggle's open method.
    *
-   * @param {object}  [options = {}]                  - The options for opening the menu.
-   * @param {boolean} [options.force = false]         - A flag to force the menu to open.
-   * @param {boolean} [options.preserveState = false] - A flag to preserve the current state.
-   * @param {boolean} [options.emit = true]           - A flag to emit the expand event.
-   * @param {boolean} [options.transition = true]     - A flag to use transitions when opening.
+   * @param {object}  [options = {}]                            - The options for opening the menu.
+   * @param {boolean} [options.force = !this.isInitialized]     - A flag to force the menu to open.
+   * @param {boolean} [options.preserveState = false]           - A flag to preserve the current state.
+   * @param {boolean} [options.emit = this.isInitialized]       - A flag to emit the expand event.
+   * @param {boolean} [options.transition = this.isInitialized] - A flag to use transitions when opening.
    */
-  open({
-    force: e = !1,
+  expand({
+    force: e = !this.isInitialized,
     preserveState: t = !1,
-    emit: s = !0,
-    transition: i = !0
+    emit: s = this.isInitialized,
+    transition: i = this.isInitialized
   } = {}) {
-    this.closeSiblings({ force: e, preserveState: t, emit: s, transition: i }), super.open({ force: e, preserveState: t, emit: s, transition: i });
+    this.isLocked && !e || (this.isInitialized && this.collapseSiblings({ force: e, preserveState: t, emit: s, transition: i }), super.expand({ force: e, preserveState: t, emit: s, transition: i }));
   }
   /**
    * Opens the controlled menu without the current focus entering it.
    *
-   * Calls the  closeSiblings method
+   * Calls the collapseSiblings method
    * and _then_ BaseMenuToggle's preview method.
    *
-   * @param {object}  [options = {}]                  - The options for previewing the menu.
-   * @param {boolean} [options.force = false]         - A flag to force the menu to preview.
-   * @param {boolean} [options.preserveState = false] - A flag to preserve the current state.
-   * @param {boolean} [options.emit = true]           - A flag to emit the expand event.
-   * @param {boolean} [options.transition = true]     - A flag to use transitions when previewing.
+   * @param {object}  [options = {}]                            - The options for previewing the menu.
+   * @param {boolean} [options.force = !this.isInitialized]     - A flag to force the menu to preview.
+   * @param {boolean} [options.preserveState = false]           - A flag to preserve the current state.
+   * @param {boolean} [options.emit = this.isInitialized]       - A flag to emit the expand event.
+   * @param {boolean} [options.transition = this.isInitialized] - A flag to use transitions when previewing.
    */
   preview({
-    force: e = !1,
+    force: e = !this.isInitialized,
     preserveState: t = !1,
-    emit: s = !0,
-    transition: i = !0
+    emit: s = this.isInitialized,
+    transition: i = this.isInitialized
   } = {}) {
-    this.closeSiblings({ force: e, preserveState: t, emit: s, transition: i }), super.preview({ force: e, preserveState: t, emit: s, transition: i });
+    this.isLocked && !e || (this.isInitialized && this.collapseSiblings({ force: e, preserveState: t, emit: s, transition: i }), super.preview({ force: e, preserveState: t, emit: s, transition: i }));
   }
   /**
    * Closes the controlled menu.
    *
-   * Calls the  closeChildren method
+   * Calls the collapseChildren method
    * and _then_ BaseMenuToggle's close method.
    *
-   * @param {object}  [options = {}]                  - The options for closing the menu.
-   * @param {boolean} [options.force = false]         - A flag to force the menu to close.
-   * @param {boolean} [options.preserveState = false] - A flag to preserve the current state.
-   * @param {boolean} [options.emit = true]           - A flag to emit the collapse event.
-   * @param {boolean} [options.transition = true]     - A flag to use transitions when closing.
+   * @param {object}  [options = {}]                            - The options for closing the menu.
+   * @param {boolean} [options.force = !this.isInitialized]     - A flag to force the menu to close.
+   * @param {boolean} [options.preserveState = false]           - A flag to preserve the current state.
+   * @param {boolean} [options.emit = this.isInitialized]       - A flag to emit the collapse event.
+   * @param {boolean} [options.transition = this.isInitialized] - A flag to use transitions when closing.
    */
-  close({
-    force: e = !1,
+  collapse({
+    force: e = !this.isInitialized,
     preserveState: t = !1,
-    emit: s = !0,
-    transition: i = !0
+    emit: s = this.isInitialized,
+    transition: i = this.isInitialized
   } = {}) {
-    !this.isOpen && !e || (this.closeChildren({ force: e, preserveState: t, emit: s, transition: i }), super.close({ force: e, preserveState: t, emit: s, transition: i }));
+    !this.isExpanded && !e || this.isLocked && !e || (this.isInitialized && this.collapseChildren({ force: e, preserveState: t, emit: s, transition: i }), super.collapse({ force: e, preserveState: t, emit: s, transition: i }));
   }
 }
-class N extends L {
+class X extends P {
   /**
    * The class to use when generating submenus.
    *
@@ -3710,7 +5070,7 @@ class N extends L {
    *
    * @type {typeof TopLinkDisclosureMenu}
    */
-  _MenuType = N;
+  _MenuType = X;
   /**
    * The class to use when generating menu items.
    *
@@ -3718,7 +5078,7 @@ class N extends L {
    *
    * @type {typeof TopLinkDisclosureMenuItem}
    */
-  _MenuItemType = Y;
+  _MenuItemType = G;
   /**
    * The class to use when generating submenu toggles.
    *
@@ -3726,7 +5086,7 @@ class N extends L {
    *
    * @type {typeof TopLinkDisclosureMenuToggle}
    */
-  _MenuToggleType = ee;
+  _MenuToggleType = _e;
   /**
    * The index of the currently selected menu item in the menu.
    *
@@ -3735,28 +5095,6 @@ class N extends L {
    * @type {number}
    */
   _currentChild = -1;
-  /**
-   * The query selectors used by the menu to populate the dom.
-   *
-   * @protected
-   *
-   * @type {Object<string>}
-   *
-   * @property {string} menuItems         - The query selector for menu items.
-   * @property {string} menuLinks         - The query selector for menu links.
-   * @property {string} submenuItems      - The query selector for menu items containing submenus.
-   * @property {string} submenuToggles    - The query selector for menu links that function as submenu toggles.
-   * @property {string} submenus          - The query selector for for submenus.
-   * @property {string} submenuSubtoggles - The query selector for menu links that function as submenu toggles below the top level.
-   */
-  _selectors = {
-    menuItems: "",
-    menuLinks: "",
-    submenuItems: "",
-    submenuToggles: "",
-    submenus: "",
-    submenuSubtoggles: ""
-  };
   /**
    * A flag to add optional keyboard support (Arrow keys, "Home", and "End") to the menu.
    *
@@ -3778,19 +5116,29 @@ class N extends L {
    * @param {string}                 [options.submenuSubtogglesSelector = a]     - The query selector string for submenu toggle buttons/links below the top level.
    * @param {?HTMLElement}           [options.controllerElement = null]          - The element controlling the menu in the DOM.
    * @param {?HTMLElement}           [options.containerElement = null]           - The element containing the menu in the DOM.
-   * @param {?(string|string[])}     [options.openClass = show]                  - The class to apply when a menu is "open".
-   * @param {?(string|string[])}     [options.closeClass = hide]                 - The class to apply when a menu is "closed".
-   * @param {?(string|string[])}     [options.transitionClass = transitioning]   - The class to apply when a menu is transitioning between "open" and "closed" states.
-   * @param {number}                 [options.transitionDuration = 250]          - The duration of the transition between "open" and "closed" states (in milliseconds).
+   * @param {?(string|string[])}     [options.initializeClass = initializing]    - The class(es) to apply when the menu is initializing.
+   * @param {?(string|string[])}     [options.expandClass = show]                - The class to apply when a menu is expanded.
+   * @param {?(string|string[])}     [options.collapseClass = hide]              - The class to apply when a menu is "closed".
+   * @param {?(string|string[])}     [options.transitionClass = transitioning]   - The class to apply when a menu is transitioning between expanded and collapsed states.
+   * @param {number}                 [options.transitionDuration = 250]          - The duration of the transition between expanded and collapsed states (in milliseconds).
+   * @param {number}                 [options.expandDuration = -1]               - The duration of the transition from collapsed to expanded states (in milliseconds).
+   * @param {number}                 [options.collapseDuration = -1]             - The duration of the transition from expanded to collapsed states (in milliseconds).
    * @param {boolean}                [options.isTopLevel = true]                 - A flag to mark the root menu.
    * @param {?TopLinkDisclosureMenu} [options.parentMenu = null]                 - The parent menu to this menu.
    * @param {string}                 [options.hoverType = off]                   - The type of hoverability a menu has.
    * @param {number}                 [options.hoverDelay = 250]                  - The delay for opening and closing menus if the menu is hoverable (in milliseconds).
    * @param {number}                 [options.enterDelay = -1]                   - The delay for opening a menu if the menu is focusable (in milliseconds).
    * @param {number}                 [options.leaveDelay = -1]                   - The delay for closing a menu if the menu is focusable (in milliseconds).
-   * @param {string}                 [options.breakpoint = '']                   - The breakpoint that the menu will automatically open/close itself at.
-   * @param {string}                 [options.mediaQuery = '']                   - The media query to use to trigger media query list events.
-   * @param {boolean}                [options.autoOpen = true]                   - A flag to auto open the menu when the media query does not match.
+   * @param {string}                 [options.breakpoint = '']                   - The breakpoint used to generate the root controller's media query.
+   * @param {string}                 [options.mediaQuery = '']                   - The media query used to trigger the root controller's media query list events.
+   * @param {boolean}                [options.expandInsideBreakpoint = false]    - A flag to expand the controlled menu when the media query matches.
+   * @param {boolean}                [options.expandOutsideBreakpoint = false]   - A flag to expand the controlled menu when the media query does not match.
+   * @param {boolean}                [options.collapseInsideBreakpoint = false]  - A flag to collapse the controlled menu when the media query matches.
+   * @param {boolean}                [options.collapseOutsideBreakpoint = false] - A flag to collapse the controlled menu when the media query does not match.
+   * @param {boolean}                [options.lockInsideBreakpoint = false]      - A flag to lock the controller when the media query matches.
+   * @param {boolean}                [options.lockOutsideBreakpoint = false]     - A flag to lock the controller when the media query does not match.
+   * @param {boolean}                [options.unlockInsideBreakpoint = false]    - A flag to unlock the controller when the media query matches.
+   * @param {boolean}                [options.unlockOutsideBreakpoint = false]   - A flag to unlock the controller when the media query does not match.
    * @param {boolean}                [options.optionalKeySupport = false]        - A flag to add optional keyboard support (Arrow keys, Home, and End) to the menu.
    * @param {?string}                [options.prefix = am-]                      - The prefix to use for CSS custom properties.
    * @param {?string}                [options.key = null]                        - The key used to generate IDs throughout the menu.
@@ -3803,26 +5151,36 @@ class N extends L {
     submenuItemsSelector: i = "li:has(ul)",
     submenuTogglesSelector: n = "button",
     submenusSelector: r = "ul",
-    submenuSubtogglesSelector: u = "a",
+    submenuSubtogglesSelector: l = "a",
     controllerElement: a = null,
     containerElement: c = null,
-    openClass: m = "show",
-    closeClass: d = "hide",
-    transitionClass: g = "transitioning",
+    initializeClass: d = "initializing",
+    expandClass: m = "show",
+    collapseClass: p = "hide",
+    transitionClass: f = "transitioning",
     transitionDuration: _ = 250,
-    isTopLevel: y = !0,
-    parentMenu: f = null,
-    hoverType: M = "off",
-    hoverDelay: b = 250,
-    enterDelay: C = -1,
-    leaveDelay: E = -1,
-    breakpoint: T = "",
-    mediaQuery: w = "",
-    autoOpen: v = !0,
-    optionalKeySupport: k = !1,
-    prefix: I = "am-",
-    key: O = null,
-    initialize: F = !0
+    expandDuration: g = -1,
+    collapseDuration: E = -1,
+    isTopLevel: b = !0,
+    parentMenu: M = null,
+    hoverType: k = "off",
+    hoverDelay: C = 250,
+    enterDelay: I = -1,
+    leaveDelay: v = -1,
+    breakpoint: w = "",
+    mediaQuery: T = "",
+    expandInsideBreakpoint: x = !1,
+    expandOutsideBreakpoint: D = !1,
+    collapseInsideBreakpoint: O = !1,
+    collapseOutsideBreakpoint: z = !1,
+    lockInsideBreakpoint: A = !1,
+    lockOutsideBreakpoint: $ = !1,
+    unlockInsideBreakpoint: B = !1,
+    unlockOutsideBreakpoint: K = !1,
+    optionalKeySupport: F = !1,
+    prefix: q = "am-",
+    key: R = null,
+    initialize: ie = !0
   }) {
     super({
       menuElement: e,
@@ -3833,44 +5191,56 @@ class N extends L {
       submenuTogglesSelector: n,
       controllerElement: a,
       containerElement: c,
-      openClass: m,
-      closeClass: d,
-      transitionClass: g,
+      initializeClass: d,
+      expandClass: m,
+      collapseClass: p,
+      transitionClass: f,
       transitionDuration: _,
-      isTopLevel: y,
-      parentMenu: f,
-      hoverType: M,
-      hoverDelay: b,
-      enterDelay: C,
-      leaveDelay: E,
-      breakpoint: T,
-      mediaQuery: w,
-      autoOpen: v,
-      prefix: I,
-      key: O
-    }), this._optionalSupport = k, this._selectors.menuItems = t, this._selectors.submenuItems = i, this._selectors.submenuToggles = n, this._selectors.submenus = r, this._selectors.submenuSubtoggles = u, this._selectors.menuLinks = [
+      expandDuration: g,
+      collapseDuration: E,
+      isTopLevel: b,
+      parentMenu: M,
+      hoverType: k,
+      hoverDelay: C,
+      enterDelay: I,
+      leaveDelay: v,
+      breakpoint: w,
+      mediaQuery: T,
+      expandInsideBreakpoint: x,
+      expandOutsideBreakpoint: D,
+      collapseInsideBreakpoint: O,
+      collapseOutsideBreakpoint: z,
+      lockInsideBreakpoint: A,
+      lockOutsideBreakpoint: $,
+      unlockInsideBreakpoint: B,
+      unlockOutsideBreakpoint: K,
+      prefix: q,
+      key: R
+    }), this._optionalSupport = F, this._selectors.submenuSubtoggles = l, this._selectors.menuLinks = [
       .../* @__PURE__ */ new Set([s, n])
-    ].join(","), F && this.initialize();
+    ].join(","), ie && this.initialize();
   }
   /**
-   * Initializes the menu.
+   * Registers the menu's validation event listener.
    *
-   * Initialize will call the BaseMenu's initialize method
-   * as well as set up focus,
-   * click,
-   * hover,
-   * keydown, and
-   * keyup events for the menu.
+   * Validation checks the optionalKeySupport flag.
    *
-   * If the BaseMenu's initialize method throws an error,
-   * this will catch it and log it to the console.
+   * @protected
    */
-  initialize() {
-    try {
-      super.initialize(), this._handleMediaMatch(), this._handleFocus(), this._handleClick(), this._handleHover(), this._handleKeydown(), this._handleKeyup();
-    } catch (e) {
-      console.error(e);
-    }
+  _bootstrap() {
+    super._bootstrap(), this._addEventListener(
+      this.getEventName("validate"),
+      this.rootDOMElement,
+      (e) => {
+        if (e.detail.component !== this) return;
+        const t = {
+          optionalKeySupport: this._optionalSupport
+        }, s = u("boolean", t, {
+          shouldThrow: !1
+        });
+        s.status || (this._errors = [...this._errors, ...s.errors], this._valid = !1);
+      }
+    );
   }
   /**
    * A flag to add optional keyboard support (Arrow keys, "Home", and "End") to the menu.
@@ -3886,7 +5256,7 @@ class N extends L {
     return this.isTopLevel ? this._optionalSupport : this.elements.rootMenu.optionalKeySupport;
   }
   set optionalKeySupport(e) {
-    h("boolean", { optionalKeySupport: e }), this._optionalSupport = e;
+    u("boolean", { optionalKeySupport: e }), this._optionalSupport = e;
   }
   /**
    * Creates and initializes all menu items and submenus.
@@ -3894,11 +5264,11 @@ class N extends L {
    * @protected
    */
   _createChildElements() {
-    this.dom.menuItems.forEach((e) => {
+    this._createController(), this.dom.menuItems.forEach((e) => {
       let t, s;
       const i = e.querySelector(this.selectors.menuLinks);
       if (this.dom.submenuItems.includes(e)) {
-        const n = e.querySelector(this.selectors.submenuToggles), r = e.querySelector(this.selectors.submenus), u = new this._MenuType({
+        const n = e.querySelector(this.selectors.submenuToggles), r = e.querySelector(this.selectors.submenus), l = new this._MenuType({
           menuElement: r,
           menuItemsSelector: this.selectors.menuItems,
           menuLinksSelector: this.selectors.menuLinks,
@@ -3906,8 +5276,8 @@ class N extends L {
           submenuTogglesSelector: this.selectors.submenuSubtoggles,
           submenusSelector: this.selectors.submenus,
           submenuSubtogglesSelector: this.selectors.submenuSubtoggles,
-          openClass: this.openClass,
-          closeClass: this.closeClass,
+          expandClass: this.expandClass,
+          collapseClass: this.collapseClass,
           transitionClass: this.transitionClass,
           isTopLevel: !1,
           parentMenu: this,
@@ -3918,7 +5288,7 @@ class N extends L {
         }), a = new this._MenuToggleType({
           menuToggleElement: n,
           parentElement: e,
-          controlledMenu: u,
+          controlledMenu: l,
           parentMenu: this
         });
         this._elements.submenuToggles.push(a), n !== i ? (s = new this._MenuItemType({
@@ -3926,7 +5296,7 @@ class N extends L {
           menuLinkElement: n,
           parentMenu: this,
           isSubmenuItem: !0,
-          childMenu: u,
+          childMenu: l,
           toggle: a
         }), t = new this._MenuItemType({
           menuItemElement: e,
@@ -3938,7 +5308,7 @@ class N extends L {
           menuLinkElement: i,
           parentMenu: this,
           isSubmenuItem: !0,
-          childMenu: u,
+          childMenu: l,
           toggle: a
         });
       } else
@@ -3949,22 +5319,6 @@ class N extends L {
         });
       this._elements.menuItems.push(t), typeof s < "u" && this._elements.menuItems.push(s);
     });
-  }
-  /**
-   * Validates all aspects of the menu to ensure proper functionality.
-   *
-   * @protected
-   *
-   * @return {boolean} - The result of the validation.
-   */
-  _validate() {
-    super._validate();
-    const e = {
-      optionalKeySupport: this._optionalSupport
-    }, t = h("boolean", e, {
-      shouldThrow: !1
-    });
-    return t.status || (this._errors = [this._errors, ...t.errors], this._valid = !1), this._valid;
   }
   /**
    * Handles click events throughout the menu for proper use.
@@ -3978,7 +5332,7 @@ class N extends L {
    */
   _handleClick() {
     super._handleClick(), this._addEventListener("click", document, (e) => {
-      this.focusState !== "none" && (this.currentEvent = "mouse", !this.dom.menu.contains(e.target) && !this.dom.menu !== e.target && (this.closeChildren(), this.blur(), this.elements.controller && this.elements.controller.close(), this.elements.rootMenu.hasOpened = !1));
+      this.focusState !== "none" && (this.currentEvent = "mouse", !this.dom.menu.contains(e.target) && !this.dom.menu !== e.target && (this.collapseChildren(), this.blur(), this.elements.controller && this.elements.controller.collapse(), this.elements.rootMenu.hasExpanded = !1));
     });
   }
   /**
@@ -4011,7 +5365,7 @@ class N extends L {
    * - When a `pointerenter` event triggers on a submenu item, and a submenu is
    *   already open, the preview method for the submenu item's toggle will be called.
    * - When a `pointerenter` event triggers on a non-submenu item, and a submenu
-   *   is already open, the closeChildren method for the menu will be called.
+   *   is already open, the collapseChildren method for the menu will be called.
    * - When a `pointerenter` event triggers on a submenu item, and no submenu is
    *   open, no submenu-specific methods will be called.
    * - When a `pointerleave` event triggers on an open submenu item that is not a
@@ -4034,25 +5388,25 @@ class N extends L {
             this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusChild(t);
             let i = e.isSubmenuItem ? e.elements.toggle : null;
             if (e.elements.sibling !== null && (i = e.elements.sibling.elements.toggle), i === null) return;
-            this.enterDelay > 0 ? (this._clearTimeout(), this._setTimeout(() => {
+            this.enterDelay > 0 ? this._setTimeout(() => {
               i.preview();
-            }, this.enterDelay)) : i.preview();
-          } else if (this.hoverType === "dynamic" && (this.currentChild = t, (!this.isTopLevel || this.focusState !== "none") && (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild()), !this.isTopLevel || this.hasOpened)) {
+            }, this.enterDelay) : i.preview();
+          } else if (this.hoverType === "dynamic" && (this.currentChild = t, (!this.isTopLevel || this.focusState !== "none") && (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild()), !this.isTopLevel || this.hasExpanded)) {
             this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild();
             let i = e.isSubmenuItem ? e.elements.toggle : null;
-            e.elements.sibling !== null && (i = e.elements.sibling.elements.toggle), i !== null ? this.enterDelay > 0 ? (this._clearTimeout(), this._setTimeout(() => {
+            e.elements.sibling !== null && (i = e.elements.sibling.elements.toggle), i !== null ? this.enterDelay > 0 ? this._setTimeout(() => {
               i.preview();
-            }, this.enterDelay)) : i.preview() : this.enterDelay > 0 ? (this._clearTimeout(), this._setTimeout(() => {
-              this.closeChildren();
-            }, this.enterDelay)) : this.closeChildren();
+            }, this.enterDelay) : i.preview() : this.enterDelay > 0 ? this._setTimeout(() => {
+              this.collapseChildren();
+            }, this.enterDelay) : this.collapseChildren();
           }
         }
       }), e.isSubmenuItem && (this._addEventListener("pointerleave", e.dom.item, (s) => {
-        s.pointerType === "pen" || s.pointerType === "touch" || (this.hoverType === "on" ? this.leaveDelay > 0 ? (this._clearTimeout(), this._setTimeout(() => {
-          this.currentEvent = "mouse", e.elements.toggle.close();
-        }, this.leaveDelay)) : (this.currentEvent = "mouse", e.elements.toggle.close()) : this.hoverType === "dynamic" && (this.leaveDelay > 0 ? (this._clearTimeout(), this._setTimeout(() => {
+        s.pointerType === "pen" || s.pointerType === "touch" || (this.hoverType === "on" ? this.leaveDelay > 0 ? this._setTimeout(() => {
+          this.currentEvent = "mouse", e.elements.toggle.collapse();
+        }, this.leaveDelay) : (this.currentEvent = "mouse", e.elements.toggle.collapse()) : this.hoverType === "dynamic" && (this.leaveDelay > 0 ? this._setTimeout(() => {
           this.currentEvent = "mouse";
-        }, this.leaveDelay)) : this.currentEvent = "mouse"));
+        }, this.leaveDelay) : this.currentEvent = "mouse"));
       }), this._addEventListener("pointerenter", e.dom.item, (s) => {
         s.pointerType === "pen" || s.pointerType === "touch" || e.isSubmenuItem && (this.hoverType === "on" || this.hoverType === "dynamic") && this.leaveDelay > 0 && this._clearTimeout();
       }));
@@ -4074,7 +5428,7 @@ class N extends L {
   _handleKeydown() {
     super._handleKeydown(), this._addEventListener("keydown", this.dom.menu, (e) => {
       this.currentEvent = "keyboard";
-      const t = p(e);
+      const t = S(e);
       if (this.focusState === "self") {
         const s = ["Space", "Enter"], i = ["Escape"], n = ["Escape"], r = [
           "ArrowUp",
@@ -4084,7 +5438,7 @@ class N extends L {
           "Home",
           "End"
         ];
-        (s.includes(t) || this.optionalKeySupport && r.includes(t) || this.elements.controller && i.includes(t) || this.elements.parentMenu && n.includes(t)) && l(e);
+        (s.includes(t) || this.optionalKeySupport && r.includes(t) || this.elements.controller && i.includes(t) || this.elements.parentMenu && n.includes(t)) && h(e);
       }
     });
   }
@@ -4113,14 +5467,14 @@ class N extends L {
   _handleKeyup() {
     super._handleKeyup(), this._addEventListener("keyup", this.dom.menu, (e) => {
       this.currentEvent = "keyboard";
-      const t = p(e);
-      this.focusState === "self" && (t === "Space" || t === "Enter" ? (l(e), this.currentMenuItem.isSubmenuItem ? this.currentMenuItem.elements.toggle.isOpen ? this.currentMenuItem.elements.toggle.close() : this.currentMenuItem.elements.toggle.preview() : this.currentMenuItem.dom.link.click()) : t === "Escape" ? this.elements.submenuToggles.some(
-        (i) => i.isOpen
-      ) ? (l(e), this.closeChildren()) : this.elements.parentMenu ? (l(e), this.elements.parentMenu.currentEvent = this.currentEvent, this.elements.parentMenu.closeChildren(), this.elements.parentMenu.focusCurrentChild()) : this.isTopLevel && this.elements.controller && this.elements.controller.isOpen && (this.elements.controller.close(), this.focusController()) : this.optionalKeySupport && (t === "ArrowDown" || t === "ArrowRight" ? (l(e), this.currentMenuItem.isSubmenuItem && this.currentMenuItem.elements.toggle.isOpen ? (this.currentMenuItem.elements.childMenu.currentEvent = "keyboard", this.currentMenuItem.elements.childMenu.focusFirstChild()) : this.focusNextChild()) : t === "ArrowUp" || t === "ArrowLeft" ? (l(e), this.focusPreviousChild()) : t === "Home" ? (l(e), this.focusFirstChild()) : t === "End" && (l(e), this.focusLastChild())));
+      const t = S(e);
+      this.focusState === "self" && (t === "Space" || t === "Enter" ? (h(e), this.currentMenuItem.isSubmenuItem ? this.currentMenuItem.elements.toggle.isExpanded ? this.currentMenuItem.elements.toggle.collapse() : this.currentMenuItem.elements.toggle.preview() : this.currentMenuItem.dom.link.click()) : t === "Escape" ? this.elements.submenuToggles.some(
+        (i) => i.isExpanded
+      ) ? (h(e), this.collapseChildren()) : this.elements.parentMenu ? (h(e), this.elements.parentMenu.currentEvent = this.currentEvent, this.elements.parentMenu.collapseChildren(), this.elements.parentMenu.focusCurrentChild()) : this.isTopLevel && this.elements.controller && this.elements.controller.isExpanded && (this.elements.controller.collapse(), this.focusController()) : this.optionalKeySupport && (t === "ArrowDown" || t === "ArrowRight" ? (h(e), this.currentMenuItem.isSubmenuItem && this.currentMenuItem.elements.toggle.isExpanded ? (this.currentMenuItem.elements.childMenu.currentEvent = "keyboard", this.currentMenuItem.elements.childMenu.focusFirstChild()) : this.focusNextChild()) : t === "ArrowUp" || t === "ArrowLeft" ? (h(e), this.focusPreviousChild()) : t === "Home" ? (h(e), this.focusFirstChild()) : t === "End" && (h(e), this.focusLastChild())));
     });
   }
 }
-class te extends $ {
+class ge extends V {
   /**
    * Constructs a new `TreeviewItem`.
    *
@@ -4140,7 +5494,7 @@ class te extends $ {
     isSubmenuItem: i = !1,
     childMenu: n = null,
     toggle: r = null,
-    initialize: u = !0
+    initialize: l = !0
   }) {
     super({
       menuItemElement: e,
@@ -4149,18 +5503,25 @@ class te extends $ {
       isSubmenuItem: i,
       childMenu: n,
       toggle: r
-    }), u && this.initialize();
+    }), l && this.initialize();
   }
   /**
-   * Initialize the menu item.
+   * Registers the menu item's initialization event listener.
    *
-   * Initialize will call the BaseMenuItem's initialize method
-   * as well as set the menu item's `role` to "none",
+   * Sets the menu item's `role` to "none",
    * the menu link's `role` to "treeitem", and
    * the menu link's `tabIndex` to -1 in the DOM.
+   *
+   * @protected
    */
-  initialize() {
-    super.initialize(), this.dom.item.setAttribute("role", "none"), this.dom.link.setAttribute("role", "treeitem"), this.dom.link.tabIndex = -1;
+  _bootstrap() {
+    super._bootstrap(), this._addEventListener(
+      this.getEventName("initialize"),
+      this.rootDOMElement,
+      (e) => {
+        e.detail.component === this && (this.dom.item.setAttribute("role", "none"), this.dom.link.setAttribute("role", "treeitem"), this.dom.link.tabIndex = -1);
+      }
+    );
   }
   /**
    * Focuses the menu item's link if the parent menu's
@@ -4183,43 +5544,60 @@ class te extends $ {
     super.blur(), this.dom.link.tabIndex = -1;
   }
 }
-class se extends x {
+class ye extends H {
   /**
    * Constructs a new `TreeviewToggle`.
    *
-   * @param {object}      options                     - The options for generating the menu toggle.
-   * @param {HTMLElement} options.menuToggleElement   - The toggle element in the DOM.
-   * @param {HTMLElement} options.parentElement       - The element containing the controlled menu.
-   * @param {Treeview}    options.controlledMenu      - The menu controlled by this toggle.
-   * @param {?Treeview}   [options.parentMenu = null] - The menu containing this toggle.
-   * @param {boolean}     [options.initialize = true] - A flag to initialize the menu toggle immediately upon creation.
+   * @param {object}      options                                     - The options for generating the menu toggle.
+   * @param {HTMLElement} options.menuToggleElement                   - The toggle element in the DOM.
+   * @param {HTMLElement} options.parentElement                       - The element containing the controlled menu.
+   * @param {Treeview}    options.controlledMenu                      - The menu controlled by this toggle.
+   * @param {?Treeview}   [options.parentMenu = null]                 - The menu containing this toggle.
+   * @param {string}      [options.breakpoint = ""]                   - The breakpoint used to generate the controller's media query.
+   * @param {string}      [options.mediaQuery = ""]                   - The media query used to trigger the controller's media query list events.
+   * @param {boolean}     [options.expandInsideBreakpoint = false]    - A flag to expand the controlled menu when the media query matches.
+   * @param {boolean}     [options.expandOutsideBreakpoint = false]   - A flag to expand the controlled menu when the media query does not match.
+   * @param {boolean}     [options.collapseInsideBreakpoint = false]  - A flag to collapse the controlled menu when the media query matches.
+   * @param {boolean}     [options.collapseOutsideBreakpoint = false] - A flag to collapse the controlled menu when the media query does not match.
+   * @param {boolean}     [options.lockInsideBreakpoint = false]      - A flag to lock the controller when the media query matches.
+   * @param {boolean}     [options.lockOutsideBreakpoint = false]     - A flag to lock the controller when the media query does not match.
+   * @param {boolean}     [options.unlockInsideBreakpoint = false]    - A flag to unlock the controller when the media query matches.
+   * @param {boolean}     [options.unlockOutsideBreakpoint = false]   - A flag to unlock the controller when the media query does not match.
+   * @param {boolean}     [options.initialize = true]                 - A flag to initialize the menu toggle immediately upon creation.
    */
   constructor({
     menuToggleElement: e,
     parentElement: t,
     controlledMenu: s,
     parentMenu: i = null,
-    initialize: n = !0
+    breakpoint: n = "",
+    mediaQuery: r = "",
+    expandInsideBreakpoint: l = !1,
+    expandOutsideBreakpoint: a = !1,
+    collapseInsideBreakpoint: c = !1,
+    collapseOutsideBreakpoint: d = !1,
+    lockInsideBreakpoint: m = !1,
+    lockOutsideBreakpoint: p = !1,
+    unlockInsideBreakpoint: f = !1,
+    unlockOutsideBreakpoint: _ = !1,
+    initialize: g = !0
   }) {
     super({
       menuToggleElement: e,
       parentElement: t,
       controlledMenu: s,
-      parentMenu: i
-    }), n && this.initialize();
-  }
-  /**
-   * Initializes the menu toggle.
-   *
-   * The first steps are to ensure that the toggle and controlled menu have IDs
-   * using the setIds method, and to set the ARIA attributes on the toggle
-   * and controlled menu using the setAriaAttributes method.
-   *
-   * Then the open or collapse method is called based on the state of the
-   * toggle's aria-expanded attribute.
-   */
-  initialize() {
-    this._setIds(), this._setAriaAttributes(), this.dom.toggle.getAttribute("aria-expanded") === "true" ? this.open() : this._collapse(!1);
+      parentMenu: i,
+      breakpoint: n,
+      mediaQuery: r,
+      expandInsideBreakpoint: l,
+      expandOutsideBreakpoint: a,
+      collapseInsideBreakpoint: c,
+      collapseOutsideBreakpoint: d,
+      lockInsideBreakpoint: m,
+      lockOutsideBreakpoint: p,
+      unlockInsideBreakpoint: f,
+      unlockOutsideBreakpoint: _
+    }), g && this.initialize();
   }
   /**
    * Sets the ARIA attributes on the toggle and controlled menu.
@@ -4233,16 +5611,16 @@ class se extends x {
    * @protected
    */
   _setAriaAttributes() {
-    this.dom.toggle.getAttribute("aria-expanded") !== "true" && this.dom.toggle.setAttribute("aria-expanded", "false"), this.elements.controlledMenu.dom.menu.setAttribute(
+    this.dom.controller.getAttribute("aria-expanded") !== "true" && this.dom.controller.setAttribute("aria-expanded", "false"), this.elements.controlledMenu.dom.menu.setAttribute(
       "aria-labelledby",
-      this.dom.toggle.id
-    ), this.dom.toggle.setAttribute(
+      this.dom.controller.id
+    ), this.dom.controller.setAttribute(
       "aria-owns",
       this.elements.controlledMenu.dom.menu.id
     );
   }
 }
-class Q extends L {
+class Y extends P {
   /**
    * The class to use when generating submenus.
    *
@@ -4250,7 +5628,7 @@ class Q extends L {
    *
    * @type {typeof Treeview}
    */
-  _MenuType = Q;
+  _MenuType = Y;
   /**
    * The class to use when generating menu items.
    *
@@ -4258,7 +5636,7 @@ class Q extends L {
    *
    * @type {typeof TreeviewItem}
    */
-  _MenuItemType = te;
+  _MenuItemType = ge;
   /**
    * The class to use when generating submenu toggles.
    *
@@ -4266,7 +5644,7 @@ class Q extends L {
    *
    * @type {typeof TreeviewToggle}
    */
-  _MenuToggleType = se;
+  _MenuToggleType = ye;
   /**
    * Constructs a new `Treeview`.
    *
@@ -4279,19 +5657,29 @@ class Q extends L {
    * @param {string}             [options.submenusSelector = ul]             - The query selector string for submenus.
    * @param {?HTMLElement}       [options.controllerElement = null]          - The element controlling the menu in the DOM.
    * @param {?HTMLElement}       [options.containerElement = null]           - The element containing the menu in the DOM.
-   * @param {?(string|string[])} [options.openClass = show]                  - The class to apply when a menu is "open".
-   * @param {?(string|string[])} [options.closeClass = hide]                 - The class to apply when a menu is "closed".
-   * @param {?(string|string[])} [options.transitionClass = transitioning]   - The class to apply when a menu is transitioning between "open" and "closed" states.
-   * @param {number}             [options.transitionDuration = 250]          - The duration of the transition between "open" and "closed" states (in milliseconds).
+   * @param {?(string|string[])} [options.initializeClass = initializing]    - The class(es) to apply when the menu is initializing.
+   * @param {?(string|string[])} [options.expandClass = show]                - The class to apply when a menu is expanded.
+   * @param {?(string|string[])} [options.collapseClass = hide]              - The class to apply when a menu is "closed".
+   * @param {?(string|string[])} [options.transitionClass = transitioning]   - The class to apply when a menu is transitioning between expanded and collapsed states.
+   * @param {number}             [options.transitionDuration = 250]          - The duration of the transition between expanded and collapsed states (in milliseconds).
+   * @param {number}             [options.expandDuration = -1]               - The duration of the transition from collapsed to expanded states (in milliseconds).
+   * @param {number}             [options.collapseDuration = -1]             - The duration of the transition from expanded to collapsed states (in milliseconds).
    * @param {boolean}            [options.isTopLevel = true]                 - A flag to mark the root menu.
    * @param {?Treeview}          [options.parentMenu = null]                 - The parent menu to this menu.
    * @param {string}             [options.hoverType = off]                   - The type of hoverability a menu has.
    * @param {number}             [options.hoverDelay = 250]                  - The delay for opening and closing menus if the menu is hoverable (in milliseconds).
    * @param {number}             [options.enterDelay = -1]                   - The delay for opening a menu if the menu is focusable (in milliseconds).
    * @param {number}             [options.leaveDelay = -1]                   - The delay for closing a menu if the menu is focusable (in milliseconds).
-   * @param {string}             [options.breakpoint = '']                   - The breakpoint that the menu will automatically open/close itself at.
-   * @param {string}             [options.mediaQuery = '']                   - The media query to use to trigger media query list events.
-   * @param {boolean}            [options.autoOpen = true]                   - A flag to auto open the menu when the media query does not match.
+   * @param {string}             [options.breakpoint = '']                   - The breakpoint used to generate the root controller's media query.
+   * @param {string}             [options.mediaQuery = '']                   - The media query used to trigger the root controller's media query list events.
+   * @param {boolean}            [options.expandInsideBreakpoint = false]    - A flag to expand the controlled menu when the media query matches.
+   * @param {boolean}            [options.expandOutsideBreakpoint = false]   - A flag to expand the controlled menu when the media query does not match.
+   * @param {boolean}            [options.collapseInsideBreakpoint = false]  - A flag to collapse the controlled menu when the media query matches.
+   * @param {boolean}            [options.collapseOutsideBreakpoint = false] - A flag to collapse the controlled menu when the media query does not match.
+   * @param {boolean}            [options.lockInsideBreakpoint = false]      - A flag to lock the controller when the media query matches.
+   * @param {boolean}            [options.lockOutsideBreakpoint = false]     - A flag to lock the controller when the media query does not match.
+   * @param {boolean}            [options.unlockInsideBreakpoint = false]    - A flag to unlock the controller when the media query matches.
+   * @param {boolean}            [options.unlockOutsideBreakpoint = false]   - A flag to unlock the controller when the media query does not match.
    * @param {?string}            [options.prefix = am-]                      - The prefix to use for CSS custom properties.
    * @param {?string}            [options.key = null]                        - The key used to generate IDs throughout the menu.
    * @param {boolean}            [options.initialize = true]                 - A flag to initialize the menu immediately upon creation.
@@ -4303,24 +5691,34 @@ class Q extends L {
     submenuItemsSelector: i = "li:has(ul)",
     submenuTogglesSelector: n = "a",
     submenusSelector: r = "ul",
-    controllerElement: u = null,
+    controllerElement: l = null,
     containerElement: a = null,
-    openClass: c = "show",
-    closeClass: m = "hide",
-    transitionClass: d = "transitioning",
-    transitionDuration: g = 250,
-    isTopLevel: _ = !0,
-    parentMenu: y = null,
-    hoverType: f = "off",
-    hoverDelay: M = 250,
-    enterDelay: b = -1,
-    leaveDelay: C = -1,
-    breakpoint: E = "",
-    mediaQuery: T = "",
-    autoOpen: w = !0,
-    prefix: v = "am-",
-    key: k = null,
-    initialize: I = !0
+    initializeClass: c = "initializing",
+    expandClass: d = "show",
+    collapseClass: m = "hide",
+    transitionClass: p = "transitioning",
+    transitionDuration: f = 250,
+    expandDuration: _ = -1,
+    collapseDuration: g = -1,
+    isTopLevel: E = !0,
+    parentMenu: b = null,
+    hoverType: M = "off",
+    hoverDelay: k = 250,
+    enterDelay: C = -1,
+    leaveDelay: I = -1,
+    breakpoint: v = "",
+    mediaQuery: w = "",
+    expandInsideBreakpoint: T = !1,
+    expandOutsideBreakpoint: x = !1,
+    collapseInsideBreakpoint: D = !1,
+    collapseOutsideBreakpoint: O = !1,
+    lockInsideBreakpoint: z = !1,
+    lockOutsideBreakpoint: A = !1,
+    unlockInsideBreakpoint: $ = !1,
+    unlockOutsideBreakpoint: B = !1,
+    prefix: K = "am-",
+    key: F = null,
+    initialize: q = !0
   }) {
     super({
       menuElement: e,
@@ -4329,49 +5727,55 @@ class Q extends L {
       submenuItemsSelector: i,
       submenuTogglesSelector: n,
       submenusSelector: r,
-      controllerElement: u,
+      controllerElement: l,
       containerElement: a,
-      openClass: c,
-      closeClass: m,
-      transitionClass: d,
-      transitionDuration: g,
-      isTopLevel: _,
-      parentMenu: y,
-      hoverType: f,
-      hoverDelay: M,
-      enterDelay: b,
-      leaveDelay: C,
-      breakpoint: E,
-      mediaQuery: T,
-      autoOpen: w,
-      prefix: v,
-      key: k
-    }), I && this.initialize();
+      initializeClass: c,
+      expandClass: d,
+      collapseClass: m,
+      transitionClass: p,
+      transitionDuration: f,
+      expandDuration: _,
+      collapseDuration: g,
+      isTopLevel: E,
+      parentMenu: b,
+      hoverType: M,
+      hoverDelay: k,
+      enterDelay: C,
+      leaveDelay: I,
+      breakpoint: v,
+      mediaQuery: w,
+      expandInsideBreakpoint: T,
+      expandOutsideBreakpoint: x,
+      collapseInsideBreakpoint: D,
+      collapseOutsideBreakpoint: O,
+      lockInsideBreakpoint: z,
+      lockOutsideBreakpoint: A,
+      unlockInsideBreakpoint: $,
+      unlockOutsideBreakpoint: B,
+      prefix: K,
+      key: F
+    }), q && this.initialize();
   }
   /**
-   * Initializes the menu.
+   * Registers the menu's initialization event listener.
    *
-   * Initialize will call the BaseMenu's initialize method
-   * as well as set up focus,
-   * click,
-   * hover,
-   * keydown, and
-   * keyup events for the menu.
-   *
-   * If the menu is a root menu it's `role` will be set to "tree" and the first
+   * If the menu is a root menu, its `role` will be set to "tree" and the first
    * menu item's `tabIndex` will be set to 0 in the DOM.
    *
-   * If the menu is _not_ a root menu it's `role` will be set to "group".
+   * If the menu is not a root menu, its `role` will be set to "group".
    *
-   * If the BaseMenu's initialize method throws an error,
-   * this will catch it and log it to the console.
+   * If the root menu has a controller, removes its `aria-owns` attribute.
+   *
+   * @protected
    */
-  initialize() {
-    try {
-      super.initialize(), this.isTopLevel ? (this.dom.menu.setAttribute("role", "tree"), this.elements.menuItems[0].dom.link.tabIndex = 0) : this.dom.menu.setAttribute("role", "group"), this._handleMediaMatch(), this._handleFocus(), this._handleClick(), this._handleHover(), this._handleKeydown(), this._handleKeyup(), this.isTopLevel && this.elements.controller && this.elements.controller.dom.toggle.removeAttribute("aria-owns");
-    } catch (e) {
-      console.error(e);
-    }
+  _bootstrap() {
+    super._bootstrap(), this._addEventListener(
+      this.getEventName("initialize"),
+      this.rootDOMElement,
+      (e) => {
+        e.detail.component === this && (this.isTopLevel ? (this.dom.menu.setAttribute("role", "tree"), this.elements.menuItems[0].dom.link.tabIndex = 0) : this.dom.menu.setAttribute("role", "group"), this.isTopLevel && this.elements.controller && this.elements.controller.dom.controller.removeAttribute("aria-owns"));
+      }
+    );
   }
   /**
    * Handles hover events throughout the menu for proper use.
@@ -4391,7 +5795,7 @@ class Q extends L {
    *   preview method for the submenu item's
    *   toggle will be called.
    * - When a `pointerleave` event triggers on the menu itself the
-   *   closeChildren method will be called after a delay
+   *   collapseChildren method will be called after a delay
    *   set by the menu's hover delay.
    *
    * <strong>Hover Type "dynamic"</strong>
@@ -4403,7 +5807,7 @@ class Q extends L {
    * - When a `pointerenter` event triggers on a submenu item, and a submenu is
    *   already open, the preview method for the submenu item's toggle will be called.
    * - When a `pointerenter` event triggers on a non-submenu item, and a submenu
-   *   is already open, the closeChildren method for the menu will be called.
+   *   is already open, the collapseChildren method for the menu will be called.
    * - When a `pointerenter` event triggers on a submenu item, and no submenu is
    *   open, no submenu-specific methods will be called.
    *
@@ -4415,21 +5819,21 @@ class Q extends L {
   _handleHover() {
     this.elements.menuItems.forEach((e, t) => {
       this._addEventListener("pointerenter", e.dom.link, (s) => {
-        s.pointerType === "pen" || s.pointerType === "touch" || (this.hoverType === "on" ? (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusChild(t), e.isSubmenuItem && (this.enterDelay > 0 ? (this._clearTimeout(), this._setTimeout(() => {
+        s.pointerType === "pen" || s.pointerType === "touch" || (this.hoverType === "on" ? (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusChild(t), e.isSubmenuItem && (this.enterDelay > 0 ? this._setTimeout(() => {
           e.elements.toggle.preview();
-        }, this.enterDelay)) : e.elements.toggle.preview())) : this.hoverType === "dynamic" && (this.currentChild = t, (!this.isTopLevel || this.focusState !== "none") && (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild()), (!this.isTopLevel || this.hasOpened) && (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild(), e.isSubmenuItem ? this.enterDelay > 0 ? (this._clearTimeout(), this._setTimeout(() => {
+        }, this.enterDelay) : e.elements.toggle.preview())) : this.hoverType === "dynamic" && (this.currentChild = t, (!this.isTopLevel || this.focusState !== "none") && (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild()), (!this.isTopLevel || this.hasExpanded) && (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild(), e.isSubmenuItem ? this.enterDelay > 0 ? this._setTimeout(() => {
           e.elements.toggle.preview();
-        }, this.enterDelay)) : e.elements.toggle.preview() : this.enterDelay > 0 && this._clearTimeout())));
+        }, this.enterDelay) : e.elements.toggle.preview() : this.enterDelay > 0 && this._clearTimeout())));
       }), e.isSubmenuItem && (this._addEventListener("pointerleave", e.dom.item, (s) => {
-        s.pointerType === "pen" || s.pointerType === "touch" || (this.hoverType === "on" ? this.leaveDelay > 0 && this._clearTimeout() : this.hoverType === "dynamic" && (this.leaveDelay > 0 ? (this._clearTimeout(), this._setTimeout(() => {
+        s.pointerType === "pen" || s.pointerType === "touch" || (this.hoverType === "on" ? this.leaveDelay > 0 && this._clearTimeout() : this.hoverType === "dynamic" && (this.leaveDelay > 0 ? this._setTimeout(() => {
           this.currentEvent = "mouse";
-        }, this.leaveDelay)) : this.currentEvent = "mouse"));
+        }, this.leaveDelay) : this.currentEvent = "mouse"));
       }), this._addEventListener("pointerenter", e.dom.item, (s) => {
         s.pointerType === "pen" || s.pointerType === "touch" || e.isSubmenuItem && (this.hoverType === "on" || this.hoverType === "dynamic") && this.leaveDelay > 0 && this._clearTimeout();
       })), this.isTopLevel && this._addEventListener("pointerleave", this.dom.menu, (s) => {
-        s.pointerType === "pen" || s.pointerType === "touch" || this.hoverType === "on" && (this.leaveDelay > 0 ? (this._clearTimeout(), this._setTimeout(() => {
-          this.closeChildren(), this.blur();
-        }, this.leaveDelay)) : (this.closeChildren(), this.blur()));
+        s.pointerType === "pen" || s.pointerType === "touch" || this.hoverType === "on" && (this.leaveDelay > 0 ? this._setTimeout(() => {
+          this.collapseChildren(), this.blur();
+        }, this.leaveDelay) : (this.collapseChildren(), this.blur()));
       });
     });
   }
@@ -4449,7 +5853,7 @@ class Q extends L {
   _handleKeydown() {
     super._handleKeydown(), this._addEventListener("keydown", this.dom.menu, (e) => {
       this.currentEvent = "keyboard";
-      const t = p(e);
+      const t = S(e);
       if (t === "Tab" && (this.elements.rootMenu.focusState !== "none" ? this.elements.rootMenu.blur() : this.elements.rootMenu.focus()), this.focusState === "self") {
         const s = [
           "Space",
@@ -4461,7 +5865,7 @@ class Q extends L {
           "Home",
           "End"
         ], i = ["ArrowRight"], n = ["Escape"];
-        (s.includes(t) || this.currentMenuItem.isSubmenuItem && i.includes(t) || this.elements.controller && n.includes(t)) && l(e);
+        (s.includes(t) || this.currentMenuItem.isSubmenuItem && i.includes(t) || this.elements.controller && n.includes(t)) && h(e);
       }
     });
   }
@@ -4491,21 +5895,21 @@ class Q extends L {
   _handleKeyup() {
     super._handleKeyup(), this._addEventListener("keyup", this.dom.menu, (e) => {
       this.currentEvent = "keyboard";
-      const t = p(e), { altKey: s, crtlKey: i, metaKey: n } = e;
+      const t = S(e), { altKey: s, crtlKey: i, metaKey: n } = e;
       if (t === "Character" && !(s || i || n))
-        l(e), this.elements.rootMenu.currentEvent = "character", this.focusNextNodeWithCharacter(e.key);
+        h(e), this.elements.rootMenu.currentEvent = "character", this.focusNextNodeWithCharacter(e.key);
       else if (this.focusState === "self")
         if (t === "Enter" || t === "Space")
-          l(e), this.currentMenuItem.isSubmenuItem ? this.currentMenuItem.elements.toggle.isOpen ? this.currentMenuItem.elements.toggle.close() : this.currentMenuItem.elements.toggle.preview() : this.currentMenuItem.dom.link.click();
+          h(e), this.currentMenuItem.isSubmenuItem ? this.currentMenuItem.elements.toggle.isExpanded ? this.currentMenuItem.elements.toggle.collapse() : this.currentMenuItem.elements.toggle.preview() : this.currentMenuItem.dom.link.click();
         else if (t === "Escape")
-          this.isTopLevel && this.elements.controller && this.elements.controller.isOpen && (this.elements.controller.close(), this.focusController());
+          this.isTopLevel && this.elements.controller && this.elements.controller.isExpanded && (this.elements.controller.collapse(), this.focusController());
         else if (t === "ArrowDown")
-          l(e), this.currentMenuItem.isSubmenuItem && this.currentMenuItem.elements.toggle.isOpen ? (this.blurCurrentChild(), this.currentMenuItem.elements.childMenu.currentEvent = this.currentEvent, this.currentMenuItem.elements.childMenu.focusFirstChild()) : !this.isTopLevel && this.currentChild === this.elements.menuItems.length - 1 ? this.focusParentsNextChild() : this.focusNextChild();
+          h(e), this.currentMenuItem.isSubmenuItem && this.currentMenuItem.elements.toggle.isExpanded ? (this.blurCurrentChild(), this.currentMenuItem.elements.childMenu.currentEvent = this.currentEvent, this.currentMenuItem.elements.childMenu.focusFirstChild()) : !this.isTopLevel && this.currentChild === this.elements.menuItems.length - 1 ? this.focusParentsNextChild() : this.focusNextChild();
         else if (t === "ArrowUp") {
-          l(e);
-          const u = this.elements.menuItems[this.currentChild - 1];
-          u && u.isSubmenuItem && u.elements.toggle.isOpen ? (this.blurCurrentChild(), this.currentChild = this.currentChild - 1, this.currentMenuItem.elements.childMenu.currentEvent = this.currentEvent, this.focusChildsLastNode()) : !this.isTopLevel && this.currentChild === 0 ? (this.blurCurrentChild(), this.elements.parentMenu.currentEvent = this.currentEvent, this.elements.parentMenu.focusCurrentChild()) : this.focusPreviousChild();
-        } else t === "ArrowRight" ? this.currentMenuItem.isSubmenuItem && (l(e), this.currentMenuItem.elements.toggle.isOpen ? (this.blurCurrentChild(), this.currentMenuItem.elements.childMenu.currentEvent = this.currentEvent, this.currentMenuItem.elements.childMenu.focusFirstChild()) : this.currentMenuItem.elements.toggle.preview()) : t === "ArrowLeft" ? (l(e), this.currentMenuItem.isSubmenuItem && this.currentMenuItem.elements.toggle.isOpen ? (this.currentMenuItem.elements.childMenu.blurCurrentChild(), this.currentMenuItem.elements.toggle.close()) : this.isTopLevel || (this.blurCurrentChild(), this.elements.parentMenu.currentEvent = this.currentEvent, this.elements.parentMenu.focusCurrentChild())) : t === "Home" ? (l(e), this.blurCurrentChild(), this.elements.rootMenu.focusFirstChild()) : t === "End" ? (l(e), this.blurCurrentChild(), this.elements.rootMenu.focusLastNode()) : t === "Asterisk" && (l(e), this.openChildren());
+          h(e);
+          const l = this.elements.menuItems[this.currentChild - 1];
+          l && l.isSubmenuItem && l.elements.toggle.isExpanded ? (this.blurCurrentChild(), this.currentChild = this.currentChild - 1, this.currentMenuItem.elements.childMenu.currentEvent = this.currentEvent, this.focusChildsLastNode()) : !this.isTopLevel && this.currentChild === 0 ? (this.blurCurrentChild(), this.elements.parentMenu.currentEvent = this.currentEvent, this.elements.parentMenu.focusCurrentChild()) : this.focusPreviousChild();
+        } else t === "ArrowRight" ? this.currentMenuItem.isSubmenuItem && (h(e), this.currentMenuItem.elements.toggle.isExpanded ? (this.blurCurrentChild(), this.currentMenuItem.elements.childMenu.currentEvent = this.currentEvent, this.currentMenuItem.elements.childMenu.focusFirstChild()) : this.currentMenuItem.elements.toggle.preview()) : t === "ArrowLeft" ? (h(e), this.currentMenuItem.isSubmenuItem && this.currentMenuItem.elements.toggle.isExpanded ? (this.currentMenuItem.elements.childMenu.blurCurrentChild(), this.currentMenuItem.elements.toggle.collapse()) : this.isTopLevel || (this.blurCurrentChild(), this.elements.parentMenu.currentEvent = this.currentEvent, this.elements.parentMenu.focusCurrentChild())) : t === "Home" ? (h(e), this.blurCurrentChild(), this.elements.rootMenu.focusFirstChild()) : t === "End" ? (h(e), this.blurCurrentChild(), this.elements.rootMenu.focusLastNode()) : t === "Asterisk" && (h(e), this.expandChildren());
     });
   }
   /**
@@ -4517,14 +5921,14 @@ class Q extends L {
    */
   focusLastNode() {
     const e = this.elements.menuItems.length - 1, t = this.elements.menuItems[e];
-    t.isSubmenuItem && t.elements.toggle.isOpen ? (this.currentChild = e, t.elements.childMenu.currentEvent = this.currentEvent, t.elements.childMenu.focusLastNode()) : this.focusLastChild();
+    t.isSubmenuItem && t.elements.toggle.isExpanded ? (this.currentChild = e, t.elements.childMenu.currentEvent = this.currentEvent, t.elements.childMenu.focusLastNode()) : this.focusLastChild();
   }
   /**
    * Open all submenu children.
    *
    * @public
    */
-  openChildren() {
+  expandChildren() {
     this.elements.submenuToggles.forEach((e) => e.preview());
   }
   /**
@@ -4540,29 +5944,29 @@ class Q extends L {
    */
   focusNextNodeWithCharacter(e) {
     function t(c) {
-      let m = [];
-      return c.elements.menuItems.forEach((d) => {
-        m.push(d), d.isSubmenuItem && d.elements.toggle.isOpen && (m = [
-          ...m,
+      let d = [];
+      return c.elements.menuItems.forEach((m) => {
+        d.push(m), m.isSubmenuItem && m.elements.toggle.isExpanded && (d = [
+          ...d,
           ...t(
-            d.elements.toggle.elements.controlledMenu
+            m.elements.toggle.elements.controlledMenu
           )
         ]);
-      }), m;
+      }), d;
     }
     const s = e.toLowerCase(), i = t(this.elements.rootMenu), n = i.indexOf(this.currentMenuItem) + 1, r = [
       ...i.slice(n),
       ...i.slice(0, n)
     ];
-    let u = 0, a = !1;
-    for (; !a && u < r.length; ) {
+    let l = 0, a = !1;
+    for (; !a && l < r.length; ) {
       let c = "";
-      if (r[u].dom.item.innerText ? c = r[u].dom.item.innerText : c = r[u].dom.item.textContent, c = c.replace(/[\s]/g, "").toLowerCase().charAt(0), c === s) {
+      if (r[l].dom.item.innerText ? c = r[l].dom.item.innerText : c = r[l].dom.item.textContent, c = c.replace(/[\s]/g, "").toLowerCase().charAt(0), c === s) {
         a = !0;
-        const m = r[u].elements.parentMenu, d = m.elements.menuItems.indexOf(r[u]);
-        this.elements.rootMenu.blurChildren(), m.focusChild(d);
+        const d = r[l].elements.parentMenu, m = d.elements.menuItems.indexOf(r[l]);
+        this.elements.rootMenu.blurChildren(), d.focusChild(m);
       }
-      u++;
+      l++;
     }
   }
   /**
@@ -4583,15 +5987,19 @@ class Q extends L {
    * @public
    */
   focusChildsLastNode() {
-    this.currentMenuItem.elements.childMenu.currentEvent = this.currentEvent, this.currentMenuItem.elements.childMenu.focusLastChild(), this.currentMenuItem.elements.childMenu.currentMenuItem.isSubmenuItem && this.currentMenuItem.elements.childMenu.currentMenuItem.elements.toggle.isOpen && (this.currentMenuItem.elements.childMenu.blurCurrentChild(), this.currentMenuItem.elements.childMenu.focusChildsLastNode());
+    this.currentMenuItem.elements.childMenu.currentEvent = this.currentEvent, this.currentMenuItem.elements.childMenu.focusLastChild(), this.currentMenuItem.elements.childMenu.currentMenuItem.isSubmenuItem && this.currentMenuItem.elements.childMenu.currentMenuItem.elements.toggle.isExpanded && (this.currentMenuItem.elements.childMenu.blurCurrentChild(), this.currentMenuItem.elements.childMenu.focusChildsLastNode());
   }
 }
-const ie = {
-  DisclosureMenu: q,
-  Menubar: H,
-  TopLinkDisclosureMenu: N,
-  Treeview: Q
+const Ee = {
+  DisclosureMenu: Z,
+  Menubar: J,
+  TopLinkDisclosureMenu: X,
+  Treeview: Y
 };
 export {
-  ie as default
+  Z as DisclosureMenu,
+  J as Menubar,
+  X as TopLinkDisclosureMenu,
+  Y as Treeview,
+  Ee as default
 };
