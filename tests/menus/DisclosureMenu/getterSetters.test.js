@@ -562,6 +562,34 @@ describe("DisclosureMenu getter/setters", () => {
 
   // Test DisclosureMenu optionalKeySupport.
   describe("optionalKeySupport", () => {
+    // Test that optionalKeySupport rejects invalid values.
+    it("should throw when an invalid value is assigned", () => {
+      const menu = new DisclosureMenu({
+        menuElement: document.querySelector("ul"),
+        optionalKeySupport: true,
+      });
+
+      expect(() => {
+        menu.optionalKeySupport = "invalid";
+      }).toThrow(TypeError);
+    });
+
+    // Test that an invalid assignment leaves the existing value unchanged.
+    it("should keep the existing value after an invalid assignment", () => {
+      const menu = new DisclosureMenu({
+        menuElement: document.querySelector("ul"),
+        optionalKeySupport: true,
+      });
+
+      try {
+        menu.optionalKeySupport = "invalid";
+      } catch {
+        // Ignore the expected validation error.
+      }
+
+      expect(menu.optionalKeySupport).toBe(true);
+    });
+
     // Test that optionalKeySupport gets the optional key support value.
     it("should get the optional key support value", () => {
       // Create a new DisclosureMenu instance for testing.

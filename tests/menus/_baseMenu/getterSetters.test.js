@@ -19,6 +19,55 @@ afterEach(() => {
 
 // Test all getter methods in the BaseMenu class.
 describe("BaseMenu getter/setters", () => {
+  // Test BaseMenu setter validation.
+  describe.each([
+    ["expandClass", "custom-expand", "invalid class"],
+    ["collapseClass", "custom-collapse", "invalid class"],
+    ["transitionClass", "custom-transition", "invalid class"],
+    ["transitionDuration", 100, "invalid"],
+    ["expandDuration", 150, "invalid"],
+    ["collapseDuration", 175, "invalid"],
+    ["currentChild", 1, "invalid"],
+    ["focusState", "self", "invalid"],
+    ["currentEvent", "keyboard", "invalid"],
+    ["hoverType", "on", "invalid"],
+    ["hoverDelay", 100, "invalid"],
+    ["enterDelay", 100, "invalid"],
+    ["leaveDelay", 100, "invalid"],
+  ])("%s validation", (property, value, invalid) => {
+    // Test that the setter rejects invalid values.
+    it("should throw when an invalid value is assigned", () => {
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        transitionClass: "",
+      });
+      initializeMenu(menu);
+      menu[property] = value;
+
+      expect(() => {
+        menu[property] = invalid;
+      }).toThrow(TypeError);
+    });
+
+    // Test that an invalid assignment leaves the existing value unchanged.
+    it("should keep the existing value after an invalid assignment", () => {
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        transitionClass: "",
+      });
+      initializeMenu(menu);
+      menu[property] = value;
+
+      try {
+        menu[property] = invalid;
+      } catch {
+        // Ignore the expected validation error.
+      }
+
+      expect(menu[property]).toBe(value);
+    });
+  });
+
   // Test BaseMenu dom.
   describe("dom", () => {
     // Test that dom gets the DOM elements.
