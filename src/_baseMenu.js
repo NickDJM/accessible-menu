@@ -1509,7 +1509,7 @@ class BaseMenu extends Component {
   /**
    * Handles keyup events throughout the menu for proper menu use.
    *
-   * Ignores keydown events using Ctrl, Alt, or Meta.
+   * Ignores keyup events using Ctrl, Alt, or Meta.
    *
    * - Adds a `keyup` listener to the menu's controller (if the menu is the root menu).
    *   - Toggles the menu when the user hits "Space" or "Enter".

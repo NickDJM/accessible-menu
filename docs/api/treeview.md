@@ -219,7 +219,7 @@ Handles keyup events throughout the menu for proper menu use.
 Treeview._handleKeyup();
 ```
 
-Ignores keydown events using Ctrl, Alt, or Meta.
+Ignores keyup events using Ctrl, Alt, or Meta.
 
 Adds all `keyup` listeners from [BaseMenu's _handleKeyup method](./base-menu#method--handlekeyup).
 

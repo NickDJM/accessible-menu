@@ -331,7 +331,7 @@ class DisclosureMenu extends BaseMenu {
   /**
    * Handles keyup events throughout the menu for proper menu use.
    *
-   * Ignores keydown events using Ctrl, Alt, or Meta.
+   * Ignores keyup events using Ctrl, Alt, or Meta.
    *
    * Adds all `keyup` listeners from BaseMenu's _handleKeyup method.
    *

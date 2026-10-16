@@ -1363,7 +1363,7 @@ Handles keyup events throughout the menu for proper menu use.
 BaseMenu._handleKeyup();
 ```
 
-Ignores keydown events using Ctrl, Alt, or Meta.
+Ignores keyup events using Ctrl, Alt, or Meta.
 
 This method will do the following:
 
