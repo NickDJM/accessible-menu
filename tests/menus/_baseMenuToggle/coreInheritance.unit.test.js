@@ -17,7 +17,6 @@ const createToggle = () => {
 
   return new BaseMenuToggle({
     menuToggleElement: document.createElement("button"),
-    parentElement: document.createElement("li"),
     controlledMenu: menu,
   });
 };
@@ -166,7 +165,6 @@ describe("BaseMenuToggle Core integration", () => {
 
       const toggle = new BaseMenuToggle({
         menuToggleElement: document.createElement("button"),
-        parentElement: document.createElement("li"),
         controlledMenu: submenu,
       });
 

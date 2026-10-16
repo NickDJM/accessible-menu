@@ -192,7 +192,7 @@ Update these references in custom subclasses:
 
 Use public toggle actions to update expansion state. Unlike the v4 `_open` boolean, `_expanded` stores both current and committed values.
 
-The new `dom.controlled` entry contains the controlled menu element. `dom.parent` still contains the toggle's parent element. Toggle class and duration getters read the controlled menu's root settings.
+The new `dom.controlled` entry defaults to the controlled menu element. Pass `containerElement` to the toggle constructor to apply state classes to another element. Toggles no longer accept `parentElement` or expose `dom.parent`. Toggle class and duration getters read the controlled menu's root settings.
 
 #### DOM helpers
 

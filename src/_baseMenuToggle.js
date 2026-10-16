@@ -18,25 +18,25 @@ class BaseMenuToggle extends CollapsibleComponent {
   /**
    * Constructs a new `BaseMenuToggle`.
    *
-   * @param {object}      options                                     - The options for generating the menu toggle.
-   * @param {HTMLElement} options.menuToggleElement                   - The toggle element in the DOM.
-   * @param {HTMLElement} options.parentElement                       - The element containing the controlled menu.
-   * @param {BaseMenu}    options.controlledMenu                      - The menu controlled by this toggle.
-   * @param {?BaseMenu}   [options.parentMenu = null]                 - The menu containing this toggle.
-   * @param {string}      [options.breakpoint = ""]                   - The breakpoint used to generate the controller's media query.
-   * @param {string}      [options.mediaQuery = ""]                   - The media query used to trigger the controller's media query list events.
-   * @param {boolean}     [options.expandInsideBreakpoint = false]    - A flag to expand the controlled menu when the media query matches.
-   * @param {boolean}     [options.expandOutsideBreakpoint = false]   - A flag to expand the controlled menu when the media query does not match.
-   * @param {boolean}     [options.collapseInsideBreakpoint = false]  - A flag to collapse the controlled menu when the media query matches.
-   * @param {boolean}     [options.collapseOutsideBreakpoint = false] - A flag to collapse the controlled menu when the media query does not match.
-   * @param {boolean}     [options.lockInsideBreakpoint = false]      - A flag to lock the controller when the media query matches.
-   * @param {boolean}     [options.lockOutsideBreakpoint = false]     - A flag to lock the controller when the media query does not match.
-   * @param {boolean}     [options.unlockInsideBreakpoint = false]    - A flag to unlock the controller when the media query matches.
-   * @param {boolean}     [options.unlockOutsideBreakpoint = false]   - A flag to unlock the controller when the media query does not match.
+   * @param {object}       options                                     - The options for generating the menu toggle.
+   * @param {HTMLElement}  options.menuToggleElement                   - The toggle element in the DOM.
+   * @param {?HTMLElement} [options.containerElement = null]           - The element to apply the expand, collapse, and transition classes to. If null, the controlled menu element is used.
+   * @param {BaseMenu}     options.controlledMenu                      - The menu controlled by this toggle.
+   * @param {?BaseMenu}    [options.parentMenu = null]                 - The menu containing this toggle.
+   * @param {string}       [options.breakpoint = ""]                   - The breakpoint used to generate the controller's media query.
+   * @param {string}       [options.mediaQuery = ""]                   - The media query used to trigger the controller's media query list events.
+   * @param {boolean}      [options.expandInsideBreakpoint = false]    - A flag to expand the controlled menu when the media query matches.
+   * @param {boolean}      [options.expandOutsideBreakpoint = false]   - A flag to expand the controlled menu when the media query does not match.
+   * @param {boolean}      [options.collapseInsideBreakpoint = false]  - A flag to collapse the controlled menu when the media query matches.
+   * @param {boolean}      [options.collapseOutsideBreakpoint = false] - A flag to collapse the controlled menu when the media query does not match.
+   * @param {boolean}      [options.lockInsideBreakpoint = false]      - A flag to lock the controller when the media query matches.
+   * @param {boolean}      [options.lockOutsideBreakpoint = false]     - A flag to lock the controller when the media query does not match.
+   * @param {boolean}      [options.unlockInsideBreakpoint = false]    - A flag to unlock the controller when the media query matches.
+   * @param {boolean}      [options.unlockOutsideBreakpoint = false]   - A flag to unlock the controller when the media query does not match.
    */
   constructor({
     menuToggleElement,
-    parentElement,
+    containerElement = null,
     controlledMenu,
     parentMenu = null,
     breakpoint = "",
@@ -50,10 +50,14 @@ class BaseMenuToggle extends CollapsibleComponent {
     unlockInsideBreakpoint = false,
     unlockOutsideBreakpoint = false,
   }) {
-    // Submenus may not have a rootMenu yet, so read their configured fields.
+    // Submenus may not have a root menu yet, so use the classes and durations
+    // configured on the controlled menu when setting up the toggle.
+    //
+    // Use the provided container for the toggle's classes, or the menu element
+    // if no container is provided.
     super({
       controllerElement: menuToggleElement,
-      controlledElement: controlledMenu?.dom?.menu,
+      controlledElement: containerElement ?? controlledMenu?.dom?.menu,
       expandClass: controlledMenu?.classes?.expand,
       collapseClass: controlledMenu?.classes?.collapse,
       transitionClass: controlledMenu?.classes?.transition,
@@ -74,10 +78,6 @@ class BaseMenuToggle extends CollapsibleComponent {
       unlockOutsideBreakpoint,
       bootstrap: false,
     });
-
-    // Set DOM elements.
-    this._protectedDOMElements.push("parent");
-    this._dom.parent = parentElement;
 
     // Set menu elements.
     this._elements.controlledMenu = controlledMenu;
@@ -105,7 +105,7 @@ class BaseMenuToggle extends CollapsibleComponent {
         // Check for null elements, which Component validation allows.
         const domElements = {};
 
-        for (const name of ["controller", "controlled", "parent"]) {
+        for (const name of ["controller", "controlled"]) {
           if (this.dom[name] === null) {
             domElements[`${name}Element`] = this.dom[name];
           }
@@ -343,7 +343,11 @@ class BaseMenuToggle extends CollapsibleComponent {
    *
    * Sets the root menu's hasExpanded value to `true`, then calls
    * CollapsibleComponent's _expand method to set the ARIA attributes,
-   * classes, and transitions on the controlled menu.
+   * classes, and transitions.
+   *
+   * The classes and transitions are applied to the provided container,
+   * or to the controlled menu element if no container is provided.
+   * The toggle's `aria-expanded` attribute is set to "true".
    *
    * If `emit` is set to `true`, this will also emit the expand event.
    *

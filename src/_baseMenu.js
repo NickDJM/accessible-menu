@@ -980,7 +980,6 @@ class BaseMenu extends Component {
     if (this.elements.controller === null) {
       this._elements.controller = new this._MenuToggleType({
         menuToggleElement: this.dom.controller,
-        parentElement: this.dom.container,
         controlledMenu: this,
         ...this._controllerOptions,
         initialize: false,
@@ -1053,7 +1052,6 @@ class BaseMenu extends Component {
         // Create the new menu toggle.
         const toggle = new this._MenuToggleType({
           menuToggleElement: toggler,
-          parentElement: element,
           controlledMenu: menu,
           parentMenu: this,
         });
