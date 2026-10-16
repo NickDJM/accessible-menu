@@ -117,3 +117,21 @@ const menu = new Treeview({
 :::
 
 The Disclosure Menu example sets `submenuTogglesSelector: "a"` because the Projects toggle in this HTML is a link. If you use a `<button>` for it instead, you can leave that option at its default.
+
+## Different toggles in deeper submenus
+
+Every menu type accepts `submenuSubtogglesSelector`. Use it when the toggles inside a submenu need a different selector from the toggles in the root menu.
+
+```js
+new DisclosureMenu({
+  menuElement: document.querySelector("nav ul"),
+  submenuTogglesSelector: ".root-toggle",
+  submenuSubtogglesSelector: ".child-toggle",
+});
+```
+
+This menu uses `.root-toggle` for the toggles in the root menu. It uses `.child-toggle` for toggles inside child menus and at every deeper level.
+
+For BaseMenu, Disclosure Menu, Menubar, and Treeview, `submenuSubtogglesSelector` defaults to `null`, which uses the configured `submenuTogglesSelector` at every level. Top Link Disclosure defaults to `"a"` for deeper toggles. Passing `null` to Top Link Disclosure makes it use the configured `submenuTogglesSelector` instead.
+
+This option only changes which elements act as submenu toggles. It does not enable separate link and toggle items or change a menu type's keyboard behavior.

@@ -18,6 +18,7 @@ class MenubarItem extends BaseMenuItem {
    * @param {boolean}        [options.isSubmenuItem = false] - A flag to mark if the menu item is controlling a submenu.
    * @param {?Menubar}       [options.childMenu = null]      - The child menu.
    * @param {?MenubarToggle} [options.toggle = null]         - The controller for the child menu.
+   * @param {?BaseMenuItem}  [options.submenuSibling = null] - The separate menu item that controls the submenu beside this link.
    * @param {boolean}        [options.initialize = true]     - A flag to initialize the menu item immediately upon creation.
    */
   constructor({
@@ -27,6 +28,7 @@ class MenubarItem extends BaseMenuItem {
     isSubmenuItem = false,
     childMenu = null,
     toggle = null,
+    submenuSibling = null,
     initialize = true,
   }) {
     super({
@@ -36,6 +38,7 @@ class MenubarItem extends BaseMenuItem {
       isSubmenuItem,
       childMenu,
       toggle,
+      submenuSibling,
     });
 
     if (initialize) {

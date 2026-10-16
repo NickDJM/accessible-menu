@@ -74,7 +74,7 @@ BaseMenuToggle._dom;
 
 The toggle adds and removes expand, collapse, transition, locked, and unlocked classes on `dom.controlled`. By default, this is the menu element. Pass `containerElement` to apply those classes to another element.
 
-The menu element remains available through `elements.controlledMenu.dom.menu`. ARIA attributes still reference that menu element. See [changing where the classes are added](../opening-and-closing#changing-where-the-classes-are-added) for an example.
+The menu element remains available through `elements.controlledMenu.dom.menu`. ARIA attributes reference that menu element. See [changing where the classes are added](../opening-and-closing#changing-where-the-classes-are-added) for an example.
 
 ### _elements <badge type="warning" text="protected" /> {#property--elements}
 
@@ -306,7 +306,7 @@ BaseMenuToggle._scope; // Default: `"AccessibleMenu"`.
 
 ### _eventPrefix <badge type="warning" text="protected" /> {#property--eventprefix}
 
-The prefix used for event names. Menus, menu items, and toggles use `"accessibleMenu"`. This keeps the v4 expand and collapse event names.
+The prefix used for event names. Menus, menu items, and toggles use `"accessibleMenu"`.
 
 ```js
 BaseMenuToggle._eventPrefix; // Default: `"accessibleMenu"`.

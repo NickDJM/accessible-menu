@@ -15,7 +15,6 @@ import { isValidType } from "@accessible-ecosystem/core/validate.js";
  * @extends BaseMenu
  *
  * @property {Object<string, string>} _selectors                   - The query selectors used by the menu to populate the dom.
- * @property {string}                 _selectors.submenuSubtoggles - The selector for toggles below the root menu.
  * @example
  * // Import the class.
  * import { TopLinkDisclosureMenu } from "accessible-menu";
@@ -57,6 +56,15 @@ class TopLinkDisclosureMenu extends BaseMenu {
   _MenuToggleType = TopLinkDisclosureMenuToggle;
 
   /**
+   * A flag to create separate menu items for navigation links and submenu toggles.
+   *
+   * @protected
+   *
+   * @type {boolean}
+   */
+  _splitMenuLinks = true;
+
+  /**
    * The index of the currently selected menu item in the menu.
    *
    * @protected
@@ -84,7 +92,7 @@ class TopLinkDisclosureMenu extends BaseMenu {
    * @param {string}                 [options.submenuItemsSelector = li:has(ul)] - The query selector string for menu items containing submenus.
    * @param {string}                 [options.submenuTogglesSelector = button]   - The query selector string for submenu toggle buttons/links.
    * @param {string}                 [options.submenusSelector = ul]             - The query selector string for submenus.
-   * @param {string}                 [options.submenuSubtogglesSelector = a]     - The query selector string for submenu toggle buttons/links below the top level.
+   * @param {?string}                [options.submenuSubtogglesSelector = a]     - The query selector string for submenu toggle buttons/links below the top level. If null, submenuTogglesSelector is used.
    * @param {?HTMLElement}           [options.controllerElement = null]          - The element controlling the menu in the DOM.
    * @param {?HTMLElement}           [options.containerElement = null]           - The element containing the menu in the DOM.
    * @param {?(string|string[])}     [options.initializeClass = initializing]    - The class(es) to apply when the menu is initializing.
@@ -160,6 +168,7 @@ class TopLinkDisclosureMenu extends BaseMenu {
       submenuItemsSelector,
       submenusSelector,
       submenuTogglesSelector,
+      submenuSubtogglesSelector,
       controllerElement,
       containerElement,
       initializeClass,
@@ -191,14 +200,6 @@ class TopLinkDisclosureMenu extends BaseMenu {
 
     // Set optional key support.
     this._optionalSupport = optionalKeySupport;
-
-    // Set DOM selectors.
-    this._selectors.submenuSubtoggles = submenuSubtogglesSelector;
-
-    // Set unique menu link selectors.
-    this._selectors.menuLinks = [
-      ...new Set([menuLinksSelector, submenuTogglesSelector]),
-    ].join(",");
 
     if (initialize) {
       this.initialize();
@@ -259,102 +260,6 @@ class TopLinkDisclosureMenu extends BaseMenu {
     isValidType("boolean", { optionalKeySupport: value });
 
     this._optionalSupport = value;
-  }
-
-  /**
-   * Creates and initializes all menu items and submenus.
-   *
-   * @protected
-   */
-  _createChildElements() {
-    this._createController();
-
-    this.dom.menuItems.forEach((element) => {
-      let menuItem, menuToggleItem;
-      const link = element.querySelector(this.selectors.menuLinks);
-
-      if (this.dom.submenuItems.includes(element)) {
-        // The menu's toggle controller DOM element.
-        const toggler = element.querySelector(this.selectors.submenuToggles);
-        // The actual menu DOM element.
-        const submenu = element.querySelector(this.selectors.submenus);
-
-        // Create the new menu and initialize it.
-        const menu = new this._MenuType({
-          menuElement: submenu,
-          menuItemsSelector: this.selectors.menuItems,
-          menuLinksSelector: this.selectors.menuLinks,
-          submenuItemsSelector: this.selectors.submenuItems,
-          submenuTogglesSelector: this.selectors.submenuSubtoggles,
-          submenusSelector: this.selectors.submenus,
-          submenuSubtogglesSelector: this.selectors.submenuSubtoggles,
-          expandClass: this.expandClass,
-          collapseClass: this.collapseClass,
-          transitionClass: this.transitionClass,
-          isTopLevel: false,
-          parentMenu: this,
-          hoverType: this.hoverType,
-          hoverDelay: this.hoverDelay,
-          enterDelay: this.enterDelay,
-          leaveDelay: this.leaveDelay,
-        });
-
-        // Create the new menu toggle.
-        const toggle = new this._MenuToggleType({
-          menuToggleElement: toggler,
-          controlledMenu: menu,
-          parentMenu: this,
-        });
-
-        // Add the toggle to the list of toggles.
-        this._elements.submenuToggles.push(toggle);
-
-        // If the toggle and link are different, create separate menu items for each.
-        // Otherwise, create a single menu item with a toggle.
-        if (toggler !== link) {
-          // Create a new menu item for the toggle.
-          menuToggleItem = new this._MenuItemType({
-            menuItemElement: element,
-            menuLinkElement: toggler,
-            parentMenu: this,
-            isSubmenuItem: true,
-            childMenu: menu,
-            toggle,
-          });
-
-          // Create a new menu item for the link.
-          menuItem = new this._MenuItemType({
-            menuItemElement: element,
-            menuLinkElement: link,
-            parentMenu: this,
-            submenuSibling: menuToggleItem,
-          });
-        } else {
-          // Create a new menu item with a toggle.
-          menuItem = new this._MenuItemType({
-            menuItemElement: element,
-            menuLinkElement: link,
-            parentMenu: this,
-            isSubmenuItem: true,
-            childMenu: menu,
-            toggle,
-          });
-        }
-      } else {
-        // Create a new menu item.
-        menuItem = new this._MenuItemType({
-          menuItemElement: element,
-          menuLinkElement: link,
-          parentMenu: this,
-        });
-      }
-
-      this._elements.menuItems.push(menuItem);
-
-      if (typeof menuToggleItem !== "undefined") {
-        this._elements.menuItems.push(menuToggleItem);
-      }
-    });
   }
 
   /**

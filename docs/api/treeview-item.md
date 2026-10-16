@@ -20,6 +20,7 @@ new TreeviewItem({
   isSubmenuItem,
   childMenu,
   toggle,
+  submenuSibling,
   initialize,
 });
 ```
@@ -28,16 +29,17 @@ The constructor will call [BaseMenuItem's constructor](./base-menu-item#construc
 
 ### Parameters {#constructor--parameters}
 
-| Name                    | Type                     | Description                                                   | Default     |
-| ----------------------- | ------------------------ | ------------------------------------------------------------- | ----------- |
-| options                 | `object`                 | The options for generating the menu item.                     | `undefined` |
-| options.menuItemElement | `HTMLElement`            | The menu item in the DOM.                                     | `undefined` |
-| options.menuLinkElement | `HTMLElement`            | The menu item's link in the DOM.                              | `undefined` |
-| options.parentMenu      | `Treeview`               | The parent menu.                                              | `undefined` |
-| options.isSubmenuItem   | `boolean`                | A flag to mark if the menu item is controlling a submenu.     | `false`     |
-| options.childMenu       | `Treeview`, `null`       | The child menu.                                               | `null`      |
-| options.toggle          | `TreeviewToggle`, `null` | The controller for the child menu.                            | `null`      |
-| options.initialize      | `boolean`                | A flag to initialize the menu item immediately upon creation. | `true`      |
+| Name                    | Type                     | Description                                                        | Default     |
+| ----------------------- | ------------------------ | ------------------------------------------------------------------ | ----------- |
+| options                 | `object`                 | The options for generating the menu item.                          | `undefined` |
+| options.menuItemElement | `HTMLElement`            | The menu item in the DOM.                                          | `undefined` |
+| options.menuLinkElement | `HTMLElement`            | The menu item's link in the DOM.                                   | `undefined` |
+| options.parentMenu      | `Treeview`               | The parent menu.                                                   | `undefined` |
+| options.isSubmenuItem   | `boolean`                | A flag to mark if the menu item is controlling a submenu.          | `false`     |
+| options.childMenu       | `Treeview`, `null`       | The child menu.                                                    | `null`      |
+| options.toggle          | `TreeviewToggle`, `null` | The controller for the child menu.                                 | `null`      |
+| options.submenuSibling  | `BaseMenuItem`, `null`   | The separate menu item that controls the submenu beside this link. | `null`      |
+| options.initialize      | `boolean`                | A flag to initialize the menu item immediately upon creation.      | `true`      |
 
 ## Initialize
 

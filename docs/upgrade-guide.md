@@ -194,6 +194,20 @@ Use public toggle actions to update expansion state. Unlike the v4 `_open` boole
 
 The new `dom.controlled` entry defaults to the controlled menu element. Pass `containerElement` to the toggle constructor to apply state classes to another element. Toggles no longer accept `parentElement` or expose `dom.parent`. Toggle class and duration getters read the controlled menu's root settings.
 
+#### Separate links and submenu toggles
+
+The base menu classes now handle the link and toggle creation used by Top Link Disclosure. All menu item constructors accept an optional `submenuSibling`. Its default is `null`. When a navigation link has a separate toggle item, `elements.sibling` points to that item.
+
+Top Link Disclosure keeps its existing behavior. The other built-in menu types still create one combined submenu item. Custom subclasses can set the protected `_splitMenuLinks` field to `true` to create separate items, then provide the keyboard and hover behavior for their menu type. The protected `_submenuOptions` getter provides additional child-menu options when they are needed. `_createChildElements()` takes no arguments. These are not menu constructor options.
+
+Top Link Disclosure no longer combines the navigation link and toggle selectors in `selectors.menuLinks`. BaseMenu now looks for each element separately and uses the toggle if no separate link exists. Custom code that reads `selectors.menuLinks` should use `selectors.submenuToggles` when it needs to find toggles.
+
+#### Selectors for deeper submenu toggles
+
+`submenuSubtogglesSelector` is now available on every menu type through BaseMenu. It chooses the toggles inside child menus and at all deeper levels. Its default is `null`, which uses the configured `submenuTogglesSelector`, so existing setups keep their selectors. Top Link Disclosure continues to default to `"a"` for deeper toggles.
+
+The shared `_submenuOptions` getter reads `selectors.submenuSubtoggles` when creating each child menu. Top Link Disclosure no longer overrides that getter.
+
 #### DOM helpers
 
 `_setDOMElementType()` now takes an options object instead of positional context and overwrite arguments:

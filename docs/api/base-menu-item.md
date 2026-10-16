@@ -14,6 +14,7 @@ new BaseMenuItem({
   isSubmenuItem,
   childMenu,
   toggle,
+  submenuSibling,
 });
 ```
 
@@ -21,15 +22,16 @@ The constructor populates the dom, elements, and submenu properties. It will _no
 
 ### Parameters {#constructor--parameters}
 
-| Name                    | Type                     | Description                                               | Default     |
-| ----------------------- | ------------------------ | --------------------------------------------------------- | ----------- |
-| options                 | `object`                 | The options for generating the menu item.                 | `undefined` |
-| options.menuItemElement | `HTMLElement`            | The menu item in the DOM.                                 | `undefined` |
-| options.menuLinkElement | `HTMLElement`            | The menu item's link in the DOM.                          | `undefined` |
-| options.parentMenu      | `BaseMenu`               | The parent menu.                                          | `undefined` |
-| options.isSubmenuItem   | `boolean`                | A flag to mark if the menu item is controlling a submenu. | `false`     |
-| options.childMenu       | `BaseMenu`, `null`       | The child menu.                                           | `null`      |
-| options.toggle          | `BaseMenuToggle`, `null` | The controller for the child menu.                        | `null`      |
+| Name                    | Type                     | Description                                                        | Default     |
+| ----------------------- | ------------------------ | ------------------------------------------------------------------ | ----------- |
+| options                 | `object`                 | The options for generating the menu item.                          | `undefined` |
+| options.menuItemElement | `HTMLElement`            | The menu item in the DOM.                                          | `undefined` |
+| options.menuLinkElement | `HTMLElement`            | The menu item's link in the DOM.                                   | `undefined` |
+| options.parentMenu      | `BaseMenu`               | The parent menu.                                                   | `undefined` |
+| options.isSubmenuItem   | `boolean`                | A flag to mark if the menu item is controlling a submenu.          | `false`     |
+| options.childMenu       | `BaseMenu`, `null`       | The child menu.                                                    | `null`      |
+| options.toggle          | `BaseMenuToggle`, `null` | The controller for the child menu.                                 | `null`      |
+| options.submenuSibling  | `BaseMenuItem`, `null`   | The separate menu item that controls the submenu beside this link. | `null`      |
 
 ## Initialize
 
@@ -74,7 +76,7 @@ BaseMenuItem._elements;
 
 #### Type {#property--elements--type}
 
-`Object<string, BaseMenu|BaseMenuToggle|null>`
+`Object<string, BaseMenu|BaseMenuToggle|BaseMenuItem|null>`
 
 #### Properties {#property--elements--properties}
 
@@ -83,6 +85,7 @@ BaseMenuItem._elements;
 | parentMenu | `BaseMenu`               | The menu containing this menu item.                                  | `parentMenu` |
 | childMenu  | `BaseMenu`, `null`       | The menu contained within this menu item.                            | `null`       |
 | toggle     | `BaseMenuToggle`, `null` | The menu toggle within this menu item that controls the `childMenu`. | `null`       |
+| sibling    | `BaseMenuItem`, `null`   | The separate menu item that controls the submenu beside this link.   | `null`       |
 
 ### _submenu <badge type="warning" text="protected" /> {#property--submenu}
 
@@ -450,7 +453,7 @@ The following members are inherited from Core and are available on this class an
 
 Registers the menu item's validation event listener.
 
-Validation checks the required DOM elements, submenu flag, parent menu, child menu, and submenu toggle.
+Validation checks the required DOM elements, submenu flag, parent menu, child menu, submenu toggle, and sibling menu item if one is provided.
 
 ### initialize
 

@@ -12,7 +12,7 @@ You can change these classes through the `expandClass`, `collapseClass`, and `tr
 
 ## Changing where the classes are added
 
-By default, a submenu toggle adds the expand, collapse, and transition classes to the submenu's `<ul>` element. Existing menu setups do not need any changes.
+By default, a submenu toggle adds the expand, collapse, and transition classes to the submenu's `<ul>` element.
 
 When creating a toggle in a custom menu class, you can pass `containerElement` to add those classes to another element. For example, this toggle adds the classes to the list item containing the submenu:
 
@@ -27,7 +27,7 @@ new DisclosureMenuToggle({
 
 The toggle stores this element as `dom.controlled`. If `containerElement` is omitted or set to `null`, it uses the menu element instead. Locked and unlocked classes also apply to this element. Your CSS must show and hide the submenu based on the classes on the chosen element.
 
-The button still controls the submenu. Its ARIA attributes reference the submenu rather than the container.
+The button controls the submenu. Its ARIA attributes reference the submenu rather than the container.
 
 `containerElement` is a toggle constructor option. Menus create their submenu toggles automatically, so using a different container for those toggles requires a custom menu or toggle class. See the [toggle API](./api/disclosure-menu-toggle#constructor) for the constructor options.
 

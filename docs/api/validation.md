@@ -1,6 +1,6 @@
 # Validation
 
-This API is provided by Core. Import it from `@accessible-ecosystem/core/validate.js`. Accessible Menu no longer provides a local copy.
+This API is provided by Core. Import it from `@accessible-ecosystem/core/validate.js`.
 
 ## Overview
 

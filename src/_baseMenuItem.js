@@ -39,6 +39,7 @@ class BaseMenuItem extends Component {
    * @param {boolean}         [options.isSubmenuItem = false] - A flag to mark if the menu item is controlling a submenu.
    * @param {?BaseMenu}       [options.childMenu = null]      - The child menu.
    * @param {?BaseMenuToggle} [options.toggle = null]         - The controller for the child menu.
+   * @param {?BaseMenuItem}   [options.submenuSibling = null] - The separate menu item that controls the submenu beside this link.
    */
   constructor({
     menuItemElement,
@@ -47,6 +48,7 @@ class BaseMenuItem extends Component {
     isSubmenuItem = false,
     childMenu = null,
     toggle = null,
+    submenuSibling = null,
   }) {
     super({ prefix: "am-", initializeClass: "", bootstrap: false });
 
@@ -58,6 +60,7 @@ class BaseMenuItem extends Component {
     this._elements.parentMenu = parentMenu;
     this._elements.childMenu = childMenu;
     this._elements.toggle = toggle;
+    this._elements.sibling = submenuSibling;
 
     this._submenu = isSubmenuItem;
     this._bootstrap();
@@ -67,7 +70,7 @@ class BaseMenuItem extends Component {
    * Registers the menu item's validation event listener.
    *
    * Validation checks the required DOM elements, submenu flag, parent menu,
-   * child menu, and submenu toggle.
+   * child menu, submenu toggle, and sibling menu item.
    *
    * @protected
    */
@@ -134,6 +137,22 @@ class BaseMenuItem extends Component {
         if (!menuChecks.status) {
           this._errors = [...this._errors, ...menuChecks.errors];
           this._valid = false;
+        }
+
+        // Check the separate menu item that controls this link's submenu.
+        // Most menu items do not have a separate toggle, so their sibling is null.
+        if (this.elements.sibling !== null) {
+          const siblingChecks = isValidInstance(
+            BaseMenuItem,
+            { submenuSibling: this.elements.sibling },
+            { shouldThrow: false }
+          );
+
+          // Handle sibling check failure.
+          if (!siblingChecks.status) {
+            this._errors = [...this._errors, ...siblingChecks.errors];
+            this._valid = false;
+          }
         }
 
         // Toggle checks.
