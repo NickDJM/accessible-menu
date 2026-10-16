@@ -1,5 +1,5 @@
 /**
- * Hover tests for the TopLinkDisclosureMenu class.
+ * Keyboard tests for the TopLinkDisclosureMenu class.
  */
 
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
@@ -1075,4 +1075,139 @@ describe("TopLinkDisclosureMenu Controller", () => {
       });
     });
   });
+});
+
+describe("TopLinkDisclosureMenu modified keyboard shortcuts", () => {
+  let menu;
+
+  beforeEach(() => {
+    vi.spyOn(window, "requestAnimationFrame").mockImplementation((callback) => {
+      callback(0);
+      return 0;
+    });
+    menu = new TopLinkDisclosureMenu({
+      menuElement: document.querySelector("ul"),
+      transitionClass: "",
+      optionalKeySupport: true,
+    });
+  });
+
+  afterEach(() => {
+    menu.dispose();
+    document.body.innerHTML = "";
+    vi.restoreAllMocks();
+  });
+
+  describe.each(["ctrlKey", "altKey", "metaKey"])("%s", (modifier) => {
+    it.each([
+      "f",
+      "ArrowDown",
+      "ArrowRight",
+      "Home",
+      "Enter",
+      " ",
+      "Tab",
+      "Escape",
+      "*",
+    ])("should leave %s unchanged in root menus and submenus", (key) => {
+      const toggle = menu.elements.submenuToggles[0];
+      const submenu = toggle.elements.controlledMenu;
+      const click = vi.fn((event) => event.preventDefault());
+      menu.dom.menu.addEventListener("click", click);
+
+      for (const targetMenu of [menu, submenu]) {
+        toggle.expand();
+        targetMenu.currentEvent = "keyboard";
+        targetMenu.focusChild(0);
+        const focusedLink = document.activeElement;
+        const currentChild = targetMenu.currentChild;
+        const focusState = targetMenu.focusState;
+        const currentEvent = targetMenu.currentEvent;
+        const expanded = toggle.isExpanded;
+        const onKey = vi.fn();
+        document.addEventListener("keydown", onKey);
+        document.addEventListener("keyup", onKey);
+
+        try {
+          for (const type of ["keydown", "keyup"]) {
+            const event = new KeyboardEvent(type, {
+              key,
+              [modifier]: true,
+              bubbles: true,
+              cancelable: true,
+            });
+
+            focusedLink.dispatchEvent(event);
+
+            expect(event.defaultPrevented).toBe(false);
+            expect(document.activeElement).toBe(focusedLink);
+            expect(targetMenu.currentChild).toBe(currentChild);
+            expect(targetMenu.focusState).toBe(focusState);
+            expect(targetMenu.currentEvent).toBe(currentEvent);
+            expect(toggle.isExpanded).toBe(expanded);
+          }
+
+          expect(onKey).toHaveBeenCalledTimes(2);
+          expect(click).not.toHaveBeenCalled();
+        } finally {
+          document.removeEventListener("keydown", onKey);
+          document.removeEventListener("keyup", onKey);
+        }
+      }
+    });
+  });
+
+  it("should keep Enter working without a modifier", () => {
+    const toggle = menu.elements.submenuToggles[0];
+    const index = menu.elements.menuItems.findIndex(
+      (item) => item.isSubmenuItem
+    );
+    menu.currentEvent = "keyboard";
+    menu.focusChild(index);
+    const event = new KeyboardEvent("keyup", {
+      key: "Enter",
+      bubbles: true,
+      cancelable: true,
+    });
+
+    menu.currentMenuItem.dom.link.dispatchEvent(event);
+
+    expect(event.defaultPrevented).toBe(true);
+    expect(toggle.isExpanded).toBe(true);
+  });
+  describe.each(["ctrlKey", "altKey", "metaKey"])(
+    "root controller with %s",
+    (modifier) => {
+      it.each(["Enter", " "])("should leave %s unchanged", (key) => {
+        menu.dispose();
+        menu = new TopLinkDisclosureMenu({
+          menuElement: document.querySelector("ul"),
+          controllerElement: document.querySelector("button"),
+          containerElement: document.querySelector("nav"),
+          transitionClass: "",
+        });
+        const controller = menu.elements.controller;
+
+        for (const expanded of [false, true]) {
+          if (expanded) controller.expand();
+          controller.dom.controller.focus();
+
+          for (const type of ["keydown", "keyup"]) {
+            const event = new KeyboardEvent(type, {
+              key,
+              [modifier]: true,
+              bubbles: true,
+              cancelable: true,
+            });
+
+            controller.dom.controller.dispatchEvent(event);
+
+            expect(event.defaultPrevented).toBe(false);
+            expect(controller.isExpanded).toBe(expanded);
+            expect(document.activeElement).toBe(controller.dom.controller);
+          }
+        }
+      });
+    }
+  );
 });

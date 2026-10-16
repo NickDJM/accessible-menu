@@ -253,6 +253,8 @@ class Menubar extends BaseMenu {
   /**
    * Handles keydown events throughout the menu for proper menu use.
    *
+   * Ignores keydown events using Ctrl, Alt, or Meta.
+   *
    * This method exists to assist the _handleKeyup method.
    * - Adds all `keydown` listeners from BaseMenu's _handleKeydown method
    * - Adds a `keydown` listener to the menu/all submenus.
@@ -267,6 +269,9 @@ class Menubar extends BaseMenu {
     super._handleKeydown();
 
     this._addEventListener("keydown", this.dom.menu, (event) => {
+      // Leave shortcuts using Ctrl, Alt, or Meta to the browser or other handlers.
+      if (event.ctrlKey || event.altKey || event.metaKey) return;
+
       this.currentEvent = "keyboard";
 
       const key = keyPress(event);
@@ -332,6 +337,8 @@ class Menubar extends BaseMenu {
   /**
    * Handles keyup events throughout the menu for proper menu use.
    *
+   * Ignores keydown events using Ctrl, Alt, or Meta.
+   *
    * Adds all `keyup` listeners from BaseMenu's _handleKeyup method.
    *
    * Adds the following keybindings (explanations are taken from the
@@ -370,13 +377,14 @@ class Menubar extends BaseMenu {
     super._handleKeyup();
 
     this._addEventListener("keyup", this.dom.menu, (event) => {
+      // Leave shortcuts using Ctrl, Alt, or Meta to the browser or other handlers.
+      if (event.ctrlKey || event.altKey || event.metaKey) return;
+
       this.currentEvent = "keyboard";
 
       const key = keyPress(event);
-      const { altKey, crtlKey, metaKey } = event;
-      const modifier = altKey || crtlKey || metaKey;
 
-      if (key === "Character" && !modifier) {
+      if (key === "Character") {
         // Hitting Character:
         // - Moves focus to next item in the menubar having a name that starts with the typed character.
         // - If none of the items have a name starting with the typed character, focus does not move.
