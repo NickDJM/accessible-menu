@@ -106,7 +106,7 @@ Initialize will call [BaseMenu's initialize method](./base-menu#initialize) as w
 
 This will also set the menu's `role` to "menubar" in the DOM.
 
-If the menu is a root menu the first menu item's `tabIndex` will be set to 0 in the DOM.
+If the menu is a root menu the first menu item's `tabIndex` will be set to 0 in the DOM if the menu has any items.
 
 Core handles initialization failures, sets `isValid` to `false`, and logs the error. Inspect `errors` for validation details.
 

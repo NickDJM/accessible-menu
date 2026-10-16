@@ -176,7 +176,7 @@ class Menubar extends BaseMenu {
    * Registers the menu's initialization event listener.
    *
    * If the menu is a root menu, its `role` will be set to "menubar" and the first
-   * menu item's `tabIndex` will be set to 0 in the DOM.
+   * menu item's `tabIndex` will be set to 0 in the DOM if the menu has any items.
    *
    * If the menu is not a root menu, its `role` will be set to "menu".
    *
@@ -199,7 +199,9 @@ class Menubar extends BaseMenu {
         }
 
         if (this.isTopLevel) {
-          this.elements.menuItems[0].dom.link.tabIndex = 0;
+          if (this.elements.menuItems.length > 0) {
+            this.elements.menuItems[0].dom.link.tabIndex = 0;
+          }
 
           // Remove the aria-haspopup attribute from the controller.
           // It isn't needed for the root toggle.
