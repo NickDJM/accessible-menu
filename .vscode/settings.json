@@ -14,6 +14,7 @@
     "prelock",
     "preunlock",
     "prevalidate",
+    "unstub",
     "vitest"
   ]
 }
