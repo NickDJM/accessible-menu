@@ -129,8 +129,8 @@
   },
   "homepage": "https://github.com/NickDJM/accessible-menu#readme",
   "devDependencies": {
-    "@babel/core": "^7.22.5",
-    "@babel/preset-env": "^7.22.5",
+    "@babel/core": "^8.0.7",
+    "@babel/preset-env": "^8.0.7",
     "@commitlint/cli": "^20.2.0",
     "@commitlint/config-conventional": "^20.2.0",
     "@eslint/js": "^9.1.1",
