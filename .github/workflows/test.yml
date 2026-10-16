@@ -9,6 +9,23 @@ on:
   workflow_call:
 
 jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.x
+          cache: npm
+
+      - name: Install modules
+        run: npm install
+
+      - name: Run build
+        run: npm run build
   eslint:
     runs-on: ubuntu-24.04
     steps:
