@@ -239,11 +239,11 @@ This method will do the following:
 
 Handles keydown events throughout the menu for proper menu use.
 
-Keyboard events on menu items with Ctrl, Alt, or Meta held down keep their default behavior. They do not move focus, activate items, or open or close submenus. Shift can still be used with the menu keys.
-
 ```js
 DisclosureMenu._handleKeydown();
 ```
+
+Ignores keydown events using Ctrl, Alt, or Meta.
 
 This method exists to assist the [_handleKeyup method](#method--handlekeyup).
 
@@ -258,11 +258,11 @@ This method will do the following:
 
 Handles keyup events throughout the menu for proper menu use.
 
-Keyboard events on menu items with Ctrl, Alt, or Meta held down keep their default behavior. They do not move focus, activate items, or open or close submenus. Shift can still be used with the menu keys.
-
 ```js
 DisclosureMenu._handleKeyup();
 ```
+
+Ignores keydown events using Ctrl, Alt, or Meta.
 
 Adds all `keyup` listeners from [BaseMenu's _handleKeyup method](./base-menu#method--handlekeyup).
 

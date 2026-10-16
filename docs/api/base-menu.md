@@ -1342,11 +1342,11 @@ All `pointerenter` and `pointerleave` events are ignored.
 
 Handles keydown events throughout the menu for proper menu use.
 
-Keyboard events on the root controller with Ctrl, Alt, or Meta held down keep their default behavior. They do not toggle the menu or move focus.
-
 ```js
 BaseMenu._handleKeydown();
 ```
+
+Ignores keydown events using Ctrl, Alt, or Meta.
 
 This method exists to assist the [_handleKeyup](#method--handlekeyup) method.
 
@@ -1359,11 +1359,11 @@ This method will do the following:
 
 Handles keyup events throughout the menu for proper menu use.
 
-Keyboard events on the root controller with Ctrl, Alt, or Meta held down keep their default behavior. They do not toggle the menu or move focus.
-
 ```js
 BaseMenu._handleKeyup();
 ```
+
+Ignores keydown events using Ctrl, Alt, or Meta.
 
 This method will do the following:
 
