@@ -642,7 +642,7 @@ class Menubar extends BaseMenu {
     let found = false;
 
     while (!found && index < this.elements.menuItems.length) {
-      let text = "";
+      let text;
 
       // Attempt to use the browser to get proper innerText,
       // otherwise fall back to textContent.

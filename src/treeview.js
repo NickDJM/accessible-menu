@@ -668,7 +668,7 @@ class Treeview extends BaseMenu {
     let found = false;
 
     while (!found && ctr < sortedMenuItems.length) {
-      let text = "";
+      let text;
 
       // Attempt to use the browser to get proper innerText,
       // otherwise fall back to textContent.
