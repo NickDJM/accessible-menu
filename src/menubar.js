@@ -652,7 +652,7 @@ class Menubar extends BaseMenu {
         text = this.elements.menuItems[index].dom.item.textContent;
       }
 
-      // Remove spaces, make lowercase, and grab the first chracter of the string.
+      // Remove spaces, make lowercase, and grab the first character of the string.
       text = text.replace(/[\s]/g, "").toLowerCase().charAt(0);
 
       // Focus the child if the text matches, otherwise move on.
