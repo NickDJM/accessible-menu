@@ -336,7 +336,7 @@ describe("Menu-specific Core validation", () => {
     ["controlledMenu", {}, "controlledMenu"],
     ["parentMenu", {}, "parentMenu"],
     ["menuToggleElement", null, "controllerElement"],
-    ["parentElement", null, "parentElement"],
+    ["containerElement", 1, "controlledElement"],
   ])(
     "should reject invalid toggle %s through validation listeners",
     (property, value, errorField) => {
@@ -346,7 +346,6 @@ describe("Menu-specific Core validation", () => {
       });
       const toggle = new BaseMenuToggle({
         menuToggleElement: document.createElement("button"),
-        parentElement: document.createElement("li"),
         controlledMenu,
         [property]: value,
       });

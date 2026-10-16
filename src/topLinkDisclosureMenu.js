@@ -302,7 +302,6 @@ class TopLinkDisclosureMenu extends BaseMenu {
         // Create the new menu toggle.
         const toggle = new this._MenuToggleType({
           menuToggleElement: toggler,
-          parentElement: element,
           controlledMenu: menu,
           parentMenu: this,
         });

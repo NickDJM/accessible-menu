@@ -10,6 +10,27 @@ The default classes used are as follows:
 
 You can change these classes through the `expandClass`, `collapseClass`, and `transitionClass` options. In the option names, "expand" means open and "collapse" means close. Your CSS decides how those classes show, hide, or animate the menu.
 
+## Changing where the classes are added
+
+By default, a submenu toggle adds the expand, collapse, and transition classes to the submenu's `<ul>` element. Existing menu setups do not need any changes.
+
+When creating a toggle in a custom menu class, you can pass `containerElement` to add those classes to another element. For example, this toggle adds the classes to the list item containing the submenu:
+
+```js
+new DisclosureMenuToggle({
+  menuToggleElement: submenuButton,
+  controlledMenu: submenu,
+  parentMenu,
+  containerElement: submenu.dom.menu.parentElement,
+});
+```
+
+The toggle stores this element as `dom.controlled`. If `containerElement` is omitted or set to `null`, it uses the menu element instead. Locked and unlocked classes also apply to this element. Your CSS must show and hide the submenu based on the classes on the chosen element.
+
+The button still controls the submenu. Its ARIA attributes reference the submenu rather than the container.
+
+`containerElement` is a toggle constructor option. Menus create their submenu toggles automatically, so using a different container for those toggles requires a custom menu or toggle class. See the [toggle API](./api/disclosure-menu-toggle#constructor) for the constructor options.
+
 ## Customizing the Open Class {#open-class-customization}
 
 To change the class(es) used to represent an open menu, you can pass in the `expandClass` option. This option takes either a string, an array of strings, or a `null` value (for when you do not want an open class to be used).

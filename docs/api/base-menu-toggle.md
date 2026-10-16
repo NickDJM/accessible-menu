@@ -11,7 +11,7 @@ Constructs a new `BaseMenuToggle`
 ```js
 new BaseMenuToggle({
   menuToggleElement,
-  parentElement,
+  containerElement,
   controlledMenu,
   parentMenu,
 });
@@ -21,23 +21,23 @@ The constructor populates the dom and elements properties. It will _not_ initial
 
 ### Parameters {#constructor--parameters}
 
-| Name                              | Type               | Description                                              | Default     |
-| --------------------------------- | ------------------ | -------------------------------------------------------- | ----------- |
-| options                           | `object`           | The options for generating the menu toggle.              | `undefined` |
-| options.menuToggleElement         | `HTMLElement`      | The toggle element in the DOM.                           | `undefined` |
-| options.parentElement             | `HTMLElement`      | The element containing the controlled menu.              | `undefined` |
-| options.controlledMenu            | `BaseMenu`         | The menu controlled by this toggle.                      | `undefined` |
-| options.parentMenu                | `BaseMenu`, `null` | The menu containing this toggle.                         | `null`      |
-| options.breakpoint                | `string`           | The Core controller breakpoint.                          | `""`        |
-| options.mediaQuery                | `string`           | The explicit Core controller media query.                | `""`        |
-| options.expandInsideBreakpoint    | `boolean`          | Core's expandInsideBreakpoint responsive action flag.    | `false`     |
-| options.expandOutsideBreakpoint   | `boolean`          | Core's expandOutsideBreakpoint responsive action flag.   | `false`     |
-| options.collapseInsideBreakpoint  | `boolean`          | Core's collapseInsideBreakpoint responsive action flag.  | `false`     |
-| options.collapseOutsideBreakpoint | `boolean`          | Core's collapseOutsideBreakpoint responsive action flag. | `false`     |
-| options.lockInsideBreakpoint      | `boolean`          | Core's lockInsideBreakpoint responsive action flag.      | `false`     |
-| options.lockOutsideBreakpoint     | `boolean`          | Core's lockOutsideBreakpoint responsive action flag.     | `false`     |
-| options.unlockInsideBreakpoint    | `boolean`          | Core's unlockInsideBreakpoint responsive action flag.    | `false`     |
-| options.unlockOutsideBreakpoint   | `boolean`          | Core's unlockOutsideBreakpoint responsive action flag.   | `false`     |
+| Name                              | Type               | Description                                                                          | Default     |
+| --------------------------------- | ------------------ | ------------------------------------------------------------------------------------ | ----------- |
+| options                           | `object`           | The options for generating the menu toggle.                                          | `undefined` |
+| options.menuToggleElement         | `HTMLElement`      | The toggle element in the DOM.                                                       | `undefined` |
+| options.containerElement          | `?HTMLElement`     | The element to apply state classes to. If null, the controlled menu element is used. | `null`      |
+| options.controlledMenu            | `BaseMenu`         | The menu controlled by this toggle.                                                  | `undefined` |
+| options.parentMenu                | `BaseMenu`, `null` | The menu containing this toggle.                                                     | `null`      |
+| options.breakpoint                | `string`           | The Core controller breakpoint.                                                      | `""`        |
+| options.mediaQuery                | `string`           | The explicit Core controller media query.                                            | `""`        |
+| options.expandInsideBreakpoint    | `boolean`          | Core's expandInsideBreakpoint responsive action flag.                                | `false`     |
+| options.expandOutsideBreakpoint   | `boolean`          | Core's expandOutsideBreakpoint responsive action flag.                               | `false`     |
+| options.collapseInsideBreakpoint  | `boolean`          | Core's collapseInsideBreakpoint responsive action flag.                              | `false`     |
+| options.collapseOutsideBreakpoint | `boolean`          | Core's collapseOutsideBreakpoint responsive action flag.                             | `false`     |
+| options.lockInsideBreakpoint      | `boolean`          | Core's lockInsideBreakpoint responsive action flag.                                  | `false`     |
+| options.lockOutsideBreakpoint     | `boolean`          | Core's lockOutsideBreakpoint responsive action flag.                                 | `false`     |
+| options.unlockInsideBreakpoint    | `boolean`          | Core's unlockInsideBreakpoint responsive action flag.                                | `false`     |
+| options.unlockOutsideBreakpoint   | `boolean`          | Core's unlockOutsideBreakpoint responsive action flag.                               | `false`     |
 
 ## Initialize
 
@@ -67,11 +67,14 @@ BaseMenuToggle._dom;
 
 #### Properties {#property--dom--properties}
 
-| Name       | Type          | Description                                 | Default                   |
-| ---------- | ------------- | ------------------------------------------- | ------------------------- |
-| parent     | `HTMLElement` | The element containing the controlled menu. | `parentElement`           |
-| controller | `HTMLElement` | The menu toggle, used by Core.              | `menuToggleElement`       |
-| controlled | `HTMLElement` | The controlled menu element, used by Core.  | `controlledMenu.dom.menu` |
+| Name       | Type          | Description                        | Default                                       |
+| ---------- | ------------- | ---------------------------------- | --------------------------------------------- |
+| controller | `HTMLElement` | The menu toggle, used by Core.     | `menuToggleElement`                           |
+| controlled | `HTMLElement` | The element to expand or collapse. | `containerElement ?? controlledMenu.dom.menu` |
+
+The toggle adds and removes expand, collapse, transition, locked, and unlocked classes on `dom.controlled`. By default, this is the menu element. Pass `containerElement` to apply those classes to another element.
+
+The menu element remains available through `elements.controlledMenu.dom.menu`. ARIA attributes still reference that menu element. See [changing where the classes are added](../opening-and-closing#changing-where-the-classes-are-added) for an example.
 
 ### _elements <badge type="warning" text="protected" /> {#property--elements}
 
@@ -136,7 +139,7 @@ BaseMenuToggle._rootDOMElement; // Default: `"controller"`.
 DOM element keys that cannot be generated or reset.
 
 ```js
-BaseMenuToggle._protectedDOMElements; // Default: `["controller", "controlled", "parent"]`.
+BaseMenuToggle._protectedDOMElements; // Default: `["controller", "controlled"]`.
 ```
 
 #### Type {#property--protecteddomelements--type}
@@ -157,7 +160,7 @@ BaseMenuToggle._selectors; // Default: `{}`.
 
 ### _classes <badge type="warning" text="protected" /> {#property--classes}
 
-The classes to apply when the toggle is in various states. The expand, collapse, and transition classes come from the controlled menu. The locked and unlocked classes come from Core.
+The classes to apply to `dom.controlled` when the toggle changes state. The expand, collapse, and transition classes come from the controlled menu. The locked and unlocked classes come from Core.
 
 The class getters read the controlled menu's current settings, so changes to the root menu also apply to the toggle's transitions.
 

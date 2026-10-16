@@ -10,7 +10,6 @@ import BaseMenu from "../../../src/_baseMenu.js";
 const createInstance = (options = {}) => {
   return new BaseMenuToggle({
     menuToggleElement: document.createElement("button"),
-    parentElement: document.createElement("li"),
     controlledMenu: new BaseMenu({ menuElement: document.createElement("ul") }),
     ...options,
   });
@@ -66,7 +65,6 @@ describe("BaseMenuToggle fields", () => {
       expect(instance._protectedDOMElements).toEqual([
         "controller",
         "controlled",
-        "parent",
       ]);
     });
   });
@@ -95,15 +93,13 @@ describe("BaseMenuToggle fields", () => {
     });
   });
   describe("_dom", () => {
-    it("should populate the toggle and parent slots", () => {
+    it("should populate the controller slot", () => {
       const toggle = document.createElement("button");
-      const parent = document.createElement("li");
       const instance = createInstance({
         menuToggleElement: toggle,
-        parentElement: parent,
       });
 
-      expect(instance.dom).toMatchObject({ controller: toggle, parent });
+      expect(instance.dom.controller).toBe(toggle);
     });
   });
   describe("Core DOM slots", () => {
