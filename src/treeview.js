@@ -176,7 +176,7 @@ class Treeview extends BaseMenu {
    * Registers the menu's initialization event listener.
    *
    * If the menu is a root menu, its `role` will be set to "tree" and the first
-   * menu item's `tabIndex` will be set to 0 in the DOM.
+   * menu item's `tabIndex` will be set to 0 in the DOM if the menu has any items.
    *
    * If the menu is not a root menu, its `role` will be set to "group".
    *
@@ -193,7 +193,9 @@ class Treeview extends BaseMenu {
         if (event.detail.component !== this) return;
         if (this.isTopLevel) {
           this.dom.menu.setAttribute("role", "tree");
-          this.elements.menuItems[0].dom.link.tabIndex = 0;
+          if (this.elements.menuItems.length > 0) {
+            this.elements.menuItems[0].dom.link.tabIndex = 0;
+          }
         } else {
           this.dom.menu.setAttribute("role", "group");
         }

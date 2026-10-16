@@ -104,8 +104,7 @@ Treeview.initialize();
 
 Initialize will call [BaseMenu's initialize method](./base-menu#initialize) as well as set up [focus (inherited)](./base-menu#method--handlefocus), [click (inherited)](./base-menu#method--handleclick), [hover (inherited)](./base-menu#method--handlehover), [keydown](#method--handlekeydown), and [keyup](#method--handlekeyup) events for the menu.
 
-If the menu is a root menu it's `role` will be set to "tree" and the first
-menu item's `tabIndex` will be set to 0 in the DOM.
+If the menu is a root menu it's `role` will be set to "tree" and the first menu item's `tabIndex` will be set to 0 in the DOM if the menu has any items.
 
 If the menu is _not_ a root menu it's `role` will be set to "group".
 
