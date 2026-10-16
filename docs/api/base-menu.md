@@ -1346,6 +1346,8 @@ Handles keydown events throughout the menu for proper menu use.
 BaseMenu._handleKeydown();
 ```
 
+Ignores keydown events using Ctrl, Alt, or Meta.
+
 This method exists to assist the [_handleKeyup](#method--handlekeyup) method.
 
 This method will do the following:
@@ -1360,6 +1362,8 @@ Handles keyup events throughout the menu for proper menu use.
 ```js
 BaseMenu._handleKeyup();
 ```
+
+Ignores keyup events using Ctrl, Alt, or Meta.
 
 This method will do the following:
 

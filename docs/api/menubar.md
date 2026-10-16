@@ -179,6 +179,8 @@ Handles keydown events throughout the menu for proper menu use.
 Menubar._handleKeydown();
 ```
 
+Ignores keydown events using Ctrl, Alt, or Meta.
+
 This method exists to assist the [_handleKeyup method](#method--handlekeyup).
 
 This method will do the following:
@@ -197,6 +199,8 @@ Handles keyup events throughout the menu for proper menu use.
 ```js
 Menubar._handleKeyup();
 ```
+
+Ignores keyup events using Ctrl, Alt, or Meta.
 
 Adds all `keyup` listeners from [BaseMenu's _handleKeyup method](./base-menu#method--handlekeyup).
 
