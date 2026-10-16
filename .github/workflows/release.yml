@@ -9,6 +9,7 @@ on:
 permissions:
   contents: write
   id-token: write
+  packages: write
 
 jobs:
   test:
@@ -17,7 +18,7 @@ jobs:
   meta:
     if: github.repository == 'nickdjm/accessible-menu'
     needs: test
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     outputs:
       version: ${{ steps.meta.outputs.version }}
       prerelease_type: ${{ steps.meta.outputs.prerelease_type }}
@@ -48,7 +49,7 @@ jobs:
   release_github:
     if: github.repository == 'nickdjm/accessible-menu'
     needs: meta
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     environment: Release
     steps:
       - name: Checkout
@@ -66,7 +67,7 @@ jobs:
   publish_npm:
     if: github.repository == 'nickdjm/accessible-menu'
     needs: [meta, release_github]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     environment: Release
     steps:
       - name: Checkout
@@ -81,10 +82,10 @@ jobs:
       - name: Install modules
         run: npm install
 
-      - name: Publish to npm (full release)
+      - name: Publish root to npm (full release)
         if: needs.meta.outputs.is_prerelease != 'true'
         run: npm publish --access public
 
-      - name: Publish to npm (prerelease)
+      - name: Publish root to npm (prerelease)
         if: needs.meta.outputs.is_prerelease == 'true'
         run: npm publish --access public --tag "${{ needs.meta.outputs.prerelease_type }}"
