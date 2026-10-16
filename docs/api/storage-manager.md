@@ -1,6 +1,6 @@
 # StorageManager
 
-This API is provided by Core. Import it from `@accessible-ecosystem/core/StorageManager.js`. Accessible Menu no longer provides a local copy.
+This API is provided by Core. Import it from `@accessible-ecosystem/core/StorageManager.js`.
 
 A utility class for storing and retrieving Accessible Menu data in the browser.
 Instances can be scoped and registered on `window` for global access across the

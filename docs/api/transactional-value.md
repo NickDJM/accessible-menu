@@ -1,6 +1,6 @@
 # TransactionalValue
 
-This API is provided by Core. Import it from `@accessible-ecosystem/core/TransactionalValue.js`. Accessible Menu no longer provides a local copy.
+This API is provided by Core. Import it from `@accessible-ecosystem/core/TransactionalValue.js`.
 
 A utility class that maintains a current value and a committed value.
 

@@ -29,17 +29,17 @@ The constructor will call [BaseMenuItem's constructor](./base-menu-item#construc
 
 ### Parameters {#constructor--parameters}
 
-| Name                    | Type                                  | Description                                                   | Default     |
-| ----------------------- | ------------------------------------- | ------------------------------------------------------------- | ----------- |
-| options                 | `object`                              | The options for generating the menu item.                     | `undefined` |
-| options.menuItemElement | `HTMLElement`                         | The menu item in the DOM.                                     | `undefined` |
-| options.menuLinkElement | `HTMLElement`                         | The menu item's link in the DOM.                              | `undefined` |
-| options.parentMenu      | `TopLinkDisclosureMenu`               | The parent menu.                                              | `undefined` |
-| options.isSubmenuItem   | `boolean`                             | A flag to mark if the menu item is controlling a submenu.     | `false`     |
-| options.childMenu       | `TopLinkDisclosureMenu`, `null`       | The child menu.                                               | `null`      |
-| options.toggle          | `TopLinkDisclosureMenuToggle`, `null` | The controller for the child menu.                            | `null`      |
-| options.initialize      | `boolean`                             | A flag to initialize the menu item immediately upon creation. | `true`      |
-| options.submenuSibling  | `TopLinkDisclosureMenuItem`, `null`   | The sibling menu item that controls a submenu.                | `null`      |
+| Name                    | Type                                  | Description                                                        | Default     |
+| ----------------------- | ------------------------------------- | ------------------------------------------------------------------ | ----------- |
+| options                 | `object`                              | The options for generating the menu item.                          | `undefined` |
+| options.menuItemElement | `HTMLElement`                         | The menu item in the DOM.                                          | `undefined` |
+| options.menuLinkElement | `HTMLElement`                         | The menu item's link in the DOM.                                   | `undefined` |
+| options.parentMenu      | `TopLinkDisclosureMenu`               | The parent menu.                                                   | `undefined` |
+| options.isSubmenuItem   | `boolean`                             | A flag to mark if the menu item is controlling a submenu.          | `false`     |
+| options.childMenu       | `TopLinkDisclosureMenu`, `null`       | The child menu.                                                    | `null`      |
+| options.toggle          | `TopLinkDisclosureMenuToggle`, `null` | The controller for the child menu.                                 | `null`      |
+| options.initialize      | `boolean`                             | A flag to initialize the menu item immediately upon creation.      | `true`      |
+| options.submenuSibling  | `BaseMenuItem`, `null`                | The separate menu item that controls the submenu beside this link. | `null`      |
 
 ## Initialize
 
@@ -59,7 +59,7 @@ TopLinkDisclosureMenuItem._elements;
 
 #### Type {#property--elements--type}
 
-`Object<TopLinkDisclosureMenu, TopLinkDisclosureMenuToggle>`
+`Object<string, TopLinkDisclosureMenu|TopLinkDisclosureMenuToggle|BaseMenuItem|null>`
 
 #### Properties {#property--elements--properties}
 
@@ -68,7 +68,7 @@ TopLinkDisclosureMenuItem._elements;
 | parentMenu | `TopLinkDisclosureMenu`               | The menu containing this menu item.                                  | `null`  |
 | childMenu  | `TopLinkDisclosureMenu`, `null`       | The menu contained within this menu item.                            | `null`  |
 | toggle     | `TopLinkDisclosureMenuToggle`, `null` | The menu toggle within this menu item that controls the `childMenu`. | `null`  |
-| sibling    | `TopLinkDisclosureMenuItem`, `null`   | The sibling menu item that is a submenu item.                        | `null`  |
+| sibling    | `BaseMenuItem`, `null`                | The separate menu item that controls the submenu beside this link.   | `null`  |
 
 ## Getters and Setters
 
@@ -80,6 +80,4 @@ Methods are inherited from the [BaseMenuItem](./base-menu-item#getters-and-sette
 
 ### _bootstrap
 
-Registers the menu item's validation event listener.
-
-Validation checks the sibling menu item if it is set.
+Inherited from [BaseMenuItem](./base-menu-item). Validation checks the required DOM elements, submenu flag, parent menu, child menu, submenu toggle, and sibling menu item if one is provided.

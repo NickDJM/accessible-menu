@@ -6,8 +6,6 @@ import { describe, it, expect } from "vitest";
 import CollapsibleComponent from "@accessible-ecosystem/core/CollapsibleComponent.js";
 import BaseMenu from "../../../src/_baseMenu.js";
 import BaseMenuToggle from "../../../src/_baseMenuToggle.js";
-import DisclosureMenuToggle from "../../../src/disclosureMenuToggle.js";
-import { expectInheritedGetter } from "../helpers.js";
 
 const createToggle = () => {
   const menu = new BaseMenu({
@@ -30,26 +28,6 @@ describe("BaseMenuToggle Core integration", () => {
         CollapsibleComponent.prototype
       );
     });
-
-    it("should preserve the superclass on derived toggles", () => {
-      expect(
-        Object.prototype.isPrototypeOf.call(
-          CollapsibleComponent.prototype,
-          DisclosureMenuToggle.prototype
-        )
-      ).toBe(true);
-    });
-
-    it.each(["isExpanded", "shouldBeExpanded", "isLocked", "shouldBeLocked"])(
-      "should inherit the %s getter",
-      (property) => {
-        expectInheritedGetter(
-          DisclosureMenuToggle.prototype,
-          CollapsibleComponent.prototype,
-          property
-        );
-      }
-    );
   });
 
   describe.each(["expand", "preview"])("%s", (action) => {

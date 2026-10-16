@@ -1,27 +1,15 @@
 import { afterEach, describe, it, expect, vi } from "vitest";
 import BaseMenu from "../../../src/_baseMenu.js";
 import BaseMenuToggle from "../../../src/_baseMenuToggle.js";
-import DisclosureMenuToggle from "../../../src/disclosureMenuToggle.js";
-import MenubarToggle from "../../../src/menubarToggle.js";
-import TopLinkDisclosureMenuToggle from "../../../src/topLinkDisclosureMenuToggle.js";
-import TreeviewToggle from "../../../src/treeviewToggle.js";
 
 afterEach(() => {
   vi.useRealTimers();
   vi.unstubAllGlobals();
 });
 
-describe.each(
-  [
-    BaseMenuToggle,
-    DisclosureMenuToggle,
-    MenubarToggle,
-    TopLinkDisclosureMenuToggle,
-    TreeviewToggle,
-  ].map((Toggle) => [Toggle.name, Toggle])
-)("%s container", (_name, Toggle) => {
+describe("BaseMenuToggle container", () => {
   const createToggle = (options = {}) =>
-    new Toggle({
+    new BaseMenuToggle({
       menuToggleElement: document.createElement("button"),
       controlledMenu: new BaseMenu({
         menuElement: document.createElement("ul"),
@@ -77,18 +65,6 @@ describe.each(
       toggle.elements.controlledMenu.dom.menu.getAttribute("aria-labelledby")
     ).toBe(toggle.dom.controller.id);
     expect(containerElement.hasAttribute("aria-labelledby")).toBe(false);
-
-    if ([DisclosureMenuToggle, TopLinkDisclosureMenuToggle].includes(Toggle)) {
-      expect(toggle.dom.controller.getAttribute("aria-controls")).toBe(
-        toggle.elements.controlledMenu.dom.menu.id
-      );
-    }
-
-    if (Toggle === TreeviewToggle) {
-      expect(toggle.dom.controller.getAttribute("aria-owns")).toBe(
-        toggle.elements.controlledMenu.dom.menu.id
-      );
-    }
 
     toggle.collapse({ transition: false, emit: false });
 

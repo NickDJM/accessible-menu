@@ -60,6 +60,15 @@ class BaseMenu extends Component {
   _MenuToggleType = BaseMenuToggle;
 
   /**
+   * A flag to create separate menu items for navigation links and submenu toggles.
+   *
+   * @protected
+   *
+   * @type {boolean}
+   */
+  _splitMenuLinks = false;
+
+  /**
    * A flag marking the root menu.
    *
    * @protected
@@ -113,6 +122,7 @@ class BaseMenu extends Component {
    * @param {string}             [options.menuLinksSelector = a]             - The query selector string for menu links.
    * @param {string}             [options.submenuItemsSelector = li:has(ul)] - The query selector string for menu items containing submenus.
    * @param {string}             [options.submenuTogglesSelector = a]        - The query selector string for submenu toggle buttons/links.
+   * @param {?string}            [options.submenuSubtogglesSelector = null]  - The query selector string for submenu toggles below the top level. If null, submenuTogglesSelector is used.
    * @param {string}             [options.submenusSelector = ul]             - The query selector string for submenus.
    * @param {?HTMLElement}       [options.controllerElement = null]          - The element controlling the menu in the DOM.
    * @param {?HTMLElement}       [options.containerElement = null]           - The element containing the menu in the DOM.
@@ -148,6 +158,7 @@ class BaseMenu extends Component {
     menuLinksSelector = "a",
     submenuItemsSelector = "li:has(ul)",
     submenuTogglesSelector = "a",
+    submenuSubtogglesSelector = null,
     submenusSelector = "ul",
     controllerElement = null,
     containerElement = null,
@@ -199,6 +210,8 @@ class BaseMenu extends Component {
     this._selectors.menuLinks = menuLinksSelector;
     this._selectors.submenuItems = submenuItemsSelector;
     this._selectors.submenuToggles = submenuTogglesSelector;
+    this._selectors.submenuSubtoggles =
+      submenuSubtogglesSelector ?? submenuTogglesSelector;
     this._selectors.submenus = submenusSelector;
 
     // Set menu elements.
@@ -871,6 +884,25 @@ class BaseMenu extends Component {
   }
 
   /**
+   * Additional options to pass when creating a child menu.
+   *
+   * Subclasses can override this getter to use their current selector values.
+   * The options are read when the child menu is created.
+   *
+   * @protected
+   *
+   * @readonly
+   *
+   * @type {object}
+   */
+  get _submenuOptions() {
+    return {
+      submenuTogglesSelector: this.selectors.submenuSubtoggles,
+      submenuSubtogglesSelector: this.selectors.submenuSubtoggles,
+    };
+  }
+
+  /**
    * Sets DOM elements throughout the menu.
    *
    * Elements listed in _protectedDOMElements cannot be set using this method.
@@ -1011,20 +1043,46 @@ class BaseMenu extends Component {
   /**
    * Creates and initializes all menu items and submenus.
    *
+   * By default, a submenu has one menu item that acts as its toggle.
+   * Subclasses can set _splitMenuLinks to true to create a separate menu item
+   * for the navigation link when the link and toggle are different elements.
+   *
    * @protected
    */
   _createChildElements() {
     this._createController();
 
     this.dom.menuItems.forEach((element) => {
-      let menuItem;
+      let toggle = null;
+      const isSubmenuItem = this.dom.submenuItems.includes(element);
+      const submenu = isSubmenuItem
+        ? element.querySelector(this.selectors.submenus)
+        : null;
 
-      if (this.dom.submenuItems.includes(element)) {
-        // The menu's toggle controller DOM element.
-        const toggler = element.querySelector(this.selectors.submenuToggles);
-        // The actual menu DOM element.
-        const submenu = element.querySelector(this.selectors.submenus);
+      // Only look for controls in this menu item. A link or toggle inside its
+      // child menu belongs to that child, not to the item containing it.
+      let toggler = null;
 
+      if (isSubmenuItem || this._splitMenuLinks) {
+        const toggles = Array.from(
+          element.querySelectorAll(this.selectors.submenuToggles)
+        );
+
+        toggler =
+          toggles.find((candidate) => !submenu?.contains(candidate)) ?? null;
+      }
+
+      // Prefer a separate navigation link, even if the toggle appears first.
+      // If there is no separate link, use the toggle as the menu item's link.
+      const links = Array.from(
+        element.querySelectorAll(this.selectors.menuLinks)
+      );
+      const link =
+        links.find(
+          (candidate) => candidate !== toggler && !submenu?.contains(candidate)
+        ) ?? toggler;
+
+      if (isSubmenuItem) {
         // Create the new menu and initialize it.
         const menu = new this._MenuType({
           menuElement: submenu,
@@ -1045,12 +1103,13 @@ class BaseMenu extends Component {
           hoverDelay: this.hoverDelay,
           enterDelay: this.enterDelay,
           leaveDelay: this.leaveDelay,
+          ...this._submenuOptions,
         });
 
         if (!menu.isInitialized) menu.initialize();
 
         // Create the new menu toggle.
-        const toggle = new this._MenuToggleType({
+        toggle = new this._MenuToggleType({
           menuToggleElement: toggler,
           controlledMenu: menu,
           parentMenu: this,
@@ -1060,31 +1119,84 @@ class BaseMenu extends Component {
 
         // Add the toggle to the list of toggles.
         this._elements.submenuToggles.push(toggle);
-
-        // Create a new menu item.
-        menuItem = new this._MenuItemType({
-          menuItemElement: element,
-          menuLinkElement: toggler,
-          parentMenu: this,
-          isSubmenuItem: true,
-          childMenu: menu,
-          toggle,
-        });
-      } else {
-        const link = element.querySelector(this.selectors.menuLinks);
-
-        // Create a new menu item.
-        menuItem = new this._MenuItemType({
-          menuItemElement: element,
-          menuLinkElement: link,
-          parentMenu: this,
-        });
       }
 
-      if (!menuItem.isInitialized) menuItem.initialize();
-
-      this._elements.menuItems.push(menuItem);
+      // A single list item can contain both a navigation link and a toggle.
+      // Keep their menu items in the same order as the existing top link menu.
+      this._elements.menuItems.push(
+        ...this._createMenuItems({
+          menuItemElement: element,
+          menuLinkElement: link,
+          toggle,
+          splitMenuLinks: this._splitMenuLinks,
+        })
+      );
     });
+  }
+
+  /**
+   * Creates the menu items for a link and its submenu toggle.
+   *
+   * When the link and toggle are separate, the link's sibling points to the
+   * toggle's menu item. This lets a subclass find the submenu from either item
+   * without making a click on the navigation link also toggle the submenu.
+   *
+   * @protected
+   *
+   * @param {object}          options                         - The options for creating the menu items.
+   * @param {HTMLElement}     options.menuItemElement         - The element containing the link and toggle.
+   * @param {HTMLElement}     options.menuLinkElement         - The menu item's link in the DOM.
+   * @param {?BaseMenuToggle} [options.toggle = null]         - The controller for the child menu.
+   * @param {boolean}         [options.splitMenuLinks = false] - A flag to create separate menu items for links and toggles.
+   * @return {BaseMenuItem[]} The initialized menu items, with the navigation link before its separate toggle.
+   */
+  _createMenuItems({
+    menuItemElement,
+    menuLinkElement,
+    toggle = null,
+    splitMenuLinks = false,
+  }) {
+    const items = [];
+    let toggleItem = null;
+
+    // Most menu types use the toggle itself as the menu item's link.
+    // Only use the separate navigation link when the subclass asks for it.
+    const link =
+      toggle && !splitMenuLinks ? toggle.dom.controller : menuLinkElement;
+
+    // Create a separate toggle item only when a different link was provided.
+    // If the same element acts as both, it still needs just one menu item.
+    if (splitMenuLinks && toggle && menuLinkElement !== toggle.dom.controller) {
+      toggleItem = new this._MenuItemType({
+        menuItemElement,
+        menuLinkElement: toggle.dom.controller,
+        parentMenu: this,
+        isSubmenuItem: true,
+        childMenu: toggle.elements.controlledMenu,
+        toggle,
+      });
+
+      if (!toggleItem.isInitialized) toggleItem.initialize();
+    }
+
+    const isSubmenuItem = toggle !== null && toggleItem === null;
+    const menuItem = new this._MenuItemType({
+      menuItemElement,
+      menuLinkElement: link,
+      parentMenu: this,
+      isSubmenuItem,
+      childMenu: isSubmenuItem ? toggle.elements.controlledMenu : null,
+      toggle: isSubmenuItem ? toggle : null,
+      submenuSibling: toggleItem,
+    });
+
+    if (!menuItem.isInitialized) menuItem.initialize();
+
+    items.push(menuItem);
+
+    if (toggleItem !== null) items.push(toggleItem);
+
+    return items;
   }
 
   /**

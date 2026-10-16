@@ -1,12 +1,8 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import CollapsibleComponent from "@accessible-ecosystem/core/CollapsibleComponent.js";
-import BaseMenu from "../../src/_baseMenu.js";
-import DisclosureMenu from "../../src/disclosureMenu.js";
-import Menubar from "../../src/menubar.js";
-import Treeview from "../../src/treeview.js";
-import TopLinkDisclosureMenu from "../../src/topLinkDisclosureMenu.js";
-import { twoLevel } from "../../demo/menus.js";
-import { setupMatchMedia } from "./helpers.js";
+import TopLinkDisclosureMenu from "../../../src/topLinkDisclosureMenu.js";
+import { twoLevel } from "../../../demo/menus.js";
+import { setupMatchMedia } from "../helpers.js";
 
 const flags = [
   "expandInsideBreakpoint",
@@ -31,13 +27,9 @@ afterEach(() => {
   document.body.innerHTML = "";
 });
 
-describe.each(
-  [BaseMenu, DisclosureMenu, Menubar, Treeview, TopLinkDisclosureMenu].map(
-    (Type) => ({ name: Type.name, Type })
-  )
-)("$name controller options", ({ Type }) => {
+describe("TopLinkDisclosureMenu controller options", () => {
   const createMenu = (options = {}) => {
-    const menu = new Type({
+    const menu = new TopLinkDisclosureMenu({
       menuElement: document.querySelector("ul"),
       controllerElement: document.querySelector("button"),
       containerElement: document.querySelector("nav"),
@@ -50,7 +42,10 @@ describe.each(
   };
 
   it("should initialize the controller during child creation", () => {
-    const createChildren = vi.spyOn(Type.prototype, "_createChildElements");
+    const createChildren = vi.spyOn(
+      TopLinkDisclosureMenu.prototype,
+      "_createChildElements"
+    );
     const initialize = vi.spyOn(CollapsibleComponent.prototype, "initialize");
     const menu = createMenu();
     const controller = menu.elements.controller;
