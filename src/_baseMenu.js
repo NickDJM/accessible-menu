@@ -691,26 +691,27 @@ class BaseMenu extends Component {
   }
 
   /**
-   * The last event triggered on the menu.
+   * The last event triggered anywhere in the menu tree.
+   *
+   * The root menu stores this value. Setting it on a submenu updates the root.
    *
    * @type {string}
    *
    * @see _currentEvent
    */
   get currentEvent() {
-    return super.currentEvent;
+    const menu = this.elements.rootMenu || this.elements.parentMenu;
+
+    return menu && menu !== this ? menu.currentEvent : super.currentEvent;
   }
 
   set currentEvent(value) {
-    const previous = super.currentEvent;
-    super.currentEvent = value;
+    const menu = this.elements.rootMenu || this.elements.parentMenu;
 
-    if (previous !== value) {
-      if (this.elements.submenuToggles.length > 0) {
-        this.elements.submenuToggles.forEach((submenuToggle) => {
-          submenuToggle.elements.controlledMenu.currentEvent = value;
-        });
-      }
+    if (menu && menu !== this) {
+      menu.currentEvent = value;
+    } else {
+      super.currentEvent = value;
     }
   }
 
@@ -846,6 +847,8 @@ class BaseMenu extends Component {
   /**
    * A flag to check if the menu's focus methods should _actually_ move the focus in the DOM.
    *
+   * Submenus use the root menu's value.
+   *
    * This will be `false` unless any of the following criteria are met:
    * - The menu's current event is "keyboard".
    * - The menu's current event is "character".
@@ -857,6 +860,10 @@ class BaseMenu extends Component {
    * @type {boolean}
    */
   get shouldFocus() {
+    const menu = this.elements.rootMenu || this.elements.parentMenu;
+
+    if (menu && menu !== this) return menu.shouldFocus;
+
     return (
       super.shouldFocus ||
       this.currentEvent === "character" ||

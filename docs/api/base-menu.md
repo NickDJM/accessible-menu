@@ -924,6 +924,8 @@ BaseMenu.currentEvent = "mouse";
 
 :::
 
+The root menu stores this value for the entire menu tree. Reading it from any submenu, item, or toggle returns the root value. Setting it on any of those components updates the root.
+
 Available events are: `"none"`, `"mouse"`, `"keyboard"`, and `"character"`.
 
 See [_currentEvent](#property--currentevent) for more information.
@@ -1058,7 +1060,9 @@ BaseMenu.shouldFocus;
 
 :::
 
-This will be `false` unless any of the following criteria are met:
+Submenus, items, and toggles use the root menu's decision.
+
+For the root menu, this will be `false` unless any of the following criteria are met:
 
 - The menu's [current event](#property--currentevent) is "keyboard".
 - The menu's current event is "character".

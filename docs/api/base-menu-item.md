@@ -539,13 +539,13 @@ Type: `string`. Readable and writable.
 
 ### currentEvent
 
-The last type of event triggered within the component.
+The last event triggered anywhere in the menu tree. Reading this value returns the root menu's current event. Setting it updates the root menu.
 
 Type: `string`. Readable and writable.
 
 ### shouldFocus
 
-A flag to check if the parent menu allows the menu item's `focus()` and `blur()` methods to move focus in the DOM. This follows the parent menu's keyboard, character, and dynamic hover behavior. Read-only.
+A flag to check if the root menu allows the menu item's `focus()` and `blur()` methods to move focus in the DOM. This follows the root menu's keyboard, character, and dynamic hover behavior. Read-only.
 
 ```js
 BaseMenuItem.shouldFocus;

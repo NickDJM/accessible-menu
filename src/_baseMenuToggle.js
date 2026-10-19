@@ -146,6 +146,45 @@ class BaseMenuToggle extends CollapsibleComponent {
   }
 
   /**
+   * The last event triggered anywhere in the menu tree.
+   *
+   * Reads and updates the root menu's value.
+   *
+   * @type {string}
+   */
+  get currentEvent() {
+    const menu = this.elements.controlledMenu;
+    const rootMenu = menu?.elements.rootMenu || menu;
+
+    return rootMenu ? rootMenu.currentEvent : super.currentEvent;
+  }
+
+  set currentEvent(value) {
+    const menu = this.elements.controlledMenu;
+    const rootMenu = menu?.elements.rootMenu || menu;
+
+    if (rootMenu) {
+      rootMenu.currentEvent = value;
+    } else {
+      super.currentEvent = value;
+    }
+  }
+
+  /**
+   * A flag to check if the root menu allows the toggle to be focused in the DOM.
+   *
+   * @readonly
+   *
+   * @type {boolean}
+   */
+  get shouldFocus() {
+    const menu = this.elements.controlledMenu;
+    const rootMenu = menu?.elements.rootMenu || menu;
+
+    return rootMenu ? rootMenu.shouldFocus : super.shouldFocus;
+  }
+
+  /**
    * The class(es) to apply when the controlled menu is expanded.
    *
    * @type {string|string[]}
