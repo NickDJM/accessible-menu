@@ -525,8 +525,8 @@ class Menubar extends BaseMenu {
           // - Closes submenu.
           // - Moves focus to parent menubar item.
           preventEvent(event);
-          this.elements.rootMenu.collapseChildren();
-          this.elements.rootMenu.focusCurrentChild();
+          this.elements.parentMenu.collapseChildren();
+          this.elements.parentMenu.focusCurrentChild();
         } else if (key === "ArrowRight") {
           // Hitting the Right Arrow:
           // - If focus is on an item with a submenu, opens the submenu and places focus on the first item.

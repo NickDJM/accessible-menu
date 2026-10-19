@@ -1554,16 +1554,22 @@ describe("Menubar", () => {
             containerElement: document.querySelector("nav"),
             controllerElement: document.querySelector("button"),
           });
+          const submenu =
+            menu.elements.submenuToggles[0].elements.controlledMenu;
+          const thirdLevelMenu =
+            submenu.elements.submenuToggles[0].elements.controlledMenu;
 
           // Set up the menu.
           menu.currentChild = 1;
           menu.elements.submenuToggles[0].expand();
-          menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 0;
+          submenu.currentChild = 1;
+          submenu.elements.submenuToggles[0].expand();
+          thirdLevelMenu.currentChild = 0;
 
           // Trigger a keyup event.
           const event = simulateKeyboardEvent(
             "keyup",
-            menu.elements.submenuToggles[0].elements.controlledMenu.dom.menu,
+            thirdLevelMenu.dom.menu,
             {
               key: "Escape",
             }
@@ -1571,59 +1577,63 @@ describe("Menubar", () => {
 
           expect(event.defaultPrevented).toBeTruthy();
         });
-        // Test that the root menu's collapseChildren method is called.
-        it("should call the root menu's collapseChildren method", () => {
+        // Test that the parent menu's collapseChildren method is called.
+        it("should call the parent menu's collapseChildren method", () => {
           // Create a new Menubar instance for testing.
           const menu = new Menubar({
             menuElement: document.querySelector("ul"),
             containerElement: document.querySelector("nav"),
             controllerElement: document.querySelector("button"),
           });
+          const submenu =
+            menu.elements.submenuToggles[0].elements.controlledMenu;
+          const thirdLevelMenu =
+            submenu.elements.submenuToggles[0].elements.controlledMenu;
 
           // Set up the menu.
           menu.currentChild = 1;
           menu.elements.submenuToggles[0].expand();
-          menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 0;
+          submenu.currentChild = 1;
+          submenu.elements.submenuToggles[0].expand();
+          thirdLevelMenu.currentChild = 0;
 
-          // Spy on the root menu's collapseChildren method.
-          const spy = vi.spyOn(menu, "collapseChildren");
+          // Spy on the parent menu's collapseChildren method.
+          const spy = vi.spyOn(submenu, "collapseChildren");
 
           // Trigger a keyup event.
-          simulateKeyboardEvent(
-            "keyup",
-            menu.elements.submenuToggles[0].elements.controlledMenu.dom.menu,
-            {
-              key: "Escape",
-            }
-          );
+          simulateKeyboardEvent("keyup", thirdLevelMenu.dom.menu, {
+            key: "Escape",
+          });
 
           expect(spy).toHaveBeenCalled();
         });
-        // Test that the root menu's focusCurrentChild method is called.
-        it("should call the root menu's focusCurrentChild method", () => {
+        // Test that the parent menu's focusCurrentChild method is called.
+        it("should call the parent menu's focusCurrentChild method", () => {
           // Create a new Menubar instance for testing.
           const menu = new Menubar({
             menuElement: document.querySelector("ul"),
             containerElement: document.querySelector("nav"),
             controllerElement: document.querySelector("button"),
           });
+          const submenu =
+            menu.elements.submenuToggles[0].elements.controlledMenu;
+          const thirdLevelMenu =
+            submenu.elements.submenuToggles[0].elements.controlledMenu;
 
           // Set up the menu.
           menu.currentChild = 1;
           menu.elements.submenuToggles[0].expand();
-          menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 0;
+          submenu.currentChild = 1;
+          submenu.elements.submenuToggles[0].expand();
+          thirdLevelMenu.currentChild = 0;
 
-          // Spy on the root menu's focusCurrentChild method.
-          const spy = vi.spyOn(menu, "focusCurrentChild");
+          // Spy on the parent menu's focusCurrentChild method.
+          const spy = vi.spyOn(submenu, "focusCurrentChild");
 
           // Trigger a keyup event.
-          simulateKeyboardEvent(
-            "keyup",
-            menu.elements.submenuToggles[0].elements.controlledMenu.dom.menu,
-            {
-              key: "Escape",
-            }
-          );
+          simulateKeyboardEvent("keyup", thirdLevelMenu.dom.menu, {
+            key: "Escape",
+          });
 
           expect(spy).toHaveBeenCalled();
         });
@@ -1892,8 +1902,8 @@ describe("Menubar", () => {
             expect(event.defaultPrevented).toBeTruthy();
           });
         });
-        // Test that the parent menu's current menu toggle's close method is called.
-        it("should call the parent menu's current menu toggle's close method", () => {
+        // Test that the parent menu's current menu toggle's collapse method is called.
+        it("should call the parent menu's current menu toggle's collapse method", () => {
           // Create a new Menubar instance for testing.
           const menu = new Menubar({
             menuElement: document.querySelector("ul"),
@@ -1906,7 +1916,7 @@ describe("Menubar", () => {
           menu.elements.submenuToggles[0].expand();
           menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 0;
 
-          // Spy on the menu toggle's close method.
+          // Spy on the menu toggle's collapse method.
           const spy = vi.spyOn(menu.elements.submenuToggles[0], "collapse");
 
           // Trigger a keyup event.
