@@ -964,6 +964,18 @@ var h = class {
 			a.status || (this._errors = [...this._errors, ...a.errors], this._valid = !1);
 		});
 	}
+	get currentEvent() {
+		let e = this.elements.controlledMenu, t = e?.elements.rootMenu || e;
+		return t ? t.currentEvent : super.currentEvent;
+	}
+	set currentEvent(e) {
+		let t = this.elements.controlledMenu, n = t?.elements.rootMenu || t;
+		n ? n.currentEvent = e : super.currentEvent = e;
+	}
+	get shouldFocus() {
+		let e = this.elements.controlledMenu, t = e?.elements.rootMenu || e;
+		return t ? t.shouldFocus : super.shouldFocus;
+	}
 	get expandClass() {
 		let e = this.elements.controlledMenu;
 		return e.elements.rootMenu ? e.expandClass : super.expandClass;
@@ -1106,8 +1118,17 @@ var h = class {
 			}
 		});
 	}
+	get currentEvent() {
+		let e = this.elements.parentMenu, t = e?.elements.rootMenu || e;
+		return t ? t.currentEvent : super.currentEvent;
+	}
+	set currentEvent(e) {
+		let t = this.elements.parentMenu, n = t?.elements.rootMenu || t;
+		n ? n.currentEvent = e : super.currentEvent = e;
+	}
 	get shouldFocus() {
-		return this.elements.parentMenu.shouldFocus;
+		let e = this.elements.parentMenu, t = e?.elements.rootMenu || e;
+		return t ? t.shouldFocus : super.shouldFocus;
 	}
 	get isSubmenuItem() {
 		return this._submenu;
@@ -1288,13 +1309,12 @@ var C = class n extends h {
 		}), this.elements.parentMenu && (e === "self" || e === "child") && (this.elements.parentMenu.focusState = "child");
 	}
 	get currentEvent() {
-		return super.currentEvent;
+		let e = this.elements.rootMenu || this.elements.parentMenu;
+		return e && e !== this ? e.currentEvent : super.currentEvent;
 	}
 	set currentEvent(e) {
-		let t = super.currentEvent;
-		super.currentEvent = e, t !== e && this.elements.submenuToggles.length > 0 && this.elements.submenuToggles.forEach((t) => {
-			t.elements.controlledMenu.currentEvent = e;
-		});
+		let t = this.elements.rootMenu || this.elements.parentMenu;
+		t && t !== this ? t.currentEvent = e : super.currentEvent = e;
 	}
 	get currentMenuItem() {
 		return this.elements.menuItems[this.currentChild];
@@ -1330,7 +1350,8 @@ var C = class n extends h {
 		t("string", { prefix: e }), this._prefix !== e && (this._prefix = e);
 	}
 	get shouldFocus() {
-		return super.shouldFocus || this.currentEvent === "character" || this.currentEvent === "mouse" && this.hoverType === "dynamic";
+		let e = this.elements.rootMenu || this.elements.parentMenu;
+		return e && e !== this ? e.shouldFocus : super.shouldFocus || this.currentEvent === "character" || this.currentEvent === "mouse" && this.hoverType === "dynamic";
 	}
 	get hasExpanded() {
 		return this._root ? this._hasExpanded : this.elements.rootMenu.hasExpanded;
