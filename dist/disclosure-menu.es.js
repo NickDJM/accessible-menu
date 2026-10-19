@@ -1351,7 +1351,7 @@ var C = class n extends h {
 	}
 	get shouldFocus() {
 		let e = this.elements.rootMenu || this.elements.parentMenu;
-		return e && e !== this ? e.shouldFocus : super.shouldFocus || this.currentEvent === "character" || this.currentEvent === "mouse" && this.hoverType === "dynamic";
+		return e && e !== this ? e.shouldFocus : super.shouldFocus || this.currentEvent === "character";
 	}
 	get hasExpanded() {
 		return this._root ? this._hasExpanded : this.elements.rootMenu.hasExpanded;
