@@ -2,8 +2,8 @@
  * Getter/Setter tests for the BaseMenu class
  */
 
-import { describe, it, expect, beforeEach, afterEach } from "vitest";
-import { twoLevel } from "../../../demo/menus.js";
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
+import { twoLevel, threeLevel } from "../../../demo/menus.js";
 import BaseMenu from "../../../src/_baseMenu.js";
 import { initializeMenu } from "../helpers.js";
 
@@ -15,6 +15,7 @@ beforeEach(() => {
 afterEach(() => {
   // Remove the test menu.
   document.body.innerHTML = "";
+  vi.restoreAllMocks();
 });
 
 // Test all getter methods in the BaseMenu class.
@@ -594,6 +595,87 @@ describe("BaseMenu getter/setters", () => {
 
   // Test BaseMenu currentEvent.
   describe("currentEvent", () => {
+    it.each(["none", "mouse", "keyboard", "character"])(
+      "should inherit the root menu's value for %s events",
+      (currentEvent) => {
+        document.body.innerHTML = threeLevel;
+        const menu = new BaseMenu({
+          menuElement: document.querySelector("ul"),
+          containerElement: document.querySelector("nav"),
+          controllerElement: document.querySelector("button"),
+          transitionClass: "",
+        });
+
+        initializeMenu(menu);
+        const child = menu.elements.submenuToggles[0].elements.controlledMenu;
+        const grandchild =
+          child.elements.submenuToggles[0].elements.controlledMenu;
+        const components = [child, grandchild];
+
+        menu.currentEvent = currentEvent;
+
+        for (const component of components) {
+          expect(component.currentEvent).toBe(currentEvent);
+        }
+      }
+    );
+
+    it.each(["keyboard", "mouse", "character"])(
+      "should update the root menu's value to %s",
+      (currentEvent) => {
+        document.body.innerHTML = threeLevel;
+        const menu = new BaseMenu({
+          menuElement: document.querySelector("ul"),
+          containerElement: document.querySelector("nav"),
+          controllerElement: document.querySelector("button"),
+          transitionClass: "",
+        });
+
+        initializeMenu(menu);
+        const child = menu.elements.submenuToggles[0].elements.controlledMenu;
+        const grandchild =
+          child.elements.submenuToggles[0].elements.controlledMenu;
+        const components = [child, grandchild];
+
+        for (const component of components) {
+          menu.currentEvent = "none";
+
+          component.currentEvent = currentEvent;
+
+          expect(menu.currentEvent).toBe(currentEvent);
+          for (const sibling of components) {
+            expect(sibling.currentEvent).toBe(currentEvent);
+          }
+        }
+      }
+    );
+
+    it("should reject an invalid event without changing the root menu's value", () => {
+      document.body.innerHTML = threeLevel;
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+        transitionClass: "",
+      });
+
+      initializeMenu(menu);
+      const child = menu.elements.submenuToggles[0].elements.controlledMenu;
+      const grandchild =
+        child.elements.submenuToggles[0].elements.controlledMenu;
+      const components = [child, grandchild];
+      menu.currentEvent = "keyboard";
+
+      for (const component of components) {
+        expect(() => {
+          component.currentEvent = "invalid";
+        }).toThrow();
+
+        expect(menu.currentEvent).toBe("keyboard");
+        expect(component.currentEvent).toBe("keyboard");
+      }
+    });
+
     // Test that currentEvent gets the current event type.
     it("should get the current event type", () => {
       // Create a new BaseMenu instance for testing.
@@ -619,6 +701,28 @@ describe("BaseMenu getter/setters", () => {
       menu.currentEvent = "mouse";
 
       expect(menu._currentEvent).toBe("mouse");
+    });
+
+    it("should inherit the root menu's value when submenus are created", () => {
+      document.body.innerHTML = threeLevel;
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        submenuItemsSelector: ".dropdown",
+        submenuTogglesSelector: ".dropdown-toggle",
+        submenusSelector: ".dropdown-menu",
+      });
+      menu.currentEvent = "keyboard";
+
+      initializeMenu(menu);
+
+      const submenu = menu.elements.submenuToggles[0].elements.controlledMenu;
+      const nestedSubmenu =
+        submenu.elements.submenuToggles[0].elements.controlledMenu;
+
+      expect(submenu.currentEvent).toBe("keyboard");
+      expect(nestedSubmenu.currentEvent).toBe("keyboard");
+      expect(submenu.shouldFocus).toBe(menu.shouldFocus);
+      expect(nestedSubmenu.shouldFocus).toBe(menu.shouldFocus);
     });
   });
 
@@ -952,6 +1056,63 @@ describe("BaseMenu getter/setters", () => {
 
   // Test BaseMenu shouldFocus.
   describe("shouldFocus", () => {
+    it.each([
+      { currentEvent: "none", hoverType: "off", expected: false },
+      { currentEvent: "keyboard", hoverType: "off", expected: true },
+      { currentEvent: "character", hoverType: "off", expected: true },
+      { currentEvent: "mouse", hoverType: "off", expected: false },
+      { currentEvent: "mouse", hoverType: "on", expected: false },
+      { currentEvent: "mouse", hoverType: "dynamic", expected: true },
+    ])(
+      "should inherit the root menu's value for $currentEvent with hover $hoverType",
+      ({ currentEvent, hoverType, expected }) => {
+        document.body.innerHTML = threeLevel;
+        const menu = new BaseMenu({
+          menuElement: document.querySelector("ul"),
+          containerElement: document.querySelector("nav"),
+          controllerElement: document.querySelector("button"),
+          transitionClass: "",
+        });
+        initializeMenu(menu);
+
+        const child = menu.elements.submenuToggles[0].elements.controlledMenu;
+        const grandchild =
+          child.elements.submenuToggles[0].elements.controlledMenu;
+        const components = [child, grandchild];
+        menu.hoverType = hoverType;
+        menu.currentEvent = currentEvent;
+
+        expect(menu.shouldFocus).toBe(expected);
+        for (const component of components) {
+          expect(component.shouldFocus).toBe(expected);
+        }
+      }
+    );
+
+    it.each([true, false])(
+      "should inherit the root menu's custom value of %s",
+      (shouldFocus) => {
+        document.body.innerHTML = threeLevel;
+        const menu = new BaseMenu({
+          menuElement: document.querySelector("ul"),
+          containerElement: document.querySelector("nav"),
+          controllerElement: document.querySelector("button"),
+          transitionClass: "",
+        });
+
+        initializeMenu(menu);
+        const child = menu.elements.submenuToggles[0].elements.controlledMenu;
+        const grandchild =
+          child.elements.submenuToggles[0].elements.controlledMenu;
+        const components = [child, grandchild];
+        vi.spyOn(menu, "shouldFocus", "get").mockReturnValue(shouldFocus);
+
+        for (const component of components) {
+          expect(component.shouldFocus).toBe(shouldFocus);
+        }
+      }
+    );
+
     // Test that shouldFocus gets the shouldFocus value.
     it("should get the shouldFocus value", () => {
       // Create a new BaseMenu instance for testing.

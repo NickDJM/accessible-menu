@@ -982,17 +982,13 @@ Type: `string`. Readable and writable.
 
 ### currentEvent
 
-The last type of event triggered within the component.
+The last event triggered anywhere in the menu tree. Reading this value returns the root menu's current event. Setting it updates the root menu.
 
 Type: `string`. Readable and writable.
 
 ### shouldFocus
 
-A flag to check if the disclosure's focus methods should _actually_ move the focus in the DOM.
-
-This will be `false` unless any of the following criteria are met:
-
-- The disclosure's current event is "keyboard".
+The root menu's decision about whether focus methods should move DOM focus. This follows the root menu's keyboard, character, and dynamic hover behavior.
 
 Type: `boolean`. Read-only.
 
