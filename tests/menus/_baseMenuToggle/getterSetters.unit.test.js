@@ -167,7 +167,7 @@ describe("BaseMenuToggle getter/setters", () => {
       { currentEvent: "character", hoverType: "off", expected: true },
       { currentEvent: "mouse", hoverType: "off", expected: false },
       { currentEvent: "mouse", hoverType: "on", expected: false },
-      { currentEvent: "mouse", hoverType: "dynamic", expected: true },
+      { currentEvent: "mouse", hoverType: "dynamic", expected: false },
     ])(
       "should inherit the root menu's value for $currentEvent with hover $hoverType",
       ({ currentEvent, hoverType, expected }) => {
@@ -250,6 +250,12 @@ describe("BaseMenuToggle getter/setters", () => {
         menu.dom.controller.focus();
         menu.currentEvent = "none";
 
+        component.focus();
+
+        expect(document.activeElement).toBe(menu.dom.controller);
+
+        menu.hoverType = "dynamic";
+        menu.currentEvent = "mouse";
         component.focus();
 
         expect(document.activeElement).toBe(menu.dom.controller);

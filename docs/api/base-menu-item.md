@@ -545,7 +545,7 @@ Type: `string`. Readable and writable.
 
 ### shouldFocus
 
-A flag to check if the root menu allows the menu item's `focus()` and `blur()` methods to move focus in the DOM. This follows the root menu's keyboard, character, and dynamic hover behavior. Read-only.
+A flag to check if the root menu allows the menu item's `focus()` and `blur()` methods to move focus in the DOM. This follows the root menu's keyboard and character navigation behavior. Read-only.
 
 ```js
 BaseMenuItem.shouldFocus;

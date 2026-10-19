@@ -988,7 +988,7 @@ Type: `string`. Readable and writable.
 
 ### shouldFocus
 
-The root menu's decision about whether focus methods should move DOM focus. This follows the root menu's keyboard, character, and dynamic hover behavior.
+The root menu's decision about whether focus methods should move DOM focus. This follows the root menu's keyboard and character navigation behavior.
 
 Type: `boolean`. Read-only.
 

@@ -1066,7 +1066,6 @@ For the root menu, this will be `false` unless any of the following criteria are
 
 - The menu's [current event](#property--currentevent) is "keyboard".
 - The menu's current event is "character".
-- The menu's current event is "mouse" _and_ the menu's [hover type](#property--hovertype) is "dynamic".
 
 ### hasExpanded {#getter-setter--hasopened}
 

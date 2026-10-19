@@ -852,8 +852,6 @@ class BaseMenu extends Component {
    * This will be `false` unless any of the following criteria are met:
    * - The menu's current event is "keyboard".
    * - The menu's current event is "character".
-   * - The menu's current event is "mouse" _and_ the menu's
-   *   hover type is "dynamic".
    *
    * @readonly
    *
@@ -864,11 +862,7 @@ class BaseMenu extends Component {
 
     if (menu && menu !== this) return menu.shouldFocus;
 
-    return (
-      super.shouldFocus ||
-      this.currentEvent === "character" ||
-      (this.currentEvent === "mouse" && this.hoverType === "dynamic")
-    );
+    return super.shouldFocus || this.currentEvent === "character";
   }
 
   /**

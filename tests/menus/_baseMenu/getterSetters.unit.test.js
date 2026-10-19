@@ -1062,7 +1062,7 @@ describe("BaseMenu getter/setters", () => {
       { currentEvent: "character", hoverType: "off", expected: true },
       { currentEvent: "mouse", hoverType: "off", expected: false },
       { currentEvent: "mouse", hoverType: "on", expected: false },
-      { currentEvent: "mouse", hoverType: "dynamic", expected: true },
+      { currentEvent: "mouse", hoverType: "dynamic", expected: false },
     ])(
       "should inherit the root menu's value for $currentEvent with hover $hoverType",
       ({ currentEvent, hoverType, expected }) => {
