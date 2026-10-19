@@ -48,7 +48,11 @@ new BaseMenu({
 });
 ```
 
-The constructor populates the dom, selector, CSS class, and hover related properties. It will _not_ initialize the menu automatically; this is left to the subclasses to evoke.
+The constructor populates the dom, selector, CSS class, and hover related properties. It will _not_ initialize the menu automatically; subclasses decide when to initialize it.
+
+### Subclass initialization {#constructor--subclass-initialization}
+
+When extending a menu class, pass `initialize: false` to `super()` and call `this.initialize()` after your subclass fields and constructor setup are complete.
 
 ### Parameters {#constructor--parameters}
 
@@ -1202,7 +1206,9 @@ BaseMenu._findRootMenu(menu);
 
 A flag to create separate menu items for navigation links and submenu toggles. Defaults to `false`. Top Link Disclosure sets it to `true`.
 
-Subclasses can override this field. The field does not change keyboard or hover behavior on its own.
+Subclasses can override this field. Use the [subclass initialization pattern](#constructor--subclass-initialization) so the field is ready when items are created.
+
+The field does not change keyboard or hover behavior on its own.
 
 ### _submenuOptions <badge type="warning" text="protected" />
 
