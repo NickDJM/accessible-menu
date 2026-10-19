@@ -1338,6 +1338,28 @@ This method will add the following behaviour:
 
 All `pointerenter` and `pointerleave` events are ignored.
 
+### _focusSubmenu <badge type="warning" text="protected" /> {#method--focussubmenu}
+
+Moves focus to an item at a given index in a menu item's submenu.
+
+```js
+menu._focusSubmenu(menuItem);
+// Focus the third item.
+menu._focusSubmenu(menuItem, { childIndex: 2 });
+```
+
+Selects the item immediately by default. Set defer to true to wait one animation frame for the submenu to open before selecting its child.
+
+Cancels a deferred move if focus moves away, the submenu closes, or another item becomes current before the frame runs.
+
+#### Parameters {#method--focussubmenu--parameters}
+
+| Parameter | Type | Description | Default |
+| --- | --- | --- | --- |
+| menuItem | `BaseMenuItem` | The item whose submenu will receive focus. It must have a submenu. | |
+| options.childIndex | `number` | The index of the child to focus. | `0` |
+| options.defer | `boolean` | Wait one animation frame before selecting the child. | `false` |
+
 ### _handleKeydown <badge type="warning" text="protected" /> {#method--handlekeydown}
 
 Handles keydown events throughout the menu for proper menu use.

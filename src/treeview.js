@@ -509,7 +509,7 @@ class Treeview extends BaseMenu {
             this.blurCurrentChild();
             this.currentMenuItem.elements.childMenu.currentEvent =
               this.currentEvent;
-            this.currentMenuItem.elements.childMenu.focusFirstChild();
+            this._focusSubmenu(this.currentMenuItem);
           } else if (
             !this.isTopLevel &&
             this.currentChild === this.elements.menuItems.length - 1
@@ -556,7 +556,7 @@ class Treeview extends BaseMenu {
               this.blurCurrentChild();
               this.currentMenuItem.elements.childMenu.currentEvent =
                 this.currentEvent;
-              this.currentMenuItem.elements.childMenu.focusFirstChild();
+              this._focusSubmenu(this.currentMenuItem);
             } else {
               this.currentMenuItem.elements.toggle.preview();
             }
@@ -739,16 +739,19 @@ class Treeview extends BaseMenu {
    * @public
    */
   focusChildsLastNode() {
-    this.currentMenuItem.elements.childMenu.currentEvent = this.currentEvent;
-    this.currentMenuItem.elements.childMenu.focusLastChild();
+    const submenu = this.currentMenuItem.elements.childMenu;
+
+    submenu.currentEvent = this.currentEvent;
+    this._focusSubmenu(this.currentMenuItem, {
+      childIndex: submenu.elements.menuItems.length - 1,
+    });
 
     if (
-      this.currentMenuItem.elements.childMenu.currentMenuItem.isSubmenuItem &&
-      this.currentMenuItem.elements.childMenu.currentMenuItem.elements.toggle
-        .isExpanded
+      submenu.currentMenuItem.isSubmenuItem &&
+      submenu.currentMenuItem.elements.toggle.isExpanded
     ) {
-      this.currentMenuItem.elements.childMenu.blurCurrentChild();
-      this.currentMenuItem.elements.childMenu.focusChildsLastNode();
+      submenu.blurCurrentChild();
+      submenu.focusChildsLastNode();
     }
   }
 }

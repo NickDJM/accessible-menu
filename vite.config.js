@@ -73,6 +73,12 @@ export default defineConfig({
       {
         test: {
           name: "unit",
+          server: {
+            deps: {
+              // Keep Core imports on the same module instance in source and tests.
+              inline: [/@accessible-ecosystem\/core/],
+            },
+          },
           environment: "jsdom",
           environmentOptions: {
             pretendToBeVisual: true,

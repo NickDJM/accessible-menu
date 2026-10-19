@@ -505,8 +505,8 @@ describe("Treeview public methods", () => {
       document.body.innerHTML = "";
     });
 
-    // Test that focusChildsLastNode calls focusLastChild on the open child menu.
-    it("should call focusLastChild on the open child menu", () => {
+    // Test that focusChildsLastNode focuses the last item in the open child menu.
+    it("should focus the last item in the child menu", () => {
       // Create a new Treeview instance for testing.
       const menu = new Treeview({
         menuElement: document.querySelector("ul"),
@@ -523,12 +523,15 @@ describe("Treeview public methods", () => {
       // Set up to check for focus.
       const spy = vi.spyOn(
         menu.elements.submenuToggles[0].elements.controlledMenu,
-        "focusLastChild"
+        "focusChild"
       );
 
       menu.focusChildsLastNode();
 
-      expect(spy).toHaveBeenCalled();
+      expect(spy).toHaveBeenCalledWith(
+        menu.elements.submenuToggles[0].elements.controlledMenu.elements
+          .menuItems.length - 1
+      );
     });
 
     // Test that focusChildsLastNode calls focusChildsLastNode on the open child menu if it is focusing the last child that is also an open child menu.

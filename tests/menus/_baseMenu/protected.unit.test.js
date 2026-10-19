@@ -6,7 +6,7 @@
  * _handleKeydown(), and _handleKeyup().
  */
 
-import { describe, it, expect, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { twoLevel } from "../../../demo/menus.js";
 import BaseMenu from "../../../src/_baseMenu.js";
 import { initializeMenu } from "../helpers.js";
@@ -196,6 +196,50 @@ describe("BaseMenu protected methods", () => {
 
       // Test the menu container's id.
       expect(menu.dom.container.getAttribute("id")).toBe("test-id");
+    });
+  });
+});
+
+describe("BaseMenu submenu focus", () => {
+  let menu;
+
+  afterEach(() => {
+    menu.dispose();
+    vi.restoreAllMocks();
+  });
+
+  describe.each([false, true])("defer set to %s", (defer) => {
+    it.each([undefined, 1, 2])("should focus childIndex %s", (childIndex) => {
+      menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        transitionClass: "",
+      });
+      initializeMenu(menu);
+      const item = menu.elements.menuItems[1];
+      const submenu = item.elements.childMenu;
+      const callbacks = [];
+      vi.spyOn(window, "requestAnimationFrame").mockImplementation(
+        (callback) => {
+          callbacks.push(callback);
+          return callbacks.length;
+        }
+      );
+      item.elements.toggle.expand();
+      menu.currentEvent = "keyboard";
+      menu.currentChild = 1;
+      const index = childIndex ?? 0;
+      const previousIndex = submenu.currentChild;
+
+      menu._focusSubmenu(item, { childIndex, defer });
+
+      expect(submenu.currentChild).toBe(defer ? previousIndex : index);
+
+      while (callbacks.length > 0) callbacks.shift()(0);
+
+      expect(submenu.currentChild).toBe(index);
+      expect(document.activeElement).toBe(
+        submenu.elements.menuItems[index].dom.link
+      );
     });
   });
 });

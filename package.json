@@ -147,7 +147,7 @@
     "vitest-axe": "^0.1.0"
   },
   "dependencies": {
-    "@accessible-ecosystem/core": "^1.0.0-beta.5"
+    "@accessible-ecosystem/core": "^1.0.0-beta.6"
   },
   "allowScripts": {
     "esbuild@0.28.2": true,
