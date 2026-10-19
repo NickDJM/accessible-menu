@@ -315,6 +315,7 @@ var h = class {
 	_currentEvent = "none";
 	_intervals = {};
 	_timeouts = {};
+	_frames = {};
 	_listeners = [];
 	_events = {};
 	_prefix = "ae-";
@@ -376,6 +377,9 @@ var h = class {
 	}
 	get timeouts() {
 		return this._timeouts;
+	}
+	get frames() {
+		return this._frames;
 	}
 	get listeners() {
 		return this._listeners;
@@ -539,6 +543,19 @@ var h = class {
 	_clearTimeouts() {
 		for (let e of Object.keys(this._timeouts)) this._clearTimeout(e);
 	}
+	_requestAnimationFrame(e, t = "_default") {
+		this._cancelAnimationFrame(t);
+		let n = !1, r = requestAnimationFrame((r) => {
+			n = !0, delete this._frames[t], e(r);
+		});
+		return n || (this._frames[t] = r), r;
+	}
+	_cancelAnimationFrame(e = "_default") {
+		Object.hasOwn(this._frames, e) && (cancelAnimationFrame(this._frames[e]), delete this._frames[e]);
+	}
+	_cancelAnimationFrames() {
+		for (let e of Object.keys(this._frames)) this._cancelAnimationFrame(e);
+	}
 	_registerEvent(e, { bubbles: n = !0, detail: r = {} } = {}) {
 		t("string", { name: e }), t("boolean", { bubbles: n }), t("object", { detail: r });
 		let i = `${this.eventPrefix}${d(e)}`;
@@ -583,7 +600,7 @@ var h = class {
 		this.focusState = "none", this.shouldFocus && this.rootDOMElement.blur();
 	}
 	dispose() {
-		this._clearIntervals(), this._clearTimeouts(), this._removeEventListeners(), this._unstore();
+		this._clearIntervals(), this._clearTimeouts(), this._cancelAnimationFrames(), this._removeEventListeners(), this._unstore();
 	}
 }, g = class extends h {
 	_name = "ResponsiveComponent";
@@ -630,9 +647,9 @@ var h = class {
 		e.matches;
 	}
 	_handleMediaMatch() {
-		this.mediaQuery !== "" && (this._mediaQueryList = window.matchMedia(this.mediaQuery), this._addEventListener("change", this._mediaQueryList, (e) => this._mediaQueryListEventCallback(e)), requestAnimationFrame(() => {
+		this.mediaQuery !== "" && (this._mediaQueryList = window.matchMedia(this.mediaQuery), this._addEventListener("change", this._mediaQueryList, (e) => this._mediaQueryListEventCallback(e)), this._requestAnimationFrame(() => {
 			this._mediaQueryListEventCallback(this._mediaQueryList);
-		}));
+		}, "mediaMatch"));
 	}
 }, _ = class {
 	_equals = Object.is;
@@ -827,26 +844,26 @@ var h = class {
 		e.matches ? (this.unlockInsideBreakpoint && this.unlock(), this.isExpanded && this.collapseInsideBreakpoint ? (this.isLocked && this.unlock(), this.collapse({ preserveState: !0 })) : !this.isExpanded && this.expandInsideBreakpoint && (this.isLocked && this.unlock(), this.expand()), this.lockInsideBreakpoint && this.lock()) : (this.unlockOutsideBreakpoint && this.unlock(), this.isExpanded && this.collapseOutsideBreakpoint ? (this.isLocked && this.unlock(), this.collapse({ preserveState: !0 })) : !this.isExpanded && this.expandOutsideBreakpoint && (this.isLocked && this.unlock(), this.expand()), this.lockOutsideBreakpoint && this.lock());
 	}
 	_expand({ emit: e = this.isInitialized, transition: t = this.isInitialized } = {}) {
-		e && this._dispatchEvent("preexpand"), this.dom.controller.setAttribute("aria-expanded", "true"), t && this.transitionClass !== "" ? (p(this.transitionClass, this.dom.controlled), requestAnimationFrame(() => {
-			m(this.collapseClass, this.dom.controlled), requestAnimationFrame(() => {
-				p(this.expandClass, this.dom.controlled), requestAnimationFrame(() => {
+		e && this._dispatchEvent("preexpand"), this.dom.controller.setAttribute("aria-expanded", "true"), t && this.transitionClass !== "" ? (p(this.transitionClass, this.dom.controlled), this._requestAnimationFrame(() => {
+			m(this.collapseClass, this.dom.controlled), this._requestAnimationFrame(() => {
+				p(this.expandClass, this.dom.controlled), this._requestAnimationFrame(() => {
 					setTimeout(() => {
 						m(this.transitionClass, this.dom.controlled);
 					}, this.expandDuration);
-				});
-			});
-		})) : (p(this.expandClass, this.dom.controlled), m(this.collapseClass, this.dom.controlled)), e && (this._dispatchEvent("expand"), this._dispatchEvent("postexpand"));
+				}, "expandTransition");
+			}, "expandTransition");
+		}, "expandTransition")) : (p(this.expandClass, this.dom.controlled), m(this.collapseClass, this.dom.controlled)), e && (this._dispatchEvent("expand"), this._dispatchEvent("postexpand"));
 	}
 	_collapse({ emit: e = this.isInitialized, transition: t = this.isInitialized } = {}) {
-		e && this._dispatchEvent("precollapse"), this.dom.controller.setAttribute("aria-expanded", "false"), t && this.transitionClass !== "" ? (p(this.transitionClass, this.dom.controlled), requestAnimationFrame(() => {
-			m(this.expandClass, this.dom.controlled), requestAnimationFrame(() => {
-				p(this.collapseClass, this.dom.controlled), requestAnimationFrame(() => {
+		e && this._dispatchEvent("precollapse"), this.dom.controller.setAttribute("aria-expanded", "false"), t && this.transitionClass !== "" ? (p(this.transitionClass, this.dom.controlled), this._requestAnimationFrame(() => {
+			m(this.expandClass, this.dom.controlled), this._requestAnimationFrame(() => {
+				p(this.collapseClass, this.dom.controlled), this._requestAnimationFrame(() => {
 					setTimeout(() => {
 						m(this.transitionClass, this.dom.controlled);
 					}, this.collapseDuration);
-				});
-			});
-		})) : (p(this.collapseClass, this.dom.controlled), m(this.expandClass, this.dom.controlled)), e && (this._dispatchEvent("collapse"), this._dispatchEvent("postcollapse"));
+				}, "collapseTransition");
+			}, "collapseTransition");
+		}, "collapseTransition")) : (p(this.collapseClass, this.dom.controlled), m(this.expandClass, this.dom.controlled)), e && (this._dispatchEvent("collapse"), this._dispatchEvent("postcollapse"));
 	}
 	_lock({ emit: e = this.isInitialized } = {}) {
 		e && this._dispatchEvent("prelock"), p(this.lockedClass, this.dom.controlled), m(this.unlockedClass, this.dom.controlled), this.dom.controller.setAttribute("disabled", "true"), e && (this._dispatchEvent("lock"), this._dispatchEvent("postlock"));
@@ -1099,14 +1116,17 @@ var h = class {
 		this._id = this.dom.item.id;
 	}
 	focus() {
-		this.focusState = "self", this.shouldFocus && requestAnimationFrame(() => {
-			this.dom.link.focus();
-		});
+		if (this.focusState = "self", this._cancelAnimationFrame("focus"), this.shouldFocus) {
+			let e = document.activeElement, t = this.elements.parentMenu.focusState;
+			this._requestAnimationFrame(() => {
+				this.focusState !== "self" || this.elements.parentMenu.focusState !== t || !this.shouldFocus || document.activeElement !== e && document.activeElement !== document.body || this.dom.link.focus();
+			}, "focus");
+		}
 	}
 	blur() {
-		this.focusState = "none", this.shouldFocus && requestAnimationFrame(() => {
+		this._cancelAnimationFrame("focus"), this.focusState = "none", this.shouldFocus && this._requestAnimationFrame(() => {
 			this.dom.link.blur();
-		});
+		}, "blur");
 	}
 };
 //#endregion
@@ -1472,15 +1492,31 @@ var C = class n extends h {
 			}));
 		});
 	}
+	_focusSubmenu(e, { childIndex: t = 0, defer: n = !1 } = {}) {
+		this._cancelAnimationFrame("submenuFocus");
+		let r = e.elements.childMenu;
+		if (r.currentEvent = this.currentEvent, !n) {
+			r.focusChild(t);
+			return;
+		}
+		let i = document.activeElement;
+		this._requestAnimationFrame(() => {
+			this.currentMenuItem === e && this.currentEvent === "keyboard" && e.elements.toggle.isExpanded && document.activeElement === i && r.focusChild(t);
+		}, "submenuFocus");
+	}
 	_handleKeydown() {
 		this.isTopLevel && this.elements.controller && this._addEventListener("keydown", this.elements.controller.dom.controller, (e) => {
+			if (e.ctrlKey || e.altKey || e.metaKey) return;
 			this.currentEvent = "keyboard";
 			let t = x(e);
 			(t === "Space" || t === "Enter") && S(e);
 		});
 	}
 	_handleKeyup() {
-		this.isTopLevel && this.elements.controller && this._addEventListener("keyup", this.elements.controller.dom.controller, (e) => {
+		this._addEventListener("keyup", this.dom.menu, () => {
+			this._cancelAnimationFrame("submenuFocus");
+		}), this.isTopLevel && this.elements.controller && this._addEventListener("keyup", this.elements.controller.dom.controller, (e) => {
+			if (e.ctrlKey || e.altKey || e.metaKey) return;
 			this.currentEvent = "keyboard";
 			let t = x(e);
 			(t === "Space" || t === "Enter") && (S(e), this.elements.controller.toggle(), this.elements.controller.isExpanded && this.focusFirstChild());
@@ -1663,7 +1699,7 @@ var C = class n extends h {
 	}
 	_bootstrap() {
 		super._bootstrap(), this._addEventListener(this.getEventName("initialize"), this.rootDOMElement, (e) => {
-			e.detail.component === this && (this.isTopLevel ? this.dom.menu.setAttribute("role", "menubar") : this.dom.menu.setAttribute("role", "menu"), this.isTopLevel && (this.elements.menuItems[0].dom.link.tabIndex = 0, this.elements.controller && this.elements.controller.dom.controller.removeAttribute("aria-haspopup")));
+			e.detail.component === this && (this.isTopLevel ? this.dom.menu.setAttribute("role", "menubar") : this.dom.menu.setAttribute("role", "menu"), this.isTopLevel && (this.elements.menuItems.length > 0 && (this.elements.menuItems[0].dom.link.tabIndex = 0), this.elements.controller && this.elements.controller.dom.controller.removeAttribute("aria-haspopup")));
 		});
 	}
 	_handleClick() {
@@ -1673,6 +1709,7 @@ var C = class n extends h {
 	}
 	_handleKeydown() {
 		super._handleKeydown(), this._addEventListener("keydown", this.dom.menu, (e) => {
+			if (e.ctrlKey || e.altKey || e.metaKey) return;
 			this.currentEvent = "keyboard";
 			let t = x(e);
 			t === "Tab" && (this.elements.rootMenu.focusState === "none" ? this.elements.rootMenu.focus() : (this.elements.rootMenu.blur(), this.elements.rootMenu.collapseChildren())), t === "Character" ? S(e) : this.isTopLevel ? this.focusState === "self" && ([
@@ -1697,14 +1734,13 @@ var C = class n extends h {
 	}
 	_handleKeyup() {
 		super._handleKeyup(), this._addEventListener("keyup", this.dom.menu, (e) => {
+			if (e.ctrlKey || e.altKey || e.metaKey) return;
 			this.currentEvent = "keyboard";
-			let t = x(e), { altKey: n, crtlKey: r, metaKey: i } = e;
-			if (t === "Character" && !(n || r || i)) S(e), this.elements.rootMenu.currentEvent = "character", this.focusNextChildWithCharacter(e.key);
+			let t = x(e);
+			if (t === "Character") S(e), this.elements.rootMenu.currentEvent = "character", this.focusNextChildWithCharacter(e.key);
 			else if (this.isTopLevel) {
 				if (this.focusState === "self") {
-					if (t === "Space" || t === "Enter") S(e), this.currentMenuItem.isSubmenuItem ? (this.currentMenuItem.elements.childMenu.currentEvent = "keyboard", this.currentMenuItem.elements.toggle.expand(), requestAnimationFrame(() => {
-						this.currentMenuItem.elements.childMenu.focusFirstChild();
-					})) : this.currentMenuItem.dom.link.click();
+					if (t === "Space" || t === "Enter") S(e), this.currentMenuItem.isSubmenuItem ? (this.currentMenuItem.elements.childMenu.currentEvent = "keyboard", this.currentMenuItem.elements.toggle.expand(), this._focusSubmenu(this.currentMenuItem, { defer: !0 })) : this.currentMenuItem.dom.link.click();
 					else if (t === "ArrowRight") {
 						S(e);
 						let t = this.currentMenuItem.isSubmenuItem && this.currentMenuItem.elements.toggle.isExpanded;
@@ -1713,17 +1749,19 @@ var C = class n extends h {
 						S(e);
 						let t = this.currentMenuItem.isSubmenuItem && this.currentMenuItem.elements.toggle.isExpanded;
 						this.focusPreviousChild(), t && (this.currentMenuItem.isSubmenuItem ? (this.currentMenuItem.elements.childMenu.currentEvent = "keyboard", this.currentMenuItem.elements.toggle.preview()) : this.collapseChildren());
-					} else t === "ArrowDown" ? this.currentMenuItem.isSubmenuItem && (S(e), this.currentMenuItem.elements.childMenu.currentEvent = "keyboard", this.currentMenuItem.elements.toggle.expand(), requestAnimationFrame(() => {
-						this.currentMenuItem.elements.childMenu.focusFirstChild();
-					})) : t === "ArrowUp" ? this.currentMenuItem.isSubmenuItem && (S(e), this.currentMenuItem.elements.childMenu.currentEvent = "keyboard", this.currentMenuItem.elements.toggle.expand(), requestAnimationFrame(() => {
-						this.currentMenuItem.elements.childMenu.focusLastChild();
-					})) : t === "Home" ? (S(e), this.focusFirstChild()) : t === "End" ? (S(e), this.focusLastChild()) : t === "Escape" && (this.elements.submenuToggles.some((e) => e.isExpanded) ? (S(e), this.collapseChildren()) : this.isTopLevel && this.elements.controller && this.elements.controller.isExpanded && (S(e), this.elements.controller.collapse(), this.focusController()));
+					} else if (t === "ArrowDown") this.currentMenuItem.isSubmenuItem && (S(e), this.currentMenuItem.elements.childMenu.currentEvent = "keyboard", this.currentMenuItem.elements.toggle.expand(), this._focusSubmenu(this.currentMenuItem, { defer: !0 }));
+					else if (t === "ArrowUp") {
+						if (this.currentMenuItem.isSubmenuItem) {
+							S(e), this.currentMenuItem.elements.childMenu.currentEvent = "keyboard", this.currentMenuItem.elements.toggle.expand();
+							let t = this.currentMenuItem.elements.childMenu;
+							this._focusSubmenu(this.currentMenuItem, {
+								childIndex: t.elements.menuItems.length - 1,
+								defer: !0
+							});
+						}
+					} else t === "Home" ? (S(e), this.focusFirstChild()) : t === "End" ? (S(e), this.focusLastChild()) : t === "Escape" && (this.elements.submenuToggles.some((e) => e.isExpanded) ? (S(e), this.collapseChildren()) : this.isTopLevel && this.elements.controller && this.elements.controller.isExpanded && (S(e), this.elements.controller.collapse(), this.focusController()));
 				}
-			} else t === "Space" || t === "Enter" ? (S(e), this.currentMenuItem.isSubmenuItem ? (this.currentMenuItem.elements.childMenu.currentEvent = "keyboard", this.currentMenuItem.elements.toggle.expand(), requestAnimationFrame(() => {
-				this.currentMenuItem.elements.childMenu.focusFirstChild();
-			})) : this.currentMenuItem.dom.link.click()) : t === "Escape" ? (S(e), this.elements.rootMenu.collapseChildren(), this.elements.rootMenu.focusCurrentChild()) : t === "ArrowRight" ? this.currentMenuItem.isSubmenuItem ? (S(e), this.currentMenuItem.elements.childMenu.currentEvent = "keyboard", this.currentMenuItem.elements.toggle.expand(), requestAnimationFrame(() => {
-				this.currentMenuItem.elements.childMenu.focusFirstChild();
-			})) : (S(e), this.elements.rootMenu.collapseChildren(), this.elements.rootMenu.focusNextChild(), this.elements.rootMenu.currentMenuItem.isSubmenuItem && this.elements.rootMenu.currentMenuItem.elements.toggle.preview()) : t === "ArrowLeft" ? this.elements.parentMenu.currentMenuItem.isSubmenuItem && (S(e), this.elements.parentMenu.currentMenuItem.elements.toggle.collapse(), this.elements.parentMenu.focusCurrentChild(), this.elements.parentMenu === this.elements.rootMenu && (this.elements.rootMenu.collapseChildren(), this.elements.rootMenu.focusPreviousChild(), this.elements.rootMenu.currentMenuItem.isSubmenuItem && (this.elements.rootMenu.currentMenuItem.elements.childMenu.currentEvent = "keyboard", this.elements.rootMenu.currentMenuItem.elements.toggle.preview()))) : t === "ArrowDown" ? (S(e), this.focusNextChild()) : t === "ArrowUp" ? (S(e), this.focusPreviousChild()) : t === "Home" ? (S(e), this.focusFirstChild()) : t === "End" && (S(e), this.focusLastChild());
+			} else t === "Space" || t === "Enter" ? (S(e), this.currentMenuItem.isSubmenuItem ? (this.currentMenuItem.elements.childMenu.currentEvent = "keyboard", this.currentMenuItem.elements.toggle.expand(), this._focusSubmenu(this.currentMenuItem, { defer: !0 })) : this.currentMenuItem.dom.link.click()) : t === "Escape" ? (S(e), this.elements.parentMenu.collapseChildren(), this.elements.parentMenu.focusCurrentChild()) : t === "ArrowRight" ? this.currentMenuItem.isSubmenuItem ? (S(e), this.currentMenuItem.elements.childMenu.currentEvent = "keyboard", this.currentMenuItem.elements.toggle.expand(), this._focusSubmenu(this.currentMenuItem, { defer: !0 })) : (S(e), this.elements.rootMenu.collapseChildren(), this.elements.rootMenu.focusNextChild(), this.elements.rootMenu.currentMenuItem.isSubmenuItem && this.elements.rootMenu.currentMenuItem.elements.toggle.preview()) : t === "ArrowLeft" ? this.elements.parentMenu.currentMenuItem.isSubmenuItem && (S(e), this.elements.parentMenu.currentMenuItem.elements.toggle.collapse(), this.elements.parentMenu.focusCurrentChild(), this.elements.parentMenu === this.elements.rootMenu && (this.elements.rootMenu.collapseChildren(), this.elements.rootMenu.focusPreviousChild(), this.elements.rootMenu.currentMenuItem.isSubmenuItem && (this.elements.rootMenu.currentMenuItem.elements.childMenu.currentEvent = "keyboard", this.elements.rootMenu.currentMenuItem.elements.toggle.preview()))) : t === "ArrowDown" ? (S(e), this.focusNextChild()) : t === "ArrowUp" ? (S(e), this.focusPreviousChild()) : t === "Home" ? (S(e), this.focusFirstChild()) : t === "End" && (S(e), this.focusLastChild());
 		});
 	}
 	focusNextChild() {
