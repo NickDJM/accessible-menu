@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./logo.svg" role="presentation" alt width="500" style="width: 100%; max-width: 90ch;"/>
+  <img src="./logo.jpg" role="presentation" alt width="500" style="width: 100%; max-width: 90ch;"/>
 </p>
 
 # Accessible Menu
