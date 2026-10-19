@@ -710,3 +710,61 @@ describe("BaseMenu public methods", () => {
     });
   });
 });
+
+describe("BaseMenu focusChild index validation", () => {
+  let menu;
+
+  beforeEach(() => {
+    vi.spyOn(window, "requestAnimationFrame").mockImplementation((callback) => {
+      callback(0);
+      return 0;
+    });
+    menu = new BaseMenu({ menuElement: document.querySelector("ul") });
+    initializeMenu(menu);
+    menu.currentEvent = "keyboard";
+    menu.focusChild(0);
+  });
+
+  afterEach(() => {
+    menu.dispose();
+    vi.restoreAllMocks();
+  });
+
+  it.each([0.5, -1.5, NaN, Infinity, -Infinity, "1", null, undefined, {}])(
+    "should reject %s before changing selection or focus",
+    (index) => {
+      const focusedLink = document.activeElement;
+      const focusState = menu.focusState;
+      const blur = vi.spyOn(menu, "blurCurrentChild");
+      const focus = vi.spyOn(menu, "focusCurrentChild");
+      const errorType = typeof index === "number" ? RangeError : TypeError;
+
+      expect(() => menu.focusChild(index)).toThrow(errorType);
+
+      expect(menu.currentChild).toBe(0);
+      expect(menu.focusState).toBe(focusState);
+      expect(document.activeElement).toBe(focusedLink);
+      expect(blur).not.toHaveBeenCalled();
+      expect(focus).not.toHaveBeenCalled();
+    }
+  );
+
+  it.each([-100, -1, 0, 2, 100])(
+    "should preserve integer clamping for %s",
+    (index) => {
+      const expected = Math.max(
+        -1,
+        Math.min(index, menu.elements.menuItems.length - 1)
+      );
+
+      menu.focusChild(index);
+
+      expect(menu.currentChild).toBe(expected);
+      expect(document.activeElement).toBe(
+        expected === -1
+          ? document.body
+          : menu.elements.menuItems[expected].dom.link
+      );
+    }
+  );
+});

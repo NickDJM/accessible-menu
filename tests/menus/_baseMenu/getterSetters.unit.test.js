@@ -1046,3 +1046,64 @@ describe("BaseMenu getter/setters", () => {
     });
   });
 });
+
+describe("BaseMenu currentChild validation", () => {
+  let menu;
+
+  beforeEach(() => {
+    menu = new BaseMenu({ menuElement: document.querySelector("ul") });
+    initializeMenu(menu);
+  });
+
+  afterEach(() => {
+    menu.dispose();
+  });
+
+  it.each([0.5, -1.5, NaN, Infinity, -Infinity, "1", null, undefined])(
+    "should reject %s without changing selection or the parent menu",
+    (value) => {
+      const submenu = menu.elements.submenuToggles[0].elements.controlledMenu;
+      const previousChild = submenu.currentChild;
+      submenu.currentEvent = "mouse";
+      menu.currentChild = 0;
+
+      const errorType = typeof value === "number" ? RangeError : TypeError;
+
+      expect(() => {
+        submenu.currentChild = value;
+      }).toThrow(errorType);
+
+      expect(submenu.currentChild).toBe(previousChild);
+      expect(menu.currentChild).toBe(0);
+    }
+  );
+
+  it.each([-100, -1, 0, 2, 100])(
+    "should preserve integer clamping for %s",
+    (value) => {
+      const expected = Math.max(
+        -1,
+        Math.min(value, menu.elements.menuItems.length - 1)
+      );
+
+      menu.currentChild = value;
+
+      expect(menu.currentChild).toBe(expected);
+    }
+  );
+
+  it.each(["mouse", "character"])(
+    "should synchronize the parent for %s even when the submenu index stays the same",
+    (currentEvent) => {
+      const submenu = menu.elements.submenuToggles[0].elements.controlledMenu;
+      const previousChild = submenu.currentChild;
+      submenu.currentEvent = currentEvent;
+      menu.currentChild = 0;
+
+      submenu.currentChild = previousChild;
+
+      expect(submenu.currentChild).toBe(previousChild);
+      expect(menu.currentChild).toBe(1);
+    }
+  );
+});
