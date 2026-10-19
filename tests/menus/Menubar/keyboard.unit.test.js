@@ -564,8 +564,8 @@ describe("Menubar", () => {
 
             expect(spy).toHaveBeenCalled();
           });
-          // Test that the child menu's focusFirstChild method is called.
-          it("should call the child menu's focusFirstChild method", () => {
+          // Test that the first item in the child menu is focused.
+          it("should focus the first item in the child menu", () => {
             // Mock requestAnimationFrame.
             vi.spyOn(window, "requestAnimationFrame").mockImplementation(
               (callback) => {
@@ -584,10 +584,10 @@ describe("Menubar", () => {
             menu.focusState = "self";
             menu.currentChild = 1;
 
-            // Spy on the menu's focusFirstChild method.
+            // Spy on the menu's focusChild method.
             const spy = vi.spyOn(
               menu.elements.submenuToggles[0].elements.controlledMenu,
-              "focusFirstChild"
+              "focusChild"
             );
 
             // Trigger a keyup event.
@@ -595,7 +595,7 @@ describe("Menubar", () => {
               key,
             });
 
-            expect(spy).toHaveBeenCalled();
+            expect(spy).toHaveBeenCalledWith(0);
           });
         });
         describe("when the current menu item is not a submenu item", () => {
@@ -958,8 +958,8 @@ describe("Menubar", () => {
 
             expect(spy).toHaveBeenCalled();
           });
-          // Test that the child menu's focusFirstChild method is called.
-          it("should call the child menu's focusFirstChild method", () => {
+          // Test that the first item in the child menu is focused.
+          it("should focus the first item in the child menu", () => {
             // Mock requestAnimationFrame.
             vi.spyOn(window, "requestAnimationFrame").mockImplementation(
               (callback) => {
@@ -978,10 +978,10 @@ describe("Menubar", () => {
             menu.focusState = "self";
             menu.currentChild = 1;
 
-            // Spy on the child menu's focusFirstChild method.
+            // Spy on the child menu's focusChild method.
             const spy = vi.spyOn(
               menu.elements.submenuToggles[0].elements.controlledMenu,
-              "focusFirstChild"
+              "focusChild"
             );
 
             // Trigger a keyup event.
@@ -989,7 +989,7 @@ describe("Menubar", () => {
               key: "ArrowDown",
             });
 
-            expect(spy).toHaveBeenCalled();
+            expect(spy).toHaveBeenCalledWith(0);
           });
         });
         describe("when the current menu item is not a submenu item", () => {
@@ -1085,8 +1085,8 @@ describe("Menubar", () => {
 
             expect(spy).toHaveBeenCalled();
           });
-          // Test that the child menu's focusLastChild method is called.
-          it("should call the child menu's focusLastChild method", () => {
+          // Test that the last item in the child menu is focused.
+          it("should focus the last item in the child menu", () => {
             // Mock requestAnimationFrame.
             vi.spyOn(window, "requestAnimationFrame").mockImplementation(
               (callback) => {
@@ -1105,10 +1105,10 @@ describe("Menubar", () => {
             menu.focusState = "self";
             menu.currentChild = 1;
 
-            // Spy on the child menu's focusLastChild method.
+            // Spy on the child menu's focusChild method.
             const spy = vi.spyOn(
               menu.elements.submenuToggles[0].elements.controlledMenu,
-              "focusLastChild"
+              "focusChild"
             );
 
             // Trigger a keyup event.
@@ -1116,7 +1116,10 @@ describe("Menubar", () => {
               key: "ArrowUp",
             });
 
-            expect(spy).toHaveBeenCalled();
+            expect(spy).toHaveBeenCalledWith(
+              menu.elements.submenuToggles[0].elements.controlledMenu.elements
+                .menuItems.length - 1
+            );
           });
         });
         describe("when the current menu item is not a submenu item", () => {
@@ -1451,8 +1454,8 @@ describe("Menubar", () => {
 
             expect(spy).toHaveBeenCalled();
           });
-          // Test that the child menu's focusFirstChild method is called.
-          it("should call the child menu's focusFirstChild method", () => {
+          // Test that the first item in the child menu is focused.
+          it("should focus the first item in the child menu", () => {
             // Create a new Menubar instance for testing.
             const menu = new Menubar({
               menuElement: document.querySelector("ul"),
@@ -1465,11 +1468,11 @@ describe("Menubar", () => {
             menu.elements.submenuToggles[0].expand();
             menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 1;
 
-            // Spy on the current menu's focusFirstChild method.
+            // Spy on the current menu's focusChild method.
             const spy = vi.spyOn(
               menu.elements.submenuToggles[0].elements.controlledMenu.elements
                 .submenuToggles[0].elements.controlledMenu,
-              "focusFirstChild"
+              "focusChild"
             );
 
             // Trigger a keyup event.
@@ -1481,7 +1484,7 @@ describe("Menubar", () => {
               }
             );
 
-            expect(spy).toHaveBeenCalled();
+            expect(spy).toHaveBeenCalledWith(0);
           });
         });
         describe("when the current menu item is not a submenu item", () => {
@@ -1714,8 +1717,8 @@ describe("Menubar", () => {
 
             expect(spy).toHaveBeenCalled();
           });
-          // Test that the child menu's focusFirstChild method is called.
-          it("should call the child menu's focusFirstChild method", () => {
+          // Test that the first item in the child menu is focused.
+          it("should focus the first item in the child menu", () => {
             // Create a new Menubar instance for testing.
             const menu = new Menubar({
               menuElement: document.querySelector("ul"),
@@ -1728,11 +1731,11 @@ describe("Menubar", () => {
             menu.elements.submenuToggles[0].expand();
             menu.elements.submenuToggles[0].elements.controlledMenu.currentChild = 1;
 
-            // Spy on the child menu's focusFirstChild method.
+            // Spy on the child menu's focusChild method.
             const spy = vi.spyOn(
               menu.elements.submenuToggles[0].elements.controlledMenu.elements
                 .submenuToggles[0].elements.controlledMenu,
-              "focusFirstChild"
+              "focusChild"
             );
 
             // Trigger a keyup event.
@@ -1744,7 +1747,7 @@ describe("Menubar", () => {
               }
             );
 
-            expect(spy).toHaveBeenCalled();
+            expect(spy).toHaveBeenCalledWith(0);
           });
         });
         describe("when the current menu item is not a submenu item", () => {
@@ -2584,4 +2587,126 @@ describe("Menubar modified keyboard shortcuts", () => {
       });
     }
   );
+});
+
+describe("Menubar deferred submenu focus", () => {
+  let menu;
+  let frames;
+  let nextFrame;
+
+  /**
+   * Runs pending animation frames, including frames added by their callbacks.
+   */
+  function flushFrames() {
+    while (frames.size > 0) {
+      const pendingFrames = Array.from(frames.entries());
+
+      for (const [id, callback] of pendingFrames) {
+        if (frames.delete(id)) callback(0);
+      }
+    }
+  }
+
+  beforeEach(() => {
+    frames = new Map();
+    nextFrame = 0;
+    vi.spyOn(window, "requestAnimationFrame").mockImplementation((callback) => {
+      frames.set(++nextFrame, callback);
+      return nextFrame;
+    });
+    vi.spyOn(window, "cancelAnimationFrame").mockImplementation((id) => {
+      frames.delete(id);
+    });
+    menu = new Menubar({
+      menuElement: document.querySelector("ul"),
+      containerElement: document.querySelector("nav"),
+      controllerElement: document.querySelector("button"),
+      transitionClass: "",
+    });
+  });
+
+  afterEach(() => {
+    menu.dispose();
+    vi.restoreAllMocks();
+  });
+
+  describe.each([
+    { key: "Enter", nested: false, lastChild: false },
+    { key: " ", nested: false, lastChild: false },
+    { key: "ArrowDown", nested: false, lastChild: false },
+    { key: "ArrowUp", nested: false, lastChild: true },
+    { key: "Enter", nested: true, lastChild: false },
+    { key: " ", nested: true, lastChild: false },
+    { key: "ArrowRight", nested: true, lastChild: false },
+  ])("$key with nested set to $nested", ({ key, nested, lastChild }) => {
+    let parentMenu;
+    let item;
+    let submenu;
+    let focusChild;
+
+    beforeEach(() => {
+      parentMenu = menu;
+
+      if (nested) {
+        menu.elements.submenuToggles[0].expand();
+        parentMenu = menu.elements.submenuToggles[0].elements.controlledMenu;
+      }
+
+      parentMenu.currentEvent = "keyboard";
+      parentMenu.focusChild(1);
+      flushFrames();
+      item = parentMenu.currentMenuItem;
+      submenu = item.elements.childMenu;
+      focusChild = vi.spyOn(submenu, "focusChild");
+    });
+
+    it("should focus the intended submenu after it opens", () => {
+      const index = lastChild ? submenu.elements.menuItems.length - 1 : 0;
+
+      item.dom.link.dispatchEvent(
+        new KeyboardEvent("keyup", { key, bubbles: true, cancelable: true })
+      );
+
+      expect(item.elements.toggle.isExpanded).toBe(true);
+      expect(focusChild).not.toHaveBeenCalled();
+
+      flushFrames();
+
+      expect(focusChild).toHaveBeenCalledOnce();
+      expect(document.activeElement).toBe(
+        submenu.elements.menuItems[index].dom.link
+      );
+    });
+
+    it.each(["click", "focus", "collapse", "dispose", "keyboard"])(
+      "should leave focus alone after an intervening %s action",
+      (action) => {
+        item.dom.link.dispatchEvent(
+          new KeyboardEvent("keyup", { key, bubbles: true, cancelable: true })
+        );
+
+        if (action === "click") {
+          menu.elements.menuItems[0].dom.link.click();
+        } else if (action === "focus") {
+          menu.dom.controller.focus();
+        } else if (action === "collapse") {
+          item.elements.toggle.collapse();
+        } else if (action === "dispose") {
+          menu.dispose();
+        } else {
+          item.dom.link.dispatchEvent(
+            new KeyboardEvent("keyup", {
+              key: "Escape",
+              bubbles: true,
+              cancelable: true,
+            })
+          );
+        }
+
+        expect(() => flushFrames()).not.toThrow();
+        expect(focusChild).not.toHaveBeenCalled();
+        expect(submenu.dom.menu.contains(document.activeElement)).toBe(false);
+      }
+    );
+  });
 });

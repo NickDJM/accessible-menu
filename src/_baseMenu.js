@@ -1474,6 +1474,50 @@ class BaseMenu extends Component {
   }
 
   /**
+   * Moves focus to an item at a given index in a menu item's submenu.
+   *
+   * Selects the item immediately by default. Set defer to true to wait one
+   * animation frame for the submenu to open before selecting its child.
+   *
+   * Cancels a deferred move if focus moves away, the submenu closes, or another
+   * item becomes current before the frame runs.
+   *
+   * @protected
+   *
+   * @param {BaseMenuItem} menuItem                    - The item whose submenu will receive focus.
+   * @param {object}       [options = {}]              - The options for focusing the submenu.
+   * @param {number}       [options.childIndex = 0]    - The zero-based index of the child to focus.
+   * @param {boolean}      [options.defer = false]     - A flag to wait one animation frame before selecting the child.
+   */
+  _focusSubmenu(menuItem, { childIndex = 0, defer = false } = {}) {
+    this._cancelAnimationFrame("submenuFocus");
+
+    const submenu = menuItem.elements.childMenu;
+    submenu.currentEvent = this.currentEvent;
+
+    if (!defer) {
+      submenu.focusChild(childIndex);
+      return;
+    }
+
+    const focusedElement = document.activeElement;
+
+    // Wait until the submenu is visually open before focusing its child.
+    this._requestAnimationFrame(() => {
+      if (
+        this.currentMenuItem !== menuItem ||
+        this.currentEvent !== "keyboard" ||
+        !menuItem.elements.toggle.isExpanded ||
+        document.activeElement !== focusedElement
+      ) {
+        return;
+      }
+
+      submenu.focusChild(childIndex);
+    }, "submenuFocus");
+  }
+
+  /**
    * Handles keydown events throughout the menu for proper menu use.
    *
    * Ignores keydown events using Ctrl, Alt, or Meta.
@@ -1517,6 +1561,10 @@ class BaseMenu extends Component {
    * @protected
    */
   _handleKeyup() {
+    this._addEventListener("keyup", this.dom.menu, () => {
+      this._cancelAnimationFrame("submenuFocus");
+    });
+
     if (this.isTopLevel && this.elements.controller) {
       this._addEventListener(
         "keyup",

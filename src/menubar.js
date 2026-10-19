@@ -401,10 +401,7 @@ class Menubar extends BaseMenu {
             if (this.currentMenuItem.isSubmenuItem) {
               this.currentMenuItem.elements.childMenu.currentEvent = "keyboard";
               this.currentMenuItem.elements.toggle.expand();
-              // This ensures the the menu is _visually_ open before the child is focussed.
-              requestAnimationFrame(() => {
-                this.currentMenuItem.elements.childMenu.focusFirstChild();
-              });
+              this._focusSubmenu(this.currentMenuItem, { defer: true });
             } else {
               this.currentMenuItem.dom.link.click();
             }
@@ -463,10 +460,7 @@ class Menubar extends BaseMenu {
               preventEvent(event);
               this.currentMenuItem.elements.childMenu.currentEvent = "keyboard";
               this.currentMenuItem.elements.toggle.expand();
-              // This ensures the the menu is _visually_ open before the child is focussed.
-              requestAnimationFrame(() => {
-                this.currentMenuItem.elements.childMenu.focusFirstChild();
-              });
+              this._focusSubmenu(this.currentMenuItem, { defer: true });
             }
           } else if (key === "ArrowUp") {
             // Hitting the Up Arrow:
@@ -475,9 +469,11 @@ class Menubar extends BaseMenu {
               preventEvent(event);
               this.currentMenuItem.elements.childMenu.currentEvent = "keyboard";
               this.currentMenuItem.elements.toggle.expand();
-              // This ensures the the menu is _visually_ open before the child is focussed.
-              requestAnimationFrame(() => {
-                this.currentMenuItem.elements.childMenu.focusLastChild();
+              const submenu = this.currentMenuItem.elements.childMenu;
+
+              this._focusSubmenu(this.currentMenuItem, {
+                childIndex: submenu.elements.menuItems.length - 1,
+                defer: true,
               });
             }
           } else if (key === "Home") {
@@ -520,10 +516,7 @@ class Menubar extends BaseMenu {
           if (this.currentMenuItem.isSubmenuItem) {
             this.currentMenuItem.elements.childMenu.currentEvent = "keyboard";
             this.currentMenuItem.elements.toggle.expand();
-            // This ensures the the menu is _visually_ open before the child is focussed.
-            requestAnimationFrame(() => {
-              this.currentMenuItem.elements.childMenu.focusFirstChild();
-            });
+            this._focusSubmenu(this.currentMenuItem, { defer: true });
           } else {
             this.currentMenuItem.dom.link.click();
           }
@@ -545,10 +538,7 @@ class Menubar extends BaseMenu {
             preventEvent(event);
             this.currentMenuItem.elements.childMenu.currentEvent = "keyboard";
             this.currentMenuItem.elements.toggle.expand();
-            // This ensures the the menu is _visually_ open before the child is focussed.
-            requestAnimationFrame(() => {
-              this.currentMenuItem.elements.childMenu.focusFirstChild();
-            });
+            this._focusSubmenu(this.currentMenuItem, { defer: true });
           } else {
             preventEvent(event);
             this.elements.rootMenu.collapseChildren();

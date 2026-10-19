@@ -603,7 +603,7 @@ class TopLinkDisclosureMenu extends BaseMenu {
               this.currentMenuItem.elements.toggle.isExpanded
             ) {
               this.currentMenuItem.elements.childMenu.currentEvent = "keyboard";
-              this.currentMenuItem.elements.childMenu.focusFirstChild();
+              this._focusSubmenu(this.currentMenuItem);
             } else {
               this.focusNextChild();
             }

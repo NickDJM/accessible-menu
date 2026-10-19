@@ -603,8 +603,8 @@ describe("Treeview", () => {
             menu.elements.submenuToggles[0].elements.controlledMenu.currentEvent
           ).toBe("keyboard");
         });
-        // Test that the child menu's focusFirstChild method is called.
-        it("should call the child menu's focusFirstChild method", () => {
+        // Test that the first item in the child menu is focused.
+        it("should focus the first item in the child menu", () => {
           // Create a new Treeview instance for testing.
           const menu = new Treeview({
             menuElement: document.querySelector("ul"),
@@ -617,10 +617,10 @@ describe("Treeview", () => {
           menu.currentChild = 1;
           menu.elements.submenuToggles[0].preview();
 
-          // Spy on the child menu's focusFirstChild method.
+          // Spy on the child menu's focusChild method.
           const spy = vi.spyOn(
             menu.elements.submenuToggles[0].elements.controlledMenu,
-            "focusFirstChild"
+            "focusChild"
           );
 
           // Trigger a keyup event.
@@ -628,7 +628,7 @@ describe("Treeview", () => {
             key: "ArrowDown",
           });
 
-          expect(spy).toHaveBeenCalled();
+          expect(spy).toHaveBeenCalledWith(0);
         });
       });
 
@@ -1065,8 +1065,8 @@ describe("Treeview", () => {
             menu.elements.submenuToggles[0].elements.controlledMenu.currentEvent
           ).toBe("keyboard");
         });
-        // Test that the child menu's focusFirstChild method is called.
-        it("should call the child menu's focusFirstChild method", () => {
+        // Test that the first item in the child menu is focused.
+        it("should focus the first item in the child menu", () => {
           // Create a new Treeview instance for testing.
           const menu = new Treeview({
             menuElement: document.querySelector("ul"),
@@ -1078,10 +1078,10 @@ describe("Treeview", () => {
           menu.currentChild = 1;
           menu.elements.submenuToggles[0].preview();
 
-          // Spy on the child menu's focusFirstChild method.
+          // Spy on the child menu's focusChild method.
           const spy = vi.spyOn(
             menu.elements.submenuToggles[0].elements.controlledMenu,
-            "focusFirstChild"
+            "focusChild"
           );
 
           // Trigger a keyup event.
@@ -1089,7 +1089,7 @@ describe("Treeview", () => {
             key: "ArrowRight",
           });
 
-          expect(spy).toHaveBeenCalled();
+          expect(spy).toHaveBeenCalledWith(0);
         });
       });
 
@@ -1768,4 +1768,136 @@ describe("Treeview modified keyboard shortcuts", () => {
       });
     }
   );
+});
+
+describe("Treeview submenu focus", () => {
+  let menu;
+  let frames;
+  let nextFrame;
+
+  /**
+   * Runs pending animation frames, including frames added by their callbacks.
+   */
+  function flushFrames() {
+    while (frames.size > 0) {
+      const pendingFrames = Array.from(frames.entries());
+
+      for (const [id, callback] of pendingFrames) {
+        if (frames.delete(id)) callback(0);
+      }
+    }
+  }
+
+  beforeEach(() => {
+    frames = new Map();
+    nextFrame = 0;
+    vi.spyOn(window, "requestAnimationFrame").mockImplementation((callback) => {
+      frames.set(++nextFrame, callback);
+      return nextFrame;
+    });
+    vi.spyOn(window, "cancelAnimationFrame").mockImplementation((id) => {
+      frames.delete(id);
+    });
+    menu = new Treeview({
+      menuElement: document.querySelector("ul"),
+      containerElement: document.querySelector("nav"),
+      controllerElement: document.querySelector("button"),
+      transitionClass: "",
+    });
+  });
+
+  afterEach(() => {
+    menu.dispose();
+    vi.restoreAllMocks();
+  });
+
+  it("should select the submenu item immediately and focus its link on the next frame", () => {
+    const index = menu.elements.menuItems.findIndex(
+      (item) => item.isSubmenuItem
+    );
+    const item = menu.elements.menuItems[index];
+    const submenu = item.elements.childMenu;
+    item.elements.toggle.preview();
+    menu.currentEvent = "keyboard";
+    menu.focusChild(index);
+    flushFrames();
+
+    item.dom.link.dispatchEvent(
+      new KeyboardEvent("keyup", {
+        key: "ArrowRight",
+        bubbles: true,
+        cancelable: true,
+      })
+    );
+
+    expect(submenu.currentChild).toBe(0);
+    expect(document.activeElement).toBe(item.dom.link);
+
+    flushFrames();
+
+    expect(document.activeElement).toBe(submenu.elements.menuItems[0].dom.link);
+  });
+
+  it.each(["click", "focus", "collapse", "dispose"])(
+    "should cancel pending submenu link focus after %s",
+    (action) => {
+      const index = menu.elements.menuItems.findIndex(
+        (item) => item.isSubmenuItem
+      );
+      const item = menu.elements.menuItems[index];
+      const submenu = item.elements.childMenu;
+      item.elements.toggle.preview();
+      menu.currentEvent = "keyboard";
+      menu.focusChild(index);
+      flushFrames();
+
+      item.dom.link.dispatchEvent(
+        new KeyboardEvent("keyup", {
+          key: "ArrowRight",
+          bubbles: true,
+          cancelable: true,
+        })
+      );
+
+      if (action === "click") {
+        menu.elements.menuItems[0].dom.link.click();
+      } else if (action === "focus") {
+        menu.dom.controller.focus();
+      } else if (action === "collapse") {
+        item.elements.toggle.collapse();
+      } else {
+        menu.dispose();
+      }
+
+      flushFrames();
+
+      expect(submenu.dom.menu.contains(document.activeElement)).toBe(false);
+    }
+  );
+  it("should focus a nested submenu with the same timing", () => {
+    const rootToggle = menu.elements.submenuToggles[0];
+    const parentMenu = rootToggle.elements.controlledMenu;
+    const item = parentMenu.elements.menuItems[1];
+    const submenu = item.elements.childMenu;
+    rootToggle.preview();
+    item.elements.toggle.preview();
+    parentMenu.currentEvent = "keyboard";
+    parentMenu.focusChild(1);
+    flushFrames();
+
+    item.dom.link.dispatchEvent(
+      new KeyboardEvent("keyup", {
+        key: "ArrowRight",
+        bubbles: true,
+        cancelable: true,
+      })
+    );
+
+    expect(submenu.currentChild).toBe(0);
+    expect(document.activeElement).toBe(item.dom.link);
+
+    flushFrames();
+
+    expect(document.activeElement).toBe(submenu.elements.menuItems[0].dom.link);
+  });
 });

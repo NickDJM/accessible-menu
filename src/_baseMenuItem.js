@@ -210,15 +210,35 @@ class BaseMenuItem extends Component {
    * Focuses the menu item's link if the parent menu's
    * shouldFocus value is `true`.
    *
+   * Cancels pending focus if the item is blurred or disposed of. Before focusing
+   * the link, checks that focus has not moved away or left the parent menu.
+   *
    * @public
    */
   focus() {
     this.focusState = "self";
 
+    this._cancelAnimationFrame("focus");
+
     if (this.shouldFocus) {
-      requestAnimationFrame(() => {
+      const focusedElement = document.activeElement;
+      const parentFocusState = this.elements.parentMenu.focusState;
+
+      this._requestAnimationFrame(() => {
+        // Keep focus where it is if another action has moved it elsewhere.
+        // Blurring the previous item can leave focus on the document body.
+        if (
+          this.focusState !== "self" ||
+          this.elements.parentMenu.focusState !== parentFocusState ||
+          !this.shouldFocus ||
+          (document.activeElement !== focusedElement &&
+            document.activeElement !== document.body)
+        ) {
+          return;
+        }
+
         this.dom.link.focus();
-      });
+      }, "focus");
     }
   }
 
@@ -229,12 +249,14 @@ class BaseMenuItem extends Component {
    * @public
    */
   blur() {
+    this._cancelAnimationFrame("focus");
+
     this.focusState = "none";
 
     if (this.shouldFocus) {
-      requestAnimationFrame(() => {
+      this._requestAnimationFrame(() => {
         this.dom.link.blur();
-      });
+      }, "blur");
     }
   }
 }
