@@ -590,8 +590,8 @@ class BaseMenu extends Component {
    *   will set the current child to the index of the last menu item in the menu.
    *
    * If the current menu has a parent menu _and_ the menu's
-   * current event is "mouse", The parent menu
-   * will have it's current child updated as well to help with transitioning
+   * current event is "mouse" or "character", the parent menu
+   * will have its current child updated as well to help with transitioning
    * between mouse and keyboard navigation.
    *
    * @type {number}
@@ -604,6 +604,10 @@ class BaseMenu extends Component {
 
   set currentChild(value) {
     isValidType("number", { currentChild: value });
+
+    if (!Number.isInteger(value)) {
+      throw new RangeError("currentChild must be a finite integer.");
+    }
 
     /**
      * Update the parent menu's current child to make sure clicks
@@ -644,14 +648,13 @@ class BaseMenu extends Component {
 
     if (value < -1) {
       this._currentChild = -1;
-      setParentChild(this);
     } else if (value >= this.elements.menuItems.length) {
       this._currentChild = this.elements.menuItems.length - 1;
-      setParentChild(this);
-    } else if (this.focusChild !== value) {
+    } else if (this.currentChild !== value) {
       this._currentChild = value;
-      setParentChild(this);
     }
+
+    setParentChild(this);
   }
 
   /**
@@ -1656,11 +1659,21 @@ class BaseMenu extends Component {
   /**
    * Focuses the menu's child at a given index.
    *
+   * Accepts finite integers and uses currentChild's clamping rules. Throws a
+   * TypeError for other types and a RangeError for fractions, NaN, and infinities.
+   * Validates the index before blurring the current item or changing focus.
+   *
    * @public
    *
    * @param {number} index - The index of the child to focus.
    */
   focusChild(index) {
+    isValidType("number", { index });
+
+    if (!Number.isInteger(index)) {
+      throw new RangeError("index must be a finite integer.");
+    }
+
     this.blurCurrentChild();
     this.currentChild = index;
     this.focusCurrentChild();
