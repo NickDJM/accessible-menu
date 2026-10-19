@@ -1,16 +1,14 @@
-## [5.0.0-beta.2](https://github.com/NickDJM/accessible-menu/compare/v5.0.0-beta.1...v5.0.0-beta.2) (2026-10-16)
+## [5.0.0-beta.3](https://github.com/NickDJM/accessible-menu/compare/v5.0.0-beta.2...v5.0.0-beta.3) (2026-10-19)
 
-### Features
+### Bug Fixes
 
-* add the ability to customize where expand/collapse classes get put ([a5f6a83](https://github.com/NickDJM/accessible-menu/commit/a5f6a83fc1a2cdf298f27ba9327542416cf686ea)), references [#483](https://github.com/NickDJM/accessible-menu/issues/483)
-* move TopLinkDisclosureMenu link/toggle logic into BaseMenu ([20d9ab9](https://github.com/NickDJM/accessible-menu/commit/20d9ab9cc0aff5f1fd0141651d8f3181c8d04a19)), references [#484](https://github.com/NickDJM/accessible-menu/issues/484)
+* **keybinding:** ignore ctrl alt and meta keys globally ([6527602](https://github.com/NickDJM/accessible-menu/commit/6527602293a898c7da1e193e014bbdd7b96900eb))
+* **menubar:** check for empty menus before setting tab indexes ([1ea47ad](https://github.com/NickDJM/accessible-menu/commit/1ea47ad13136e471899c9b8ecfac54b1afd8ffa7))
+* **menubar:** only close current level of menubar on escape ([66ae6a3](https://github.com/NickDJM/accessible-menu/commit/66ae6a3c7e227db0e7fd64ae7f1b374040d18356)), references [#533](https://github.com/NickDJM/accessible-menu/issues/533)
+* **menu:** handle requesting and cancelling animation frames ([564afdc](https://github.com/NickDJM/accessible-menu/commit/564afdc1d951c2f42a7af87e63d943cbf3861574))
+* **menu:** properly check to make sure currentChild is always an int ([fb0e75b](https://github.com/NickDJM/accessible-menu/commit/fb0e75bee938de27e03a17a62f4301be3240f5ef))
+* **treeview:** check for empty menus before setting tab indexes ([9971419](https://github.com/NickDJM/accessible-menu/commit/997141914885228f85dbdd85a90f114a2748fb5c))
 
-### Build System
+### Documentation
 
-* **npm:** update dependencies ([14433f3](https://github.com/NickDJM/accessible-menu/commit/14433f317a4f4965d172893c4161d3023a387727))
-
-### Continuous Integration
-
-* remove github publishing ([46c9fb4](https://github.com/NickDJM/accessible-menu/commit/46c9fb4c7da7170e0ec1312f9bb30bc714e5fc52))
-* **test:** add build to test workflow ([3e4d2dd](https://github.com/NickDJM/accessible-menu/commit/3e4d2ddd78a8c58855568bcb9259d373ec7e0cc1))
-* upgrade workflows to latest action versions ([89c426b](https://github.com/NickDJM/accessible-menu/commit/89c426b93eb342c2170fe49f5fa73e05715304eb))
+* **menu:** explain how subclassing works ([175c4af](https://github.com/NickDJM/accessible-menu/commit/175c4af145e729212d6c26db663709286b28105f))

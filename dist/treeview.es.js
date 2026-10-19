@@ -1267,7 +1267,7 @@ var C = class n extends h {
 		return this._currentChild;
 	}
 	set currentChild(e) {
-		t("number", { currentChild: e });
+		if (t("number", { currentChild: e }), !Number.isInteger(e)) throw RangeError("currentChild must be a finite integer.");
 		function n(e) {
 			if (["mouse", "character"].includes(e.currentEvent) && e.elements.parentMenu) {
 				let t = 0, n = !1;
@@ -1277,7 +1277,7 @@ var C = class n extends h {
 				}
 			}
 		}
-		e < -1 ? (this._currentChild = -1, n(this)) : e >= this.elements.menuItems.length ? (this._currentChild = this.elements.menuItems.length - 1, n(this)) : this.focusChild !== e && (this._currentChild = e, n(this));
+		e < -1 ? this._currentChild = -1 : e >= this.elements.menuItems.length ? this._currentChild = this.elements.menuItems.length - 1 : this.currentChild !== e && (this._currentChild = e), n(this);
 	}
 	get focusState() {
 		return super.focusState;
@@ -1536,6 +1536,7 @@ var C = class n extends h {
 		this.focusState = "self", this.currentChild !== -1 && this.currentMenuItem.focus();
 	}
 	focusChild(e) {
+		if (t("number", { index: e }), !Number.isInteger(e)) throw RangeError("index must be a finite integer.");
 		this.blurCurrentChild(), this.currentChild = e, this.focusCurrentChild();
 	}
 	focusFirstChild() {
