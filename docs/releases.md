@@ -20,10 +20,10 @@ When making a release use the provided command:
 npm run release
 ```
 
-This command uses [standard-version](https://github.com/conventional-changelog/standard-version) to parse through your commits, decide what kind of release will be created, and automatically generates a CHANGELOG.md file for your project. These changes are then commited using the message `chore(release): <version number>`.
+This command uses [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) to read your commits and decide what kind of release will be created. It updates CHANGELOG.md and creates a release commit and version tag. The latest changelog entry is also copied to CURRENT_RELEASE.md for the GitHub release notes. The release commit uses the message `chore(release): <version number>`.
 
-A pre-release script will run `lint`, `build`, and `test` scripts to ensure all code meets the coding standards, all changes to the source code are captured in the bundled version, and all code continues to function as expected. If any of theses scripts fail, a release will not be created.
+A pre-release script will run `lint`, `build`, and `test:run` scripts to ensure all code meets the coding standards, all changes to the source code are captured in the bundled version, and all code continues to function as expected. If any of these scripts fail, a release will not be created.
 
 Once the script has succeeded, you can run `git push --follow-tags origin` to have your release pushed up to the repository.
 
-Standard-version will also tell you what command to run to publish to NPM- be that a regular release, alpha, beta, etc.
+Pushing the version tag starts the release workflow. After the tests pass, it creates a GitHub release and publishes the package to npm. Prereleases use their prerelease label, such as `beta`, as the npm tag. Regular releases use the default `latest` tag.
