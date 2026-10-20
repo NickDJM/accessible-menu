@@ -277,7 +277,7 @@ Handles hover events throughout the menu for proper use.
 TopLinkDisclosureMenu._handleHover();
 ```
 
-This method is essentially the same as [BaseMenu's _handleHover method](./base-menu#method--handlehover). The only difference is that hovering both the top-level link _and_ the top-level menu toggle for a menu item will trigger the set hover effects.
+Uses the same hover rules as [BaseMenu's _handleHover method](./base-menu#method--handlehover). Hovering a separate link or its sibling toggle can preview the same submenu. This applies at every level where separate links and toggles are configured.
 
 ### _handleKeydown <badge type="warning" text="protected" /> {#method--handlekeydown}
 

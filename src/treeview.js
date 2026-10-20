@@ -212,36 +212,29 @@ class Treeview extends BaseMenu {
   /**
    * Handles hover events throughout the menu for proper use.
    *
-   * Adds `pointerenter` listeners to all menu items and `pointerleave` listeners
-   * to all submenu items which function differently depending on
-   * the menu's hover type.
-   *
-   * Before executing anything, the event is checked to make sure the event wasn't
-   * triggered by a pen or touch.
+   * Events triggered by a pen or touch are ignored.
+   * `pointerenter` actions use enterDelay, and `pointerleave` actions use leaveDelay.
+   * A delay of -1 uses hoverDelay. A delay of 0 runs the action immediately.
    *
    * <strong>Hover Type "on"</strong>
-   * - When a `pointerenter` event triggers on any menu item the menu's
-   *    current child value will change to that
-   *   menu item.
-   * - When a `pointerenter` event triggers on a submenu item the
-   *   preview method for the submenu item's
-   *   toggle will be called.
-   * - When a `pointerleave` event triggers on the menu itself the
-   *   collapseChildren method will be called after a delay
-   *   set by the menu's hover delay.
+   * - When a `pointerenter` event triggers on a menu item's link, updates the menu's
+   *   current child and focus state without moving keyboard focus.
+   * - When the item has a submenu, calls its toggle's preview method after enterDelay.
+   * - Leaving an item does not collapse its submenu.
+   * - Leaving the root menu calls collapseChildren and blur after leaveDelay.
    *
    * <strong>Hover Type "dynamic"</strong>
-   * - When a `pointerenter` event triggers on any menu item the menu's
-   *   current child value will change to that menu item.
-   * - When a `pointerenter` event triggers on any menu item, and the menu's
-   *   focus state is not "none", the menu item
-   *   will be focused.
-   * - When a `pointerenter` event triggers on a submenu item, and a submenu is
-   *   already open, the preview method for the submenu item's toggle will be called.
-   * - When a `pointerenter` event triggers on a non-submenu item, and a submenu
-   *   is already open, the collapseChildren method for the menu will be called.
-   * - When a `pointerenter` event triggers on a submenu item, and no submenu is
-   *   open, no submenu-specific methods will be called.
+   * - When a `pointerenter` event triggers on a menu item's link, updates the menu's
+   *   current child.
+   * - Updates the menu's focus state when it is a submenu or its focus state is not
+   *   "none". This tracks the hovered item without moving keyboard focus.
+   * - In submenus, or when the root menu's hasExpanded value is `true`, previews the
+   *   item's submenu after enterDelay.
+   * - At the root level, when hasExpanded is `false`, hovering an item does not expand
+   *   submenus.
+   * - Hovering an item without a submenu does not collapse other submenus. It cancels a
+   *   pending hover timeout when enterDelay is greater than 0.
+   * - Leaving an item or the root menu does not collapse submenus.
    *
    * <strong>Hover Type "off"</strong>
    * All `pointerenter` and `pointerleave` events are ignored.

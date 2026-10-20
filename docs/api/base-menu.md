@@ -445,7 +445,7 @@ BaseMenu._prefix; // Default: `"am-"`.
 
 ### _hasExpanded <badge type="warning" text="protected" /> {#property--hasexpanded}
 
-A flag to check if the menu can dynamically hover based on if a menu has been opened already.
+A flag that enables dynamic hover at the root level after a toggle has expanded.
 
 ```js
 BaseMenu._hasExpanded; // Default: `false`.
@@ -1071,7 +1071,7 @@ For the root menu, this will be `false` unless any of the following criteria are
 
 ### hasExpanded {#getter-setter--hasopened}
 
-A flag to check if the menu can dynamically hover.
+A flag that enables dynamic hover at the root level after a toggle has expanded.
 
 ::: code-group
 
@@ -1323,27 +1323,25 @@ Handles hover events throughout the menu for proper use.
 BaseMenu._handleHover();
 ```
 
-Adds `pointerenter` listeners to all menu items and `pointerleave` listeners to all submenu items which function differently depending on the menu's [hover type](#property--hovertype).
+Adds pointer listeners for the menu's hover type. Events triggered by a pen or touch are ignored.
 
-Before executing anything, the event is checked to make sure the event wasn't triggered by a pen or touch.
-
-This method will add the following behaviour:
+`pointerenter` actions use enterDelay, and `pointerleave` actions use leaveDelay. A value of `-1` uses hoverDelay. A delay of `0` runs the action immediately.
 
 #### Hover Type "on" {#method--handlehover--hovertype-on}
 
-- When a `pointerenter` event triggers on any menu item the menu's [current child](#property--currentchild) value will change to that menu item.
-- When a `pointerenter` event triggers on a submenu item the [preview method](./base-menu-toggle#method--preview) for the submenu item's toggle will be called.
-- When a `pointerleave` event triggers on an open submenu item the [collapse method](./base-menu-toggle#method--collapse) for the submenu item's toggle will be called after a delay set by the menu's hover delay.
+- When a `pointerenter` event triggers on a menu item's link or toggle, updates the menu's current child and focus state without moving keyboard focus.
+- When the item has a submenu, calls its toggle's preview method after enterDelay.
+- When a `pointerleave` event triggers on an item containing a submenu, calls its toggle's collapse method after leaveDelay.
+- Re-entering an item containing a submenu cancels its pending hover timeout when leaveDelay is greater than 0.
 
 #### Hover Type "dynamic" {#method--handlehover--hovertype-dynamic}
 
-- When a `pointerenter` event triggers on any menu item the menu's current child value will change to that menu item.
-- When a `pointerenter` event triggers on any menu item, and the menu's [focus state](#property--focusstate) is not "none", the menu item will be focused.
-- When a `pointerenter` event triggers on a submenu item, and a submenu is already open, the preview method for the submenu item's toggle will be called.
-- When a `pointerenter` event triggers on a non-submenu item, and a submenu is already open, the collapseChildren method for the menu will be called.
-- When a `pointerenter` event triggers on a submenu item, and no submenu is open, no submenu-specific methods will be called.
-- When a `pointerleave` event triggers on an open submenu item that is not a root-level submenu item the close method for the submenu item's toggle will be called and the submenu item will be focused after a delay set by the menu's hover delay.
-- When a `pointerleave` event triggers on an open submenu item that is a root-level submenu item no submenu-specific methods will be called.
+- When a `pointerenter` event triggers on a menu item's link or toggle, updates the menu's current child.
+- Updates the menu's focus state when it is a submenu or its focus state is not "none". This tracks the hovered item without moving keyboard focus.
+- In submenus, or when the root menu's hasExpanded value is `true`, previews the item's submenu after enterDelay. If the item has no submenu, calls collapseChildren after enterDelay instead.
+- At the root level, when hasExpanded is `false`, hovering an item does not expand or collapse submenus.
+- Leaving an item containing a submenu does not collapse it. The handler sets currentEvent to "mouse" after leaveDelay.
+- Re-entering an item containing a submenu cancels its pending hover timeout when leaveDelay is greater than 0.
 
 #### Hover Type "off" {#method--handlehover--hovertype-off}
 

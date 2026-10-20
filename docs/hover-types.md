@@ -2,9 +2,13 @@
 
 All menus provided by Accessible Menu support three types of hover: **off**, **on**, and **dynamic**.
 
+Hover responds to mouse pointer events. Pen and touch events are ignored. Hover can update the item tracked by the menu without moving keyboard focus.
+
+The `enterDelay` and `leaveDelay` options control how long hover actions wait. Both use `hoverDelay` when set to `-1`.
+
 ## Hover Off
 
-Hover **off** is the default hover type. All `pointerenter` and `pointerleave` events triggered on menu toggles are ignored, and submenus open or close through clicks and keyboard activation.
+Hover **off** is the default hover type. All `pointerenter` and `pointerleave` events are ignored, and submenus expand or collapse through clicks and keyboard activation.
 
 ```js
 // DisclosureMenu is used in this example, but all menus support these hover types.
@@ -16,7 +20,7 @@ new DisclosureMenu({
 
 ## Hover On
 
-Hover **on** is the standard way a hoverable menu is expected to act. It will show a menu when a `pointerenter` event is triggered on a menu toggle, and close the menu when a `pointerleave` event is triggered on the menu toggle or the menu itself.
+Hover **on** expands a submenu when the mouse enters its toggle. It collapses the submenu when the mouse leaves the list item containing that toggle and submenu. For Top Link Disclosure Menus, hovering the separate link can also expand its submenu.
 
 ```js
 // DisclosureMenu is used in this example, but all menus support these hover types.
@@ -28,11 +32,15 @@ new DisclosureMenu({
 
 ### Treeviews and Hover On
 
-When using a treeview menu with hover **on**, `pointerenter` events are triggered as expected, however `pointerleave` events are handled differently. Leaving a menu item that is open will _not_ close that menu in a treeview. The only way a `pointerleave` event will close a menu item is if the root menu itself is left. This is to prevent a lot of visual confusion when hovering/unhovering menu items in a treeview.
+When using a treeview menu with hover **on**, leaving an item does not collapse its submenu. Leaving the root menu collapses its submenus after `leaveDelay`. This keeps submenus expanded while the mouse moves between treeview items.
 
 ## Hover Dynamic
 
-Hover **dynamic** is a hybrid of hover **off** and hover **on**. The menu will function as if it is in hover **off** mode until the user clicks a menu toggle to open a submenu. Once a submenu is open, the menu will function as if it is in hover **on** mode until the user clicks outside of the menu to close all submenus.
+Hover **dynamic** lets the user expand a menu before hovering between its submenus. Expanding a toggle sets the root menu's `hasExpanded` value to `true`, whether the expansion comes from a click, keyboard interaction, or a method call.
+
+While `hasExpanded` is `true`, hovering a root-level submenu toggle previews its submenu. Hovering an item without a submenu collapses the current menu's submenus. Within submenus, this hover behavior is available regardless of `hasExpanded`.
+
+Leaving an item does not collapse its submenu. For Disclosure Menus, Top Link Disclosure Menus, and Menubars, clicking outside the menu collapses it and resets `hasExpanded`. Collapsing a toggle alone does not reset that value.
 
 ```js
 // DisclosureMenu is used in this example, but all menus support these hover types.
@@ -44,4 +52,4 @@ new DisclosureMenu({
 
 ### Treeviews and Hover Dynamic
 
-When using a treeview menu with hover **dynamic**, `pointerenter` events are triggered as expected, however `pointerleave` events are handled differently. Leaving a menu item that is open will _not_ close that menu in a treeview. A menu must be manually closed through clicking it's toggle to close it.
+When using a treeview menu with hover **dynamic**, hovering an item without a submenu keeps other submenus expanded. Leaving an item or the root menu also keeps submenus expanded. Use a toggle or the supported keyboard controls to collapse a submenu.
