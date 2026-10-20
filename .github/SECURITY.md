@@ -18,7 +18,9 @@ If a PR is submitted along with the issue to resolve the vulnerability, you can 
 
 ## Vulnerabilities in dependencies
 
-Given that accessible-menu does not have any production dependencies, any vulnerable dev dependencies will be updated when/if possible- though a new release of accessible-menu may not be pushed out right away.
+Accessible Menu uses `@accessible-ecosystem/core` as a production dependency. Vulnerabilities in Core should be reported using the process above so their impact on Accessible Menu can be reviewed.
+
+Vulnerable dev dependencies will be updated when possible, though a new release of Accessible Menu may not be pushed out right away.
 
 A higher priority will be given to dev dependencies that are directly responsible for compiling the project:
 
