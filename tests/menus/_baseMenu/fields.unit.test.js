@@ -4,7 +4,6 @@
 
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import { twoLevelDisclosureTopLink } from "../../../demo/menus.js";
-import Component from "@accessible-ecosystem/core";
 import BaseMenu from "../../../src/_baseMenu.js";
 
 beforeEach(() => {
@@ -16,15 +15,6 @@ afterEach(() => {
 });
 
 describe("BaseMenu fields", () => {
-  describe("Component inheritance", () => {
-    it("should inherit from Core Component", () => {
-      const instance = new BaseMenu({
-        menuElement: document.querySelector("ul"),
-      });
-
-      expect(instance).toBeInstanceOf(Component);
-    });
-  });
   describe("_scope", () => {
     it("should use the menu-specific configuration", () => {
       const instance = new BaseMenu({
@@ -34,6 +24,7 @@ describe("BaseMenu fields", () => {
       expect(instance._scope).toEqual("AccessibleMenu");
     });
   });
+
   describe("_name", () => {
     it("should use the menu-specific configuration", () => {
       const instance = new BaseMenu({
@@ -43,6 +34,7 @@ describe("BaseMenu fields", () => {
       expect(instance._name).toEqual("Menu");
     });
   });
+
   describe("_eventPrefix", () => {
     it("should use the accessibleMenu event prefix", () => {
       const instance = new BaseMenu({
@@ -62,6 +54,7 @@ describe("BaseMenu fields", () => {
       );
     });
   });
+
   describe("_storageKey", () => {
     it("should use the menu-specific configuration", () => {
       const instance = new BaseMenu({
@@ -71,6 +64,7 @@ describe("BaseMenu fields", () => {
       expect(instance._storageKey).toEqual("menus");
     });
   });
+
   describe("_rootDOMElement", () => {
     it("should use the menu-specific configuration", () => {
       const instance = new BaseMenu({
@@ -80,6 +74,7 @@ describe("BaseMenu fields", () => {
       expect(instance._rootDOMElement).toEqual("menu");
     });
   });
+
   describe("_protectedDOMElements", () => {
     it("should use the menu-specific configuration", () => {
       const instance = new BaseMenu({
@@ -94,27 +89,6 @@ describe("BaseMenu fields", () => {
     });
   });
 
-  describe("rootDOMElement", () => {
-    it("should resolve the configured DOM slot through the inherited getter", () => {
-      const instance = new BaseMenu({
-        menuElement: document.querySelector("ul"),
-      });
-
-      expect(instance.rootDOMElement).toBe(
-        instance.dom[instance._rootDOMElement]
-      );
-    });
-
-    it("should remain read-only on the menu instance", () => {
-      const instance = new BaseMenu({
-        menuElement: document.querySelector("ul"),
-      });
-
-      expect(() => {
-        instance.rootDOMElement = document.querySelector("nav");
-      }).toThrow(TypeError);
-    });
-  });
   describe("_dom", () => {
     it("should configure all menu DOM slots", () => {
       const instance = new BaseMenu({
@@ -133,6 +107,7 @@ describe("BaseMenu fields", () => {
       ]);
     });
   });
+
   describe("_prefix", () => {
     it("should retain a custom prefix from the Core constructor", () => {
       const instance = new BaseMenu({
@@ -143,6 +118,7 @@ describe("BaseMenu fields", () => {
       expect(instance.prefix).toBe("custom-");
     });
   });
+
   describe("_key", () => {
     it("should retain a custom key from the Core constructor", () => {
       const instance = new BaseMenu({
@@ -153,6 +129,7 @@ describe("BaseMenu fields", () => {
       expect(instance.key).toBe("custom-key");
     });
   });
+
   describe("_classes", () => {
     it("should retain the initialization class from Core", () => {
       const instance = new BaseMenu({
@@ -163,6 +140,7 @@ describe("BaseMenu fields", () => {
       expect(instance.classes.initialize).toEqual(["one", "two"]);
     });
   });
+
   describe("_events", () => {
     it("should bootstrap the Core lifecycle events", () => {
       const instance = new BaseMenu({

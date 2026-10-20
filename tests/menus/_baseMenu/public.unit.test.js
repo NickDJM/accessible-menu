@@ -5,6 +5,7 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { twoLevel } from "../../../demo/menus.js";
 import BaseMenu from "../../../src/_baseMenu.js";
+import { setupMatchMedia } from "../helpers.js";
 
 beforeEach(() => {
   document.body.innerHTML = twoLevel;
@@ -706,6 +707,43 @@ describe("BaseMenu public methods", () => {
       expect(
         window.AccessibleMenuStorage.get({ key: id, type: "menus" })
       ).toBeUndefined();
+    });
+
+    describe("controller media queries", () => {
+      beforeEach(() => {
+        document.body.innerHTML = twoLevel;
+        vi.useFakeTimers();
+      });
+
+      afterEach(() => {
+        vi.restoreAllMocks();
+        vi.unstubAllGlobals();
+        vi.useRealTimers();
+        document.body.innerHTML = "";
+      });
+
+      it("should stop responding to query changes when disposed", () => {
+        const { matchMedia, mql, listeners } = setupMatchMedia(true);
+        vi.stubGlobal("matchMedia", matchMedia);
+        const menu = new BaseMenu({
+          menuElement: document.querySelector("ul"),
+          controllerElement: document.querySelector("button"),
+          containerElement: document.querySelector("nav"),
+          submenuTogglesSelector: "a",
+          initialize: false,
+          breakpoint: "40em",
+          lockOutsideBreakpoint: true,
+        });
+        menu.initialize();
+        const controller = menu.elements.controller;
+        vi.advanceTimersToNextFrame();
+
+        menu.dispose();
+        mql.matches = false;
+        listeners.forEach((listener) => listener(mql));
+
+        expect(controller.isLocked).toBe(false);
+      });
     });
   });
 });

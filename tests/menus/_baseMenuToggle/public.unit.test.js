@@ -3,8 +3,9 @@
  */
 
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
-import { threeLevel } from "../../../demo/menus.js";
+import { threeLevel, twoLevelDisclosureTopLink } from "../../../demo/menus.js";
 import BaseMenu from "../../../src/_baseMenu.js";
+import BaseMenuToggle from "../../../src/_baseMenuToggle.js";
 
 beforeEach(() => {
   // Create the test menu.
@@ -146,6 +147,256 @@ describe("BaseMenuToggle public methods", () => {
       expect(menuToggle.isExpanded).toBe(true);
       expect(menuToggle.shouldBeExpanded).toBe(false);
     });
+
+    describe("expansion state", () => {
+      const options = { emit: false, transition: false };
+      beforeEach(() => {
+        document.body.innerHTML = twoLevelDisclosureTopLink;
+      });
+
+      afterEach(() => {
+        document.body.innerHTML = "";
+      });
+
+      it("should share the current expansion state with the Menu getter", () => {
+        const action = "expand";
+
+        const toggle = new BaseMenuToggle({
+          menuToggleElement: document.querySelector("button"),
+          controlledMenu: new BaseMenu({
+            menuElement: document.querySelector("ul"),
+            transitionClass: "",
+          }),
+        });
+
+        toggle[action](options);
+
+        expect(toggle.isExpanded).toBe(true);
+      });
+
+      it("should share the committed expansion state with the Menu getter", () => {
+        const action = "expand";
+
+        const toggle = new BaseMenuToggle({
+          menuToggleElement: document.querySelector("button"),
+          controlledMenu: new BaseMenu({
+            menuElement: document.querySelector("ul"),
+            transitionClass: "",
+          }),
+        });
+
+        toggle[action](options);
+
+        expect(toggle.shouldBeExpanded).toBe(true);
+      });
+
+      it("should preserve the shared committed state when requested", () => {
+        const action = "expand";
+
+        const toggle = new BaseMenuToggle({
+          menuToggleElement: document.querySelector("button"),
+          controlledMenu: new BaseMenu({
+            menuElement: document.querySelector("ul"),
+            transitionClass: "",
+          }),
+        });
+
+        toggle[action]({ ...options, preserveState: true });
+
+        expect(toggle.isExpanded).toBe(true);
+        expect(toggle.shouldBeExpanded).toBe(false);
+        expect(toggle.shouldBeExpanded).toBe(false);
+      });
+    });
+
+    describe("while locked", () => {
+      const options = { emit: false, transition: false };
+      beforeEach(() => {
+        document.body.innerHTML = twoLevelDisclosureTopLink;
+      });
+
+      afterEach(() => {
+        document.body.innerHTML = "";
+      });
+
+      it("should block a menu state change while locked", () => {
+        const action = "expand";
+
+        const toggle = new BaseMenuToggle({
+          menuToggleElement: document.querySelector("button"),
+          controlledMenu: new BaseMenu({
+            menuElement: document.querySelector("ul"),
+            transitionClass: "",
+          }),
+        });
+        toggle.initialize();
+        if (action === "collapse") toggle.expand(options);
+        const initial = toggle.isExpanded;
+        toggle.lock();
+
+        toggle[action](options);
+
+        expect(toggle.isExpanded).toBe(initial);
+      });
+
+      it("should allow a forced menu state change while locked", () => {
+        const action = "expand";
+
+        const toggle = new BaseMenuToggle({
+          menuToggleElement: document.querySelector("button"),
+          controlledMenu: new BaseMenu({
+            menuElement: document.querySelector("ul"),
+            transitionClass: "",
+          }),
+        });
+        toggle.initialize();
+        if (action === "collapse") toggle.expand(options);
+        toggle.lock();
+
+        toggle[action]({ ...options, force: true });
+
+        expect(toggle.isExpanded).toBe(action !== "collapse");
+      });
+    });
+
+    describe("controlled elements", () => {
+      beforeEach(() => {
+        document.body.innerHTML = twoLevelDisclosureTopLink;
+      });
+
+      afterEach(() => {
+        document.body.innerHTML = "";
+        vi.useRealTimers();
+        vi.unstubAllGlobals();
+      });
+      it.each([{}, { containerElement: null }])(
+        "defaults to the menu element for %j",
+        (options) => {
+          const toggle = new BaseMenuToggle({
+            menuToggleElement: document.querySelector(".dropdown-toggle"),
+            controlledMenu: new BaseMenu({
+              menuElement: document.querySelector(".dropdown-menu"),
+              expandClass: "open",
+              collapseClass: "closed",
+              transitionClass: "",
+            }),
+            initialize: false,
+            ...options,
+          });
+
+          toggle.expand({ transition: false, emit: false });
+
+          expect(toggle.dom.controlled).toBe(
+            toggle.elements.controlledMenu.dom.menu
+          );
+          expect(
+            toggle.elements.controlledMenu.dom.menu.classList.contains("open")
+          ).toBe(true);
+
+          toggle.collapse({ transition: false, emit: false });
+
+          expect(toggle.dom.controlled.classList.contains("closed")).toBe(true);
+          expect(toggle.dom.controlled.classList.contains("open")).toBe(false);
+        }
+      );
+
+      it("applies classes to a custom container and keeps ARIA on the menu", () => {
+        const containerElement = document.querySelector(".dropdown");
+        const toggle = new BaseMenuToggle({
+          menuToggleElement: document.querySelector(".dropdown-toggle"),
+          controlledMenu: new BaseMenu({
+            menuElement: document.querySelector(".dropdown-menu"),
+            expandClass: "open",
+            collapseClass: "closed",
+            transitionClass: "",
+          }),
+          initialize: false,
+          containerElement,
+        });
+        containerElement.append(
+          toggle.dom.controller,
+          toggle.elements.controlledMenu.dom.menu
+        );
+
+        toggle.initialize();
+
+        expect(toggle.isInitialized).toBe(true);
+        expect(toggle.dom.controlled).toBe(containerElement);
+        expect(containerElement.classList.contains("closed")).toBe(true);
+
+        toggle.expand({ transition: false, emit: false });
+
+        expect(containerElement.classList.contains("open")).toBe(true);
+        expect(containerElement.classList.contains("closed")).toBe(false);
+        expect(toggle.dom.controller.getAttribute("aria-expanded")).toBe(
+          "true"
+        );
+        expect(
+          toggle.elements.controlledMenu.dom.menu.getAttribute(
+            "aria-labelledby"
+          )
+        ).toBe(toggle.dom.controller.id);
+        expect(containerElement.hasAttribute("aria-labelledby")).toBe(false);
+
+        toggle.collapse({ transition: false, emit: false });
+
+        expect(containerElement.classList.contains("closed")).toBe(true);
+        expect(containerElement.classList.contains("open")).toBe(false);
+        expect(toggle.dom.controller.getAttribute("aria-expanded")).toBe(
+          "false"
+        );
+        expect(
+          toggle.elements.controlledMenu.dom.menu.classList.contains("open")
+        ).toBe(false);
+        expect(
+          toggle.elements.controlledMenu.dom.menu.classList.contains("closed")
+        ).toBe(false);
+      });
+
+      it("applies transition classes to the controlled element", () => {
+        vi.useFakeTimers();
+        vi.stubGlobal("requestAnimationFrame", (callback) =>
+          setTimeout(callback, 16)
+        );
+
+        const containerElement = document.querySelector(".dropdown");
+        const containerClasses = containerElement.className;
+        const menuClasses = document.querySelector(".dropdown-menu").className;
+        const toggle = new BaseMenuToggle({
+          menuToggleElement: document.querySelector(".dropdown-toggle"),
+          controlledMenu: new BaseMenu({
+            menuElement: document.querySelector(".dropdown-menu"),
+            expandClass: "open",
+            collapseClass: "closed",
+            transitionClass: "",
+          }),
+          initialize: false,
+          containerElement,
+        });
+        toggle.transitionClass = "transitioning";
+
+        toggle.collapse({ transition: false, emit: false });
+
+        toggle.expand({ transition: true, emit: false });
+
+        expect(containerElement.classList.contains("transitioning")).toBe(true);
+
+        vi.runAllTimers();
+
+        expect(containerElement.className).toBe(`${containerClasses} open`);
+
+        toggle.collapse({ transition: true, emit: false });
+
+        expect(containerElement.classList.contains("transitioning")).toBe(true);
+
+        vi.runAllTimers();
+
+        expect(containerElement.className).toBe(`${containerClasses} closed`);
+        expect(toggle.elements.controlledMenu.dom.menu.className).toBe(
+          menuClasses
+        );
+      });
+    });
   });
 
   // Test BaseMenuToggle preview().
@@ -225,6 +476,117 @@ describe("BaseMenuToggle public methods", () => {
       menuToggle.preview();
 
       expect(menuToggle.isExpanded).toBe(true);
+    });
+
+    describe("expansion state", () => {
+      const options = { emit: false, transition: false };
+      beforeEach(() => {
+        document.body.innerHTML = twoLevelDisclosureTopLink;
+      });
+
+      afterEach(() => {
+        document.body.innerHTML = "";
+      });
+
+      it("should share the current expansion state with the Menu getter", () => {
+        const action = "preview";
+
+        const toggle = new BaseMenuToggle({
+          menuToggleElement: document.querySelector("button"),
+          controlledMenu: new BaseMenu({
+            menuElement: document.querySelector("ul"),
+            transitionClass: "",
+          }),
+        });
+
+        toggle[action](options);
+
+        expect(toggle.isExpanded).toBe(true);
+      });
+
+      it("should share the committed expansion state with the Menu getter", () => {
+        const action = "preview";
+
+        const toggle = new BaseMenuToggle({
+          menuToggleElement: document.querySelector("button"),
+          controlledMenu: new BaseMenu({
+            menuElement: document.querySelector("ul"),
+            transitionClass: "",
+          }),
+        });
+
+        toggle[action](options);
+
+        expect(toggle.shouldBeExpanded).toBe(true);
+      });
+
+      it("should preserve the shared committed state when requested", () => {
+        const action = "preview";
+
+        const toggle = new BaseMenuToggle({
+          menuToggleElement: document.querySelector("button"),
+          controlledMenu: new BaseMenu({
+            menuElement: document.querySelector("ul"),
+            transitionClass: "",
+          }),
+        });
+
+        toggle[action]({ ...options, preserveState: true });
+
+        expect(toggle.isExpanded).toBe(true);
+        expect(toggle.shouldBeExpanded).toBe(false);
+        expect(toggle.shouldBeExpanded).toBe(false);
+      });
+    });
+
+    describe("while locked", () => {
+      const options = { emit: false, transition: false };
+      beforeEach(() => {
+        document.body.innerHTML = twoLevelDisclosureTopLink;
+      });
+
+      afterEach(() => {
+        document.body.innerHTML = "";
+      });
+
+      it("should block a menu state change while locked", () => {
+        const action = "preview";
+
+        const toggle = new BaseMenuToggle({
+          menuToggleElement: document.querySelector("button"),
+          controlledMenu: new BaseMenu({
+            menuElement: document.querySelector("ul"),
+            transitionClass: "",
+          }),
+        });
+        toggle.initialize();
+        if (action === "collapse") toggle.expand(options);
+        const initial = toggle.isExpanded;
+        toggle.lock();
+
+        toggle[action](options);
+
+        expect(toggle.isExpanded).toBe(initial);
+      });
+
+      it("should allow a forced menu state change while locked", () => {
+        const action = "preview";
+
+        const toggle = new BaseMenuToggle({
+          menuToggleElement: document.querySelector("button"),
+          controlledMenu: new BaseMenu({
+            menuElement: document.querySelector("ul"),
+            transitionClass: "",
+          }),
+        });
+        toggle.initialize();
+        if (action === "collapse") toggle.expand(options);
+        toggle.lock();
+
+        toggle[action]({ ...options, force: true });
+
+        expect(toggle.isExpanded).toBe(action !== "collapse");
+      });
     });
   });
 
@@ -368,6 +730,103 @@ describe("BaseMenuToggle public methods", () => {
 
       expect(menuToggle.isExpanded).toBe(false);
       expect(menuToggle.shouldBeExpanded).toBe(true);
+    });
+
+    describe("expansion state", () => {
+      const options = { emit: false, transition: false };
+      beforeEach(() => {
+        document.body.innerHTML = twoLevelDisclosureTopLink;
+      });
+
+      afterEach(() => {
+        document.body.innerHTML = "";
+      });
+
+      it("should share the current collapsed state with the Menu getter", () => {
+        const action = "collapse";
+
+        const toggle = new BaseMenuToggle({
+          menuToggleElement: document.querySelector("button"),
+          controlledMenu: new BaseMenu({
+            menuElement: document.querySelector("ul"),
+            transitionClass: "",
+          }),
+        });
+        toggle.expand(options);
+
+        toggle[action](options);
+
+        expect(toggle.isExpanded).toBe(false);
+      });
+
+      it("should preserve the shared committed state when requested", () => {
+        const action = "collapse";
+
+        const toggle = new BaseMenuToggle({
+          menuToggleElement: document.querySelector("button"),
+          controlledMenu: new BaseMenu({
+            menuElement: document.querySelector("ul"),
+            transitionClass: "",
+          }),
+        });
+        toggle.expand(options);
+
+        toggle[action]({ ...options, preserveState: true });
+
+        expect(toggle.isExpanded).toBe(false);
+        expect(toggle.shouldBeExpanded).toBe(true);
+        expect(toggle.shouldBeExpanded).toBe(true);
+      });
+    });
+
+    describe("while locked", () => {
+      const options = { emit: false, transition: false };
+      beforeEach(() => {
+        document.body.innerHTML = twoLevelDisclosureTopLink;
+      });
+
+      afterEach(() => {
+        document.body.innerHTML = "";
+      });
+
+      it("should block a menu state change while locked", () => {
+        const action = "collapse";
+
+        const toggle = new BaseMenuToggle({
+          menuToggleElement: document.querySelector("button"),
+          controlledMenu: new BaseMenu({
+            menuElement: document.querySelector("ul"),
+            transitionClass: "",
+          }),
+        });
+        toggle.initialize();
+        if (action === "collapse") toggle.expand(options);
+        const initial = toggle.isExpanded;
+        toggle.lock();
+
+        toggle[action](options);
+
+        expect(toggle.isExpanded).toBe(initial);
+      });
+
+      it("should allow a forced menu state change while locked", () => {
+        const action = "collapse";
+
+        const toggle = new BaseMenuToggle({
+          menuToggleElement: document.querySelector("button"),
+          controlledMenu: new BaseMenu({
+            menuElement: document.querySelector("ul"),
+            transitionClass: "",
+          }),
+        });
+        toggle.initialize();
+        if (action === "collapse") toggle.expand(options);
+        toggle.lock();
+
+        toggle[action]({ ...options, force: true });
+
+        expect(toggle.isExpanded).toBe(action !== "collapse");
+      });
     });
   });
 
@@ -622,6 +1081,151 @@ describe("BaseMenuToggle public methods", () => {
         preserveState: true,
         emit: false,
         transition: false,
+      });
+    });
+  });
+
+  describe("lock", () => {
+    describe("expansion state", () => {
+      beforeEach(() => {
+        document.body.innerHTML = twoLevelDisclosureTopLink;
+      });
+
+      afterEach(() => {
+        document.body.innerHTML = "";
+      });
+
+      it("should disable the Menu toggle through the Core controller mapping", () => {
+        const toggle = new BaseMenuToggle({
+          menuToggleElement: document.querySelector("button"),
+          controlledMenu: new BaseMenu({
+            menuElement: document.querySelector("ul"),
+            transitionClass: "",
+          }),
+        });
+
+        toggle.lock();
+
+        expect(toggle.dom.controller.disabled).toBe(true);
+      });
+    });
+
+    describe("controlled elements", () => {
+      beforeEach(() => {
+        document.body.innerHTML = twoLevelDisclosureTopLink;
+      });
+
+      afterEach(() => {
+        document.body.innerHTML = "";
+        vi.useRealTimers();
+        vi.unstubAllGlobals();
+      });
+
+      it("applies locked and unlocked classes to the custom container", () => {
+        const containerElement = document.querySelector(".dropdown");
+        const menuClasses = document.querySelector(".dropdown-menu").className;
+        const toggle = new BaseMenuToggle({
+          menuToggleElement: document.querySelector(".dropdown-toggle"),
+          controlledMenu: new BaseMenu({
+            menuElement: document.querySelector(".dropdown-menu"),
+            expandClass: "open",
+            collapseClass: "closed",
+            transitionClass: "",
+          }),
+          initialize: false,
+          containerElement,
+        });
+
+        toggle.lock({ emit: false });
+
+        expect(containerElement.classList.contains("locked")).toBe(true);
+        expect(toggle.dom.controller.disabled).toBe(true);
+        expect(toggle.elements.controlledMenu.dom.menu.className).toBe(
+          menuClasses
+        );
+
+        toggle.unlock({ emit: false });
+
+        expect(containerElement.classList.contains("locked")).toBe(false);
+        expect(containerElement.classList.contains("unlocked")).toBe(true);
+        expect(toggle.dom.controller.disabled).toBe(false);
+        expect(toggle.elements.controlledMenu.dom.menu.className).toBe(
+          menuClasses
+        );
+      });
+    });
+  });
+
+  describe("unlock", () => {
+    describe("expansion state", () => {
+      beforeEach(() => {
+        document.body.innerHTML = twoLevelDisclosureTopLink;
+      });
+
+      afterEach(() => {
+        document.body.innerHTML = "";
+      });
+
+      it("should remove disabled from the Menu toggle through the Core controller mapping", () => {
+        const toggle = new BaseMenuToggle({
+          menuToggleElement: document.querySelector("button"),
+          controlledMenu: new BaseMenu({
+            menuElement: document.querySelector("ul"),
+            transitionClass: "",
+          }),
+        });
+        toggle.lock();
+
+        toggle.unlock();
+
+        expect(toggle.dom.controller.disabled).toBe(false);
+      });
+    });
+  });
+
+  describe("initialize", () => {
+    describe("expansion state", () => {
+      beforeEach(() => {
+        document.body.innerHTML = twoLevelDisclosureTopLink;
+      });
+
+      afterEach(() => {
+        document.body.innerHTML = "";
+      });
+
+      it("should mark the toggle initialized", () => {
+        const toggle = new BaseMenuToggle({
+          menuToggleElement: document.querySelector("button"),
+          controlledMenu: new BaseMenu({
+            menuElement: document.querySelector("ul"),
+            transitionClass: "",
+          }),
+        });
+
+        toggle.initialize();
+
+        expect(toggle.isInitialized).toBe(true);
+      });
+
+      it("should collapse without emitting action events", () => {
+        const toggle = new BaseMenuToggle({
+          menuToggleElement: document.querySelector("button"),
+          controlledMenu: new BaseMenu({
+            menuElement: document.querySelector("ul"),
+            transitionClass: "",
+          }),
+        });
+        const events = [];
+        for (const action of ["precollapse", "collapse", "postcollapse"]) {
+          toggle.dom.controller.addEventListener(
+            toggle.getEventName(action),
+            () => events.push(action)
+          );
+        }
+
+        toggle.initialize();
+
+        expect(events).toEqual([]);
       });
     });
   });

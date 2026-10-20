@@ -3,8 +3,13 @@
  */
 
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
-import { twoLevel, threeLevel } from "../../../demo/menus.js";
+import {
+  twoLevel,
+  threeLevel,
+  twoLevelDisclosureTopLink,
+} from "../../../demo/menus.js";
 import BaseMenu from "../../../src/_baseMenu.js";
+import BaseMenuItem from "../../../src/_baseMenuItem.js";
 
 beforeEach(() => {
   // Create the test menu.
@@ -86,6 +91,57 @@ describe("BaseMenuItem getter/setters", () => {
       expect(() => {
         menuItem.elements = {};
       }).toThrowError();
+    });
+
+    describe("submenu siblings", () => {
+      beforeEach(() => {
+        document.body.innerHTML = twoLevelDisclosureTopLink;
+      });
+
+      afterEach(() => {
+        document.body.innerHTML = "";
+        vi.restoreAllMocks();
+      });
+
+      it("accepts a sibling from the shared base class", () => {
+        const sibling = new BaseMenuItem({
+          menuItemElement: document.querySelector(".dropdown"),
+          menuLinkElement: document.querySelector(".dropdown-toggle"),
+          parentMenu: new BaseMenu({
+            menuElement: document.querySelector("ul"),
+          }),
+        });
+        const item = new BaseMenuItem({
+          menuItemElement: document.querySelector(".dropdown"),
+          menuLinkElement: document.querySelector(".dropdown > a"),
+          parentMenu: new BaseMenu({
+            menuElement: document.querySelector("ul"),
+          }),
+          initialize: false,
+          submenuSibling: sibling,
+        });
+
+        item.initialize();
+
+        expect(item.isInitialized).toBe(true);
+        expect(item.elements.sibling).toBe(sibling);
+      });
+
+      it("initializes without a separate sibling by default", () => {
+        const item = new BaseMenuItem({
+          menuItemElement: document.querySelector(".dropdown"),
+          menuLinkElement: document.querySelector(".dropdown > a"),
+          parentMenu: new BaseMenu({
+            menuElement: document.querySelector("ul"),
+          }),
+          initialize: false,
+        });
+
+        item.initialize();
+
+        expect(item.isInitialized).toBe(true);
+        expect(item.elements.sibling).toBe(null);
+      });
     });
   });
 
@@ -330,6 +386,46 @@ describe("BaseMenuItem getter/setters", () => {
         expect(menu.currentEvent).toBe("keyboard");
         expect(component.currentEvent).toBe("keyboard");
       }
+    });
+  });
+
+  describe("rootDOMElement", () => {
+    describe("constructor options", () => {
+      beforeEach(() => {
+        document.body.innerHTML = twoLevelDisclosureTopLink;
+      });
+
+      afterEach(() => {
+        document.body.innerHTML = "";
+      });
+
+      it("should resolve the configured DOM slot through the inherited getter", () => {
+        const instance = new BaseMenuItem({
+          menuItemElement: document.querySelector(".dropdown"),
+          menuLinkElement: document.querySelector(".dropdown > a"),
+          parentMenu: new BaseMenu({
+            menuElement: document.querySelector("ul"),
+          }),
+        });
+
+        expect(instance.rootDOMElement).toBe(
+          instance.dom[instance._rootDOMElement]
+        );
+      });
+
+      it("should remain read-only on the menu instance", () => {
+        const instance = new BaseMenuItem({
+          menuItemElement: document.querySelector(".dropdown"),
+          menuLinkElement: document.querySelector(".dropdown > a"),
+          parentMenu: new BaseMenu({
+            menuElement: document.querySelector("ul"),
+          }),
+        });
+
+        expect(() => {
+          instance.rootDOMElement = document.querySelector("nav");
+        }).toThrow(TypeError);
+      });
     });
   });
 });

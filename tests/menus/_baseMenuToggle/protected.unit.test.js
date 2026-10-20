@@ -211,4 +211,49 @@ describe("BaseMenuToggle protected methods", () => {
       ).toBe(menuToggle.dom.controller.id);
     });
   });
+
+  describe("_validate", () => {
+    describe("constructor options", () => {
+      beforeEach(() => {
+        document.body.innerHTML = twoLevel;
+      });
+
+      afterEach(() => {
+        vi.restoreAllMocks();
+        document.body.innerHTML = "";
+      });
+
+      it("should inherit shared Core validation", () => {
+        expect(BaseMenuToggle.prototype._validate).toBe(
+          CollapsibleComponent.prototype._validate
+        );
+      });
+
+      it.each([
+        ["controlledMenu", {}, "controlledMenu"],
+        ["parentMenu", {}, "parentMenu"],
+        ["menuToggleElement", null, "controllerElement"],
+        ["containerElement", 1, "controlledElement"],
+      ])(
+        "should reject invalid toggle %s through validation listeners",
+        (property, value, errorField) => {
+          vi.spyOn(console, "error").mockImplementation(() => {});
+          const controlledMenu = new BaseMenu({
+            menuElement: document.querySelector("ul"),
+          });
+          const toggle = new BaseMenuToggle({
+            menuToggleElement: document.querySelector("button"),
+            controlledMenu,
+            [property]: value,
+          });
+
+          toggle.initialize();
+
+          expect(
+            toggle.errors.some((error) => error.message.includes(errorField))
+          ).toBe(true);
+        }
+      );
+    });
+  });
 });

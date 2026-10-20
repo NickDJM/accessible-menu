@@ -2,7 +2,7 @@
  * Getter/Setter tests for the Treeview class
  */
 
-import { describe, it, beforeEach, afterEach } from "vitest";
+import { describe, it, beforeEach, afterEach, expect, vi } from "vitest";
 import Treeview from "../../../src/treeview.js";
 import { twoLevel } from "../../../demo/menus.js";
 import BaseMenu from "../../../src/_baseMenu.js";
@@ -95,6 +95,52 @@ describe("Treeview getter/setters", () => {
         Treeview.prototype,
         BaseMenu.prototype,
         "durations"
+      );
+    });
+
+    describe("root menu values", () => {
+      beforeEach(() => {
+        document.body.innerHTML = twoLevel;
+      });
+
+      afterEach(() => {
+        vi.restoreAllMocks();
+        document.body.innerHTML = "";
+      });
+      it.each(["expandDuration", "collapseDuration"])(
+        "should inherit a changed root %s after initialization",
+        (property) => {
+          const menu = new Treeview({
+            menuElement: document.querySelector("ul"),
+            submenuTogglesSelector: "a",
+          });
+          const child = menu.elements.submenuToggles[0].elements.controlledMenu;
+
+          menu[property] = 431;
+
+          expect(child[property]).toBe(431);
+        }
+      );
+
+      it.each([
+        ["transitionDuration", "--am-transition-duration"],
+        ["expandDuration", "--am-expand-transition-duration"],
+        ["collapseDuration", "--am-collapse-transition-duration"],
+      ])(
+        "should update descendant CSS when root %s changes",
+        (property, cssProperty) => {
+          const menu = new Treeview({
+            menuElement: document.querySelector("ul"),
+            submenuTogglesSelector: "a",
+          });
+          const child = menu.elements.submenuToggles[0].elements.controlledMenu;
+
+          menu[property] = 431;
+
+          expect(child.dom.menu.style.getPropertyValue(cssProperty)).toBe(
+            "431ms"
+          );
+        }
       );
     });
   });
@@ -509,6 +555,30 @@ describe("Treeview getter/setters", () => {
     // Test that Treeview implements the BaseMenu errors setter.
     it("should implement the BaseMenu errors setter", () => {
       expectInheritedSetter(Treeview.prototype, BaseMenu.prototype, "errors");
+    });
+  });
+
+  describe("initializeClass", () => {
+    describe("constructor options", () => {
+      beforeEach(() => {
+        document.body.innerHTML = twoLevel;
+      });
+
+      afterEach(() => {
+        vi.restoreAllMocks();
+        document.body.innerHTML = "";
+      });
+
+      it("should forward the initialization class to Core", () => {
+        const menu = new Treeview({
+          menuElement: document.querySelector("ul"),
+          submenuTogglesSelector: "a",
+          initializeClass: "audit-initializing",
+          initialize: false,
+        });
+
+        expect(menu.initializeClass).toBe("audit-initializing");
+      });
     });
   });
 });

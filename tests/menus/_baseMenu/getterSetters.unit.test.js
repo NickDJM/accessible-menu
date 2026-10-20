@@ -3,7 +3,11 @@
  */
 
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
-import { twoLevel, threeLevel } from "../../../demo/menus.js";
+import {
+  twoLevel,
+  threeLevel,
+  twoLevelDisclosureTopLink,
+} from "../../../demo/menus.js";
 import BaseMenu from "../../../src/_baseMenu.js";
 
 beforeEach(() => {
@@ -1203,6 +1207,38 @@ describe("BaseMenu getter/setters", () => {
       menu.hasExpanded = true;
 
       expect(submenu.hasExpanded).toBe(menu.hasExpanded);
+    });
+  });
+
+  describe("rootDOMElement", () => {
+    describe("constructor options", () => {
+      beforeEach(() => {
+        document.body.innerHTML = twoLevelDisclosureTopLink;
+      });
+
+      afterEach(() => {
+        document.body.innerHTML = "";
+      });
+
+      it("should resolve the configured DOM slot through the inherited getter", () => {
+        const instance = new BaseMenu({
+          menuElement: document.querySelector("ul"),
+        });
+
+        expect(instance.rootDOMElement).toBe(
+          instance.dom[instance._rootDOMElement]
+        );
+      });
+
+      it("should remain read-only on the menu instance", () => {
+        const instance = new BaseMenu({
+          menuElement: document.querySelector("ul"),
+        });
+
+        expect(() => {
+          instance.rootDOMElement = document.querySelector("nav");
+        }).toThrow(TypeError);
+      });
     });
   });
 });

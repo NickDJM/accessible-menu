@@ -6,6 +6,7 @@ import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { twoLevel, threeLevel } from "../../../demo/menus.js";
 import Treeview from "../../../src/treeview.js";
 import BaseMenu from "../../../src/_baseMenu.js";
+import { setupMatchMedia } from "../helpers.js";
 
 // Test Treeview public methods.
 describe("Treeview public methods", () => {
@@ -564,6 +565,71 @@ describe("Treeview public methods", () => {
       menu.focusChildsLastNode();
 
       expect(spy).toHaveBeenCalled();
+    });
+  });
+
+  describe("dispose", () => {
+    describe("descendant listeners", () => {
+      beforeEach(() => {
+        document.body.innerHTML = twoLevel;
+      });
+
+      afterEach(() => {
+        vi.restoreAllMocks();
+        document.body.innerHTML = "";
+      });
+
+      it("should remove descendant document listeners when the root is disposed", () => {
+        const menu = new Treeview({
+          menuElement: document.querySelector("ul"),
+          submenuTogglesSelector: "a",
+        });
+        const child = menu.elements.submenuToggles[0].elements.controlledMenu;
+        const listener = vi.fn();
+        child._addEventListener("audit-dispose", document, listener);
+
+        menu.dispose();
+        document.dispatchEvent(new Event("audit-dispose"));
+
+        expect(listener).not.toHaveBeenCalled();
+      });
+    });
+
+    describe("controller media queries", () => {
+      beforeEach(() => {
+        document.body.innerHTML = twoLevel;
+        vi.useFakeTimers();
+      });
+
+      afterEach(() => {
+        vi.restoreAllMocks();
+        vi.unstubAllGlobals();
+        vi.useRealTimers();
+        document.body.innerHTML = "";
+      });
+
+      it("should stop responding to query changes when disposed", () => {
+        const { matchMedia, mql, listeners } = setupMatchMedia(true);
+        vi.stubGlobal("matchMedia", matchMedia);
+        const menu = new Treeview({
+          menuElement: document.querySelector("ul"),
+          controllerElement: document.querySelector("button"),
+          containerElement: document.querySelector("nav"),
+          submenuTogglesSelector: "a",
+          initialize: false,
+          breakpoint: "40em",
+          lockOutsideBreakpoint: true,
+        });
+        menu.initialize();
+        const controller = menu.elements.controller;
+        vi.advanceTimersToNextFrame();
+
+        menu.dispose();
+        mql.matches = false;
+        listeners.forEach((listener) => listener(mql));
+
+        expect(controller.isLocked).toBe(false);
+      });
     });
   });
 });

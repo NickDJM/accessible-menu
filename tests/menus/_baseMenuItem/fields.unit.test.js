@@ -4,7 +4,6 @@
 
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import { twoLevelDisclosureTopLink } from "../../../demo/menus.js";
-import Component from "@accessible-ecosystem/core";
 import BaseMenuItem from "../../../src/_baseMenuItem.js";
 import BaseMenu from "../../../src/_baseMenu.js";
 
@@ -17,17 +16,6 @@ afterEach(() => {
 });
 
 describe("BaseMenuItem fields", () => {
-  describe("Component inheritance", () => {
-    it("should inherit from Core Component", () => {
-      const instance = new BaseMenuItem({
-        menuItemElement: document.querySelector(".dropdown"),
-        menuLinkElement: document.querySelector(".dropdown > a"),
-        parentMenu: new BaseMenu({ menuElement: document.querySelector("ul") }),
-      });
-
-      expect(instance).toBeInstanceOf(Component);
-    });
-  });
   describe("_scope", () => {
     it("should use the menu-specific configuration", () => {
       const instance = new BaseMenuItem({
@@ -39,6 +27,7 @@ describe("BaseMenuItem fields", () => {
       expect(instance._scope).toEqual("AccessibleMenu");
     });
   });
+
   describe("_name", () => {
     it("should use the menu-specific configuration", () => {
       const instance = new BaseMenuItem({
@@ -50,6 +39,7 @@ describe("BaseMenuItem fields", () => {
       expect(instance._name).toEqual("MenuItem");
     });
   });
+
   describe("_eventPrefix", () => {
     it("should use the accessibleMenu event prefix", () => {
       const instance = new BaseMenuItem({
@@ -73,6 +63,7 @@ describe("BaseMenuItem fields", () => {
       );
     });
   });
+
   describe("_storageKey", () => {
     it("should use the menu-specific configuration", () => {
       const instance = new BaseMenuItem({
@@ -84,6 +75,7 @@ describe("BaseMenuItem fields", () => {
       expect(instance._storageKey).toEqual("menuItems");
     });
   });
+
   describe("_rootDOMElement", () => {
     it("should use the menu-specific configuration", () => {
       const instance = new BaseMenuItem({
@@ -95,6 +87,7 @@ describe("BaseMenuItem fields", () => {
       expect(instance._rootDOMElement).toEqual("item");
     });
   });
+
   describe("_protectedDOMElements", () => {
     it("should use the menu-specific configuration", () => {
       const instance = new BaseMenuItem({
@@ -106,6 +99,7 @@ describe("BaseMenuItem fields", () => {
       expect(instance._protectedDOMElements).toEqual(["item", "link"]);
     });
   });
+
   describe("_shouldStore", () => {
     it("should use the menu-specific configuration", () => {
       const instance = new BaseMenuItem({
@@ -117,31 +111,7 @@ describe("BaseMenuItem fields", () => {
       expect(instance._shouldStore).toEqual(false);
     });
   });
-  describe("rootDOMElement", () => {
-    it("should resolve the configured DOM slot through the inherited getter", () => {
-      const instance = new BaseMenuItem({
-        menuItemElement: document.querySelector(".dropdown"),
-        menuLinkElement: document.querySelector(".dropdown > a"),
-        parentMenu: new BaseMenu({ menuElement: document.querySelector("ul") }),
-      });
 
-      expect(instance.rootDOMElement).toBe(
-        instance.dom[instance._rootDOMElement]
-      );
-    });
-
-    it("should remain read-only on the menu instance", () => {
-      const instance = new BaseMenuItem({
-        menuItemElement: document.querySelector(".dropdown"),
-        menuLinkElement: document.querySelector(".dropdown > a"),
-        parentMenu: new BaseMenu({ menuElement: document.querySelector("ul") }),
-      });
-
-      expect(() => {
-        instance.rootDOMElement = document.querySelector("nav");
-      }).toThrow(TypeError);
-    });
-  });
   describe("_dom", () => {
     it("should populate the item and link slots", () => {
       const item = document.querySelector(".dropdown");
@@ -155,6 +125,7 @@ describe("BaseMenuItem fields", () => {
       expect(instance.dom).toEqual({ item, link });
     });
   });
+
   describe("_elements", () => {
     it("should preserve the configured menu relationships", () => {
       const parent = new BaseMenu({

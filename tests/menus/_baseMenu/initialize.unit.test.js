@@ -9,6 +9,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { singleLevel, twoLevel } from "../../../demo/menus.js";
 import BaseMenu from "../../../src/_baseMenu.js";
 import { setupMatchMedia } from "../helpers.js";
+import Component from "@accessible-ecosystem/core";
 
 let originalMatchMedia;
 
@@ -104,6 +105,79 @@ describe("BaseMenu", () => {
     expect(
       window.AccessibleMenuStorage.get({ type: "menus", key: menu.id })
     ).not.toEqual(menu);
+  });
+
+  describe("inheritance", () => {
+    beforeEach(() => {
+      document.body.innerHTML = twoLevel;
+    });
+
+    afterEach(() => {
+      vi.restoreAllMocks();
+      document.body.innerHTML = "";
+    });
+
+    it("should inherit Core initialization", () => {
+      expect(BaseMenu.prototype.initialize).toBe(
+        Component.prototype.initialize
+      );
+    });
+  });
+
+  describe("controller media queries", () => {
+    const flags = [
+      "expandInsideBreakpoint",
+      "expandOutsideBreakpoint",
+      "collapseInsideBreakpoint",
+      "collapseOutsideBreakpoint",
+      "lockInsideBreakpoint",
+      "lockOutsideBreakpoint",
+      "unlockInsideBreakpoint",
+      "unlockOutsideBreakpoint",
+    ];
+    beforeEach(() => {
+      document.body.innerHTML = twoLevel;
+      vi.useFakeTimers();
+    });
+
+    afterEach(() => {
+      vi.restoreAllMocks();
+      vi.unstubAllGlobals();
+      vi.useRealTimers();
+      document.body.innerHTML = "";
+    });
+    it.each(flags)(
+      "should apply %s on the initial media-query frame",
+      (option) => {
+        const matches = option.includes("Inside");
+        const { matchMedia } = setupMatchMedia(matches);
+        vi.stubGlobal("matchMedia", matchMedia);
+        const menu = new BaseMenu({
+          menuElement: document.querySelector("ul"),
+          controllerElement: document.querySelector("button"),
+          containerElement: document.querySelector("nav"),
+          submenuTogglesSelector: "a",
+          initialize: false,
+          breakpoint: "40em",
+          [option]: true,
+        });
+        menu.initialize();
+        const controller = menu.elements.controller;
+        if (option.startsWith("collapse"))
+          controller.expand({ transition: false, emit: false });
+        if (option.startsWith("unlock")) controller.lock({ emit: false });
+
+        vi.advanceTimersToNextFrame();
+
+        if (option.startsWith("expand"))
+          expect(controller.isExpanded).toBe(true);
+        if (option.startsWith("collapse"))
+          expect(controller.isExpanded).toBe(false);
+        if (option.startsWith("lock")) expect(controller.isLocked).toBe(true);
+        if (option.startsWith("unlock"))
+          expect(controller.isLocked).toBe(false);
+      }
+    );
   });
 });
 
