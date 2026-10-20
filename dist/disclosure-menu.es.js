@@ -1489,7 +1489,7 @@ var C = class n extends h {
 		}), this.isTopLevel && this.elements.controller && this._addEventListener("click", this.elements.controller.dom.controller, (t) => {
 			this.currentEvent = "mouse", e(this, this.elements.controller, t);
 		}), this._addEventListener("click", document, (e) => {
-			this.focusState !== "none" && (this.currentEvent = "mouse", !this.dom.menu.contains(e.target) && !this.dom.menu !== e.target && (this.elements.rootMenu.hasExpanded = this.elements.submenuToggles.some((e) => e.isExpanded)));
+			this.focusState !== "none" && (this.currentEvent = "mouse", this.dom.menu.contains(e.target) || (this.elements.rootMenu.hasExpanded = this.elements.submenuToggles.some((e) => e.isExpanded)));
 		});
 	}
 	_handleHover() {
@@ -1725,7 +1725,7 @@ var C = class n extends h {
 	}
 	_handleClick() {
 		super._handleClick(), this._addEventListener("click", document, (e) => {
-			this.focusState !== "none" && (this.currentEvent = "mouse", !this.dom.menu.contains(e.target) && !this.dom.menu !== e.target && (this.collapseChildren(), this.blur(), this.elements.controller && this.elements.controller.collapse(), this.elements.rootMenu.hasExpanded = !1));
+			this.focusState !== "none" && (this.currentEvent = "mouse", this.dom.menu.contains(e.target) || (this.collapseChildren(), this.blur(), this.elements.controller && this.elements.controller.collapse(), this.elements.rootMenu.hasExpanded = !1));
 		});
 	}
 	_handleKeydown() {

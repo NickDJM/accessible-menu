@@ -58,7 +58,8 @@ const lib = {
 export default defineConfig({
   build: {
     lib: lib[buildType] || lib.default,
-    emptyOutDir: false,
+    // Clear old bundles first, then keep the individual menu builds together.
+    emptyOutDir: buildType === "default" || !lib[buildType],
     rollupOptions: {
       output: {
         exports: buildType === "default" || !lib[buildType] ? "named" : "auto",
