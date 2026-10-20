@@ -148,6 +148,10 @@ StorageManager.get({
 });
 ```
 
+With `key` omitted or set to `null`, returns the whole object stored under the selected type. When entries are stored with individual keys, this object is keyed by entry name. With a key, returns the stored entry; a missing key returns `undefined`.
+
+Throws an `Error` if the storage type has not been initialized. The type must be a string, and the key must be a string or `null`. Invalid argument types throw a `TypeError`.
+
 #### Parameters {#method--get--parameters}
 
 | Param        | Type             | Description                                                           | Default               |
