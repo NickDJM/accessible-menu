@@ -2,12 +2,10 @@
  * Getter/Setter tests for the DisclosureMenuToggle class.
  */
 
-import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
+import { describe, it } from "vitest";
 import DisclosureMenuToggle from "../../../src/disclosureMenuToggle.js";
 import BaseMenuToggle from "../../../src/_baseMenuToggle.js";
 import { expectInheritedGetter, expectInheritedSetter } from "../helpers.js";
-import DisclosureMenu from "../../../src/disclosureMenu.js";
-import { twoLevel } from "../../../demo/menus.js";
 import Component from "@accessible-ecosystem/core";
 import CollapsibleComponent from "@accessible-ecosystem/core/CollapsibleComponent.js";
 
@@ -117,29 +115,6 @@ describe("DisclosureMenuToggle getter/setters", () => {
           CollapsibleComponent.prototype,
           property
         );
-      });
-    });
-  });
-
-  describe("id", () => {
-    describe("DOM attributes", () => {
-      beforeEach(() => {
-        document.body.innerHTML = twoLevel;
-      });
-
-      afterEach(() => {
-        vi.restoreAllMocks();
-        document.body.innerHTML = "";
-      });
-
-      it("should expose the controller DOM ID through the inherited toggle ID getter", () => {
-        const menu = new DisclosureMenu({
-          menuElement: document.querySelector("ul"),
-          submenuTogglesSelector: "a",
-        });
-        const toggle = menu.elements.submenuToggles[0];
-
-        expect(toggle.id).toBe(toggle.dom.controller.id);
       });
     });
   });
@@ -289,6 +264,44 @@ describe("DisclosureMenuToggle getter/setters", () => {
           property
         );
       });
+    });
+  });
+
+  describe("id", () => {
+    it("should implement the BaseMenuToggle id getter", () => {
+      expectInheritedGetter(
+        DisclosureMenuToggle.prototype,
+        BaseMenuToggle.prototype,
+        "id"
+      );
+    });
+  });
+
+  describe("shouldFocus", () => {
+    it("should implement the BaseMenuToggle shouldFocus getter", () => {
+      expectInheritedGetter(
+        DisclosureMenuToggle.prototype,
+        BaseMenuToggle.prototype,
+        "shouldFocus"
+      );
+    });
+  });
+
+  describe("currentEvent", () => {
+    it("should implement the BaseMenuToggle currentEvent getter", () => {
+      expectInheritedGetter(
+        DisclosureMenuToggle.prototype,
+        BaseMenuToggle.prototype,
+        "currentEvent"
+      );
+    });
+
+    it("should implement the BaseMenuToggle currentEvent setter", () => {
+      expectInheritedSetter(
+        DisclosureMenuToggle.prototype,
+        BaseMenuToggle.prototype,
+        "currentEvent"
+      );
     });
   });
 });

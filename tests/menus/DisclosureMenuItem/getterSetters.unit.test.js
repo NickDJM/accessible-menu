@@ -6,8 +6,7 @@ import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import DisclosureMenuItem from "../../../src/disclosureMenuItem.js";
 import BaseMenuItem from "../../../src/_baseMenuItem.js";
 import { expectInheritedGetter, expectInheritedSetter } from "../helpers.js";
-import DisclosureMenu from "../../../src/disclosureMenu.js";
-import { twoLevel, twoLevelDisclosureTopLink } from "../../../demo/menus.js";
+import { twoLevelDisclosureTopLink } from "../../../demo/menus.js";
 import Component from "@accessible-ecosystem/core";
 import BaseMenu from "../../../src/_baseMenu.js";
 
@@ -124,54 +123,6 @@ describe("DisclosureMenuItem getter/setters", () => {
         BaseMenuItem.prototype,
         "isSubmenuItem"
       );
-    });
-  });
-
-  describe("id", () => {
-    describe("DOM attributes", () => {
-      beforeEach(() => {
-        document.body.innerHTML = twoLevel;
-      });
-
-      afterEach(() => {
-        vi.restoreAllMocks();
-        document.body.innerHTML = "";
-      });
-
-      it("should expose an existing menu-item DOM ID through Core", () => {
-        document.querySelector("li").id = "existing-menu-item";
-        const menu = new DisclosureMenu({
-          menuElement: document.querySelector("ul"),
-          submenuTogglesSelector: "a",
-        });
-
-        expect(menu.elements.menuItems[0].id).toBe("existing-menu-item");
-      });
-    });
-  });
-
-  describe("shouldFocus", () => {
-    describe("parent menu values", () => {
-      beforeEach(() => {
-        document.body.innerHTML = twoLevel;
-      });
-
-      afterEach(() => {
-        vi.restoreAllMocks();
-        document.body.innerHTML = "";
-      });
-
-      it("should use the parent menu's focus permission", () => {
-        const menu = new DisclosureMenu({
-          menuElement: document.querySelector("ul"),
-          submenuTogglesSelector: "a",
-        });
-        const item = menu.elements.menuItems[0];
-
-        menu.currentEvent = "keyboard";
-
-        expect(item.shouldFocus).toBe(true);
-      });
     });
   });
 
@@ -292,6 +243,44 @@ describe("DisclosureMenuItem getter/setters", () => {
           property
         );
       });
+    });
+  });
+
+  describe("id", () => {
+    it("should implement the BaseMenuItem id getter", () => {
+      expectInheritedGetter(
+        DisclosureMenuItem.prototype,
+        BaseMenuItem.prototype,
+        "id"
+      );
+    });
+  });
+
+  describe("shouldFocus", () => {
+    it("should implement the BaseMenuItem shouldFocus getter", () => {
+      expectInheritedGetter(
+        DisclosureMenuItem.prototype,
+        BaseMenuItem.prototype,
+        "shouldFocus"
+      );
+    });
+  });
+
+  describe("currentEvent", () => {
+    it("should implement the BaseMenuItem currentEvent getter", () => {
+      expectInheritedGetter(
+        DisclosureMenuItem.prototype,
+        BaseMenuItem.prototype,
+        "currentEvent"
+      );
+    });
+
+    it("should implement the BaseMenuItem currentEvent setter", () => {
+      expectInheritedSetter(
+        DisclosureMenuItem.prototype,
+        BaseMenuItem.prototype,
+        "currentEvent"
+      );
     });
   });
 });

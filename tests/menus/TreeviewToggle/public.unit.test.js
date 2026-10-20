@@ -214,49 +214,16 @@ describe("TreeviewToggle public methods", () => {
   });
 
   describe("lock", () => {
-    describe("controlled elements", () => {
-      beforeEach(() => {
-        document.body.innerHTML = twoLevelDisclosureTopLink;
-      });
+    it("should implement the BaseMenuToggle lock method", () => {
+      expect(TreeviewToggle.prototype.lock).toBe(BaseMenuToggle.prototype.lock);
+    });
+  });
 
-      afterEach(() => {
-        document.body.innerHTML = "";
-        vi.useRealTimers();
-        vi.unstubAllGlobals();
-      });
-
-      it("applies locked and unlocked classes to the custom container", () => {
-        const containerElement = document.querySelector(".dropdown");
-        const menuClasses = document.querySelector(".dropdown-menu").className;
-        const toggle = new TreeviewToggle({
-          menuToggleElement: document.querySelector(".dropdown-toggle"),
-          controlledMenu: new BaseMenu({
-            menuElement: document.querySelector(".dropdown-menu"),
-            expandClass: "open",
-            collapseClass: "closed",
-            transitionClass: "",
-          }),
-          initialize: false,
-          containerElement,
-        });
-
-        toggle.lock({ emit: false });
-
-        expect(containerElement.classList.contains("locked")).toBe(true);
-        expect(toggle.dom.controller.disabled).toBe(true);
-        expect(toggle.elements.controlledMenu.dom.menu.className).toBe(
-          menuClasses
-        );
-
-        toggle.unlock({ emit: false });
-
-        expect(containerElement.classList.contains("locked")).toBe(false);
-        expect(containerElement.classList.contains("unlocked")).toBe(true);
-        expect(toggle.dom.controller.disabled).toBe(false);
-        expect(toggle.elements.controlledMenu.dom.menu.className).toBe(
-          menuClasses
-        );
-      });
+  describe("unlock", () => {
+    it("should implement the BaseMenuToggle unlock method", () => {
+      expect(TreeviewToggle.prototype.unlock).toBe(
+        BaseMenuToggle.prototype.unlock
+      );
     });
   });
 });

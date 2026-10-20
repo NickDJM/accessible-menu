@@ -92,4 +92,42 @@ describe("TopLinkDisclosureMenuToggle getter/setters", () => {
       );
     });
   });
+
+  describe("id", () => {
+    it("should implement the BaseMenuToggle id getter", () => {
+      expectInheritedGetter(
+        TopLinkDisclosureMenuToggle.prototype,
+        BaseMenuToggle.prototype,
+        "id"
+      );
+    });
+  });
+
+  describe("shouldFocus", () => {
+    it("should implement the BaseMenuToggle shouldFocus getter", () => {
+      expectInheritedGetter(
+        TopLinkDisclosureMenuToggle.prototype,
+        BaseMenuToggle.prototype,
+        "shouldFocus"
+      );
+    });
+  });
+
+  describe("currentEvent", () => {
+    it("should implement the BaseMenuToggle currentEvent getter", () => {
+      expectInheritedGetter(
+        TopLinkDisclosureMenuToggle.prototype,
+        BaseMenuToggle.prototype,
+        "currentEvent"
+      );
+    });
+
+    it("should implement the BaseMenuToggle currentEvent setter", () => {
+      expectInheritedSetter(
+        TopLinkDisclosureMenuToggle.prototype,
+        BaseMenuToggle.prototype,
+        "currentEvent"
+      );
+    });
+  });
 });

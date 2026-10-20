@@ -67,6 +67,30 @@ describe("BaseMenuItem public methods", () => {
 
       expect(spy).toHaveBeenCalled();
     });
+
+    describe("logical focus", () => {
+      beforeEach(() => {
+        document.body.innerHTML = twoLevel;
+      });
+
+      afterEach(() => {
+        vi.restoreAllMocks();
+        document.body.innerHTML = "";
+      });
+
+      it("should track logical focus through Core", () => {
+        const menu = new BaseMenu({
+          menuElement: document.querySelector("ul"),
+          submenuTogglesSelector: "a",
+        });
+        menu.initialize();
+        const item = menu.elements.menuItems[0];
+
+        item.focus();
+
+        expect(item.focusState).toBe("self");
+      });
+    });
   });
 
   // Test BaseMenuItem blur().
@@ -117,6 +141,31 @@ describe("BaseMenuItem public methods", () => {
       menuItem.blur();
 
       expect(spy).toHaveBeenCalled();
+    });
+
+    describe("logical focus", () => {
+      beforeEach(() => {
+        document.body.innerHTML = twoLevel;
+      });
+
+      afterEach(() => {
+        vi.restoreAllMocks();
+        document.body.innerHTML = "";
+      });
+
+      it("should clear logical focus through Core", () => {
+        const menu = new BaseMenu({
+          menuElement: document.querySelector("ul"),
+          submenuTogglesSelector: "a",
+        });
+        menu.initialize();
+        const item = menu.elements.menuItems[0];
+        item.focus();
+
+        item.blur();
+
+        expect(item.focusState).toBe("none");
+      });
     });
   });
 });

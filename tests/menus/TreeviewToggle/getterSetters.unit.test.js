@@ -92,4 +92,42 @@ describe("TreeviewToggle getter/setters", () => {
       );
     });
   });
+
+  describe("id", () => {
+    it("should implement the BaseMenuToggle id getter", () => {
+      expectInheritedGetter(
+        TreeviewToggle.prototype,
+        BaseMenuToggle.prototype,
+        "id"
+      );
+    });
+  });
+
+  describe("shouldFocus", () => {
+    it("should implement the BaseMenuToggle shouldFocus getter", () => {
+      expectInheritedGetter(
+        TreeviewToggle.prototype,
+        BaseMenuToggle.prototype,
+        "shouldFocus"
+      );
+    });
+  });
+
+  describe("currentEvent", () => {
+    it("should implement the BaseMenuToggle currentEvent getter", () => {
+      expectInheritedGetter(
+        TreeviewToggle.prototype,
+        BaseMenuToggle.prototype,
+        "currentEvent"
+      );
+    });
+
+    it("should implement the BaseMenuToggle currentEvent setter", () => {
+      expectInheritedSetter(
+        TreeviewToggle.prototype,
+        BaseMenuToggle.prototype,
+        "currentEvent"
+      );
+    });
+  });
 });

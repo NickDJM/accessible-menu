@@ -124,4 +124,42 @@ describe("TopLinkDisclosureMenuItem getter/setters", () => {
       );
     });
   });
+
+  describe("id", () => {
+    it("should implement the BaseMenuItem id getter", () => {
+      expectInheritedGetter(
+        TopLinkDisclosureMenuItem.prototype,
+        BaseMenuItem.prototype,
+        "id"
+      );
+    });
+  });
+
+  describe("shouldFocus", () => {
+    it("should implement the BaseMenuItem shouldFocus getter", () => {
+      expectInheritedGetter(
+        TopLinkDisclosureMenuItem.prototype,
+        BaseMenuItem.prototype,
+        "shouldFocus"
+      );
+    });
+  });
+
+  describe("currentEvent", () => {
+    it("should implement the BaseMenuItem currentEvent getter", () => {
+      expectInheritedGetter(
+        TopLinkDisclosureMenuItem.prototype,
+        BaseMenuItem.prototype,
+        "currentEvent"
+      );
+    });
+
+    it("should implement the BaseMenuItem currentEvent setter", () => {
+      expectInheritedSetter(
+        TopLinkDisclosureMenuItem.prototype,
+        BaseMenuItem.prototype,
+        "currentEvent"
+      );
+    });
+  });
 });

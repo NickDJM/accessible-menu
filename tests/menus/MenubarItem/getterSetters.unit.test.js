@@ -124,4 +124,42 @@ describe("MenubarItem getter/setters", () => {
       );
     });
   });
+
+  describe("id", () => {
+    it("should implement the BaseMenuItem id getter", () => {
+      expectInheritedGetter(
+        MenubarItem.prototype,
+        BaseMenuItem.prototype,
+        "id"
+      );
+    });
+  });
+
+  describe("shouldFocus", () => {
+    it("should implement the BaseMenuItem shouldFocus getter", () => {
+      expectInheritedGetter(
+        MenubarItem.prototype,
+        BaseMenuItem.prototype,
+        "shouldFocus"
+      );
+    });
+  });
+
+  describe("currentEvent", () => {
+    it("should implement the BaseMenuItem currentEvent getter", () => {
+      expectInheritedGetter(
+        MenubarItem.prototype,
+        BaseMenuItem.prototype,
+        "currentEvent"
+      );
+    });
+
+    it("should implement the BaseMenuItem currentEvent setter", () => {
+      expectInheritedSetter(
+        MenubarItem.prototype,
+        BaseMenuItem.prototype,
+        "currentEvent"
+      );
+    });
+  });
 });

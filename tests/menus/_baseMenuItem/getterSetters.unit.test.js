@@ -428,4 +428,28 @@ describe("BaseMenuItem getter/setters", () => {
       });
     });
   });
+
+  describe("id", () => {
+    describe("DOM attributes", () => {
+      beforeEach(() => {
+        document.body.innerHTML = twoLevel;
+      });
+
+      afterEach(() => {
+        vi.restoreAllMocks();
+        document.body.innerHTML = "";
+      });
+
+      it("should expose an existing menu-item DOM ID through Core", () => {
+        document.querySelector("li").id = "existing-menu-item";
+        const menu = new BaseMenu({
+          menuElement: document.querySelector("ul"),
+          submenuTogglesSelector: "a",
+        });
+        menu.initialize();
+
+        expect(menu.elements.menuItems[0].id).toBe("existing-menu-item");
+      });
+    });
+  });
 });

@@ -854,4 +854,28 @@ describe("BaseMenuToggle getter/setters", () => {
       });
     });
   });
+
+  describe("id", () => {
+    describe("DOM attributes", () => {
+      beforeEach(() => {
+        document.body.innerHTML = twoLevel;
+      });
+
+      afterEach(() => {
+        vi.restoreAllMocks();
+        document.body.innerHTML = "";
+      });
+
+      it("should expose the controller DOM ID through the inherited toggle ID getter", () => {
+        const menu = new BaseMenu({
+          menuElement: document.querySelector("ul"),
+          submenuTogglesSelector: "a",
+        });
+        menu.initialize();
+        const toggle = menu.elements.submenuToggles[0];
+
+        expect(toggle.id).toBe(toggle.dom.controller.id);
+      });
+    });
+  });
 });

@@ -352,22 +352,6 @@ describe("Treeview protected methods", () => {
         document.body.innerHTML = "";
       });
 
-      it("should not initialize an initialized controller again", () => {
-        const menu = new Treeview({
-          menuElement: document.querySelector("ul"),
-          controllerElement: document.querySelector("button"),
-          containerElement: document.querySelector("nav"),
-          submenuTogglesSelector: "a",
-          initialize: false,
-        });
-        menu.initialize();
-        const initialize = vi.spyOn(menu.elements.controller, "initialize");
-
-        menu._createController();
-
-        expect(initialize).not.toHaveBeenCalled();
-      });
-
       it.each(flags)("should forward %s to the controller", (option) => {
         const menu = new Treeview({
           menuElement: document.querySelector("ul"),
@@ -412,27 +396,6 @@ describe("Treeview protected methods", () => {
         expect(matchMedia).toHaveBeenCalledExactlyOnceWith("(width <= 40em)");
       });
 
-      it("should respond to a media-query change using Core", () => {
-        const { matchMedia, mql, listeners } = setupMatchMedia(true);
-        vi.stubGlobal("matchMedia", matchMedia);
-        const menu = new Treeview({
-          menuElement: document.querySelector("ul"),
-          controllerElement: document.querySelector("button"),
-          containerElement: document.querySelector("nav"),
-          submenuTogglesSelector: "a",
-          initialize: false,
-          breakpoint: "40em",
-          lockOutsideBreakpoint: true,
-        });
-        menu.initialize();
-        vi.advanceTimersToNextFrame();
-
-        mql.matches = false;
-        listeners.forEach((listener) => listener(mql));
-
-        expect(menu.elements.controller.isLocked).toBe(true);
-      });
-
       it("should inherit Core's responsive callback on the controller", () => {
         const menu = new Treeview({
           menuElement: document.querySelector("ul"),
@@ -447,6 +410,12 @@ describe("Treeview protected methods", () => {
           CollapsibleComponent.prototype._mediaQueryListEventCallback
         );
       });
+    });
+
+    it("should implement the BaseMenu _createController method", () => {
+      expect(Treeview.prototype._createController).toBe(
+        BaseMenu.prototype._createController
+      );
     });
   });
 
@@ -522,6 +491,14 @@ describe("Treeview protected methods", () => {
         expect(menu.isInitialized).toBe(false);
         expect(menu.errors.length).toBeGreaterThan(0);
       });
+    });
+  });
+
+  describe("_setCustomProps", () => {
+    it("should implement the BaseMenu _setCustomProps method", () => {
+      expect(Treeview.prototype._setCustomProps).toBe(
+        BaseMenu.prototype._setCustomProps
+      );
     });
   });
 });

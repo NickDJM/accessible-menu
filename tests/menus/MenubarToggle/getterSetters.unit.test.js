@@ -92,4 +92,42 @@ describe("MenubarToggle getter/setters", () => {
       );
     });
   });
+
+  describe("id", () => {
+    it("should implement the BaseMenuToggle id getter", () => {
+      expectInheritedGetter(
+        MenubarToggle.prototype,
+        BaseMenuToggle.prototype,
+        "id"
+      );
+    });
+  });
+
+  describe("shouldFocus", () => {
+    it("should implement the BaseMenuToggle shouldFocus getter", () => {
+      expectInheritedGetter(
+        MenubarToggle.prototype,
+        BaseMenuToggle.prototype,
+        "shouldFocus"
+      );
+    });
+  });
+
+  describe("currentEvent", () => {
+    it("should implement the BaseMenuToggle currentEvent getter", () => {
+      expectInheritedGetter(
+        MenubarToggle.prototype,
+        BaseMenuToggle.prototype,
+        "currentEvent"
+      );
+    });
+
+    it("should implement the BaseMenuToggle currentEvent setter", () => {
+      expectInheritedSetter(
+        MenubarToggle.prototype,
+        BaseMenuToggle.prototype,
+        "currentEvent"
+      );
+    });
+  });
 });

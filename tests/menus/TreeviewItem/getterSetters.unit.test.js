@@ -124,4 +124,42 @@ describe("TreeviewItem getter/setters", () => {
       );
     });
   });
+
+  describe("id", () => {
+    it("should implement the BaseMenuItem id getter", () => {
+      expectInheritedGetter(
+        TreeviewItem.prototype,
+        BaseMenuItem.prototype,
+        "id"
+      );
+    });
+  });
+
+  describe("shouldFocus", () => {
+    it("should implement the BaseMenuItem shouldFocus getter", () => {
+      expectInheritedGetter(
+        TreeviewItem.prototype,
+        BaseMenuItem.prototype,
+        "shouldFocus"
+      );
+    });
+  });
+
+  describe("currentEvent", () => {
+    it("should implement the BaseMenuItem currentEvent getter", () => {
+      expectInheritedGetter(
+        TreeviewItem.prototype,
+        BaseMenuItem.prototype,
+        "currentEvent"
+      );
+    });
+
+    it("should implement the BaseMenuItem currentEvent setter", () => {
+      expectInheritedSetter(
+        TreeviewItem.prototype,
+        BaseMenuItem.prototype,
+        "currentEvent"
+      );
+    });
+  });
 });
