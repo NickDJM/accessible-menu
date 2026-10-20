@@ -25,7 +25,7 @@ import { Treeview } from "accessible-menu";
 
 const menu = document.querySelector("#creature-menu ul");
 
-const disclosureMenu = new Treeview({
+const treeview = new Treeview({
   menuElement: menu,
 });
 ```
@@ -62,7 +62,7 @@ import { Treeview } from "accessible-menu";
 
 const menu = document.querySelector("#creature-menu ul");
 
-const disclosureMenu = new Treeview({
+const treeview = new Treeview({
   menuElement: menu,
 });
 ```
@@ -95,7 +95,7 @@ const nav = document.querySelector("#creature-menu");
 const menu = document.querySelector("#creature-menu ul");
 const toggle = document.querySelector("#creature-menu button");
 
-const disclosureMenu = new Treeview({
+const treeview = new Treeview({
   menuElement: menu,
   containerElement: nav,
   controllerElement: toggle,

@@ -28,6 +28,6 @@ You can read more about [Navigation Menubars in the ARIA Authoring Practices Gui
 
 ## Navigation Treeview
 
-A Navigation Treeview is meant for vertical navigations in a more tabular display. Like Navigation Menubars, it focuses more on keyboard navigation using arrow keys instead of tabs.
+A Navigation Treeview is meant for vertical navigation with nested groups of links. Like Navigation Menubars, it focuses more on keyboard navigation using arrow keys instead of tabs.
 
 You can read more about [Navigation Treeviews in the ARIA Authoring Practices Guide](https://www.w3.org/WAI/ARIA/apg/patterns/treeview/examples/treeview-navigation/), or see the Accessible Menu implementation of [Treeviews](./treeviews).

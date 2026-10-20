@@ -25,7 +25,7 @@ import { Menubar } from "accessible-menu";
 
 const menu = document.querySelector("#creature-menu ul");
 
-const disclosureMenu = new Menubar({
+const menubar = new Menubar({
   menuElement: menu,
 });
 ```
@@ -62,7 +62,7 @@ import { Menubar } from "accessible-menu";
 
 const menu = document.querySelector("#creature-menu ul");
 
-const disclosureMenu = new Menubar({
+const menubar = new Menubar({
   menuElement: menu,
   submenuItemsSelector: ".dropdown",
 });
@@ -96,7 +96,7 @@ const nav = document.querySelector("#creature-menu");
 const menu = document.querySelector("#creature-menu ul");
 const toggle = document.querySelector("#creature-menu button");
 
-const disclosureMenu = new Menubar({
+const menubar = new Menubar({
   menuElement: menu,
   containerElement: nav,
   controllerElement: toggle,

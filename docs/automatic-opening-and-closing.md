@@ -1,6 +1,6 @@
 # Automatic opening and closing of menus
 
-Accessible Menu provides built-in support for automatically opening and closing menus based on screen size. This feature is particularly useful for when you do not want to have custom styles to ignore the root menu being closed on larger screens (a.k.a. not in a hamburger menu or collapsed state).
+Accessible Menu provides built-in support for automatically opening and closing menus based on screen size.
 
 For example, you might want a hamburger menu on smaller screens and an open navigation on larger screens. Accessible Menu can open or close the main menu as the browser gets wider or narrower. These settings affect the main menu controlled by your hamburger button. Submenus still open and close through their own toggles.
 
@@ -32,7 +32,7 @@ With a `"768px"` breakpoint:
 - At **768px or narrower**, `collapseInsideBreakpoint` closes the main menu. The user can open it again with the menu button.
 - **Above 768px**, `expandOutsideBreakpoint` opens the main menu.
 
-Accessible Menu checks the width when the menu is first created and again when the browser crosses the breakpoint. It uses the same opening and closing classes and transitions as a click on the menu button. See [Opening and closing the menu](./opening-and-closing) to customize those styles.
+Accessible Menu checks the width when the menu is first created and again when the browser crosses the breakpoint. It uses the same opening and closing classes and transitions as a click on the menu button. See [Opening and closing the menu](./opening-and-closing) for how these classes and properties are applied.
 
 The option names use "expand" to mean open and "collapse" to mean close. With a breakpoint, "inside" means at or below the chosen width, and "outside" means above it.
 

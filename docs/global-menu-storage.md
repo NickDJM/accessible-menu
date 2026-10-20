@@ -4,7 +4,7 @@ Accessible Menu provides a global storage object that is used to store all insta
 
 ## Usage
 
-Accessible Menu keeps a list of the menus you create on `window.AccessibleMenuStorage`. You can look up one menu by its HTML ID, or get all of them to work with several menus at once. Submenus are available through their root menu rather than stored separately.
+Accessible Menu stores the menus you create on `window.AccessibleMenuStorage`. You can look up one menu by its HTML ID, or get all of them to work with several menus at once. Submenus are available through their root menu rather than stored separately.
 
 ```js
 // Get the menu whose HTML element has id="menu-id".

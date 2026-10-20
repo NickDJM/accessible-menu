@@ -19,7 +19,19 @@ You can use Accessible Menu directly from a CDN via a script tag.
 
 We use [jsdelivr](https://www.jsdelivr.com/package/npm/accessible-menu) as the example, but you can use any cdn you prefer, such as [unpkg](https://unpkg.com). You can also download the files listed in the CDN and host them yourself if preferred.
 
+The script exposes the menu classes through `AccessibleMenu`. Once your menu HTML and the library script have loaded, create a menu using that global:
+
+```js
+const menu = new AccessibleMenu.DisclosureMenu({
+  menuElement: document.querySelector("#example-menu ul"),
+});
+```
+
+The setup examples below use module imports for projects installed through NPM. For a CDN setup, use `AccessibleMenu.DisclosureMenu`, `AccessibleMenu.Menubar`, or `AccessibleMenu.Treeview` in place of the imported class. Run your setup after the menu HTML is available.
+
 ## Setup
+
+Accessible Menu does not provide CSS. It applies classes, attributes, and CSS custom properties. Your project controls the styling. See [Opening and closing the menu](./opening-and-closing) for how those classes and properties are applied.
 
 ### Single-level Menu
 
@@ -117,21 +129,3 @@ const menu = new Treeview({
 :::
 
 The Disclosure Menu example sets `submenuTogglesSelector: "a"` because the Projects toggle in this HTML is a link. If you use a `<button>` for it instead, you can leave that option at its default.
-
-## Different toggles in deeper submenus
-
-Every menu type accepts `submenuSubtogglesSelector`. Use it when the toggles inside a submenu need a different selector from the toggles in the root menu.
-
-```js
-new DisclosureMenu({
-  menuElement: document.querySelector("nav ul"),
-  submenuTogglesSelector: ".root-toggle",
-  submenuSubtogglesSelector: ".child-toggle",
-});
-```
-
-This menu uses `.root-toggle` for the toggles in the root menu. It uses `.child-toggle` for toggles inside child menus and at every deeper level.
-
-For BaseMenu, Disclosure Menu, Menubar, and Treeview, `submenuSubtogglesSelector` defaults to `null`, which uses the configured `submenuTogglesSelector` at every level. Top Link Disclosure defaults to `"a"` for deeper toggles. Passing `null` to Top Link Disclosure makes it use the configured `submenuTogglesSelector` instead.
-
-This option only changes which elements act as submenu toggles. It does not enable separate link and toggle items or change a menu type's keyboard behavior.
