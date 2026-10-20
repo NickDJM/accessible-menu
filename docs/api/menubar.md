@@ -204,7 +204,7 @@ Ignores keyup events using Ctrl, Alt, or Meta.
 
 Adds all `keyup` listeners from [BaseMenu's _handleKeyup method](./base-menu#method--handlekeyup).
 
-Adds the following keybindings (explanations are taken from the [Navigation Menubar Example](https://www.w3.org/TR/2019/WD-wai-aria-practices-1.2-20191218/examples/menubar/menubar-1/menubar-1.html#kbd_label):
+Adds the following keybindings (explanations are taken from the [Navigation Menubar Example](https://www.w3.org/TR/2019/WD-wai-aria-practices-1.2-20191218/examples/menubar/menubar-1/menubar-1.html#kbd_label)):
 
 #### Menubar
 

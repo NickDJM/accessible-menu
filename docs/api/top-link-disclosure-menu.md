@@ -310,7 +310,7 @@ Ignores keyup events using Ctrl, Alt, or Meta.
 
 Adds all `keyup` listeners from [BaseMenu's _handleKeyup method](./base-menu#method--handlekeyup).
 
-Adds the following keybindings (explanations are taken from the [WAI ARIA Practices Example Disclosure for Navigation Menus](https://www.w3.org/TR/wai-aria-practices-1.2/examples/disclosure/disclosure-navigation.html#kbd_label):
+Adds the following keybindings (explanations are taken from the [WAI ARIA Practices Example Disclosure for Navigation Menus](https://www.w3.org/TR/wai-aria-practices-1.2/examples/disclosure/disclosure-navigation.html#kbd_label)):
 
 | Key                                       | Function                                                                                                                                                                                                                                                                                                                                       |
 | ----------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -321,6 +321,8 @@ Adds the following keybindings (explanations are taken from the [WAI ARIA Practi
 | _Up Arrow_ or _Left Arrow_ (Optional})    | <ul><li>If focus is on a button, and it is not the first button, moves focus to the previous button.</li><li>If focus is on a link, and it is not the first link, moves focus to the previous link.</li></ul>                                                                                                                                  |
 | _Home_ (Optional})                        | <ul><li>If focus is on a button, and it is not the first button, moves focus to the first button.</li><li>If focus is on a link, and it is not the first link, moves focus to the first link.</li></ul>                                                                                                                                        |
 | _End_ (Optional})                         | <ul><li>If focus is on a button, and it is not the last button, moves focus to the last button.</li><li>If focus is on a link, and it is not the last link, moves focus to the last link.</li></ul>                                                                                                                                            |
+
+Accessible Menu does not set or remove `aria-current` when activating a link.
 
 The optional keybindings are controlled by the menu's [optionalKeySupport](#getter-setter--optionalkeysupport) value.
 
