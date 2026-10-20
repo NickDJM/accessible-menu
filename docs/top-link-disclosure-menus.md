@@ -70,6 +70,8 @@ const disclosureMenu = new TopLinkDisclosureMenu({
 
 :::
 
+To use separate links and toggle buttons below the top level, see [Separate links and toggles in submenus](./submenu-toggle-buttons).
+
 ## Collapsible Top Link Disclosure Menu {#collapsible}
 
 The following is an example of how you would set up a collapsible Top Link Disclosure Menu.

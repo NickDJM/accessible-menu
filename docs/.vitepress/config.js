@@ -96,6 +96,10 @@ export default defineConfig({
         {
           text: "Other Topics",
           items: [
+            {
+              text: "Separate links and toggles in submenus",
+              link: "/submenu-toggle-buttons",
+            },
             { text: "Custom menu classes", link: "/custom-menu-classes" },
             { text: "Global Menu Storage", link: "/global-menu-storage" },
             { text: "Bootstrap support", link: "/bootstrap-support" },
