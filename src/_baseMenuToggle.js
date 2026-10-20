@@ -407,9 +407,9 @@ class BaseMenuToggle extends CollapsibleComponent {
   /**
    * Opens the controlled menu.
    *
-   * Sets the controlled menu's focus state to "self"
-   * and the parent menu's focus state to "child", calls expand,
-   * and sets the isExpanded value to `true`.
+   * Calls _expand and sets the isExpanded value to `true`.
+   * If the toggle is initialized, also sets the controlled menu's focus state
+   * to "self" and its parent menu's focus state to "child", if it has a parent menu.
    *
    * @param {object}  [options = {}]                            - The options for opening the menu.
    * @param {boolean} [options.force = !this.isInitialized]     - A flag to force the menu to open, including when locked.
@@ -433,9 +433,9 @@ class BaseMenuToggle extends CollapsibleComponent {
   /**
    * Opens the controlled menu without the current focus entering it.
    *
-   * Sets the controlled menu's focus state to "self"
-   * and the parent menu's focus state to "child",
-   * and calls expand.
+   * Calls _expand and sets the isExpanded value to `true`.
+   * If the toggle is initialized and has a parent menu, also sets that menu's
+   * focus state to "self". This keeps focus outside the submenu.
    *
    * @param {object}  [options = {}]                            - The options for previewing the menu.
    * @param {boolean} [options.force = !this.isInitialized]     - A flag to force the menu to preview, including when locked.
@@ -460,11 +460,10 @@ class BaseMenuToggle extends CollapsibleComponent {
   /**
    * Closes the controlled menu.
    *
-   * Sets the controlled menu's focus state to "none"
-   * and the parent menu's focus state to "self", blurs the controlled menu
-   * and sets it's current child index to 0,
-   * calls collapse, and sets
-   * the isExpanded value to `false`.
+   * Calls _collapse and sets the isExpanded value to `false`.
+   * If the toggle is initialized, also blurs the controlled menu, setting its
+   * focus state to "none", and sets the parent menu's focus state to "self",
+   * if there is a parent menu.
    *
    * @param {object}  [options = {}]                            - The options for closing the menu.
    * @param {boolean} [options.force = !this.isInitialized]     - A flag to force the menu to close, including when locked.

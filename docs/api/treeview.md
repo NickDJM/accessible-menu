@@ -68,9 +68,9 @@ The constructor will call [BaseMenu's constructor](./base-menu#constructor) with
 | options.controllerElement         | `HTMLElement`, `null`        | The element controlling the menu in the DOM.                                                         | `null`           |
 | options.containerElement          | `HTMLElement`, `null`        | The element containing the menu in the DOM.                                                          | `null`           |
 | options.initializeClass           | `string`, `string[]`, `null` | The class(es) to apply when the menu is initializing.                                                | `"initializing"` |
-| options.expandClass               | `string`, `string[]`, `null` | The class to apply when a menu is expanded.                                                          | `null`           |
-| options.collapseClass             | `string`, `string[]`, `null` | The class to apply when a menu is "closed".                                                          | `null`           |
-| options.transitionClass           | `string`, `string[]`, `null` | The class to apply when a menu is transitioning between expanded and collapsed states.               | `null`           |
+| options.expandClass               | `string`, `string[]`, `null` | The class to apply when a menu is expanded.                                                          | `"show"`         |
+| options.collapseClass             | `string`, `string[]`, `null` | The class to apply when a menu is collapsed.                                                          | `"hide"`         |
+| options.transitionClass           | `string`, `string[]`, `null` | The class to apply when a menu is transitioning between expanded and collapsed states.               | `"transitioning"`|
 | options.transitionDuration        | `number`                     | The duration of the transition between expanded and collapsed states (in milliseconds).              | `250`            |
 | options.expandDuration            | `number`                     | The duration of the transition from collapsed to expanded states (in milliseconds).                  | `-1`             |
 | options.collapseDuration          | `number`                     | The duration of the transition from expanded to collapsed states (in milliseconds).                  | `-1`             |

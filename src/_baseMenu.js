@@ -133,7 +133,7 @@ class BaseMenu extends Component {
    * @param {number}             [options.transitionDuration = 250]          - The duration of the transition between expanded and collapsed states (in milliseconds).
    * @param {number}             [options.expandDuration = -1]               - The duration of the transition from collapsed to expanded states (in milliseconds).
    * @param {number}             [options.collapseDuration = -1]             - The duration of the transition from expanded to collapsed states (in milliseconds).
-   * @param {boolean}            [options.isTopLevel = false]                - A flag to mark the root menu.
+   * @param {boolean}            [options.isTopLevel = true]                 - A flag to mark the root menu.
    * @param {?BaseMenu}          [options.parentMenu = null]                 - The parent menu to this menu.
    * @param {string}             [options.hoverType = off]                   - The type of hoverability a menu has.
    * @param {number}             [options.hoverDelay = 250]                  - The delay for opening and closing menus if the menu is hoverable (in milliseconds).

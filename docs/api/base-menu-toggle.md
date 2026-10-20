@@ -784,7 +784,9 @@ The action is skipped while locked unless `force` is `true`.
 BaseMenuToggle.expand({ force, preserveState, emit, transition });
 ```
 
-Sets the controlled menu's [focus state](./base-menu#getter-setter--focusstate) to "self" and the parent menu's focus state to "child", calls [_expand](#method--expand), and sets the [isExpanded](#getter--isexpanded) value to `true`.
+Calls [_expand](#method--protected-expand) and sets [isExpanded](#getter--isexpanded) to `true`.
+
+If the toggle is initialized, also sets the controlled menu's [focus state](./base-menu#getter-setter--focusstate) to "self" and its parent menu's focus state to "child", if it has a parent menu.
 
 #### Parameters {#method--expand--parameters}
 
@@ -806,7 +808,9 @@ The action is skipped while locked unless `force` is `true`.
 BaseMenuToggle.preview({ force, preserveState, emit, transition });
 ```
 
-Sets the controlled menu's [focus state](./base-menu#getter-setter--focusstate) to "self" and the parent menu's focus state to "child", and calls [_expand](#method--expand).
+Calls [_expand](#method--protected-expand) and sets [isExpanded](#getter--isexpanded) to `true`.
+
+If the toggle is initialized and has a parent menu, also sets that menu's [focus state](./base-menu#getter-setter--focusstate) to "self". This keeps focus outside the submenu.
 
 #### Parameters {#method--preview--parameters}
 
@@ -828,7 +832,9 @@ The action is skipped while locked unless `force` is `true`.
 BaseMenuToggle.collapse({ force, preserveState, emit, transition });
 ```
 
-Sets the controlled menu's [focus state](./base-menu#getter-setter--focusstate) to "none" and the parent menu's focus state to "self", blurs the controlled menu and sets it's [currentChild](./base-menu#getter-setter--currentchild) to 0, calls [_collapse](#method--collapse), and sets the [isExpanded](#getter--isexpanded) value to `false`.
+Calls [_collapse](#method--protected-collapse) and sets [isExpanded](#getter--isexpanded) to `false`.
+
+If the toggle is initialized, also blurs the controlled menu, setting its [focus state](./base-menu#getter-setter--focusstate) to "none", and sets the parent menu's focus state to "self", if there is a parent menu.
 
 #### Parameters {#method--collapse--parameters}
 
