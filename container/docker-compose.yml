@@ -12,7 +12,7 @@ services:
       dockerfile: build/app.dockerfile
       args:
         UBUNTU_VERSION: "${UBUNTU_VERSION:-25.10}"
-        NODE_MAJOR_VERSION: "${NODE_MAJOR_VERSION:-22}"
+        NODE_MAJOR_VERSION: "${NODE_MAJOR_VERSION:-24}"
         NPM_MAJOR_VERSION: "${NPM_MAJOR_VERSION:-}"
     container_name: "${COMPOSE_PROJECT_NAME:-accessible_menu}_app"
     environment:
