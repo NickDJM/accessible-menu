@@ -1348,11 +1348,7 @@ _removeEventListeners(({ type = null, element = null } = {}));
 
 ### focus
 
-Focus the component.
-
-Sets the components's focus state to "self" and
-focusses the component if the component's shouldFocus
-value is `true`.
+Sets the toggle's focus state to `"self"` immediately. Calls its controller element's DOM `focus()` method immediately if the root menu's [shouldFocus](./base-menu#getter--shouldfocus) value is `true`.
 
 ```js
 focus();
@@ -1360,11 +1356,7 @@ focus();
 
 ### blur
 
-Unfocus the component.
-
-Sets the component's focus state to "none"
-and blurs the component if the component's shouldFocus
-value is `true`.
+Sets the toggle's focus state to `"none"` immediately. Calls its controller element's DOM `blur()` method immediately if the root menu allows focus.
 
 ```js
 blur();

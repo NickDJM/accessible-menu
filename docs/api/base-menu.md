@@ -876,6 +876,8 @@ BaseMenu.currentChild = 0;
 
 :::
 
+The value must be a finite integer. Other types throw a `TypeError`; fractions, `NaN`, and infinities throw a `RangeError`. Invalid values leave the current child unchanged.
+
 Attempting to set the current child to a value less than -1 will set the current child to -1.
 
 Attempting to set the current child to a value greater than or equal to the number of menu items will set the current child to the index of the last menu item in the menu.
@@ -1505,6 +1507,8 @@ BaseMenu.focus();
 
 Sets the menu's [focus state](#property--focusstate) to "self" and focusses the menu if the menu's [shouldFocus](#getter--shouldfocus) value is `true`.
 
+Selection and focus-state changes happen immediately, even when DOM focus is not allowed. DOM focus follows the root menu's [shouldFocus](#getter--shouldfocus) value; these methods do not change `currentEvent` themselves. Item links are focused or blurred on an animation frame, while calls on the menu, controller, or container happen immediately.
+
 ### blur <badge type="tip" text="public" /> {#method--blur}
 
 Unfocus the menu.
@@ -1523,6 +1527,8 @@ Focuses the menu's current child.
 BaseMenu.focusCurrentChild();
 ```
 
+Sets the menu's `focusState` to `"self"` and calls the current item's `focus()` method. If `currentChild` is `-1`, no item is focused.
+
 ### focusChild <badge type="tip" text="public" /> {#method--focuschild}
 
 Focuses the menu's child at a given index.
@@ -1536,6 +1542,8 @@ BaseMenu.focusChild(index);
 | Param | Type     | Description                      | Default     |
 | ----- | -------- | -------------------------------- | ----------- |
 | index | `number` | The index of the child to focus. | `undefined` |
+
+The index is required and must be a finite integer. It follows [currentChild's clamping rules](#getter-setter--currentchild). An index of `-1` clears the current child without focusing another item. Invalid types throw a `TypeError`; fractions, `NaN`, and infinities throw a `RangeError`. Validation happens before the current item is blurred or selection changes.
 
 ### focusFirstChild <badge type="tip" text="public" /> {#method--focusfirstchild}
 
@@ -1561,6 +1569,8 @@ Focus the menu's next child.
 BaseMenu.focusNextChild();
 ```
 
+Keeps the current child when it is already the last item.
+
 ### focusPreviousChild <badge type="tip" text="public" /> {#method--focuspreviouschild}
 
 Focus the menu's previous child.
@@ -1568,6 +1578,8 @@ Focus the menu's previous child.
 ```js
 BaseMenu.focusPreviousChild();
 ```
+
+Keeps the current child when it is already the first item.
 
 ### blurCurrentChild <badge type="tip" text="public" /> {#method--blurcurrentchild}
 
@@ -1577,6 +1589,8 @@ Blurs the menu's current child.
 BaseMenu.blurCurrentChild();
 ```
 
+Sets the menu's `focusState` to `"none"` without changing `currentChild`. If `currentChild` is `-1`, no item is blurred.
+
 ### focusController <badge type="tip" text="public" /> {#method--focuscontroller}
 
 Focus the menu's controller.
@@ -1585,6 +1599,8 @@ Focus the menu's controller.
 BaseMenu.focusController();
 ```
 
+Does nothing if the menu has no controller. Otherwise, sets the menu's `focusState` to `"none"` and calls the controller's DOM `focus()` method if the root menu allows focus.
+
 ### focusContainer <badge type="tip" text="public" /> {#method--focuscontainer}
 
 Focus the menu's container.
@@ -1592,6 +1608,8 @@ Focus the menu's container.
 ```js
 BaseMenu.focusContainer();
 ```
+
+Does nothing if the menu has no container. Otherwise, sets the menu's `focusState` to `"none"` and calls the container's DOM `focus()` method if the root menu allows focus.
 
 ### collapseChildren <badge type="tip" text="public" /> {#method--collapsechildren}
 

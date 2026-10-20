@@ -427,23 +427,23 @@ See [_submenu](#property--submenu) for more information.
 
 ### focus <badge type="tip" text="public" /> {#method--focus}
 
-Focuses the menu item's link if the parent menu's [shouldFocus](./base-menu.md#getter--shouldfocus) value is `true`.
+Focuses the menu item's link if the root menu's [shouldFocus](./base-menu.md#getter--shouldfocus) value is `true`.
 
 ```js
 BaseMenuItem.focus();
 ```
 
-Sets `focusState` to `"self"` immediately. If the parent menu allows DOM focus, focuses the link on the next animation frame.
+Sets `focusState` to `"self"` immediately. If the root menu allows DOM focus, focuses the link on the next animation frame. Before moving focus, the callback checks that the item and its parent menu have kept their focus state, the root still allows focus, and focus has not moved to another control. Calling `blur()` or disposing of the item cancels pending focus.
 
 ### blur <badge type="tip" text="public" /> {#method--blur}
 
-Blurs the menu item's link if the parent menu's [shouldFocus](./base-menu.md#getter--shouldfocus) value is `true`.
+Blurs the menu item's link if the root menu's [shouldFocus](./base-menu.md#getter--shouldfocus) value is `true`.
 
 ```js
 BaseMenuItem.blur();
 ```
 
-Sets `focusState` to `"none"` immediately. If the parent menu allows DOM focus, blurs the link on the next animation frame.
+Sets `focusState` to `"none"` immediately. If the root menu allows DOM focus, blurs the link on the next animation frame. Calling this method also cancels pending focus for the item. Disposal cancels pending frames.
 
 ## Inherited Core API
 
