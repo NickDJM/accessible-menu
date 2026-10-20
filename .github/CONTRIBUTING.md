@@ -70,6 +70,8 @@ npm run lint
 
 Code that does not follow the linting standards _will not_ be merged.
 
+Run `npm run build` to build the documentation and all JavaScript bundles. The bundle entry points and output formats are listed in `rolldown.config.js`.
+
 ## Commit Guidelines
 
 This project uses the conventional commit standard, which means your commits should follow a basic template of:

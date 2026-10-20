@@ -24,7 +24,7 @@ Vulnerable dev dependencies will be updated when possible, though a new release 
 
 A higher priority will be given to dev dependencies that are directly responsible for compiling the project:
 
-- [babel](https://github.com/babel/babel),
+- [Rolldown](https://github.com/rolldown/rolldown),
 - [vite](https://github.com/vitejs/vite), and
 - all related plugins
 

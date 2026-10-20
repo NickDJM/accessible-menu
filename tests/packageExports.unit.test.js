@@ -2,7 +2,7 @@
 
 import { describe, it, expect } from "vitest";
 import * as entry from "../build.js";
-import config from "../vite.config.js";
+import config from "../rolldown.config.js";
 import packageInfo from "../package.json";
 import {
   DisclosureMenu,
@@ -31,12 +31,16 @@ describe("Combined library exports", () => {
 
 describe("CommonJS package entry", () => {
   it("should use a CommonJS extension inside the module package", () => {
-    expect(config.build.lib.fileName("cjs")).toMatch(/\.cjs$/);
+    const output = config[0].output.find((output) => output.format === "cjs");
+
+    expect(output.entryFileNames).toMatch(/\.cjs$/);
   });
 
   it("should point require exports to the emitted artifact", () => {
+    const output = config[0].output.find((output) => output.format === "cjs");
+
     expect(packageInfo.exports["."].require).toBe(
-      `./dist/${config.build.lib.fileName("cjs")}`
+      `./${output.dir}/${output.entryFileNames}`
     );
   });
 });
