@@ -39,11 +39,11 @@ it.each([
   (property, value, errorField) => {
     vi.spyOn(console, "error").mockImplementation(() => {});
     const parentMenu = new BaseMenu({
-      menuElement: document.createElement("ul"),
+      menuElement: document.querySelector("ul"),
     });
     const item = new BaseMenuItem({
-      menuItemElement: document.createElement("li"),
-      menuLinkElement: document.createElement("a"),
+      menuItemElement: document.querySelector(".dropdown"),
+      menuLinkElement: document.querySelector(".dropdown > a"),
       parentMenu,
       [property]: value,
     });
@@ -61,11 +61,11 @@ it.each(["childMenu", "toggle"])(
   (relationship) => {
     vi.spyOn(console, "error").mockImplementation(() => {});
     const parentMenu = new BaseMenu({
-      menuElement: document.createElement("ul"),
+      menuElement: document.querySelector("ul"),
     });
     const item = new BaseMenuItem({
-      menuItemElement: document.createElement("li"),
-      menuLinkElement: document.createElement("a"),
+      menuItemElement: document.querySelector(".dropdown"),
+      menuLinkElement: document.querySelector(".dropdown > a"),
       parentMenu,
       isSubmenuItem: true,
     });

@@ -2,18 +2,27 @@
  * Field configuration tests for BaseMenuToggle.
  */
 
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, beforeEach, afterEach } from "vitest";
+import { twoLevelDisclosureTopLink } from "../../../demo/menus.js";
 import CollapsibleComponent from "@accessible-ecosystem/core/CollapsibleComponent.js";
 import BaseMenuToggle from "../../../src/_baseMenuToggle.js";
 import BaseMenu from "../../../src/_baseMenu.js";
+
+beforeEach(() => {
+  document.body.innerHTML = twoLevelDisclosureTopLink;
+});
+
+afterEach(() => {
+  document.body.innerHTML = "";
+});
 
 describe("BaseMenuToggle fields", () => {
   describe("CollapsibleComponent inheritance", () => {
     it("should inherit from Core CollapsibleComponent", () => {
       const instance = new BaseMenuToggle({
-        menuToggleElement: document.createElement("button"),
+        menuToggleElement: document.querySelector("button"),
         controlledMenu: new BaseMenu({
-          menuElement: document.createElement("ul"),
+          menuElement: document.querySelector("ul"),
         }),
       });
 
@@ -23,9 +32,9 @@ describe("BaseMenuToggle fields", () => {
   describe("_scope", () => {
     it("should use the menu-specific configuration", () => {
       const instance = new BaseMenuToggle({
-        menuToggleElement: document.createElement("button"),
+        menuToggleElement: document.querySelector("button"),
         controlledMenu: new BaseMenu({
-          menuElement: document.createElement("ul"),
+          menuElement: document.querySelector("ul"),
         }),
       });
 
@@ -35,9 +44,9 @@ describe("BaseMenuToggle fields", () => {
   describe("_name", () => {
     it("should use the menu-specific configuration", () => {
       const instance = new BaseMenuToggle({
-        menuToggleElement: document.createElement("button"),
+        menuToggleElement: document.querySelector("button"),
         controlledMenu: new BaseMenu({
-          menuElement: document.createElement("ul"),
+          menuElement: document.querySelector("ul"),
         }),
       });
 
@@ -47,9 +56,9 @@ describe("BaseMenuToggle fields", () => {
   describe("_eventPrefix", () => {
     it("should use the accessibleMenu event prefix", () => {
       const instance = new BaseMenuToggle({
-        menuToggleElement: document.createElement("button"),
+        menuToggleElement: document.querySelector("button"),
         controlledMenu: new BaseMenu({
-          menuElement: document.createElement("ul"),
+          menuElement: document.querySelector("ul"),
         }),
       });
 
@@ -59,9 +68,9 @@ describe("BaseMenuToggle fields", () => {
   describe("_storageKey", () => {
     it("should use the menu-specific configuration", () => {
       const instance = new BaseMenuToggle({
-        menuToggleElement: document.createElement("button"),
+        menuToggleElement: document.querySelector("button"),
         controlledMenu: new BaseMenu({
-          menuElement: document.createElement("ul"),
+          menuElement: document.querySelector("ul"),
         }),
       });
 
@@ -71,9 +80,9 @@ describe("BaseMenuToggle fields", () => {
   describe("_rootDOMElement", () => {
     it("should use the menu-specific configuration", () => {
       const instance = new BaseMenuToggle({
-        menuToggleElement: document.createElement("button"),
+        menuToggleElement: document.querySelector("button"),
         controlledMenu: new BaseMenu({
-          menuElement: document.createElement("ul"),
+          menuElement: document.querySelector("ul"),
         }),
       });
 
@@ -83,9 +92,9 @@ describe("BaseMenuToggle fields", () => {
   describe("_protectedDOMElements", () => {
     it("should use the menu-specific configuration", () => {
       const instance = new BaseMenuToggle({
-        menuToggleElement: document.createElement("button"),
+        menuToggleElement: document.querySelector("button"),
         controlledMenu: new BaseMenu({
-          menuElement: document.createElement("ul"),
+          menuElement: document.querySelector("ul"),
         }),
       });
 
@@ -98,9 +107,9 @@ describe("BaseMenuToggle fields", () => {
   describe("_shouldStore", () => {
     it("should use the menu-specific configuration", () => {
       const instance = new BaseMenuToggle({
-        menuToggleElement: document.createElement("button"),
+        menuToggleElement: document.querySelector("button"),
         controlledMenu: new BaseMenu({
-          menuElement: document.createElement("ul"),
+          menuElement: document.querySelector("ul"),
         }),
       });
 
@@ -110,9 +119,9 @@ describe("BaseMenuToggle fields", () => {
   describe("rootDOMElement", () => {
     it("should resolve the configured DOM slot through the inherited getter", () => {
       const instance = new BaseMenuToggle({
-        menuToggleElement: document.createElement("button"),
+        menuToggleElement: document.querySelector("button"),
         controlledMenu: new BaseMenu({
-          menuElement: document.createElement("ul"),
+          menuElement: document.querySelector("ul"),
         }),
       });
 
@@ -123,23 +132,23 @@ describe("BaseMenuToggle fields", () => {
 
     it("should remain read-only on the menu instance", () => {
       const instance = new BaseMenuToggle({
-        menuToggleElement: document.createElement("button"),
+        menuToggleElement: document.querySelector("button"),
         controlledMenu: new BaseMenu({
-          menuElement: document.createElement("ul"),
+          menuElement: document.querySelector("ul"),
         }),
       });
 
       expect(() => {
-        instance.rootDOMElement = document.createElement("div");
+        instance.rootDOMElement = document.querySelector("nav");
       }).toThrow(TypeError);
     });
   });
   describe("_dom", () => {
     it("should populate the controller slot", () => {
-      const toggle = document.createElement("button");
+      const toggle = document.querySelector("button");
       const instance = new BaseMenuToggle({
         controlledMenu: new BaseMenu({
-          menuElement: document.createElement("ul"),
+          menuElement: document.querySelector("ul"),
         }),
         menuToggleElement: toggle,
       });
@@ -150,9 +159,9 @@ describe("BaseMenuToggle fields", () => {
   describe("Core DOM slots", () => {
     it("should use the menu element as the Core controlled element", () => {
       const instance = new BaseMenuToggle({
-        menuToggleElement: document.createElement("button"),
+        menuToggleElement: document.querySelector("button"),
         controlledMenu: new BaseMenu({
-          menuElement: document.createElement("ul"),
+          menuElement: document.querySelector("ul"),
         }),
       });
 
@@ -174,11 +183,11 @@ describe("BaseMenuToggle fields", () => {
       "should configure %s from the controlled menu",
       (property, option, value) => {
         const controlledMenu = new BaseMenu({
-          menuElement: document.createElement("ul"),
+          menuElement: document.querySelector("ul"),
           [option]: value,
         });
         const instance = new BaseMenuToggle({
-          menuToggleElement: document.createElement("button"),
+          menuToggleElement: document.querySelector("button"),
           controlledMenu,
         });
 
@@ -190,13 +199,13 @@ describe("BaseMenuToggle fields", () => {
   describe("_elements", () => {
     it("should preserve the configured menu relationships", () => {
       const controlled = new BaseMenu({
-        menuElement: document.createElement("ul"),
+        menuElement: document.querySelector("ul"),
       });
       const parent = new BaseMenu({
-        menuElement: document.createElement("ul"),
+        menuElement: document.querySelector("ul"),
       });
       const instance = new BaseMenuToggle({
-        menuToggleElement: document.createElement("button"),
+        menuToggleElement: document.querySelector("button"),
         controlledMenu: controlled,
         parentMenu: parent,
       });
@@ -212,9 +221,9 @@ describe("BaseMenuToggle fields", () => {
       "should preserve the accessibleMenu %s event name",
       (action) => {
         const instance = new BaseMenuToggle({
-          menuToggleElement: document.createElement("button"),
+          menuToggleElement: document.querySelector("button"),
           controlledMenu: new BaseMenu({
-            menuElement: document.createElement("ul"),
+            menuElement: document.querySelector("ul"),
           }),
         });
 
@@ -228,9 +237,9 @@ describe("BaseMenuToggle fields", () => {
       "should preserve bubbling for the %s event",
       (action) => {
         const instance = new BaseMenuToggle({
-          menuToggleElement: document.createElement("button"),
+          menuToggleElement: document.querySelector("button"),
           controlledMenu: new BaseMenu({
-            menuElement: document.createElement("ul"),
+            menuElement: document.querySelector("ul"),
           }),
         });
 
@@ -242,9 +251,9 @@ describe("BaseMenuToggle fields", () => {
       "should preserve detail.component for the %s event",
       (action) => {
         const instance = new BaseMenuToggle({
-          menuToggleElement: document.createElement("button"),
+          menuToggleElement: document.querySelector("button"),
           controlledMenu: new BaseMenu({
-            menuElement: document.createElement("ul"),
+            menuElement: document.querySelector("ul"),
           }),
         });
 
@@ -254,15 +263,15 @@ describe("BaseMenuToggle fields", () => {
 
     it("should keep event registries specific to each toggle", () => {
       const first = new BaseMenuToggle({
-        menuToggleElement: document.createElement("button"),
+        menuToggleElement: document.querySelector("button"),
         controlledMenu: new BaseMenu({
-          menuElement: document.createElement("ul"),
+          menuElement: document.querySelector("ul"),
         }),
       });
       const second = new BaseMenuToggle({
-        menuToggleElement: document.createElement("button"),
+        menuToggleElement: document.querySelector(".dropdown-toggle"),
         controlledMenu: new BaseMenu({
-          menuElement: document.createElement("ul"),
+          menuElement: document.querySelector("ul ul"),
         }),
       });
 

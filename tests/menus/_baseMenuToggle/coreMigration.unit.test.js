@@ -37,10 +37,10 @@ it.each([
   (property, value, errorField) => {
     vi.spyOn(console, "error").mockImplementation(() => {});
     const controlledMenu = new BaseMenu({
-      menuElement: document.createElement("ul"),
+      menuElement: document.querySelector("ul"),
     });
     const toggle = new BaseMenuToggle({
-      menuToggleElement: document.createElement("button"),
+      menuToggleElement: document.querySelector("button"),
       controlledMenu,
       [property]: value,
     });

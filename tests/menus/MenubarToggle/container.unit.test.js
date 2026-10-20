@@ -1,8 +1,14 @@
-import { afterEach, describe, it, expect, vi } from "vitest";
+import { afterEach, beforeEach, describe, it, expect, vi } from "vitest";
+import { twoLevelDisclosureTopLink } from "../../../demo/menus.js";
 import BaseMenu from "../../../src/_baseMenu.js";
 import MenubarToggle from "../../../src/menubarToggle.js";
 
+beforeEach(() => {
+  document.body.innerHTML = twoLevelDisclosureTopLink;
+});
+
 afterEach(() => {
+  document.body.innerHTML = "";
   vi.useRealTimers();
   vi.unstubAllGlobals();
 });
@@ -12,9 +18,9 @@ describe("MenubarToggle container", () => {
     "defaults to the menu element for %j",
     (options) => {
       const toggle = new MenubarToggle({
-        menuToggleElement: document.createElement("button"),
+        menuToggleElement: document.querySelector(".dropdown-toggle"),
         controlledMenu: new BaseMenu({
-          menuElement: document.createElement("ul"),
+          menuElement: document.querySelector(".dropdown-menu"),
           expandClass: "open",
           collapseClass: "closed",
           transitionClass: "",
@@ -40,11 +46,11 @@ describe("MenubarToggle container", () => {
   );
 
   it("applies classes to a custom container and keeps ARIA on the menu", () => {
-    const containerElement = document.createElement("li");
+    const containerElement = document.querySelector(".dropdown");
     const toggle = new MenubarToggle({
-      menuToggleElement: document.createElement("button"),
+      menuToggleElement: document.querySelector(".dropdown-toggle"),
       controlledMenu: new BaseMenu({
-        menuElement: document.createElement("ul"),
+        menuElement: document.querySelector(".dropdown-menu"),
         expandClass: "open",
         collapseClass: "closed",
         transitionClass: "",
@@ -87,11 +93,12 @@ describe("MenubarToggle container", () => {
   });
 
   it("applies locked and unlocked classes to the custom container", () => {
-    const containerElement = document.createElement("li");
+    const containerElement = document.querySelector(".dropdown");
+    const menuClasses = document.querySelector(".dropdown-menu").className;
     const toggle = new MenubarToggle({
-      menuToggleElement: document.createElement("button"),
+      menuToggleElement: document.querySelector(".dropdown-toggle"),
       controlledMenu: new BaseMenu({
-        menuElement: document.createElement("ul"),
+        menuElement: document.querySelector(".dropdown-menu"),
         expandClass: "open",
         collapseClass: "closed",
         transitionClass: "",
@@ -104,14 +111,14 @@ describe("MenubarToggle container", () => {
 
     expect(containerElement.classList.contains("locked")).toBe(true);
     expect(toggle.dom.controller.disabled).toBe(true);
-    expect(toggle.elements.controlledMenu.dom.menu.className).toBe("");
+    expect(toggle.elements.controlledMenu.dom.menu.className).toBe(menuClasses);
 
     toggle.unlock({ emit: false });
 
     expect(containerElement.classList.contains("locked")).toBe(false);
     expect(containerElement.classList.contains("unlocked")).toBe(true);
     expect(toggle.dom.controller.disabled).toBe(false);
-    expect(toggle.elements.controlledMenu.dom.menu.className).toBe("");
+    expect(toggle.elements.controlledMenu.dom.menu.className).toBe(menuClasses);
   });
 
   it("applies transition classes to the controlled element", () => {
@@ -120,11 +127,13 @@ describe("MenubarToggle container", () => {
       setTimeout(callback, 16)
     );
 
-    const containerElement = document.createElement("li");
+    const containerElement = document.querySelector(".dropdown");
+    const containerClasses = containerElement.className;
+    const menuClasses = document.querySelector(".dropdown-menu").className;
     const toggle = new MenubarToggle({
-      menuToggleElement: document.createElement("button"),
+      menuToggleElement: document.querySelector(".dropdown-toggle"),
       controlledMenu: new BaseMenu({
-        menuElement: document.createElement("ul"),
+        menuElement: document.querySelector(".dropdown-menu"),
         expandClass: "open",
         collapseClass: "closed",
         transitionClass: "",
@@ -142,7 +151,7 @@ describe("MenubarToggle container", () => {
 
     vi.runAllTimers();
 
-    expect(containerElement.className).toBe("open");
+    expect(containerElement.className).toBe(`${containerClasses} open`);
 
     toggle.collapse({ transition: true, emit: false });
 
@@ -150,7 +159,7 @@ describe("MenubarToggle container", () => {
 
     vi.runAllTimers();
 
-    expect(containerElement.className).toBe("closed");
-    expect(toggle.elements.controlledMenu.dom.menu.className).toBe("");
+    expect(containerElement.className).toBe(`${containerClasses} closed`);
+    expect(toggle.elements.controlledMenu.dom.menu.className).toBe(menuClasses);
   });
 });

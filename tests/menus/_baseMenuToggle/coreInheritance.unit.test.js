@@ -2,12 +2,21 @@
  * Tests for the integration between menu toggles and Core collapsible state.
  */
 
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, beforeEach, afterEach } from "vitest";
+import { twoLevelDisclosureTopLink } from "../../../demo/menus.js";
 import CollapsibleComponent from "@accessible-ecosystem/core/CollapsibleComponent.js";
 import BaseMenu from "../../../src/_baseMenu.js";
 import BaseMenuToggle from "../../../src/_baseMenuToggle.js";
 
 const options = { emit: false, transition: false };
+
+beforeEach(() => {
+  document.body.innerHTML = twoLevelDisclosureTopLink;
+});
+
+afterEach(() => {
+  document.body.innerHTML = "";
+});
 
 describe("BaseMenuToggle Core integration", () => {
   describe("CollapsibleComponent inheritance", () => {
@@ -21,9 +30,9 @@ describe("BaseMenuToggle Core integration", () => {
   describe.each(["expand", "preview"])("%s", (action) => {
     it("should share the current expansion state with the Menu getter", () => {
       const toggle = new BaseMenuToggle({
-        menuToggleElement: document.createElement("button"),
+        menuToggleElement: document.querySelector("button"),
         controlledMenu: new BaseMenu({
-          menuElement: document.createElement("ul"),
+          menuElement: document.querySelector("ul"),
           transitionClass: "",
         }),
       });
@@ -35,9 +44,9 @@ describe("BaseMenuToggle Core integration", () => {
 
     it("should share the committed expansion state with the Menu getter", () => {
       const toggle = new BaseMenuToggle({
-        menuToggleElement: document.createElement("button"),
+        menuToggleElement: document.querySelector("button"),
         controlledMenu: new BaseMenu({
-          menuElement: document.createElement("ul"),
+          menuElement: document.querySelector("ul"),
           transitionClass: "",
         }),
       });
@@ -49,9 +58,9 @@ describe("BaseMenuToggle Core integration", () => {
 
     it("should preserve the shared committed state when requested", () => {
       const toggle = new BaseMenuToggle({
-        menuToggleElement: document.createElement("button"),
+        menuToggleElement: document.querySelector("button"),
         controlledMenu: new BaseMenu({
-          menuElement: document.createElement("ul"),
+          menuElement: document.querySelector("ul"),
           transitionClass: "",
         }),
       });
@@ -67,9 +76,9 @@ describe("BaseMenuToggle Core integration", () => {
   describe.each(["collapse"])("%s", (action) => {
     it("should share the current collapsed state with the Menu getter", () => {
       const toggle = new BaseMenuToggle({
-        menuToggleElement: document.createElement("button"),
+        menuToggleElement: document.querySelector("button"),
         controlledMenu: new BaseMenu({
-          menuElement: document.createElement("ul"),
+          menuElement: document.querySelector("ul"),
           transitionClass: "",
         }),
       });
@@ -82,9 +91,9 @@ describe("BaseMenuToggle Core integration", () => {
 
     it("should preserve the shared committed state when requested", () => {
       const toggle = new BaseMenuToggle({
-        menuToggleElement: document.createElement("button"),
+        menuToggleElement: document.querySelector("button"),
         controlledMenu: new BaseMenu({
-          menuElement: document.createElement("ul"),
+          menuElement: document.querySelector("ul"),
           transitionClass: "",
         }),
       });
@@ -103,9 +112,9 @@ describe("BaseMenuToggle Core integration", () => {
     (action) => {
       it("should block a menu state change while locked", () => {
         const toggle = new BaseMenuToggle({
-          menuToggleElement: document.createElement("button"),
+          menuToggleElement: document.querySelector("button"),
           controlledMenu: new BaseMenu({
-            menuElement: document.createElement("ul"),
+            menuElement: document.querySelector("ul"),
             transitionClass: "",
           }),
         });
@@ -121,9 +130,9 @@ describe("BaseMenuToggle Core integration", () => {
 
       it("should allow a forced menu state change while locked", () => {
         const toggle = new BaseMenuToggle({
-          menuToggleElement: document.createElement("button"),
+          menuToggleElement: document.querySelector("button"),
           controlledMenu: new BaseMenu({
-            menuElement: document.createElement("ul"),
+            menuElement: document.querySelector("ul"),
             transitionClass: "",
           }),
         });
@@ -141,9 +150,9 @@ describe("BaseMenuToggle Core integration", () => {
   describe("lock", () => {
     it("should disable the Menu toggle through the Core controller mapping", () => {
       const toggle = new BaseMenuToggle({
-        menuToggleElement: document.createElement("button"),
+        menuToggleElement: document.querySelector("button"),
         controlledMenu: new BaseMenu({
-          menuElement: document.createElement("ul"),
+          menuElement: document.querySelector("ul"),
           transitionClass: "",
         }),
       });
@@ -157,9 +166,9 @@ describe("BaseMenuToggle Core integration", () => {
   describe("unlock", () => {
     it("should remove disabled from the Menu toggle through the Core controller mapping", () => {
       const toggle = new BaseMenuToggle({
-        menuToggleElement: document.createElement("button"),
+        menuToggleElement: document.querySelector("button"),
         controlledMenu: new BaseMenu({
-          menuElement: document.createElement("ul"),
+          menuElement: document.querySelector("ul"),
           transitionClass: "",
         }),
       });
@@ -174,17 +183,17 @@ describe("BaseMenuToggle Core integration", () => {
   describe("constructor", () => {
     it("should configure an uninitialized submenu without reading root-dependent getters", () => {
       const parent = new BaseMenu({
-        menuElement: document.createElement("ul"),
+        menuElement: document.querySelector("ul"),
       });
       const submenu = new BaseMenu({
-        menuElement: document.createElement("ul"),
+        menuElement: document.querySelector("ul ul"),
         isTopLevel: false,
         parentMenu: parent,
         expandClass: "submenu-open",
       });
 
       const toggle = new BaseMenuToggle({
-        menuToggleElement: document.createElement("button"),
+        menuToggleElement: document.querySelector("button"),
         controlledMenu: submenu,
       });
 
@@ -194,9 +203,9 @@ describe("BaseMenuToggle Core integration", () => {
   describe("initialize", () => {
     it("should mark the toggle initialized", () => {
       const toggle = new BaseMenuToggle({
-        menuToggleElement: document.createElement("button"),
+        menuToggleElement: document.querySelector("button"),
         controlledMenu: new BaseMenu({
-          menuElement: document.createElement("ul"),
+          menuElement: document.querySelector("ul"),
           transitionClass: "",
         }),
       });
@@ -208,9 +217,9 @@ describe("BaseMenuToggle Core integration", () => {
 
     it("should collapse without emitting action events", () => {
       const toggle = new BaseMenuToggle({
-        menuToggleElement: document.createElement("button"),
+        menuToggleElement: document.querySelector("button"),
         controlledMenu: new BaseMenu({
-          menuElement: document.createElement("ul"),
+          menuElement: document.querySelector("ul"),
           transitionClass: "",
         }),
       });
@@ -240,9 +249,9 @@ describe("BaseMenuToggle Core integration", () => {
       "should read updated %s settings from the menu",
       (property, menuProperty, value) => {
         const toggle = new BaseMenuToggle({
-          menuToggleElement: document.createElement("button"),
+          menuToggleElement: document.querySelector("button"),
           controlledMenu: new BaseMenu({
-            menuElement: document.createElement("ul"),
+            menuElement: document.querySelector("ul"),
             transitionClass: "",
           }),
         });
@@ -265,9 +274,9 @@ describe("BaseMenuToggle Core integration", () => {
       "should update the menu through the %s setter",
       (property, menuProperty, value) => {
         const toggle = new BaseMenuToggle({
-          menuToggleElement: document.createElement("button"),
+          menuToggleElement: document.querySelector("button"),
           controlledMenu: new BaseMenu({
-            menuElement: document.createElement("ul"),
+            menuElement: document.querySelector("ul"),
             transitionClass: "",
           }),
         });

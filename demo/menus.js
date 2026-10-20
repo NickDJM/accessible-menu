@@ -1069,6 +1069,23 @@ export const fourLevelDisclosureTopLinkSplit =
 </nav>
 `;
 
+export const twoLevelDisclosureTopLinkWithIcons =
+  /* html */
+  `
+<nav aria-label="example">
+  <ul class="menu">
+    <li class="menu-item dropdown">
+      <a class="menu-link" href="#Mammals">Mammals</a>
+      <button class="dropdown-toggle" aria-label="Mammals submenu"><span aria-hidden="true">▼</span></button>
+      <ul class="dropdown-menu">
+        <li class="menu-item"><a class="menu-link" href="#Wild">Wild</a></li>
+      </ul>
+    </li>
+    <li class="menu-item"><a class="menu-link" href="#Contact">Contact</a></li>
+  </ul>
+</nav>
+`;
+
 export default {
   singleLevel,
   twoLevel,
@@ -1079,4 +1096,5 @@ export default {
   threeLevelDisclosureTopLink,
   threeLevelDisclosureTopLinkSplit,
   fourLevelDisclosureTopLinkSplit,
+  twoLevelDisclosureTopLinkWithIcons,
 };

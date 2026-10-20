@@ -3,6 +3,7 @@
  */
 
 import { afterEach, describe, expect, it, vi } from "vitest";
+import { singleLevel } from "../../../demo/menus.js";
 import Treeview from "../../../src/treeview.js";
 
 let menu;
@@ -71,8 +72,7 @@ describe("Treeview empty menus", () => {
   });
 
   it("should keep the first item of a populated root menu in the tab order", () => {
-    document.body.innerHTML =
-      '<ul><li><a href="#first">First</a></li><li><a href="#second">Second</a></li></ul>';
+    document.body.innerHTML = singleLevel;
 
     menu = new Treeview({
       menuElement: document.querySelector("ul"),

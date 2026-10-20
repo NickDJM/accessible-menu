@@ -1,7 +1,12 @@
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { twoLevelDisclosureTopLink } from "../../../demo/menus.js";
 import BaseMenu from "../../../src/_baseMenu.js";
 import BaseMenuItem from "../../../src/_baseMenuItem.js";
 import TreeviewItem from "../../../src/treeviewItem.js";
+
+beforeEach(() => {
+  document.body.innerHTML = twoLevelDisclosureTopLink;
+});
 
 afterEach(() => {
   document.body.innerHTML = "";
@@ -11,14 +16,14 @@ afterEach(() => {
 describe("TreeviewItem submenu sibling", () => {
   it("accepts a sibling from the shared base class", () => {
     const sibling = new BaseMenuItem({
-      menuItemElement: document.createElement("li"),
-      menuLinkElement: document.createElement("button"),
-      parentMenu: new BaseMenu({ menuElement: document.createElement("ul") }),
+      menuItemElement: document.querySelector(".dropdown"),
+      menuLinkElement: document.querySelector(".dropdown-toggle"),
+      parentMenu: new BaseMenu({ menuElement: document.querySelector("ul") }),
     });
     const item = new TreeviewItem({
-      menuItemElement: document.createElement("li"),
-      menuLinkElement: document.createElement("a"),
-      parentMenu: new BaseMenu({ menuElement: document.createElement("ul") }),
+      menuItemElement: document.querySelector(".dropdown"),
+      menuLinkElement: document.querySelector(".dropdown > a"),
+      parentMenu: new BaseMenu({ menuElement: document.querySelector("ul") }),
       initialize: false,
       submenuSibling: sibling,
     });
@@ -31,9 +36,9 @@ describe("TreeviewItem submenu sibling", () => {
 
   it("initializes without a separate sibling by default", () => {
     const item = new TreeviewItem({
-      menuItemElement: document.createElement("li"),
-      menuLinkElement: document.createElement("a"),
-      parentMenu: new BaseMenu({ menuElement: document.createElement("ul") }),
+      menuItemElement: document.querySelector(".dropdown"),
+      menuLinkElement: document.querySelector(".dropdown > a"),
+      parentMenu: new BaseMenu({ menuElement: document.querySelector("ul") }),
       initialize: false,
     });
 
@@ -46,9 +51,9 @@ describe("TreeviewItem submenu sibling", () => {
   it("reports an invalid sibling during validation", () => {
     vi.spyOn(console, "error").mockImplementation(() => {});
     const item = new TreeviewItem({
-      menuItemElement: document.createElement("li"),
-      menuLinkElement: document.createElement("a"),
-      parentMenu: new BaseMenu({ menuElement: document.createElement("ul") }),
+      menuItemElement: document.querySelector(".dropdown"),
+      menuLinkElement: document.querySelector(".dropdown > a"),
+      parentMenu: new BaseMenu({ menuElement: document.querySelector("ul") }),
       initialize: false,
       submenuSibling: {},
     });

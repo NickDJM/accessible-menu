@@ -19,8 +19,8 @@ it("should reject an invalid top-link item sibling", () => {
     initialize: false,
   });
   const item = new TopLinkDisclosureMenuItem({
-    menuItemElement: document.createElement("li"),
-    menuLinkElement: document.createElement("a"),
+    menuItemElement: document.querySelector(".dropdown"),
+    menuLinkElement: document.querySelector(".dropdown > a"),
     parentMenu,
     submenuSibling: {},
     initialize: false,

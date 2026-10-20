@@ -1,29 +1,11 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { fourLevelDisclosureTopLinkSplit } from "../../../demo/menus.js";
 import Treeview from "../../../src/treeview.js";
 
 const menus = [];
 
 beforeEach(() => {
-  document.body.innerHTML = `
-    <nav>
-      <ul>
-        <li>
-          <a class="all-toggles root-toggle" href="#root">Root</a>
-          <ul>
-            <li>
-              <a class="all-toggles child-toggle" href="#child">Child</a>
-              <ul>
-                <li>
-                  <a class="all-toggles child-toggle" href="#grandchild">Grandchild</a>
-                  <ul><li><a href="#last">Last</a></li></ul>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </nav>
-  `;
+  document.body.innerHTML = fourLevelDisclosureTopLinkSplit;
 });
 
 afterEach(() => {
@@ -39,7 +21,7 @@ describe("Treeview child toggle selectors", () => {
   it("preserves the existing selector when no deeper selector is provided", () => {
     const menu = new Treeview({
       menuElement: document.querySelector("ul"),
-      submenuTogglesSelector: ".all-toggles",
+      submenuTogglesSelector: ".menu-link",
       transitionClass: "",
       initialize: false,
     });
@@ -49,7 +31,7 @@ describe("Treeview child toggle selectors", () => {
 
     const child = menu.elements.submenuToggles[0].elements.controlledMenu;
     const grandchild = child.elements.submenuToggles[0].elements.controlledMenu;
-    const selector = ".all-toggles";
+    const selector = ".menu-link";
 
     expect(menu.isInitialized).toBe(true);
     expect(child.isInitialized).toBe(true);
@@ -61,7 +43,7 @@ describe("Treeview child toggle selectors", () => {
   it("uses the configured submenu toggle selector when the deeper selector is null", () => {
     const menu = new Treeview({
       menuElement: document.querySelector("ul"),
-      submenuTogglesSelector: ".all-toggles",
+      submenuTogglesSelector: ".menu-link",
       transitionClass: "",
       initialize: false,
       submenuSubtogglesSelector: null,
@@ -76,8 +58,8 @@ describe("Treeview child toggle selectors", () => {
     expect(menu.isInitialized).toBe(true);
     expect(child.isInitialized).toBe(true);
     expect(grandchild.isInitialized).toBe(true);
-    expect(child.selectors.submenuToggles).toBe(".all-toggles");
-    expect(grandchild.selectors.submenuToggles).toBe(".all-toggles");
+    expect(child.selectors.submenuToggles).toBe(".menu-link");
+    expect(grandchild.selectors.submenuToggles).toBe(".menu-link");
   });
 
   it("uses a different selector for child menus at every deeper level", () => {
@@ -113,7 +95,7 @@ describe("Treeview child toggle selectors", () => {
     vi.spyOn(console, "error").mockImplementation(() => {});
     const menu = new Treeview({
       menuElement: document.querySelector("ul"),
-      submenuTogglesSelector: ".all-toggles",
+      submenuTogglesSelector: ".menu-link",
       transitionClass: "",
       initialize: false,
       submenuSubtogglesSelector: selector,

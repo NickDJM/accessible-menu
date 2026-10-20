@@ -1,4 +1,9 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import {
+  twoLevelDisclosureTopLink,
+  threeLevelDisclosureTopLinkSplit,
+  twoLevelDisclosureTopLinkWithIcons,
+} from "../../../demo/menus.js";
 import DisclosureMenu from "../../../src/disclosureMenu.js";
 import DisclosureMenuItem from "../../../src/disclosureMenuItem.js";
 
@@ -17,23 +22,8 @@ class SeparateLinkMenu extends DisclosureMenu {
 
 const menus = [];
 
-const markup = `
-  <nav>
-    <ul>
-      <li>
-        <a href="#section">Section</a>
-        <button type="button" aria-label="Show section"><span>More</span></button>
-        <ul>
-          <li><a href="#child">Child</a></li>
-        </ul>
-      </li>
-      <li><a href="#last">Last</a></li>
-    </ul>
-  </nav>
-`;
-
 beforeEach(() => {
-  document.body.innerHTML = markup;
+  document.body.innerHTML = twoLevelDisclosureTopLink;
 });
 
 afterEach(() => {
@@ -56,9 +46,9 @@ describe("DisclosureMenu menu item creation", () => {
     const toggle = menu.elements.submenuToggles[0];
 
     expect(menu.isInitialized).toBe(true);
-    expect(menu.elements.menuItems).toHaveLength(2);
-    expect(menu.elements.menuItems[0].dom.link).toBe(toggle.dom.controller);
-    expect(menu.elements.menuItems[0].elements.toggle).toBe(toggle);
+    expect(menu.elements.menuItems).toHaveLength(8);
+    expect(menu.elements.menuItems[1].dom.link).toBe(toggle.dom.controller);
+    expect(menu.elements.menuItems[1].elements.toggle).toBe(toggle);
   });
 
   it("creates only one item when the link and toggle are the same", () => {
@@ -70,14 +60,15 @@ describe("DisclosureMenu menu item creation", () => {
     menus.push(menu);
 
     expect(menu.isInitialized).toBe(true);
-    expect(menu.elements.menuItems).toHaveLength(2);
-    expect(menu.elements.menuItems[0].dom.link).toBe(
-      document.querySelector("a")
+    expect(menu.elements.menuItems).toHaveLength(8);
+    expect(menu.elements.menuItems[1].dom.link).toBe(
+      document.querySelector(".dropdown > a")
     );
-    expect(menu.elements.menuItems[0].isSubmenuItem).toBe(true);
+    expect(menu.elements.menuItems[1].isSubmenuItem).toBe(true);
   });
 
   it("lets a subclass create separate items without changing link activation", () => {
+    document.body.innerHTML = twoLevelDisclosureTopLinkWithIcons;
     const menu = new SeparateLinkMenu({
       menuElement: document.querySelector("ul"),
       submenuTogglesSelector: "button",
@@ -114,12 +105,7 @@ describe("DisclosureMenu menu item creation", () => {
   });
 
   it("uses the subclass's item and menu types at deeper levels", () => {
-    document.body.innerHTML = markup;
-    document.querySelector("ul ul li").innerHTML = `
-      <a href="#child">Child</a>
-      <button type="button">Show child</button>
-      <ul><li><a href="#grandchild">Grandchild</a></li></ul>
-    `;
+    document.body.innerHTML = threeLevelDisclosureTopLinkSplit;
     const menu = new SeparateLinkMenu({
       menuElement: document.querySelector("ul"),
       submenuTogglesSelector: "button",
@@ -127,7 +113,8 @@ describe("DisclosureMenu menu item creation", () => {
     });
     menus.push(menu);
     const childMenu = menu.elements.submenuToggles[0].elements.controlledMenu;
-    const [linkItem, toggleItem] = childMenu.elements.menuItems;
+    const linkItem = childMenu.elements.menuItems[1];
+    const toggleItem = childMenu.elements.menuItems[2];
 
     expect(childMenu).toBeInstanceOf(SeparateLinkMenu);
     expect(linkItem).toBeInstanceOf(DisclosureMenuItem);
@@ -147,17 +134,18 @@ describe("DisclosureMenu menu item creation", () => {
         initialize: false,
       });
       menus.push(menu);
-      const item = menu.dom.menu.querySelector("li");
+      const item = menu.dom.menu.querySelector(".dropdown");
       const button = item.querySelector("button");
       const link = item.querySelector("a");
       item.prepend(button);
 
       menu.initialize();
 
-      const [linkItem, toggleItem] = menu.elements.menuItems;
+      const linkItem = menu.elements.menuItems[1];
+      const toggleItem = menu.elements.menuItems[2];
 
       expect(menu.isInitialized).toBe(true);
-      expect(menu.elements.menuItems).toHaveLength(3);
+      expect(menu.elements.menuItems).toHaveLength(14);
       expect(linkItem.dom.link).toBe(link);
       expect(linkItem.elements.sibling).toBe(toggleItem);
       expect(toggleItem.dom.link).toBe(button);
@@ -172,17 +160,17 @@ describe("DisclosureMenu menu item creation", () => {
       initialize: false,
     });
     menus.push(menu);
-    const item = menu.dom.menu.querySelector("li");
+    const item = menu.dom.menu.querySelector(".dropdown");
     const button = item.querySelector("button");
     item.querySelector("a").remove();
 
     menu.initialize();
 
-    const toggleItem = menu.elements.menuItems[0];
+    const toggleItem = menu.elements.menuItems[1];
     const child = toggleItem.elements.childMenu;
 
     expect(menu.isInitialized).toBe(true);
-    expect(menu.elements.menuItems).toHaveLength(2);
+    expect(menu.elements.menuItems).toHaveLength(13);
     expect(toggleItem.dom.link).toBe(button);
     expect(toggleItem.isSubmenuItem).toBe(true);
     expect(child.elements.menuItems[0].dom.link).toBe(
