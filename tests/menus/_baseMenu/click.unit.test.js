@@ -40,6 +40,22 @@ afterEach(() => {
 describe("BaseMenu", () => {
   // Test click.
   describe("click", () => {
+    it("should preserve focus and hasExpanded when the menu element itself is clicked", () => {
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+      initializeMenu(menu);
+      menu.focusState = "self";
+      menu.hasExpanded = true;
+
+      simulatePointerEvent("click", menu.dom.menu);
+
+      expect(menu.focusState).toBe("self");
+      expect(menu.hasExpanded).toBe(true);
+    });
+
     // Test that click should set the current event to mouse.
     it("should set the current event to mouse", () => {
       // Create a new BaseMenu instance for testing.

@@ -36,6 +36,24 @@ afterEach(() => {
 describe("Menubar", () => {
   // Test click.
   describe("click", () => {
+    it("should keep the menu open when the menu element itself is clicked", () => {
+      const menu = new Menubar({
+        menuElement: document.querySelector("ul"),
+        containerElement: document.querySelector("nav"),
+        controllerElement: document.querySelector("button"),
+      });
+      menu.elements.controller.expand();
+      menu.elements.submenuToggles[0].expand();
+      menu.focusState = "self";
+
+      simulatePointerEvent("click", menu.dom.menu);
+
+      expect(menu.focusState).toBe("self");
+      expect(menu.elements.controller.isExpanded).toBe(true);
+      expect(menu.elements.submenuToggles[0].isExpanded).toBe(true);
+      expect(menu.hasExpanded).toBe(true);
+    });
+
     // Test that click should set the current event to mouse.
     it("should set the current event to mouse", () => {
       // Create a new Menubar instance for testing.

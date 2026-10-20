@@ -233,10 +233,7 @@ class Menubar extends BaseMenu {
       if (this.focusState !== "none") {
         this.currentEvent = "mouse";
 
-        if (
-          !this.dom.menu.contains(event.target) &&
-          !this.dom.menu !== event.target
-        ) {
+        if (!this.dom.menu.contains(event.target)) {
           this.collapseChildren();
           this.blur();
 
@@ -361,7 +358,7 @@ class Menubar extends BaseMenu {
    *
    * | Key | Function |
    * | --- | --- |
-   * | _Space_ or _Enter_ | <ul><li>Activates menu item, causing the link to be activated.</li><li>NOTE: the links go to dummy pages; use the browser go-back function to return to this menubar example page.</li></ul> |
+   * | _Space_ or _Enter_ | Opens a submenu and moves focus to its first item, or activates the link if the item has no submenu. |
    * | _Escape_ | <ul><li>Closes submenu.</li><li>Moves focus to parent menubar item.</li></ul> |
    * | _Right Arrow_ | <ul><li>If focus is on an item with a submenu, opens the submenu and places focus on the first item.</li><li>If focus is on an item that does not have a submenu:<ul><li>Closes submenu.</li><li>Moves focus to next item in the menubar.</li><li>Opens submenu of newly focused menubar item, keeping focus on that parent menubar item.</li></ul></li></ul> |
    * | _Left Arrow_ | <ul><li>Closes submenu and moves focus to parent menu item.</li><li>If parent menu item is in the menubar, also:<ul><li>moves focus to previous item in the menubar.</li><li>Opens submenu of newly focused menubar item, keeping focus on that parent menubar item.</li></ul></li></ul> |
@@ -412,7 +409,7 @@ class Menubar extends BaseMenu {
             // - If focus was on an open submenu and the newly focussed item has a submenu, open the submenu.
             preventEvent(event);
 
-            // Store the current item's info if its an open dropdown.
+            // Remember whether the current item's submenu is open.
             const previousChildOpen =
               this.currentMenuItem.isSubmenuItem &&
               this.currentMenuItem.elements.toggle.isExpanded;
@@ -436,7 +433,7 @@ class Menubar extends BaseMenu {
             // - If focus was on an open submenu and the newly focussed item has a submenu, open the submenu.
             preventEvent(event);
 
-            // Store the current item's info if its an open dropdown.
+            // Remember whether the current item's submenu is open.
             const previousChildOpen =
               this.currentMenuItem.isSubmenuItem &&
               this.currentMenuItem.elements.toggle.isExpanded;
@@ -572,24 +569,24 @@ class Menubar extends BaseMenu {
           }
         } else if (key === "ArrowDown") {
           // Hitting the Down Arrow:
-          // - Moves focus to the next item in the menubar.
+          // - Moves focus to the next item in the submenu.
           // - If focus is on the last item, moves focus to the first item.
           preventEvent(event);
           this.focusNextChild();
         } else if (key === "ArrowUp") {
           // Hitting the Up Arrow:
-          // - Moves focus to the previous item in the menubar.
+          // - Moves focus to the previous item in the submenu.
           // - If focus is on the first item, moves focus to the last item.
           preventEvent(event);
           this.focusPreviousChild();
         } else if (key === "Home") {
           // Hitting Home:
-          // - Moves focus to first item in the menubar.
+          // - Moves focus to first item in the submenu.
           preventEvent(event);
           this.focusFirstChild();
         } else if (key === "End") {
           // Hitting End:
-          // - Moves focus to last item in the menubar.
+          // - Moves focus to last item in the submenu.
           preventEvent(event);
           this.focusLastChild();
         }

@@ -292,10 +292,8 @@ class Treeview extends BaseMenu {
               } else {
                 menuItem.elements.toggle.preview();
               }
-            } else {
-              if (this.enterDelay > 0) {
-                this._clearTimeout();
-              }
+            } else if (this.enterDelay > 0) {
+              this._clearTimeout();
             }
           }
         }

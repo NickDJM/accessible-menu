@@ -280,10 +280,7 @@ class TopLinkDisclosureMenu extends BaseMenu {
       if (this.focusState !== "none") {
         this.currentEvent = "mouse";
 
-        if (
-          !this.dom.menu.contains(event.target) &&
-          !this.dom.menu !== event.target
-        ) {
+        if (!this.dom.menu.contains(event.target)) {
           this.collapseChildren();
           this.blur();
 
@@ -403,14 +400,12 @@ class TopLinkDisclosureMenu extends BaseMenu {
               } else {
                 toggle.preview();
               }
-            } else {
-              if (this.enterDelay > 0) {
-                this._setTimeout(() => {
-                  this.collapseChildren();
-                }, this.enterDelay);
-              } else {
+            } else if (this.enterDelay > 0) {
+              this._setTimeout(() => {
                 this.collapseChildren();
-              }
+              }, this.enterDelay);
+            } else {
+              this.collapseChildren();
             }
           }
         }

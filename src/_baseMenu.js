@@ -1300,7 +1300,7 @@ class BaseMenu extends Component {
       }
     });
 
-    // Open the this menu if it's controller is clicked.
+    // Toggle this menu open or closed when its controller is clicked.
     if (this.isTopLevel && this.elements.controller) {
       this._addEventListener(
         "click",
@@ -1317,10 +1317,7 @@ class BaseMenu extends Component {
       if (this.focusState !== "none") {
         this.currentEvent = "mouse";
 
-        if (
-          !this.dom.menu.contains(event.target) &&
-          !this.dom.menu !== event.target
-        ) {
+        if (!this.dom.menu.contains(event.target)) {
           this.elements.rootMenu.hasExpanded =
             this.elements.submenuToggles.some((toggle) => toggle.isExpanded);
         }
@@ -1417,14 +1414,12 @@ class BaseMenu extends Component {
               } else {
                 menuItem.elements.toggle.preview();
               }
-            } else {
-              if (this.enterDelay > 0) {
-                this._setTimeout(() => {
-                  this.collapseChildren();
-                }, this.enterDelay);
-              } else {
+            } else if (this.enterDelay > 0) {
+              this._setTimeout(() => {
                 this.collapseChildren();
-              }
+              }, this.enterDelay);
+            } else {
+              this.collapseChildren();
             }
           }
         }
