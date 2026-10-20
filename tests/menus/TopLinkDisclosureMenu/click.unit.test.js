@@ -11,7 +11,10 @@ import {
   beforeAll,
   vi,
 } from "vitest";
-import { twoLevelDisclosureTopLink } from "../../../demo/menus.js";
+import {
+  twoLevelDisclosureTopLink,
+  threeLevelDisclosureTopLinkSplit,
+} from "../../../demo/menus.js";
 import TopLinkDisclosureMenu from "../../../src/topLinkDisclosureMenu.js";
 import { simulatePointerEvent, PointerEvent } from "../helpers.js";
 
@@ -36,6 +39,110 @@ afterEach(() => {
 describe("TopLinkDisclosureMenu", () => {
   // Test click.
   describe("click", () => {
+    it("should use the selected links instead of buttons as submenu toggles", () => {
+      document.body.innerHTML = threeLevelDisclosureTopLinkSplit;
+      const menu = new TopLinkDisclosureMenu({
+        menuElement: document.querySelector("ul"),
+        submenuTogglesSelector: ".menu-link",
+        submenuSubtogglesSelector: ".menu-link",
+      });
+      const rootToggle = menu.elements.submenuToggles[0];
+      const child = rootToggle.elements.controlledMenu;
+      const childToggle = child.elements.submenuToggles[0];
+      const rootButton = menu.dom.menu.querySelector(".root-toggle");
+      const childButton = child.dom.menu.querySelector(".child-toggle");
+
+      simulatePointerEvent("click", rootButton);
+
+      expect(rootToggle.isExpanded).toBe(false);
+      expect(rootToggle.dom.controller.tagName).toBe("A");
+
+      simulatePointerEvent("click", rootToggle.dom.controller);
+
+      expect(rootToggle.isExpanded).toBe(true);
+
+      simulatePointerEvent("click", childButton);
+
+      expect(childToggle.isExpanded).toBe(false);
+      expect(childToggle.dom.controller.tagName).toBe("A");
+
+      simulatePointerEvent("click", childToggle.dom.controller);
+
+      expect(childToggle.isExpanded).toBe(true);
+    });
+
+    it.each([
+      ["button", "button"],
+      [".root-toggle", ".child-toggle"],
+      [".dropdown-toggle", null],
+    ])(
+      "should toggle submenus separately from links with selectors %s and %s",
+      (submenuTogglesSelector, submenuSubtogglesSelector) => {
+        document.body.innerHTML = threeLevelDisclosureTopLinkSplit;
+        const menu = new TopLinkDisclosureMenu({
+          menuElement: document.querySelector("ul"),
+          submenuTogglesSelector,
+          submenuSubtogglesSelector,
+        });
+        const rootToggle = menu.elements.submenuToggles[0];
+        const child = rootToggle.elements.controlledMenu;
+        const childToggle = child.elements.submenuToggles[0];
+        const rootLink = menu.elements.menuItems[1].dom.link;
+        const childLink = child.elements.menuItems[1].dom.link;
+
+        simulatePointerEvent("click", rootLink);
+
+        expect(rootToggle.isExpanded).toBe(false);
+        expect(rootLink.hasAttribute("aria-expanded")).toBe(false);
+
+        simulatePointerEvent("click", rootToggle.dom.controller);
+
+        expect(rootToggle.isExpanded).toBe(true);
+        expect(rootToggle.dom.controller.getAttribute("aria-expanded")).toBe(
+          "true"
+        );
+        expect(rootToggle.dom.controller.getAttribute("aria-controls")).toBe(
+          child.dom.menu.id
+        );
+
+        simulatePointerEvent("click", childLink);
+
+        expect(rootToggle.isExpanded).toBe(true);
+        expect(childToggle.isExpanded).toBe(false);
+        expect(childLink.hasAttribute("aria-expanded")).toBe(false);
+
+        simulatePointerEvent("click", childToggle.dom.controller);
+
+        expect(rootToggle.isExpanded).toBe(true);
+        expect(childToggle.isExpanded).toBe(true);
+        expect(childToggle.dom.controller.getAttribute("aria-expanded")).toBe(
+          "true"
+        );
+        expect(childToggle.dom.controller.getAttribute("aria-controls")).toBe(
+          childToggle.elements.controlledMenu.dom.menu.id
+        );
+        expect(childToggle.dom.controller.getAttribute("aria-label")).toBe(
+          "Wild submenu"
+        );
+        expect(childToggle.dom.controller.textContent).toBe("");
+
+        simulatePointerEvent("click", childToggle.dom.controller);
+
+        expect(childToggle.isExpanded).toBe(false);
+        expect(childToggle.dom.controller.getAttribute("aria-expanded")).toBe(
+          "false"
+        );
+        expect(rootToggle.isExpanded).toBe(true);
+
+        simulatePointerEvent("click", rootToggle.dom.controller);
+
+        expect(rootToggle.isExpanded).toBe(false);
+        expect(rootToggle.dom.controller.getAttribute("aria-expanded")).toBe(
+          "false"
+        );
+      }
+    );
+
     it("should keep the menu open when the menu element itself is clicked", () => {
       const menu = new TopLinkDisclosureMenu({
         menuElement: document.querySelector("ul"),

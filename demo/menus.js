@@ -838,6 +838,237 @@ export const threeLevelDisclosureTopLink =
 </nav>
 `;
 
+export const threeLevelDisclosureTopLinkSplit =
+  /* html */
+  `
+<nav  aria-label="example" aria-describedby="disclaimer">
+  <button class="menu-toggle" aria-label="Example menu">☰</button>
+  <ul class="menu">
+    <li class="menu-item"><a class="menu-link" href="#About">About</a></li>
+    <li class="menu-item dropdown">
+      <a class="menu-link" href="#Mammals">Mammals</a>
+      <button class="dropdown-toggle root-toggle" aria-label="Mammals submenu"></button>
+      <ul class="dropdown-menu">
+        <li class="menu-item"><a class="menu-link" href="#About">About</a></li>
+        <li class="menu-item dropdown">
+          <a class="menu-link" href="#Wild">Wild</a>
+          <button class="dropdown-toggle child-toggle" aria-label="Wild submenu"></button>
+          <ul class="dropdown-menu">
+            <li class="menu-item"><a class="menu-link" href="#Bears">Bears</a></li>
+            <li class="menu-item"><a class="menu-link" href="#Lions">Lions</a></li>
+            <li class="menu-item"><a class="menu-link" href="#Wolves">Wolves</a></li>
+          </ul>
+        </li>
+        <li class="menu-item dropdown">
+          <a class="menu-link" href="#Domesticated">Domesticated</a>
+          <button class="dropdown-toggle child-toggle" aria-label="Domesticated submenu"></button>
+          <ul class="dropdown-menu">
+            <li class="menu-item"><a class="menu-link" href="#Cats">Cats</a></li>
+            <li class="menu-item"><a class="menu-link" href="#Dogs">Dogs</a></li>
+            <li class="menu-item"><a class="menu-link" href="#Horses">Horses</a></li>
+          </ul>
+        </li>
+        <li class="menu-item"><a class="menu-link" href="#Habitats">Habitats</a></li>
+        <li class="menu-item dropdown">
+          <a class="menu-link" href="#Food">Food</a>
+          <button class="dropdown-toggle child-toggle" aria-label="Food submenu"></button>
+          <ul class="dropdown-menu">
+            <li class="menu-item"><a class="menu-link" href="#Can">Can Eat</a></li>
+            <li class="menu-item"><a class="menu-link" href="#Can">Can't Eat</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li class="menu-item dropdown">
+      <a class="menu-link" href="#Reptiles">Reptiles</a>
+      <button class="dropdown-toggle root-toggle" aria-label="Reptiles submenu"></button>
+      <ul class="dropdown-menu">
+        <li class="menu-item"><a class="menu-link" href="#About">About</a></li>
+        <li class="menu-item dropdown">
+          <a class="menu-link" href="#Wild">Wild</a>
+          <button class="dropdown-toggle child-toggle" aria-label="Wild submenu"></button>
+          <ul class="dropdown-menu">
+            <li class="menu-item"><a class="menu-link" href="#Snakes">Snakes</a></li>
+            <li class="menu-item"><a class="menu-link" href="#Lizards">Lizards</a></li>
+            <li class="menu-item"><a class="menu-link" href="#Turtles">Turtles</a></li>
+          </ul>
+        </li>
+        <li class="menu-item dropdown">
+          <a class="menu-link" href="#Domesticated">Domesticated</a>
+          <button class="dropdown-toggle child-toggle" aria-label="Domesticated submenu"></button>
+          <ul class="dropdown-menu">
+            <li class="menu-item"><a class="menu-link" href="#Geckos">Geckos</a></li>
+            <li class="menu-item"><a class="menu-link" href="#Tortoises">Tortoises</a></li>
+            <li class="menu-item"><a class="menu-link" href="#Iguanas">Iguanas</a></li>
+          </ul>
+        </li>
+        <li class="menu-item"><a class="menu-link" href="#Habitats">Habitats</a></li>
+        <li class="menu-item dropdown">
+          <a class="menu-link" href="#Food">Food</a>
+          <button class="dropdown-toggle child-toggle" aria-label="Food submenu"></button>
+          <ul class="dropdown-menu">
+            <li class="menu-item"><a class="menu-link" href="#Can">Can Eat</a></li>
+            <li class="menu-item"><a class="menu-link" href="#Can">Can't Eat</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li class="menu-item dropdown">
+      <a class="menu-link" href="#Amphibians">Amphibians</a>
+      <button class="dropdown-toggle root-toggle" aria-label="Amphibians submenu"></button>
+      <ul class="dropdown-menu">
+        <li class="menu-item"><a class="menu-link" href="#About">About</a></li>
+        <li class="menu-item dropdown">
+          <a class="menu-link" href="#Wild">Wild</a>
+          <button class="dropdown-toggle child-toggle" aria-label="Wild submenu"></button>
+          <ul class="dropdown-menu">
+            <li class="menu-item"><a class="menu-link" href="#Frogs">Frogs</a></li>
+            <li class="menu-item"><a class="menu-link" href="#Toads">Toads</a></li>
+            <li class="menu-item"><a class="menu-link" href="#Salamanders">Salamanders</a></li>
+          </ul>
+        </li>
+        <li class="menu-item dropdown">
+          <a class="menu-link" href="#Domesticated">Domesticated</a>
+          <button class="dropdown-toggle child-toggle" aria-label="Domesticated submenu"></button>
+          <ul class="dropdown-menu">
+            <li class="menu-item"><a class="menu-link" href="#Axolotls">Axolotls</a></li>
+            <li class="menu-item"><a class="menu-link" href="#Newts">Newts</a></li>
+            <li class="menu-item"><a class="menu-link" href="#Frogs">Frogs</a></li>
+          </ul>
+        </li>
+        <li class="menu-item"><a class="menu-link" href="#Habitats">Habitats</a></li>
+        <li class="menu-item dropdown">
+          <a class="menu-link" href="#Food">Food</a>
+          <button class="dropdown-toggle child-toggle" aria-label="Food submenu"></button>
+          <ul class="dropdown-menu">
+            <li class="menu-item"><a class="menu-link" href="#Can">Can Eat</a></li>
+            <li class="menu-item"><a class="menu-link" href="#Can">Can't Eat</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li class="menu-item dropdown dropdown-left">
+      <a class="menu-link" href="#Birds">Birds</a>
+      <button class="dropdown-toggle root-toggle" aria-label="Birds submenu"></button>
+      <ul class="dropdown-menu">
+        <li class="menu-item"><a class="menu-link" href="#About">About</a></li>
+        <li class="menu-item dropdown">
+          <a class="menu-link" href="#Wild">Wild</a>
+          <button class="dropdown-toggle child-toggle" aria-label="Wild submenu"></button>
+          <ul class="dropdown-menu">
+            <li class="menu-item"><a class="menu-link" href="#Eagles">Eagles</a></li>
+            <li class="menu-item"><a class="menu-link" href="#Hawks">Hawks</a></li>
+            <li class="menu-item"><a class="menu-link" href="#Owls">Owls</a></li>
+          </ul>
+        </li>
+        <li class="menu-item dropdown">
+          <a class="menu-link" href="#Domesticated">Domesticated</a>
+          <button class="dropdown-toggle child-toggle" aria-label="Domesticated submenu"></button>
+          <ul class="dropdown-menu">
+            <li class="menu-item"><a class="menu-link" href="#Parakeets">Parakeets</a></li>
+            <li class="menu-item"><a class="menu-link" href="#Pigeons">Pigeons</a></li>
+            <li class="menu-item"><a class="menu-link" href="#Chickens">Chickens</a></li>
+          </ul>
+        </li>
+        <li class="menu-item"><a class="menu-link" href="#Habitats">Habitats</a></li>
+        <li class="menu-item dropdown">
+          <a class="menu-link" href="#Food">Food</a>
+          <button class="dropdown-toggle child-toggle" aria-label="Food submenu"></button>
+          <ul class="dropdown-menu">
+            <li class="menu-item"><a class="menu-link" href="#Can">Can Eat</a></li>
+            <li class="menu-item"><a class="menu-link" href="#Can">Can't Eat</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li class="menu-item dropdown dropdown-left">
+      <a class="menu-link" href="#Fish">Fish</a>
+      <button class="dropdown-toggle root-toggle" aria-label="Fish submenu"></button>
+      <ul class="dropdown-menu">
+        <li class="menu-item"><a class="menu-link" href="#About">About</a></li>
+        <li class="menu-item dropdown">
+          <a class="menu-link" href="#Wild">Wild</a>
+          <button class="dropdown-toggle child-toggle" aria-label="Wild submenu"></button>
+          <ul class="dropdown-menu">
+            <li class="menu-item"><a class="menu-link" href="#Trout">Trout</a></li>
+            <li class="menu-item"><a class="menu-link" href="#Carp">Carp</a></li>
+            <li class="menu-item"><a class="menu-link" href="#Perch">Perch</a></li>
+          </ul>
+        </li>
+        <li class="menu-item dropdown">
+          <a class="menu-link" href="#Domesticated">Domesticated</a>
+          <button class="dropdown-toggle child-toggle" aria-label="Domesticated submenu"></button>
+          <ul class="dropdown-menu">
+            <li class="menu-item"><a class="menu-link" href="#Goldfish">Goldfish</a></li>
+            <li class="menu-item"><a class="menu-link" href="#Koi">Koi</a></li>
+            <li class="menu-item"><a class="menu-link" href="#Betta">Betta</a></li>
+          </ul>
+        </li>
+        <li class="menu-item"><a class="menu-link" href="#Habitats">Habitats</a></li>
+        <li class="menu-item dropdown">
+          <a class="menu-link" href="#Food">Food</a>
+          <button class="dropdown-toggle child-toggle" aria-label="Food submenu"></button>
+          <ul class="dropdown-menu">
+            <li class="menu-item"><a class="menu-link" href="#Can">Can Eat</a></li>
+            <li class="menu-item"><a class="menu-link" href="#Can">Can't Eat</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li class="menu-item"><a class="menu-link" href="#Map">Map</a></li>
+    <li class="menu-item dropdown dropdown-left">
+      <a class="menu-link" href="#Contact">Contact</a>
+      <button class="dropdown-toggle root-toggle" aria-label="Contact submenu"></button>
+      <ul class="dropdown-menu">
+        <li class="menu-item"><a class="menu-link" href="#Email">Email</a></li>
+        <li class="menu-item dropdown">
+          <a class="menu-link" href="#Socials">Socials</a>
+          <button class="dropdown-toggle child-toggle" aria-label="Socials submenu"></button>
+          <ul class="dropdown-menu">
+            <li class="menu-item"><a class="menu-link" href="#Twitter">Twitter</a></li>
+            <li class="menu-item"><a class="menu-link" href="#Facebook">Facebook</a></li>
+            <li class="menu-item"><a class="menu-link" href="#Instagram">Instagram</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+`;
+
+export const fourLevelDisclosureTopLinkSplit =
+  /* html */
+  `
+<nav aria-label="example" aria-describedby="disclaimer">
+  <button class="menu-toggle" aria-label="Example menu">☰</button>
+  <ul class="menu">
+    <li class="menu-item"><a class="menu-link" href="#About">About</a></li>
+    <li class="menu-item dropdown">
+      <a class="menu-link" href="#Mammals">Mammals</a>
+      <button class="dropdown-toggle root-toggle" aria-label="Mammals submenu"></button>
+      <ul class="dropdown-menu">
+        <li class="menu-item"><a class="menu-link" href="#About">About</a></li>
+        <li class="menu-item dropdown">
+          <a class="menu-link" href="#Wild">Wild</a>
+          <button class="dropdown-toggle child-toggle" aria-label="Wild submenu"></button>
+          <ul class="dropdown-menu">
+            <li class="menu-item dropdown">
+              <a class="menu-link" href="#Bears">Bears</a>
+              <button class="dropdown-toggle child-toggle" aria-label="Bears submenu"></button>
+              <ul class="dropdown-menu">
+                <li class="menu-item"><a class="menu-link" href="#BrownBears">Brown Bears</a></li>
+                <li class="menu-item"><a class="menu-link" href="#PolarBears">Polar Bears</a></li>
+              </ul>
+            </li>
+            <li class="menu-item"><a class="menu-link" href="#Lions">Lions</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+`;
+
 export default {
   singleLevel,
   twoLevel,
@@ -846,4 +1077,6 @@ export default {
   threeLevel,
   threeLevelDisclosure,
   threeLevelDisclosureTopLink,
+  threeLevelDisclosureTopLinkSplit,
+  fourLevelDisclosureTopLinkSplit,
 };

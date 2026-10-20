@@ -3,7 +3,10 @@
  */
 
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
-import { threeLevelDisclosureTopLink } from "../../../demo/menus.js";
+import {
+  threeLevelDisclosureTopLink,
+  threeLevelDisclosureTopLinkSplit,
+} from "../../../demo/menus.js";
 import TopLinkDisclosureMenu from "../../../src/topLinkDisclosureMenu.js";
 import { simulateKeyboardEvent } from "../helpers.js";
 
@@ -298,6 +301,38 @@ describe("TopLinkDisclosureMenu", () => {
     // Test Spacebar and Enter.
     describe.each(["Spacebar", "Enter"])("%s", (key) => {
       describe("when the current menu item is a submenu item", () => {
+        it("should toggle a separate submenu button selected by a custom selector", () => {
+          document.body.innerHTML = threeLevelDisclosureTopLinkSplit;
+          const menu = new TopLinkDisclosureMenu({
+            menuElement: document.querySelector("ul"),
+            submenuTogglesSelector: ".root-toggle",
+            submenuSubtogglesSelector: ".child-toggle",
+          });
+          const rootToggle = menu.elements.submenuToggles[0];
+          const child = rootToggle.elements.controlledMenu;
+          const childToggle = child.elements.submenuToggles[0];
+          rootToggle.expand();
+          child.currentChild = 2;
+          child.focusState = "self";
+
+          const event = simulateKeyboardEvent(
+            "keyup",
+            childToggle.dom.controller,
+            {
+              key,
+            }
+          );
+
+          expect(event.defaultPrevented).toBe(true);
+          expect(childToggle.isExpanded).toBe(true);
+          expect(rootToggle.isExpanded).toBe(true);
+
+          simulateKeyboardEvent("keyup", childToggle.dom.controller, { key });
+
+          expect(childToggle.isExpanded).toBe(false);
+          expect(rootToggle.isExpanded).toBe(true);
+        });
+
         // Test that the event is prevented.
         it("should prevent the event", () => {
           // Create a new TopLinkDisclosureMenu instance for testing.
