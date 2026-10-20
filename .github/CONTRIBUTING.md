@@ -46,15 +46,23 @@ Everybody loves a thorough bug report!
 
 ## Keep Your Code Consistent
 
+- Use Node.js 24, which is also used by the project workflows.
 - Run `npm install` to ensure you have all the tools needed.
 - Keep all functional code inside of the `src/` directory.
 - Keep all test code inside of the `tests/` directory.
 - Name unit test files `.unit.test.js` and run them with `npm run test:unit`.
 - Use the coding standards provided.
 
-This project follows a set of coding standards combining [StandardJS](https://standardjs.com/), [Prettier](https://prettier.io/), and [JSDoc](https://jsdoc.app/).
+This project uses [ESLint](https://eslint.org/), [Prettier](https://prettier.io/), and [JSDoc](https://jsdoc.app/) to keep code and comments consistent.
 
-To check your code, you can use [ESLint](https://eslint.org/)/Prettier with the provided script:
+To check your code without changing files, run:
+
+```shell
+npm run eslint
+npm run prettier -- --check
+```
+
+To apply automatic fixes and formatting, run:
 
 ```shell
 npm run lint
