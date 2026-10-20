@@ -5,7 +5,6 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { twoLevel } from "../../../demo/menus.js";
 import BaseMenu from "../../../src/_baseMenu.js";
-import { initializeMenu } from "../helpers.js";
 
 beforeEach(() => {
   document.body.innerHTML = twoLevel;
@@ -28,7 +27,7 @@ describe("BaseMenu public methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       menu.focus();
 
@@ -43,7 +42,7 @@ describe("BaseMenu public methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Set up to check for focus.
       const spy = vi.spyOn(menu.dom.menu, "focus");
@@ -61,7 +60,7 @@ describe("BaseMenu public methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Set up to check for focus.
       const spy = vi.spyOn(menu.dom.menu, "focus");
@@ -83,7 +82,7 @@ describe("BaseMenu public methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       menu.blur();
 
@@ -98,7 +97,7 @@ describe("BaseMenu public methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Set up to check for blur.
       const spy = vi.spyOn(menu.dom.menu, "blur");
@@ -116,7 +115,7 @@ describe("BaseMenu public methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Set up to check for blur.
       const spy = vi.spyOn(menu.dom.menu, "blur");
@@ -138,7 +137,7 @@ describe("BaseMenu public methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       menu.focusCurrentChild();
 
@@ -155,7 +154,7 @@ describe("BaseMenu public methods", () => {
           containerElement: document.querySelector("nav"),
           controllerElement: document.querySelector("button"),
         });
-        initializeMenu(menu);
+        menu.initialize();
 
         // Set the current child.
         menu.currentChild = i;
@@ -177,7 +176,7 @@ describe("BaseMenu public methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Set the current child to -1.
       menu.currentChild = -1;
@@ -201,7 +200,7 @@ describe("BaseMenu public methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       menu.blurCurrentChild();
 
@@ -216,7 +215,7 @@ describe("BaseMenu public methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Set the current child.
       menu.currentChild = i;
@@ -237,7 +236,7 @@ describe("BaseMenu public methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Set the current child to -1.
       menu.currentChild = -1;
@@ -261,7 +260,7 @@ describe("BaseMenu public methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Set up to check for blur.
       const spy = vi.spyOn(menu, "blurCurrentChild");
@@ -279,7 +278,7 @@ describe("BaseMenu public methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       menu.focusChild(1);
 
@@ -294,7 +293,7 @@ describe("BaseMenu public methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Set up to check for focus.
       const spy = vi.spyOn(menu, "focusCurrentChild");
@@ -315,7 +314,7 @@ describe("BaseMenu public methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Set up to check for focus.
       const spy = vi.spyOn(menu, "focusChild");
@@ -336,7 +335,7 @@ describe("BaseMenu public methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Set up to check for focus.
       const spy = vi.spyOn(menu, "focusChild");
@@ -357,7 +356,7 @@ describe("BaseMenu public methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Set up to check for focus.
       const spy = vi.spyOn(menu, "focusChild");
@@ -375,7 +374,7 @@ describe("BaseMenu public methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Set the current child to the last menu item.
       menu.currentChild = 7;
@@ -401,7 +400,7 @@ describe("BaseMenu public methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Set the current child to the last menu item.
       menu.currentChild = 6;
@@ -422,7 +421,7 @@ describe("BaseMenu public methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Set up to check for focus.
       const spy = vi.spyOn(menu, "focusCurrentChild");
@@ -445,7 +444,7 @@ describe("BaseMenu public methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       menu.focusController();
 
@@ -460,7 +459,7 @@ describe("BaseMenu public methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Set up to check for focus.
       const spy = vi.spyOn(menu.dom.controller, "focus");
@@ -478,7 +477,7 @@ describe("BaseMenu public methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Set up to check for focus.
       const spy = vi.spyOn(menu.dom.controller, "focus");
@@ -495,7 +494,7 @@ describe("BaseMenu public methods", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       expect(() => {
         menu.focusController();
@@ -513,7 +512,7 @@ describe("BaseMenu public methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       menu.focusContainer();
 
@@ -528,7 +527,7 @@ describe("BaseMenu public methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Set up to check for focus.
       const spy = vi.spyOn(menu.dom.container, "focus");
@@ -546,7 +545,7 @@ describe("BaseMenu public methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Set up to check for focus.
       const spy = vi.spyOn(menu.dom.container, "focus");
@@ -563,7 +562,7 @@ describe("BaseMenu public methods", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       expect(() => {
         menu.focusContainer();
@@ -581,7 +580,7 @@ describe("BaseMenu public methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Spy on all submenuToggles and collapse() methods.
       const spy1 = vi.spyOn(menu.elements.submenuToggles[0], "collapse");
@@ -612,7 +611,7 @@ describe("BaseMenu public methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Spy on all menu items.
       const spy1 = vi.spyOn(menu.elements.menuItems[0], "blur");
@@ -642,7 +641,7 @@ describe("BaseMenu public methods", () => {
           containerElement: document.querySelector("nav"),
           controllerElement: document.querySelector("button"),
         });
-        initializeMenu(menu);
+        menu.initialize();
 
         // Spy on all submenu menu items.
         const spy1 = vi.spyOn(
@@ -692,7 +691,7 @@ describe("BaseMenu public methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const removeListenersSpy = vi.spyOn(menu, "_removeEventListeners");
       const clearTimeoutsSpy = vi.spyOn(menu, "_clearTimeouts");
@@ -720,7 +719,7 @@ describe("BaseMenu focusChild index validation", () => {
       return 0;
     });
     menu = new BaseMenu({ menuElement: document.querySelector("ul") });
-    initializeMenu(menu);
+    menu.initialize();
     menu.currentEvent = "keyboard";
     menu.focusChild(0);
   });

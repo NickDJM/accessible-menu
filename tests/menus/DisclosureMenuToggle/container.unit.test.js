@@ -8,23 +8,20 @@ afterEach(() => {
 });
 
 describe("DisclosureMenuToggle container", () => {
-  const createToggle = (options = {}) =>
-    new DisclosureMenuToggle({
-      menuToggleElement: document.createElement("button"),
-      controlledMenu: new BaseMenu({
-        menuElement: document.createElement("ul"),
-        expandClass: "open",
-        collapseClass: "closed",
-        transitionClass: "",
-      }),
-      initialize: false,
-      ...options,
-    });
-
   it.each([{}, { containerElement: null }])(
     "defaults to the menu element for %j",
     (options) => {
-      const toggle = createToggle(options);
+      const toggle = new DisclosureMenuToggle({
+        menuToggleElement: document.createElement("button"),
+        controlledMenu: new BaseMenu({
+          menuElement: document.createElement("ul"),
+          expandClass: "open",
+          collapseClass: "closed",
+          transitionClass: "",
+        }),
+        initialize: false,
+        ...options,
+      });
 
       toggle.expand({ transition: false, emit: false });
 
@@ -44,7 +41,17 @@ describe("DisclosureMenuToggle container", () => {
 
   it("applies classes to a custom container and keeps ARIA on the menu", () => {
     const containerElement = document.createElement("li");
-    const toggle = createToggle({ containerElement });
+    const toggle = new DisclosureMenuToggle({
+      menuToggleElement: document.createElement("button"),
+      controlledMenu: new BaseMenu({
+        menuElement: document.createElement("ul"),
+        expandClass: "open",
+        collapseClass: "closed",
+        transitionClass: "",
+      }),
+      initialize: false,
+      containerElement,
+    });
     containerElement.append(
       toggle.dom.controller,
       toggle.elements.controlledMenu.dom.menu
@@ -85,7 +92,17 @@ describe("DisclosureMenuToggle container", () => {
 
   it("applies locked and unlocked classes to the custom container", () => {
     const containerElement = document.createElement("li");
-    const toggle = createToggle({ containerElement });
+    const toggle = new DisclosureMenuToggle({
+      menuToggleElement: document.createElement("button"),
+      controlledMenu: new BaseMenu({
+        menuElement: document.createElement("ul"),
+        expandClass: "open",
+        collapseClass: "closed",
+        transitionClass: "",
+      }),
+      initialize: false,
+      containerElement,
+    });
 
     toggle.lock({ emit: false });
 
@@ -108,7 +125,17 @@ describe("DisclosureMenuToggle container", () => {
     );
 
     const containerElement = document.createElement("li");
-    const toggle = createToggle({ containerElement });
+    const toggle = new DisclosureMenuToggle({
+      menuToggleElement: document.createElement("button"),
+      controlledMenu: new BaseMenu({
+        menuElement: document.createElement("ul"),
+        expandClass: "open",
+        collapseClass: "closed",
+        transitionClass: "",
+      }),
+      initialize: false,
+      containerElement,
+    });
     toggle.transitionClass = "transitioning";
 
     toggle.collapse({ transition: false, emit: false });

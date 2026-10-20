@@ -3,7 +3,7 @@
  * Helper functions for testing menus.
  */
 
-/* global BaseMenu PropertyDescriptor */
+/* global PropertyDescriptor */
 /* eslint-disable jsdoc/reject-any-type */
 
 import { expect, vi } from "vitest";
@@ -20,17 +20,6 @@ export class PointerEvent extends window.MouseEvent {
       this.button = props.button;
     }
   }
-}
-
-/**
- * Initialize a menu for testing.
- *
- * This is required because BaseMenu does not auto-initialize.
- *
- * @param {BaseMenu} menu - The menu to initialize.
- */
-export function initializeMenu(menu) {
-  menu.initialize();
 }
 
 /**

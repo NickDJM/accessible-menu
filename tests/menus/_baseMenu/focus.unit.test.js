@@ -5,7 +5,6 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { twoLevel } from "../../../demo/menus.js";
 import BaseMenu from "../../../src/_baseMenu.js";
-import { initializeMenu } from "../helpers.js";
 
 beforeEach(() => {
   // Create the test menu.
@@ -29,7 +28,7 @@ describe("BaseMenu", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Focus the first menu item.
       menu.elements.menuItems[0].dom.link.focus();
@@ -47,7 +46,7 @@ describe("BaseMenu", () => {
           containerElement: document.querySelector("nav"),
           controllerElement: document.querySelector("button"),
         });
-        initializeMenu(menu);
+        menu.initialize();
 
         // Focus the first menu item.
         menu.elements.menuItems[i].dom.link.focus();
@@ -66,7 +65,7 @@ describe("BaseMenu", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Focus the first menu item.
       menu.elements.menuItems[0].dom.link.focus();
@@ -88,7 +87,7 @@ describe("BaseMenu", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Focus the first menu item.
       menu.elements.menuItems[0].dom.link.focus();
@@ -113,7 +112,7 @@ describe("BaseMenu", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Focus the first menu item.
       menu.elements.menuItems[0].dom.link.focus();
@@ -133,7 +132,7 @@ describe("BaseMenu", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Focus the first menu item.
       menu.elements.menuItems[0].dom.link.focus();
@@ -156,7 +155,7 @@ describe("BaseMenu", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Focus the first menu item.
       menu.elements.menuItems[0].dom.link.focus();
@@ -180,7 +179,7 @@ describe("BaseMenu", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Focus the first menu item.
       menu.elements.menuItems[0].dom.link.focus();
@@ -207,7 +206,7 @@ describe("BaseMenu", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Focus the first menu item.
       menu.elements.menuItems[0].dom.link.focus();
@@ -231,7 +230,7 @@ describe("BaseMenu", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Focus the first menu item.
       menu.elements.menuItems[0].dom.link.focus();

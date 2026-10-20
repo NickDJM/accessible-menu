@@ -7,60 +7,87 @@ import CollapsibleComponent from "@accessible-ecosystem/core/CollapsibleComponen
 import BaseMenuToggle from "../../../src/_baseMenuToggle.js";
 import BaseMenu from "../../../src/_baseMenu.js";
 
-const createInstance = (options = {}) => {
-  return new BaseMenuToggle({
-    menuToggleElement: document.createElement("button"),
-    controlledMenu: new BaseMenu({ menuElement: document.createElement("ul") }),
-    ...options,
-  });
-};
-
 describe("BaseMenuToggle fields", () => {
   describe("CollapsibleComponent inheritance", () => {
     it("should inherit from Core CollapsibleComponent", () => {
-      const instance = createInstance();
+      const instance = new BaseMenuToggle({
+        menuToggleElement: document.createElement("button"),
+        controlledMenu: new BaseMenu({
+          menuElement: document.createElement("ul"),
+        }),
+      });
 
       expect(instance).toBeInstanceOf(CollapsibleComponent);
     });
   });
   describe("_scope", () => {
     it("should use the menu-specific configuration", () => {
-      const instance = createInstance();
+      const instance = new BaseMenuToggle({
+        menuToggleElement: document.createElement("button"),
+        controlledMenu: new BaseMenu({
+          menuElement: document.createElement("ul"),
+        }),
+      });
 
       expect(instance._scope).toEqual("AccessibleMenu");
     });
   });
   describe("_name", () => {
     it("should use the menu-specific configuration", () => {
-      const instance = createInstance();
+      const instance = new BaseMenuToggle({
+        menuToggleElement: document.createElement("button"),
+        controlledMenu: new BaseMenu({
+          menuElement: document.createElement("ul"),
+        }),
+      });
 
       expect(instance._name).toEqual("MenuToggle");
     });
   });
   describe("_eventPrefix", () => {
     it("should use the accessibleMenu event prefix", () => {
-      const instance = createInstance();
+      const instance = new BaseMenuToggle({
+        menuToggleElement: document.createElement("button"),
+        controlledMenu: new BaseMenu({
+          menuElement: document.createElement("ul"),
+        }),
+      });
 
       expect(instance.eventPrefix).toBe("accessibleMenu");
     });
   });
   describe("_storageKey", () => {
     it("should use the menu-specific configuration", () => {
-      const instance = createInstance();
+      const instance = new BaseMenuToggle({
+        menuToggleElement: document.createElement("button"),
+        controlledMenu: new BaseMenu({
+          menuElement: document.createElement("ul"),
+        }),
+      });
 
       expect(instance._storageKey).toEqual("menuToggles");
     });
   });
   describe("_rootDOMElement", () => {
     it("should use the menu-specific configuration", () => {
-      const instance = createInstance();
+      const instance = new BaseMenuToggle({
+        menuToggleElement: document.createElement("button"),
+        controlledMenu: new BaseMenu({
+          menuElement: document.createElement("ul"),
+        }),
+      });
 
       expect(instance._rootDOMElement).toEqual("controller");
     });
   });
   describe("_protectedDOMElements", () => {
     it("should use the menu-specific configuration", () => {
-      const instance = createInstance();
+      const instance = new BaseMenuToggle({
+        menuToggleElement: document.createElement("button"),
+        controlledMenu: new BaseMenu({
+          menuElement: document.createElement("ul"),
+        }),
+      });
 
       expect(instance._protectedDOMElements).toEqual([
         "controller",
@@ -70,14 +97,24 @@ describe("BaseMenuToggle fields", () => {
   });
   describe("_shouldStore", () => {
     it("should use the menu-specific configuration", () => {
-      const instance = createInstance();
+      const instance = new BaseMenuToggle({
+        menuToggleElement: document.createElement("button"),
+        controlledMenu: new BaseMenu({
+          menuElement: document.createElement("ul"),
+        }),
+      });
 
       expect(instance._shouldStore).toEqual(false);
     });
   });
   describe("rootDOMElement", () => {
     it("should resolve the configured DOM slot through the inherited getter", () => {
-      const instance = createInstance();
+      const instance = new BaseMenuToggle({
+        menuToggleElement: document.createElement("button"),
+        controlledMenu: new BaseMenu({
+          menuElement: document.createElement("ul"),
+        }),
+      });
 
       expect(instance.rootDOMElement).toBe(
         instance.dom[instance._rootDOMElement]
@@ -85,7 +122,12 @@ describe("BaseMenuToggle fields", () => {
     });
 
     it("should remain read-only on the menu instance", () => {
-      const instance = createInstance();
+      const instance = new BaseMenuToggle({
+        menuToggleElement: document.createElement("button"),
+        controlledMenu: new BaseMenu({
+          menuElement: document.createElement("ul"),
+        }),
+      });
 
       expect(() => {
         instance.rootDOMElement = document.createElement("div");
@@ -95,7 +137,10 @@ describe("BaseMenuToggle fields", () => {
   describe("_dom", () => {
     it("should populate the controller slot", () => {
       const toggle = document.createElement("button");
-      const instance = createInstance({
+      const instance = new BaseMenuToggle({
+        controlledMenu: new BaseMenu({
+          menuElement: document.createElement("ul"),
+        }),
         menuToggleElement: toggle,
       });
 
@@ -104,7 +149,12 @@ describe("BaseMenuToggle fields", () => {
   });
   describe("Core DOM slots", () => {
     it("should use the menu element as the Core controlled element", () => {
-      const instance = createInstance();
+      const instance = new BaseMenuToggle({
+        menuToggleElement: document.createElement("button"),
+        controlledMenu: new BaseMenu({
+          menuElement: document.createElement("ul"),
+        }),
+      });
 
       expect(instance.dom.controlled).toBe(
         instance.elements.controlledMenu.dom.menu
@@ -127,7 +177,10 @@ describe("BaseMenuToggle fields", () => {
           menuElement: document.createElement("ul"),
           [option]: value,
         });
-        const instance = createInstance({ controlledMenu });
+        const instance = new BaseMenuToggle({
+          menuToggleElement: document.createElement("button"),
+          controlledMenu,
+        });
 
         expect(instance[property]).toBe(value);
       }
@@ -142,7 +195,8 @@ describe("BaseMenuToggle fields", () => {
       const parent = new BaseMenu({
         menuElement: document.createElement("ul"),
       });
-      const instance = createInstance({
+      const instance = new BaseMenuToggle({
+        menuToggleElement: document.createElement("button"),
         controlledMenu: controlled,
         parentMenu: parent,
       });
@@ -157,7 +211,12 @@ describe("BaseMenuToggle fields", () => {
     it.each(["expand", "collapse"])(
       "should preserve the accessibleMenu %s event name",
       (action) => {
-        const instance = createInstance();
+        const instance = new BaseMenuToggle({
+          menuToggleElement: document.createElement("button"),
+          controlledMenu: new BaseMenu({
+            menuElement: document.createElement("ul"),
+          }),
+        });
 
         expect(instance.events[action].type).toBe(
           instance.getEventName(action)
@@ -168,7 +227,12 @@ describe("BaseMenuToggle fields", () => {
     it.each(["expand", "collapse"])(
       "should preserve bubbling for the %s event",
       (action) => {
-        const instance = createInstance();
+        const instance = new BaseMenuToggle({
+          menuToggleElement: document.createElement("button"),
+          controlledMenu: new BaseMenu({
+            menuElement: document.createElement("ul"),
+          }),
+        });
 
         expect(instance.events[action].bubbles).toBe(true);
       }
@@ -177,15 +241,30 @@ describe("BaseMenuToggle fields", () => {
     it.each(["expand", "collapse"])(
       "should preserve detail.component for the %s event",
       (action) => {
-        const instance = createInstance();
+        const instance = new BaseMenuToggle({
+          menuToggleElement: document.createElement("button"),
+          controlledMenu: new BaseMenu({
+            menuElement: document.createElement("ul"),
+          }),
+        });
 
         expect(instance.events[action].detail.component).toBe(instance);
       }
     );
 
     it("should keep event registries specific to each toggle", () => {
-      const first = createInstance();
-      const second = createInstance();
+      const first = new BaseMenuToggle({
+        menuToggleElement: document.createElement("button"),
+        controlledMenu: new BaseMenu({
+          menuElement: document.createElement("ul"),
+        }),
+      });
+      const second = new BaseMenuToggle({
+        menuToggleElement: document.createElement("button"),
+        controlledMenu: new BaseMenu({
+          menuElement: document.createElement("ul"),
+        }),
+      });
 
       expect(first.events.expand).not.toBe(second.events.expand);
       expect(first.events.expand.detail.component).toBe(first);

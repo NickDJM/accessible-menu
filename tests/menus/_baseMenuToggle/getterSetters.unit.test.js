@@ -5,7 +5,6 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { twoLevel, threeLevel } from "../../../demo/menus.js";
 import BaseMenu from "../../../src/_baseMenu.js";
-import { initializeMenu } from "../helpers.js";
 
 beforeEach(() => {
   // Create the test menu.
@@ -30,7 +29,7 @@ describe("BaseMenuToggle getter/setters", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const menuToggle = menu.elements.submenuToggles[0];
 
@@ -45,7 +44,7 @@ describe("BaseMenuToggle getter/setters", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const menuToggle = menu.elements.submenuToggles[0];
 
@@ -65,7 +64,7 @@ describe("BaseMenuToggle getter/setters", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const menuToggle = menu.elements.submenuToggles[0];
 
@@ -80,7 +79,7 @@ describe("BaseMenuToggle getter/setters", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const menuToggle = menu.elements.submenuToggles[0];
 
@@ -100,7 +99,7 @@ describe("BaseMenuToggle getter/setters", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const menuToggle = menu.elements.submenuToggles[0];
 
@@ -115,7 +114,7 @@ describe("BaseMenuToggle getter/setters", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const menuToggle = menu.elements.submenuToggles[0];
 
@@ -135,7 +134,7 @@ describe("BaseMenuToggle getter/setters", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const menuToggle = menu.elements.submenuToggles[0];
 
@@ -150,7 +149,7 @@ describe("BaseMenuToggle getter/setters", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const menuToggle = menu.elements.submenuToggles[0];
 
@@ -179,7 +178,7 @@ describe("BaseMenuToggle getter/setters", () => {
           transitionClass: "",
         });
 
-        initializeMenu(menu);
+        menu.initialize();
         const child = menu.elements.submenuToggles[0].elements.controlledMenu;
         const components = [
           menu.elements.controller,
@@ -208,7 +207,7 @@ describe("BaseMenuToggle getter/setters", () => {
           transitionClass: "",
         });
 
-        initializeMenu(menu);
+        menu.initialize();
         const child = menu.elements.submenuToggles[0].elements.controlledMenu;
         const components = [
           menu.elements.controller,
@@ -232,7 +231,7 @@ describe("BaseMenuToggle getter/setters", () => {
         transitionClass: "",
       });
 
-      initializeMenu(menu);
+      menu.initialize();
       const child = menu.elements.submenuToggles[0].elements.controlledMenu;
       const components = [
         menu.elements.controller,
@@ -280,7 +279,7 @@ describe("BaseMenuToggle getter/setters", () => {
           transitionClass: "",
         });
 
-        initializeMenu(menu);
+        menu.initialize();
         const child = menu.elements.submenuToggles[0].elements.controlledMenu;
         const components = [
           menu.elements.controller,
@@ -307,7 +306,7 @@ describe("BaseMenuToggle getter/setters", () => {
           transitionClass: "",
         });
 
-        initializeMenu(menu);
+        menu.initialize();
         const child = menu.elements.submenuToggles[0].elements.controlledMenu;
         const components = [
           menu.elements.controller,
@@ -337,7 +336,7 @@ describe("BaseMenuToggle getter/setters", () => {
         transitionClass: "",
       });
 
-      initializeMenu(menu);
+      menu.initialize();
       const child = menu.elements.submenuToggles[0].elements.controlledMenu;
       const components = [
         menu.elements.controller,

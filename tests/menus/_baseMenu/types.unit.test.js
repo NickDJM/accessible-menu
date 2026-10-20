@@ -7,7 +7,6 @@ import { singleLevel, twoLevel } from "../../../demo/menus.js";
 import BaseMenu from "../../../src/_baseMenu.js";
 import BaseMenuItem from "../../../src/_baseMenuItem.js";
 import BaseMenuToggle from "../../../src/_baseMenuToggle.js";
-import { initializeMenu } from "../helpers.js";
 
 // Test the BaseMenu default class types.
 describe("BaseMenu", () => {
@@ -18,7 +17,7 @@ describe("BaseMenu", () => {
   const menu = new BaseMenu({
     menuElement: document.querySelector("ul"),
   });
-  initializeMenu(menu);
+  menu.initialize();
 
   // Test that the BaseMenu's _MenuType is BaseMenu.
   it("should have a _MenuType of BaseMenu", () => {
@@ -49,7 +48,7 @@ describe("BaseMenu (multi-level)", () => {
     menuElement: document.querySelector("ul"),
     submenuItemsSelector: ".dropdown",
   });
-  initializeMenu(menu);
+  menu.initialize();
 
   // Test that the BaseMenu's _MenuType is BaseMenu.
   it("should have a _MenuType of BaseMenu", () => {

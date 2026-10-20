@@ -8,7 +8,6 @@ import CollapsibleComponent from "@accessible-ecosystem/core/CollapsibleComponen
 import { twoLevel } from "../../../demo/menus.js";
 import BaseMenu from "../../../src/_baseMenu.js";
 import BaseMenuToggle from "../../../src/_baseMenuToggle.js";
-import { initializeMenu } from "../helpers.js";
 
 beforeEach(() => {
   document.body.innerHTML = twoLevel;
@@ -19,16 +18,6 @@ afterEach(() => {
   delete window.AccessibleMenuStorage;
   vi.restoreAllMocks();
 });
-
-const createToggle = () => {
-  const menu = new BaseMenu({
-    menuElement: document.querySelector("ul"),
-    transitionClass: "",
-  });
-  initializeMenu(menu);
-
-  return { menu, toggle: menu.elements.submenuToggles[0] };
-};
 
 describe("BaseMenuToggle protected methods", () => {
   describe("_dispatchEvent", () => {
@@ -49,7 +38,12 @@ describe("BaseMenuToggle protected methods", () => {
 
   describe("_expand", () => {
     it("should mark the root menu as having opened", () => {
-      const { menu, toggle } = createToggle();
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        transitionClass: "",
+      });
+      menu.initialize();
+      const toggle = menu.elements.submenuToggles[0];
 
       toggle._expand({ emit: false, transition: false });
 
@@ -57,7 +51,12 @@ describe("BaseMenuToggle protected methods", () => {
     });
 
     it("should delegate expansion to Core", () => {
-      const { toggle } = createToggle();
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        transitionClass: "",
+      });
+      menu.initialize();
+      const toggle = menu.elements.submenuToggles[0];
       const expand = vi
         .spyOn(CollapsibleComponent.prototype, "_expand")
         .mockImplementation(() => {});
@@ -78,7 +77,7 @@ describe("BaseMenuToggle protected methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const menuToggle = menu.elements.submenuToggles[0];
       menuToggle.dom.controller.removeAttribute("id");
@@ -102,7 +101,7 @@ describe("BaseMenuToggle protected methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const menuToggle = menu.elements.submenuToggles[0];
       menuToggle.dom.controller.setAttribute("id", "test-id");
@@ -122,7 +121,7 @@ describe("BaseMenuToggle protected methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const menuToggle = menu.elements.submenuToggles[0];
       menuToggle.elements.controlledMenu.dom.menu.removeAttribute("id");
@@ -147,7 +146,7 @@ describe("BaseMenuToggle protected methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const menuToggle = menu.elements.submenuToggles[0];
       menuToggle.elements.controlledMenu.dom.menu.setAttribute("id", "test-id");
@@ -171,7 +170,7 @@ describe("BaseMenuToggle protected methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const menuToggle = menu.elements.submenuToggles[0];
       menuToggle.dom.controller.removeAttribute("aria-expanded");
@@ -193,7 +192,7 @@ describe("BaseMenuToggle protected methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const menuToggle = menu.elements.submenuToggles[0];
       menuToggle.dom.controller.removeAttribute("id");

@@ -8,23 +8,20 @@ afterEach(() => {
 });
 
 describe("TreeviewToggle container", () => {
-  const createToggle = (options = {}) =>
-    new TreeviewToggle({
-      menuToggleElement: document.createElement("button"),
-      controlledMenu: new BaseMenu({
-        menuElement: document.createElement("ul"),
-        expandClass: "open",
-        collapseClass: "closed",
-        transitionClass: "",
-      }),
-      initialize: false,
-      ...options,
-    });
-
   it.each([{}, { containerElement: null }])(
     "defaults to the menu element for %j",
     (options) => {
-      const toggle = createToggle(options);
+      const toggle = new TreeviewToggle({
+        menuToggleElement: document.createElement("button"),
+        controlledMenu: new BaseMenu({
+          menuElement: document.createElement("ul"),
+          expandClass: "open",
+          collapseClass: "closed",
+          transitionClass: "",
+        }),
+        initialize: false,
+        ...options,
+      });
 
       toggle.expand({ transition: false, emit: false });
 
@@ -44,7 +41,17 @@ describe("TreeviewToggle container", () => {
 
   it("applies classes to a custom container and keeps ARIA on the menu", () => {
     const containerElement = document.createElement("li");
-    const toggle = createToggle({ containerElement });
+    const toggle = new TreeviewToggle({
+      menuToggleElement: document.createElement("button"),
+      controlledMenu: new BaseMenu({
+        menuElement: document.createElement("ul"),
+        expandClass: "open",
+        collapseClass: "closed",
+        transitionClass: "",
+      }),
+      initialize: false,
+      containerElement,
+    });
     containerElement.append(
       toggle.dom.controller,
       toggle.elements.controlledMenu.dom.menu
@@ -85,7 +92,17 @@ describe("TreeviewToggle container", () => {
 
   it("applies locked and unlocked classes to the custom container", () => {
     const containerElement = document.createElement("li");
-    const toggle = createToggle({ containerElement });
+    const toggle = new TreeviewToggle({
+      menuToggleElement: document.createElement("button"),
+      controlledMenu: new BaseMenu({
+        menuElement: document.createElement("ul"),
+        expandClass: "open",
+        collapseClass: "closed",
+        transitionClass: "",
+      }),
+      initialize: false,
+      containerElement,
+    });
 
     toggle.lock({ emit: false });
 
@@ -108,7 +125,17 @@ describe("TreeviewToggle container", () => {
     );
 
     const containerElement = document.createElement("li");
-    const toggle = createToggle({ containerElement });
+    const toggle = new TreeviewToggle({
+      menuToggleElement: document.createElement("button"),
+      controlledMenu: new BaseMenu({
+        menuElement: document.createElement("ul"),
+        expandClass: "open",
+        collapseClass: "closed",
+        transitionClass: "",
+      }),
+      initialize: false,
+      containerElement,
+    });
     toggle.transitionClass = "transitioning";
 
     toggle.collapse({ transition: false, emit: false });

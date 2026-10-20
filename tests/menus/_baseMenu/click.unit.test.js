@@ -13,11 +13,7 @@ import {
 } from "vitest";
 import { twoLevel } from "../../../demo/menus.js";
 import BaseMenu from "../../../src/_baseMenu.js";
-import {
-  initializeMenu,
-  simulatePointerEvent,
-  PointerEvent,
-} from "../helpers.js";
+import { simulatePointerEvent, PointerEvent } from "../helpers.js";
 
 vi.mock("@accessible-ecosystem/core/eventHelpers.js");
 
@@ -46,7 +42,7 @@ describe("BaseMenu", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
       menu.focusState = "self";
       menu.hasExpanded = true;
 
@@ -64,7 +60,7 @@ describe("BaseMenu", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Simulate a click event.
       simulatePointerEvent("click", menu.elements.menuItems[0].dom.link);
@@ -80,7 +76,7 @@ describe("BaseMenu", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Spy on _clearTimeout.
       const spy = vi.spyOn(menu, "_clearTimeout");
@@ -99,7 +95,7 @@ describe("BaseMenu", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Spy on blurChildren.
       const spy = vi.spyOn(menu.elements.rootMenu, "blurChildren");
@@ -120,7 +116,7 @@ describe("BaseMenu", () => {
           containerElement: document.querySelector("nav"),
           controllerElement: document.querySelector("button"),
         });
-        initializeMenu(menu);
+        menu.initialize();
 
         // Spy on focusChild.
         const spy = vi.spyOn(menu, "focusChild");
@@ -140,7 +136,7 @@ describe("BaseMenu", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Simulate a click event.
       simulatePointerEvent("click", menu.elements.menuItems[1].dom.link);
@@ -161,7 +157,7 @@ describe("BaseMenu", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Spy on preventEvent.
       const spy = vi.spyOn(eventHandlers, "preventEvent");
@@ -183,7 +179,7 @@ describe("BaseMenu", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Spy on toggle.
       const spy = vi.spyOn(
@@ -205,7 +201,7 @@ describe("BaseMenu", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Simulate a click event.
       simulatePointerEvent("click", menu.elements.menuItems[1].dom.link);
@@ -221,7 +217,7 @@ describe("BaseMenu", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Simulate a click event.
       simulatePointerEvent("click", menu.elements.menuItems[1].dom.link);
@@ -239,7 +235,7 @@ describe("BaseMenu", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Simulate a click event.
       simulatePointerEvent("click", menu.elements.controller.dom.controller);
@@ -260,7 +256,7 @@ describe("BaseMenu", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Spy on preventEvent.
       const spy = vi.spyOn(eventHandlers, "preventEvent");
@@ -282,7 +278,7 @@ describe("BaseMenu", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Spy on toggle.
       const spy = vi.spyOn(menu.elements.controller, "toggle");
@@ -301,7 +297,7 @@ describe("BaseMenu", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Simulate a click event.
       simulatePointerEvent("click", menu.elements.controller.dom.controller);
@@ -317,7 +313,7 @@ describe("BaseMenu", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Simulate a click event.
       simulatePointerEvent("click", menu.elements.controller.dom.controller);
@@ -333,7 +329,7 @@ describe("BaseMenu", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Spy on toggle.
       const spy = vi.spyOn(menu.elements.controller, "toggle");
@@ -354,7 +350,7 @@ describe("BaseMenu", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Spy on toggle.
       const spy = vi.spyOn(menu.elements.controller, "toggle");

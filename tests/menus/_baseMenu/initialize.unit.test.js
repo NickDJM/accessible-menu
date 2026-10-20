@@ -8,7 +8,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { singleLevel, twoLevel } from "../../../demo/menus.js";
 import BaseMenu from "../../../src/_baseMenu.js";
-import { initializeMenu, setupMatchMedia } from "../helpers.js";
+import { setupMatchMedia } from "../helpers.js";
 
 let originalMatchMedia;
 
@@ -40,7 +40,7 @@ describe("BaseMenu", () => {
 
     // Test that the menu initializes.
     expect(() => {
-      initializeMenu(menu);
+      menu.initialize();
     }).not.toThrow();
   });
 
@@ -51,7 +51,7 @@ describe("BaseMenu", () => {
 
     // Test that the menu throws an error.
 
-    initializeMenu(menu);
+    menu.initialize();
 
     expect(console.error).toHaveBeenCalled();
   });
@@ -65,7 +65,7 @@ describe("BaseMenu", () => {
 
     // Test that the menu throws an error.
 
-    initializeMenu(menu);
+    menu.initialize();
 
     expect(console.error).toHaveBeenCalled();
   });
@@ -78,7 +78,7 @@ describe("BaseMenu", () => {
     });
 
     // Initialize the menu.
-    initializeMenu(menu);
+    menu.initialize();
 
     // Test that the menu exists in window.AccessibleMenuStorage.menus.
     expect(
@@ -95,7 +95,7 @@ describe("BaseMenu", () => {
 
     // Initialize the menu.
     try {
-      initializeMenu(menu);
+      menu.initialize();
     } catch {
       // Do nothing.
     }
@@ -123,7 +123,7 @@ describe("BaseMenu (controlled)", () => {
 
     // Test that the menu initializes.
     expect(() => {
-      initializeMenu(menu);
+      menu.initialize();
     }).not.toThrow();
   });
 
@@ -140,7 +140,7 @@ describe("BaseMenu (controlled)", () => {
 
     // Test that the menu throws an error.
 
-    initializeMenu(menu);
+    menu.initialize();
 
     expect(console.error).toHaveBeenCalled();
   });
@@ -159,7 +159,7 @@ describe("BaseMenu (controlled)", () => {
 
     // Test that the menu throws an error.
 
-    initializeMenu(menu);
+    menu.initialize();
 
     expect(console.error).toHaveBeenCalled();
   });
@@ -177,7 +177,7 @@ describe("BaseMenu (controlled)", () => {
 
     // Test that the menu throws an error.
 
-    initializeMenu(menu);
+    menu.initialize();
 
     expect(console.error).toHaveBeenCalled();
   });
@@ -196,7 +196,7 @@ describe("BaseMenu (controlled)", () => {
 
     // Test that the menu throws an error.
 
-    initializeMenu(menu);
+    menu.initialize();
 
     expect(console.error).toHaveBeenCalled();
   });
@@ -214,7 +214,7 @@ describe("BaseMenu (controlled)", () => {
 
     // Test that the menu throws an error.
 
-    initializeMenu(menu);
+    menu.initialize();
 
     expect(console.error).toHaveBeenCalled();
   });
@@ -233,7 +233,7 @@ describe("BaseMenu (controlled)", () => {
 
     // Test that the menu throws an error.
 
-    initializeMenu(menu);
+    menu.initialize();
 
     expect(console.error).toHaveBeenCalled();
   });
@@ -251,7 +251,7 @@ describe("BaseMenu (custom arguments)", () => {
 
     // Test that the menu initializes.
     expect(() => {
-      initializeMenu(menu);
+      menu.initialize();
     }).not.toThrow();
   });
 
@@ -265,7 +265,7 @@ describe("BaseMenu (custom arguments)", () => {
 
     // Test that the menu throws an error.
 
-    initializeMenu(menu);
+    menu.initialize();
 
     expect(console.error).toHaveBeenCalled();
   });
@@ -280,7 +280,7 @@ describe("BaseMenu (custom arguments)", () => {
 
     // Test that the menu initializes.
     expect(() => {
-      initializeMenu(menu);
+      menu.initialize();
     }).not.toThrow();
   });
 
@@ -294,7 +294,7 @@ describe("BaseMenu (custom arguments)", () => {
 
     // Test that the menu throws an error.
 
-    initializeMenu(menu);
+    menu.initialize();
 
     expect(console.error).toHaveBeenCalled();
   });
@@ -309,7 +309,7 @@ describe("BaseMenu (custom arguments)", () => {
 
     // Test that the menu initializes.
     expect(() => {
-      initializeMenu(menu);
+      menu.initialize();
     }).not.toThrow();
   });
 
@@ -323,7 +323,7 @@ describe("BaseMenu (custom arguments)", () => {
 
     // Test that the menu throws an error.
 
-    initializeMenu(menu);
+    menu.initialize();
 
     expect(console.error).toHaveBeenCalled();
   });
@@ -339,7 +339,7 @@ describe("BaseMenu (custom arguments)", () => {
 
     // Test that the menu initializes.
     expect(() => {
-      initializeMenu(menu);
+      menu.initialize();
     }).not.toThrow();
   });
 
@@ -354,7 +354,7 @@ describe("BaseMenu (custom arguments)", () => {
 
     // Test that the menu throws an error.
 
-    initializeMenu(menu);
+    menu.initialize();
 
     expect(console.error).toHaveBeenCalled();
   });
@@ -370,7 +370,7 @@ describe("BaseMenu (custom arguments)", () => {
 
     // Test that the menu initializes.
     expect(() => {
-      initializeMenu(menu);
+      menu.initialize();
     }).not.toThrow();
   });
 
@@ -385,7 +385,7 @@ describe("BaseMenu (custom arguments)", () => {
 
     // Test that the menu throws an error.
 
-    initializeMenu(menu);
+    menu.initialize();
 
     expect(console.error).toHaveBeenCalled();
   });
@@ -405,7 +405,7 @@ describe("BaseMenu (custom arguments)", () => {
 
       // Test that the menu initializes.
       expect(() => {
-        initializeMenu(menu);
+        menu.initialize();
       }).not.toThrow();
     }
   );
@@ -422,7 +422,7 @@ describe("BaseMenu (custom arguments)", () => {
 
       // Test that the menu throws an error.
 
-      initializeMenu(menu);
+      menu.initialize();
 
       expect(console.error).toHaveBeenCalled();
     }
@@ -438,7 +438,7 @@ describe("BaseMenu (custom arguments)", () => {
 
     // Test that the menu initializes.
     expect(() => {
-      initializeMenu(menu);
+      menu.initialize();
     }).not.toThrow();
   });
 
@@ -452,7 +452,7 @@ describe("BaseMenu (custom arguments)", () => {
 
     // Test that the menu throws an error.
 
-    initializeMenu(menu);
+    menu.initialize();
 
     expect(console.error).toHaveBeenCalled();
   });
@@ -467,7 +467,7 @@ describe("BaseMenu (custom arguments)", () => {
 
     // Test that the menu throws an error.
 
-    initializeMenu(menu);
+    menu.initialize();
 
     expect(console.error).toHaveBeenCalled();
   });
@@ -487,7 +487,7 @@ describe("BaseMenu (custom arguments)", () => {
 
     // Test that the menu initializes.
     expect(() => {
-      initializeMenu(menu);
+      menu.initialize();
     }).not.toThrow();
   });
 
@@ -502,7 +502,7 @@ describe("BaseMenu (custom arguments)", () => {
 
     // Test that the menu throws an error.
 
-    initializeMenu(menu);
+    menu.initialize();
 
     expect(console.error).toHaveBeenCalled();
   });
@@ -521,7 +521,7 @@ describe("BaseMenu (custom arguments)", () => {
 
     // Test that the menu initializes.
     expect(() => {
-      initializeMenu(menu);
+      menu.initialize();
     }).not.toThrow();
   });
 
@@ -535,7 +535,7 @@ describe("BaseMenu (custom arguments)", () => {
 
     // Test that the menu throws an error.
 
-    initializeMenu(menu);
+    menu.initialize();
 
     expect(console.error).toHaveBeenCalled();
   });
@@ -553,7 +553,7 @@ describe("BaseMenu (custom arguments)", () => {
 
       // Test that the menu initializes.
       expect(() => {
-        initializeMenu(menu);
+        menu.initialize();
       }).not.toThrow();
     }
   );
@@ -568,7 +568,7 @@ describe("BaseMenu (custom arguments)", () => {
 
     // Test that the menu throws an error.
 
-    initializeMenu(menu);
+    menu.initialize();
 
     expect(console.error).toHaveBeenCalled();
   });
@@ -583,7 +583,7 @@ describe("BaseMenu (custom arguments)", () => {
 
     // Test that the menu initializes.
     expect(() => {
-      initializeMenu(menu);
+      menu.initialize();
     }).not.toThrow();
   });
 
@@ -597,7 +597,7 @@ describe("BaseMenu (custom arguments)", () => {
 
     // Test that the menu throws an error.
 
-    initializeMenu(menu);
+    menu.initialize();
 
     expect(console.error).toHaveBeenCalled();
   });
@@ -612,7 +612,7 @@ describe("BaseMenu (custom arguments)", () => {
 
     // Test that the menu initializes.
     expect(() => {
-      initializeMenu(menu);
+      menu.initialize();
     }).not.toThrow();
   });
 
@@ -626,7 +626,7 @@ describe("BaseMenu (custom arguments)", () => {
 
     // Test that the menu throws an error.
 
-    initializeMenu(menu);
+    menu.initialize();
 
     expect(console.error).toHaveBeenCalled();
   });
@@ -641,7 +641,7 @@ describe("BaseMenu (custom arguments)", () => {
 
     // Test that the menu initializes.
     expect(() => {
-      initializeMenu(menu);
+      menu.initialize();
     }).not.toThrow();
   });
 
@@ -655,7 +655,7 @@ describe("BaseMenu (custom arguments)", () => {
 
     // Test that the menu throws an error.
 
-    initializeMenu(menu);
+    menu.initialize();
 
     expect(console.error).toHaveBeenCalled();
   });
@@ -673,7 +673,7 @@ describe("BaseMenu (custom arguments)", () => {
 
     // Test that the menu initializes.
     expect(() => {
-      initializeMenu(menu);
+      menu.initialize();
     }).not.toThrow();
   });
 
@@ -692,7 +692,7 @@ describe("BaseMenu (custom arguments)", () => {
 
     // Test that the menu throws an error.
 
-    initializeMenu(menu);
+    menu.initialize();
 
     expect(console.error).toHaveBeenCalled();
   });
@@ -710,7 +710,7 @@ describe("BaseMenu (custom arguments)", () => {
 
     // Test that the menu initializes.
     expect(() => {
-      initializeMenu(menu);
+      menu.initialize();
     }).not.toThrow();
   });
 
@@ -729,7 +729,7 @@ describe("BaseMenu (custom arguments)", () => {
 
     // Test that the menu throws an error.
 
-    initializeMenu(menu);
+    menu.initialize();
 
     expect(console.error).toHaveBeenCalled();
   });
@@ -744,7 +744,7 @@ describe("BaseMenu (custom arguments)", () => {
 
     // Test that the menu initializes.
     expect(() => {
-      initializeMenu(menu);
+      menu.initialize();
     }).not.toThrow();
   });
 
@@ -760,7 +760,7 @@ describe("BaseMenu (custom arguments)", () => {
 
     // Test that the menu throws an error.
 
-    initializeMenu(menu);
+    menu.initialize();
 
     expect(console.error).toHaveBeenCalled();
   });
@@ -775,7 +775,7 @@ describe("BaseMenu (custom arguments)", () => {
 
     // Test that the menu initializes.
     expect(() => {
-      initializeMenu(menu);
+      menu.initialize();
     }).not.toThrow();
   });
 
@@ -789,7 +789,7 @@ describe("BaseMenu (custom arguments)", () => {
 
     // Test that the menu throws an error.
 
-    initializeMenu(menu);
+    menu.initialize();
 
     expect(console.error).toHaveBeenCalled();
   });
@@ -804,7 +804,7 @@ describe("BaseMenu (custom arguments)", () => {
 
     // Test that the menu initializes.
     expect(() => {
-      initializeMenu(menu);
+      menu.initialize();
     }).not.toThrow();
   });
 
@@ -818,7 +818,7 @@ describe("BaseMenu (custom arguments)", () => {
 
     // Test that the menu throws an error.
 
-    initializeMenu(menu);
+    menu.initialize();
 
     expect(console.error).toHaveBeenCalled();
   });

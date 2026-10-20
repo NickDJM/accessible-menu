@@ -5,7 +5,6 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { threeLevel } from "../../../demo/menus.js";
 import BaseMenu from "../../../src/_baseMenu.js";
-import { initializeMenu } from "../helpers.js";
 
 beforeEach(() => {
   // Create the test menu.
@@ -29,7 +28,7 @@ describe("BaseMenuToggle public methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
       const toggle = menu.elements.controller;
       const listener = vi.fn();
       if (action === "collapse") {
@@ -57,7 +56,7 @@ describe("BaseMenuToggle public methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const menuToggle = menu.elements.submenuToggles[0];
 
@@ -74,7 +73,7 @@ describe("BaseMenuToggle public methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const menuToggle = menu.elements.submenuToggles[0];
 
@@ -94,7 +93,7 @@ describe("BaseMenuToggle public methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const menuToggle = menu.elements.submenuToggles[0];
 
@@ -117,7 +116,7 @@ describe("BaseMenuToggle public methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const menuToggle = menu.elements.submenuToggles[0];
 
@@ -134,7 +133,7 @@ describe("BaseMenuToggle public methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const menuToggle = menu.elements.submenuToggles[0];
 
@@ -159,7 +158,7 @@ describe("BaseMenuToggle public methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const menuToggle = menu.elements.submenuToggles[0];
 
@@ -176,7 +175,7 @@ describe("BaseMenuToggle public methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const menuToggle = menu.elements.submenuToggles[0];
 
@@ -196,7 +195,7 @@ describe("BaseMenuToggle public methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const menuToggle = menu.elements.submenuToggles[0];
 
@@ -219,7 +218,7 @@ describe("BaseMenuToggle public methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const menuToggle = menu.elements.submenuToggles[0];
 
@@ -239,7 +238,7 @@ describe("BaseMenuToggle public methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
       const menuToggle = menu.elements.submenuToggles[0];
 
       // Set up to check for blur() call.
@@ -262,7 +261,7 @@ describe("BaseMenuToggle public methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const menuToggle = menu.elements.submenuToggles[0];
 
@@ -284,7 +283,7 @@ describe("BaseMenuToggle public methods", () => {
         containerElement: document.body,
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const menuToggle = menu.elements.submenuToggles[0];
 
@@ -308,7 +307,7 @@ describe("BaseMenuToggle public methods", () => {
         containerElement: document.body,
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const menuToggle = menu.elements.submenuToggles[0];
 
@@ -335,7 +334,7 @@ describe("BaseMenuToggle public methods", () => {
         containerElement: document.body,
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const menuToggle = menu.elements.submenuToggles[0];
 
@@ -356,7 +355,7 @@ describe("BaseMenuToggle public methods", () => {
         containerElement: document.body,
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const menuToggle = menu.elements.submenuToggles[0];
 
@@ -382,7 +381,7 @@ describe("BaseMenuToggle public methods", () => {
         containerElement: document.body,
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const menuToggle = menu.elements.submenuToggles[0];
 
@@ -402,7 +401,7 @@ describe("BaseMenuToggle public methods", () => {
         containerElement: document.body,
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const menuToggle = menu.elements.submenuToggles[0];
 
@@ -425,7 +424,7 @@ describe("BaseMenuToggle public methods", () => {
         containerElement: document.body,
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const menuToggle = menu.elements.submenuToggles[0];
 
@@ -455,7 +454,7 @@ describe("BaseMenuToggle public methods", () => {
         containerElement: document.body,
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const menuToggle = menu.elements.submenuToggles[0];
 
@@ -491,7 +490,7 @@ describe("BaseMenuToggle public methods", () => {
         containerElement: document.body,
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const menuToggle = menu.elements.submenuToggles[0];
 
@@ -517,7 +516,7 @@ describe("BaseMenuToggle public methods", () => {
         containerElement: document.body,
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const menuToggle = menu.elements.submenuToggles[0];
 
@@ -537,7 +536,7 @@ describe("BaseMenuToggle public methods", () => {
         containerElement: document.body,
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const menuToggle = menu.elements.submenuToggles[0];
 
@@ -569,7 +568,7 @@ describe("BaseMenuToggle public methods", () => {
         containerElement: document.body,
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const menuToggle = menu.elements.submenuToggles[0];
 
@@ -602,7 +601,7 @@ describe("BaseMenuToggle public methods", () => {
         containerElement: document.body,
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const menuToggle = menu.elements.submenuToggles[0];
 

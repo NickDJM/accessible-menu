@@ -5,7 +5,6 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { twoLevel, threeLevel } from "../../../demo/menus.js";
 import BaseMenu from "../../../src/_baseMenu.js";
-import { initializeMenu } from "../helpers.js";
 
 beforeEach(() => {
   // Create the test menu.
@@ -42,7 +41,7 @@ describe("BaseMenu getter/setters", () => {
         menuElement: document.querySelector("ul"),
         transitionClass: "",
       });
-      initializeMenu(menu);
+      menu.initialize();
       menu[property] = value;
 
       expect(() => {
@@ -56,7 +55,7 @@ describe("BaseMenu getter/setters", () => {
         menuElement: document.querySelector("ul"),
         transitionClass: "",
       });
-      initializeMenu(menu);
+      menu.initialize();
       menu[property] = value;
 
       try {
@@ -77,7 +76,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       expect(menu.dom).toEqual(menu._dom);
     });
@@ -88,7 +87,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       expect(() => {
         menu.dom = {};
@@ -104,7 +103,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       expect(menu.selectors).toEqual(menu._selectors);
     });
@@ -115,7 +114,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       expect(() => {
         menu.selectors = {};
@@ -131,7 +130,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       expect(menu.elements).toEqual(menu._elements);
     });
@@ -142,7 +141,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       expect(() => {
         menu.elements = {};
@@ -158,7 +157,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       expect(menu.classes).toEqual(menu._classes);
     });
@@ -169,7 +168,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       expect(() => {
         menu.classes = {};
@@ -185,7 +184,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       expect(menu.durations).toEqual(menu._durations);
     });
@@ -196,7 +195,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       expect(() => {
         menu.durations = {};
@@ -212,7 +211,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       expect(menu.listeners).toEqual(menu._listeners);
     });
@@ -223,7 +222,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       expect(() => {
         menu.listeners = {};
@@ -239,7 +238,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       expect(menu.isTopLevel).toBe(menu._root);
     });
@@ -250,7 +249,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       expect(() => {
         menu.isTopLevel = false;
@@ -266,7 +265,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       expect(menu.expandClass).toBe(menu._classes.expand);
     });
@@ -277,7 +276,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Set up to check for validation.
 
@@ -293,7 +292,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const submenu = menu.elements.submenuToggles[0].elements.controlledMenu;
 
@@ -311,7 +310,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       expect(menu.collapseClass).toBe(menu._classes.collapse);
     });
@@ -322,7 +321,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Set up to check for validation.
 
@@ -338,7 +337,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const submenu = menu.elements.submenuToggles[0].elements.controlledMenu;
 
@@ -356,7 +355,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       expect(menu.transitionClass).toBe(menu._classes.transition);
     });
@@ -367,7 +366,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Set up to check for validation.
 
@@ -383,7 +382,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const submenu = menu.elements.submenuToggles[0].elements.controlledMenu;
 
@@ -401,7 +400,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       expect(menu.transitionDuration).toBe(menu._durations.transition);
     });
@@ -412,7 +411,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Set up to check for validation.
 
@@ -428,7 +427,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const submenu = menu.elements.submenuToggles[0].elements.controlledMenu;
 
@@ -446,7 +445,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // In this case, because we have not set the expand duration,
       // it should be the same as the transition duration.
@@ -459,7 +458,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Set up to check for validation.
 
@@ -475,7 +474,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const submenu = menu.elements.submenuToggles[0].elements.controlledMenu;
 
@@ -493,7 +492,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // In this case, because we have not set the collapse duration,
       // it should be the same as the transition duration.
@@ -506,7 +505,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Set up to check for validation.
 
@@ -522,7 +521,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const submenu = menu.elements.submenuToggles[0].elements.controlledMenu;
 
@@ -541,7 +540,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       expect(menu.currentChild).toBe(menu._currentChild);
     });
@@ -552,7 +551,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Set up to check for validation.
 
@@ -571,7 +570,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       expect(menu.focusState).toBe(menu._focusState);
     });
@@ -582,7 +581,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Set up to check for validation.
 
@@ -606,7 +605,7 @@ describe("BaseMenu getter/setters", () => {
           transitionClass: "",
         });
 
-        initializeMenu(menu);
+        menu.initialize();
         const child = menu.elements.submenuToggles[0].elements.controlledMenu;
         const grandchild =
           child.elements.submenuToggles[0].elements.controlledMenu;
@@ -631,7 +630,7 @@ describe("BaseMenu getter/setters", () => {
           transitionClass: "",
         });
 
-        initializeMenu(menu);
+        menu.initialize();
         const child = menu.elements.submenuToggles[0].elements.controlledMenu;
         const grandchild =
           child.elements.submenuToggles[0].elements.controlledMenu;
@@ -659,7 +658,7 @@ describe("BaseMenu getter/setters", () => {
         transitionClass: "",
       });
 
-      initializeMenu(menu);
+      menu.initialize();
       const child = menu.elements.submenuToggles[0].elements.controlledMenu;
       const grandchild =
         child.elements.submenuToggles[0].elements.controlledMenu;
@@ -682,7 +681,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       expect(menu.currentEvent).toBe(menu._currentEvent);
     });
@@ -693,7 +692,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Set up to check for validation.
 
@@ -713,7 +712,7 @@ describe("BaseMenu getter/setters", () => {
       });
       menu.currentEvent = "keyboard";
 
-      initializeMenu(menu);
+      menu.initialize();
 
       const submenu = menu.elements.submenuToggles[0].elements.controlledMenu;
       const nestedSubmenu =
@@ -734,7 +733,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       expect(menu.currentMenuItem).toBe(
         menu.elements.menuItems[menu.currentChild]
@@ -747,7 +746,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       expect(() => {
         menu.currentMenuItem = menu.elements.menuItems[0];
@@ -763,7 +762,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       expect(menu.hoverType).toBe(menu._hoverType);
     });
@@ -774,7 +773,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Set up to check for validation.
 
@@ -790,7 +789,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const submenu = menu.elements.submenuToggles[0].elements.controlledMenu;
 
@@ -808,7 +807,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       expect(menu.hoverDelay).toBe(menu._delays.hover);
     });
@@ -819,7 +818,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Set up to check for validation.
 
@@ -835,7 +834,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const submenu = menu.elements.submenuToggles[0].elements.controlledMenu;
 
@@ -853,7 +852,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // In this case, because we have not set the enter delay,
       // it should be the same as the hover delay.
@@ -866,7 +865,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Set up to check for validation.
 
@@ -882,7 +881,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const submenu = menu.elements.submenuToggles[0].elements.controlledMenu;
 
@@ -900,7 +899,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // In this case, because we have not set the leave delay,
       // it should be the same as the hover delay.
@@ -913,7 +912,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Set up to check for validation.
 
@@ -929,7 +928,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const submenu = menu.elements.submenuToggles[0].elements.controlledMenu;
 
@@ -951,7 +950,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       expect(menu.prefix).toBe(menu._prefix);
     });
@@ -962,7 +961,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       menu.prefix = "test-";
 
@@ -975,7 +974,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const submenu = menu.elements.submenuToggles[0].elements.controlledMenu;
 
@@ -993,7 +992,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       expect(menu.key).toBe(menu._key);
     });
@@ -1004,7 +1003,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       expect(() => {
         menu.key = "test";
@@ -1017,7 +1016,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const submenu = menu.elements.submenuToggles[0].elements.controlledMenu;
 
@@ -1035,7 +1034,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       expect(menu.id).toBe(menu._id);
     });
@@ -1046,7 +1045,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       expect(() => {
         menu.id = "test-menu";
@@ -1073,7 +1072,7 @@ describe("BaseMenu getter/setters", () => {
           controllerElement: document.querySelector("button"),
           transitionClass: "",
         });
-        initializeMenu(menu);
+        menu.initialize();
 
         const child = menu.elements.submenuToggles[0].elements.controlledMenu;
         const grandchild =
@@ -1100,7 +1099,7 @@ describe("BaseMenu getter/setters", () => {
           transitionClass: "",
         });
 
-        initializeMenu(menu);
+        menu.initialize();
         const child = menu.elements.submenuToggles[0].elements.controlledMenu;
         const grandchild =
           child.elements.submenuToggles[0].elements.controlledMenu;
@@ -1119,7 +1118,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       expect(menu.shouldFocus).toBeFalsy();
     });
@@ -1130,7 +1129,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       expect(() => {
         menu.shouldFocus = true;
@@ -1146,7 +1145,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       expect(menu.errors).toEqual(menu._errors);
     });
@@ -1157,7 +1156,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       expect(() => {
         menu.errors = [];
@@ -1173,7 +1172,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       expect(menu.hasExpanded).toEqual(menu._hasExpanded);
     });
@@ -1184,7 +1183,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       menu.hasExpanded = true;
 
@@ -1197,7 +1196,7 @@ describe("BaseMenu getter/setters", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const submenu = menu.elements.submenuToggles[0].elements.controlledMenu;
 
@@ -1213,7 +1212,7 @@ describe("BaseMenu currentChild validation", () => {
 
   beforeEach(() => {
     menu = new BaseMenu({ menuElement: document.querySelector("ul") });
-    initializeMenu(menu);
+    menu.initialize();
   });
 
   afterEach(() => {

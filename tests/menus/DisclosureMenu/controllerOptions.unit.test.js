@@ -28,26 +28,20 @@ afterEach(() => {
 });
 
 describe("DisclosureMenu controller options", () => {
-  const createMenu = (options = {}) => {
-    const menu = new DisclosureMenu({
-      menuElement: document.querySelector("ul"),
-      controllerElement: document.querySelector("button"),
-      containerElement: document.querySelector("nav"),
-      submenuTogglesSelector: "a",
-      initialize: false,
-      ...options,
-    });
-    menu.initialize();
-    return menu;
-  };
-
   it("should initialize the controller during child creation", () => {
     const createChildren = vi.spyOn(
       DisclosureMenu.prototype,
       "_createChildElements"
     );
     const initialize = vi.spyOn(CollapsibleComponent.prototype, "initialize");
-    const menu = createMenu();
+    const menu = new DisclosureMenu({
+      menuElement: document.querySelector("ul"),
+      controllerElement: document.querySelector("button"),
+      containerElement: document.querySelector("nav"),
+      submenuTogglesSelector: "a",
+      initialize: false,
+    });
+    menu.initialize();
     const controller = menu.elements.controller;
     const callIndex = initialize.mock.contexts.indexOf(controller);
 
@@ -58,7 +52,14 @@ describe("DisclosureMenu controller options", () => {
   });
 
   it("should not initialize the controller when setting ARIA attributes", () => {
-    const menu = createMenu();
+    const menu = new DisclosureMenu({
+      menuElement: document.querySelector("ul"),
+      controllerElement: document.querySelector("button"),
+      containerElement: document.querySelector("nav"),
+      submenuTogglesSelector: "a",
+      initialize: false,
+    });
+    menu.initialize();
     const initialize = vi.spyOn(menu.elements.controller, "initialize");
 
     menu._setAriaAttributes();
@@ -67,7 +68,14 @@ describe("DisclosureMenu controller options", () => {
   });
 
   it("should not initialize an initialized controller again", () => {
-    const menu = createMenu();
+    const menu = new DisclosureMenu({
+      menuElement: document.querySelector("ul"),
+      controllerElement: document.querySelector("button"),
+      containerElement: document.querySelector("nav"),
+      submenuTogglesSelector: "a",
+      initialize: false,
+    });
+    menu.initialize();
     const initialize = vi.spyOn(menu.elements.controller, "initialize");
 
     menu._createController();
@@ -76,13 +84,28 @@ describe("DisclosureMenu controller options", () => {
   });
 
   it.each(flags)("should forward %s to the controller", (option) => {
-    const menu = createMenu({ [option]: true });
+    const menu = new DisclosureMenu({
+      menuElement: document.querySelector("ul"),
+      controllerElement: document.querySelector("button"),
+      containerElement: document.querySelector("nav"),
+      submenuTogglesSelector: "a",
+      initialize: false,
+      [option]: true,
+    });
+    menu.initialize();
 
     expect(menu.elements.controller[option]).toBe(true);
   });
 
   it.each(flags)("should use Core's false default for %s", (option) => {
-    const menu = createMenu();
+    const menu = new DisclosureMenu({
+      menuElement: document.querySelector("ul"),
+      controllerElement: document.querySelector("button"),
+      containerElement: document.querySelector("nav"),
+      submenuTogglesSelector: "a",
+      initialize: false,
+    });
+    menu.initialize();
 
     expect(menu.elements.controller[option]).toBe(false);
   });
@@ -90,7 +113,15 @@ describe("DisclosureMenu controller options", () => {
   it.each(flags)("should validate %s through Core", (option) => {
     vi.spyOn(console, "error").mockImplementation(() => {});
 
-    const menu = createMenu({ [option]: "invalid" });
+    const menu = new DisclosureMenu({
+      menuElement: document.querySelector("ul"),
+      controllerElement: document.querySelector("button"),
+      containerElement: document.querySelector("nav"),
+      submenuTogglesSelector: "a",
+      initialize: false,
+      [option]: "invalid",
+    });
+    menu.initialize();
 
     expect(menu.errors.some((error) => error.message.includes(option))).toBe(
       true
@@ -98,7 +129,15 @@ describe("DisclosureMenu controller options", () => {
   });
 
   it.each(flags)("should keep %s off submenu toggles", (option) => {
-    const menu = createMenu({ [option]: true });
+    const menu = new DisclosureMenu({
+      menuElement: document.querySelector("ul"),
+      controllerElement: document.querySelector("button"),
+      containerElement: document.querySelector("nav"),
+      submenuTogglesSelector: "a",
+      initialize: false,
+      [option]: true,
+    });
+    menu.initialize();
 
     expect(menu.elements.submenuToggles[0][option]).toBe(false);
   });
@@ -107,7 +146,15 @@ describe("DisclosureMenu controller options", () => {
     const { matchMedia } = setupMatchMedia(false);
     vi.stubGlobal("matchMedia", matchMedia);
 
-    createMenu({ breakpoint: "40em" });
+    const menu = new DisclosureMenu({
+      menuElement: document.querySelector("ul"),
+      controllerElement: document.querySelector("button"),
+      containerElement: document.querySelector("nav"),
+      submenuTogglesSelector: "a",
+      initialize: false,
+      breakpoint: "40em",
+    });
+    menu.initialize();
 
     expect(matchMedia).toHaveBeenCalledExactlyOnceWith("(width <= 40em)");
   });
@@ -115,10 +162,16 @@ describe("DisclosureMenu controller options", () => {
   it("should respond to a media-query change using Core", () => {
     const { matchMedia, mql, listeners } = setupMatchMedia(true);
     vi.stubGlobal("matchMedia", matchMedia);
-    const menu = createMenu({
+    const menu = new DisclosureMenu({
+      menuElement: document.querySelector("ul"),
+      controllerElement: document.querySelector("button"),
+      containerElement: document.querySelector("nav"),
+      submenuTogglesSelector: "a",
+      initialize: false,
       breakpoint: "40em",
       lockOutsideBreakpoint: true,
     });
+    menu.initialize();
     vi.advanceTimersToNextFrame();
 
     mql.matches = false;
@@ -130,10 +183,16 @@ describe("DisclosureMenu controller options", () => {
   it("should stop responding to query changes when disposed", () => {
     const { matchMedia, mql, listeners } = setupMatchMedia(true);
     vi.stubGlobal("matchMedia", matchMedia);
-    const menu = createMenu({
+    const menu = new DisclosureMenu({
+      menuElement: document.querySelector("ul"),
+      controllerElement: document.querySelector("button"),
+      containerElement: document.querySelector("nav"),
+      submenuTogglesSelector: "a",
+      initialize: false,
       breakpoint: "40em",
       lockOutsideBreakpoint: true,
     });
+    menu.initialize();
     const controller = menu.elements.controller;
     vi.advanceTimersToNextFrame();
 
@@ -145,7 +204,14 @@ describe("DisclosureMenu controller options", () => {
   });
 
   it("should inherit Core's responsive callback on the controller", () => {
-    const menu = createMenu();
+    const menu = new DisclosureMenu({
+      menuElement: document.querySelector("ul"),
+      controllerElement: document.querySelector("button"),
+      containerElement: document.querySelector("nav"),
+      submenuTogglesSelector: "a",
+      initialize: false,
+    });
+    menu.initialize();
 
     expect(menu.elements.controller._mediaQueryListEventCallback).toBe(
       CollapsibleComponent.prototype._mediaQueryListEventCallback
@@ -158,7 +224,16 @@ describe("DisclosureMenu controller options", () => {
       const matches = option.includes("Inside");
       const { matchMedia } = setupMatchMedia(matches);
       vi.stubGlobal("matchMedia", matchMedia);
-      const menu = createMenu({ breakpoint: "40em", [option]: true });
+      const menu = new DisclosureMenu({
+        menuElement: document.querySelector("ul"),
+        controllerElement: document.querySelector("button"),
+        containerElement: document.querySelector("nav"),
+        submenuTogglesSelector: "a",
+        initialize: false,
+        breakpoint: "40em",
+        [option]: true,
+      });
+      menu.initialize();
       const controller = menu.elements.controller;
       if (option.startsWith("collapse"))
         controller.expand({ transition: false, emit: false });

@@ -9,7 +9,6 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { twoLevel } from "../../../demo/menus.js";
 import BaseMenu from "../../../src/_baseMenu.js";
-import { initializeMenu } from "../helpers.js";
 
 let originalMatchMedia;
 
@@ -44,7 +43,7 @@ describe("BaseMenu protected methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       expect(() => {
         menu._setDOMElementType(elementType);
@@ -61,7 +60,7 @@ describe("BaseMenu protected methods", () => {
           containerElement: document.querySelector("nav"),
           controllerElement: document.querySelector("button"),
         });
-        initializeMenu(menu);
+        menu.initialize();
 
         menu._selectors["menu"] = "ul";
         menu._selectors["container"] = "nav";
@@ -83,7 +82,7 @@ describe("BaseMenu protected methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       expect(() => {
         menu._setDOMElementType("menu");
@@ -104,7 +103,7 @@ describe("BaseMenu protected methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Get the generated id.
       const generatedId = menu.dom.menu.getAttribute("id");
@@ -124,7 +123,7 @@ describe("BaseMenu protected methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Test the menu's id.
       expect(menu.dom.menu.getAttribute("id")).toBe("test-id");
@@ -138,7 +137,7 @@ describe("BaseMenu protected methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Get the generated id.
       const generatedId = menu.dom.controller.getAttribute("id");
@@ -158,7 +157,7 @@ describe("BaseMenu protected methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Test the menu controller's id.
       expect(menu.dom.controller.getAttribute("id")).toBe("test-id");
@@ -172,7 +171,7 @@ describe("BaseMenu protected methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Get the generated id.
       const generatedId = menu.dom.container.getAttribute("id");
@@ -192,7 +191,7 @@ describe("BaseMenu protected methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Test the menu container's id.
       expect(menu.dom.container.getAttribute("id")).toBe("test-id");
@@ -214,7 +213,7 @@ describe("BaseMenu submenu focus", () => {
         menuElement: document.querySelector("ul"),
         transitionClass: "",
       });
-      initializeMenu(menu);
+      menu.initialize();
       const item = menu.elements.menuItems[1];
       const submenu = item.elements.childMenu;
       const callbacks = [];

@@ -8,22 +8,19 @@ afterEach(() => {
 });
 
 describe("BaseMenuItem submenu sibling", () => {
-  const createItem = (options = {}) =>
-    new BaseMenuItem({
-      menuItemElement: document.createElement("li"),
-      menuLinkElement: document.createElement("a"),
-      parentMenu: new BaseMenu({ menuElement: document.createElement("ul") }),
-      initialize: false,
-      ...options,
-    });
-
   it("accepts a sibling from the shared base class", () => {
     const sibling = new BaseMenuItem({
       menuItemElement: document.createElement("li"),
       menuLinkElement: document.createElement("button"),
       parentMenu: new BaseMenu({ menuElement: document.createElement("ul") }),
     });
-    const item = createItem({ submenuSibling: sibling });
+    const item = new BaseMenuItem({
+      menuItemElement: document.createElement("li"),
+      menuLinkElement: document.createElement("a"),
+      parentMenu: new BaseMenu({ menuElement: document.createElement("ul") }),
+      initialize: false,
+      submenuSibling: sibling,
+    });
 
     item.initialize();
 
@@ -32,7 +29,12 @@ describe("BaseMenuItem submenu sibling", () => {
   });
 
   it("initializes without a separate sibling by default", () => {
-    const item = createItem();
+    const item = new BaseMenuItem({
+      menuItemElement: document.createElement("li"),
+      menuLinkElement: document.createElement("a"),
+      parentMenu: new BaseMenu({ menuElement: document.createElement("ul") }),
+      initialize: false,
+    });
 
     item.initialize();
 
@@ -42,7 +44,13 @@ describe("BaseMenuItem submenu sibling", () => {
 
   it("reports an invalid sibling during validation", () => {
     vi.spyOn(console, "error").mockImplementation(() => {});
-    const item = createItem({ submenuSibling: {} });
+    const item = new BaseMenuItem({
+      menuItemElement: document.createElement("li"),
+      menuLinkElement: document.createElement("a"),
+      parentMenu: new BaseMenu({ menuElement: document.createElement("ul") }),
+      initialize: false,
+      submenuSibling: {},
+    });
 
     item.initialize();
 

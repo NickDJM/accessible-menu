@@ -1,9 +1,9 @@
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import Menubar from "../../../src/menubar.js";
 
 const menus = [];
 
-const createMenu = (options = {}) => {
+beforeEach(() => {
   document.body.innerHTML = `
     <nav>
       <ul>
@@ -24,19 +24,7 @@ const createMenu = (options = {}) => {
       </ul>
     </nav>
   `;
-
-  const menu = new Menubar({
-    menuElement: document.querySelector("ul"),
-    submenuTogglesSelector: ".all-toggles",
-    transitionClass: "",
-    initialize: false,
-    ...options,
-  });
-
-  menus.push(menu);
-
-  return menu;
-};
+});
 
 afterEach(() => {
   for (const menu of menus.splice(0)) {
@@ -49,7 +37,13 @@ afterEach(() => {
 
 describe("Menubar child toggle selectors", () => {
   it("preserves the existing selector when no deeper selector is provided", () => {
-    const menu = createMenu();
+    const menu = new Menubar({
+      menuElement: document.querySelector("ul"),
+      submenuTogglesSelector: ".all-toggles",
+      transitionClass: "",
+      initialize: false,
+    });
+    menus.push(menu);
 
     menu.initialize();
 
@@ -65,7 +59,14 @@ describe("Menubar child toggle selectors", () => {
   });
 
   it("uses the configured submenu toggle selector when the deeper selector is null", () => {
-    const menu = createMenu({ submenuSubtogglesSelector: null });
+    const menu = new Menubar({
+      menuElement: document.querySelector("ul"),
+      submenuTogglesSelector: ".all-toggles",
+      transitionClass: "",
+      initialize: false,
+      submenuSubtogglesSelector: null,
+    });
+    menus.push(menu);
 
     menu.initialize();
 
@@ -80,10 +81,14 @@ describe("Menubar child toggle selectors", () => {
   });
 
   it("uses a different selector for child menus at every deeper level", () => {
-    const menu = createMenu({
+    const menu = new Menubar({
+      menuElement: document.querySelector("ul"),
+      transitionClass: "",
+      initialize: false,
       submenuTogglesSelector: ".root-toggle",
       submenuSubtogglesSelector: ".child-toggle",
     });
+    menus.push(menu);
 
     menu.initialize();
 
@@ -106,7 +111,14 @@ describe("Menubar child toggle selectors", () => {
 
   it.each([1, "["])("reports an invalid deeper selector %j", (selector) => {
     vi.spyOn(console, "error").mockImplementation(() => {});
-    const menu = createMenu({ submenuSubtogglesSelector: selector });
+    const menu = new Menubar({
+      menuElement: document.querySelector("ul"),
+      submenuTogglesSelector: ".all-toggles",
+      transitionClass: "",
+      initialize: false,
+      submenuSubtogglesSelector: selector,
+    });
+    menus.push(menu);
 
     menu.initialize();
 

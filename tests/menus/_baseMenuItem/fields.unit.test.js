@@ -7,46 +7,57 @@ import Component from "@accessible-ecosystem/core";
 import BaseMenuItem from "../../../src/_baseMenuItem.js";
 import BaseMenu from "../../../src/_baseMenu.js";
 
-const createInstance = (options = {}) => {
-  return new BaseMenuItem({
-    menuItemElement: document.createElement("li"),
-    menuLinkElement: document.createElement("a"),
-    parentMenu: new BaseMenu({ menuElement: document.createElement("ul") }),
-    ...options,
-  });
-};
-
 describe("BaseMenuItem fields", () => {
   describe("Component inheritance", () => {
     it("should inherit from Core Component", () => {
-      const instance = createInstance();
+      const instance = new BaseMenuItem({
+        menuItemElement: document.createElement("li"),
+        menuLinkElement: document.createElement("a"),
+        parentMenu: new BaseMenu({ menuElement: document.createElement("ul") }),
+      });
 
       expect(instance).toBeInstanceOf(Component);
     });
   });
   describe("_scope", () => {
     it("should use the menu-specific configuration", () => {
-      const instance = createInstance();
+      const instance = new BaseMenuItem({
+        menuItemElement: document.createElement("li"),
+        menuLinkElement: document.createElement("a"),
+        parentMenu: new BaseMenu({ menuElement: document.createElement("ul") }),
+      });
 
       expect(instance._scope).toEqual("AccessibleMenu");
     });
   });
   describe("_name", () => {
     it("should use the menu-specific configuration", () => {
-      const instance = createInstance();
+      const instance = new BaseMenuItem({
+        menuItemElement: document.createElement("li"),
+        menuLinkElement: document.createElement("a"),
+        parentMenu: new BaseMenu({ menuElement: document.createElement("ul") }),
+      });
 
       expect(instance._name).toEqual("MenuItem");
     });
   });
   describe("_eventPrefix", () => {
     it("should use the accessibleMenu event prefix", () => {
-      const instance = createInstance();
+      const instance = new BaseMenuItem({
+        menuItemElement: document.createElement("li"),
+        menuLinkElement: document.createElement("a"),
+        parentMenu: new BaseMenu({ menuElement: document.createElement("ul") }),
+      });
 
       expect(instance.eventPrefix).toBe("accessibleMenu");
     });
 
     it("should register initialization with the accessibleMenu prefix", () => {
-      const instance = createInstance();
+      const instance = new BaseMenuItem({
+        menuItemElement: document.createElement("li"),
+        menuLinkElement: document.createElement("a"),
+        parentMenu: new BaseMenu({ menuElement: document.createElement("ul") }),
+      });
 
       expect(instance.getEventName("initialize")).toBe(
         "accessibleMenuInitialize"
@@ -55,35 +66,55 @@ describe("BaseMenuItem fields", () => {
   });
   describe("_storageKey", () => {
     it("should use the menu-specific configuration", () => {
-      const instance = createInstance();
+      const instance = new BaseMenuItem({
+        menuItemElement: document.createElement("li"),
+        menuLinkElement: document.createElement("a"),
+        parentMenu: new BaseMenu({ menuElement: document.createElement("ul") }),
+      });
 
       expect(instance._storageKey).toEqual("menuItems");
     });
   });
   describe("_rootDOMElement", () => {
     it("should use the menu-specific configuration", () => {
-      const instance = createInstance();
+      const instance = new BaseMenuItem({
+        menuItemElement: document.createElement("li"),
+        menuLinkElement: document.createElement("a"),
+        parentMenu: new BaseMenu({ menuElement: document.createElement("ul") }),
+      });
 
       expect(instance._rootDOMElement).toEqual("item");
     });
   });
   describe("_protectedDOMElements", () => {
     it("should use the menu-specific configuration", () => {
-      const instance = createInstance();
+      const instance = new BaseMenuItem({
+        menuItemElement: document.createElement("li"),
+        menuLinkElement: document.createElement("a"),
+        parentMenu: new BaseMenu({ menuElement: document.createElement("ul") }),
+      });
 
       expect(instance._protectedDOMElements).toEqual(["item", "link"]);
     });
   });
   describe("_shouldStore", () => {
     it("should use the menu-specific configuration", () => {
-      const instance = createInstance();
+      const instance = new BaseMenuItem({
+        menuItemElement: document.createElement("li"),
+        menuLinkElement: document.createElement("a"),
+        parentMenu: new BaseMenu({ menuElement: document.createElement("ul") }),
+      });
 
       expect(instance._shouldStore).toEqual(false);
     });
   });
   describe("rootDOMElement", () => {
     it("should resolve the configured DOM slot through the inherited getter", () => {
-      const instance = createInstance();
+      const instance = new BaseMenuItem({
+        menuItemElement: document.createElement("li"),
+        menuLinkElement: document.createElement("a"),
+        parentMenu: new BaseMenu({ menuElement: document.createElement("ul") }),
+      });
 
       expect(instance.rootDOMElement).toBe(
         instance.dom[instance._rootDOMElement]
@@ -91,7 +122,11 @@ describe("BaseMenuItem fields", () => {
     });
 
     it("should remain read-only on the menu instance", () => {
-      const instance = createInstance();
+      const instance = new BaseMenuItem({
+        menuItemElement: document.createElement("li"),
+        menuLinkElement: document.createElement("a"),
+        parentMenu: new BaseMenu({ menuElement: document.createElement("ul") }),
+      });
 
       expect(() => {
         instance.rootDOMElement = document.createElement("div");
@@ -102,7 +137,8 @@ describe("BaseMenuItem fields", () => {
     it("should populate the item and link slots", () => {
       const item = document.createElement("li");
       const link = document.createElement("a");
-      const instance = createInstance({
+      const instance = new BaseMenuItem({
+        parentMenu: new BaseMenu({ menuElement: document.createElement("ul") }),
         menuItemElement: item,
         menuLinkElement: link,
       });
@@ -116,7 +152,12 @@ describe("BaseMenuItem fields", () => {
         menuElement: document.createElement("ul"),
       });
       const child = new BaseMenu({ menuElement: document.createElement("ul") });
-      const instance = createInstance({ parentMenu: parent, childMenu: child });
+      const instance = new BaseMenuItem({
+        menuItemElement: document.createElement("li"),
+        menuLinkElement: document.createElement("a"),
+        parentMenu: parent,
+        childMenu: child,
+      });
 
       expect(instance.elements).toMatchObject({
         parentMenu: parent,

@@ -5,7 +5,6 @@
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import { twoLevel } from "../../../demo/menus.js";
 import BaseMenu from "../../../src/_baseMenu.js";
-import { initializeMenu } from "../helpers.js";
 
 // Read the demo markup to list the cases without creating a shared menu.
 const markup = new DOMParser().parseFromString(twoLevel, "text/html");
@@ -24,7 +23,7 @@ beforeEach(() => {
     containerElement: document.querySelector("nav"),
     controllerElement: document.querySelector("button"),
   });
-  initializeMenu(menu);
+  menu.initialize();
 });
 
 afterEach(() => {

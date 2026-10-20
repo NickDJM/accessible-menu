@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import DisclosureMenu from "../../../src/disclosureMenu.js";
 import DisclosureMenuItem from "../../../src/disclosureMenuItem.js";
 
@@ -32,20 +32,9 @@ const markup = `
   </nav>
 `;
 
-const createMenu = (Type, options = {}) => {
+beforeEach(() => {
   document.body.innerHTML = markup;
-
-  const menu = new Type({
-    menuElement: document.querySelector("ul"),
-    submenuTogglesSelector: "button",
-    transitionClass: "",
-    ...options,
-  });
-
-  menus.push(menu);
-
-  return menu;
-};
+});
 
 afterEach(() => {
   for (const menu of menus.splice(0)) {
@@ -58,7 +47,12 @@ afterEach(() => {
 
 describe("DisclosureMenu menu item creation", () => {
   it("keeps one submenu item when links and toggles match different elements", () => {
-    const menu = createMenu(DisclosureMenu);
+    const menu = new DisclosureMenu({
+      menuElement: document.querySelector("ul"),
+      submenuTogglesSelector: "button",
+      transitionClass: "",
+    });
+    menus.push(menu);
     const toggle = menu.elements.submenuToggles[0];
 
     expect(menu.isInitialized).toBe(true);
@@ -68,7 +62,12 @@ describe("DisclosureMenu menu item creation", () => {
   });
 
   it("creates only one item when the link and toggle are the same", () => {
-    const menu = createMenu(SeparateLinkMenu, { submenuTogglesSelector: "a" });
+    const menu = new SeparateLinkMenu({
+      menuElement: document.querySelector("ul"),
+      transitionClass: "",
+      submenuTogglesSelector: "a",
+    });
+    menus.push(menu);
 
     expect(menu.isInitialized).toBe(true);
     expect(menu.elements.menuItems).toHaveLength(2);
@@ -79,7 +78,12 @@ describe("DisclosureMenu menu item creation", () => {
   });
 
   it("lets a subclass create separate items without changing link activation", () => {
-    const menu = createMenu(SeparateLinkMenu);
+    const menu = new SeparateLinkMenu({
+      menuElement: document.querySelector("ul"),
+      submenuTogglesSelector: "button",
+      transitionClass: "",
+    });
+    menus.push(menu);
     const [linkItem, toggleItem] = menu.elements.menuItems;
     const toggle = toggleItem.elements.toggle;
     const linkClick = new MouseEvent("click", {
@@ -135,10 +139,14 @@ describe("DisclosureMenu menu item creation", () => {
   it.each(["a", "a,button"])(
     "finds the navigation link after its toggle with selector %s",
     (selector) => {
-      const menu = createMenu(SeparateLinkMenu, {
+      const menu = new SeparateLinkMenu({
+        menuElement: document.querySelector("ul"),
+        submenuTogglesSelector: "button",
+        transitionClass: "",
         menuLinksSelector: selector,
         initialize: false,
       });
+      menus.push(menu);
       const item = menu.dom.menu.querySelector("li");
       const button = item.querySelector("button");
       const link = item.querySelector("a");
@@ -157,7 +165,13 @@ describe("DisclosureMenu menu item creation", () => {
   );
 
   it("uses the toggle when the only navigation link is inside its child menu", () => {
-    const menu = createMenu(SeparateLinkMenu, { initialize: false });
+    const menu = new SeparateLinkMenu({
+      menuElement: document.querySelector("ul"),
+      submenuTogglesSelector: "button",
+      transitionClass: "",
+      initialize: false,
+    });
+    menus.push(menu);
     const item = menu.dom.menu.querySelector("li");
     const button = item.querySelector("button");
     item.querySelector("a").remove();

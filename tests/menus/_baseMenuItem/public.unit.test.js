@@ -5,7 +5,6 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { twoLevel } from "../../../demo/menus.js";
 import BaseMenu from "../../../src/_baseMenu.js";
-import { initializeMenu } from "../helpers.js";
 
 beforeEach(() => {
   // Create the test menu.
@@ -29,7 +28,7 @@ describe("BaseMenuItem public methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const menuItem = menu.elements.menuItems[0];
 
@@ -49,7 +48,7 @@ describe("BaseMenuItem public methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Mock requestAnimationFrame.
       vi.spyOn(window, "requestAnimationFrame").mockImplementation(
@@ -80,7 +79,7 @@ describe("BaseMenuItem public methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Mock requestAnimationFrame.
       vi.spyOn(window, "requestAnimationFrame").mockImplementation(
@@ -107,7 +106,7 @@ describe("BaseMenuItem public methods", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const menuItem = menu.elements.menuItems[0];
 

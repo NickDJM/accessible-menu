@@ -5,7 +5,6 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { twoLevel, threeLevel } from "../../../demo/menus.js";
 import BaseMenu from "../../../src/_baseMenu.js";
-import { initializeMenu } from "../helpers.js";
 
 beforeEach(() => {
   // Create the test menu.
@@ -30,7 +29,7 @@ describe("BaseMenuItem getter/setters", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const menuItem = menu.elements.menuItems[0];
 
@@ -45,7 +44,7 @@ describe("BaseMenuItem getter/setters", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const menuItem = menu.elements.menuItems[0];
 
@@ -65,7 +64,7 @@ describe("BaseMenuItem getter/setters", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const menuItem = menu.elements.menuItems[0];
 
@@ -80,7 +79,7 @@ describe("BaseMenuItem getter/setters", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const menuItem = menu.elements.menuItems[0];
 
@@ -100,7 +99,7 @@ describe("BaseMenuItem getter/setters", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const menuItem = menu.elements.menuItems[0];
 
@@ -115,7 +114,7 @@ describe("BaseMenuItem getter/setters", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const menuItem = menu.elements.menuItems[0];
 
@@ -144,7 +143,7 @@ describe("BaseMenuItem getter/setters", () => {
           transitionClass: "",
         });
 
-        initializeMenu(menu);
+        menu.initialize();
         const child = menu.elements.submenuToggles[0].elements.controlledMenu;
         const grandchild =
           child.elements.submenuToggles[0].elements.controlledMenu;
@@ -175,7 +174,7 @@ describe("BaseMenuItem getter/setters", () => {
           transitionClass: "",
         });
 
-        initializeMenu(menu);
+        menu.initialize();
         const child = menu.elements.submenuToggles[0].elements.controlledMenu;
         const grandchild =
           child.elements.submenuToggles[0].elements.controlledMenu;
@@ -201,7 +200,7 @@ describe("BaseMenuItem getter/setters", () => {
         transitionClass: "",
       });
 
-      initializeMenu(menu);
+      menu.initialize();
       const child = menu.elements.submenuToggles[0].elements.controlledMenu;
       const grandchild =
         child.elements.submenuToggles[0].elements.controlledMenu;
@@ -251,7 +250,7 @@ describe("BaseMenuItem getter/setters", () => {
           transitionClass: "",
         });
 
-        initializeMenu(menu);
+        menu.initialize();
         const child = menu.elements.submenuToggles[0].elements.controlledMenu;
         const grandchild =
           child.elements.submenuToggles[0].elements.controlledMenu;
@@ -280,7 +279,7 @@ describe("BaseMenuItem getter/setters", () => {
           transitionClass: "",
         });
 
-        initializeMenu(menu);
+        menu.initialize();
         const child = menu.elements.submenuToggles[0].elements.controlledMenu;
         const grandchild =
           child.elements.submenuToggles[0].elements.controlledMenu;
@@ -312,7 +311,7 @@ describe("BaseMenuItem getter/setters", () => {
         transitionClass: "",
       });
 
-      initializeMenu(menu);
+      menu.initialize();
       const child = menu.elements.submenuToggles[0].elements.controlledMenu;
       const grandchild =
         child.elements.submenuToggles[0].elements.controlledMenu;

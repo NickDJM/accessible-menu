@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import TopLinkDisclosureMenu from "../../../src/topLinkDisclosureMenu.js";
 
 const menus = [];
@@ -18,20 +18,9 @@ const markup = `
   </nav>
 `;
 
-const createMenu = (options = {}) => {
+beforeEach(() => {
   document.body.innerHTML = markup;
-
-  const menu = new TopLinkDisclosureMenu({
-    menuElement: document.querySelector("ul"),
-    submenuTogglesSelector: "button",
-    transitionClass: "",
-    ...options,
-  });
-
-  menus.push(menu);
-
-  return menu;
-};
+});
 
 afterEach(() => {
   for (const menu of menus.splice(0)) {
@@ -44,7 +33,12 @@ afterEach(() => {
 
 describe("TopLinkDisclosureMenu menu item creation", () => {
   it("keeps separate link and toggle items in Top Link Disclosure", () => {
-    const menu = createMenu();
+    const menu = new TopLinkDisclosureMenu({
+      menuElement: document.querySelector("ul"),
+      submenuTogglesSelector: "button",
+      transitionClass: "",
+    });
+    menus.push(menu);
     const [linkItem, toggleItem] = menu.elements.menuItems;
 
     expect(menu.isInitialized).toBe(true);
@@ -58,9 +52,12 @@ describe("TopLinkDisclosureMenu menu item creation", () => {
   });
 
   it("creates only one item when the link and toggle are the same", () => {
-    const menu = createMenu({
+    const menu = new TopLinkDisclosureMenu({
+      menuElement: document.querySelector("ul"),
+      transitionClass: "",
       submenuTogglesSelector: "a",
     });
+    menus.push(menu);
 
     expect(menu.isInitialized).toBe(true);
     expect(menu.elements.menuItems).toHaveLength(2);
@@ -123,10 +120,14 @@ describe("TopLinkDisclosureMenu menu item creation", () => {
   it.each(["a", "a,button"])(
     "finds the navigation link after its toggle with selector %s",
     (selector) => {
-      const menu = createMenu({
+      const menu = new TopLinkDisclosureMenu({
+        menuElement: document.querySelector("ul"),
+        submenuTogglesSelector: "button",
+        transitionClass: "",
         menuLinksSelector: selector,
         initialize: false,
       });
+      menus.push(menu);
       const item = menu.dom.menu.querySelector("li");
       const button = item.querySelector("button");
       const link = item.querySelector("a");
@@ -145,7 +146,13 @@ describe("TopLinkDisclosureMenu menu item creation", () => {
   );
 
   it("uses the toggle when the only navigation link is inside its child menu", () => {
-    const menu = createMenu({ initialize: false });
+    const menu = new TopLinkDisclosureMenu({
+      menuElement: document.querySelector("ul"),
+      submenuTogglesSelector: "button",
+      transitionClass: "",
+      initialize: false,
+    });
+    menus.push(menu);
     const item = menu.dom.menu.querySelector("li");
     const button = item.querySelector("button");
     item.querySelector("a").remove();
@@ -165,7 +172,13 @@ describe("TopLinkDisclosureMenu menu item creation", () => {
   });
 
   it("keeps standalone buttons as menu items", () => {
-    const menu = createMenu({ initialize: false });
+    const menu = new TopLinkDisclosureMenu({
+      menuElement: document.querySelector("ul"),
+      submenuTogglesSelector: "button",
+      transitionClass: "",
+      initialize: false,
+    });
+    menus.push(menu);
     const lastItem = menu.dom.menu.lastElementChild;
     lastItem.innerHTML = '<button type="button">Action</button>';
 
