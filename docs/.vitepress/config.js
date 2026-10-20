@@ -38,11 +38,11 @@ export default defineConfig({
           },
           {
             text: "Changelog",
-            link: "https://github.com/nickdjm/accessible-menu/blob/4.x/CHANGELOG.md",
+            link: "https://github.com/nickdjm/accessible-menu/blob/5.x/CHANGELOG.md",
           },
           {
             text: "Contributing",
-            link: "https://github.com/nickdjm/accessible-menu/blob/4.x/.github/CONTRIBUTING.md",
+            link: "https://github.com/nickdjm/accessible-menu/blob/5.x/.github/CONTRIBUTING.md",
           },
         ],
       },
