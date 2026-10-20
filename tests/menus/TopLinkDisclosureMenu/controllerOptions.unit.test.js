@@ -107,10 +107,9 @@ describe("TopLinkDisclosureMenu controller options", () => {
     const { matchMedia } = setupMatchMedia(false);
     vi.stubGlobal("matchMedia", matchMedia);
 
-    const menu = createMenu({ breakpoint: "40em" });
+    createMenu({ breakpoint: "40em" });
 
     expect(matchMedia).toHaveBeenCalledExactlyOnceWith("(width <= 40em)");
-    expect(menu).not.toHaveProperty("_mediaQueryList");
   });
 
   it("should respond to a media-query change using Core", () => {

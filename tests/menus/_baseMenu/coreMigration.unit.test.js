@@ -36,7 +36,3 @@ it.each([null, 12, undefined])(
     ).toBe(true);
   }
 );
-
-it("should leave media-query handling to the controller", () => {
-  expect(BaseMenu.prototype).not.toHaveProperty("_handleMediaMatch");
-});

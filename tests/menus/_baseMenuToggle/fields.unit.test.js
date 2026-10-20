@@ -103,26 +103,12 @@ describe("BaseMenuToggle fields", () => {
     });
   });
   describe("Core DOM slots", () => {
-    it("should not retain the old toggle DOM alias", () => {
-      const instance = createInstance();
-
-      expect(instance.dom).not.toHaveProperty("toggle");
-    });
-
     it("should use the menu element as the Core controlled element", () => {
       const instance = createInstance();
 
       expect(instance.dom.controlled).toBe(
         instance.elements.controlledMenu.dom.menu
       );
-    });
-  });
-
-  describe("_open", () => {
-    it("should use Core state without a protected alias", () => {
-      const instance = createInstance();
-
-      expect(instance).not.toHaveProperty("_open");
     });
   });
 

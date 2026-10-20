@@ -52,25 +52,20 @@ export function wait(delay) {
  * @return {PointerEvent}           - The event that was triggered.
  */
 export function simulatePointerEvent(eventType, element, options = {}) {
-  try {
-    const event = new PointerEvent(eventType, {
-      bubbles: true,
-      cancelable: true,
-    });
+  const event = new PointerEvent(eventType, {
+    bubbles: true,
+    cancelable: true,
+  });
 
-    // Manually assign read-only properties after the event is created
-    Object.keys(options).forEach((key) => {
-      if (key in event) {
-        Object.defineProperty(event, key, { value: options[key] });
-      }
-    });
+  // Manually assign read-only properties after the event is created
+  Object.keys(options).forEach((key) => {
+    if (key in event) {
+      Object.defineProperty(event, key, { value: options[key] });
+    }
+  });
 
-    element.dispatchEvent(event);
-    return event;
-  } catch (error) {
-    console.error(error);
-    return error;
-  }
+  element.dispatchEvent(event);
+  return event;
 }
 
 /**
@@ -82,18 +77,13 @@ export function simulatePointerEvent(eventType, element, options = {}) {
  * @return {KeyboardEvent}           - The event that was triggered.
  */
 export function simulateKeyboardEvent(eventType, element, options = {}) {
-  try {
-    const event = new KeyboardEvent(eventType, {
-      bubbles: true,
-      cancelable: true,
-      ...options,
-    });
-    element.dispatchEvent(event);
-    return event;
-  } catch (error) {
-    console.error(error);
-    return error;
-  }
+  const event = new KeyboardEvent(eventType, {
+    bubbles: true,
+    cancelable: true,
+    ...options,
+  });
+  element.dispatchEvent(event);
+  return event;
 }
 
 /**
