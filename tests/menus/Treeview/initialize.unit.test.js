@@ -63,6 +63,231 @@ describe("Treeview", () => {
 
     expect(console.error).toHaveBeenCalled();
   });
+
+  describe("nested menus", () => {
+    beforeEach(() => {
+      document.body.innerHTML = twoLevel;
+    });
+
+    afterEach(() => {
+      vi.restoreAllMocks();
+      document.body.innerHTML = "";
+    });
+
+    it("should register root interaction handlers once", () => {
+      const click = vi.spyOn(Treeview.prototype, "_handleClick");
+      const menu = new Treeview({
+        menuElement: document.querySelector("ul"),
+        submenuTogglesSelector: "a",
+      });
+
+      const rootCalls = click.mock.contexts.filter(
+        (context) => context === menu
+      );
+
+      expect(rootCalls).toHaveLength(1);
+    });
+
+    it("should not rerun root setup for a child's bubbling initialization", () => {
+      const menu = new Treeview({
+        menuElement: document.querySelector("ul"),
+        submenuTogglesSelector: "a",
+      });
+      const listenerCount = menu.listeners.length;
+      const child = menu.elements.submenuToggles[0].elements.controlledMenu;
+
+      child._dispatchEvent("initialize");
+
+      expect(menu.listeners).toHaveLength(listenerCount);
+    });
+
+    it("should initialize every submenu", () => {
+      const menu = new Treeview({
+        menuElement: document.querySelector("ul"),
+        submenuTogglesSelector: "a",
+      });
+
+      expect(
+        menu.elements.submenuToggles.every(
+          (toggle) =>
+            toggle.isInitialized && toggle.elements.controlledMenu.isInitialized
+        )
+      ).toBe(true);
+    });
+
+    it("should preserve an unfocused root during initialization", () => {
+      const menu = new Treeview({
+        menuElement: document.querySelector("ul"),
+        submenuTogglesSelector: "a",
+      });
+
+      expect(menu.focusState).toBe("none");
+    });
+
+    it.each([
+      ["root", "transition", 250],
+      ["root", "expand", 321],
+      ["root", "collapse", 654],
+      ["submenu", "transition", 250],
+      ["submenu", "expand", 321],
+      ["submenu", "collapse", 654],
+    ])(
+      "should initialize %s %s CSS duration using the configured prefix",
+      (level, action, value) => {
+        const menu = new Treeview({
+          menuElement: document.querySelector("ul"),
+          submenuTogglesSelector: "a",
+          prefix: "audit-",
+          expandDuration: 321,
+          collapseDuration: 654,
+        });
+        const target =
+          level === "root"
+            ? menu
+            : menu.elements.submenuToggles[0].elements.controlledMenu;
+        const property =
+          action === "transition"
+            ? "--audit-transition-duration"
+            : `--audit-${action}-transition-duration`;
+
+        expect(target.dom.menu.style.getPropertyValue(property)).toBe(
+          `${value}ms`
+        );
+      }
+    );
+  });
+
+  describe("controller media queries", () => {
+    const flags = [
+      "expandInsideBreakpoint",
+      "expandOutsideBreakpoint",
+      "collapseInsideBreakpoint",
+      "collapseOutsideBreakpoint",
+      "lockInsideBreakpoint",
+      "lockOutsideBreakpoint",
+      "unlockInsideBreakpoint",
+      "unlockOutsideBreakpoint",
+    ];
+    beforeEach(() => {
+      document.body.innerHTML = twoLevel;
+      vi.useFakeTimers();
+    });
+
+    afterEach(() => {
+      vi.restoreAllMocks();
+      vi.unstubAllGlobals();
+      vi.useRealTimers();
+      document.body.innerHTML = "";
+    });
+    it.each(flags)(
+      "should apply %s on the initial media-query frame",
+      (option) => {
+        const matches = option.includes("Inside");
+        const { matchMedia } = setupMatchMedia(matches);
+        vi.stubGlobal("matchMedia", matchMedia);
+        const menu = new Treeview({
+          menuElement: document.querySelector("ul"),
+          controllerElement: document.querySelector("button"),
+          containerElement: document.querySelector("nav"),
+          submenuTogglesSelector: "a",
+          initialize: false,
+          breakpoint: "40em",
+          [option]: true,
+        });
+        menu.initialize();
+        const controller = menu.elements.controller;
+        if (option.startsWith("collapse"))
+          controller.expand({ transition: false, emit: false });
+        if (option.startsWith("unlock")) controller.lock({ emit: false });
+
+        vi.advanceTimersToNextFrame();
+
+        if (option.startsWith("expand"))
+          expect(controller.isExpanded).toBe(true);
+        if (option.startsWith("collapse"))
+          expect(controller.isExpanded).toBe(false);
+        if (option.startsWith("lock")) expect(controller.isLocked).toBe(true);
+        if (option.startsWith("unlock"))
+          expect(controller.isLocked).toBe(false);
+      }
+    );
+  });
+
+  describe("empty menus", () => {
+    let menu;
+    afterEach(() => {
+      menu?.dispose();
+      document.body.innerHTML = "";
+      vi.restoreAllMocks();
+    });
+    it.each([false, true])(
+      "should initialize an empty menu with a controller set to %s",
+      (controlled) => {
+        document.body.innerHTML = "<nav><button>Menu</button><ul></ul></nav>";
+        const onError = vi.fn();
+        const consoleError = vi
+          .spyOn(console, "error")
+          .mockImplementation(() => {});
+        window.addEventListener("error", onError);
+
+        try {
+          menu = new Treeview({
+            menuElement: document.querySelector("ul"),
+            ...(controlled && {
+              controllerElement: document.querySelector("button"),
+              containerElement: document.querySelector("nav"),
+            }),
+          });
+
+          expect(onError).not.toHaveBeenCalled();
+          expect(consoleError).not.toHaveBeenCalled();
+          expect(menu.isInitialized).toBe(true);
+          expect(menu.isValid).toBe(true);
+          expect(menu.errors).toEqual([]);
+          expect(menu.elements.menuItems).toEqual([]);
+          expect(menu.dom.menu.getAttribute("role")).toBe("tree");
+          expect(menu.dom.menu.querySelector('[tabindex="0"]')).toBeNull();
+
+          if (controlled) {
+            expect(menu.elements.controller.isInitialized).toBe(true);
+            expect(menu.dom.controller.hasAttribute("aria-owns")).toBe(false);
+          }
+        } finally {
+          window.removeEventListener("error", onError);
+        }
+      }
+    );
+
+    it("should initialize an empty submenu", () => {
+      document.body.innerHTML =
+        '<ul><li><a href="#parent">Parent</a><ul></ul></li></ul>';
+
+      menu = new Treeview({
+        menuElement: document.querySelector("ul"),
+      });
+
+      const submenu = menu.elements.submenuToggles[0].elements.controlledMenu;
+
+      expect(menu.isInitialized).toBe(true);
+      expect(submenu.isInitialized).toBe(true);
+      expect(submenu.isValid).toBe(true);
+      expect(submenu.errors).toEqual([]);
+      expect(submenu.elements.menuItems).toEqual([]);
+      expect(submenu.dom.menu.getAttribute("role")).toBe("group");
+    });
+
+    it("should keep the first item of a populated root menu in the tab order", () => {
+      document.body.innerHTML = singleLevel;
+
+      menu = new Treeview({
+        menuElement: document.querySelector("ul"),
+      });
+
+      expect(menu.isInitialized).toBe(true);
+      expect(menu.elements.menuItems[0].dom.link.tabIndex).toBe(0);
+      expect(menu.elements.menuItems[1].dom.link.tabIndex).toBe(-1);
+    });
+  });
 });
 
 // Test the Treeview initialization for a controlled menu.

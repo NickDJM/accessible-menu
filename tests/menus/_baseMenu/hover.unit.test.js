@@ -13,11 +13,7 @@ import {
 } from "vitest";
 import { threeLevel } from "../../../demo/menus.js";
 import BaseMenu from "../../../src/_baseMenu.js";
-import {
-  initializeMenu,
-  simulatePointerEvent,
-  PointerEvent,
-} from "../helpers.js";
+import { simulatePointerEvent, PointerEvent } from "../helpers.js";
 
 beforeAll(() => {
   // Extend jsdom MouseEvent class as PointerEvent class.
@@ -56,7 +52,7 @@ describe("BaseMenu", () => {
           controllerElement: document.querySelector("button"),
           hoverType: "on",
         });
-        initializeMenu(menu);
+        menu.initialize();
 
         // Simulate the pointerenter event.
         simulatePointerEvent(
@@ -75,7 +71,7 @@ describe("BaseMenu", () => {
           controllerElement: document.querySelector("button"),
           hoverType: "on",
         });
-        initializeMenu(menu);
+        menu.initialize();
 
         // Spy on the root menu's blurChildren method.
         const spy = vi.spyOn(menu.elements.rootMenu, "blurChildren");
@@ -99,7 +95,7 @@ describe("BaseMenu", () => {
             controllerElement: document.querySelector("button"),
             hoverType: "on",
           });
-          initializeMenu(menu);
+          menu.initialize();
 
           // Spy on the menu's focusChild method.
           const spy = vi.spyOn(menu, "focusChild");
@@ -122,7 +118,7 @@ describe("BaseMenu", () => {
           controllerElement: document.querySelector("button"),
           hoverType: "on",
         });
-        initializeMenu(menu);
+        menu.initialize();
 
         // Spy on the menu's clearTimeout method.
         const spy = vi.spyOn(menu, "_clearTimeout");
@@ -144,7 +140,7 @@ describe("BaseMenu", () => {
           controllerElement: document.querySelector("button"),
           hoverType: "on",
         });
-        initializeMenu(menu);
+        menu.initialize();
 
         // Spy on the menu's preview method.
         const spy = vi.spyOn(menu.elements.submenuToggles[0], "preview");
@@ -173,7 +169,7 @@ describe("BaseMenu", () => {
           hoverType: "on",
           enterDelay: 0,
         });
-        initializeMenu(menu);
+        menu.initialize();
 
         // Spy on the menu's preview method.
         const spy = vi.spyOn(menu.elements.submenuToggles[0], "preview");
@@ -199,7 +195,7 @@ describe("BaseMenu", () => {
             controllerElement: document.querySelector("button"),
             hoverType: "on",
           });
-          initializeMenu(menu);
+          menu.initialize();
 
           // Spy on clearTimeout.
           const spy = vi.spyOn(menu, "_clearTimeout");
@@ -222,7 +218,7 @@ describe("BaseMenu", () => {
             hoverType: "on",
             leaveDelay: 0,
           });
-          initializeMenu(menu);
+          menu.initialize();
 
           // Spy on clearTimeout.
           const spy = vi.spyOn(menu, "_clearTimeout");
@@ -244,7 +240,7 @@ describe("BaseMenu", () => {
             controllerElement: document.querySelector("button"),
             hoverType: "on",
           });
-          initializeMenu(menu);
+          menu.initialize();
 
           // Simulate the pointerleave event.
           simulatePointerEvent(
@@ -269,7 +265,7 @@ describe("BaseMenu", () => {
             controllerElement: document.querySelector("button"),
             hoverType: "on",
           });
-          initializeMenu(menu);
+          menu.initialize();
 
           // Spy on the menu's current menu toggle's close method.
           const spy = vi.spyOn(menu.elements.submenuToggles[0], "collapse");
@@ -298,7 +294,7 @@ describe("BaseMenu", () => {
             hoverType: "on",
             leaveDelay: 0,
           });
-          initializeMenu(menu);
+          menu.initialize();
 
           // Simulate the pointerleave event.
           simulatePointerEvent(
@@ -318,7 +314,7 @@ describe("BaseMenu", () => {
             hoverType: "on",
             leaveDelay: 0,
           });
-          initializeMenu(menu);
+          menu.initialize();
 
           // Spy on the menu's current menu toggle's close method.
           const spy = vi.spyOn(menu.elements.submenuToggles[0], "collapse");
@@ -343,7 +339,7 @@ describe("BaseMenu", () => {
           controllerElement: document.querySelector("button"),
           hoverType: "on",
         });
-        initializeMenu(menu);
+        menu.initialize();
 
         menu.currentChild = 1;
         menu.elements.submenuToggles[0].expand();
@@ -381,7 +377,7 @@ describe("BaseMenu", () => {
           controllerElement: document.querySelector("button"),
           hoverType: "on",
         });
-        initializeMenu(menu);
+        menu.initialize();
 
         menu.currentChild = 1;
         menu.elements.submenuToggles[0].expand();
@@ -443,7 +439,7 @@ describe("BaseMenu", () => {
             controllerElement: document.querySelector("button"),
             hoverType: "dynamic",
           });
-          initializeMenu(menu);
+          menu.initialize();
 
           menu.currentChild = 1;
           menu.elements.submenuToggles[0].expand();
@@ -468,7 +464,7 @@ describe("BaseMenu", () => {
             controllerElement: document.querySelector("button"),
             hoverType: "dynamic",
           });
-          initializeMenu(menu);
+          menu.initialize();
 
           // Spy on the root menu's blurChildren method.
           const spy = vi.spyOn(
@@ -498,7 +494,7 @@ describe("BaseMenu", () => {
             controllerElement: document.querySelector("button"),
             hoverType: "dynamic",
           });
-          initializeMenu(menu);
+          menu.initialize();
 
           // Spy on the menu's focusCurrentChild method.
           const spy = vi.spyOn(
@@ -529,7 +525,7 @@ describe("BaseMenu", () => {
             controllerElement: document.querySelector("button"),
             hoverType: "dynamic",
           });
-          initializeMenu(menu);
+          menu.initialize();
 
           // Set up the menu.
           menu.focusState = "self";
@@ -551,7 +547,7 @@ describe("BaseMenu", () => {
             controllerElement: document.querySelector("button"),
             hoverType: "dynamic",
           });
-          initializeMenu(menu);
+          menu.initialize();
 
           // Set up the menu.
           menu.focusState = "self";
@@ -576,7 +572,7 @@ describe("BaseMenu", () => {
             controllerElement: document.querySelector("button"),
             hoverType: "dynamic",
           });
-          initializeMenu(menu);
+          menu.initialize();
 
           // Set up the menu.
           menu.focusState = "self";
@@ -603,7 +599,7 @@ describe("BaseMenu", () => {
             controllerElement: document.querySelector("button"),
             hoverType: "dynamic",
           });
-          initializeMenu(menu);
+          menu.initialize();
 
           // Simulate the pointerenter event.
           simulatePointerEvent(
@@ -622,7 +618,7 @@ describe("BaseMenu", () => {
             controllerElement: document.querySelector("button"),
             hoverType: "dynamic",
           });
-          initializeMenu(menu);
+          menu.initialize();
 
           // Spy on the root menu's blurChildren method.
           const spy = vi.spyOn(menu.elements.rootMenu, "blurChildren");
@@ -644,7 +640,7 @@ describe("BaseMenu", () => {
             controllerElement: document.querySelector("button"),
             hoverType: "dynamic",
           });
-          initializeMenu(menu);
+          menu.initialize();
 
           // Spy on the menu's focusCurrentChild method.
           const spy = vi.spyOn(menu, "focusCurrentChild");
@@ -668,7 +664,7 @@ describe("BaseMenu", () => {
             controllerElement: document.querySelector("button"),
             hoverType: "dynamic",
           });
-          initializeMenu(menu);
+          menu.initialize();
 
           menu.currentChild = 1;
           menu.elements.submenuToggles[0].expand();
@@ -693,7 +689,7 @@ describe("BaseMenu", () => {
             controllerElement: document.querySelector("button"),
             hoverType: "dynamic",
           });
-          initializeMenu(menu);
+          menu.initialize();
 
           menu.currentChild = 1;
           menu.elements.submenuToggles[0].expand();
@@ -723,7 +719,7 @@ describe("BaseMenu", () => {
             controllerElement: document.querySelector("button"),
             hoverType: "dynamic",
           });
-          initializeMenu(menu);
+          menu.initialize();
 
           menu.currentChild = 1;
           menu.elements.submenuToggles[0].expand();
@@ -752,7 +748,7 @@ describe("BaseMenu", () => {
             controllerElement: document.querySelector("button"),
             hoverType: "dynamic",
           });
-          initializeMenu(menu);
+          menu.initialize();
 
           menu.currentChild = 1;
           menu.elements.submenuToggles[0].expand();
@@ -781,7 +777,7 @@ describe("BaseMenu", () => {
             controllerElement: document.querySelector("button"),
             hoverType: "dynamic",
           });
-          initializeMenu(menu);
+          menu.initialize();
 
           menu.currentChild = 1;
           menu.elements.submenuToggles[0].expand();
@@ -818,7 +814,7 @@ describe("BaseMenu", () => {
             hoverType: "dynamic",
             enterDelay: 0,
           });
-          initializeMenu(menu);
+          menu.initialize();
 
           menu.currentChild = 1;
           menu.elements.submenuToggles[0].expand();
@@ -850,7 +846,7 @@ describe("BaseMenu", () => {
             controllerElement: document.querySelector("button"),
             hoverType: "dynamic",
           });
-          initializeMenu(menu);
+          menu.initialize();
 
           menu.currentChild = 1;
           menu.elements.submenuToggles[0].expand();
@@ -888,7 +884,7 @@ describe("BaseMenu", () => {
             hoverType: "dynamic",
             enterDelay: 0,
           });
-          initializeMenu(menu);
+          menu.initialize();
 
           menu.currentChild = 1;
           menu.elements.submenuToggles[0].expand();
@@ -921,7 +917,7 @@ describe("BaseMenu", () => {
             controllerElement: document.querySelector("button"),
             hoverType: "dynamic",
           });
-          initializeMenu(menu);
+          menu.initialize();
 
           menu.currentChild = 1;
           menu.elements.submenuToggles[0].expand();
@@ -943,7 +939,7 @@ describe("BaseMenu", () => {
             controllerElement: document.querySelector("button"),
             hoverType: "dynamic",
           });
-          initializeMenu(menu);
+          menu.initialize();
 
           menu.currentChild = 1;
           menu.elements.submenuToggles[0].expand();
@@ -968,7 +964,7 @@ describe("BaseMenu", () => {
             controllerElement: document.querySelector("button"),
             hoverType: "dynamic",
           });
-          initializeMenu(menu);
+          menu.initialize();
 
           menu.currentChild = 1;
           menu.elements.submenuToggles[0].expand();
@@ -993,7 +989,7 @@ describe("BaseMenu", () => {
             controllerElement: document.querySelector("button"),
             hoverType: "dynamic",
           });
-          initializeMenu(menu);
+          menu.initialize();
 
           menu.currentChild = 1;
           menu.elements.submenuToggles[0].expand();
@@ -1021,7 +1017,7 @@ describe("BaseMenu", () => {
             controllerElement: document.querySelector("button"),
             hoverType: "dynamic",
           });
-          initializeMenu(menu);
+          menu.initialize();
 
           menu.currentChild = 1;
           menu.elements.submenuToggles[0].expand();
@@ -1053,7 +1049,7 @@ describe("BaseMenu", () => {
             hoverType: "dynamic",
             enterDelay: 0,
           });
-          initializeMenu(menu);
+          menu.initialize();
 
           menu.currentChild = 1;
           menu.elements.submenuToggles[0].expand();
@@ -1080,7 +1076,7 @@ describe("BaseMenu", () => {
             controllerElement: document.querySelector("button"),
             hoverType: "dynamic",
           });
-          initializeMenu(menu);
+          menu.initialize();
 
           menu.currentChild = 1;
           menu.elements.submenuToggles[0].expand();
@@ -1112,7 +1108,7 @@ describe("BaseMenu", () => {
             hoverType: "dynamic",
             enterDelay: 0,
           });
-          initializeMenu(menu);
+          menu.initialize();
 
           menu.currentChild = 1;
           menu.elements.submenuToggles[0].expand();
@@ -1143,7 +1139,7 @@ describe("BaseMenu", () => {
               controllerElement: document.querySelector("button"),
               hoverType: "dynamic",
             });
-            initializeMenu(menu);
+            menu.initialize();
 
             menu.currentChild = 1;
             menu.elements.submenuToggles[0].expand();
@@ -1178,7 +1174,7 @@ describe("BaseMenu", () => {
               controllerElement: document.querySelector("button"),
               hoverType: "dynamic",
             });
-            initializeMenu(menu);
+            menu.initialize();
 
             menu.currentChild = 1;
             menu.elements.submenuToggles[0].expand();
@@ -1212,7 +1208,7 @@ describe("BaseMenu", () => {
               hoverType: "dynamic",
               leaveDelay: 0,
             });
-            initializeMenu(menu);
+            menu.initialize();
 
             menu.currentChild = 1;
             menu.elements.submenuToggles[0].expand();
@@ -1242,7 +1238,7 @@ describe("BaseMenu", () => {
               hoverType: "dynamic",
               leaveDelay: 0,
             });
-            initializeMenu(menu);
+            menu.initialize();
 
             menu.currentChild = 1;
             menu.elements.submenuToggles[0].expand();
@@ -1272,7 +1268,7 @@ describe("BaseMenu", () => {
           controllerElement: document.querySelector("button"),
           hoverType: "dynamic",
         });
-        initializeMenu(menu);
+        menu.initialize();
 
         menu.currentChild = 1;
         menu.elements.submenuToggles[0].expand();
@@ -1325,7 +1321,7 @@ describe("BaseMenu", () => {
           controllerElement: document.querySelector("button"),
           hoverType: "dynamic",
         });
-        initializeMenu(menu);
+        menu.initialize();
 
         menu.currentChild = 1;
         menu.elements.submenuToggles[0].expand();
@@ -1399,7 +1395,7 @@ describe("BaseMenu", () => {
           hoverType: "dynamic",
           hoverDelay: 0,
         });
-        initializeMenu(menu);
+        menu.initialize();
 
         menu.currentChild = 1;
         menu.elements.submenuToggles[0].expand();

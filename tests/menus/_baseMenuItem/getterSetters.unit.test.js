@@ -3,9 +3,13 @@
  */
 
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
-import { twoLevel, threeLevel } from "../../../demo/menus.js";
+import {
+  twoLevel,
+  threeLevel,
+  twoLevelDisclosureTopLink,
+} from "../../../demo/menus.js";
 import BaseMenu from "../../../src/_baseMenu.js";
-import { initializeMenu } from "../helpers.js";
+import BaseMenuItem from "../../../src/_baseMenuItem.js";
 
 beforeEach(() => {
   // Create the test menu.
@@ -30,7 +34,7 @@ describe("BaseMenuItem getter/setters", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const menuItem = menu.elements.menuItems[0];
 
@@ -45,7 +49,7 @@ describe("BaseMenuItem getter/setters", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const menuItem = menu.elements.menuItems[0];
 
@@ -65,7 +69,7 @@ describe("BaseMenuItem getter/setters", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const menuItem = menu.elements.menuItems[0];
 
@@ -80,13 +84,64 @@ describe("BaseMenuItem getter/setters", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const menuItem = menu.elements.menuItems[0];
 
       expect(() => {
         menuItem.elements = {};
       }).toThrowError();
+    });
+
+    describe("submenu siblings", () => {
+      beforeEach(() => {
+        document.body.innerHTML = twoLevelDisclosureTopLink;
+      });
+
+      afterEach(() => {
+        document.body.innerHTML = "";
+        vi.restoreAllMocks();
+      });
+
+      it("accepts a sibling from the shared base class", () => {
+        const sibling = new BaseMenuItem({
+          menuItemElement: document.querySelector(".dropdown"),
+          menuLinkElement: document.querySelector(".dropdown-toggle"),
+          parentMenu: new BaseMenu({
+            menuElement: document.querySelector("ul"),
+          }),
+        });
+        const item = new BaseMenuItem({
+          menuItemElement: document.querySelector(".dropdown"),
+          menuLinkElement: document.querySelector(".dropdown > a"),
+          parentMenu: new BaseMenu({
+            menuElement: document.querySelector("ul"),
+          }),
+          initialize: false,
+          submenuSibling: sibling,
+        });
+
+        item.initialize();
+
+        expect(item.isInitialized).toBe(true);
+        expect(item.elements.sibling).toBe(sibling);
+      });
+
+      it("initializes without a separate sibling by default", () => {
+        const item = new BaseMenuItem({
+          menuItemElement: document.querySelector(".dropdown"),
+          menuLinkElement: document.querySelector(".dropdown > a"),
+          parentMenu: new BaseMenu({
+            menuElement: document.querySelector("ul"),
+          }),
+          initialize: false,
+        });
+
+        item.initialize();
+
+        expect(item.isInitialized).toBe(true);
+        expect(item.elements.sibling).toBe(null);
+      });
     });
   });
 
@@ -100,7 +155,7 @@ describe("BaseMenuItem getter/setters", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const menuItem = menu.elements.menuItems[0];
 
@@ -115,7 +170,7 @@ describe("BaseMenuItem getter/setters", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const menuItem = menu.elements.menuItems[0];
 
@@ -144,7 +199,7 @@ describe("BaseMenuItem getter/setters", () => {
           transitionClass: "",
         });
 
-        initializeMenu(menu);
+        menu.initialize();
         const child = menu.elements.submenuToggles[0].elements.controlledMenu;
         const grandchild =
           child.elements.submenuToggles[0].elements.controlledMenu;
@@ -175,7 +230,7 @@ describe("BaseMenuItem getter/setters", () => {
           transitionClass: "",
         });
 
-        initializeMenu(menu);
+        menu.initialize();
         const child = menu.elements.submenuToggles[0].elements.controlledMenu;
         const grandchild =
           child.elements.submenuToggles[0].elements.controlledMenu;
@@ -201,7 +256,7 @@ describe("BaseMenuItem getter/setters", () => {
         transitionClass: "",
       });
 
-      initializeMenu(menu);
+      menu.initialize();
       const child = menu.elements.submenuToggles[0].elements.controlledMenu;
       const grandchild =
         child.elements.submenuToggles[0].elements.controlledMenu;
@@ -251,7 +306,7 @@ describe("BaseMenuItem getter/setters", () => {
           transitionClass: "",
         });
 
-        initializeMenu(menu);
+        menu.initialize();
         const child = menu.elements.submenuToggles[0].elements.controlledMenu;
         const grandchild =
           child.elements.submenuToggles[0].elements.controlledMenu;
@@ -280,7 +335,7 @@ describe("BaseMenuItem getter/setters", () => {
           transitionClass: "",
         });
 
-        initializeMenu(menu);
+        menu.initialize();
         const child = menu.elements.submenuToggles[0].elements.controlledMenu;
         const grandchild =
           child.elements.submenuToggles[0].elements.controlledMenu;
@@ -312,7 +367,7 @@ describe("BaseMenuItem getter/setters", () => {
         transitionClass: "",
       });
 
-      initializeMenu(menu);
+      menu.initialize();
       const child = menu.elements.submenuToggles[0].elements.controlledMenu;
       const grandchild =
         child.elements.submenuToggles[0].elements.controlledMenu;
@@ -331,6 +386,70 @@ describe("BaseMenuItem getter/setters", () => {
         expect(menu.currentEvent).toBe("keyboard");
         expect(component.currentEvent).toBe("keyboard");
       }
+    });
+  });
+
+  describe("rootDOMElement", () => {
+    describe("constructor options", () => {
+      beforeEach(() => {
+        document.body.innerHTML = twoLevelDisclosureTopLink;
+      });
+
+      afterEach(() => {
+        document.body.innerHTML = "";
+      });
+
+      it("should resolve the configured DOM slot through the inherited getter", () => {
+        const instance = new BaseMenuItem({
+          menuItemElement: document.querySelector(".dropdown"),
+          menuLinkElement: document.querySelector(".dropdown > a"),
+          parentMenu: new BaseMenu({
+            menuElement: document.querySelector("ul"),
+          }),
+        });
+
+        expect(instance.rootDOMElement).toBe(
+          instance.dom[instance._rootDOMElement]
+        );
+      });
+
+      it("should remain read-only on the menu instance", () => {
+        const instance = new BaseMenuItem({
+          menuItemElement: document.querySelector(".dropdown"),
+          menuLinkElement: document.querySelector(".dropdown > a"),
+          parentMenu: new BaseMenu({
+            menuElement: document.querySelector("ul"),
+          }),
+        });
+
+        expect(() => {
+          instance.rootDOMElement = document.querySelector("nav");
+        }).toThrow(TypeError);
+      });
+    });
+  });
+
+  describe("id", () => {
+    describe("DOM attributes", () => {
+      beforeEach(() => {
+        document.body.innerHTML = twoLevel;
+      });
+
+      afterEach(() => {
+        vi.restoreAllMocks();
+        document.body.innerHTML = "";
+      });
+
+      it("should expose an existing menu-item DOM ID through Core", () => {
+        document.querySelector("li").id = "existing-menu-item";
+        const menu = new BaseMenu({
+          menuElement: document.querySelector("ul"),
+          submenuTogglesSelector: "a",
+        });
+        menu.initialize();
+
+        expect(menu.elements.menuItems[0].id).toBe("existing-menu-item");
+      });
     });
   });
 });

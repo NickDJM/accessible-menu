@@ -6,7 +6,11 @@
  */
 
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { singleLevel, twoLevelDisclosureTopLink } from "../../../demo/menus.js";
+import {
+  singleLevel,
+  twoLevelDisclosureTopLink,
+  twoLevel,
+} from "../../../demo/menus.js";
 import TopLinkDisclosureMenu from "../../../src/topLinkDisclosureMenu.js";
 import { setupMatchMedia } from "../helpers.js";
 
@@ -62,6 +66,155 @@ describe("TopLinkDisclosureMenu", () => {
     });
 
     expect(console.error).toHaveBeenCalled();
+  });
+
+  describe("nested menus", () => {
+    beforeEach(() => {
+      document.body.innerHTML = twoLevel;
+    });
+
+    afterEach(() => {
+      vi.restoreAllMocks();
+      document.body.innerHTML = "";
+    });
+
+    it("should register root interaction handlers once", () => {
+      const click = vi.spyOn(TopLinkDisclosureMenu.prototype, "_handleClick");
+      const menu = new TopLinkDisclosureMenu({
+        menuElement: document.querySelector("ul"),
+        submenuTogglesSelector: "a",
+      });
+
+      const rootCalls = click.mock.contexts.filter(
+        (context) => context === menu
+      );
+
+      expect(rootCalls).toHaveLength(1);
+    });
+
+    it("should not rerun root setup for a child's bubbling initialization", () => {
+      const menu = new TopLinkDisclosureMenu({
+        menuElement: document.querySelector("ul"),
+        submenuTogglesSelector: "a",
+      });
+      const listenerCount = menu.listeners.length;
+      const child = menu.elements.submenuToggles[0].elements.controlledMenu;
+
+      child._dispatchEvent("initialize");
+
+      expect(menu.listeners).toHaveLength(listenerCount);
+    });
+
+    it("should initialize every submenu", () => {
+      const menu = new TopLinkDisclosureMenu({
+        menuElement: document.querySelector("ul"),
+        submenuTogglesSelector: "a",
+      });
+
+      expect(
+        menu.elements.submenuToggles.every(
+          (toggle) =>
+            toggle.isInitialized && toggle.elements.controlledMenu.isInitialized
+        )
+      ).toBe(true);
+    });
+
+    it("should preserve an unfocused root during initialization", () => {
+      const menu = new TopLinkDisclosureMenu({
+        menuElement: document.querySelector("ul"),
+        submenuTogglesSelector: "a",
+      });
+
+      expect(menu.focusState).toBe("none");
+    });
+
+    it.each([
+      ["root", "transition", 250],
+      ["root", "expand", 321],
+      ["root", "collapse", 654],
+      ["submenu", "transition", 250],
+      ["submenu", "expand", 321],
+      ["submenu", "collapse", 654],
+    ])(
+      "should initialize %s %s CSS duration using the configured prefix",
+      (level, action, value) => {
+        const menu = new TopLinkDisclosureMenu({
+          menuElement: document.querySelector("ul"),
+          submenuTogglesSelector: "a",
+          prefix: "audit-",
+          expandDuration: 321,
+          collapseDuration: 654,
+        });
+        const target =
+          level === "root"
+            ? menu
+            : menu.elements.submenuToggles[0].elements.controlledMenu;
+        const property =
+          action === "transition"
+            ? "--audit-transition-duration"
+            : `--audit-${action}-transition-duration`;
+
+        expect(target.dom.menu.style.getPropertyValue(property)).toBe(
+          `${value}ms`
+        );
+      }
+    );
+  });
+
+  describe("controller media queries", () => {
+    const flags = [
+      "expandInsideBreakpoint",
+      "expandOutsideBreakpoint",
+      "collapseInsideBreakpoint",
+      "collapseOutsideBreakpoint",
+      "lockInsideBreakpoint",
+      "lockOutsideBreakpoint",
+      "unlockInsideBreakpoint",
+      "unlockOutsideBreakpoint",
+    ];
+    beforeEach(() => {
+      document.body.innerHTML = twoLevel;
+      vi.useFakeTimers();
+    });
+
+    afterEach(() => {
+      vi.restoreAllMocks();
+      vi.unstubAllGlobals();
+      vi.useRealTimers();
+      document.body.innerHTML = "";
+    });
+    it.each(flags)(
+      "should apply %s on the initial media-query frame",
+      (option) => {
+        const matches = option.includes("Inside");
+        const { matchMedia } = setupMatchMedia(matches);
+        vi.stubGlobal("matchMedia", matchMedia);
+        const menu = new TopLinkDisclosureMenu({
+          menuElement: document.querySelector("ul"),
+          controllerElement: document.querySelector("button"),
+          containerElement: document.querySelector("nav"),
+          submenuTogglesSelector: "a",
+          initialize: false,
+          breakpoint: "40em",
+          [option]: true,
+        });
+        menu.initialize();
+        const controller = menu.elements.controller;
+        if (option.startsWith("collapse"))
+          controller.expand({ transition: false, emit: false });
+        if (option.startsWith("unlock")) controller.lock({ emit: false });
+
+        vi.advanceTimersToNextFrame();
+
+        if (option.startsWith("expand"))
+          expect(controller.isExpanded).toBe(true);
+        if (option.startsWith("collapse"))
+          expect(controller.isExpanded).toBe(false);
+        if (option.startsWith("lock")) expect(controller.isLocked).toBe(true);
+        if (option.startsWith("unlock"))
+          expect(controller.isLocked).toBe(false);
+      }
+    );
   });
 });
 

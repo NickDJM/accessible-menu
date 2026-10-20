@@ -2,65 +2,93 @@
  * Field configuration tests for BaseMenuToggle.
  */
 
-import { describe, it, expect } from "vitest";
-import CollapsibleComponent from "@accessible-ecosystem/core/CollapsibleComponent.js";
+import { describe, it, expect, beforeEach, afterEach } from "vitest";
+import { twoLevelDisclosureTopLink } from "../../../demo/menus.js";
 import BaseMenuToggle from "../../../src/_baseMenuToggle.js";
 import BaseMenu from "../../../src/_baseMenu.js";
 
-const createInstance = (options = {}) => {
-  return new BaseMenuToggle({
-    menuToggleElement: document.createElement("button"),
-    controlledMenu: new BaseMenu({ menuElement: document.createElement("ul") }),
-    ...options,
-  });
-};
+beforeEach(() => {
+  document.body.innerHTML = twoLevelDisclosureTopLink;
+});
+
+afterEach(() => {
+  document.body.innerHTML = "";
+});
 
 describe("BaseMenuToggle fields", () => {
-  describe("CollapsibleComponent inheritance", () => {
-    it("should inherit from Core CollapsibleComponent", () => {
-      const instance = createInstance();
-
-      expect(instance).toBeInstanceOf(CollapsibleComponent);
-    });
-  });
   describe("_scope", () => {
     it("should use the menu-specific configuration", () => {
-      const instance = createInstance();
+      const instance = new BaseMenuToggle({
+        menuToggleElement: document.querySelector("button"),
+        controlledMenu: new BaseMenu({
+          menuElement: document.querySelector("ul"),
+        }),
+      });
 
       expect(instance._scope).toEqual("AccessibleMenu");
     });
   });
+
   describe("_name", () => {
     it("should use the menu-specific configuration", () => {
-      const instance = createInstance();
+      const instance = new BaseMenuToggle({
+        menuToggleElement: document.querySelector("button"),
+        controlledMenu: new BaseMenu({
+          menuElement: document.querySelector("ul"),
+        }),
+      });
 
       expect(instance._name).toEqual("MenuToggle");
     });
   });
+
   describe("_eventPrefix", () => {
     it("should use the accessibleMenu event prefix", () => {
-      const instance = createInstance();
+      const instance = new BaseMenuToggle({
+        menuToggleElement: document.querySelector("button"),
+        controlledMenu: new BaseMenu({
+          menuElement: document.querySelector("ul"),
+        }),
+      });
 
       expect(instance.eventPrefix).toBe("accessibleMenu");
     });
   });
+
   describe("_storageKey", () => {
     it("should use the menu-specific configuration", () => {
-      const instance = createInstance();
+      const instance = new BaseMenuToggle({
+        menuToggleElement: document.querySelector("button"),
+        controlledMenu: new BaseMenu({
+          menuElement: document.querySelector("ul"),
+        }),
+      });
 
       expect(instance._storageKey).toEqual("menuToggles");
     });
   });
+
   describe("_rootDOMElement", () => {
     it("should use the menu-specific configuration", () => {
-      const instance = createInstance();
+      const instance = new BaseMenuToggle({
+        menuToggleElement: document.querySelector("button"),
+        controlledMenu: new BaseMenu({
+          menuElement: document.querySelector("ul"),
+        }),
+      });
 
       expect(instance._rootDOMElement).toEqual("controller");
     });
   });
+
   describe("_protectedDOMElements", () => {
     it("should use the menu-specific configuration", () => {
-      const instance = createInstance();
+      const instance = new BaseMenuToggle({
+        menuToggleElement: document.querySelector("button"),
+        controlledMenu: new BaseMenu({
+          menuElement: document.querySelector("ul"),
+        }),
+      });
 
       expect(instance._protectedDOMElements).toEqual([
         "controller",
@@ -68,43 +96,42 @@ describe("BaseMenuToggle fields", () => {
       ]);
     });
   });
+
   describe("_shouldStore", () => {
     it("should use the menu-specific configuration", () => {
-      const instance = createInstance();
+      const instance = new BaseMenuToggle({
+        menuToggleElement: document.querySelector("button"),
+        controlledMenu: new BaseMenu({
+          menuElement: document.querySelector("ul"),
+        }),
+      });
 
       expect(instance._shouldStore).toEqual(false);
     });
   });
-  describe("rootDOMElement", () => {
-    it("should resolve the configured DOM slot through the inherited getter", () => {
-      const instance = createInstance();
 
-      expect(instance.rootDOMElement).toBe(
-        instance.dom[instance._rootDOMElement]
-      );
-    });
-
-    it("should remain read-only on the menu instance", () => {
-      const instance = createInstance();
-
-      expect(() => {
-        instance.rootDOMElement = document.createElement("div");
-      }).toThrow(TypeError);
-    });
-  });
   describe("_dom", () => {
     it("should populate the controller slot", () => {
-      const toggle = document.createElement("button");
-      const instance = createInstance({
+      const toggle = document.querySelector("button");
+      const instance = new BaseMenuToggle({
+        controlledMenu: new BaseMenu({
+          menuElement: document.querySelector("ul"),
+        }),
         menuToggleElement: toggle,
       });
 
       expect(instance.dom.controller).toBe(toggle);
     });
   });
+
   describe("Core DOM slots", () => {
     it("should use the menu element as the Core controlled element", () => {
-      const instance = createInstance();
+      const instance = new BaseMenuToggle({
+        menuToggleElement: document.querySelector("button"),
+        controlledMenu: new BaseMenu({
+          menuElement: document.querySelector("ul"),
+        }),
+      });
 
       expect(instance.dom.controlled).toBe(
         instance.elements.controlledMenu.dom.menu
@@ -112,37 +139,16 @@ describe("BaseMenuToggle fields", () => {
     });
   });
 
-  describe("Core transition configuration", () => {
-    it.each([
-      ["expandClass", "expandClass", "custom-open"],
-      ["collapseClass", "collapseClass", "custom-close"],
-      ["transitionClass", "transitionClass", "custom-transition"],
-      ["transitionDuration", "transitionDuration", 300],
-      ["expandDuration", "expandDuration", 400],
-      ["collapseDuration", "collapseDuration", 500],
-    ])(
-      "should configure %s from the controlled menu",
-      (property, option, value) => {
-        const controlledMenu = new BaseMenu({
-          menuElement: document.createElement("ul"),
-          [option]: value,
-        });
-        const instance = createInstance({ controlledMenu });
-
-        expect(instance[property]).toBe(value);
-      }
-    );
-  });
-
   describe("_elements", () => {
     it("should preserve the configured menu relationships", () => {
       const controlled = new BaseMenu({
-        menuElement: document.createElement("ul"),
+        menuElement: document.querySelector("ul"),
       });
       const parent = new BaseMenu({
-        menuElement: document.createElement("ul"),
+        menuElement: document.querySelector("ul"),
       });
-      const instance = createInstance({
+      const instance = new BaseMenuToggle({
+        menuToggleElement: document.querySelector("button"),
         controlledMenu: controlled,
         parentMenu: parent,
       });
@@ -153,11 +159,17 @@ describe("BaseMenuToggle fields", () => {
       });
     });
   });
+
   describe("_events", () => {
     it.each(["expand", "collapse"])(
       "should preserve the accessibleMenu %s event name",
       (action) => {
-        const instance = createInstance();
+        const instance = new BaseMenuToggle({
+          menuToggleElement: document.querySelector("button"),
+          controlledMenu: new BaseMenu({
+            menuElement: document.querySelector("ul"),
+          }),
+        });
 
         expect(instance.events[action].type).toBe(
           instance.getEventName(action)
@@ -168,7 +180,12 @@ describe("BaseMenuToggle fields", () => {
     it.each(["expand", "collapse"])(
       "should preserve bubbling for the %s event",
       (action) => {
-        const instance = createInstance();
+        const instance = new BaseMenuToggle({
+          menuToggleElement: document.querySelector("button"),
+          controlledMenu: new BaseMenu({
+            menuElement: document.querySelector("ul"),
+          }),
+        });
 
         expect(instance.events[action].bubbles).toBe(true);
       }
@@ -177,19 +194,65 @@ describe("BaseMenuToggle fields", () => {
     it.each(["expand", "collapse"])(
       "should preserve detail.component for the %s event",
       (action) => {
-        const instance = createInstance();
+        const instance = new BaseMenuToggle({
+          menuToggleElement: document.querySelector("button"),
+          controlledMenu: new BaseMenu({
+            menuElement: document.querySelector("ul"),
+          }),
+        });
 
         expect(instance.events[action].detail.component).toBe(instance);
       }
     );
 
     it("should keep event registries specific to each toggle", () => {
-      const first = createInstance();
-      const second = createInstance();
+      const first = new BaseMenuToggle({
+        menuToggleElement: document.querySelector("button"),
+        controlledMenu: new BaseMenu({
+          menuElement: document.querySelector("ul"),
+        }),
+      });
+      const second = new BaseMenuToggle({
+        menuToggleElement: document.querySelector(".dropdown-toggle"),
+        controlledMenu: new BaseMenu({
+          menuElement: document.querySelector("ul ul"),
+        }),
+      });
 
       expect(first.events.expand).not.toBe(second.events.expand);
       expect(first.events.expand.detail.component).toBe(first);
       expect(second.events.expand.detail.component).toBe(second);
+    });
+  });
+
+  describe("_classes", () => {
+    describe("uninitialized submenus", () => {
+      beforeEach(() => {
+        document.body.innerHTML = twoLevelDisclosureTopLink;
+      });
+
+      afterEach(() => {
+        document.body.innerHTML = "";
+      });
+
+      it("should configure an uninitialized submenu without reading root-dependent getters", () => {
+        const parent = new BaseMenu({
+          menuElement: document.querySelector("ul"),
+        });
+        const submenu = new BaseMenu({
+          menuElement: document.querySelector("ul ul"),
+          isTopLevel: false,
+          parentMenu: parent,
+          expandClass: "submenu-open",
+        });
+
+        const toggle = new BaseMenuToggle({
+          menuToggleElement: document.querySelector("button"),
+          controlledMenu: submenu,
+        });
+
+        expect(toggle.expandClass).toBe("submenu-open");
+      });
     });
   });
 });

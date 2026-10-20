@@ -6,6 +6,8 @@ import { describe, it } from "vitest";
 import DisclosureMenuToggle from "../../../src/disclosureMenuToggle.js";
 import BaseMenuToggle from "../../../src/_baseMenuToggle.js";
 import { expectInheritedGetter, expectInheritedSetter } from "../helpers.js";
+import Component from "@accessible-ecosystem/core";
+import CollapsibleComponent from "@accessible-ecosystem/core/CollapsibleComponent.js";
 
 // Test all getter/setter methods in the DisclosureMenuToggle class.
 describe("DisclosureMenuToggle getter/setters", () => {
@@ -70,6 +72,18 @@ describe("DisclosureMenuToggle getter/setters", () => {
         "isExpanded"
       );
     });
+
+    describe("inheritance", () => {
+      it("should inherit the isExpanded getter", () => {
+        const property = "isExpanded";
+
+        expectInheritedGetter(
+          DisclosureMenuToggle.prototype,
+          CollapsibleComponent.prototype,
+          property
+        );
+      });
+    });
   });
 
   // Test DisclosureMenuToggle shouldBeExpanded.
@@ -89,6 +103,204 @@ describe("DisclosureMenuToggle getter/setters", () => {
         DisclosureMenuToggle.prototype,
         BaseMenuToggle.prototype,
         "shouldBeExpanded"
+      );
+    });
+
+    describe("inheritance", () => {
+      it("should inherit the shouldBeExpanded getter", () => {
+        const property = "shouldBeExpanded";
+
+        expectInheritedGetter(
+          DisclosureMenuToggle.prototype,
+          CollapsibleComponent.prototype,
+          property
+        );
+      });
+    });
+  });
+
+  describe("rootDOMElement", () => {
+    describe("inheritance", () => {
+      it("should inherit the Core getter through the menu base class", () => {
+        const property = "rootDOMElement";
+
+        expectInheritedGetter(
+          DisclosureMenuToggle.prototype,
+          Component.prototype,
+          property
+        );
+      });
+
+      it("should preserve Core's getter-only descriptor", () => {
+        const property = "rootDOMElement";
+
+        expectInheritedSetter(
+          DisclosureMenuToggle.prototype,
+          Component.prototype,
+          property
+        );
+      });
+    });
+  });
+
+  describe("scope", () => {
+    describe("inheritance", () => {
+      it("should inherit the Core getter through the menu base class", () => {
+        const property = "scope";
+
+        expectInheritedGetter(
+          DisclosureMenuToggle.prototype,
+          Component.prototype,
+          property
+        );
+      });
+
+      it("should preserve Core's getter-only descriptor", () => {
+        const property = "scope";
+
+        expectInheritedSetter(
+          DisclosureMenuToggle.prototype,
+          Component.prototype,
+          property
+        );
+      });
+    });
+  });
+
+  describe("name", () => {
+    describe("inheritance", () => {
+      it("should inherit the Core getter through the menu base class", () => {
+        const property = "name";
+
+        expectInheritedGetter(
+          DisclosureMenuToggle.prototype,
+          Component.prototype,
+          property
+        );
+      });
+
+      it("should preserve Core's getter-only descriptor", () => {
+        const property = "name";
+
+        expectInheritedSetter(
+          DisclosureMenuToggle.prototype,
+          Component.prototype,
+          property
+        );
+      });
+    });
+  });
+
+  describe("eventPrefix", () => {
+    describe("inheritance", () => {
+      it("should inherit the Core getter through the menu base class", () => {
+        const property = "eventPrefix";
+
+        expectInheritedGetter(
+          DisclosureMenuToggle.prototype,
+          Component.prototype,
+          property
+        );
+      });
+
+      it("should preserve Core's getter-only descriptor", () => {
+        const property = "eventPrefix";
+
+        expectInheritedSetter(
+          DisclosureMenuToggle.prototype,
+          Component.prototype,
+          property
+        );
+      });
+    });
+  });
+
+  describe("isInitialized", () => {
+    describe("inheritance", () => {
+      it("should inherit the Core getter through the menu base class", () => {
+        const property = "isInitialized";
+
+        expectInheritedGetter(
+          DisclosureMenuToggle.prototype,
+          Component.prototype,
+          property
+        );
+      });
+
+      it("should preserve Core's getter-only descriptor", () => {
+        const property = "isInitialized";
+
+        expectInheritedSetter(
+          DisclosureMenuToggle.prototype,
+          Component.prototype,
+          property
+        );
+      });
+    });
+  });
+
+  describe("isLocked", () => {
+    describe("inheritance", () => {
+      it("should inherit the isLocked getter", () => {
+        const property = "isLocked";
+
+        expectInheritedGetter(
+          DisclosureMenuToggle.prototype,
+          CollapsibleComponent.prototype,
+          property
+        );
+      });
+    });
+  });
+
+  describe("shouldBeLocked", () => {
+    describe("inheritance", () => {
+      it("should inherit the shouldBeLocked getter", () => {
+        const property = "shouldBeLocked";
+
+        expectInheritedGetter(
+          DisclosureMenuToggle.prototype,
+          CollapsibleComponent.prototype,
+          property
+        );
+      });
+    });
+  });
+
+  describe("id", () => {
+    it("should implement the BaseMenuToggle id getter", () => {
+      expectInheritedGetter(
+        DisclosureMenuToggle.prototype,
+        BaseMenuToggle.prototype,
+        "id"
+      );
+    });
+  });
+
+  describe("shouldFocus", () => {
+    it("should implement the BaseMenuToggle shouldFocus getter", () => {
+      expectInheritedGetter(
+        DisclosureMenuToggle.prototype,
+        BaseMenuToggle.prototype,
+        "shouldFocus"
+      );
+    });
+  });
+
+  describe("currentEvent", () => {
+    it("should implement the BaseMenuToggle currentEvent getter", () => {
+      expectInheritedGetter(
+        DisclosureMenuToggle.prototype,
+        BaseMenuToggle.prototype,
+        "currentEvent"
+      );
+    });
+
+    it("should implement the BaseMenuToggle currentEvent setter", () => {
+      expectInheritedSetter(
+        DisclosureMenuToggle.prototype,
+        BaseMenuToggle.prototype,
+        "currentEvent"
       );
     });
   });

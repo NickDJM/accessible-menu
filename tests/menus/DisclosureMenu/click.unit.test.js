@@ -11,7 +11,11 @@ import {
   beforeAll,
   vi,
 } from "vitest";
-import { twoLevelDisclosure } from "../../../demo/menus.js";
+import {
+  twoLevelDisclosure,
+  twoLevelDisclosureTopLink,
+  twoLevelDisclosureTopLinkWithIcons,
+} from "../../../demo/menus.js";
 import DisclosureMenu from "../../../src/disclosureMenu.js";
 import { simulatePointerEvent, PointerEvent } from "../helpers.js";
 
@@ -449,6 +453,85 @@ describe("DisclosureMenu", () => {
       simulatePointerEvent("click", document);
 
       expect(spy).not.toHaveBeenCalled();
+    });
+
+    describe("separate links and toggles", () => {
+      class SeparateLinkMenu extends DisclosureMenu {
+        _MenuType = SeparateLinkMenu;
+        _splitMenuLinks = true;
+
+        constructor({ initialize = true, ...options }) {
+          super({ ...options, initialize: false });
+
+          if (initialize) {
+            this.initialize();
+          }
+        }
+      }
+
+      const menus = [];
+      beforeEach(() => {
+        document.body.innerHTML = twoLevelDisclosureTopLink;
+      });
+
+      afterEach(() => {
+        for (const menu of menus.splice(0)) {
+          menu.dispose();
+        }
+
+        document.body.innerHTML = "";
+        vi.restoreAllMocks();
+      });
+      // This case checks event prevention itself, so use the real helper.
+      beforeEach(async () => {
+        const eventHandlers =
+          await import("@accessible-ecosystem/core/eventHelpers.js");
+        const { preventEvent } = await vi.importActual(
+          "@accessible-ecosystem/core/eventHelpers.js"
+        );
+        vi.spyOn(eventHandlers, "preventEvent").mockImplementation(
+          preventEvent
+        );
+      });
+
+      it("lets a subclass create separate items without changing link activation", () => {
+        document.body.innerHTML = twoLevelDisclosureTopLinkWithIcons;
+        const menu = new SeparateLinkMenu({
+          menuElement: document.querySelector("ul"),
+          submenuTogglesSelector: "button",
+          transitionClass: "",
+        });
+        menus.push(menu);
+        const [linkItem, toggleItem] = menu.elements.menuItems;
+        const toggle = toggleItem.elements.toggle;
+        const linkClick = new MouseEvent("click", {
+          bubbles: true,
+          cancelable: true,
+        });
+        const toggleClick = new MouseEvent("click", {
+          bubbles: true,
+          cancelable: true,
+        });
+        const toggleAction = vi.spyOn(toggle, "toggle");
+
+        linkItem.dom.link.dispatchEvent(linkClick);
+
+        expect(linkClick.defaultPrevented).toBe(false);
+        expect(toggleAction).not.toHaveBeenCalled();
+        expect(toggle.isExpanded).toBe(false);
+
+        toggleItem.dom.link.querySelector("span").dispatchEvent(toggleClick);
+
+        expect(toggleClick.defaultPrevented).toBe(true);
+        expect(toggleAction).toHaveBeenCalledOnce();
+        expect(toggle.isExpanded).toBe(true);
+        expect(toggle.dom.controlled).toBe(
+          toggle.elements.controlledMenu.dom.menu
+        );
+        expect(toggle.dom.controller.getAttribute("aria-controls")).toBe(
+          toggle.dom.controlled.id
+        );
+      });
     });
   });
 });

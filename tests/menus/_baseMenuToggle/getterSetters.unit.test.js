@@ -3,9 +3,13 @@
  */
 
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
-import { twoLevel, threeLevel } from "../../../demo/menus.js";
+import {
+  twoLevel,
+  threeLevel,
+  twoLevelDisclosureTopLink,
+} from "../../../demo/menus.js";
 import BaseMenu from "../../../src/_baseMenu.js";
-import { initializeMenu } from "../helpers.js";
+import BaseMenuToggle from "../../../src/_baseMenuToggle.js";
 
 beforeEach(() => {
   // Create the test menu.
@@ -30,7 +34,7 @@ describe("BaseMenuToggle getter/setters", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const menuToggle = menu.elements.submenuToggles[0];
 
@@ -45,7 +49,7 @@ describe("BaseMenuToggle getter/setters", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const menuToggle = menu.elements.submenuToggles[0];
 
@@ -65,7 +69,7 @@ describe("BaseMenuToggle getter/setters", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const menuToggle = menu.elements.submenuToggles[0];
 
@@ -80,7 +84,7 @@ describe("BaseMenuToggle getter/setters", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const menuToggle = menu.elements.submenuToggles[0];
 
@@ -100,7 +104,7 @@ describe("BaseMenuToggle getter/setters", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const menuToggle = menu.elements.submenuToggles[0];
 
@@ -115,7 +119,7 @@ describe("BaseMenuToggle getter/setters", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const menuToggle = menu.elements.submenuToggles[0];
 
@@ -135,7 +139,7 @@ describe("BaseMenuToggle getter/setters", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const menuToggle = menu.elements.submenuToggles[0];
 
@@ -150,7 +154,7 @@ describe("BaseMenuToggle getter/setters", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       const menuToggle = menu.elements.submenuToggles[0];
 
@@ -179,7 +183,7 @@ describe("BaseMenuToggle getter/setters", () => {
           transitionClass: "",
         });
 
-        initializeMenu(menu);
+        menu.initialize();
         const child = menu.elements.submenuToggles[0].elements.controlledMenu;
         const components = [
           menu.elements.controller,
@@ -208,7 +212,7 @@ describe("BaseMenuToggle getter/setters", () => {
           transitionClass: "",
         });
 
-        initializeMenu(menu);
+        menu.initialize();
         const child = menu.elements.submenuToggles[0].elements.controlledMenu;
         const components = [
           menu.elements.controller,
@@ -232,7 +236,7 @@ describe("BaseMenuToggle getter/setters", () => {
         transitionClass: "",
       });
 
-      initializeMenu(menu);
+      menu.initialize();
       const child = menu.elements.submenuToggles[0].elements.controlledMenu;
       const components = [
         menu.elements.controller,
@@ -280,7 +284,7 @@ describe("BaseMenuToggle getter/setters", () => {
           transitionClass: "",
         });
 
-        initializeMenu(menu);
+        menu.initialize();
         const child = menu.elements.submenuToggles[0].elements.controlledMenu;
         const components = [
           menu.elements.controller,
@@ -307,7 +311,7 @@ describe("BaseMenuToggle getter/setters", () => {
           transitionClass: "",
         });
 
-        initializeMenu(menu);
+        menu.initialize();
         const child = menu.elements.submenuToggles[0].elements.controlledMenu;
         const components = [
           menu.elements.controller,
@@ -337,7 +341,7 @@ describe("BaseMenuToggle getter/setters", () => {
         transitionClass: "",
       });
 
-      initializeMenu(menu);
+      menu.initialize();
       const child = menu.elements.submenuToggles[0].elements.controlledMenu;
       const components = [
         menu.elements.controller,
@@ -354,6 +358,524 @@ describe("BaseMenuToggle getter/setters", () => {
         expect(menu.currentEvent).toBe("keyboard");
         expect(component.currentEvent).toBe("keyboard");
       }
+    });
+  });
+
+  describe("expandClass", () => {
+    describe("controlled menu values", () => {
+      beforeEach(() => {
+        document.body.innerHTML = twoLevelDisclosureTopLink;
+      });
+
+      afterEach(() => {
+        document.body.innerHTML = "";
+      });
+
+      it("should read updated expandClass settings from the menu", () => {
+        const property = "expandClass";
+        const menuProperty = "expandClass";
+        const value = "changed-open";
+
+        const toggle = new BaseMenuToggle({
+          menuToggleElement: document.querySelector("button"),
+          controlledMenu: new BaseMenu({
+            menuElement: document.querySelector("ul"),
+            transitionClass: "",
+          }),
+        });
+        const menu = toggle.elements.controlledMenu;
+
+        menu[menuProperty] = value;
+
+        expect(toggle[property]).toBe(value);
+      });
+
+      it("should update the menu through the expandClass setter", () => {
+        const property = "expandClass";
+        const menuProperty = "expandClass";
+        const value = "changed-open";
+
+        const toggle = new BaseMenuToggle({
+          menuToggleElement: document.querySelector("button"),
+          controlledMenu: new BaseMenu({
+            menuElement: document.querySelector("ul"),
+            transitionClass: "",
+          }),
+        });
+
+        toggle[property] = value;
+
+        expect(toggle.elements.controlledMenu[menuProperty]).toBe(value);
+      });
+    });
+
+    describe("constructor options", () => {
+      beforeEach(() => {
+        document.body.innerHTML = twoLevelDisclosureTopLink;
+      });
+
+      afterEach(() => {
+        document.body.innerHTML = "";
+      });
+
+      it("should configure expandClass from the controlled menu", () => {
+        const property = "expandClass";
+        const option = "expandClass";
+        const value = "custom-open";
+
+        const controlledMenu = new BaseMenu({
+          menuElement: document.querySelector("ul"),
+          [option]: value,
+        });
+        const instance = new BaseMenuToggle({
+          menuToggleElement: document.querySelector("button"),
+          controlledMenu,
+        });
+
+        expect(instance[property]).toBe(value);
+      });
+    });
+  });
+
+  describe("collapseClass", () => {
+    describe("controlled menu values", () => {
+      beforeEach(() => {
+        document.body.innerHTML = twoLevelDisclosureTopLink;
+      });
+
+      afterEach(() => {
+        document.body.innerHTML = "";
+      });
+
+      it("should read updated collapseClass settings from the menu", () => {
+        const property = "collapseClass";
+        const menuProperty = "collapseClass";
+        const value = "changed-close";
+
+        const toggle = new BaseMenuToggle({
+          menuToggleElement: document.querySelector("button"),
+          controlledMenu: new BaseMenu({
+            menuElement: document.querySelector("ul"),
+            transitionClass: "",
+          }),
+        });
+        const menu = toggle.elements.controlledMenu;
+
+        menu[menuProperty] = value;
+
+        expect(toggle[property]).toBe(value);
+      });
+
+      it("should update the menu through the collapseClass setter", () => {
+        const property = "collapseClass";
+        const menuProperty = "collapseClass";
+        const value = "changed-close";
+
+        const toggle = new BaseMenuToggle({
+          menuToggleElement: document.querySelector("button"),
+          controlledMenu: new BaseMenu({
+            menuElement: document.querySelector("ul"),
+            transitionClass: "",
+          }),
+        });
+
+        toggle[property] = value;
+
+        expect(toggle.elements.controlledMenu[menuProperty]).toBe(value);
+      });
+    });
+
+    describe("constructor options", () => {
+      beforeEach(() => {
+        document.body.innerHTML = twoLevelDisclosureTopLink;
+      });
+
+      afterEach(() => {
+        document.body.innerHTML = "";
+      });
+
+      it("should configure collapseClass from the controlled menu", () => {
+        const property = "collapseClass";
+        const option = "collapseClass";
+        const value = "custom-close";
+
+        const controlledMenu = new BaseMenu({
+          menuElement: document.querySelector("ul"),
+          [option]: value,
+        });
+        const instance = new BaseMenuToggle({
+          menuToggleElement: document.querySelector("button"),
+          controlledMenu,
+        });
+
+        expect(instance[property]).toBe(value);
+      });
+    });
+  });
+
+  describe("transitionClass", () => {
+    describe("controlled menu values", () => {
+      beforeEach(() => {
+        document.body.innerHTML = twoLevelDisclosureTopLink;
+      });
+
+      afterEach(() => {
+        document.body.innerHTML = "";
+      });
+
+      it("should read updated transitionClass settings from the menu", () => {
+        const property = "transitionClass";
+        const menuProperty = "transitionClass";
+        const value = "changed-transition";
+
+        const toggle = new BaseMenuToggle({
+          menuToggleElement: document.querySelector("button"),
+          controlledMenu: new BaseMenu({
+            menuElement: document.querySelector("ul"),
+            transitionClass: "",
+          }),
+        });
+        const menu = toggle.elements.controlledMenu;
+
+        menu[menuProperty] = value;
+
+        expect(toggle[property]).toBe(value);
+      });
+
+      it("should update the menu through the transitionClass setter", () => {
+        const property = "transitionClass";
+        const menuProperty = "transitionClass";
+        const value = "changed-transition";
+
+        const toggle = new BaseMenuToggle({
+          menuToggleElement: document.querySelector("button"),
+          controlledMenu: new BaseMenu({
+            menuElement: document.querySelector("ul"),
+            transitionClass: "",
+          }),
+        });
+
+        toggle[property] = value;
+
+        expect(toggle.elements.controlledMenu[menuProperty]).toBe(value);
+      });
+    });
+
+    describe("constructor options", () => {
+      beforeEach(() => {
+        document.body.innerHTML = twoLevelDisclosureTopLink;
+      });
+
+      afterEach(() => {
+        document.body.innerHTML = "";
+      });
+
+      it("should configure transitionClass from the controlled menu", () => {
+        const property = "transitionClass";
+        const option = "transitionClass";
+        const value = "custom-transition";
+
+        const controlledMenu = new BaseMenu({
+          menuElement: document.querySelector("ul"),
+          [option]: value,
+        });
+        const instance = new BaseMenuToggle({
+          menuToggleElement: document.querySelector("button"),
+          controlledMenu,
+        });
+
+        expect(instance[property]).toBe(value);
+      });
+    });
+  });
+
+  describe("transitionDuration", () => {
+    describe("controlled menu values", () => {
+      beforeEach(() => {
+        document.body.innerHTML = twoLevelDisclosureTopLink;
+      });
+
+      afterEach(() => {
+        document.body.innerHTML = "";
+      });
+
+      it("should read updated transitionDuration settings from the menu", () => {
+        const property = "transitionDuration";
+        const menuProperty = "transitionDuration";
+        const value = 300;
+
+        const toggle = new BaseMenuToggle({
+          menuToggleElement: document.querySelector("button"),
+          controlledMenu: new BaseMenu({
+            menuElement: document.querySelector("ul"),
+            transitionClass: "",
+          }),
+        });
+        const menu = toggle.elements.controlledMenu;
+
+        menu[menuProperty] = value;
+
+        expect(toggle[property]).toBe(value);
+      });
+
+      it("should update the menu through the transitionDuration setter", () => {
+        const property = "transitionDuration";
+        const menuProperty = "transitionDuration";
+        const value = 300;
+
+        const toggle = new BaseMenuToggle({
+          menuToggleElement: document.querySelector("button"),
+          controlledMenu: new BaseMenu({
+            menuElement: document.querySelector("ul"),
+            transitionClass: "",
+          }),
+        });
+
+        toggle[property] = value;
+
+        expect(toggle.elements.controlledMenu[menuProperty]).toBe(value);
+      });
+    });
+
+    describe("constructor options", () => {
+      beforeEach(() => {
+        document.body.innerHTML = twoLevelDisclosureTopLink;
+      });
+
+      afterEach(() => {
+        document.body.innerHTML = "";
+      });
+
+      it("should configure transitionDuration from the controlled menu", () => {
+        const property = "transitionDuration";
+        const option = "transitionDuration";
+        const value = 300;
+
+        const controlledMenu = new BaseMenu({
+          menuElement: document.querySelector("ul"),
+          [option]: value,
+        });
+        const instance = new BaseMenuToggle({
+          menuToggleElement: document.querySelector("button"),
+          controlledMenu,
+        });
+
+        expect(instance[property]).toBe(value);
+      });
+    });
+  });
+
+  describe("expandDuration", () => {
+    describe("controlled menu values", () => {
+      beforeEach(() => {
+        document.body.innerHTML = twoLevelDisclosureTopLink;
+      });
+
+      afterEach(() => {
+        document.body.innerHTML = "";
+      });
+
+      it("should read updated expandDuration settings from the menu", () => {
+        const property = "expandDuration";
+        const menuProperty = "expandDuration";
+        const value = 400;
+
+        const toggle = new BaseMenuToggle({
+          menuToggleElement: document.querySelector("button"),
+          controlledMenu: new BaseMenu({
+            menuElement: document.querySelector("ul"),
+            transitionClass: "",
+          }),
+        });
+        const menu = toggle.elements.controlledMenu;
+
+        menu[menuProperty] = value;
+
+        expect(toggle[property]).toBe(value);
+      });
+
+      it("should update the menu through the expandDuration setter", () => {
+        const property = "expandDuration";
+        const menuProperty = "expandDuration";
+        const value = 400;
+
+        const toggle = new BaseMenuToggle({
+          menuToggleElement: document.querySelector("button"),
+          controlledMenu: new BaseMenu({
+            menuElement: document.querySelector("ul"),
+            transitionClass: "",
+          }),
+        });
+
+        toggle[property] = value;
+
+        expect(toggle.elements.controlledMenu[menuProperty]).toBe(value);
+      });
+    });
+
+    describe("constructor options", () => {
+      beforeEach(() => {
+        document.body.innerHTML = twoLevelDisclosureTopLink;
+      });
+
+      afterEach(() => {
+        document.body.innerHTML = "";
+      });
+
+      it("should configure expandDuration from the controlled menu", () => {
+        const property = "expandDuration";
+        const option = "expandDuration";
+        const value = 400;
+
+        const controlledMenu = new BaseMenu({
+          menuElement: document.querySelector("ul"),
+          [option]: value,
+        });
+        const instance = new BaseMenuToggle({
+          menuToggleElement: document.querySelector("button"),
+          controlledMenu,
+        });
+
+        expect(instance[property]).toBe(value);
+      });
+    });
+  });
+
+  describe("collapseDuration", () => {
+    describe("controlled menu values", () => {
+      beforeEach(() => {
+        document.body.innerHTML = twoLevelDisclosureTopLink;
+      });
+
+      afterEach(() => {
+        document.body.innerHTML = "";
+      });
+
+      it("should read updated collapseDuration settings from the menu", () => {
+        const property = "collapseDuration";
+        const menuProperty = "collapseDuration";
+        const value = 500;
+
+        const toggle = new BaseMenuToggle({
+          menuToggleElement: document.querySelector("button"),
+          controlledMenu: new BaseMenu({
+            menuElement: document.querySelector("ul"),
+            transitionClass: "",
+          }),
+        });
+        const menu = toggle.elements.controlledMenu;
+
+        menu[menuProperty] = value;
+
+        expect(toggle[property]).toBe(value);
+      });
+
+      it("should update the menu through the collapseDuration setter", () => {
+        const property = "collapseDuration";
+        const menuProperty = "collapseDuration";
+        const value = 500;
+
+        const toggle = new BaseMenuToggle({
+          menuToggleElement: document.querySelector("button"),
+          controlledMenu: new BaseMenu({
+            menuElement: document.querySelector("ul"),
+            transitionClass: "",
+          }),
+        });
+
+        toggle[property] = value;
+
+        expect(toggle.elements.controlledMenu[menuProperty]).toBe(value);
+      });
+    });
+
+    describe("constructor options", () => {
+      beforeEach(() => {
+        document.body.innerHTML = twoLevelDisclosureTopLink;
+      });
+
+      afterEach(() => {
+        document.body.innerHTML = "";
+      });
+
+      it("should configure collapseDuration from the controlled menu", () => {
+        const property = "collapseDuration";
+        const option = "collapseDuration";
+        const value = 500;
+
+        const controlledMenu = new BaseMenu({
+          menuElement: document.querySelector("ul"),
+          [option]: value,
+        });
+        const instance = new BaseMenuToggle({
+          menuToggleElement: document.querySelector("button"),
+          controlledMenu,
+        });
+
+        expect(instance[property]).toBe(value);
+      });
+    });
+  });
+
+  describe("rootDOMElement", () => {
+    describe("constructor options", () => {
+      beforeEach(() => {
+        document.body.innerHTML = twoLevelDisclosureTopLink;
+      });
+
+      afterEach(() => {
+        document.body.innerHTML = "";
+      });
+
+      it("should resolve the configured DOM slot through the inherited getter", () => {
+        const instance = new BaseMenuToggle({
+          menuToggleElement: document.querySelector("button"),
+          controlledMenu: new BaseMenu({
+            menuElement: document.querySelector("ul"),
+          }),
+        });
+
+        expect(instance.rootDOMElement).toBe(
+          instance.dom[instance._rootDOMElement]
+        );
+      });
+
+      it("should remain read-only on the menu instance", () => {
+        const instance = new BaseMenuToggle({
+          menuToggleElement: document.querySelector("button"),
+          controlledMenu: new BaseMenu({
+            menuElement: document.querySelector("ul"),
+          }),
+        });
+
+        expect(() => {
+          instance.rootDOMElement = document.querySelector("nav");
+        }).toThrow(TypeError);
+      });
+    });
+  });
+
+  describe("id", () => {
+    describe("DOM attributes", () => {
+      beforeEach(() => {
+        document.body.innerHTML = twoLevel;
+      });
+
+      afterEach(() => {
+        vi.restoreAllMocks();
+        document.body.innerHTML = "";
+      });
+
+      it("should expose the controller DOM ID through the inherited toggle ID getter", () => {
+        const menu = new BaseMenu({
+          menuElement: document.querySelector("ul"),
+          submenuTogglesSelector: "a",
+        });
+        menu.initialize();
+        const toggle = menu.elements.submenuToggles[0];
+
+        expect(toggle.id).toBe(toggle.dom.controller.id);
+      });
     });
   });
 });

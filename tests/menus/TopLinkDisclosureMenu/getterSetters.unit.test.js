@@ -2,9 +2,9 @@
  * Getter/Setter tests for the TopLinkDisclosureMenu class
  */
 
-import { describe, it, expect, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import TopLinkDisclosureMenu from "../../../src/topLinkDisclosureMenu.js";
-import { twoLevelDisclosureTopLink } from "../../../demo/menus.js";
+import { twoLevelDisclosureTopLink, twoLevel } from "../../../demo/menus.js";
 import BaseMenu from "../../../src/_baseMenu.js";
 import { expectInheritedGetter, expectInheritedSetter } from "../helpers.js";
 
@@ -635,6 +635,30 @@ describe("TopLinkDisclosureMenu getter/setters", () => {
       menu.optionalKeySupport = true;
 
       expect(submenu.optionalKeySupport).toBe(menu.optionalKeySupport);
+    });
+  });
+
+  describe("initializeClass", () => {
+    describe("constructor options", () => {
+      beforeEach(() => {
+        document.body.innerHTML = twoLevel;
+      });
+
+      afterEach(() => {
+        vi.restoreAllMocks();
+        document.body.innerHTML = "";
+      });
+
+      it("should forward the initialization class to Core", () => {
+        const menu = new TopLinkDisclosureMenu({
+          menuElement: document.querySelector("ul"),
+          submenuTogglesSelector: "a",
+          initializeClass: "audit-initializing",
+          initialize: false,
+        });
+
+        expect(menu.initializeClass).toBe("audit-initializing");
+      });
     });
   });
 });

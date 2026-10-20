@@ -2,7 +2,7 @@
  * Getter/Setter tests for the Menubar class
  */
 
-import { describe, it, beforeEach, afterEach } from "vitest";
+import { describe, it, beforeEach, afterEach, expect, vi } from "vitest";
 import Menubar from "../../../src/menubar.js";
 import { twoLevel } from "../../../demo/menus.js";
 import BaseMenu from "../../../src/_baseMenu.js";
@@ -477,6 +477,30 @@ describe("Menubar getter/setters", () => {
     // Test that Menubar implements the BaseMenu errors setter.
     it("should implement the BaseMenu errors setter", () => {
       expectInheritedSetter(Menubar.prototype, BaseMenu.prototype, "errors");
+    });
+  });
+
+  describe("initializeClass", () => {
+    describe("constructor options", () => {
+      beforeEach(() => {
+        document.body.innerHTML = twoLevel;
+      });
+
+      afterEach(() => {
+        vi.restoreAllMocks();
+        document.body.innerHTML = "";
+      });
+
+      it("should forward the initialization class to Core", () => {
+        const menu = new Menubar({
+          menuElement: document.querySelector("ul"),
+          submenuTogglesSelector: "a",
+          initializeClass: "audit-initializing",
+          initialize: false,
+        });
+
+        expect(menu.initializeClass).toBe("audit-initializing");
+      });
     });
   });
 });

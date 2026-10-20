@@ -5,7 +5,7 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { threeLevel } from "../../../demo/menus.js";
 import BaseMenu from "../../../src/_baseMenu.js";
-import { initializeMenu, simulateKeyboardEvent } from "../helpers.js";
+import { simulateKeyboardEvent } from "../helpers.js";
 
 beforeEach(() => {
   // Create the test menu.
@@ -29,7 +29,7 @@ describe("BaseMenu Controller", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Trigger a keydown event on the menu's controller.
       simulateKeyboardEvent("keydown", menu.elements.controller.dom.controller);
@@ -47,7 +47,7 @@ describe("BaseMenu Controller", () => {
           containerElement: document.querySelector("nav"),
           controllerElement: document.querySelector("button"),
         });
-        initializeMenu(menu);
+        menu.initialize();
 
         // Trigger a keydown event on the menu's controller.
         const event = simulateKeyboardEvent(
@@ -73,7 +73,7 @@ describe("BaseMenu Controller", () => {
         containerElement: document.querySelector("nav"),
         controllerElement: document.querySelector("button"),
       });
-      initializeMenu(menu);
+      menu.initialize();
 
       // Trigger a keyup event on the menu's controller.
       simulateKeyboardEvent("keyup", menu.elements.controller.dom.controller);
@@ -91,7 +91,7 @@ describe("BaseMenu Controller", () => {
           containerElement: document.querySelector("nav"),
           controllerElement: document.querySelector("button"),
         });
-        initializeMenu(menu);
+        menu.initialize();
 
         // Trigger a keyup event on the menu's controller.
         const event = simulateKeyboardEvent(
@@ -113,7 +113,7 @@ describe("BaseMenu Controller", () => {
           containerElement: document.querySelector("nav"),
           controllerElement: document.querySelector("button"),
         });
-        initializeMenu(menu);
+        menu.initialize();
 
         // Spy on the controller's toggle method.
         vi.spyOn(menu.elements.controller, "toggle");
@@ -138,7 +138,7 @@ describe("BaseMenu Controller", () => {
           containerElement: document.querySelector("nav"),
           controllerElement: document.querySelector("button"),
         });
-        initializeMenu(menu);
+        menu.initialize();
 
         // Spy on the menu's focusFirstChild method.
         vi.spyOn(menu, "focusFirstChild");
@@ -163,7 +163,7 @@ describe("BaseMenu Controller", () => {
           containerElement: document.querySelector("nav"),
           controllerElement: document.querySelector("button"),
         });
-        initializeMenu(menu);
+        menu.initialize();
 
         menu.elements.controller.expand();
 

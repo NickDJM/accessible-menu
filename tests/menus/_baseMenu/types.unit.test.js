@@ -2,12 +2,16 @@
  * Type tests for the BaseMenu class.
  */
 
-import { describe, it, expect } from "vitest";
-import { singleLevel, twoLevel } from "../../../demo/menus.js";
+import { describe, it, expect, beforeEach, afterEach } from "vitest";
+import {
+  singleLevel,
+  twoLevel,
+  twoLevelDisclosureTopLink,
+} from "../../../demo/menus.js";
 import BaseMenu from "../../../src/_baseMenu.js";
 import BaseMenuItem from "../../../src/_baseMenuItem.js";
 import BaseMenuToggle from "../../../src/_baseMenuToggle.js";
-import { initializeMenu } from "../helpers.js";
+import Component from "@accessible-ecosystem/core";
 
 // Test the BaseMenu default class types.
 describe("BaseMenu", () => {
@@ -18,7 +22,7 @@ describe("BaseMenu", () => {
   const menu = new BaseMenu({
     menuElement: document.querySelector("ul"),
   });
-  initializeMenu(menu);
+  menu.initialize();
 
   // Test that the BaseMenu's _MenuType is BaseMenu.
   it("should have a _MenuType of BaseMenu", () => {
@@ -37,6 +41,24 @@ describe("BaseMenu", () => {
 
   // Clean up the test menu.
   document.body.innerHTML = "";
+
+  describe("inheritance", () => {
+    beforeEach(() => {
+      document.body.innerHTML = twoLevelDisclosureTopLink;
+    });
+
+    afterEach(() => {
+      document.body.innerHTML = "";
+    });
+
+    it("should inherit from Core Component", () => {
+      const instance = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+
+      expect(instance).toBeInstanceOf(Component);
+    });
+  });
 });
 
 // Test the BaseMenu custom class types for a multi-level menu.
@@ -49,7 +71,7 @@ describe("BaseMenu (multi-level)", () => {
     menuElement: document.querySelector("ul"),
     submenuItemsSelector: ".dropdown",
   });
-  initializeMenu(menu);
+  menu.initialize();
 
   // Test that the BaseMenu's _MenuType is BaseMenu.
   it("should have a _MenuType of BaseMenu", () => {

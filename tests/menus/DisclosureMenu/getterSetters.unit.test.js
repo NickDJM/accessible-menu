@@ -2,11 +2,12 @@
  * Getter/Setter tests for the DisclosureMenu class
  */
 
-import { describe, it, expect, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import DisclosureMenu from "../../../src/disclosureMenu.js";
-import { twoLevelDisclosure } from "../../../demo/menus.js";
+import { twoLevelDisclosure, twoLevel } from "../../../demo/menus.js";
 import BaseMenu from "../../../src/_baseMenu.js";
 import { expectInheritedGetter, expectInheritedSetter } from "../helpers.js";
+import Component from "@accessible-ecosystem/core";
 
 beforeEach(() => {
   document.body.innerHTML = twoLevelDisclosure;
@@ -627,6 +628,150 @@ describe("DisclosureMenu getter/setters", () => {
       menu.optionalKeySupport = true;
 
       expect(submenu.optionalKeySupport).toBe(menu.optionalKeySupport);
+    });
+  });
+
+  describe("initializeClass", () => {
+    describe("constructor options", () => {
+      beforeEach(() => {
+        document.body.innerHTML = twoLevel;
+      });
+
+      afterEach(() => {
+        vi.restoreAllMocks();
+        document.body.innerHTML = "";
+      });
+
+      it("should forward the initialization class to Core", () => {
+        const menu = new DisclosureMenu({
+          menuElement: document.querySelector("ul"),
+          submenuTogglesSelector: "a",
+          initializeClass: "audit-initializing",
+          initialize: false,
+        });
+
+        expect(menu.initializeClass).toBe("audit-initializing");
+      });
+    });
+  });
+
+  describe("rootDOMElement", () => {
+    describe("inheritance", () => {
+      it("should inherit the Core getter through the menu base class", () => {
+        const property = "rootDOMElement";
+
+        expectInheritedGetter(
+          DisclosureMenu.prototype,
+          Component.prototype,
+          property
+        );
+      });
+
+      it("should preserve Core's getter-only descriptor", () => {
+        const property = "rootDOMElement";
+
+        expectInheritedSetter(
+          DisclosureMenu.prototype,
+          Component.prototype,
+          property
+        );
+      });
+    });
+  });
+
+  describe("scope", () => {
+    describe("inheritance", () => {
+      it("should inherit the Core getter through the menu base class", () => {
+        const property = "scope";
+
+        expectInheritedGetter(
+          DisclosureMenu.prototype,
+          Component.prototype,
+          property
+        );
+      });
+
+      it("should preserve Core's getter-only descriptor", () => {
+        const property = "scope";
+
+        expectInheritedSetter(
+          DisclosureMenu.prototype,
+          Component.prototype,
+          property
+        );
+      });
+    });
+  });
+
+  describe("name", () => {
+    describe("inheritance", () => {
+      it("should inherit the Core getter through the menu base class", () => {
+        const property = "name";
+
+        expectInheritedGetter(
+          DisclosureMenu.prototype,
+          Component.prototype,
+          property
+        );
+      });
+
+      it("should preserve Core's getter-only descriptor", () => {
+        const property = "name";
+
+        expectInheritedSetter(
+          DisclosureMenu.prototype,
+          Component.prototype,
+          property
+        );
+      });
+    });
+  });
+
+  describe("eventPrefix", () => {
+    describe("inheritance", () => {
+      it("should inherit the Core getter through the menu base class", () => {
+        const property = "eventPrefix";
+
+        expectInheritedGetter(
+          DisclosureMenu.prototype,
+          Component.prototype,
+          property
+        );
+      });
+
+      it("should preserve Core's getter-only descriptor", () => {
+        const property = "eventPrefix";
+
+        expectInheritedSetter(
+          DisclosureMenu.prototype,
+          Component.prototype,
+          property
+        );
+      });
+    });
+  });
+
+  describe("isInitialized", () => {
+    describe("inheritance", () => {
+      it("should inherit the Core getter through the menu base class", () => {
+        const property = "isInitialized";
+
+        expectInheritedGetter(
+          DisclosureMenu.prototype,
+          Component.prototype,
+          property
+        );
+      });
+
+      it("should preserve Core's getter-only descriptor", () => {
+        const property = "isInitialized";
+
+        expectInheritedSetter(
+          DisclosureMenu.prototype,
+          Component.prototype,
+          property
+        );
+      });
     });
   });
 });

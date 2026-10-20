@@ -2,10 +2,13 @@
  * Getter/Setter tests for the DisclosureMenuItem class.
  */
 
-import { describe, it } from "vitest";
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import DisclosureMenuItem from "../../../src/disclosureMenuItem.js";
 import BaseMenuItem from "../../../src/_baseMenuItem.js";
 import { expectInheritedGetter, expectInheritedSetter } from "../helpers.js";
+import { twoLevelDisclosureTopLink } from "../../../demo/menus.js";
+import Component from "@accessible-ecosystem/core";
+import BaseMenu from "../../../src/_baseMenu.js";
 
 // Test all getter/setter methods in the DisclosureMenuItem class.
 describe("DisclosureMenuItem getter/setters", () => {
@@ -49,6 +52,57 @@ describe("DisclosureMenuItem getter/setters", () => {
         "elements"
       );
     });
+
+    describe("submenu siblings", () => {
+      beforeEach(() => {
+        document.body.innerHTML = twoLevelDisclosureTopLink;
+      });
+
+      afterEach(() => {
+        document.body.innerHTML = "";
+        vi.restoreAllMocks();
+      });
+
+      it("accepts a sibling from the shared base class", () => {
+        const sibling = new BaseMenuItem({
+          menuItemElement: document.querySelector(".dropdown"),
+          menuLinkElement: document.querySelector(".dropdown-toggle"),
+          parentMenu: new BaseMenu({
+            menuElement: document.querySelector("ul"),
+          }),
+        });
+        const item = new DisclosureMenuItem({
+          menuItemElement: document.querySelector(".dropdown"),
+          menuLinkElement: document.querySelector(".dropdown > a"),
+          parentMenu: new BaseMenu({
+            menuElement: document.querySelector("ul"),
+          }),
+          initialize: false,
+          submenuSibling: sibling,
+        });
+
+        item.initialize();
+
+        expect(item.isInitialized).toBe(true);
+        expect(item.elements.sibling).toBe(sibling);
+      });
+
+      it("initializes without a separate sibling by default", () => {
+        const item = new DisclosureMenuItem({
+          menuItemElement: document.querySelector(".dropdown"),
+          menuLinkElement: document.querySelector(".dropdown > a"),
+          parentMenu: new BaseMenu({
+            menuElement: document.querySelector("ul"),
+          }),
+          initialize: false,
+        });
+
+        item.initialize();
+
+        expect(item.isInitialized).toBe(true);
+        expect(item.elements.sibling).toBe(null);
+      });
+    });
   });
 
   // Test DisclosureMenuItem isSubmenuItem.
@@ -68,6 +122,164 @@ describe("DisclosureMenuItem getter/setters", () => {
         DisclosureMenuItem.prototype,
         BaseMenuItem.prototype,
         "isSubmenuItem"
+      );
+    });
+  });
+
+  describe("rootDOMElement", () => {
+    describe("inheritance", () => {
+      it("should inherit the Core getter through the menu base class", () => {
+        const property = "rootDOMElement";
+
+        expectInheritedGetter(
+          DisclosureMenuItem.prototype,
+          Component.prototype,
+          property
+        );
+      });
+
+      it("should preserve Core's getter-only descriptor", () => {
+        const property = "rootDOMElement";
+
+        expectInheritedSetter(
+          DisclosureMenuItem.prototype,
+          Component.prototype,
+          property
+        );
+      });
+    });
+  });
+
+  describe("scope", () => {
+    describe("inheritance", () => {
+      it("should inherit the Core getter through the menu base class", () => {
+        const property = "scope";
+
+        expectInheritedGetter(
+          DisclosureMenuItem.prototype,
+          Component.prototype,
+          property
+        );
+      });
+
+      it("should preserve Core's getter-only descriptor", () => {
+        const property = "scope";
+
+        expectInheritedSetter(
+          DisclosureMenuItem.prototype,
+          Component.prototype,
+          property
+        );
+      });
+    });
+  });
+
+  describe("name", () => {
+    describe("inheritance", () => {
+      it("should inherit the Core getter through the menu base class", () => {
+        const property = "name";
+
+        expectInheritedGetter(
+          DisclosureMenuItem.prototype,
+          Component.prototype,
+          property
+        );
+      });
+
+      it("should preserve Core's getter-only descriptor", () => {
+        const property = "name";
+
+        expectInheritedSetter(
+          DisclosureMenuItem.prototype,
+          Component.prototype,
+          property
+        );
+      });
+    });
+  });
+
+  describe("eventPrefix", () => {
+    describe("inheritance", () => {
+      it("should inherit the Core getter through the menu base class", () => {
+        const property = "eventPrefix";
+
+        expectInheritedGetter(
+          DisclosureMenuItem.prototype,
+          Component.prototype,
+          property
+        );
+      });
+
+      it("should preserve Core's getter-only descriptor", () => {
+        const property = "eventPrefix";
+
+        expectInheritedSetter(
+          DisclosureMenuItem.prototype,
+          Component.prototype,
+          property
+        );
+      });
+    });
+  });
+
+  describe("isInitialized", () => {
+    describe("inheritance", () => {
+      it("should inherit the Core getter through the menu base class", () => {
+        const property = "isInitialized";
+
+        expectInheritedGetter(
+          DisclosureMenuItem.prototype,
+          Component.prototype,
+          property
+        );
+      });
+
+      it("should preserve Core's getter-only descriptor", () => {
+        const property = "isInitialized";
+
+        expectInheritedSetter(
+          DisclosureMenuItem.prototype,
+          Component.prototype,
+          property
+        );
+      });
+    });
+  });
+
+  describe("id", () => {
+    it("should implement the BaseMenuItem id getter", () => {
+      expectInheritedGetter(
+        DisclosureMenuItem.prototype,
+        BaseMenuItem.prototype,
+        "id"
+      );
+    });
+  });
+
+  describe("shouldFocus", () => {
+    it("should implement the BaseMenuItem shouldFocus getter", () => {
+      expectInheritedGetter(
+        DisclosureMenuItem.prototype,
+        BaseMenuItem.prototype,
+        "shouldFocus"
+      );
+    });
+  });
+
+  describe("currentEvent", () => {
+    it("should implement the BaseMenuItem currentEvent getter", () => {
+      expectInheritedGetter(
+        DisclosureMenuItem.prototype,
+        BaseMenuItem.prototype,
+        "currentEvent"
+      );
+    });
+
+    it("should implement the BaseMenuItem currentEvent setter", () => {
+      expectInheritedSetter(
+        DisclosureMenuItem.prototype,
+        BaseMenuItem.prototype,
+        "currentEvent"
       );
     });
   });
