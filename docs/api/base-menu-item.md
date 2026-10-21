@@ -2,6 +2,10 @@
 
 A basic navigation link contained inside of a [BaseMenu](./base-menu).
 
+::: info Inheritance
+Members marked with an <badge type="tip" text="inherited" /> badge come from a parent class in `@accessible-ecosystem/core`. They are available on this class without being redefined here.
+:::
+
 ## Constructor
 
 Constructs a new `BaseMenuItem`.
@@ -47,7 +51,7 @@ Calls Core's initialization method to validate the item and run its initializati
 
 The following properties include fields inherited from Core's `Component` class. Each menu or menu item has its own field values.
 
-### _dom <badge type="warning" text="protected" /> {#property--dom}
+### _dom <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--dom}
 
 The DOM elements within the menu item.
 
@@ -66,7 +70,7 @@ BaseMenuItem._dom;
 | item | `HTMLElement` | The menu item.        | `menuItemElement` |
 | link | `HTMLElement` | The menu item's link. | `menuLinkElement` |
 
-### _elements <badge type="warning" text="protected" /> {#property--elements}
+### _elements <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--elements}
 
 The declared accessible-menu elements within the menu item.
 
@@ -123,7 +127,7 @@ BaseMenuItem._protectedDOMElements; // Default: `["item", "link"]`.
 
 `string[]`
 
-### _selectors <badge type="warning" text="protected" /> {#property--selectors}
+### _selectors <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--selectors}
 
 The query selectors used to populate the DOM elements.
 
@@ -135,7 +139,7 @@ BaseMenuItem._selectors; // Default: `{}`.
 
 `Object<string, string>`
 
-### _classes <badge type="warning" text="protected" /> {#property--classes}
+### _classes <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--classes}
 
 The classes to apply in each component state.
 
@@ -147,7 +151,7 @@ BaseMenuItem._classes; // Default: `{ initialize: "" }`.
 
 `Object<string, string|string[]>`
 
-### _durations <badge type="warning" text="protected" /> {#property--durations}
+### _durations <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--durations}
 
 The duration times (in milliseconds) for component transitions.
 
@@ -159,7 +163,7 @@ BaseMenuItem._durations; // Default: `{}`.
 
 `Object<string, number>`
 
-### _delays <badge type="warning" text="protected" /> {#property--delays}
+### _delays <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--delays}
 
 The delay times (in milliseconds) for component events.
 
@@ -171,7 +175,7 @@ BaseMenuItem._delays; // Default: `{}`.
 
 `Object<string, number>`
 
-### _focusState <badge type="warning" text="protected" /> {#property--focusstate}
+### _focusState <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--focusstate}
 
 The current focus state.
 
@@ -183,7 +187,7 @@ BaseMenuItem._focusState; // Default: `"none"`.
 
 `string`
 
-### _currentEvent <badge type="warning" text="protected" /> {#property--currentevent}
+### _currentEvent <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--currentevent}
 
 The last type of event triggered within the component.
 
@@ -195,7 +199,7 @@ BaseMenuItem._currentEvent; // Default: `"none"`.
 
 `string`
 
-### _intervals <badge type="warning" text="protected" /> {#property--intervals}
+### _intervals <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--intervals}
 
 Interval IDs indexed by scope.
 
@@ -207,7 +211,7 @@ BaseMenuItem._intervals; // Default: `{}`.
 
 `Object<string, number>`
 
-### _timeouts <badge type="warning" text="protected" /> {#property--timeouts}
+### _timeouts <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--timeouts}
 
 Timeout IDs indexed by scope.
 
@@ -219,7 +223,19 @@ BaseMenuItem._timeouts; // Default: `{}`.
 
 `Object<string, number>`
 
-### _listeners <badge type="warning" text="protected" /> {#property--listeners}
+### _frames <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--frames}
+
+Pending animation frame IDs, stored by scope. Inherited from Core.
+
+```js
+BaseMenuItem._frames; // Default: {}.
+```
+
+#### Type {#property--frames--type}
+
+`Object<string, number>`
+
+### _listeners <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--listeners}
 
 The registered event listeners.
 
@@ -231,7 +247,7 @@ BaseMenuItem._listeners; // Default: `[]`.
 
 `object[]`
 
-### _events <badge type="warning" text="protected" /> {#property--events}
+### _events <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--events}
 
 The custom events available on the component.
 
@@ -247,7 +263,7 @@ The constructor registers the `prevalidate`, `validate`, `postvalidate`, `preini
 
 Use `getEventName(type)` to get the DOM event name. These events bubble, so custom listeners should check `event.detail.component === this` before running.
 
-### _prefix <badge type="warning" text="protected" /> {#property--prefix}
+### _prefix <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--prefix}
 
 The prefix used for CSS custom properties and attributes.
 
@@ -259,7 +275,7 @@ BaseMenuItem._prefix; // Default: `"am-"`.
 
 `string`
 
-### _key <badge type="warning" text="protected" /> {#property--key}
+### _key <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--key}
 
 The key used to generate IDs.
 
@@ -331,7 +347,7 @@ BaseMenuItem._shouldStore; // Default: `false`.
 
 `boolean`
 
-### _id <badge type="warning" text="protected" /> {#property--id}
+### _id <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--id}
 
 The main component ID.
 
@@ -343,7 +359,7 @@ BaseMenuItem._id; // Default: `""`.
 
 `string`
 
-### _valid <badge type="warning" text="protected" /> {#property--valid}
+### _valid <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--valid}
 
 The validation state.
 
@@ -355,7 +371,7 @@ BaseMenuItem._valid; // Default: `true`.
 
 `boolean`
 
-### _initialized <badge type="warning" text="protected" /> {#property--initialized}
+### _initialized <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--initialized}
 
 A flag to check if the component has initialized successfully.
 
@@ -367,7 +383,7 @@ BaseMenuItem._initialized; // Default: `false`.
 
 `boolean`
 
-### _errors <badge type="warning" text="protected" /> {#property--errors}
+### _errors <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--errors}
 
 The validation errors.
 
@@ -381,7 +397,7 @@ BaseMenuItem._errors; // Default: `[]`.
 
 ## Getters and Setters
 
-### dom <badge type="warning" text="readonly" /> {#getter--dom}
+### dom <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--dom}
 
 The DOM elements within the menu item.
 
@@ -395,7 +411,7 @@ BaseMenuItem.dom;
 
 See [_dom](#property--dom) for more information.
 
-### elements <badge type="warning" text="readonly" /> {#getter--elements}
+### elements <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--elements}
 
 The declared accessible-menu elements within the menu item.
 
@@ -423,6 +439,386 @@ BaseMenuItem.isSubmenuItem;
 
 See [_submenu](#property--submenu) for more information.
 
+### currentEvent {#getter-setter--currentevent}
+
+The last event triggered anywhere in the menu tree. Reading this value returns the root menu's current event. Setting it updates the root menu.
+
+::: code-group
+
+```js [getter]
+BaseMenuItem.currentEvent;
+```
+
+```js [setter]
+BaseMenuItem.currentEvent = "mouse";
+```
+
+:::
+
+#### Type {#getter-setter--currentevent--type}
+
+`string`
+
+### shouldFocus <badge type="warning" text="readonly" /> {#getter--shouldfocus}
+
+A flag to check if the root menu allows the menu item's `focus()` and `blur()` methods to move focus in the DOM. This follows the root menu's keyboard and character navigation behavior.
+
+::: code-group
+
+```js [getter]
+BaseMenuItem.shouldFocus;
+```
+
+:::
+
+#### Type {#getter--shouldfocus--type}
+
+`boolean`
+
+### rootDOMElement <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--rootdomelement}
+
+The root DOM element of the component.
+
+::: code-group
+
+```js [getter]
+BaseMenuItem.rootDOMElement;
+```
+
+:::
+
+#### Type {#getter--rootdomelement--type}
+
+`HTMLElement`
+
+### selectors <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--selectors}
+
+The query selectors used by the component.
+
+::: code-group
+
+```js [getter]
+BaseMenuItem.selectors;
+```
+
+:::
+
+#### Type {#getter--selectors--type}
+
+`object`
+
+### classes <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--classes}
+
+The CSS classes to apply when the component is in various states.
+
+::: code-group
+
+```js [getter]
+BaseMenuItem.classes;
+```
+
+:::
+
+#### Type {#getter--classes--type}
+
+`object`
+
+### durations <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--durations}
+
+The duration times (in milliseconds) for various aspects throughout the component.
+
+::: code-group
+
+```js [getter]
+BaseMenuItem.durations;
+```
+
+:::
+
+#### Type {#getter--durations--type}
+
+`object`
+
+### delays <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--delays}
+
+The delay times (in milliseconds) for various aspects throughout the component.
+
+::: code-group
+
+```js [getter]
+BaseMenuItem.delays;
+```
+
+:::
+
+#### Type {#getter--delays--type}
+
+`object`
+
+### frames <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--frames}
+
+Pending animation frame IDs, stored by scope. A completed or cancelled frame is removed from this object.
+
+::: code-group
+
+```js [getter]
+BaseMenuItem.frames;
+```
+
+:::
+
+#### Type {#getter--frames--type}
+
+`Object<string, number>`
+
+### intervals <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--intervals}
+
+Intervals throughout the component.
+
+::: code-group
+
+```js [getter]
+BaseMenuItem.intervals;
+```
+
+:::
+
+#### Type {#getter--intervals--type}
+
+`object`
+
+### timeouts <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--timeouts}
+
+Timeouts throughout the component.
+
+::: code-group
+
+```js [getter]
+BaseMenuItem.timeouts;
+```
+
+:::
+
+#### Type {#getter--timeouts--type}
+
+`object`
+
+### listeners <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--listeners}
+
+Event listeners throughout the component.
+
+::: code-group
+
+```js [getter]
+BaseMenuItem.listeners;
+```
+
+:::
+
+#### Type {#getter--listeners--type}
+
+`object[]`
+
+### events <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--events}
+
+Custom events that can be triggered throughout the component.
+
+::: code-group
+
+```js [getter]
+BaseMenuItem.events;
+```
+
+:::
+
+#### Type {#getter--events--type}
+
+`Object<string, CustomEvent>`
+
+### initializeClass <badge type="tip" text="inherited" /> {#getter-setter--initializeclass}
+
+The class(es) to apply when the component is in the initialization state.
+
+::: code-group
+
+```js [getter]
+BaseMenuItem.initializeClass;
+```
+
+```js [setter]
+BaseMenuItem.initializeClass = "initializing";
+```
+
+:::
+
+#### Type {#getter-setter--initializeclass--type}
+
+`string|string[]`
+
+### focusState <badge type="tip" text="inherited" /> {#getter-setter--focusstate}
+
+The current state of the component's focus.
+
+::: code-group
+
+```js [getter]
+BaseMenuItem.focusState;
+```
+
+```js [setter]
+BaseMenuItem.focusState = "";
+```
+
+:::
+
+#### Type {#getter-setter--focusstate--type}
+
+`string`
+
+### prefix <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--prefix}
+
+The prefix used for CSS custom properties and attributes.
+
+::: code-group
+
+```js [getter]
+BaseMenuItem.prefix;
+```
+
+:::
+
+#### Type {#getter--prefix--type}
+
+`string`
+
+### key <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--key}
+
+The key used to generate IDs throughout the component.
+
+::: code-group
+
+```js [getter]
+BaseMenuItem.key;
+```
+
+:::
+
+#### Type {#getter--key--type}
+
+`string`
+
+### name <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--name}
+
+The component name.
+
+::: code-group
+
+```js [getter]
+BaseMenuItem.name;
+```
+
+:::
+
+#### Type {#getter--name--type}
+
+`string`
+
+### eventPrefix <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--eventprefix}
+
+The prefix used when registering events. Returns `"accessibleMenu"` by default. Inherited from Core and read-only. Subclasses can override `_eventPrefix` before bootstrapping.
+
+::: code-group
+
+```js [getter]
+BaseMenuItem.eventPrefix;
+```
+
+:::
+
+#### Type {#getter--eventprefix--type}
+
+`string`
+
+### scope <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--scope}
+
+The scope of the component.
+
+::: code-group
+
+```js [getter]
+BaseMenuItem.scope;
+```
+
+:::
+
+#### Type {#getter--scope--type}
+
+`string`
+
+### id <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--id}
+
+The main ID of the component.
+
+::: code-group
+
+```js [getter]
+BaseMenuItem.id;
+```
+
+:::
+
+#### Type {#getter--id--type}
+
+`string`
+
+### isValid <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--isvalid}
+
+The validity state of the component.
+
+::: code-group
+
+```js [getter]
+BaseMenuItem.isValid;
+```
+
+:::
+
+#### Type {#getter--isvalid--type}
+
+`boolean`
+
+### isInitialized <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--isinitialized}
+
+The initialized state of the component.
+
+::: code-group
+
+```js [getter]
+BaseMenuItem.isInitialized;
+```
+
+:::
+
+#### Type {#getter--isinitialized--type}
+
+`boolean`
+
+### errors <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--errors}
+
+An array containing validation errors.
+
+::: code-group
+
+```js [getter]
+BaseMenuItem.errors;
+```
+
+:::
+
+#### Type {#getter--errors--type}
+
+`Error[]`
+
 ## Methods
 
 ### focus <badge type="tip" text="public" /> {#method--focus}
@@ -445,17 +841,21 @@ BaseMenuItem.blur();
 
 Sets `focusState` to `"none"` immediately. If the root menu allows DOM focus, blurs the link on the next animation frame. Calling this method also cancels pending focus for the item. Disposal cancels pending frames.
 
-## Inherited Core API
-
-The following members are inherited from Core and are available on this class and its subclasses.
-
 ### _bootstrap
 
 Registers the menu item's validation event listener.
 
 Validation checks the required DOM elements, submenu flag, parent menu, child menu, submenu toggle, and sibling menu item if one is provided.
 
-### initialize
+### _setIds
+
+Sets `_id` to the menu item's existing DOM ID without changing that ID. The `id` getter returns this value after initialization.
+
+```js
+BaseMenuItem._setIds();
+```
+
+### initialize <badge type="tip" text="inherited" />
 
 Initialize the component.
 
@@ -463,7 +863,7 @@ Initialize the component.
 initialize();
 ```
 
-### init
+### init <badge type="tip" text="inherited" />
 
 Calls `initialize()`.
 
@@ -471,141 +871,7 @@ Calls `initialize()`.
 init();
 ```
 
-### rootDOMElement
-
-The root DOM element of the component.
-
-Type: `HTMLElement`. Read-only.
-
-### selectors
-
-The query selectors used by the component.
-
-Type: `object`. Read-only.
-
-### classes
-
-The CSS classes to apply when the component is in various states.
-
-Type: `object`. Read-only.
-
-### durations
-
-The duration times (in milliseconds) for various aspects throughout the component.
-
-Type: `object`. Read-only.
-
-### delays
-
-The delay times (in milliseconds) for various aspects throughout the component.
-
-Type: `object`. Read-only.
-
-### intervals
-
-Intervals throughout the component.
-
-Type: `object`. Read-only.
-
-### timeouts
-
-Timeouts throughout the component.
-
-Type: `object`. Read-only.
-
-### listeners
-
-Event listeners throughout the component.
-
-Type: `object[]`. Read-only.
-
-### events
-
-Custom events that can be triggered throughout the component.
-
-Type: `Object<string, CustomEvent>`. Read-only.
-
-### initializeClass
-
-The class(es) to apply when the component is in the initialization state.
-
-Type: `string|string[]`. Readable and writable.
-
-### focusState
-
-The current state of the component's focus.
-
-Type: `string`. Readable and writable.
-
-### currentEvent
-
-The last event triggered anywhere in the menu tree. Reading this value returns the root menu's current event. Setting it updates the root menu.
-
-Type: `string`. Readable and writable.
-
-### shouldFocus
-
-A flag to check if the root menu allows the menu item's `focus()` and `blur()` methods to move focus in the DOM. This follows the root menu's keyboard and character navigation behavior. Read-only.
-
-```js
-BaseMenuItem.shouldFocus;
-```
-
-### prefix
-
-The prefix used for CSS custom properties and attributes.
-
-Type: `string`. Read-only.
-
-### key
-
-The key used to generate IDs throughout the component.
-
-Type: `string`. Read-only.
-
-### name
-
-The component name.
-
-Type: `string`. Read-only.
-
-### eventPrefix
-
-The prefix used when registering events. Returns `"accessibleMenu"` by default. Inherited from Core and read-only. Subclasses can override `_eventPrefix` before bootstrapping.
-
-Type: `string`. Read-only.
-
-### scope
-
-The scope of the component.
-
-Type: `string`. Read-only.
-
-### id
-
-The main ID of the component.
-
-Type: `string`. Read-only.
-
-### isValid
-
-The validity state of the component.
-
-Type: `boolean`. Read-only.
-
-### isInitialized
-
-The initialized state of the component.
-
-Type: `boolean`. Read-only.
-
-### errors
-
-An array containing validation errors.
-
-Type: `Error[]`. Read-only.
-
-### _validate
+### _validate <badge type="tip" text="inherited" />
 
 Validates all aspects of the component to ensure proper functionality.
 
@@ -617,7 +883,7 @@ _validate();
 
 Returns `boolean`: The result of the validation checks.
 
-### _generateKey
+### _generateKey <badge type="tip" text="inherited" />
 
 Generates a key for the component.
 
@@ -629,15 +895,7 @@ _generateKey((regenerate = false));
 | ---------------------- | --------- | ----------------------------------------------------- |
 | `[regenerate = false]` | `boolean` | A flag to determine if the key should be regenerated. |
 
-### _setIds
-
-Sets `_id` to the menu item's existing DOM ID without changing that ID. The `id` getter returns this value after initialization.
-
-```js
-BaseMenuItem._setIds();
-```
-
-### _setAriaAttributes
+### _setAriaAttributes <badge type="tip" text="inherited" />
 
 Sets ARIA attributes throughout the component.
 
@@ -647,7 +905,7 @@ _setAriaAttributes();
 
 This method is inherited from Core and is empty by default. Subclasses can override it to add this behavior.
 
-### _setCustomProps
+### _setCustomProps <badge type="tip" text="inherited" />
 
 Sets custom props throughout the component.
 
@@ -657,7 +915,7 @@ _setCustomProps();
 
 This method is inherited from Core and is empty by default. Subclasses can override it to add this behavior.
 
-### _setDOMElementType
+### _setDOMElementType <badge type="tip" text="inherited" />
 
 Sets DOM elements throughout the component.
 
@@ -678,7 +936,7 @@ _setDOMElementType(
 | `[options.overwrite = true]` | `boolean`                     | A flag to set if the existing elements will be overwritten.        |
 | `[options.strict = false]`   | `boolean`                     | A flag to set if the elements must be direct children of the base. |
 
-### _resetDOMElementType
+### _resetDOMElementType <badge type="tip" text="inherited" />
 
 Resets DOM elements throughout the component.
 
@@ -692,7 +950,7 @@ _resetDOMElementType(elementType);
 | ------------- | -------- | ----------------------------- |
 | `elementType` | `string` | The type of element to clear. |
 
-### _setDOMElements
+### _setDOMElements <badge type="tip" text="inherited" />
 
 Sets all DOM elements throughout the component.
 
@@ -704,7 +962,7 @@ _setDOMElements();
 
 This method is inherited from Core and is empty by default. Subclasses can override it to add this behavior.
 
-### _createChildElements
+### _createChildElements <badge type="tip" text="inherited" />
 
 Creates and initializes child elements throughout the component.
 
@@ -714,7 +972,7 @@ _createChildElements();
 
 This method is inherited from Core and is empty by default. Subclasses can override it to add this behavior.
 
-### _handleFocus
+### _handleFocus <badge type="tip" text="inherited" />
 
 Handles focus events through the component.
 
@@ -724,7 +982,7 @@ _handleFocus();
 
 This method is inherited from Core and is empty by default. Subclasses can override it to add this behavior.
 
-### _handleClick
+### _handleClick <badge type="tip" text="inherited" />
 
 Handles click events through the component.
 
@@ -734,7 +992,7 @@ _handleClick();
 
 This method is inherited from Core and is empty by default. Subclasses can override it to add this behavior.
 
-### _handleHover
+### _handleHover <badge type="tip" text="inherited" />
 
 Handles hover events through the component.
 
@@ -744,7 +1002,7 @@ _handleHover();
 
 This method is inherited from Core and is empty by default. Subclasses can override it to add this behavior.
 
-### _handleKeydown
+### _handleKeydown <badge type="tip" text="inherited" />
 
 Handles keydown events through the component.
 
@@ -754,7 +1012,7 @@ _handleKeydown();
 
 This method is inherited from Core and is empty by default. Subclasses can override it to add this behavior.
 
-### _handleKeyup
+### _handleKeyup <badge type="tip" text="inherited" />
 
 Handles keyup events through the component.
 
@@ -764,7 +1022,7 @@ _handleKeyup();
 
 This method is inherited from Core and is empty by default. Subclasses can override it to add this behavior.
 
-### _store
+### _store <badge type="tip" text="inherited" />
 
 Stores the component into the global storage object.
 
@@ -772,7 +1030,7 @@ Stores the component into the global storage object.
 _store();
 ```
 
-### _unstore
+### _unstore <badge type="tip" text="inherited" />
 
 Removes the component from the global storage object.
 
@@ -780,7 +1038,7 @@ Removes the component from the global storage object.
 _unstore();
 ```
 
-### _setInterval
+### _setInterval <badge type="tip" text="inherited" />
 
 Sets an interval within the component.
 
@@ -794,7 +1052,7 @@ _setInterval(callback, delay, (scope = "_default"));
 | `[delay]`            | `number`   | The time (in milliseconds) of the delay.                              |
 | `[scope = _default]` | `string`   | The scope of the interval (used to store the interval in _intervals). |
 
-### _clearInterval
+### _clearInterval <badge type="tip" text="inherited" />
 
 Clears an interval within the component.
 
@@ -806,7 +1064,7 @@ _clearInterval((scope = "_default"));
 | -------------------- | -------- | --------------------------------------------------------------------- |
 | `[scope = _default]` | `string` | The scope of the interval (used to get the interval from _intervals). |
 
-### _clearIntervals
+### _clearIntervals <badge type="tip" text="inherited" />
 
 Clears all intervals within the component.
 
@@ -814,7 +1072,7 @@ Clears all intervals within the component.
 _clearIntervals();
 ```
 
-### _setTimeout
+### _setTimeout <badge type="tip" text="inherited" />
 
 Sets a timeout within the component.
 
@@ -828,7 +1086,7 @@ _setTimeout(callback, delay, (scope = "_default"));
 | `[delay]`            | `number`   | The time (in milliseconds) of the delay.                           |
 | `[scope = _default]` | `string`   | The scope of the timeout (used to store the timeout in _timeouts). |
 
-### _clearTimeout
+### _clearTimeout <badge type="tip" text="inherited" />
 
 Clears a timeout within the component.
 
@@ -840,7 +1098,7 @@ _clearTimeout((scope = "_default"));
 | -------------------- | -------- | ------------------------------------------------------------------ |
 | `[scope = _default]` | `string` | The scope of the timeout (used to get the timeout from _timeouts). |
 
-### _clearTimeouts
+### _clearTimeouts <badge type="tip" text="inherited" />
 
 Clears all timeouts within the component.
 
@@ -848,7 +1106,44 @@ Clears all timeouts within the component.
 _clearTimeouts();
 ```
 
-### _registerEvent
+### _requestAnimationFrame <badge type="tip" text="inherited" />
+
+Schedules a callback for the next animation frame. Replaces any pending frame in the same scope.
+
+```js
+BaseMenuItem._requestAnimationFrame(callback, scope);
+```
+
+| Parameter | Type | Description | Default |
+| --- | --- | --- | --- |
+| callback | `Function` | The callback to run. Receives the browser's frame timestamp. | Required |
+| scope | `string` | The name used to track the pending frame. | `"_default"` |
+
+Removes the frame from storage before calling the callback, so the callback can request another frame in the same scope.
+
+Returns the browser's animation frame ID as a `number`.
+
+### _cancelAnimationFrame <badge type="tip" text="inherited" />
+
+Cancels the pending animation frame in a scope and removes it from storage. Does nothing if that scope has no pending frame.
+
+```js
+BaseMenuItem._cancelAnimationFrame(scope);
+```
+
+| Parameter | Type | Description | Default |
+| --- | --- | --- | --- |
+| scope | `string` | The scope of the frame to cancel. | `"_default"` |
+
+### _cancelAnimationFrames <badge type="tip" text="inherited" />
+
+Cancels all pending animation frames tracked by the component.
+
+```js
+BaseMenuItem._cancelAnimationFrames();
+```
+
+### _registerEvent <badge type="tip" text="inherited" />
 
 Registers a new event type within the component.
 
@@ -863,7 +1158,7 @@ _registerEvent(name, ({ bubbles = true, detail = {} } = {}));
 | `[options.bubbles = true]` | `boolean` | A flag to set if the event bubbles.         |
 | `[options.detail = {}]`    | `object`  | Additional details to include in the event. |
 
-### getEventName
+### getEventName <badge type="tip" text="inherited" />
 
 Gets the name of an event type stored in the _events object.
 
@@ -877,7 +1172,7 @@ getEventName(type);
 
 Returns `?string`: The event name (or null if none exists).
 
-### _dispatchEvent
+### _dispatchEvent <badge type="tip" text="inherited" />
 
 Dispatch a custom event on an element in the DOM.
 
@@ -890,7 +1185,7 @@ _dispatchEvent(eventType, (element = this.rootDOMElement));
 | `eventType`                       | `string`      | The type of the event to dispatch.    |
 | `[element = this.rootDOMElement]` | `HTMLElement` | The element to dispatch the event on. |
 
-### _addEventListener
+### _addEventListener <badge type="tip" text="inherited" />
 
 Add an event listener to an element and register it within the component.
 
@@ -905,7 +1200,7 @@ _addEventListener(type, element, listener, (options = {}));
 | `listener`       | `Function`        | The listener callback.              |
 | `[options = {}]` | `object\|boolean` | Options to pass to the listener.    |
 
-### _removeEventListener
+### _removeEventListener <badge type="tip" text="inherited" />
 
 Remove an event listener from an element and unregister it within the component.
 
@@ -920,7 +1215,7 @@ _removeEventListener(type, element, listener, (options = {}));
 | `listener`       | `Function`        | The listener callback.                   |
 | `[options = {}]` | `object\|boolean` | Options to pass to the listener.         |
 
-### _removeEventListeners
+### _removeEventListeners <badge type="tip" text="inherited" />
 
 Removes all event listeners registered in the component.
 
@@ -936,11 +1231,11 @@ _removeEventListeners(({ type = null, element = null } = {}));
 | `[options.type = null]`    | `?string`      | The type of event to remove. If null, all types are removed.             |
 | `[options.element = null]` | `?HTMLElement` | The element to remove listeners from. If null, all elements are removed. |
 
-### dispose
+### dispose <badge type="tip" text="inherited" />
 
 Disposes of the current instantiated component.
 
-Removes all intervals, timeouts, and event listeners, and removes the component from global storage. This does not delete references to the component held by your code.
+Removes all intervals, timeouts, pending animation frames, and event listeners, and removes the component from global storage. This does not delete references to the component held by your code.
 
 ```js
 dispose();

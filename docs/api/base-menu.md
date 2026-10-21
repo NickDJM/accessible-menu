@@ -5,6 +5,10 @@ An accessible navigation element in the DOM.
 This is intended to be used as a "base" to other menus and not to be used on
 its own in the DOM.
 
+::: info Inheritance
+Members marked with an <badge type="tip" text="inherited" /> badge come from a parent class in `@accessible-ecosystem/core`. They are available on this class without being redefined here.
+:::
+
 ## Constructor
 
 Constructs a new `BaseMenu`.
@@ -154,7 +158,7 @@ BaseMenu._MenuToggleType; // Default: `BaseMenuToggle`.
 
 `Class`
 
-### _dom <badge type="warning" text="protected" /> {#property--dom}
+### _dom <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--dom}
 
 The DOM elements within the menu.
 
@@ -205,7 +209,7 @@ BaseMenu._protectedDOMElements; // Default: `["menu", "controller", "container"]
 
 `string[]`
 
-### _selectors <badge type="warning" text="protected" /> {#property--selectors}
+### _selectors <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--selectors}
 
 The query selectors used by the menu to populate the dom.
 
@@ -228,7 +232,7 @@ BaseMenu._selectors;
 | submenuSubtoggles | `string` | The query selector for submenu toggles below the top level.         | The configured `submenuTogglesSelector` |
 | submenus          | `string` | The query selector for for submenus.                                | `"ul"`                                  |
 
-### _elements <badge type="warning" text="protected" /> {#property--elements}
+### _elements <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--elements}
 
 The declared accessible-menu elements within the menu.
 
@@ -250,7 +254,7 @@ BaseMenu._elements;
 | parentMenu     | `BaseMenu`, `null`       | The parent menu.                       | `null`                                        |
 | rootMenu       | `BaseMenu`, `null`       | The root menu of the menu tree.        | `this` for a top-level menu; `null` otherwise |
 
-### _classes <badge type="warning" text="protected" /> {#property--classes}
+### _classes <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--classes}
 
 The classes to apply when the menu is in various states.
 
@@ -271,7 +275,7 @@ BaseMenu._classes;
 | collapse   | `string`, `string[]` | The class(es) to apply when the menu is closed.                       | `"hide"`          |
 | transition | `string`, `string[]` | The class(es) to apply when the menu is transitioning between states. | `"transitioning"` |
 
-### _durations <badge type="warning" text="protected" /> {#property--durations}
+### _durations <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--durations}
 
 The duration times (in milliseconds) for various menu transitions and events.
 
@@ -291,7 +295,7 @@ BaseMenu._durations;
 | expand     | `number` | The duration time (in milliseconds) for the transition from closed to open states.     | `-1`    |
 | collapse   | `number` | The duration time (in milliseconds) for the transition from open to closed states.     | `-1`    |
 
-### _delays <badge type="warning" text="protected" /> {#property--delays}
+### _delays <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--delays}
 
 The delay times (in milliseconds) for various menu transitions and events.
 
@@ -311,7 +315,7 @@ BaseMenu._delays;
 | enter | `number` | The delay time (in milliseconds) used for pointerenter events to take place.              | `-1`    |
 | leave | `number` | The delay time (in milliseconds) used for pointerleave events to take place.              | `-1`    |
 
-### _intervals <badge type="warning" text="protected" /> {#property--intervals}
+### _intervals <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--intervals}
 
 Interval IDs indexed by scope.
 
@@ -323,7 +327,7 @@ BaseMenu._intervals; // Default: `{}`.
 
 `Object<string, number>`
 
-### _timeouts <badge type="warning" text="protected" /> {#property--timeouts}
+### _timeouts <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--timeouts}
 
 Timeout IDs indexed by scope.
 
@@ -335,7 +339,19 @@ BaseMenu._timeouts; // Default: `{}`.
 
 `Object<string, number>`
 
-### _listeners <badge type="warning" text="protected" /> {#property--listeners}
+### _frames <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--frames}
+
+Pending animation frame IDs, stored by scope. Inherited from Core.
+
+```js
+BaseMenu._frames; // Default: {}.
+```
+
+#### Type {#property--frames--type}
+
+`Object<string, number>`
+
+### _listeners <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--listeners}
 
 Event listeners throughout the menu.
 
@@ -347,7 +363,7 @@ BaseMenu._listeners; // Default: `[]`.
 
 `object[]`
 
-### _events <badge type="warning" text="protected" /> {#property--events}
+### _events <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--events}
 
 Custom events that can be triggered throughout the component.
 
@@ -387,7 +403,7 @@ BaseMenu._currentChild; // Default: `0`.
 
 `number`
 
-### _focusState <badge type="warning" text="protected" /> {#property--focusstate}
+### _focusState <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--focusstate}
 
 The current state of the menu's focus.
 
@@ -401,7 +417,7 @@ Available states are: `"none"`, `"self"`, and `"child"`.
 
 `string`
 
-### _currentEvent <badge type="warning" text="protected" /> {#property--currentevent}
+### _currentEvent <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--currentevent}
 
 The last event triggered on the menu.
 
@@ -431,7 +447,7 @@ You can read more about [supported hover types](../hover-types) in the docs.
 
 `string`
 
-### _prefix <badge type="warning" text="protected" /> {#property--prefix}
+### _prefix <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--prefix}
 
 The prefix for the CSS custom properties.
 
@@ -455,7 +471,7 @@ BaseMenu._hasExpanded; // Default: `false`.
 
 `boolean`
 
-### _key <badge type="warning" text="protected" /> {#property--key}
+### _key <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--key}
 
 The key used to generate IDs throughout the menu.
 
@@ -467,7 +483,7 @@ BaseMenu._key; // Default: `""`.
 
 `string`
 
-### _id <badge type="warning" text="protected" /> {#property--id}
+### _id <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--id}
 
 The main ID of the menu.
 
@@ -527,7 +543,7 @@ BaseMenu._scope; // Default: `"AccessibleMenu"`.
 
 `string`
 
-### _shouldStore <badge type="warning" text="protected" /> {#property--shouldstore}
+### _shouldStore <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--shouldstore}
 
 A flag to store the component in global storage. The constructor sets this to `true` for root menus and `false` for submenus.
 
@@ -539,7 +555,7 @@ BaseMenu._shouldStore; // Default: `true`.
 
 `boolean`
 
-### _valid <badge type="warning" text="protected" /> {#property--valid}
+### _valid <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--valid}
 
 The validity state of the menu.
 
@@ -551,7 +567,7 @@ BaseMenu._valid; // Default: `true`.
 
 `boolean`
 
-### _initialized <badge type="warning" text="protected" /> {#property--initialized}
+### _initialized <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--initialized}
 
 A flag to check if the component has initialized successfully.
 
@@ -563,7 +579,7 @@ BaseMenu._initialized; // Default: `false`.
 
 `boolean`
 
-### _errors <badge type="warning" text="protected" /> {#property--errors}
+### _errors <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--errors}
 
 An array of error objects generated by the menu.
 
@@ -575,9 +591,37 @@ BaseMenu._errors; // Default: `[]`.
 
 `Error[]`
 
+### _controllerOptions <badge type="warning" text="protected" /> {#property--controlleroptions}
+
+The responsive options passed to the root controller. Includes `breakpoint`, `mediaQuery`, and the eight breakpoint action flags. All action flags default to `false`. The controller validates these options and registers the media-query listener.
+
+```js
+BaseMenu._controllerOptions;
+```
+
+#### Type {#property--controlleroptions--type}
+
+`object`
+
+### _splitMenuLinks <badge type="warning" text="protected" /> {#property--splitmenulinks}
+
+A flag to create separate menu items for navigation links and submenu toggles. Defaults to `false`. Top Link Disclosure sets it to `true`.
+
+Subclasses can override this field. Use the [subclass initialization pattern](#constructor--subclass-initialization) so the field is ready when items are created.
+
+The field does not change keyboard or hover behavior on its own.
+
+```js
+BaseMenu._splitMenuLinks; // Default: false.
+```
+
+#### Type {#property--splitmenulinks--type}
+
+`boolean`
+
 ## Getters and Setters
 
-### dom <badge type="warning" text="readonly" /> {#getter--dom}
+### dom <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--dom}
 
 The DOM elements within the menu.
 
@@ -591,7 +635,7 @@ BaseMenu.dom;
 
 See [_dom](#property--dom) for more information.
 
-### selectors <badge type="warning" text="readonly" /> {#getter--selectors}
+### selectors <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--selectors}
 
 The query selectors used by the menu to populate the [dom](#property--dom).
 
@@ -605,7 +649,7 @@ BaseMenu.selectors;
 
 See [_selectors](#property--selectors) for more information.
 
-### elements <badge type="warning" text="readonly" /> {#getter--elements}
+### elements <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--elements}
 
 The declared accessible-menu elements within the menu.
 
@@ -619,7 +663,7 @@ BaseMenu.elements;
 
 See [_elements](#property--elements) for more information.
 
-### classes <badge type="warning" text="readonly" /> {#getter--classes}
+### classes <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--classes}
 
 The classes to apply when the menu is in various states.
 
@@ -633,7 +677,7 @@ BaseMenu.classes;
 
 See [_classes](#property--classes) for more information.
 
-### durations <badge type="warning" text="readonly" /> {#getter--durations}
+### durations <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--durations}
 
 The duration times (in milliseconds) for various menu transitions and events.
 
@@ -647,7 +691,7 @@ BaseMenu.durations;
 
 See [_durations](#property--durations) for more information.
 
-### delays <badge type="warning" text="readonly" /> {#getter--delays}
+### delays <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--delays}
 
 The delay times (in milliseconds) for various menu transitions and events.
 
@@ -661,7 +705,7 @@ BaseMenu.delays;
 
 See [_delays](#property--delays) for more information.
 
-### timeouts <badge type="warning" text="readonly" /> {#getter--timeouts}
+### timeouts <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--timeouts}
 
 Timeout IDs indexed by scope.
 
@@ -675,7 +719,7 @@ BaseMenu.timeouts;
 
 See [_timeouts](#property--timeouts) for more information.
 
-### listeners <badge type="warning" text="readonly" /> {#getter--listeners}
+### listeners <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--listeners}
 
 The event listeners throughout the menu.
 
@@ -720,7 +764,7 @@ Submenus will always inherit their parent menu's key suffixed with thier positio
 
 See [_key](#property--key) for more information.
 
-### id <badge type="warning" text="readonly" /> {#getter--id}
+### id <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--id}
 
 The main ID of the menu element.
 
@@ -1089,7 +1133,7 @@ This functions differently for root vs. submenus. Submenus will always inherit t
 
 See [_hasExpanded](#property--hasexpanded) for more information.
 
-### errors <badge type="warning" text="readonly" /> {#getter--errors}
+### errors <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--errors}
 
 An array of error objects generated by the menu.
 
@@ -1103,9 +1147,189 @@ BaseMenu.errors;
 
 See [_errors](#property--errors) for more information.
 
+### _submenuOptions <badge type="warning" text="protected" /> <badge type="warning" text="readonly" /> {#getter--submenuoptions}
+
+A read-only getter that returns additional constructor options for child menus. BaseMenu passes the current `selectors.submenuSubtoggles` value as both the child menu's `submenuTogglesSelector` and `submenuSubtogglesSelector`. Subclasses can override the getter to read current selectors when children are created, rather than storing copies before the constructor has finished setting them.
+
+::: code-group
+
+```js [getter]
+BaseMenu._submenuOptions;
+```
+
+:::
+
+#### Type {#getter--submenuoptions--type}
+
+`object`
+
+### rootDOMElement <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--rootdomelement}
+
+The root DOM element of the component.
+
+::: code-group
+
+```js [getter]
+BaseMenu.rootDOMElement;
+```
+
+:::
+
+#### Type {#getter--rootdomelement--type}
+
+`HTMLElement`
+
+### frames <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--frames}
+
+Pending animation frame IDs, stored by scope. A completed or cancelled frame is removed from this object.
+
+::: code-group
+
+```js [getter]
+BaseMenu.frames;
+```
+
+:::
+
+#### Type {#getter--frames--type}
+
+`Object<string, number>`
+
+### intervals <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--intervals}
+
+Intervals throughout the component.
+
+::: code-group
+
+```js [getter]
+BaseMenu.intervals;
+```
+
+:::
+
+#### Type {#getter--intervals--type}
+
+`object`
+
+### events <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--events}
+
+Custom events that can be triggered throughout the component.
+
+::: code-group
+
+```js [getter]
+BaseMenu.events;
+```
+
+:::
+
+#### Type {#getter--events--type}
+
+`Object<string, CustomEvent>`
+
+### initializeClass <badge type="tip" text="inherited" /> {#getter-setter--initializeclass}
+
+The class(es) to apply when the component is in the initialization state.
+
+::: code-group
+
+```js [getter]
+BaseMenu.initializeClass;
+```
+
+```js [setter]
+BaseMenu.initializeClass = "initializing";
+```
+
+:::
+
+#### Type {#getter-setter--initializeclass--type}
+
+`string|string[]`
+
+### name <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--name}
+
+The component name.
+
+::: code-group
+
+```js [getter]
+BaseMenu.name;
+```
+
+:::
+
+#### Type {#getter--name--type}
+
+`string`
+
+### eventPrefix <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--eventprefix}
+
+The prefix used when registering events. Returns `"accessibleMenu"` by default. Inherited from Core and read-only. Subclasses can override `_eventPrefix` before bootstrapping.
+
+::: code-group
+
+```js [getter]
+BaseMenu.eventPrefix;
+```
+
+:::
+
+#### Type {#getter--eventprefix--type}
+
+`string`
+
+### scope <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--scope}
+
+The scope of the component.
+
+::: code-group
+
+```js [getter]
+BaseMenu.scope;
+```
+
+:::
+
+#### Type {#getter--scope--type}
+
+`string`
+
+### isValid <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--isvalid}
+
+The validity state of the component.
+
+::: code-group
+
+```js [getter]
+BaseMenu.isValid;
+```
+
+:::
+
+#### Type {#getter--isvalid--type}
+
+`boolean`
+
+### isInitialized <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--isinitialized}
+
+The initialized state of the component.
+
+::: code-group
+
+```js [getter]
+BaseMenu.isInitialized;
+```
+
+:::
+
+#### Type {#getter--isinitialized--type}
+
+`boolean`
+
 ## Methods
 
-### _validate <badge type="warning" text="protected" /> {#method--validate}
+### _validate <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#method--validate}
 
 Validates all aspects of the menu to ensure proper functionality.
 
@@ -1139,7 +1363,7 @@ BaseMenu._setDOMElementType(elementType, options);
 | options.overwrite | `boolean`     | A flag to set if the existing elements will be overwritten.      | `true`          |
 | options.strict    | `boolean`     | When `true`, only direct children of `context` are stored.       | `true`          |
 
-### _resetDOMElementType <badge type="warning" text="protected" /> {#method--resetdomelementtype}
+### _resetDOMElementType <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#method--resetdomelementtype}
 
 Resets DOM elements within the menu.
 
@@ -1165,7 +1389,7 @@ BaseMenu._setDOMElements();
 
 Utilizes [`_setDOMElementType`](#method--setdomelementtype) and [`_resetDOMElementType`](#method--resetdomelementtype).
 
-### _generateKey <bade type="warning" text="protected" /> {#method--generatekey}
+### _generateKey <bade type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#method--generatekey}
 
 Generates a key for the menu.
 
@@ -1207,18 +1431,6 @@ BaseMenu._findRootMenu(menu);
 | ----- | ---------- | ------------------ | ----------- |
 | menu  | `BaseMenu` | The menu to check. | `undefined` |
 
-### _splitMenuLinks <badge type="warning" text="protected" />
-
-A flag to create separate menu items for navigation links and submenu toggles. Defaults to `false`. Top Link Disclosure sets it to `true`.
-
-Subclasses can override this field. Use the [subclass initialization pattern](#constructor--subclass-initialization) so the field is ready when items are created.
-
-The field does not change keyboard or hover behavior on its own.
-
-### _submenuOptions <badge type="warning" text="protected" />
-
-A read-only getter that returns additional constructor options for child menus. BaseMenu passes the current `selectors.submenuSubtoggles` value as both the child menu's `submenuTogglesSelector` and `submenuSubtogglesSelector`. Subclasses can override the getter to read current selectors when children are created, rather than storing copies before the constructor has finished setting them.
-
 ### _createChildElements <badge type="warning" text="protected" /> {#method--createchildelements}
 
 Creates and initializes all menu items and submenus.
@@ -1252,7 +1464,7 @@ BaseMenu._createMenuItems({
 
 Returns an array of menu items. With a separate link and toggle, the link item's `elements.sibling` points to the toggle item. The link itself does not become a submenu toggle. Subclasses handle their own keyboard and hover behavior.
 
-### _setTimeout <badge type="warning" text="protected" /> {#method--settimeout}
+### _setTimeout <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#method--settimeout}
 
 Sets a timeout within the menu.
 
@@ -1268,7 +1480,7 @@ BaseMenu._setTimeout(callback, delay, scope);
 | delay    | `number`   | The time (in milliseconds) of the delay.                           | `undefined`  |
 | scope    | `string`   | The scope of the timeout (used to store the timeout in _timeouts). | `"_default"` |
 
-### _clearTimeout <badge type="warning" text="protected" /> {#method--cleartimeout}
+### _clearTimeout <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#method--cleartimeout}
 
 Clears a timeout within the menu.
 
@@ -1282,7 +1494,7 @@ BaseMenu._clearTimeout(scope);
 | ----- | -------- | ------------------------------------------------------------------ | ------------ |
 | scope | `string` | The scope of the timeout (used to get the timeout from _timeouts). | `"_default"` |
 
-### _clearTimeouts <badge type="warning" text="protected" /> {#method--cleartimeouts}
+### _clearTimeouts <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#method--cleartimeouts}
 
 Clears all timeouts within the menu.
 
@@ -1401,7 +1613,7 @@ This method will do the following:
 - Adds a `keyup` listener to the menu's controller (if the menu is the root menu).
   - Toggles the menu when the user hits "Space" or "Enter".
 
-### _store <badge type="warning" text="protected" /> {#method--store}
+### _store <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#method--store}
 
 Stores the menu in the global [StorageManager](./storage-manager) under
 `window.AccessibleMenuStorage`, using the menu's [id](#property--id) (or generated
@@ -1411,7 +1623,7 @@ Stores the menu in the global [StorageManager](./storage-manager) under
 BaseMenu._store();
 ```
 
-### _unstore <badge type="warning" text="protected" /> {#method--unstore}
+### _unstore <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#method--unstore}
 
 Removes the menu from the global `StorageManager` if it exists.
 
@@ -1435,7 +1647,7 @@ The custom properties are:
 
 The prefix of `am-` can be changed by setting the menu's prefix value.
 
-### _addEventListener <badge type="warning" text="protected" /> {#method--addeventlistener}
+### _addEventListener <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#method--addeventlistener}
 
 Add an event listener to an element and register it within the menu.
 
@@ -1452,7 +1664,7 @@ BaseMenu._addEventListener(type, element, listener, options);
 | listener | `Function`          | The listener callback.               | `undefined` |
 | options  | `Object`, `boolean` | The options to pass to the listener. | `{}`        |
 
-### _removeEventListener <badge type="warning" text="protected" /> {#method--removeeventlistener}
+### _removeEventListener <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#method--removeeventlistener}
 
 Remove an event listener from an element and unregister it within the menu.
 
@@ -1469,7 +1681,7 @@ BaseMenu._removeEventListener(type, element, listener, options);
 | listener | `Function`          | The listener callback.                        | `undefined` |
 | options  | `Object`, `boolean` | The options that were passed to the listener. | `{}`        |
 
-### _removeEventListeners <badge type="warning" text="protected" /> {#method--removeeventlisteners}
+### _removeEventListeners <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#method--removeeventlisteners}
 
 Remove all event listeners registered in the menu.
 
@@ -1493,9 +1705,9 @@ Dispose of the menu instance.
 BaseMenu.dispose();
 ```
 
-Disposes of the menu's submenus, submenu toggles, menu items, and root controller. Then removes the menu's event listeners, intervals, timeouts, and global storage entry. This does not delete references to the menu held by your code.
+Disposes of the menu's submenus, submenu toggles, menu items, and root controller. Then removes the menu's event listeners, intervals, timeouts, pending animation frames, and global storage entry. This does not delete references to the menu held by your code.
 
-### focus <badge type="tip" text="public" /> {#method--focus}
+### focus <badge type="tip" text="public" /> <badge type="tip" text="inherited" /> {#method--focus}
 
 Focus the menu.
 
@@ -1507,7 +1719,7 @@ Sets the menu's [focus state](#property--focusstate) to "self" and focusses the 
 
 Selection and focus-state changes happen immediately, even when DOM focus is not allowed. DOM focus follows the root menu's [shouldFocus](#getter--shouldfocus) value; these methods do not change `currentEvent` themselves. Item links are focused or blurred on an animation frame, while calls on the menu, controller, or container happen immediately.
 
-### blur <badge type="tip" text="public" /> {#method--blur}
+### blur <badge type="tip" text="public" /> <badge type="tip" text="inherited" /> {#method--blur}
 
 Unfocus the menu.
 
@@ -1625,156 +1837,6 @@ Blurs all children and submenu's children.
 BaseMenu.blurChildren();
 ```
 
-## Inherited Core API
-
-The following members are inherited from Core and are available on this class and its subclasses.
-
-### initialize
-
-Initialize the component.
-
-```js
-initialize();
-```
-
-### init
-
-Calls `initialize()`.
-
-```js
-init();
-```
-
-### rootDOMElement
-
-The root DOM element of the component.
-
-Type: `HTMLElement`. Read-only.
-
-### intervals
-
-Intervals throughout the component.
-
-Type: `object`. Read-only.
-
-### events
-
-Custom events that can be triggered throughout the component.
-
-Type: `Object<string, CustomEvent>`. Read-only.
-
-### initializeClass
-
-The class(es) to apply when the component is in the initialization state.
-
-Type: `string|string[]`. Readable and writable.
-
-### name
-
-The component name.
-
-Type: `string`. Read-only.
-
-### eventPrefix
-
-The prefix used when registering events. Returns `"accessibleMenu"` by default. Inherited from Core and read-only. Subclasses can override `_eventPrefix` before bootstrapping.
-
-Type: `string`. Read-only.
-
-### scope
-
-The scope of the component.
-
-Type: `string`. Read-only.
-
-### isValid
-
-The validity state of the component.
-
-Type: `boolean`. Read-only.
-
-### isInitialized
-
-The initialized state of the component.
-
-Type: `boolean`. Read-only.
-
-### _setInterval
-
-Sets an interval within the component.
-
-```js
-_setInterval(callback, delay, (scope = "_default"));
-```
-
-| Parameter            | Type       | Description                                                           |
-| -------------------- | ---------- | --------------------------------------------------------------------- |
-| `[callback]`         | `Function` | The callback function.                                                |
-| `[delay]`            | `number`   | The time (in milliseconds) of the delay.                              |
-| `[scope = _default]` | `string`   | The scope of the interval (used to store the interval in _intervals). |
-
-### _clearInterval
-
-Clears an interval within the component.
-
-```js
-_clearInterval((scope = "_default"));
-```
-
-| Parameter            | Type     | Description                                                           |
-| -------------------- | -------- | --------------------------------------------------------------------- |
-| `[scope = _default]` | `string` | The scope of the interval (used to get the interval from _intervals). |
-
-### _clearIntervals
-
-Clears all intervals within the component.
-
-```js
-_clearIntervals();
-```
-
-### _registerEvent
-
-Registers a new event type within the component.
-
-```js
-_registerEvent(name, ({ bubbles = true, detail = {} } = {}));
-```
-
-| Parameter                  | Type      | Description                                 |
-| -------------------------- | --------- | ------------------------------------------- |
-| `name`                     | `string`  | The name of the new event type.             |
-| `[options = {}]`           | `object`  | The options for the new event type.         |
-| `[options.bubbles = true]` | `boolean` | A flag to set if the event bubbles.         |
-| `[options.detail = {}]`    | `object`  | Additional details to include in the event. |
-
-### getEventName
-
-Gets the name of an event type stored in the _events object.
-
-```js
-getEventName(type);
-```
-
-| Parameter | Type     | Description                                           |
-| --------- | -------- | ----------------------------------------------------- |
-| `type`    | `string` | The type of the event to get from the _events object. |
-
-Returns `?string`: The event name (or null if none exists).
-
-### _dispatchEvent
-
-Dispatch a custom event on an element in the DOM.
-
-```js
-_dispatchEvent(eventType, (element = this.rootDOMElement));
-```
-
-| Parameter                         | Type          | Description                           |
-| --------------------------------- | ------------- | ------------------------------------- |
-| `eventType`                       | `string`      | The type of the event to dispatch.    |
-| `[element = this.rootDOMElement]` | `HTMLElement` | The element to dispatch the event on. |
-
 ### _bootstrap
 
 Registers the menu's validation and initialization event listeners.
@@ -1789,10 +1851,6 @@ Sets the ARIA attributes on the root controller.
 
 If the root menu has a controller and container, adds `role="button"` when the controller is not a button and sets `aria-controls` to the root menu's ID. Submenu toggles set their own ARIA attributes.
 
-### _controllerOptions
-
-The responsive options passed to the root controller. Includes `breakpoint`, `mediaQuery`, and the eight breakpoint action flags. All action flags default to `false`. The controller validates these options and registers the media-query listener.
-
 ### _createController
 
 Creates and initializes the root controller using `_controllerOptions`.
@@ -1800,6 +1858,135 @@ Creates and initializes the root controller using `_controllerOptions`.
 Before validation, the menu calls this method with `{ initialize: false }` so the controller's options can be checked. During child creation, `_createChildElements()` calls it again to initialize the controller after the menu's IDs and ARIA attributes are set. An initialized controller is not initialized again.
 
 The controller registers its own media-query listener. Submenu toggles do not receive these responsive options.
+
+### initialize <badge type="tip" text="inherited" />
+
+Initialize the component.
+
+```js
+initialize();
+```
+
+### init <badge type="tip" text="inherited" />
+
+Calls `initialize()`.
+
+```js
+init();
+```
+
+### _setInterval <badge type="tip" text="inherited" />
+
+Sets an interval within the component.
+
+```js
+_setInterval(callback, delay, (scope = "_default"));
+```
+
+| Parameter            | Type       | Description                                                           |
+| -------------------- | ---------- | --------------------------------------------------------------------- |
+| `[callback]`         | `Function` | The callback function.                                                |
+| `[delay]`            | `number`   | The time (in milliseconds) of the delay.                              |
+| `[scope = _default]` | `string`   | The scope of the interval (used to store the interval in _intervals). |
+
+### _clearInterval <badge type="tip" text="inherited" />
+
+Clears an interval within the component.
+
+```js
+_clearInterval((scope = "_default"));
+```
+
+| Parameter            | Type     | Description                                                           |
+| -------------------- | -------- | --------------------------------------------------------------------- |
+| `[scope = _default]` | `string` | The scope of the interval (used to get the interval from _intervals). |
+
+### _clearIntervals <badge type="tip" text="inherited" />
+
+Clears all intervals within the component.
+
+```js
+_clearIntervals();
+```
+
+### _requestAnimationFrame <badge type="tip" text="inherited" />
+
+Schedules a callback for the next animation frame. Replaces any pending frame in the same scope.
+
+```js
+BaseMenu._requestAnimationFrame(callback, scope);
+```
+
+| Parameter | Type | Description | Default |
+| --- | --- | --- | --- |
+| callback | `Function` | The callback to run. Receives the browser's frame timestamp. | Required |
+| scope | `string` | The name used to track the pending frame. | `"_default"` |
+
+Removes the frame from storage before calling the callback, so the callback can request another frame in the same scope.
+
+Returns the browser's animation frame ID as a `number`.
+
+### _cancelAnimationFrame <badge type="tip" text="inherited" />
+
+Cancels the pending animation frame in a scope and removes it from storage. Does nothing if that scope has no pending frame.
+
+```js
+BaseMenu._cancelAnimationFrame(scope);
+```
+
+| Parameter | Type | Description | Default |
+| --- | --- | --- | --- |
+| scope | `string` | The scope of the frame to cancel. | `"_default"` |
+
+### _cancelAnimationFrames <badge type="tip" text="inherited" />
+
+Cancels all pending animation frames tracked by the component.
+
+```js
+BaseMenu._cancelAnimationFrames();
+```
+
+### _registerEvent <badge type="tip" text="inherited" />
+
+Registers a new event type within the component.
+
+```js
+_registerEvent(name, ({ bubbles = true, detail = {} } = {}));
+```
+
+| Parameter                  | Type      | Description                                 |
+| -------------------------- | --------- | ------------------------------------------- |
+| `name`                     | `string`  | The name of the new event type.             |
+| `[options = {}]`           | `object`  | The options for the new event type.         |
+| `[options.bubbles = true]` | `boolean` | A flag to set if the event bubbles.         |
+| `[options.detail = {}]`    | `object`  | Additional details to include in the event. |
+
+### getEventName <badge type="tip" text="inherited" />
+
+Gets the name of an event type stored in the _events object.
+
+```js
+getEventName(type);
+```
+
+| Parameter | Type     | Description                                           |
+| --------- | -------- | ----------------------------------------------------- |
+| `type`    | `string` | The type of the event to get from the _events object. |
+
+Returns `?string`: The event name (or null if none exists).
+
+### _dispatchEvent <badge type="tip" text="inherited" />
+
+Dispatch a custom event on an element in the DOM.
+
+```js
+_dispatchEvent(eventType, (element = this.rootDOMElement));
+```
+
+| Parameter                         | Type          | Description                           |
+| --------------------------------- | ------------- | ------------------------------------- |
+| `eventType`                       | `string`      | The type of the event to dispatch.    |
+| `[element = this.rootDOMElement]` | `HTMLElement` | The element to dispatch the event on. |
 
 ## Responsive controller configuration
 

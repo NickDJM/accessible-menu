@@ -4,6 +4,10 @@ A link or button that controls the visibility of a [BaseMenu](./base-menu).
 
 Extends `CollapsibleComponent` from `@accessible-ecosystem/core`.
 
+::: info Inheritance
+Members marked with an <badge type="tip" text="inherited" /> badge come from a parent class in `@accessible-ecosystem/core`. They are available on this class without being redefined here.
+:::
+
 ## Constructor
 
 Constructs a new `BaseMenuToggle`
@@ -53,7 +57,7 @@ Core validates the toggle, sets IDs and ARIA through Menu hooks, and dispatches 
 
 The following properties include fields inherited from Core's `CollapsibleComponent`, `ResponsiveComponent`, and `Component` classes. Each toggle has its own field values.
 
-### _dom <badge type="warning" text="protected" /> {#property--dom}
+### _dom <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--dom}
 
 The DOM elements within the menu toggle.
 
@@ -76,7 +80,7 @@ The toggle adds and removes expand, collapse, transition, locked, and unlocked c
 
 The menu element remains available through `elements.controlledMenu.dom.menu`. ARIA attributes reference that menu element. See [changing where the classes are added](../opening-and-closing#changing-where-the-classes-are-added) for an example.
 
-### _elements <badge type="warning" text="protected" /> {#property--elements}
+### _elements <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--elements}
 
 The declared accessible-menu elements within the menu toggle.
 
@@ -95,7 +99,7 @@ BaseMenuToggle._elements;
 | controlledMenu | `BaseMenu`         | The menu controlled by this toggle. | `controlledMenu` |
 | parentMenu     | `BaseMenu`, `null` | The menu containing this toggle.    | `null`           |
 
-### _events <badge type="warning" text="protected" /> {#property--events}
+### _events <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--events}
 
 The expand and collapse events use the names `accessibleMenuExpand` and `accessibleMenuCollapse` and include the toggle in `detail.component`. Core registers component lifecycle and action events during construction, including pre/post expansion, collapse, locking, and unlocking. Use `getEventName()` to obtain their names.
 
@@ -134,7 +138,7 @@ BaseMenuToggle._rootDOMElement; // Default: `"controller"`.
 
 `string`
 
-### _protectedDOMElements <badge type="warning" text="protected" /> {#property--protecteddomelements}
+### _protectedDOMElements <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--protecteddomelements}
 
 DOM element keys that cannot be generated or reset.
 
@@ -146,7 +150,7 @@ BaseMenuToggle._protectedDOMElements; // Default: `["controller", "controlled"]`
 
 `string[]`
 
-### _selectors <badge type="warning" text="protected" /> {#property--selectors}
+### _selectors <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--selectors}
 
 The query selectors used to populate the DOM elements.
 
@@ -158,7 +162,7 @@ BaseMenuToggle._selectors; // Default: `{}`.
 
 `Object<string, string>`
 
-### _classes <badge type="warning" text="protected" /> {#property--classes}
+### _classes <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--classes}
 
 The classes to apply to `dom.controlled` when the toggle changes state. The expand, collapse, and transition classes come from the controlled menu. The locked and unlocked classes come from Core.
 
@@ -172,7 +176,7 @@ BaseMenuToggle._classes; // Default: `{ initialize: "", locked: "locked", unlock
 
 `Object<string, string|string[]>`
 
-### _durations <badge type="warning" text="protected" /> {#property--durations}
+### _durations <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--durations}
 
 The duration times (in milliseconds) for the controlled menu's transitions. An expand or collapse duration of `-1` uses the transition duration.
 
@@ -184,7 +188,7 @@ BaseMenuToggle._durations; // Default: `{ transition: controlledMenu.durations.t
 
 `Object<string, number>`
 
-### _delays <badge type="warning" text="protected" /> {#property--delays}
+### _delays <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--delays}
 
 The inherited delay settings in milliseconds.
 
@@ -196,7 +200,7 @@ BaseMenuToggle._delays; // Default: `{ transition: 250 }`.
 
 `Object<string, number>`
 
-### _focusState <badge type="warning" text="protected" /> {#property--focusstate}
+### _focusState <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--focusstate}
 
 The current focus state.
 
@@ -208,7 +212,7 @@ BaseMenuToggle._focusState; // Default: `"none"`.
 
 `string`
 
-### _currentEvent <badge type="warning" text="protected" /> {#property--currentevent}
+### _currentEvent <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--currentevent}
 
 The last type of event triggered within the component.
 
@@ -220,7 +224,7 @@ BaseMenuToggle._currentEvent; // Default: `"none"`.
 
 `string`
 
-### _intervals <badge type="warning" text="protected" /> {#property--intervals}
+### _intervals <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--intervals}
 
 Interval IDs indexed by scope.
 
@@ -232,7 +236,7 @@ BaseMenuToggle._intervals; // Default: `{}`.
 
 `Object<string, number>`
 
-### _timeouts <badge type="warning" text="protected" /> {#property--timeouts}
+### _timeouts <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--timeouts}
 
 Timeout IDs indexed by scope.
 
@@ -244,7 +248,19 @@ BaseMenuToggle._timeouts; // Default: `{}`.
 
 `Object<string, number>`
 
-### _listeners <badge type="warning" text="protected" /> {#property--listeners}
+### _frames <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--frames}
+
+Pending animation frame IDs, stored by scope. Inherited from Core.
+
+```js
+BaseMenuToggle._frames; // Default: {}.
+```
+
+#### Type {#property--frames--type}
+
+`Object<string, number>`
+
+### _listeners <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--listeners}
 
 The registered event listeners. Core populates this list with its validation and initialization listeners during construction.
 
@@ -256,7 +272,7 @@ BaseMenuToggle._listeners; // Populated by Core during construction.
 
 `object[]`
 
-### _prefix <badge type="warning" text="protected" /> {#property--prefix}
+### _prefix <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--prefix}
 
 The prefix used for CSS custom properties and attributes.
 
@@ -268,7 +284,7 @@ BaseMenuToggle._prefix; // Default: `"am-"`.
 
 `string`
 
-### _key <badge type="warning" text="protected" /> {#property--key}
+### _key <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--key}
 
 The key used to generate IDs.
 
@@ -340,7 +356,7 @@ BaseMenuToggle._shouldStore; // Default: `false`.
 
 `boolean`
 
-### _id <badge type="warning" text="protected" /> {#property--id}
+### _id <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--id}
 
 The main component ID.
 
@@ -352,7 +368,7 @@ BaseMenuToggle._id; // Default: `""`.
 
 `string`
 
-### _valid <badge type="warning" text="protected" /> {#property--valid}
+### _valid <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--valid}
 
 The validation state.
 
@@ -364,7 +380,7 @@ BaseMenuToggle._valid; // Default: `true`.
 
 `boolean`
 
-### _initialized <badge type="warning" text="protected" /> {#property--initialized}
+### _initialized <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--initialized}
 
 A flag to check if the toggle has initialized successfully. This becomes `true` after the IDs, ARIA attributes, and initial expansion and lock states have been set.
 
@@ -376,7 +392,7 @@ BaseMenuToggle._initialized; // Default: `false`.
 
 `boolean`
 
-### _errors <badge type="warning" text="protected" /> {#property--errors}
+### _errors <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--errors}
 
 The validation errors.
 
@@ -388,7 +404,7 @@ BaseMenuToggle._errors; // Default: `[]`.
 
 `Error[]`
 
-### _expanded <badge type="warning" text="protected" /> {#property--expanded}
+### _expanded <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--expanded}
 
 The current and committed expansion state, managed by Core.
 
@@ -400,7 +416,7 @@ BaseMenuToggle._expanded; // Default: `new TransactionalValue(false)`.
 
 `TransactionalValue<boolean>`
 
-### _locked <badge type="warning" text="protected" /> {#property--locked}
+### _locked <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--locked}
 
 The current and committed lock state.
 
@@ -412,7 +428,7 @@ BaseMenuToggle._locked; // Default: `new TransactionalValue(false)`.
 
 `TransactionalValue<boolean>`
 
-### _breakpoint <badge type="warning" text="protected" /> {#property--breakpoint}
+### _breakpoint <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--breakpoint}
 
 The breakpoint used for responsive actions.
 
@@ -424,7 +440,7 @@ BaseMenuToggle._breakpoint; // Default: `""`.
 
 `string`
 
-### _mediaQueryString <badge type="warning" text="protected" /> {#property--mediaquerystring}
+### _mediaQueryString <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--mediaquerystring}
 
 The explicit media query used for responsive actions.
 
@@ -436,7 +452,7 @@ BaseMenuToggle._mediaQueryString; // Default: `""`.
 
 `string`
 
-### _mediaQueryList <badge type="warning" text="protected" /> {#property--mediaquerylist}
+### _mediaQueryList <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--mediaquerylist}
 
 The media query list used for responsive actions.
 
@@ -448,7 +464,7 @@ BaseMenuToggle._mediaQueryList; // Default: `null`.
 
 `MediaQueryList|null`
 
-### _expandInsideBreakpoint <badge type="warning" text="protected" /> {#property--expandinsidebreakpoint}
+### _expandInsideBreakpoint <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--expandinsidebreakpoint}
 
 Whether to expand when inside the breakpoint.
 
@@ -460,7 +476,7 @@ BaseMenuToggle._expandInsideBreakpoint; // Default: `false`.
 
 `boolean`
 
-### _expandOutsideBreakpoint <badge type="warning" text="protected" /> {#property--expandoutsidebreakpoint}
+### _expandOutsideBreakpoint <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--expandoutsidebreakpoint}
 
 Whether to expand when outside the breakpoint.
 
@@ -472,7 +488,7 @@ BaseMenuToggle._expandOutsideBreakpoint; // Default: `false`.
 
 `boolean`
 
-### _collapseInsideBreakpoint <badge type="warning" text="protected" /> {#property--collapseinsidebreakpoint}
+### _collapseInsideBreakpoint <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--collapseinsidebreakpoint}
 
 Whether to collapse when inside the breakpoint.
 
@@ -484,7 +500,7 @@ BaseMenuToggle._collapseInsideBreakpoint; // Default: `false`.
 
 `boolean`
 
-### _collapseOutsideBreakpoint <badge type="warning" text="protected" /> {#property--collapseoutsidebreakpoint}
+### _collapseOutsideBreakpoint <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--collapseoutsidebreakpoint}
 
 Whether to collapse when outside the breakpoint.
 
@@ -496,7 +512,7 @@ BaseMenuToggle._collapseOutsideBreakpoint; // Default: `false`.
 
 `boolean`
 
-### _lockInsideBreakpoint <badge type="warning" text="protected" /> {#property--lockinsidebreakpoint}
+### _lockInsideBreakpoint <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--lockinsidebreakpoint}
 
 Whether to lock when inside the breakpoint.
 
@@ -508,7 +524,7 @@ BaseMenuToggle._lockInsideBreakpoint; // Default: `false`.
 
 `boolean`
 
-### _lockOutsideBreakpoint <badge type="warning" text="protected" /> {#property--lockoutsidebreakpoint}
+### _lockOutsideBreakpoint <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--lockoutsidebreakpoint}
 
 Whether to lock when outside the breakpoint.
 
@@ -520,7 +536,7 @@ BaseMenuToggle._lockOutsideBreakpoint; // Default: `false`.
 
 `boolean`
 
-### _unlockInsideBreakpoint <badge type="warning" text="protected" /> {#property--unlockinsidebreakpoint}
+### _unlockInsideBreakpoint <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--unlockinsidebreakpoint}
 
 Whether to unlock when inside the breakpoint.
 
@@ -532,7 +548,7 @@ BaseMenuToggle._unlockInsideBreakpoint; // Default: `false`.
 
 `boolean`
 
-### _unlockOutsideBreakpoint <badge type="warning" text="protected" /> {#property--unlockoutsidebreakpoint}
+### _unlockOutsideBreakpoint <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--unlockoutsidebreakpoint}
 
 Whether to unlock when outside the breakpoint.
 
@@ -546,7 +562,7 @@ BaseMenuToggle._unlockOutsideBreakpoint; // Default: `false`.
 
 ## Getters and Setters
 
-### dom <badge type="warning" text="readonly" /> {#getter--dom}
+### dom <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--dom}
 
 The DOM elements within the toggle.
 
@@ -560,7 +576,7 @@ BaseMenuToggle.dom;
 
 See [_dom](#property--dom) for more information.
 
-### elements <badge type="warning" text="readonly" /> {#getter--elements}
+### elements <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--elements}
 
 The declared accessible-menu elements within the toggle.
 
@@ -574,7 +590,7 @@ BaseMenuToggle.elements;
 
 See [_elements](#property--elements) for more information.
 
-### events <badge type="warning" text="readonly" /> {#getter--events}
+### events <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--events}
 
 Custom events that can be triggered throughout the menu toggle.
 
@@ -588,7 +604,7 @@ BaseMenuToggle.events;
 
 See [_events](#property--events) for more information.
 
-### isExpanded <badge type="warning" text="readonly" /> {#getter--isexpanded}
+### isExpanded <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--isexpanded}
 
 The current expansion state.
 
@@ -598,7 +614,7 @@ BaseMenuToggle.isExpanded;
 
 See [_expanded](#property--expanded) for more information.
 
-### shouldBeExpanded <badge type="warning" text="readonly" /> {#getter--shouldbeexpanded}
+### shouldBeExpanded <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--shouldbeexpanded}
 
 The last committed expansion state.
 
@@ -608,7 +624,7 @@ BaseMenuToggle.shouldBeExpanded;
 
 See [_expanded](#property--expanded) for more information.
 
-### isLocked <badge type="warning" text="readonly" /> {#getter--islocked}
+### isLocked <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--islocked}
 
 The current lock state. Locked toggles ignore expand, preview, and collapse actions unless forced.
 
@@ -618,7 +634,7 @@ BaseMenuToggle.isLocked;
 
 See [_locked](#property--locked) for more information.
 
-### shouldBeLocked <badge type="warning" text="readonly" /> {#getter--shouldbelocked}
+### shouldBeLocked <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--shouldbelocked}
 
 The committed lock state.
 
@@ -632,67 +648,769 @@ See [_locked](#property--locked) for more information.
 
 Reads the controlled menu's `expandClass` setting. Setting this property updates the root menu's setting, including its validation and CSS custom property updates. Core uses this accessor for transitions.
 
-```js
+::: code-group
+
+```js [getter]
 BaseMenuToggle.expandClass;
-BaseMenuToggle.expandClass = value;
 ```
 
-Type: `string|string[]`.
+```js [setter]
+BaseMenuToggle.expandClass = "show";
+```
+
+:::
+
+#### Type {#getter--expandclass--type}
+
+`string|string[]`
 
 ### collapseClass {#getter--collapseclass}
 
 Reads the controlled menu's `collapseClass` setting. Setting this property updates the root menu's setting, including its validation and CSS custom property updates. Core uses this accessor for transitions.
 
-```js
+::: code-group
+
+```js [getter]
 BaseMenuToggle.collapseClass;
-BaseMenuToggle.collapseClass = value;
 ```
 
-Type: `string|string[]`.
+```js [setter]
+BaseMenuToggle.collapseClass = "hide";
+```
+
+:::
+
+#### Type {#getter--collapseclass--type}
+
+`string|string[]`
 
 ### transitionClass {#getter--transitionclass}
 
 Reads the controlled menu's `transitionClass` setting. Setting this property updates the root menu's setting, including its validation and CSS custom property updates. Core uses this accessor for transitions.
 
-```js
+::: code-group
+
+```js [getter]
 BaseMenuToggle.transitionClass;
-BaseMenuToggle.transitionClass = value;
 ```
 
-Type: `string|string[]`.
+```js [setter]
+BaseMenuToggle.transitionClass = "transitioning";
+```
+
+:::
+
+#### Type {#getter--transitionclass--type}
+
+`string|string[]`
 
 ### transitionDuration {#getter--transitionduration}
 
 Reads the controlled menu's `transitionDuration` setting. Setting this property updates the root menu's setting, including its validation and CSS custom property updates. Core uses this accessor for transitions.
 
-```js
+::: code-group
+
+```js [getter]
 BaseMenuToggle.transitionDuration;
-BaseMenuToggle.transitionDuration = value;
 ```
 
-Type: `number`.
+```js [setter]
+BaseMenuToggle.transitionDuration = 250;
+```
+
+:::
+
+#### Type {#getter--transitionduration--type}
+
+`number`
 
 ### expandDuration {#getter--expandduration}
 
 Reads the controlled menu's `expandDuration` setting. Setting this property updates the root menu's setting, including its validation and CSS custom property updates. Core uses this accessor for transitions.
 
-```js
+::: code-group
+
+```js [getter]
 BaseMenuToggle.expandDuration;
-BaseMenuToggle.expandDuration = value;
 ```
 
-Type: `number`.
+```js [setter]
+BaseMenuToggle.expandDuration = 250;
+```
+
+:::
+
+#### Type {#getter--expandduration--type}
+
+`number`
 
 ### collapseDuration {#getter--collapseduration}
 
 Reads the controlled menu's `collapseDuration` setting. Setting this property updates the root menu's setting, including its validation and CSS custom property updates. Core uses this accessor for transitions.
 
-```js
+::: code-group
+
+```js [getter]
 BaseMenuToggle.collapseDuration;
-BaseMenuToggle.collapseDuration = value;
 ```
 
-Type: `number`.
+```js [setter]
+BaseMenuToggle.collapseDuration = 250;
+```
+
+:::
+
+#### Type {#getter--collapseduration--type}
+
+`number`
+
+### currentEvent {#getter-setter--currentevent}
+
+The last event triggered anywhere in the menu tree. Reading this value returns the root menu's current event. Setting it updates the root menu.
+
+::: code-group
+
+```js [getter]
+BaseMenuToggle.currentEvent;
+```
+
+```js [setter]
+BaseMenuToggle.currentEvent = "mouse";
+```
+
+:::
+
+#### Type {#getter-setter--currentevent--type}
+
+`string`
+
+### shouldFocus <badge type="warning" text="readonly" /> {#getter--shouldfocus}
+
+The root menu's decision about whether focus methods should move DOM focus. This follows the root menu's keyboard and character navigation behavior.
+
+::: code-group
+
+```js [getter]
+BaseMenuToggle.shouldFocus;
+```
+
+:::
+
+#### Type {#getter--shouldfocus--type}
+
+`boolean`
+
+### rootDOMElement <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--rootdomelement}
+
+The root DOM element of the component.
+
+::: code-group
+
+```js [getter]
+BaseMenuToggle.rootDOMElement;
+```
+
+:::
+
+#### Type {#getter--rootdomelement--type}
+
+`HTMLElement`
+
+### selectors <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--selectors}
+
+The query selectors used by the component.
+
+::: code-group
+
+```js [getter]
+BaseMenuToggle.selectors;
+```
+
+:::
+
+#### Type {#getter--selectors--type}
+
+`object`
+
+### classes <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--classes}
+
+The CSS classes to apply when the component is in various states.
+
+::: code-group
+
+```js [getter]
+BaseMenuToggle.classes;
+```
+
+:::
+
+#### Type {#getter--classes--type}
+
+`object`
+
+### durations <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--durations}
+
+The duration times (in milliseconds) for various aspects throughout the component.
+
+::: code-group
+
+```js [getter]
+BaseMenuToggle.durations;
+```
+
+:::
+
+#### Type {#getter--durations--type}
+
+`object`
+
+### delays <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--delays}
+
+The delay times (in milliseconds) for various aspects throughout the component.
+
+::: code-group
+
+```js [getter]
+BaseMenuToggle.delays;
+```
+
+:::
+
+#### Type {#getter--delays--type}
+
+`object`
+
+### frames <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--frames}
+
+Pending animation frame IDs, stored by scope. A completed or cancelled frame is removed from this object.
+
+::: code-group
+
+```js [getter]
+BaseMenuToggle.frames;
+```
+
+:::
+
+#### Type {#getter--frames--type}
+
+`Object<string, number>`
+
+### intervals <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--intervals}
+
+Intervals throughout the component.
+
+::: code-group
+
+```js [getter]
+BaseMenuToggle.intervals;
+```
+
+:::
+
+#### Type {#getter--intervals--type}
+
+`object`
+
+### timeouts <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--timeouts}
+
+Timeouts throughout the component.
+
+::: code-group
+
+```js [getter]
+BaseMenuToggle.timeouts;
+```
+
+:::
+
+#### Type {#getter--timeouts--type}
+
+`object`
+
+### listeners <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--listeners}
+
+Event listeners throughout the component.
+
+::: code-group
+
+```js [getter]
+BaseMenuToggle.listeners;
+```
+
+:::
+
+#### Type {#getter--listeners--type}
+
+`object[]`
+
+### initializeClass <badge type="tip" text="inherited" /> {#getter-setter--initializeclass}
+
+The class(es) to apply when the component is in the initialization state.
+
+::: code-group
+
+```js [getter]
+BaseMenuToggle.initializeClass;
+```
+
+```js [setter]
+BaseMenuToggle.initializeClass = "initializing";
+```
+
+:::
+
+#### Type {#getter-setter--initializeclass--type}
+
+`string|string[]`
+
+### focusState <badge type="tip" text="inherited" /> {#getter-setter--focusstate}
+
+The current state of the component's focus.
+
+::: code-group
+
+```js [getter]
+BaseMenuToggle.focusState;
+```
+
+```js [setter]
+BaseMenuToggle.focusState = "";
+```
+
+:::
+
+#### Type {#getter-setter--focusstate--type}
+
+`string`
+
+### prefix <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--prefix}
+
+The prefix used for CSS custom properties and attributes.
+
+::: code-group
+
+```js [getter]
+BaseMenuToggle.prefix;
+```
+
+:::
+
+#### Type {#getter--prefix--type}
+
+`string`
+
+### key <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--key}
+
+The key used to generate IDs throughout the component.
+
+::: code-group
+
+```js [getter]
+BaseMenuToggle.key;
+```
+
+:::
+
+#### Type {#getter--key--type}
+
+`string`
+
+### name <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--name}
+
+The component name.
+
+::: code-group
+
+```js [getter]
+BaseMenuToggle.name;
+```
+
+:::
+
+#### Type {#getter--name--type}
+
+`string`
+
+### eventPrefix <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--eventprefix}
+
+The prefix used when registering events. Returns `"accessibleMenu"` by default. Inherited from Core and read-only. Subclasses can override `_eventPrefix` before bootstrapping.
+
+::: code-group
+
+```js [getter]
+BaseMenuToggle.eventPrefix;
+```
+
+:::
+
+#### Type {#getter--eventprefix--type}
+
+`string`
+
+### scope <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--scope}
+
+The scope of the component.
+
+::: code-group
+
+```js [getter]
+BaseMenuToggle.scope;
+```
+
+:::
+
+#### Type {#getter--scope--type}
+
+`string`
+
+### id <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--id}
+
+The main ID of the component.
+
+::: code-group
+
+```js [getter]
+BaseMenuToggle.id;
+```
+
+:::
+
+#### Type {#getter--id--type}
+
+`string`
+
+### isValid <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--isvalid}
+
+The validity state of the component.
+
+::: code-group
+
+```js [getter]
+BaseMenuToggle.isValid;
+```
+
+:::
+
+#### Type {#getter--isvalid--type}
+
+`boolean`
+
+### isInitialized <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--isinitialized}
+
+The initialized state of the component.
+
+::: code-group
+
+```js [getter]
+BaseMenuToggle.isInitialized;
+```
+
+:::
+
+#### Type {#getter--isinitialized--type}
+
+`boolean`
+
+### errors <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--errors}
+
+An array containing validation errors.
+
+::: code-group
+
+```js [getter]
+BaseMenuToggle.errors;
+```
+
+:::
+
+#### Type {#getter--errors--type}
+
+`Error[]`
+
+### breakpoint <badge type="tip" text="inherited" /> {#getter-setter--breakpoint}
+
+The breakpoint that the component will call media query list events.
+
+::: code-group
+
+```js [getter]
+BaseMenuToggle.breakpoint;
+```
+
+```js [setter]
+BaseMenuToggle.breakpoint = "";
+```
+
+:::
+
+#### Type {#getter-setter--breakpoint--type}
+
+`string`
+
+### mediaQuery <badge type="tip" text="inherited" /> {#getter-setter--mediaquery}
+
+The media query used to trigger the root controller's media query list events.
+
+::: code-group
+
+```js [getter]
+BaseMenuToggle.mediaQuery;
+```
+
+```js [setter]
+BaseMenuToggle.mediaQuery = "";
+```
+
+:::
+
+#### Type {#getter-setter--mediaquery--type}
+
+`string`
+
+### lockedClass <badge type="tip" text="inherited" /> {#getter-setter--lockedclass}
+
+The class(es) to apply when the component is in the locked state.
+
+::: code-group
+
+```js [getter]
+BaseMenuToggle.lockedClass;
+```
+
+```js [setter]
+BaseMenuToggle.lockedClass = "initializing";
+```
+
+:::
+
+#### Type {#getter-setter--lockedclass--type}
+
+`string|string[]`
+
+### unlockedClass <badge type="tip" text="inherited" /> {#getter-setter--unlockedclass}
+
+The class(es) to apply when the component is in the unlocked state.
+
+::: code-group
+
+```js [getter]
+BaseMenuToggle.unlockedClass;
+```
+
+```js [setter]
+BaseMenuToggle.unlockedClass = "initializing";
+```
+
+:::
+
+#### Type {#getter-setter--unlockedclass--type}
+
+`string|string[]`
+
+### expandOnFocus <badge type="tip" text="inherited" /> {#getter-setter--expandonfocus}
+
+Inherited from Core, but not used by Accessible Menu's focus handlers. Setting this value does not make the menu expand when its toggle receives focus.
+
+::: code-group
+
+```js [getter]
+BaseMenuToggle.expandOnFocus;
+```
+
+```js [setter]
+BaseMenuToggle.expandOnFocus = true;
+```
+
+:::
+
+#### Type {#getter-setter--expandonfocus--type}
+
+`boolean|undefined`
+
+The menu does not set a default value.
+
+### collapseOnBlur <badge type="tip" text="inherited" /> {#getter-setter--collapseonblur}
+
+Inherited from Core, but not used by Accessible Menu's focus handlers. Setting this value does not make the menu collapse when its toggle loses focus.
+
+::: code-group
+
+```js [getter]
+BaseMenuToggle.collapseOnBlur;
+```
+
+```js [setter]
+BaseMenuToggle.collapseOnBlur = true;
+```
+
+:::
+
+#### Type {#getter-setter--collapseonblur--type}
+
+`boolean|undefined`
+
+The menu does not set a default value.
+
+### expandInsideBreakpoint <badge type="tip" text="inherited" /> {#getter-setter--expandinsidebreakpoint}
+
+A flag to expand the component when inside the breakpoint.
+
+::: code-group
+
+```js [getter]
+BaseMenuToggle.expandInsideBreakpoint;
+```
+
+```js [setter]
+BaseMenuToggle.expandInsideBreakpoint = true;
+```
+
+:::
+
+#### Type {#getter-setter--expandinsidebreakpoint--type}
+
+`boolean`
+
+### expandOutsideBreakpoint <badge type="tip" text="inherited" /> {#getter-setter--expandoutsidebreakpoint}
+
+A flag to expand the component when outside the breakpoint.
+
+::: code-group
+
+```js [getter]
+BaseMenuToggle.expandOutsideBreakpoint;
+```
+
+```js [setter]
+BaseMenuToggle.expandOutsideBreakpoint = true;
+```
+
+:::
+
+#### Type {#getter-setter--expandoutsidebreakpoint--type}
+
+`boolean`
+
+### collapseInsideBreakpoint <badge type="tip" text="inherited" /> {#getter-setter--collapseinsidebreakpoint}
+
+A flag to collapse the component when inside the breakpoint.
+
+::: code-group
+
+```js [getter]
+BaseMenuToggle.collapseInsideBreakpoint;
+```
+
+```js [setter]
+BaseMenuToggle.collapseInsideBreakpoint = true;
+```
+
+:::
+
+#### Type {#getter-setter--collapseinsidebreakpoint--type}
+
+`boolean`
+
+### collapseOutsideBreakpoint <badge type="tip" text="inherited" /> {#getter-setter--collapseoutsidebreakpoint}
+
+A flag to collapse the component when outside the breakpoint.
+
+::: code-group
+
+```js [getter]
+BaseMenuToggle.collapseOutsideBreakpoint;
+```
+
+```js [setter]
+BaseMenuToggle.collapseOutsideBreakpoint = true;
+```
+
+:::
+
+#### Type {#getter-setter--collapseoutsidebreakpoint--type}
+
+`boolean`
+
+### lockInsideBreakpoint <badge type="tip" text="inherited" /> {#getter-setter--lockinsidebreakpoint}
+
+A flag to lock the component in its current state when inside the breakpoint.
+
+::: code-group
+
+```js [getter]
+BaseMenuToggle.lockInsideBreakpoint;
+```
+
+```js [setter]
+BaseMenuToggle.lockInsideBreakpoint = true;
+```
+
+:::
+
+#### Type {#getter-setter--lockinsidebreakpoint--type}
+
+`boolean`
+
+### lockOutsideBreakpoint <badge type="tip" text="inherited" /> {#getter-setter--lockoutsidebreakpoint}
+
+A flag to lock the component in its current state when outside the breakpoint.
+
+::: code-group
+
+```js [getter]
+BaseMenuToggle.lockOutsideBreakpoint;
+```
+
+```js [setter]
+BaseMenuToggle.lockOutsideBreakpoint = true;
+```
+
+:::
+
+#### Type {#getter-setter--lockoutsidebreakpoint--type}
+
+`boolean`
+
+### unlockInsideBreakpoint <badge type="tip" text="inherited" /> {#getter-setter--unlockinsidebreakpoint}
+
+A flag to unlock the component when inside the breakpoint.
+
+::: code-group
+
+```js [getter]
+BaseMenuToggle.unlockInsideBreakpoint;
+```
+
+```js [setter]
+BaseMenuToggle.unlockInsideBreakpoint = true;
+```
+
+:::
+
+#### Type {#getter-setter--unlockinsidebreakpoint--type}
+
+`boolean`
+
+### unlockOutsideBreakpoint <badge type="tip" text="inherited" /> {#getter-setter--unlockoutsidebreakpoint}
+
+A flag to unlock the component when outside the breakpoint.
+
+::: code-group
+
+```js [getter]
+BaseMenuToggle.unlockOutsideBreakpoint;
+```
+
+```js [setter]
+BaseMenuToggle.unlockOutsideBreakpoint = true;
+```
+
+:::
+
+#### Type {#getter-setter--unlockoutsidebreakpoint--type}
+
+`boolean`
 
 ## Methods
 
@@ -725,7 +1443,7 @@ The first steps are to ensure that the toggle has `aria-expanded` is initially s
 
 Then using the toggle and menu's IDs, the menu's `aria-labelledby` is set to the toggle's ID.
 
-### _dispatchEvent <badge type="warning" text="protected" /> {#method--dispatchevent}
+### _dispatchEvent <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#method--dispatchevent}
 
 Inherited from Core's `Component`. Dispatches a registered custom event on the root controller or an explicitly supplied element.
 
@@ -758,7 +1476,7 @@ BaseMenuToggle._expand({ emit, transition });
 | options.emit       | `boolean` | Emit preexpand, expand, and postexpand events. | `this.isInitialized` |
 | options.transition | `boolean` | Use transition classes and durations.          | `this.isInitialized` |
 
-### _collapse <badge type="warning" text="protected" /> {#method--protected-collapse}
+### _collapse <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#method--protected-collapse}
 
 Inherited directly from Core's `CollapsibleComponent`. Sets the controller's `aria-expanded` to `false` and applies collapsed classes and transitions to the controlled menu.
 
@@ -846,7 +1564,7 @@ If the toggle is initialized, also blurs the controlled menu, setting its [focus
 | options.emit          | `boolean` | A flag to emit the collapse event.      | `this.isInitialized`  |
 | options.transition    | `boolean` | A flag to use transitions when closing. | `this.isInitialized`  |
 
-### toggle <badge type="tip" text="public" /> {#method--toggle}
+### toggle <badge type="tip" text="public" /> <badge type="tip" text="inherited" /> {#method--toggle}
 
 Toggles the open state of the controlled menu between `true` and `false`.
 
@@ -900,17 +1618,13 @@ BaseMenuToggle.collapseChildren({ force, preserveState, emit, transition });
 | options.emit          | `boolean` | A flag to emit the collapse event.       | `this.isInitialized`  |
 | options.transition    | `boolean` | A flag to use transitions when closing.  | `this.isInitialized`  |
 
-## Inherited Core API
-
-The following members are inherited from Core and are available on this class and its subclasses.
-
 ### _bootstrap
 
 Registers the menu toggle's validation event listener.
 
 Validation checks the required DOM elements, controlled menu, and parent menu.
 
-### initialize
+### initialize <badge type="tip" text="inherited" />
 
 Initialize the component.
 
@@ -918,7 +1632,7 @@ Initialize the component.
 initialize();
 ```
 
-### init
+### init <badge type="tip" text="inherited" />
 
 Calls `initialize()`.
 
@@ -926,133 +1640,7 @@ Calls `initialize()`.
 init();
 ```
 
-### rootDOMElement
-
-The root DOM element of the component.
-
-Type: `HTMLElement`. Read-only.
-
-### selectors
-
-The query selectors used by the component.
-
-Type: `object`. Read-only.
-
-### classes
-
-The CSS classes to apply when the component is in various states.
-
-Type: `object`. Read-only.
-
-### durations
-
-The duration times (in milliseconds) for various aspects throughout the component.
-
-Type: `object`. Read-only.
-
-### delays
-
-The delay times (in milliseconds) for various aspects throughout the component.
-
-Type: `object`. Read-only.
-
-### intervals
-
-Intervals throughout the component.
-
-Type: `object`. Read-only.
-
-### timeouts
-
-Timeouts throughout the component.
-
-Type: `object`. Read-only.
-
-### listeners
-
-Event listeners throughout the component.
-
-Type: `object[]`. Read-only.
-
-### initializeClass
-
-The class(es) to apply when the component is in the initialization state.
-
-Type: `string|string[]`. Readable and writable.
-
-### focusState
-
-The current state of the component's focus.
-
-Type: `string`. Readable and writable.
-
-### currentEvent
-
-The last event triggered anywhere in the menu tree. Reading this value returns the root menu's current event. Setting it updates the root menu.
-
-Type: `string`. Readable and writable.
-
-### shouldFocus
-
-The root menu's decision about whether focus methods should move DOM focus. This follows the root menu's keyboard and character navigation behavior.
-
-Type: `boolean`. Read-only.
-
-### prefix
-
-The prefix used for CSS custom properties and attributes.
-
-Type: `string`. Read-only.
-
-### key
-
-The key used to generate IDs throughout the component.
-
-Type: `string`. Read-only.
-
-### name
-
-The component name.
-
-Type: `string`. Read-only.
-
-### eventPrefix
-
-The prefix used when registering events. Returns `"accessibleMenu"` by default. Inherited from Core and read-only. Subclasses can override `_eventPrefix` before bootstrapping.
-
-Type: `string`. Read-only.
-
-### scope
-
-The scope of the component.
-
-Type: `string`. Read-only.
-
-### id
-
-The main ID of the component.
-
-Type: `string`. Read-only.
-
-### isValid
-
-The validity state of the component.
-
-Type: `boolean`. Read-only.
-
-### isInitialized
-
-The initialized state of the component.
-
-Type: `boolean`. Read-only.
-
-### errors
-
-An array containing validation errors.
-
-Type: `Error[]`. Read-only.
-
-### _validate
+### _validate <badge type="tip" text="inherited" />
 
 Validates all aspects of the component to ensure proper functionality.
 
@@ -1064,7 +1652,7 @@ _validate();
 
 Returns `boolean`: The result of the validation checks.
 
-### _generateKey
+### _generateKey <badge type="tip" text="inherited" />
 
 Generates a key for the component.
 
@@ -1076,7 +1664,7 @@ _generateKey((regenerate = false));
 | ---------------------- | --------- | ----------------------------------------------------- |
 | `[regenerate = false]` | `boolean` | A flag to determine if the key should be regenerated. |
 
-### _setCustomProps
+### _setCustomProps <badge type="tip" text="inherited" />
 
 Sets custom props throughout the component.
 
@@ -1086,7 +1674,7 @@ _setCustomProps();
 
 This method is inherited from Core and is empty by default. Subclasses can override it to add this behavior.
 
-### _setDOMElementType
+### _setDOMElementType <badge type="tip" text="inherited" />
 
 Sets DOM elements throughout the component.
 
@@ -1107,7 +1695,7 @@ _setDOMElementType(
 | `[options.overwrite = true]` | `boolean`                     | A flag to set if the existing elements will be overwritten.        |
 | `[options.strict = false]`   | `boolean`                     | A flag to set if the elements must be direct children of the base. |
 
-### _resetDOMElementType
+### _resetDOMElementType <badge type="tip" text="inherited" />
 
 Resets DOM elements throughout the component.
 
@@ -1121,7 +1709,7 @@ _resetDOMElementType(elementType);
 | ------------- | -------- | ----------------------------- |
 | `elementType` | `string` | The type of element to clear. |
 
-### _setDOMElements
+### _setDOMElements <badge type="tip" text="inherited" />
 
 Sets all DOM elements throughout the component.
 
@@ -1133,7 +1721,7 @@ _setDOMElements();
 
 This method is inherited from Core and is empty by default. Subclasses can override it to add this behavior.
 
-### _createChildElements
+### _createChildElements <badge type="tip" text="inherited" />
 
 Creates and initializes child elements throughout the component.
 
@@ -1143,7 +1731,7 @@ _createChildElements();
 
 This method is inherited from Core and is empty by default. Subclasses can override it to add this behavior.
 
-### _handleFocus
+### _handleFocus <badge type="tip" text="inherited" />
 
 Handles focus events through the component.
 
@@ -1153,7 +1741,7 @@ _handleFocus();
 
 This method is inherited from Core and is empty by default. Subclasses can override it to add this behavior.
 
-### _handleClick
+### _handleClick <badge type="tip" text="inherited" />
 
 Handles click events through the component.
 
@@ -1163,7 +1751,7 @@ _handleClick();
 
 This method is inherited from Core and is empty by default. Subclasses can override it to add this behavior.
 
-### _handleHover
+### _handleHover <badge type="tip" text="inherited" />
 
 Handles hover events through the component.
 
@@ -1173,7 +1761,7 @@ _handleHover();
 
 This method is inherited from Core and is empty by default. Subclasses can override it to add this behavior.
 
-### _handleKeydown
+### _handleKeydown <badge type="tip" text="inherited" />
 
 Handles keydown events through the component.
 
@@ -1183,7 +1771,7 @@ _handleKeydown();
 
 This method is inherited from Core and is empty by default. Subclasses can override it to add this behavior.
 
-### _handleKeyup
+### _handleKeyup <badge type="tip" text="inherited" />
 
 Handles keyup events through the component.
 
@@ -1193,7 +1781,7 @@ _handleKeyup();
 
 This method is inherited from Core and is empty by default. Subclasses can override it to add this behavior.
 
-### _store
+### _store <badge type="tip" text="inherited" />
 
 Stores the component into the global storage object.
 
@@ -1201,7 +1789,7 @@ Stores the component into the global storage object.
 _store();
 ```
 
-### _unstore
+### _unstore <badge type="tip" text="inherited" />
 
 Removes the component from the global storage object.
 
@@ -1209,7 +1797,7 @@ Removes the component from the global storage object.
 _unstore();
 ```
 
-### _setInterval
+### _setInterval <badge type="tip" text="inherited" />
 
 Sets an interval within the component.
 
@@ -1223,7 +1811,7 @@ _setInterval(callback, delay, (scope = "_default"));
 | `[delay]`            | `number`   | The time (in milliseconds) of the delay.                              |
 | `[scope = _default]` | `string`   | The scope of the interval (used to store the interval in _intervals). |
 
-### _clearInterval
+### _clearInterval <badge type="tip" text="inherited" />
 
 Clears an interval within the component.
 
@@ -1235,7 +1823,7 @@ _clearInterval((scope = "_default"));
 | -------------------- | -------- | --------------------------------------------------------------------- |
 | `[scope = _default]` | `string` | The scope of the interval (used to get the interval from _intervals). |
 
-### _clearIntervals
+### _clearIntervals <badge type="tip" text="inherited" />
 
 Clears all intervals within the component.
 
@@ -1243,7 +1831,7 @@ Clears all intervals within the component.
 _clearIntervals();
 ```
 
-### _setTimeout
+### _setTimeout <badge type="tip" text="inherited" />
 
 Sets a timeout within the component.
 
@@ -1257,7 +1845,7 @@ _setTimeout(callback, delay, (scope = "_default"));
 | `[delay]`            | `number`   | The time (in milliseconds) of the delay.                           |
 | `[scope = _default]` | `string`   | The scope of the timeout (used to store the timeout in _timeouts). |
 
-### _clearTimeout
+### _clearTimeout <badge type="tip" text="inherited" />
 
 Clears a timeout within the component.
 
@@ -1269,7 +1857,7 @@ _clearTimeout((scope = "_default"));
 | -------------------- | -------- | ------------------------------------------------------------------ |
 | `[scope = _default]` | `string` | The scope of the timeout (used to get the timeout from _timeouts). |
 
-### _clearTimeouts
+### _clearTimeouts <badge type="tip" text="inherited" />
 
 Clears all timeouts within the component.
 
@@ -1277,7 +1865,44 @@ Clears all timeouts within the component.
 _clearTimeouts();
 ```
 
-### _registerEvent
+### _requestAnimationFrame <badge type="tip" text="inherited" />
+
+Schedules a callback for the next animation frame. Replaces any pending frame in the same scope.
+
+```js
+BaseMenuToggle._requestAnimationFrame(callback, scope);
+```
+
+| Parameter | Type | Description | Default |
+| --- | --- | --- | --- |
+| callback | `Function` | The callback to run. Receives the browser's frame timestamp. | Required |
+| scope | `string` | The name used to track the pending frame. | `"_default"` |
+
+Removes the frame from storage before calling the callback, so the callback can request another frame in the same scope.
+
+Returns the browser's animation frame ID as a `number`.
+
+### _cancelAnimationFrame <badge type="tip" text="inherited" />
+
+Cancels the pending animation frame in a scope and removes it from storage. Does nothing if that scope has no pending frame.
+
+```js
+BaseMenuToggle._cancelAnimationFrame(scope);
+```
+
+| Parameter | Type | Description | Default |
+| --- | --- | --- | --- |
+| scope | `string` | The scope of the frame to cancel. | `"_default"` |
+
+### _cancelAnimationFrames <badge type="tip" text="inherited" />
+
+Cancels all pending animation frames tracked by the component.
+
+```js
+BaseMenuToggle._cancelAnimationFrames();
+```
+
+### _registerEvent <badge type="tip" text="inherited" />
 
 Registers a new event type within the component.
 
@@ -1292,7 +1917,7 @@ _registerEvent(name, ({ bubbles = true, detail = {} } = {}));
 | `[options.bubbles = true]` | `boolean` | A flag to set if the event bubbles.         |
 | `[options.detail = {}]`    | `object`  | Additional details to include in the event. |
 
-### getEventName
+### getEventName <badge type="tip" text="inherited" />
 
 Gets the name of an event type stored in the _events object.
 
@@ -1306,7 +1931,7 @@ getEventName(type);
 
 Returns `?string`: The event name (or null if none exists).
 
-### _addEventListener
+### _addEventListener <badge type="tip" text="inherited" />
 
 Add an event listener to an element and register it within the component.
 
@@ -1321,7 +1946,7 @@ _addEventListener(type, element, listener, (options = {}));
 | `listener`       | `Function`        | The listener callback.              |
 | `[options = {}]` | `object\|boolean` | Options to pass to the listener.    |
 
-### _removeEventListener
+### _removeEventListener <badge type="tip" text="inherited" />
 
 Remove an event listener from an element and unregister it within the component.
 
@@ -1336,7 +1961,7 @@ _removeEventListener(type, element, listener, (options = {}));
 | `listener`       | `Function`        | The listener callback.                   |
 | `[options = {}]` | `object\|boolean` | Options to pass to the listener.         |
 
-### _removeEventListeners
+### _removeEventListeners <badge type="tip" text="inherited" />
 
 Removes all event listeners registered in the component.
 
@@ -1352,7 +1977,7 @@ _removeEventListeners(({ type = null, element = null } = {}));
 | `[options.type = null]`    | `?string`      | The type of event to remove. If null, all types are removed.             |
 | `[options.element = null]` | `?HTMLElement` | The element to remove listeners from. If null, all elements are removed. |
 
-### focus
+### focus <badge type="tip" text="inherited" />
 
 Sets the toggle's focus state to `"self"` immediately. Calls its controller element's DOM `focus()` method immediately if the root menu's [shouldFocus](./base-menu#getter--shouldfocus) value is `true`.
 
@@ -1360,7 +1985,7 @@ Sets the toggle's focus state to `"self"` immediately. Calls its controller elem
 focus();
 ```
 
-### blur
+### blur <badge type="tip" text="inherited" />
 
 Sets the toggle's focus state to `"none"` immediately. Calls its controller element's DOM `blur()` method immediately if the root menu allows focus.
 
@@ -1368,29 +1993,17 @@ Sets the toggle's focus state to `"none"` immediately. Calls its controller elem
 blur();
 ```
 
-### dispose
+### dispose <badge type="tip" text="inherited" />
 
 Disposes of the current instantiated component.
 
-Removes all intervals, timeouts, and event listeners, and removes the component from global storage. This does not delete references to the component held by your code.
+Removes all intervals, timeouts, pending animation frames, and event listeners, and removes the component from global storage. This does not delete references to the component held by your code.
 
 ```js
 dispose();
 ```
 
-### breakpoint
-
-The breakpoint that the component will call media query list events.
-
-Type: `string`. Readable and writable.
-
-### mediaQuery
-
-The media query used to trigger the root controller's media query list events.
-
-Type: `string`. Readable and writable.
-
-### _mediaQueryListEventCallback
+### _mediaQueryListEventCallback <badge type="tip" text="inherited" />
 
 A callback for media query list events.
 
@@ -1402,7 +2015,7 @@ _mediaQueryListEventCallback(event);
 | --------- | --------------------- | ----------- |
 | `event`   | `MediaQueryListEvent` | The event.  |
 
-### _handleMediaMatch
+### _handleMediaMatch <badge type="tip" text="inherited" />
 
 Handles media match events throughout the component.
 
@@ -1410,79 +2023,7 @@ Handles media match events throughout the component.
 _handleMediaMatch();
 ```
 
-### lockedClass
-
-The class(es) to apply when the component is in the locked state.
-
-Type: `string|string[]`. Readable and writable.
-
-### unlockedClass
-
-The class(es) to apply when the component is in the unlocked state.
-
-Type: `string|string[]`. Readable and writable.
-
-### expandOnFocus
-
-Whether to expand the component when it gains focus in the DOM.
-
-Type: `boolean`. Readable and writable.
-
-### collapseOnBlur
-
-Whether to collapse the component when it loses focus in the DOM.
-
-Type: `boolean`. Readable and writable.
-
-### expandInsideBreakpoint
-
-A flag to expand the component when inside the breakpoint.
-
-Type: `boolean`. Readable and writable.
-
-### expandOutsideBreakpoint
-
-A flag to expand the component when outside the breakpoint.
-
-Type: `boolean`. Readable and writable.
-
-### collapseInsideBreakpoint
-
-A flag to collapse the component when inside the breakpoint.
-
-Type: `boolean`. Readable and writable.
-
-### collapseOutsideBreakpoint
-
-A flag to collapse the component when outside the breakpoint.
-
-Type: `boolean`. Readable and writable.
-
-### lockInsideBreakpoint
-
-A flag to lock the component in its current state when inside the breakpoint.
-
-Type: `boolean`. Readable and writable.
-
-### lockOutsideBreakpoint
-
-A flag to lock the component in its current state when outside the breakpoint.
-
-Type: `boolean`. Readable and writable.
-
-### unlockInsideBreakpoint
-
-A flag to unlock the component when inside the breakpoint.
-
-Type: `boolean`. Readable and writable.
-
-### unlockOutsideBreakpoint
-
-A flag to unlock the component when outside the breakpoint.
-
-Type: `boolean`. Readable and writable.
-
-### _lock
+### _lock <badge type="tip" text="inherited" />
 
 Applies the required attributes and classes for the component's locked state.
 
@@ -1495,7 +2036,7 @@ _lock(({ emit = this.isInitialized } = {}));
 | `[options = {}]`                      | `Object<boolean>` | Options for locking the component. |
 | `[options.emit = this.isInitialized]` | `boolean`         | Emit the lock events.              |
 
-### _unlock
+### _unlock <badge type="tip" text="inherited" />
 
 Applies the required attributes and classes for the component's unlocked state.
 
@@ -1508,7 +2049,7 @@ _unlock(({ emit = this.isInitialized } = {}));
 | `[options = {}]`                      | `Object<boolean>` | Options for unlocking the component. |
 | `[options.emit = this.isInitialized]` | `boolean`         | Emit the unlock events.              |
 
-### lock
+### lock <badge type="tip" text="inherited" />
 
 Locks the component.
 
@@ -1529,7 +2070,7 @@ lock(
 | `[options.emit = this.isInitialized]`   | `boolean`         | Emit the lock events.              |
 | `[options.preserveState = false]`       | `boolean`         | Preserve the locked state.         |
 
-### unlock
+### unlock <badge type="tip" text="inherited" />
 
 Unlocks the component.
 
@@ -1550,7 +2091,7 @@ unlock(
 | `[options.emit = this.isInitialized]`   | `boolean`         | Emit the unlock event.               |
 | `[options.preserveState = false]`       | `boolean`         | Preserve the unlocked state.         |
 
-### toggleLock
+### toggleLock <badge type="tip" text="inherited" />
 
 Toggles locking and unlocking the component.
 
