@@ -925,6 +925,7 @@ var h = class {
 	_storageKey = "menuToggles";
 	_shouldStore = !1;
 	_rootDOMElement = "controller";
+	_handlingMediaQuery = !1;
 	constructor({ menuToggleElement: e, containerElement: t = null, controlledMenu: n, parentMenu: r = null, breakpoint: i = "", mediaQuery: a = "", expandInsideBreakpoint: o = !1, expandOutsideBreakpoint: s = !1, collapseInsideBreakpoint: c = !1, collapseOutsideBreakpoint: l = !1, lockInsideBreakpoint: u = !1, lockOutsideBreakpoint: d = !1, unlockInsideBreakpoint: f = !1, unlockOutsideBreakpoint: p = !1 }) {
 		super({
 			controllerElement: e,
@@ -1033,9 +1034,17 @@ var h = class {
 	_setAriaAttributes() {
 		this.dom.controller.setAttribute("aria-expanded", "false"), this.elements.controlledMenu.dom.menu.setAttribute("aria-labelledby", this.dom.controller.id);
 	}
+	_mediaQueryListEventCallback(e) {
+		this._handlingMediaQuery = !0;
+		try {
+			super._mediaQueryListEventCallback(e);
+		} finally {
+			this._handlingMediaQuery = !1;
+		}
+	}
 	_expand(e = {}) {
 		let t = this.elements.controlledMenu.elements.rootMenu;
-		t && (t.hasExpanded = !0), super._expand(e);
+		t && !this._handlingMediaQuery && (t.hasExpanded = !0), super._expand(e);
 	}
 	expand({ force: e = !this.isInitialized, preserveState: t = !1, emit: n = this.isInitialized, transition: r = this.isInitialized } = {}) {
 		(!this.isLocked || e) && (this.isInitialized && (this.elements.controlledMenu.focusState = "self"), super.expand({
