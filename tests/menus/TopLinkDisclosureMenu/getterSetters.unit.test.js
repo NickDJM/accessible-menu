@@ -166,8 +166,42 @@ describe("TopLinkDisclosureMenu getter/setters", () => {
   });
 
   // Test TopLinkDisclosureMenu breakpoint.
+  describe("breakpoint", () => {
+    it("should implement the BaseMenu breakpoint getter", () => {
+      expectInheritedGetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "breakpoint"
+      );
+    });
+
+    it("should implement the BaseMenu breakpoint setter", () => {
+      expectInheritedSetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "breakpoint"
+      );
+    });
+  });
 
   // Test TopLinkDisclosureMenu mediaQuery.
+  describe("mediaQuery", () => {
+    it("should implement the BaseMenu mediaQuery getter", () => {
+      expectInheritedGetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "mediaQuery"
+      );
+    });
+
+    it("should implement the BaseMenu mediaQuery setter", () => {
+      expectInheritedSetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "mediaQuery"
+      );
+    });
+  });
 
   // Test BaseMenu expandClass.
   describe("expandClass", () => {
@@ -459,6 +493,33 @@ describe("TopLinkDisclosureMenu getter/setters", () => {
         TopLinkDisclosureMenu.prototype,
         BaseMenu.prototype,
         "leaveDelay"
+      );
+    });
+  });
+
+  describe.each([
+    "expandInsideBreakpoint",
+    "expandOutsideBreakpoint",
+    "collapseInsideBreakpoint",
+    "collapseOutsideBreakpoint",
+    "lockInsideBreakpoint",
+    "lockOutsideBreakpoint",
+    "unlockInsideBreakpoint",
+    "unlockOutsideBreakpoint",
+  ])("%s", (property) => {
+    it("should implement the BaseMenu getter", () => {
+      expectInheritedGetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        property
+      );
+    });
+
+    it("should implement the BaseMenu setter", () => {
+      expectInheritedSetter(
+        TopLinkDisclosureMenu.prototype,
+        BaseMenu.prototype,
+        property
       );
     });
   });

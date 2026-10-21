@@ -142,8 +142,42 @@ describe("Treeview getter/setters", () => {
   });
 
   // Test Treeview breakpoint.
+  describe("breakpoint", () => {
+    it("should implement the BaseMenu breakpoint getter", () => {
+      expectInheritedGetter(
+        Treeview.prototype,
+        BaseMenu.prototype,
+        "breakpoint"
+      );
+    });
+
+    it("should implement the BaseMenu breakpoint setter", () => {
+      expectInheritedSetter(
+        Treeview.prototype,
+        BaseMenu.prototype,
+        "breakpoint"
+      );
+    });
+  });
 
   // Test Treeview mediaQuery.
+  describe("mediaQuery", () => {
+    it("should implement the BaseMenu mediaQuery getter", () => {
+      expectInheritedGetter(
+        Treeview.prototype,
+        BaseMenu.prototype,
+        "mediaQuery"
+      );
+    });
+
+    it("should implement the BaseMenu mediaQuery setter", () => {
+      expectInheritedSetter(
+        Treeview.prototype,
+        BaseMenu.prototype,
+        "mediaQuery"
+      );
+    });
+  });
 
   // Test BaseMenu expandClass.
   describe("expandClass", () => {
@@ -436,6 +470,25 @@ describe("Treeview getter/setters", () => {
         BaseMenu.prototype,
         "leaveDelay"
       );
+    });
+  });
+
+  describe.each([
+    "expandInsideBreakpoint",
+    "expandOutsideBreakpoint",
+    "collapseInsideBreakpoint",
+    "collapseOutsideBreakpoint",
+    "lockInsideBreakpoint",
+    "lockOutsideBreakpoint",
+    "unlockInsideBreakpoint",
+    "unlockOutsideBreakpoint",
+  ])("%s", (property) => {
+    it("should implement the BaseMenu getter", () => {
+      expectInheritedGetter(Treeview.prototype, BaseMenu.prototype, property);
+    });
+
+    it("should implement the BaseMenu setter", () => {
+      expectInheritedSetter(Treeview.prototype, BaseMenu.prototype, property);
     });
   });
 

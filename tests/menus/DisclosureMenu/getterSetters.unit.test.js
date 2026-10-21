@@ -167,8 +167,42 @@ describe("DisclosureMenu getter/setters", () => {
   });
 
   // Test DisclosureMenu breakpoint.
+  describe("breakpoint", () => {
+    it("should implement the BaseMenu breakpoint getter", () => {
+      expectInheritedGetter(
+        DisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "breakpoint"
+      );
+    });
+
+    it("should implement the BaseMenu breakpoint setter", () => {
+      expectInheritedSetter(
+        DisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "breakpoint"
+      );
+    });
+  });
 
   // Test DisclosureMenu mediaQuery.
+  describe("mediaQuery", () => {
+    it("should implement the BaseMenu mediaQuery getter", () => {
+      expectInheritedGetter(
+        DisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "mediaQuery"
+      );
+    });
+
+    it("should implement the BaseMenu mediaQuery setter", () => {
+      expectInheritedSetter(
+        DisclosureMenu.prototype,
+        BaseMenu.prototype,
+        "mediaQuery"
+      );
+    });
+  });
 
   // Test BaseMenu expandClass.
   describe("expandClass", () => {
@@ -460,6 +494,33 @@ describe("DisclosureMenu getter/setters", () => {
         DisclosureMenu.prototype,
         BaseMenu.prototype,
         "leaveDelay"
+      );
+    });
+  });
+
+  describe.each([
+    "expandInsideBreakpoint",
+    "expandOutsideBreakpoint",
+    "collapseInsideBreakpoint",
+    "collapseOutsideBreakpoint",
+    "lockInsideBreakpoint",
+    "lockOutsideBreakpoint",
+    "unlockInsideBreakpoint",
+    "unlockOutsideBreakpoint",
+  ])("%s", (property) => {
+    it("should implement the BaseMenu getter", () => {
+      expectInheritedGetter(
+        DisclosureMenu.prototype,
+        BaseMenu.prototype,
+        property
+      );
+    });
+
+    it("should implement the BaseMenu setter", () => {
+      expectInheritedSetter(
+        DisclosureMenu.prototype,
+        BaseMenu.prototype,
+        property
       );
     });
   });

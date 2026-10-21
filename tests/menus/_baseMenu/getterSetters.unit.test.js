@@ -9,6 +9,7 @@ import {
   twoLevelDisclosureTopLink,
 } from "../../../demo/menus.js";
 import BaseMenu from "../../../src/_baseMenu.js";
+import { setupMatchMedia } from "../helpers.js";
 
 beforeEach(() => {
   // Create the test menu.
@@ -38,6 +39,16 @@ describe("BaseMenu getter/setters", () => {
     ["hoverDelay", 100, "invalid"],
     ["enterDelay", 100, "invalid"],
     ["leaveDelay", 100, "invalid"],
+    ["breakpoint", "60rem", 100],
+    ["mediaQuery", "(orientation: portrait)", 100],
+    ["expandInsideBreakpoint", true, "invalid"],
+    ["expandOutsideBreakpoint", true, "invalid"],
+    ["collapseInsideBreakpoint", true, "invalid"],
+    ["collapseOutsideBreakpoint", true, "invalid"],
+    ["lockInsideBreakpoint", true, "invalid"],
+    ["lockOutsideBreakpoint", true, "invalid"],
+    ["unlockInsideBreakpoint", true, "invalid"],
+    ["unlockOutsideBreakpoint", true, "invalid"],
   ])("%s validation", (property, value, invalid) => {
     // Test that the setter rejects invalid values.
     it("should throw when an invalid value is assigned", () => {
@@ -991,8 +1002,345 @@ describe("BaseMenu getter/setters", () => {
   });
 
   // Test BaseMenu breakpoint.
+  describe("breakpoint", () => {
+    beforeEach(() => {
+      vi.useFakeTimers();
+      const { matchMedia } = setupMatchMedia();
+      vi.stubGlobal("matchMedia", matchMedia);
+    });
+
+    afterEach(() => {
+      vi.unstubAllGlobals();
+      vi.useRealTimers();
+    });
+
+    it("should return the default value without a controller", () => {
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+
+      expect(menu.breakpoint).toBe("");
+    });
+
+    it("should pass changes made before initialization to the controller", () => {
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        controllerElement: document.querySelector("button"),
+        containerElement: document.querySelector("nav"),
+        breakpoint: "40rem",
+      });
+
+      menu.breakpoint = "60rem";
+
+      expect(menu.breakpoint).toBe("60rem");
+
+      menu.initialize();
+
+      expect(menu.isInitialized).toBe(true);
+      expect(menu.elements.controller.breakpoint).toBe("60rem");
+    });
+
+    it("should update the root controller's value", () => {
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        controllerElement: document.querySelector("button"),
+        containerElement: document.querySelector("nav"),
+        submenuTogglesSelector: "a",
+      });
+      menu.initialize();
+
+      menu.breakpoint = "60rem";
+
+      expect(menu.elements.controller.breakpoint).toBe("60rem");
+      expect(menu.breakpoint).toBe("60rem");
+    });
+
+    it("should return changes made directly on the root controller", () => {
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        controllerElement: document.querySelector("button"),
+        containerElement: document.querySelector("nav"),
+        submenuTogglesSelector: "a",
+      });
+      menu.initialize();
+
+      menu.elements.controller.breakpoint = "60rem";
+
+      expect(menu.breakpoint).toBe("60rem");
+    });
+
+    it("should inherit the root menu's value", () => {
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        controllerElement: document.querySelector("button"),
+        containerElement: document.querySelector("nav"),
+        submenuTogglesSelector: "a",
+      });
+      menu.initialize();
+      const submenu = menu.elements.submenuToggles[0].elements.controlledMenu;
+
+      menu.breakpoint = "60rem";
+
+      expect(submenu.breakpoint).toBe("60rem");
+    });
+
+    it("should update the root menu's value", () => {
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        controllerElement: document.querySelector("button"),
+        containerElement: document.querySelector("nav"),
+        submenuTogglesSelector: "a",
+      });
+      menu.initialize();
+      const submenu = menu.elements.submenuToggles[0].elements.controlledMenu;
+
+      submenu.breakpoint = "60rem";
+
+      expect(menu.breakpoint).toBe("60rem");
+      expect(menu.elements.controller.breakpoint).toBe("60rem");
+    });
+  });
 
   // Test BaseMenu mediaQuery.
+  describe("mediaQuery", () => {
+    beforeEach(() => {
+      vi.useFakeTimers();
+      const { matchMedia } = setupMatchMedia();
+      vi.stubGlobal("matchMedia", matchMedia);
+    });
+
+    afterEach(() => {
+      vi.unstubAllGlobals();
+      vi.useRealTimers();
+    });
+
+    it("should use the breakpoint before and after the controller is created", () => {
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        controllerElement: document.querySelector("button"),
+        containerElement: document.querySelector("nav"),
+        breakpoint: "40rem",
+      });
+
+      expect(menu.mediaQuery).toBe("(width <= 40rem)");
+
+      menu.initialize();
+
+      expect(menu.mediaQuery).toBe("(width <= 40rem)");
+    });
+
+    it("should use the breakpoint when the explicit query is cleared", () => {
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        controllerElement: document.querySelector("button"),
+        containerElement: document.querySelector("nav"),
+        breakpoint: "40rem",
+        mediaQuery: "(orientation: portrait)",
+      });
+      menu.initialize();
+
+      menu.mediaQuery = "";
+
+      expect(menu.mediaQuery).toBe("(width <= 40rem)");
+      expect(menu.elements.controller.mediaQuery).toBe("(width <= 40rem)");
+    });
+
+    it("should return the default value without a controller", () => {
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+
+      expect(menu.mediaQuery).toBe("");
+    });
+
+    it("should pass changes made before initialization to the controller", () => {
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        controllerElement: document.querySelector("button"),
+        containerElement: document.querySelector("nav"),
+        mediaQuery: "(orientation: landscape)",
+      });
+
+      menu.mediaQuery = "(orientation: portrait)";
+
+      expect(menu.mediaQuery).toBe("(orientation: portrait)");
+
+      menu.initialize();
+
+      expect(menu.isInitialized).toBe(true);
+      expect(menu.elements.controller.mediaQuery).toBe(
+        "(orientation: portrait)"
+      );
+    });
+
+    it("should update the root controller's value", () => {
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        controllerElement: document.querySelector("button"),
+        containerElement: document.querySelector("nav"),
+        submenuTogglesSelector: "a",
+      });
+      menu.initialize();
+
+      menu.mediaQuery = "(orientation: portrait)";
+
+      expect(menu.elements.controller.mediaQuery).toBe(
+        "(orientation: portrait)"
+      );
+      expect(menu.mediaQuery).toBe("(orientation: portrait)");
+    });
+
+    it("should return changes made directly on the root controller", () => {
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        controllerElement: document.querySelector("button"),
+        containerElement: document.querySelector("nav"),
+        submenuTogglesSelector: "a",
+      });
+      menu.initialize();
+
+      menu.elements.controller.mediaQuery = "(orientation: portrait)";
+
+      expect(menu.mediaQuery).toBe("(orientation: portrait)");
+    });
+
+    it("should inherit the root menu's value", () => {
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        controllerElement: document.querySelector("button"),
+        containerElement: document.querySelector("nav"),
+        submenuTogglesSelector: "a",
+      });
+      menu.initialize();
+      const submenu = menu.elements.submenuToggles[0].elements.controlledMenu;
+
+      menu.mediaQuery = "(orientation: portrait)";
+
+      expect(submenu.mediaQuery).toBe("(orientation: portrait)");
+    });
+
+    it("should update the root menu's value", () => {
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        controllerElement: document.querySelector("button"),
+        containerElement: document.querySelector("nav"),
+        submenuTogglesSelector: "a",
+      });
+      menu.initialize();
+      const submenu = menu.elements.submenuToggles[0].elements.controlledMenu;
+
+      submenu.mediaQuery = "(orientation: portrait)";
+
+      expect(menu.mediaQuery).toBe("(orientation: portrait)");
+      expect(menu.elements.controller.mediaQuery).toBe(
+        "(orientation: portrait)"
+      );
+    });
+  });
+
+  describe.each([
+    "expandInsideBreakpoint",
+    "expandOutsideBreakpoint",
+    "collapseInsideBreakpoint",
+    "collapseOutsideBreakpoint",
+    "lockInsideBreakpoint",
+    "lockOutsideBreakpoint",
+    "unlockInsideBreakpoint",
+    "unlockOutsideBreakpoint",
+  ])("%s", (property) => {
+    it("should return false by default without a controller", () => {
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+
+      expect(menu[property]).toBe(false);
+    });
+
+    it("should pass changes made before initialization to the controller", () => {
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        controllerElement: document.querySelector("button"),
+        containerElement: document.querySelector("nav"),
+      });
+
+      menu[property] = true;
+
+      expect(menu[property]).toBe(true);
+
+      menu.initialize();
+
+      expect(menu.isInitialized).toBe(true);
+      expect(menu.elements.controller[property]).toBe(true);
+    });
+
+    it("should update the root controller's value", () => {
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        controllerElement: document.querySelector("button"),
+        containerElement: document.querySelector("nav"),
+        submenuTogglesSelector: "a",
+      });
+      menu.initialize();
+
+      expect(menu[property]).toBe(false);
+      expect(menu.elements.controller[property]).toBe(false);
+
+      menu[property] = true;
+
+      expect(menu[property]).toBe(true);
+      expect(menu.elements.controller[property]).toBe(true);
+
+      menu[property] = false;
+
+      expect(menu[property]).toBe(false);
+      expect(menu.elements.controller[property]).toBe(false);
+    });
+
+    it("should return changes made directly on the root controller", () => {
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        controllerElement: document.querySelector("button"),
+        containerElement: document.querySelector("nav"),
+        submenuTogglesSelector: "a",
+      });
+      menu.initialize();
+
+      menu.elements.controller[property] = true;
+
+      expect(menu[property]).toBe(true);
+    });
+
+    it("should inherit the root menu's value", () => {
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        controllerElement: document.querySelector("button"),
+        containerElement: document.querySelector("nav"),
+        submenuTogglesSelector: "a",
+      });
+      menu.initialize();
+      const submenu = menu.elements.submenuToggles[0].elements.controlledMenu;
+
+      menu[property] = true;
+
+      expect(submenu[property]).toBe(true);
+    });
+
+    it("should update the root menu's value", () => {
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        controllerElement: document.querySelector("button"),
+        containerElement: document.querySelector("nav"),
+        submenuTogglesSelector: "a",
+      });
+      menu.initialize();
+      const submenu = menu.elements.submenuToggles[0].elements.controlledMenu;
+
+      submenu[property] = true;
+
+      expect(menu[property]).toBe(true);
+      expect(menu.elements.controller[property]).toBe(true);
+    });
+  });
 
   // Test BaseMenu prefix.
   describe("prefix", () => {

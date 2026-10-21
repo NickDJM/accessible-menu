@@ -279,8 +279,4 @@ If the root menu has a controller, removes its `aria-haspopup` attribute.
 
 ## Responsive controller configuration
 
-`breakpoint`, `mediaQuery`, and the eight breakpoint action flags are passed to the root controller, `elements.controller`. Submenu toggles do not receive these options.
-
-All action flags default to `false`. To expand outside the breakpoint and collapse inside it, pass `expandOutsideBreakpoint: true` and `collapseInsideBreakpoint: true`.
-
-After initialization, you can read the responsive settings and change action flags through `menu.elements.controller`. The controller registers its media-query listener during initialization. If you change `breakpoint` or `mediaQuery` afterward, you must also reconfigure that listener.
+Uses [BaseMenu's responsive controller configuration](./base-menu#responsive-controller-configuration), including the steps for changing a query after initialization.

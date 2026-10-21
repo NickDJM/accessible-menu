@@ -823,6 +823,379 @@ class BaseMenu extends Component {
   }
 
   /**
+   * The breakpoint passed to the root controller.
+   *
+   * Reads the controller's current value when it exists. Before the controller
+   * is created, reads the options that will be passed to it.
+   * Setting this value updates the root controller without making the menu
+   * itself responsive. Submenus use their root menu's value.
+   *
+   * @type {string}
+   */
+  get breakpoint() {
+    const menu = this.elements.rootMenu || this.elements.parentMenu;
+
+    if (menu && menu !== this) return menu.breakpoint;
+
+    return this.elements.controller
+      ? this.elements.controller.breakpoint
+      : this._controllerOptions.breakpoint;
+  }
+
+  set breakpoint(value) {
+    const menu = this.elements.rootMenu || this.elements.parentMenu;
+
+    if (menu && menu !== this) {
+      menu.breakpoint = value;
+      return;
+    }
+
+    isValidType("string", { breakpoint: value });
+
+    if (this.elements.controller) this.elements.controller.breakpoint = value;
+
+    this._controllerOptions.breakpoint = value;
+  }
+
+  /**
+   * The media query passed to the root controller.
+   * Uses the breakpoint to generate the query when no explicit query is set.
+   *
+   * Reads the controller's current value when it exists. Before the controller
+   * is created, reads the options that will be passed to it.
+   * Setting this value updates the root controller without making the menu
+   * itself responsive. Submenus use their root menu's value.
+   *
+   * @type {string}
+   */
+  get mediaQuery() {
+    const menu = this.elements.rootMenu || this.elements.parentMenu;
+
+    if (menu && menu !== this) return menu.mediaQuery;
+
+    if (this.elements.controller) return this.elements.controller.mediaQuery;
+
+    if (this._controllerOptions.mediaQuery !== "") {
+      return this._controllerOptions.mediaQuery;
+    }
+
+    if (this.breakpoint === "") return "";
+
+    return `(width <= ${this.breakpoint})`;
+  }
+
+  set mediaQuery(value) {
+    const menu = this.elements.rootMenu || this.elements.parentMenu;
+
+    if (menu && menu !== this) {
+      menu.mediaQuery = value;
+      return;
+    }
+
+    isValidType("string", { mediaQuery: value });
+
+    if (this.elements.controller) this.elements.controller.mediaQuery = value;
+
+    this._controllerOptions.mediaQuery = value;
+  }
+
+  /**
+   * A flag to expand the root controller when its media query matches.
+   *
+   * Reads the controller's current value when it exists. Before the controller
+   * is created, reads the option that will be passed to it.
+   * Submenus read and update their root menu's value.
+   * Changes take effect the next time the controller handles a media query match.
+   *
+   * @type {boolean}
+   */
+  get expandInsideBreakpoint() {
+    const menu = this.elements.rootMenu || this.elements.parentMenu;
+
+    if (menu && menu !== this) return menu.expandInsideBreakpoint;
+
+    return this.elements.controller
+      ? this.elements.controller.expandInsideBreakpoint
+      : this._controllerOptions.expandInsideBreakpoint;
+  }
+
+  set expandInsideBreakpoint(value) {
+    const menu = this.elements.rootMenu || this.elements.parentMenu;
+
+    if (menu && menu !== this) {
+      menu.expandInsideBreakpoint = value;
+      return;
+    }
+
+    isValidType("boolean", { expandInsideBreakpoint: value });
+
+    if (this.elements.controller) {
+      this.elements.controller.expandInsideBreakpoint = value;
+    }
+
+    this._controllerOptions.expandInsideBreakpoint = value;
+  }
+
+  /**
+   * A flag to expand the root controller when its media query does not match.
+   *
+   * Reads the controller's current value when it exists. Before the controller
+   * is created, reads the option that will be passed to it.
+   * Submenus read and update their root menu's value.
+   * Changes take effect the next time the controller handles a media query match.
+   *
+   * @type {boolean}
+   */
+  get expandOutsideBreakpoint() {
+    const menu = this.elements.rootMenu || this.elements.parentMenu;
+
+    if (menu && menu !== this) return menu.expandOutsideBreakpoint;
+
+    return this.elements.controller
+      ? this.elements.controller.expandOutsideBreakpoint
+      : this._controllerOptions.expandOutsideBreakpoint;
+  }
+
+  set expandOutsideBreakpoint(value) {
+    const menu = this.elements.rootMenu || this.elements.parentMenu;
+
+    if (menu && menu !== this) {
+      menu.expandOutsideBreakpoint = value;
+      return;
+    }
+
+    isValidType("boolean", { expandOutsideBreakpoint: value });
+
+    if (this.elements.controller) {
+      this.elements.controller.expandOutsideBreakpoint = value;
+    }
+
+    this._controllerOptions.expandOutsideBreakpoint = value;
+  }
+
+  /**
+   * A flag to collapse the root controller when its media query matches.
+   *
+   * Reads the controller's current value when it exists. Before the controller
+   * is created, reads the option that will be passed to it.
+   * Submenus read and update their root menu's value.
+   * Changes take effect the next time the controller handles a media query match.
+   *
+   * @type {boolean}
+   */
+  get collapseInsideBreakpoint() {
+    const menu = this.elements.rootMenu || this.elements.parentMenu;
+
+    if (menu && menu !== this) return menu.collapseInsideBreakpoint;
+
+    return this.elements.controller
+      ? this.elements.controller.collapseInsideBreakpoint
+      : this._controllerOptions.collapseInsideBreakpoint;
+  }
+
+  set collapseInsideBreakpoint(value) {
+    const menu = this.elements.rootMenu || this.elements.parentMenu;
+
+    if (menu && menu !== this) {
+      menu.collapseInsideBreakpoint = value;
+      return;
+    }
+
+    isValidType("boolean", { collapseInsideBreakpoint: value });
+
+    if (this.elements.controller) {
+      this.elements.controller.collapseInsideBreakpoint = value;
+    }
+
+    this._controllerOptions.collapseInsideBreakpoint = value;
+  }
+
+  /**
+   * A flag to collapse the root controller when its media query does not match.
+   *
+   * Reads the controller's current value when it exists. Before the controller
+   * is created, reads the option that will be passed to it.
+   * Submenus read and update their root menu's value.
+   * Changes take effect the next time the controller handles a media query match.
+   *
+   * @type {boolean}
+   */
+  get collapseOutsideBreakpoint() {
+    const menu = this.elements.rootMenu || this.elements.parentMenu;
+
+    if (menu && menu !== this) return menu.collapseOutsideBreakpoint;
+
+    return this.elements.controller
+      ? this.elements.controller.collapseOutsideBreakpoint
+      : this._controllerOptions.collapseOutsideBreakpoint;
+  }
+
+  set collapseOutsideBreakpoint(value) {
+    const menu = this.elements.rootMenu || this.elements.parentMenu;
+
+    if (menu && menu !== this) {
+      menu.collapseOutsideBreakpoint = value;
+      return;
+    }
+
+    isValidType("boolean", { collapseOutsideBreakpoint: value });
+
+    if (this.elements.controller) {
+      this.elements.controller.collapseOutsideBreakpoint = value;
+    }
+
+    this._controllerOptions.collapseOutsideBreakpoint = value;
+  }
+
+  /**
+   * A flag to lock the root controller when its media query matches.
+   *
+   * Reads the controller's current value when it exists. Before the controller
+   * is created, reads the option that will be passed to it.
+   * Submenus read and update their root menu's value.
+   * Changes take effect the next time the controller handles a media query match.
+   *
+   * @type {boolean}
+   */
+  get lockInsideBreakpoint() {
+    const menu = this.elements.rootMenu || this.elements.parentMenu;
+
+    if (menu && menu !== this) return menu.lockInsideBreakpoint;
+
+    return this.elements.controller
+      ? this.elements.controller.lockInsideBreakpoint
+      : this._controllerOptions.lockInsideBreakpoint;
+  }
+
+  set lockInsideBreakpoint(value) {
+    const menu = this.elements.rootMenu || this.elements.parentMenu;
+
+    if (menu && menu !== this) {
+      menu.lockInsideBreakpoint = value;
+      return;
+    }
+
+    isValidType("boolean", { lockInsideBreakpoint: value });
+
+    if (this.elements.controller) {
+      this.elements.controller.lockInsideBreakpoint = value;
+    }
+
+    this._controllerOptions.lockInsideBreakpoint = value;
+  }
+
+  /**
+   * A flag to lock the root controller when its media query does not match.
+   *
+   * Reads the controller's current value when it exists. Before the controller
+   * is created, reads the option that will be passed to it.
+   * Submenus read and update their root menu's value.
+   * Changes take effect the next time the controller handles a media query match.
+   *
+   * @type {boolean}
+   */
+  get lockOutsideBreakpoint() {
+    const menu = this.elements.rootMenu || this.elements.parentMenu;
+
+    if (menu && menu !== this) return menu.lockOutsideBreakpoint;
+
+    return this.elements.controller
+      ? this.elements.controller.lockOutsideBreakpoint
+      : this._controllerOptions.lockOutsideBreakpoint;
+  }
+
+  set lockOutsideBreakpoint(value) {
+    const menu = this.elements.rootMenu || this.elements.parentMenu;
+
+    if (menu && menu !== this) {
+      menu.lockOutsideBreakpoint = value;
+      return;
+    }
+
+    isValidType("boolean", { lockOutsideBreakpoint: value });
+
+    if (this.elements.controller) {
+      this.elements.controller.lockOutsideBreakpoint = value;
+    }
+
+    this._controllerOptions.lockOutsideBreakpoint = value;
+  }
+
+  /**
+   * A flag to unlock the root controller when its media query matches.
+   *
+   * Reads the controller's current value when it exists. Before the controller
+   * is created, reads the option that will be passed to it.
+   * Submenus read and update their root menu's value.
+   * Changes take effect the next time the controller handles a media query match.
+   *
+   * @type {boolean}
+   */
+  get unlockInsideBreakpoint() {
+    const menu = this.elements.rootMenu || this.elements.parentMenu;
+
+    if (menu && menu !== this) return menu.unlockInsideBreakpoint;
+
+    return this.elements.controller
+      ? this.elements.controller.unlockInsideBreakpoint
+      : this._controllerOptions.unlockInsideBreakpoint;
+  }
+
+  set unlockInsideBreakpoint(value) {
+    const menu = this.elements.rootMenu || this.elements.parentMenu;
+
+    if (menu && menu !== this) {
+      menu.unlockInsideBreakpoint = value;
+      return;
+    }
+
+    isValidType("boolean", { unlockInsideBreakpoint: value });
+
+    if (this.elements.controller) {
+      this.elements.controller.unlockInsideBreakpoint = value;
+    }
+
+    this._controllerOptions.unlockInsideBreakpoint = value;
+  }
+
+  /**
+   * A flag to unlock the root controller when its media query does not match.
+   *
+   * Reads the controller's current value when it exists. Before the controller
+   * is created, reads the option that will be passed to it.
+   * Submenus read and update their root menu's value.
+   * Changes take effect the next time the controller handles a media query match.
+   *
+   * @type {boolean}
+   */
+  get unlockOutsideBreakpoint() {
+    const menu = this.elements.rootMenu || this.elements.parentMenu;
+
+    if (menu && menu !== this) return menu.unlockOutsideBreakpoint;
+
+    return this.elements.controller
+      ? this.elements.controller.unlockOutsideBreakpoint
+      : this._controllerOptions.unlockOutsideBreakpoint;
+  }
+
+  set unlockOutsideBreakpoint(value) {
+    const menu = this.elements.rootMenu || this.elements.parentMenu;
+
+    if (menu && menu !== this) {
+      menu.unlockOutsideBreakpoint = value;
+      return;
+    }
+
+    isValidType("boolean", { unlockOutsideBreakpoint: value });
+
+    if (this.elements.controller) {
+      this.elements.controller.unlockOutsideBreakpoint = value;
+    }
+
+    this._controllerOptions.unlockOutsideBreakpoint = value;
+  }
+
+  /**
    * The prefix to use for CSS custom properties.
    *
    * This functions differently for root vs. submenus.

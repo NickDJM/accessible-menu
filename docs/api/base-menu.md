@@ -1074,6 +1074,246 @@ This functions differently for root vs. submenus. Submenus will always inherit t
 
 See [_delays.leave](#property--delays) for more information.
 
+### breakpoint {#getter-setter--breakpoint}
+
+The breakpoint passed to the root controller.
+
+::: code-group
+
+```js [getter]
+BaseMenu.breakpoint;
+```
+
+```js [setter]
+BaseMenu.breakpoint = "60rem";
+```
+
+:::
+
+Reads the root controller's current value, so changes made directly on the controller are also available here. Before the controller is created, returns the configured option. Submenus read and update the root menu's value.
+
+Setting this value updates the root controller. The menu itself does not register a media-query listener. See [responsive controller configuration](#responsive-controller-configuration).
+
+#### Type {#getter-setter--breakpoint--type}
+
+`string`
+
+### mediaQuery {#getter-setter--mediaquery}
+
+The media query used by the root controller.
+
+::: code-group
+
+```js [getter]
+BaseMenu.mediaQuery;
+```
+
+```js [setter]
+BaseMenu.mediaQuery = "(orientation: portrait)";
+```
+
+:::
+
+Reads the root controller's current value, so changes made directly on the controller are also available here. Before the controller is created, uses the explicit query or generates one from the breakpoint. Submenus read and update the root menu's value.
+
+Setting this value updates the root controller. The menu itself does not register a media-query listener. See [responsive controller configuration](#responsive-controller-configuration).
+
+#### Type {#getter-setter--mediaquery--type}
+
+`string`
+
+### expandInsideBreakpoint {#getter-setter--expandinsidebreakpoint}
+
+A flag to expand the root controller when its media query matches. Defaults to `false`.
+
+::: code-group
+
+```js [getter]
+BaseMenu.expandInsideBreakpoint;
+```
+
+```js [setter]
+BaseMenu.expandInsideBreakpoint = true;
+```
+
+:::
+
+Reads and updates the root controller's value. Changes made directly on the controller are reflected here. Before the controller is created, stores the option to pass to it. Submenus use the root menu's value.
+
+Changes take effect the next time the controller handles a media-query match. See [responsive controller configuration](#responsive-controller-configuration).
+
+#### Type {#getter-setter--expandinsidebreakpoint--type}
+
+`boolean`
+
+### expandOutsideBreakpoint {#getter-setter--expandoutsidebreakpoint}
+
+A flag to expand the root controller when its media query does not match. Defaults to `false`.
+
+::: code-group
+
+```js [getter]
+BaseMenu.expandOutsideBreakpoint;
+```
+
+```js [setter]
+BaseMenu.expandOutsideBreakpoint = true;
+```
+
+:::
+
+Reads and updates the root controller's value. Changes made directly on the controller are reflected here. Before the controller is created, stores the option to pass to it. Submenus use the root menu's value.
+
+Changes take effect the next time the controller handles a media-query match. See [responsive controller configuration](#responsive-controller-configuration).
+
+#### Type {#getter-setter--expandoutsidebreakpoint--type}
+
+`boolean`
+
+### collapseInsideBreakpoint {#getter-setter--collapseinsidebreakpoint}
+
+A flag to collapse the root controller when its media query matches. Defaults to `false`.
+
+::: code-group
+
+```js [getter]
+BaseMenu.collapseInsideBreakpoint;
+```
+
+```js [setter]
+BaseMenu.collapseInsideBreakpoint = true;
+```
+
+:::
+
+Reads and updates the root controller's value. Changes made directly on the controller are reflected here. Before the controller is created, stores the option to pass to it. Submenus use the root menu's value.
+
+Changes take effect the next time the controller handles a media-query match. See [responsive controller configuration](#responsive-controller-configuration).
+
+#### Type {#getter-setter--collapseinsidebreakpoint--type}
+
+`boolean`
+
+### collapseOutsideBreakpoint {#getter-setter--collapseoutsidebreakpoint}
+
+A flag to collapse the root controller when its media query does not match. Defaults to `false`.
+
+::: code-group
+
+```js [getter]
+BaseMenu.collapseOutsideBreakpoint;
+```
+
+```js [setter]
+BaseMenu.collapseOutsideBreakpoint = true;
+```
+
+:::
+
+Reads and updates the root controller's value. Changes made directly on the controller are reflected here. Before the controller is created, stores the option to pass to it. Submenus use the root menu's value.
+
+Changes take effect the next time the controller handles a media-query match. See [responsive controller configuration](#responsive-controller-configuration).
+
+#### Type {#getter-setter--collapseoutsidebreakpoint--type}
+
+`boolean`
+
+### lockInsideBreakpoint {#getter-setter--lockinsidebreakpoint}
+
+A flag to lock the root controller when its media query matches. Defaults to `false`.
+
+::: code-group
+
+```js [getter]
+BaseMenu.lockInsideBreakpoint;
+```
+
+```js [setter]
+BaseMenu.lockInsideBreakpoint = true;
+```
+
+:::
+
+Reads and updates the root controller's value. Changes made directly on the controller are reflected here. Before the controller is created, stores the option to pass to it. Submenus use the root menu's value.
+
+Changes take effect the next time the controller handles a media-query match. See [responsive controller configuration](#responsive-controller-configuration).
+
+#### Type {#getter-setter--lockinsidebreakpoint--type}
+
+`boolean`
+
+### lockOutsideBreakpoint {#getter-setter--lockoutsidebreakpoint}
+
+A flag to lock the root controller when its media query does not match. Defaults to `false`.
+
+::: code-group
+
+```js [getter]
+BaseMenu.lockOutsideBreakpoint;
+```
+
+```js [setter]
+BaseMenu.lockOutsideBreakpoint = true;
+```
+
+:::
+
+Reads and updates the root controller's value. Changes made directly on the controller are reflected here. Before the controller is created, stores the option to pass to it. Submenus use the root menu's value.
+
+Changes take effect the next time the controller handles a media-query match. See [responsive controller configuration](#responsive-controller-configuration).
+
+#### Type {#getter-setter--lockoutsidebreakpoint--type}
+
+`boolean`
+
+### unlockInsideBreakpoint {#getter-setter--unlockinsidebreakpoint}
+
+A flag to unlock the root controller when its media query matches. Defaults to `false`.
+
+::: code-group
+
+```js [getter]
+BaseMenu.unlockInsideBreakpoint;
+```
+
+```js [setter]
+BaseMenu.unlockInsideBreakpoint = true;
+```
+
+:::
+
+Reads and updates the root controller's value. Changes made directly on the controller are reflected here. Before the controller is created, stores the option to pass to it. Submenus use the root menu's value.
+
+Changes take effect the next time the controller handles a media-query match. See [responsive controller configuration](#responsive-controller-configuration).
+
+#### Type {#getter-setter--unlockinsidebreakpoint--type}
+
+`boolean`
+
+### unlockOutsideBreakpoint {#getter-setter--unlockoutsidebreakpoint}
+
+A flag to unlock the root controller when its media query does not match. Defaults to `false`.
+
+::: code-group
+
+```js [getter]
+BaseMenu.unlockOutsideBreakpoint;
+```
+
+```js [setter]
+BaseMenu.unlockOutsideBreakpoint = true;
+```
+
+:::
+
+Reads and updates the root controller's value. Changes made directly on the controller are reflected here. Before the controller is created, stores the option to pass to it. Submenus use the root menu's value.
+
+Changes take effect the next time the controller handles a media-query match. See [responsive controller configuration](#responsive-controller-configuration).
+
+#### Type {#getter-setter--unlockoutsidebreakpoint--type}
+
+`boolean`
+
 ### prefix {#getter-setter--prefix}
 
 The prefix for the CSS custom properties.
@@ -1994,4 +2234,24 @@ _dispatchEvent(eventType, (element = this.rootDOMElement));
 
 All action flags default to `false`. To expand outside the breakpoint and collapse inside it, pass `expandOutsideBreakpoint: true` and `collapseInsideBreakpoint: true`.
 
-After initialization, you can read the responsive settings and change action flags through `menu.elements.controller`. The controller registers its media-query listener during initialization. If you change `breakpoint` or `mediaQuery` afterward, you must also reconfigure that listener.
+The controller uses an explicit `mediaQuery` when one is provided. The menu's `mediaQuery` getter returns the effective query. Otherwise, it generates `(width <= ${breakpoint})` from `breakpoint`. If both values are empty strings, it does not register a media-query listener.
+
+Read or update the query settings through `menu.breakpoint` and `menu.mediaQuery`. These values pass through to the root controller. Changes made directly on the controller are reflected by the menu getters.
+
+Read or update the action flags on the menu in the same way, for example `menu.expandOutsideBreakpoint = true`. These also pass through to the root controller. Changed action flags take effect the next time the controller handles a media-query match.
+
+### Changing the query after initialization
+
+Set the new value on the root menu. It passes the value to the root controller, where Core removes the previous listener, cancels its pending callback, and registers a listener for the updated query.
+
+```js
+menu.breakpoint = "60rem";
+```
+
+An explicit `mediaQuery` still takes priority over `breakpoint`. Clear it to use the breakpoint, or set it to a new query:
+
+```js
+menu.mediaQuery = "(orientation: portrait)";
+```
+
+The controller applies the new query's current match state on the next animation frame and responds to future query changes. Assigning the same value leaves the current listener in place. If both `breakpoint` and `mediaQuery` are empty strings, Core removes the listener without creating another one.

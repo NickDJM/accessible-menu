@@ -1130,7 +1130,9 @@ BaseMenuToggle.errors;
 
 ### breakpoint <badge type="tip" text="inherited" /> {#getter-setter--breakpoint}
 
-The breakpoint that the component will call media query list events.
+The breakpoint used to generate the controller's media query when no explicit `mediaQuery` is set.
+
+Changing this value after initialization automatically replaces the media-query listener. See [changing the query after initialization](./base-menu#changing-the-query-after-initialization).
 
 ::: code-group
 
@@ -1150,7 +1152,9 @@ BaseMenuToggle.breakpoint = "";
 
 ### mediaQuery <badge type="tip" text="inherited" /> {#getter-setter--mediaquery}
 
-The media query used to trigger the root controller's media query list events.
+The explicit media query used by the controller. An empty string uses the query generated from `breakpoint`.
+
+Changing this value after initialization automatically replaces the media-query listener. See [changing the query after initialization](./base-menu#changing-the-query-after-initialization).
 
 ::: code-group
 
@@ -2017,7 +2021,9 @@ _mediaQueryListEventCallback(event);
 
 ### _handleMediaMatch <badge type="tip" text="inherited" />
 
-Handles media match events throughout the component.
+Removes the previous media-query listener and cancels its pending callback. Registers a listener for the current query and schedules its initial callback for the next animation frame. If the query is empty, removes the previous listener without creating another one.
+
+The breakpoint and mediaQuery setters call this method automatically after initialization. See [changing the query after initialization](./base-menu#changing-the-query-after-initialization).
 
 ```js
 _handleMediaMatch();
