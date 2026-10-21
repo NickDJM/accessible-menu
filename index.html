@@ -49,13 +49,22 @@
             id="buttonSingleLevel"
             data-menu-structure="one"
             class="active"
+            aria-pressed="true"
           >
             Single-Level Menu
           </button>
-          <button id="buttonTwoLevel" data-menu-structure="two">
+          <button
+            id="buttonTwoLevel"
+            data-menu-structure="two"
+            aria-pressed="false"
+          >
             Two-Level Menu
           </button>
-          <button id="buttonThreeLevel" data-menu-structure="three">
+          <button
+            id="buttonThreeLevel"
+            data-menu-structure="three"
+            aria-pressed="false"
+          >
             Three-Level Menu
           </button>
         </div>
@@ -63,19 +72,39 @@
       <section aria-labelledby="menuTypeSettings">
         <h2 id="menuTypeSettings">Menu Type Settings</h2>
         <div id="menuButtons" class="button-container">
-          <button id="buttonReset" data-menu-type="native" class="active">
+          <button
+            id="buttonReset"
+            data-menu-type="native"
+            class="active"
+            aria-pressed="true"
+          >
             Native DOM
           </button>
-          <button id="buttonDisclosureMenu" data-menu-type="DisclosureMenu">
+          <button
+            id="buttonDisclosureMenu"
+            data-menu-type="DisclosureMenu"
+            aria-pressed="false"
+          >
             Disclosure Menu
           </button>
-          <button id="buttonMenubar" data-menu-type="Menubar">Menubar</button>
-          <button id="buttonTreeview" data-menu-type="Treeview">
+          <button
+            id="buttonMenubar"
+            data-menu-type="Menubar"
+            aria-pressed="false"
+          >
+            Menubar
+          </button>
+          <button
+            id="buttonTreeview"
+            data-menu-type="Treeview"
+            aria-pressed="false"
+          >
             Treeview
           </button>
           <button
             id="buttonTopLinkDisclosureMenu"
             data-menu-type="TopLinkDisclosureMenu"
+            aria-pressed="false"
           >
             Top Link Disclosure Menu
           </button>
@@ -89,12 +118,17 @@
         <div id="keyButtons" class="button-container">
           <button
             id="buttonKeySupportOn"
-            class="active"
             data-optional-key-support="true"
+            aria-pressed="false"
           >
             On
           </button>
-          <button id="buttonKeySupportOff" data-optional-key-support="false">
+          <button
+            id="buttonKeySupportOff"
+            class="active"
+            data-optional-key-support="false"
+            aria-pressed="true"
+          >
             Off
           </button>
         </div>
@@ -102,11 +136,22 @@
       <section aria-labelledby="hoverSettings">
         <h2 id="hoverSettings">Hover Settings</h2>
         <div id="hoverButtons" class="button-container">
-          <button id="buttonHoverOff" data-hover-type="off" class="active">
+          <button
+            id="buttonHoverOff"
+            data-hover-type="off"
+            class="active"
+            aria-pressed="true"
+          >
             Off
           </button>
-          <button id="buttonHoverOn" data-hover-type="on">On</button>
-          <button id="buttonHoverDynamic" data-hover-type="dynamic">
+          <button id="buttonHoverOn" data-hover-type="on" aria-pressed="false">
+            On
+          </button>
+          <button
+            id="buttonHoverDynamic"
+            data-hover-type="dynamic"
+            aria-pressed="false"
+          >
             Dynamic
           </button>
         </div>
@@ -132,10 +177,17 @@
             id="buttonTransitionOn"
             class="active"
             data-transition-class="transitioning"
+            aria-pressed="true"
           >
             On
           </button>
-          <button id="buttonTransitionOff" data-transition-class="">Off</button>
+          <button
+            id="buttonTransitionOff"
+            data-transition-class=""
+            aria-pressed="false"
+          >
+            Off
+          </button>
         </div>
         <div id="transitionDelays" class="input-container">
           <div class="input-group">
@@ -152,26 +204,95 @@
           </div>
         </div>
       </section>
-      <section aria-labelledby="autoOpenSettings">
-        <h2 id="autoOpenSettings">Expand Outside Breakpoint</h2>
-        <div id="autoOpenButtons" class="button-container">
-          <button
-            id="buttonAutoOpenOn"
-            class="active"
-            data-expand-outside-breakpoint="true"
-          >
-            On
-          </button>
-          <button id="buttonAutoOpenOff" data-expand-outside-breakpoint="false">
-            Off
-          </button>
-        </div>
-        <div id="breakpointSettings" class="input-container">
+      <section aria-labelledby="responsiveSettings">
+        <h2 id="responsiveSettings">Responsive Settings</h2>
+        <p>
+          Set a breakpoint first, then choose the actions to apply on each side
+          of it. These settings apply to the main menu, not its submenus. Select
+          a menu type other than Native DOM to try them.
+        </p>
+        <div class="input-container">
           <div class="input-group">
             <label for="breakpoint">Breakpoint:</label>
-            <input id="breakpoint" type="text" value="" placeholder="927px" />
+            <input
+              id="breakpoint"
+              type="text"
+              value="116ch"
+              placeholder="48rem"
+              aria-describedby="breakpointHelp"
+            />
+            <p id="breakpointHelp">
+              Include a CSS unit, such as 768px or 48rem. Leave blank to use no
+              width breakpoint.
+            </p>
+          </div>
+          <div class="input-group">
+            <label for="mediaQuery">Custom Media Query:</label>
+            <input
+              id="mediaQuery"
+              type="text"
+              value=""
+              placeholder="(orientation: landscape)"
+              aria-describedby="mediaQueryHelp"
+            />
+            <p id="mediaQueryHelp">
+              Optional. A custom query takes priority over the breakpoint.
+            </p>
           </div>
         </div>
+        <p>
+          With a breakpoint, the query matches at or below that width. With a
+          custom query, it matches when that query's conditions are met. Actions
+          run when the menu is created and when the query changes.
+        </p>
+        <div id="responsiveActions" class="responsive-actions">
+          <fieldset>
+            <legend>When the query matches</legend>
+            <div class="checkbox-group">
+              <input id="expandInsideBreakpoint" type="checkbox" />
+              <label for="expandInsideBreakpoint">Expand the menu</label>
+            </div>
+            <div class="checkbox-group">
+              <input id="collapseInsideBreakpoint" type="checkbox" checked />
+              <label for="collapseInsideBreakpoint">Collapse the menu</label>
+            </div>
+            <div class="checkbox-group">
+              <input id="lockInsideBreakpoint" type="checkbox" />
+              <label for="lockInsideBreakpoint">Lock the menu button</label>
+            </div>
+            <div class="checkbox-group">
+              <input id="unlockInsideBreakpoint" type="checkbox" checked />
+              <label for="unlockInsideBreakpoint">Unlock the menu button</label>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>When the query does not match</legend>
+            <div class="checkbox-group">
+              <input id="expandOutsideBreakpoint" type="checkbox" checked />
+              <label for="expandOutsideBreakpoint">Expand the menu</label>
+            </div>
+            <div class="checkbox-group">
+              <input id="collapseOutsideBreakpoint" type="checkbox" />
+              <label for="collapseOutsideBreakpoint">Collapse the menu</label>
+            </div>
+            <div class="checkbox-group">
+              <input id="lockOutsideBreakpoint" type="checkbox" checked />
+              <label for="lockOutsideBreakpoint">Lock the menu button</label>
+            </div>
+            <div class="checkbox-group">
+              <input id="unlockOutsideBreakpoint" type="checkbox" />
+              <label for="unlockOutsideBreakpoint"
+                >Unlock the menu button</label
+              >
+            </div>
+          </fieldset>
+        </div>
+        <p>
+          Locking disables the menu button; links remain usable. Choose actions
+          independently. If both expand and collapse are selected, the current
+          expanded state determines which action runs. Unlock actions run before
+          expansion or collapse, and lock actions run afterward.
+        </p>
       </section>
     </main>
     <footer id="disclaimer">

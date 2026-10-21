@@ -52,10 +52,17 @@ const options = {
   transitionDuration: 250,
   expandDuration: -1,
   collapseDuration: -1,
-  optionalKeySupport: true,
-  breakpoint: "",
+  optionalKeySupport: false,
+  breakpoint: "116ch",
+  mediaQuery: "",
+  expandInsideBreakpoint: false,
   expandOutsideBreakpoint: true,
   collapseInsideBreakpoint: true,
+  collapseOutsideBreakpoint: false,
+  lockInsideBreakpoint: false,
+  lockOutsideBreakpoint: true,
+  unlockInsideBreakpoint: true,
+  unlockOutsideBreakpoint: false,
 };
 const container = document.querySelector("header");
 
@@ -67,14 +74,10 @@ let currentMenu = null;
  * Generates an accessible-menu.
  */
 function generateMenu() {
-  // Remove the last menu from the stack.
+  // Dispose of the current menu before replacing its HTML.
   if (currentMenu) {
     currentMenu.dispose();
     currentMenu = null;
-  }
-
-  if (window.AccessibleMenu) {
-    window.AccessibleMenu.clear({ type: "menus" });
   }
 
   // Get the menu class and structure.
@@ -104,6 +107,12 @@ function generateMenu() {
     controllerElement: nav.querySelector("button"),
     ...options,
   });
+
+  // Clean up any work started by a menu that could not initialize.
+  if (!currentMenu.isInitialized) {
+    currentMenu.dispose();
+    currentMenu = null;
+  }
 }
 
 // Set up menu structure buttons.
@@ -116,8 +125,10 @@ domButtons.forEach((button) => {
 
     domButtons.forEach((button) => {
       button.classList.remove("active");
+      button.setAttribute("aria-pressed", "false");
     });
     button.classList.add("active");
+    button.setAttribute("aria-pressed", "true");
   });
 });
 
@@ -131,8 +142,10 @@ menuButtons.forEach((button) => {
 
     menuButtons.forEach((button) => {
       button.classList.remove("active");
+      button.setAttribute("aria-pressed", "false");
     });
     button.classList.add("active");
+    button.setAttribute("aria-pressed", "true");
   });
 });
 
@@ -146,8 +159,10 @@ keySupport.forEach((button) => {
 
     keySupport.forEach((button) => {
       button.classList.remove("active");
+      button.setAttribute("aria-pressed", "false");
     });
     button.classList.add("active");
+    button.setAttribute("aria-pressed", "true");
   });
 });
 
@@ -161,8 +176,10 @@ hoverButtons.forEach((button) => {
 
     hoverButtons.forEach((button) => {
       button.classList.remove("active");
+      button.setAttribute("aria-pressed", "false");
     });
     button.classList.add("active");
+    button.setAttribute("aria-pressed", "true");
   });
 });
 
@@ -170,7 +187,11 @@ hoverButtons.forEach((button) => {
 const hoverDelay = document.querySelector("#hoverDelay");
 
 hoverDelay.addEventListener("input", () => {
-  options.hoverDelay = Number(hoverDelay.value);
+  if (hoverDelay.value === "" || !hoverDelay.validity.valid) {
+    return;
+  }
+
+  options.hoverDelay = hoverDelay.valueAsNumber;
   generateMenu();
 });
 
@@ -178,7 +199,11 @@ hoverDelay.addEventListener("input", () => {
 const enterDelay = document.querySelector("#enterDelay");
 
 enterDelay.addEventListener("input", () => {
-  options.enterDelay = Number(enterDelay.value);
+  if (enterDelay.value === "" || !enterDelay.validity.valid) {
+    return;
+  }
+
+  options.enterDelay = enterDelay.valueAsNumber;
   generateMenu();
 });
 
@@ -186,7 +211,11 @@ enterDelay.addEventListener("input", () => {
 const leaveDelay = document.querySelector("#leaveDelay");
 
 leaveDelay.addEventListener("input", () => {
-  options.leaveDelay = Number(leaveDelay.value);
+  if (leaveDelay.value === "" || !leaveDelay.validity.valid) {
+    return;
+  }
+
+  options.leaveDelay = leaveDelay.valueAsNumber;
   generateMenu();
 });
 
@@ -202,8 +231,10 @@ transitionButtons.forEach((button) => {
 
     transitionButtons.forEach((button) => {
       button.classList.remove("active");
+      button.setAttribute("aria-pressed", "false");
     });
     button.classList.add("active");
+    button.setAttribute("aria-pressed", "true");
   });
 });
 
@@ -211,47 +242,66 @@ transitionButtons.forEach((button) => {
 const transitionDuration = document.querySelector("#transitionDuration");
 
 transitionDuration.addEventListener("change", () => {
-  options.transitionDuration = Number(transitionDuration.value);
+  if (transitionDuration.value === "" || !transitionDuration.validity.valid) {
+    return;
+  }
+
+  options.transitionDuration = transitionDuration.valueAsNumber;
   generateMenu();
 });
 
-// Set up the open duration input.
+// Set up the expand duration input.
 const expandDuration = document.querySelector("#expandDuration");
 
 expandDuration.addEventListener("change", () => {
-  options.expandDuration = Number(expandDuration.value);
+  if (expandDuration.value === "" || !expandDuration.validity.valid) {
+    return;
+  }
+
+  options.expandDuration = expandDuration.valueAsNumber;
   generateMenu();
 });
 
-// Set up the close duration input.
+// Set up the collapse duration input.
 const collapseDuration = document.querySelector("#collapseDuration");
 
 collapseDuration.addEventListener("change", () => {
-  options.collapseDuration = Number(collapseDuration.value);
+  if (collapseDuration.value === "" || !collapseDuration.validity.valid) {
+    return;
+  }
+
+  options.collapseDuration = collapseDuration.valueAsNumber;
   generateMenu();
 });
 
-// Set up the breakpoint input.
+// Update responsive settings on the current menu so its controller can replace
+// the listener without rebuilding the preview.
 const breakpoint = document.querySelector("#breakpoint");
 
-breakpoint.addEventListener("input", () => {
+breakpoint.addEventListener("change", () => {
   options.breakpoint = breakpoint.value.trim();
-  generateMenu();
+
+  if (currentMenu) currentMenu.breakpoint = options.breakpoint;
 });
 
-// Set up the auto open buttons.
-const autoOpenButtons = document.querySelectorAll("#autoOpenButtons button");
+const mediaQuery = document.querySelector("#mediaQuery");
 
-autoOpenButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    options.expandOutsideBreakpoint =
-      button.dataset.expandOutsideBreakpoint === "true";
-    generateMenu();
+mediaQuery.addEventListener("change", () => {
+  options.mediaQuery = mediaQuery.value.trim();
 
-    autoOpenButtons.forEach((button) => {
-      button.classList.remove("active");
-    });
-    button.classList.add("active");
+  if (currentMenu) currentMenu.mediaQuery = options.mediaQuery;
+});
+
+// Action flags take effect when the controller next handles its media query.
+const responsiveActions = document.querySelectorAll(
+  "#responsiveActions input[type='checkbox']"
+);
+
+responsiveActions.forEach((input) => {
+  input.addEventListener("change", () => {
+    options[input.id] = input.checked;
+
+    if (currentMenu) currentMenu[input.id] = input.checked;
   });
 });
 
@@ -275,12 +325,20 @@ themeToggle.addEventListener("click", () => {
   }
 });
 
-// Generate the menu and set the preferred theme.
-document.addEventListener("DOMContentLoaded", () => {
+/**
+ * Generates the menu and sets the preferred theme.
+ */
+function initializeDemo() {
   generateMenu();
 
   if (setTheme === "dark") {
     document.body.classList.add("dark-mode");
     themeToggle.innerHTML = "Light Mode";
   }
-});
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initializeDemo, { once: true });
+} else {
+  initializeDemo();
+}
