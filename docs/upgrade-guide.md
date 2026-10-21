@@ -82,7 +82,19 @@ Automatic opening and closing based on screen size is new in v5. For example, yo
 
 Set `breakpoint` to the width where the behavior should change. Then set `expandOutsideBreakpoint: true` to open above that width and `collapseInsideBreakpoint: true` to close at or below it. Both action options default to `false`. They affect the main menu, not individual submenus.
 
-The width is checked when the menu is first set up and whenever the browser crosses the breakpoint. If you want the menu to reopen when the screen gets larger, enable `expandOutsideBreakpoint`; closing automatically does not enable reopening by itself. For changing settings after setup, see the [controller API](./api/base-menu-toggle).
+The width is checked when the menu is first set up and whenever the browser crosses the breakpoint. If you want the menu to reopen when the screen gets larger, enable `expandOutsideBreakpoint`; closing automatically does not enable reopening by itself.
+
+You can read and update `breakpoint`, `mediaQuery`, and all eight responsive action flags on the menu after setup:
+
+```js
+menu.breakpoint = "60rem";
+menu.expandOutsideBreakpoint = true;
+menu.collapseInsideBreakpoint = true;
+```
+
+These properties pass through to the root controller. Changes made directly on the controller are reflected by the menu getters. Submenus use the root menu's values. The controller owns the responsive listener; the menu does not register a separate one.
+
+Changing `breakpoint` or `mediaQuery` automatically replaces the controller's listener and cancels its pending callback. The updated query's current match state is applied on the next animation frame. An explicit `mediaQuery` takes priority over `breakpoint`. Changing an action flag takes effect the next time the controller handles a media-query match. See [responsive controller configuration](./api/base-menu#responsive-controller-configuration) for details.
 
 #### Bundles
 
@@ -232,11 +244,34 @@ The protected `_expand()` and `_collapse()` methods also use an options object i
 
 Use `_addEventListener()` to register listeners so the component can track them. `_removeEventListener()` removes one tracked listener, and `_removeEventListeners()` removes all matching listeners. `dispose()` removes the remaining listeners automatically.
 
+#### Interaction state and focus
+
+In v4, setting a menu's `currentEvent` copied the value to its submenus. In v5, submenus, items, and toggles read the root menu's value directly. Setting `currentEvent` on any of them also updates the root, so custom code should not use it to track a separate event for one submenu.
+
+In v4, each menu calculated `shouldFocus` from its own event value, and items used their containing menu's decision. In v5, all menus, items, and toggles use the root menu's decision. It allows DOM focus when `currentEvent` is `"keyboard"` or `"character"`. Mouse interaction with dynamic hover no longer allows focus methods to move keyboard focus.
+
+Focus methods still update selection and focus state when DOM focus is not allowed. They do not change `currentEvent` themselves. If custom code needs to move keyboard focus, set the event before calling a focus method:
+
+```js
+menu.currentEvent = "keyboard";
+menu.focusFirstChild();
+```
+
+Menu item `focus()` and `blur()` still move DOM focus on an animation frame. Pending item focus is now cancelled when the item is blurred or disposed of. Before focusing, the callback also checks that focus has not moved elsewhere and the root menu still allows it. Selection and focus-state changes happen immediately, so code should not assume that `document.activeElement` changes in the same call.
+
+Custom handlers that move into a submenu can use the shared protected `_focusSubmenu(menuItem, { childIndex: 0, defer: false })` method. Set `defer: true` to wait one animation frame before selecting the submenu item. A deferred move is cancelled if the submenu collapses, selection changes, or focus moves away. See [the BaseMenu API](./api/base-menu#method--focussubmenu) for details.
+
 #### Timeouts
 
 The single `_hoverTimeout` field has been replaced by scoped timers. `_setTimeout(callback, delay, scope)` and `_clearTimeout(scope)` default to the `"_default"` scope. `_clearTimeouts()` clears all tracked timeouts.
 
 Setting a timeout clears the previous timer in the same scope before scheduling another. This differs from v4, where `_setTimeout()` could leave a previous callback scheduled.
+
+#### Animation frames
+
+Use Core's `_requestAnimationFrame(callback, scope)` to track deferred work in custom components. It replaces a pending frame in the same scope. `_cancelAnimationFrame(scope)` cancels one tracked frame, and `_cancelAnimationFrames()` cancels them all. The default scope is `"_default"`.
+
+Disposal cancels tracked frames automatically. Use these helpers instead of calling the browser's `requestAnimationFrame()` directly when the work should be cancelled with the component.
 
 #### Storage and disposal
 
@@ -246,11 +281,11 @@ Root menus are now stored in `window.AccessibleMenuStorage.storage.menus` instea
 window.AccessibleMenuStorage.get({ type: "menus", key: "menu-id" });
 ```
 
-Calling `dispose()` on a root menu disposes of its submenus, menu items, submenu toggles, and root controller. It removes their event listeners, timers, and the root menu's global storage entry. Do not continue using these components after disposal.
+Calling `dispose()` on a root menu disposes of its submenus, menu items, submenu toggles, and root controller. It removes their event listeners, timers, pending animation frames, and the root menu's global storage entry. Do not continue using these components after disposal.
 
 #### Menu items and component IDs
 
-Menu items now have a `shouldFocus` getter that reads the parent menu's permission. Their `focus()` and `blur()` methods still respect that permission when moving focus in the DOM, and now update the item's `focusState` even when DOM focus does not move.
+Menu items now have a `shouldFocus` getter that reads the root menu's permission. Their `focus()` and `blur()` methods still respect that permission when moving focus in the DOM, and now update the item's `focusState` even when DOM focus does not move.
 
 After initialization, the new `id` getter returns the menu's DOM ID, a toggle controller's DOM ID, or a menu item's existing DOM ID. Menu items do not receive generated DOM IDs.
 
