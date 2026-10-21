@@ -1,4 +1,4 @@
-//#region node_modules/@accessible-ecosystem/core/src/validate.js
+// node_modules/@accessible-ecosystem/core/src/validate.js
 function e(e, t, { shouldThrow: n = !0 } = {}) {
 	let r = {
 		status: !0,
@@ -209,16 +209,14 @@ function l(e, { shouldThrow: t = !0 } = {}) {
 	if (t && !n.status) throw n.errors[0];
 	return n;
 }
-//#endregion
-//#region node_modules/@accessible-ecosystem/core/src/helpers.js
+// node_modules/@accessible-ecosystem/core/src/helpers.js
 function u(e) {
 	return t("string", { value: e }), `${e.charAt(0).toLowerCase()}${e.slice(1)}`;
 }
 function d(e) {
 	return t("string", { value: e }), `${e.charAt(0).toUpperCase()}${e.slice(1)}`;
 }
-//#endregion
-//#region node_modules/@accessible-ecosystem/core/src/StorageManager.js
+// node_modules/@accessible-ecosystem/core/src/StorageManager.js
 var f = class n {
 	_scope;
 	_type = "_default";
@@ -280,8 +278,7 @@ var f = class n {
 		typeof window < "u" && window[this.scope] === this && delete window[this.scope], delete this._storage;
 	}
 };
-//#endregion
-//#region node_modules/@accessible-ecosystem/core/src/domHelpers.js
+// node_modules/@accessible-ecosystem/core/src/domHelpers.js
 function p(e, t) {
 	if (e !== "" && e.length !== 0) {
 		if (typeof e == "string") t.classList.add(e);
@@ -300,8 +297,7 @@ function m(e, t) {
 		}
 	}
 }
-//#endregion
-//#region node_modules/@accessible-ecosystem/core/src/Component.js
+// node_modules/@accessible-ecosystem/core/src/Component.js
 var h = class {
 	_dom = {};
 	_rootDOMElement = "";
@@ -590,7 +586,7 @@ var h = class {
 	}
 	_removeEventListeners({ type: e = null, element: t = null } = {}) {
 		[...this._listeners].forEach((n) => {
-			(e === null || n.type === e) && (t === null || n.element === t) && this._removeEventListener(n.type, n.element, n.listener, n.options);
+			e !== null && n.type !== e || t !== null && n.element !== t || this._removeEventListener(n.type, n.element, n.listener, n.options);
 		});
 	}
 	focus() {
@@ -635,19 +631,22 @@ var h = class {
 		return this._breakpoint;
 	}
 	set breakpoint(e) {
-		t("string", { breakpoint: e }), this._breakpoint !== e && (this._breakpoint = e);
+		t("string", { breakpoint: e }), this._breakpoint !== e && (this._breakpoint = e, this.isInitialized && this._handleMediaMatch());
 	}
 	get mediaQuery() {
 		return this._mediaQueryString === "" ? this._breakpoint === "" ? "" : `(width <= ${this._breakpoint})` : this._mediaQueryString;
 	}
 	set mediaQuery(e) {
-		t("string", { mediaQuery: e }), this._mediaQueryString !== e && (this._mediaQueryString = e);
+		t("string", { mediaQuery: e }), this._mediaQueryString !== e && (this._mediaQueryString = e, this.isInitialized && this._handleMediaMatch());
 	}
 	_mediaQueryListEventCallback(e) {
 		e.matches;
 	}
 	_handleMediaMatch() {
-		this.mediaQuery !== "" && (this._mediaQueryList = window.matchMedia(this.mediaQuery), this._addEventListener("change", this._mediaQueryList, (e) => this._mediaQueryListEventCallback(e)), this._requestAnimationFrame(() => {
+		this._cancelAnimationFrame("mediaMatch"), this._mediaQueryList &&= (this._removeEventListeners({
+			type: "change",
+			element: this._mediaQueryList
+		}), null), this.mediaQuery !== "" && (this._mediaQueryList = window.matchMedia(this.mediaQuery), this._addEventListener("change", this._mediaQueryList, (e) => this._mediaQueryListEventCallback(e)), this._requestAnimationFrame(() => {
 			this._mediaQueryListEventCallback(this._mediaQueryList);
 		}, "mediaMatch"));
 	}
@@ -872,13 +871,13 @@ var h = class {
 		e && this._dispatchEvent("preunlock"), p(this.unlockedClass, this.dom.controlled), m(this.lockedClass, this.dom.controlled), this.dom.controller.removeAttribute("disabled"), e && (this._dispatchEvent("unlock"), this._dispatchEvent("postunlock"));
 	}
 	expand({ force: e = !this.isInitialized, emit: t = this.isInitialized, transition: n = this.isInitialized, preserveState: r = !1 } = {}) {
-		(!this.isExpanded || e) && (!this.isLocked || e) && (this.focusState = "self", this._expand({
+		this.isExpanded && !e || this.isLocked && !e || (this.focusState = "self", this._expand({
 			emit: t,
 			transition: n
 		}), this._expanded.value = !0, r || this._expanded.commit());
 	}
 	preview({ force: e = !this.isInitialized, emit: t = this.isInitialized, transition: n = this.isInitialized, preserveState: r = !1 } = {}) {
-		(!this.isExpanded || e) && (!this.isLocked || e) && (this.focusState = "none", this._expand({
+		this.isExpanded && !e || this.isLocked && !e || (this.focusState = "none", this._expand({
 			emit: t,
 			transition: n
 		}), this._expanded.value = !0, r || this._expanded.commit());
@@ -1150,8 +1149,7 @@ var h = class {
 		}, "blur");
 	}
 };
-//#endregion
-//#region node_modules/@accessible-ecosystem/core/src/eventHelpers.js
+// node_modules/@accessible-ecosystem/core/src/eventHelpers.js
 function x(e) {
 	try {
 		let t = e.key || e.keyCode, n = {
@@ -1176,8 +1174,7 @@ function x(e) {
 function S(e) {
 	e.preventDefault(), e.stopPropagation();
 }
-//#endregion
-//#region src/_baseMenu.js
+// src/_baseMenu.js
 var C = class n extends h {
 	_scope = "AccessibleMenu";
 	_name = "Menu";
@@ -1343,6 +1340,86 @@ var C = class n extends h {
 	set leaveDelay(e) {
 		t("number", { leaveDelay: e }), this._delays.leave !== e && (this._delays.leave = e);
 	}
+	get breakpoint() {
+		let e = this.elements.rootMenu || this.elements.parentMenu;
+		return e && e !== this ? e.breakpoint : this.elements.controller ? this.elements.controller.breakpoint : this._controllerOptions.breakpoint;
+	}
+	set breakpoint(e) {
+		let n = this.elements.rootMenu || this.elements.parentMenu;
+		n && n !== this ? n.breakpoint = e : (t("string", { breakpoint: e }), this.elements.controller && (this.elements.controller.breakpoint = e), this._controllerOptions.breakpoint = e);
+	}
+	get mediaQuery() {
+		let e = this.elements.rootMenu || this.elements.parentMenu;
+		return e && e !== this ? e.mediaQuery : this.elements.controller ? this.elements.controller.mediaQuery : this._controllerOptions.mediaQuery === "" ? this.breakpoint === "" ? "" : `(width <= ${this.breakpoint})` : this._controllerOptions.mediaQuery;
+	}
+	set mediaQuery(e) {
+		let n = this.elements.rootMenu || this.elements.parentMenu;
+		n && n !== this ? n.mediaQuery = e : (t("string", { mediaQuery: e }), this.elements.controller && (this.elements.controller.mediaQuery = e), this._controllerOptions.mediaQuery = e);
+	}
+	get expandInsideBreakpoint() {
+		let e = this.elements.rootMenu || this.elements.parentMenu;
+		return e && e !== this ? e.expandInsideBreakpoint : this.elements.controller ? this.elements.controller.expandInsideBreakpoint : this._controllerOptions.expandInsideBreakpoint;
+	}
+	set expandInsideBreakpoint(e) {
+		let n = this.elements.rootMenu || this.elements.parentMenu;
+		n && n !== this ? n.expandInsideBreakpoint = e : (t("boolean", { expandInsideBreakpoint: e }), this.elements.controller && (this.elements.controller.expandInsideBreakpoint = e), this._controllerOptions.expandInsideBreakpoint = e);
+	}
+	get expandOutsideBreakpoint() {
+		let e = this.elements.rootMenu || this.elements.parentMenu;
+		return e && e !== this ? e.expandOutsideBreakpoint : this.elements.controller ? this.elements.controller.expandOutsideBreakpoint : this._controllerOptions.expandOutsideBreakpoint;
+	}
+	set expandOutsideBreakpoint(e) {
+		let n = this.elements.rootMenu || this.elements.parentMenu;
+		n && n !== this ? n.expandOutsideBreakpoint = e : (t("boolean", { expandOutsideBreakpoint: e }), this.elements.controller && (this.elements.controller.expandOutsideBreakpoint = e), this._controllerOptions.expandOutsideBreakpoint = e);
+	}
+	get collapseInsideBreakpoint() {
+		let e = this.elements.rootMenu || this.elements.parentMenu;
+		return e && e !== this ? e.collapseInsideBreakpoint : this.elements.controller ? this.elements.controller.collapseInsideBreakpoint : this._controllerOptions.collapseInsideBreakpoint;
+	}
+	set collapseInsideBreakpoint(e) {
+		let n = this.elements.rootMenu || this.elements.parentMenu;
+		n && n !== this ? n.collapseInsideBreakpoint = e : (t("boolean", { collapseInsideBreakpoint: e }), this.elements.controller && (this.elements.controller.collapseInsideBreakpoint = e), this._controllerOptions.collapseInsideBreakpoint = e);
+	}
+	get collapseOutsideBreakpoint() {
+		let e = this.elements.rootMenu || this.elements.parentMenu;
+		return e && e !== this ? e.collapseOutsideBreakpoint : this.elements.controller ? this.elements.controller.collapseOutsideBreakpoint : this._controllerOptions.collapseOutsideBreakpoint;
+	}
+	set collapseOutsideBreakpoint(e) {
+		let n = this.elements.rootMenu || this.elements.parentMenu;
+		n && n !== this ? n.collapseOutsideBreakpoint = e : (t("boolean", { collapseOutsideBreakpoint: e }), this.elements.controller && (this.elements.controller.collapseOutsideBreakpoint = e), this._controllerOptions.collapseOutsideBreakpoint = e);
+	}
+	get lockInsideBreakpoint() {
+		let e = this.elements.rootMenu || this.elements.parentMenu;
+		return e && e !== this ? e.lockInsideBreakpoint : this.elements.controller ? this.elements.controller.lockInsideBreakpoint : this._controllerOptions.lockInsideBreakpoint;
+	}
+	set lockInsideBreakpoint(e) {
+		let n = this.elements.rootMenu || this.elements.parentMenu;
+		n && n !== this ? n.lockInsideBreakpoint = e : (t("boolean", { lockInsideBreakpoint: e }), this.elements.controller && (this.elements.controller.lockInsideBreakpoint = e), this._controllerOptions.lockInsideBreakpoint = e);
+	}
+	get lockOutsideBreakpoint() {
+		let e = this.elements.rootMenu || this.elements.parentMenu;
+		return e && e !== this ? e.lockOutsideBreakpoint : this.elements.controller ? this.elements.controller.lockOutsideBreakpoint : this._controllerOptions.lockOutsideBreakpoint;
+	}
+	set lockOutsideBreakpoint(e) {
+		let n = this.elements.rootMenu || this.elements.parentMenu;
+		n && n !== this ? n.lockOutsideBreakpoint = e : (t("boolean", { lockOutsideBreakpoint: e }), this.elements.controller && (this.elements.controller.lockOutsideBreakpoint = e), this._controllerOptions.lockOutsideBreakpoint = e);
+	}
+	get unlockInsideBreakpoint() {
+		let e = this.elements.rootMenu || this.elements.parentMenu;
+		return e && e !== this ? e.unlockInsideBreakpoint : this.elements.controller ? this.elements.controller.unlockInsideBreakpoint : this._controllerOptions.unlockInsideBreakpoint;
+	}
+	set unlockInsideBreakpoint(e) {
+		let n = this.elements.rootMenu || this.elements.parentMenu;
+		n && n !== this ? n.unlockInsideBreakpoint = e : (t("boolean", { unlockInsideBreakpoint: e }), this.elements.controller && (this.elements.controller.unlockInsideBreakpoint = e), this._controllerOptions.unlockInsideBreakpoint = e);
+	}
+	get unlockOutsideBreakpoint() {
+		let e = this.elements.rootMenu || this.elements.parentMenu;
+		return e && e !== this ? e.unlockOutsideBreakpoint : this.elements.controller ? this.elements.controller.unlockOutsideBreakpoint : this._controllerOptions.unlockOutsideBreakpoint;
+	}
+	set unlockOutsideBreakpoint(e) {
+		let n = this.elements.rootMenu || this.elements.parentMenu;
+		n && n !== this ? n.unlockOutsideBreakpoint = e : (t("boolean", { unlockOutsideBreakpoint: e }), this.elements.controller && (this.elements.controller.unlockOutsideBreakpoint = e), this._controllerOptions.unlockOutsideBreakpoint = e);
+	}
 	get prefix() {
 		return this._root ? this._prefix : this.elements.rootMenu.prefix;
 	}
@@ -1497,7 +1574,7 @@ var C = class n extends h {
 			this._addEventListener("pointerenter", e.dom.link, (n) => {
 				n.pointerType !== "pen" && n.pointerType !== "touch" && (this.hoverType === "on" ? (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusChild(t), e.isSubmenuItem && (this.enterDelay > 0 ? this._setTimeout(() => {
 					e.elements.toggle.preview();
-				}, this.enterDelay) : e.elements.toggle.preview())) : this.hoverType === "dynamic" && (this.currentChild = t, (!this.isTopLevel || this.focusState !== "none") && (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild()), (!this.isTopLevel || this.hasExpanded) && (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild(), e.isSubmenuItem ? this.enterDelay > 0 ? this._setTimeout(() => {
+				}, this.enterDelay) : e.elements.toggle.preview())) : this.hoverType === "dynamic" && (this.currentChild = t, this.isTopLevel && this.focusState === "none" || (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild()), (!this.isTopLevel || this.hasExpanded) && (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild(), e.isSubmenuItem ? this.enterDelay > 0 ? this._setTimeout(() => {
 					e.elements.toggle.preview();
 				}, this.enterDelay) : e.elements.toggle.preview() : this.enterDelay > 0 ? this._setTimeout(() => {
 					this.collapseChildren();
@@ -2108,7 +2185,7 @@ var C = class n extends h {
 						this.enterDelay > 0 ? this._setTimeout(() => {
 							n.preview();
 						}, this.enterDelay) : n.preview();
-					} else if (this.hoverType === "dynamic" && (this.currentChild = t, (!this.isTopLevel || this.focusState !== "none") && (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild()), !this.isTopLevel || this.hasExpanded)) {
+					} else if (this.hoverType === "dynamic" && (this.currentChild = t, this.isTopLevel && this.focusState === "none" || (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild()), !this.isTopLevel || this.hasExpanded)) {
 						this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild();
 						let t = e.isSubmenuItem ? e.elements.toggle : null;
 						e.elements.sibling !== null && (t = e.elements.sibling.elements.toggle), t === null ? this.enterDelay > 0 ? this._setTimeout(() => {
@@ -2249,7 +2326,7 @@ var C = class n extends h {
 			this._addEventListener("pointerenter", e.dom.link, (n) => {
 				n.pointerType !== "pen" && n.pointerType !== "touch" && (this.hoverType === "on" ? (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusChild(t), e.isSubmenuItem && (this.enterDelay > 0 ? this._setTimeout(() => {
 					e.elements.toggle.preview();
-				}, this.enterDelay) : e.elements.toggle.preview())) : this.hoverType === "dynamic" && (this.currentChild = t, (!this.isTopLevel || this.focusState !== "none") && (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild()), (!this.isTopLevel || this.hasExpanded) && (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild(), e.isSubmenuItem ? this.enterDelay > 0 ? this._setTimeout(() => {
+				}, this.enterDelay) : e.elements.toggle.preview())) : this.hoverType === "dynamic" && (this.currentChild = t, this.isTopLevel && this.focusState === "none" || (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild()), (!this.isTopLevel || this.hasExpanded) && (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild(), e.isSubmenuItem ? this.enterDelay > 0 ? this._setTimeout(() => {
 					e.elements.toggle.preview();
 				}, this.enterDelay) : e.elements.toggle.preview() : this.enterDelay > 0 && this._clearTimeout())));
 			}), e.isSubmenuItem && (this._addEventListener("pointerleave", e.dom.item, (e) => {
@@ -2338,5 +2415,4 @@ var C = class n extends h {
 	TopLinkDisclosureMenu: M,
 	Treeview: F
 };
-//#endregion
 export { E as DisclosureMenu, k as Menubar, M as TopLinkDisclosureMenu, F as Treeview, I as default };
