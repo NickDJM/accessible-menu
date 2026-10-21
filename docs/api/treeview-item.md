@@ -61,7 +61,7 @@ Getters and setters are inherited from the [BaseMenuItem](./base-menu-item#gette
 
 ## Methods
 
-Methods are inherited from the [BaseMenuItem](./base-menu-item#methods) class. The following methods are unique to or overwritten in the TreeviewItem class.
+Methods are inherited from the [BaseMenuItem](./base-menu-item#methods) class. The following methods are unique to or overridden in the TreeviewItem class.
 
 ### focus <badge type="tip" text="public" /> {#method--focus}
 

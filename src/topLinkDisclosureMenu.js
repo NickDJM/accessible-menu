@@ -97,7 +97,7 @@ class TopLinkDisclosureMenu extends BaseMenu {
    * @param {?HTMLElement}           [options.containerElement = null]           - The element containing the menu in the DOM.
    * @param {?(string|string[])}     [options.initializeClass = initializing]    - The class(es) to apply when the menu is initializing.
    * @param {?(string|string[])}     [options.expandClass = show]                - The class to apply when a menu is expanded.
-   * @param {?(string|string[])}     [options.collapseClass = hide]              - The class to apply when a menu is "closed".
+   * @param {?(string|string[])}     [options.collapseClass = hide]              - The class to apply when a menu is collapsed.
    * @param {?(string|string[])}     [options.transitionClass = transitioning]   - The class to apply when a menu is transitioning between expanded and collapsed states.
    * @param {number}                 [options.transitionDuration = 250]          - The duration of the transition between expanded and collapsed states (in milliseconds).
    * @param {number}                 [options.expandDuration = -1]               - The duration of the transition from collapsed to expanded states (in milliseconds).
@@ -105,9 +105,9 @@ class TopLinkDisclosureMenu extends BaseMenu {
    * @param {boolean}                [options.isTopLevel = true]                 - A flag to mark the root menu.
    * @param {?TopLinkDisclosureMenu} [options.parentMenu = null]                 - The parent menu to this menu.
    * @param {string}                 [options.hoverType = off]                   - The type of hoverability a menu has.
-   * @param {number}                 [options.hoverDelay = 250]                  - The delay for opening and closing menus if the menu is hoverable (in milliseconds).
-   * @param {number}                 [options.enterDelay = -1]                   - The delay for opening a menu if the menu is focusable (in milliseconds).
-   * @param {number}                 [options.leaveDelay = -1]                   - The delay for closing a menu if the menu is focusable (in milliseconds).
+   * @param {number}                 [options.hoverDelay = 250]                  - The delay for expanding and collapsing menus if the menu is hoverable (in milliseconds).
+   * @param {number}                 [options.enterDelay = -1]                   - The delay for expanding a menu if the menu is hoverable (in milliseconds).
+   * @param {number}                 [options.leaveDelay = -1]                   - The delay for collapsing a menu if the menu is hoverable (in milliseconds).
    * @param {string}                 [options.breakpoint = '']                   - The breakpoint used to generate the root controller's media query.
    * @param {string}                 [options.mediaQuery = '']                   - The media query used to trigger the root controller's media query list events.
    * @param {boolean}                [options.expandInsideBreakpoint = false]    - A flag to expand the controlled menu when the media query matches.
@@ -268,7 +268,7 @@ class TopLinkDisclosureMenu extends BaseMenu {
    * - Adds all event listeners listed in
    *   BaseMenu's _handleClick method, and
    * - adds a `click` listener to the `document` so if the user
-   *   clicks outside of the menu it will close if it is open.
+   *   clicks outside of the menu it will collapse if it is expanded.
    *
    * @protected
    */

@@ -405,17 +405,17 @@ class BaseMenuToggle extends CollapsibleComponent {
   }
 
   /**
-   * Opens the controlled menu.
+   * Expands the controlled menu.
    *
    * Calls _expand and sets the isExpanded value to `true`.
    * If the toggle is initialized, also sets the controlled menu's focus state
    * to "self" and its parent menu's focus state to "child", if it has a parent menu.
    *
-   * @param {object}  [options = {}]                            - The options for opening the menu.
-   * @param {boolean} [options.force = !this.isInitialized]     - A flag to force the menu to open, including when locked.
+   * @param {object}  [options = {}]                            - The options for expanding the menu.
+   * @param {boolean} [options.force = !this.isInitialized]     - A flag to force the menu to expand, including when locked.
    * @param {boolean} [options.preserveState = false]           - A flag to preserve the current state.
    * @param {boolean} [options.emit = this.isInitialized]       - A flag to emit the expand event.
-   * @param {boolean} [options.transition = this.isInitialized] - A flag to use transitions when opening.
+   * @param {boolean} [options.transition = this.isInitialized] - A flag to use transitions when expanding.
    */
   expand({
     force = !this.isInitialized,
@@ -431,7 +431,7 @@ class BaseMenuToggle extends CollapsibleComponent {
   }
 
   /**
-   * Opens the controlled menu without the current focus entering it.
+   * Expands the controlled menu without the current focus entering it.
    *
    * Calls _expand and sets the isExpanded value to `true`.
    * If the toggle is initialized and has a parent menu, also sets that menu's
@@ -458,18 +458,18 @@ class BaseMenuToggle extends CollapsibleComponent {
   }
 
   /**
-   * Closes the controlled menu.
+   * Collapses the controlled menu.
    *
    * Calls _collapse and sets the isExpanded value to `false`.
    * If the toggle is initialized, also blurs the controlled menu, setting its
    * focus state to "none", and sets the parent menu's focus state to "self",
    * if there is a parent menu.
    *
-   * @param {object}  [options = {}]                            - The options for closing the menu.
-   * @param {boolean} [options.force = !this.isInitialized]     - A flag to force the menu to close, including when locked.
+   * @param {object}  [options = {}]                            - The options for collapsing the menu.
+   * @param {boolean} [options.force = !this.isInitialized]     - A flag to force the menu to collapse, including when locked.
    * @param {boolean} [options.preserveState = false]           - A flag to preserve the current state.
    * @param {boolean} [options.emit = this.isInitialized]       - A flag to emit the collapse event.
-   * @param {boolean} [options.transition = this.isInitialized] - A flag to use transitions when closing.
+   * @param {boolean} [options.transition = this.isInitialized] - A flag to use transitions when collapsing.
    */
   collapse({
     force = !this.isInitialized,
@@ -489,15 +489,15 @@ class BaseMenuToggle extends CollapsibleComponent {
   }
 
   /**
-   * Closes all sibling menus.
+   * Collapses all sibling menus.
    *
    * @public
    *
-   * @param {object}  [options = {}]                            - The options for closing the sibling menus.
-   * @param {boolean} [options.force = !this.isInitialized]     - A flag to force the menus to close.
+   * @param {object}  [options = {}]                            - The options for collapsing the sibling menus.
+   * @param {boolean} [options.force = !this.isInitialized]     - A flag to force the menus to collapse.
    * @param {boolean} [options.preserveState = false]           - A flag to preserve the current state.
    * @param {boolean} [options.emit = this.isInitialized]       - A flag to emit the collapse event.
-   * @param {boolean} [options.transition = this.isInitialized] - A flag to use transitions when closing.
+   * @param {boolean} [options.transition = this.isInitialized] - A flag to use transitions when collapsing.
    */
   collapseSiblings({
     force = !this.isInitialized,
@@ -514,15 +514,15 @@ class BaseMenuToggle extends CollapsibleComponent {
   }
 
   /**
-   * Closes all child menus.
+   * Collapses all child menus.
    *
    * @public
    *
-   * @param {object}  [options = {}]                            - The options for closing the child menus.
-   * @param {boolean} [options.force = !this.isInitialized]     - A flag to force the menus to close.
+   * @param {object}  [options = {}]                            - The options for collapsing the child menus.
+   * @param {boolean} [options.force = !this.isInitialized]     - A flag to force the menus to collapse.
    * @param {boolean} [options.preserveState = false]           - A flag to preserve the current state.
    * @param {boolean} [options.emit = this.isInitialized]       - A flag to emit the collapse event.
-   * @param {boolean} [options.transition = this.isInitialized] - A flag to use transitions when closing.
+   * @param {boolean} [options.transition = this.isInitialized] - A flag to use transitions when collapsing.
    */
   collapseChildren({
     force = !this.isInitialized,

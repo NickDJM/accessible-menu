@@ -68,7 +68,7 @@ class Treeview extends BaseMenu {
    * @param {?HTMLElement}       [options.containerElement = null]           - The element containing the menu in the DOM.
    * @param {?(string|string[])} [options.initializeClass = initializing]    - The class(es) to apply when the menu is initializing.
    * @param {?(string|string[])} [options.expandClass = show]                - The class to apply when a menu is expanded.
-   * @param {?(string|string[])} [options.collapseClass = hide]              - The class to apply when a menu is "closed".
+   * @param {?(string|string[])} [options.collapseClass = hide]              - The class to apply when a menu is collapsed.
    * @param {?(string|string[])} [options.transitionClass = transitioning]   - The class to apply when a menu is transitioning between expanded and collapsed states.
    * @param {number}             [options.transitionDuration = 250]          - The duration of the transition between expanded and collapsed states (in milliseconds).
    * @param {number}             [options.expandDuration = -1]               - The duration of the transition from collapsed to expanded states (in milliseconds).
@@ -76,9 +76,9 @@ class Treeview extends BaseMenu {
    * @param {boolean}            [options.isTopLevel = true]                 - A flag to mark the root menu.
    * @param {?Treeview}          [options.parentMenu = null]                 - The parent menu to this menu.
    * @param {string}             [options.hoverType = off]                   - The type of hoverability a menu has.
-   * @param {number}             [options.hoverDelay = 250]                  - The delay for opening and closing menus if the menu is hoverable (in milliseconds).
-   * @param {number}             [options.enterDelay = -1]                   - The delay for opening a menu if the menu is focusable (in milliseconds).
-   * @param {number}             [options.leaveDelay = -1]                   - The delay for closing a menu if the menu is focusable (in milliseconds).
+   * @param {number}             [options.hoverDelay = 250]                  - The delay for expanding and collapsing menus if the menu is hoverable (in milliseconds).
+   * @param {number}             [options.enterDelay = -1]                   - The delay for expanding a menu if the menu is hoverable (in milliseconds).
+   * @param {number}             [options.leaveDelay = -1]                   - The delay for collapsing a menu if the menu is hoverable (in milliseconds).
    * @param {string}             [options.breakpoint = '']                   - The breakpoint used to generate the root controller's media query.
    * @param {string}             [options.mediaQuery = '']                   - The media query used to trigger the root controller's media query list events.
    * @param {boolean}            [options.expandInsideBreakpoint = false]    - A flag to expand the controlled menu when the media query matches.
@@ -596,7 +596,7 @@ class Treeview extends BaseMenu {
   /**
    * Focus the menu's last node of the entire expanded menu.
    *
-   * This includes all _open_ child menu items.
+   * This includes all _expanded_ child menu items.
    *
    * @public
    */
@@ -614,7 +614,7 @@ class Treeview extends BaseMenu {
   }
 
   /**
-   * Open all submenu children.
+   * Expand all submenu children.
    *
    * @public
    */
@@ -625,7 +625,7 @@ class Treeview extends BaseMenu {
   /**
    * Focus the menu's next node starting with a specific letter.
    *
-   * This includes all _open_ child menu items.
+   * This includes all _expanded_ child menu items.
    *
    * Wraps to the first node if no match is found after the current node.
    *
@@ -725,7 +725,7 @@ class Treeview extends BaseMenu {
   /**
    * Focus the last child of the current child's submenu.
    *
-   * This will cascade down through to the last open menu.
+   * This will cascade down through to the last expanded menu.
    *
    * @public
    */

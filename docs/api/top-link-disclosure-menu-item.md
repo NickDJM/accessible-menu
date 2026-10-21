@@ -47,7 +47,7 @@ The initialize method is inherited from the [BaseMenuItem](./base-menu-item#init
 
 ## Properties
 
-Properties are inherited from the [BaseMenuItem](./base-menu-item#properties) class. The following properties are unique to or overwritten in the TopLinkDisclosureMenuItem class.
+Properties are inherited from the [BaseMenuItem](./base-menu-item#properties) class. The following properties are unique to or overridden in the TopLinkDisclosureMenuItem class.
 
 ### _elements <Badge type="tip" text="protected" /> {#property--elements}
 

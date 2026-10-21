@@ -55,44 +55,44 @@ The constructor will call [BaseMenu's constructor](./base-menu#constructor) with
 
 ### Parameters {#constructor--parameters}
 
-| Name                              | Type                         | Description                                                                                          | Default          |
-| --------------------------------- | ---------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------- |
-| options                           | `object`                     | The options for generating the menu.                                                                 | `undefined`      |
-| options.menuElement               | `HTMLElement`                | The menu element in the DOM.                                                                         | `undefined`      |
-| options.menuItemsSelector         | `string`                     | The query selector string for menu items.                                                            | `"li"`           |
-| options.menuLinksSelector         | `string`                     | The query selector string for menu links.                                                            | `"a"`            |
-| options.submenuItemsSelector      | `string`                     | The query selector string for menu items containing submenus.                                        | `li:has(ul)`     |
-| options.submenuTogglesSelector    | `string`                     | The query selector string for submenu toggle buttons/links.                                          | `"a"`            |
-| options.submenuSubtogglesSelector | `?string`                    | The query selector for submenu toggles below the top level. If null, submenuTogglesSelector is used. | `null`           |
-| options.submenusSelector          | `string`                     | The query selector string for submenus.                                                              | `"ul"`           |
-| options.controllerElement         | `HTMLElement`, `null`        | The element controlling the menu in the DOM.                                                         | `null`           |
-| options.containerElement          | `HTMLElement`, `null`        | The element containing the menu in the DOM.                                                          | `null`           |
-| options.initializeClass           | `string`, `string[]`, `null` | The class(es) to apply when the menu is initializing.                                                | `"initializing"` |
-| options.expandClass               | `string`, `string[]`, `null` | The class to apply when a menu is expanded.                                                          | `"show"`         |
-| options.collapseClass             | `string`, `string[]`, `null` | The class to apply when a menu is collapsed.                                                          | `"hide"`         |
-| options.transitionClass           | `string`, `string[]`, `null` | The class to apply when a menu is transitioning between expanded and collapsed states.               | `"transitioning"`|
-| options.transitionDuration        | `number`                     | The duration of the transition between expanded and collapsed states (in milliseconds).              | `250`            |
-| options.expandDuration            | `number`                     | The duration of the transition from collapsed to expanded states (in milliseconds).                  | `-1`             |
-| options.collapseDuration          | `number`                     | The duration of the transition from expanded to collapsed states (in milliseconds).                  | `-1`             |
-| options.isTopLevel                | `boolean`                    | A flag to mark the root menu.                                                                        | `true`           |
-| options.parentMenu                | `Treeview`, `null`           | The parent menu to this menu.                                                                        | `null`           |
-| options.hoverType                 | `string`                     | The type of hoverability a menu has.                                                                 | `"off"`          |
-| options.hoverDelay                | `number`                     | The delay for opening and closing menus if the menu is hoverable (in milliseconds).                  | `250`            |
-| options.enterDelay                | `number`                     | The delay for opening a menu if the menu is focusable (in milliseconds).                             | `-1`             |
-| options.leaveDelay                | `number`                     | The delay for closing a menu if the menu is focusable (in milliseconds).                             | `-1`             |
-| options.breakpoint                | `string`                     | The breakpoint used to generate the root controller's media query.                                   | `""`             |
-| options.mediaQuery                | `string`                     | The media query used to trigger the root controller's media query list events.                       | `""`             |
-| options.expandInsideBreakpoint    | `boolean`                    | A flag to expand the menu when the media query matches.                                              | `false`          |
-| options.expandOutsideBreakpoint   | `boolean`                    | A flag to expand the menu when the media query does not match.                                       | `false`          |
-| options.collapseInsideBreakpoint  | `boolean`                    | A flag to collapse the menu when the media query matches.                                            | `false`          |
-| options.collapseOutsideBreakpoint | `boolean`                    | A flag to collapse the menu when the media query does not match.                                     | `false`          |
-| options.lockInsideBreakpoint      | `boolean`                    | A flag to lock the root controller when the media query matches.                                     | `false`          |
-| options.lockOutsideBreakpoint     | `boolean`                    | A flag to lock the root controller when the media query does not match.                              | `false`          |
-| options.unlockInsideBreakpoint    | `boolean`                    | A flag to unlock the root controller when the media query matches.                                   | `false`          |
-| options.unlockOutsideBreakpoint   | `boolean`                    | A flag to unlock the root controller when the media query does not match.                            | `false`          |
-| options.prefix                    | `string`, `null`             | The prefix for the CSS custom properties.                                                            | `"am-"`          |
-| options.key                       | `string`, `null`             | The key used to generate IDs throughout the menu.                                                    | `null`           |
-| options.initialize                | `boolean`                    | A flag to initialize the menu immediately upon creation.                                             | `true`           |
+| Name                              | Type                         | Description                                                                                          | Default           |
+| --------------------------------- | ---------------------------- | ---------------------------------------------------------------------------------------------------- | ----------------- |
+| options                           | `object`                     | The options for generating the menu.                                                                 | `undefined`       |
+| options.menuElement               | `HTMLElement`                | The menu element in the DOM.                                                                         | `undefined`       |
+| options.menuItemsSelector         | `string`                     | The query selector string for menu items.                                                            | `"li"`            |
+| options.menuLinksSelector         | `string`                     | The query selector string for menu links.                                                            | `"a"`             |
+| options.submenuItemsSelector      | `string`                     | The query selector string for menu items containing submenus.                                        | `li:has(ul)`      |
+| options.submenuTogglesSelector    | `string`                     | The query selector string for submenu toggle buttons/links.                                          | `"a"`             |
+| options.submenuSubtogglesSelector | `?string`                    | The query selector for submenu toggles below the top level. If null, submenuTogglesSelector is used. | `null`            |
+| options.submenusSelector          | `string`                     | The query selector string for submenus.                                                              | `"ul"`            |
+| options.controllerElement         | `HTMLElement`, `null`        | The element controlling the menu in the DOM.                                                         | `null`            |
+| options.containerElement          | `HTMLElement`, `null`        | The element containing the menu in the DOM.                                                          | `null`            |
+| options.initializeClass           | `string`, `string[]`, `null` | The class(es) to apply when the menu is initializing.                                                | `"initializing"`  |
+| options.expandClass               | `string`, `string[]`, `null` | The class to apply when a menu is expanded.                                                          | `"show"`          |
+| options.collapseClass             | `string`, `string[]`, `null` | The class to apply when a menu is collapsed.                                                         | `"hide"`          |
+| options.transitionClass           | `string`, `string[]`, `null` | The class to apply when a menu is transitioning between expanded and collapsed states.               | `"transitioning"` |
+| options.transitionDuration        | `number`                     | The duration of the transition between expanded and collapsed states (in milliseconds).              | `250`             |
+| options.expandDuration            | `number`                     | The duration of the transition from collapsed to expanded states (in milliseconds).                  | `-1`              |
+| options.collapseDuration          | `number`                     | The duration of the transition from expanded to collapsed states (in milliseconds).                  | `-1`              |
+| options.isTopLevel                | `boolean`                    | A flag to mark the root menu.                                                                        | `true`            |
+| options.parentMenu                | `Treeview`, `null`           | The parent menu to this menu.                                                                        | `null`            |
+| options.hoverType                 | `string`                     | The type of hoverability a menu has.                                                                 | `"off"`           |
+| options.hoverDelay                | `number`                     | The delay for expanding and collapsing menus if the menu is hoverable (in milliseconds).             | `250`             |
+| options.enterDelay                | `number`                     | The delay for expanding a menu if the menu is hoverable (in milliseconds).                           | `-1`              |
+| options.leaveDelay                | `number`                     | The delay for collapsing a menu if the menu is hoverable (in milliseconds).                          | `-1`              |
+| options.breakpoint                | `string`                     | The breakpoint used to generate the root controller's media query.                                   | `""`              |
+| options.mediaQuery                | `string`                     | The media query used to trigger the root controller's media query list events.                       | `""`              |
+| options.expandInsideBreakpoint    | `boolean`                    | A flag to expand the menu when the media query matches.                                              | `false`           |
+| options.expandOutsideBreakpoint   | `boolean`                    | A flag to expand the menu when the media query does not match.                                       | `false`           |
+| options.collapseInsideBreakpoint  | `boolean`                    | A flag to collapse the menu when the media query matches.                                            | `false`           |
+| options.collapseOutsideBreakpoint | `boolean`                    | A flag to collapse the menu when the media query does not match.                                     | `false`           |
+| options.lockInsideBreakpoint      | `boolean`                    | A flag to lock the root controller when the media query matches.                                     | `false`           |
+| options.lockOutsideBreakpoint     | `boolean`                    | A flag to lock the root controller when the media query does not match.                              | `false`           |
+| options.unlockInsideBreakpoint    | `boolean`                    | A flag to unlock the root controller when the media query matches.                                   | `false`           |
+| options.unlockOutsideBreakpoint   | `boolean`                    | A flag to unlock the root controller when the media query does not match.                            | `false`           |
+| options.prefix                    | `string`, `null`             | The prefix for the CSS custom properties.                                                            | `"am-"`           |
+| options.key                       | `string`, `null`             | The key used to generate IDs throughout the menu.                                                    | `null`            |
+| options.initialize                | `boolean`                    | A flag to initialize the menu immediately upon creation.                                             | `true`            |
 
 ## Initialize
 
@@ -104,15 +104,15 @@ Treeview.initialize();
 
 Initialize will call [BaseMenu's initialize method](./base-menu#initialize) as well as set up [focus (inherited)](./base-menu#method--handlefocus), [click (inherited)](./base-menu#method--handleclick), [hover (inherited)](./base-menu#method--handlehover), [keydown](#method--handlekeydown), and [keyup](#method--handlekeyup) events for the menu.
 
-If the menu is a root menu it's `role` will be set to "tree" and the first menu item's `tabIndex` will be set to 0 in the DOM if the menu has any items.
+If the menu is a root menu its `role` will be set to "tree" and the first menu item's `tabIndex` will be set to 0 in the DOM if the menu has any items.
 
-If the menu is _not_ a root menu it's `role` will be set to "group".
+If the menu is _not_ a root menu its `role` will be set to "group".
 
 Core handles initialization failures, sets `isValid` to `false`, and logs the error. Inspect `errors` for validation details.
 
 ## Properties
 
-Properties are inherited from the [BaseMenu](./base-menu#properties) class. The following properties are unique to or overwritten in the Treeview class.
+Properties are inherited from the [BaseMenu](./base-menu#properties) class. The following properties are unique to or overridden in the Treeview class.
 
 ### _MenuType <badge type="warning" text="protected" /> {#property--menutype}
 
@@ -152,11 +152,11 @@ Treeview._MenuToggleType; // Default: `TreeviewToggle`.
 
 ## Getters and Setters
 
-Getters and setters are inherited from the [BaseMenu](./base-menu#getters-and-setters) class. The following getters and setters are unique to or overwritten in the Treeview class.
+Getters and setters are inherited from the [BaseMenu](./base-menu#getters-and-setters) class. The following getters and setters are unique to or overridden in the Treeview class.
 
 ## Methods
 
-Methods are inherited from the [BaseMenu](./base-menu#methods) class. The following methods are unique to or overwritten in the Treeview class.
+Methods are inherited from the [BaseMenu](./base-menu#methods) class. The following methods are unique to or overridden in the Treeview class.
 
 ### _handleHover <badge type="warning" text="protected" /> {#method--handlehover}
 
@@ -244,11 +244,11 @@ Focus the menu's last node of the entire expanded menu.
 Treeview.focusLastNode();
 ```
 
-This includes all _open_ child menu items.
+This includes all _expanded_ child menu items.
 
 ### expandChildren <badge type="tip" text="public" /> {#method--expandchildren}
 
-Open all submenu children.
+Expand all submenu children.
 
 ```js
 Treeview.expandChildren();
@@ -262,7 +262,7 @@ Focus the menu's next node starting with a specific letter.
 Treeview.focusNextNodeWithCharacter(char);
 ```
 
-This includes all _open_ child menu items.
+This includes all _expanded_ child menu items.
 
 Wraps to the first node if no match is found after the current node.
 
@@ -290,7 +290,7 @@ Focus the last child of the current child's submenu.
 Treeview.focusChildsLastNode();
 ```
 
-This will cascade down through to the last open menu.
+This will cascade down through to the last expanded menu.
 
 ### _bootstrap
 

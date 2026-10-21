@@ -59,7 +59,7 @@ Getters and setters are inherited from the [BaseMenuToggle](./base-menu-toggle#g
 
 ## Methods
 
-Methods are inherited from the [BaseMenuToggle](./base-menu-toggle#methods) class. The following methods are unique to or overwritten in the MenubarToggle class.
+Methods are inherited from the [BaseMenuToggle](./base-menu-toggle#methods) class. The following methods are unique to or overridden in the MenubarToggle class.
 
 ### _setAriaAttributes <badge type="warning" text="protected" /> {#method--setAriaAttributes}
 
@@ -75,7 +75,7 @@ Then sets the toggle's `aria-haspopup` attribute to "true".
 
 ### expand <badge type="tip" text="public" /> {#method--expand}
 
-Opens the controlled menu.
+Expands the controlled menu.
 
 ```js
 MenubarToggle.expand();
@@ -85,7 +85,7 @@ Calls the [collapseSiblings (inherited)](./base-menu-toggle#method--collapsesibl
 
 ### preview <badge type="tip" text="public" /> {#method--preview}
 
-Opens the controlled menu without the current focus entering it.
+Expands the controlled menu without the current focus entering it.
 
 ```js
 MenubarToggle.preview();
@@ -95,7 +95,7 @@ Calls the [collapseSiblings (inherited)](./base-menu-toggle#method--collapsesibl
 
 ### collapse <badge type="tip" text="public" /> {#method--collapse}
 
-Closes the controlled menu.
+Collapses the controlled menu.
 
 ```js
 MenubarToggle.collapse();

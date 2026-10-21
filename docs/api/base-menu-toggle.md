@@ -1498,7 +1498,7 @@ BaseMenuToggle._collapse({ emit, transition });
 
 ### expand <badge type="tip" text="public" /> {#method--expand}
 
-Opens the controlled menu.
+Expands the controlled menu.
 
 The action is skipped while locked unless `force` is `true`.
 
@@ -1512,17 +1512,17 @@ If the toggle is initialized, also sets the controlled menu's [focus state](./ba
 
 #### Parameters {#method--expand--parameters}
 
-| Name                  | Type      | Description                             | Default               |
-| --------------------- | --------- | --------------------------------------- | --------------------- |
-| options               | `object`  | The options for opening the menu.       | `{}`                  |
-| options.force         | `boolean` | A flag to force the menu to open.       | `!this.isInitialized` |
-| options.preserveState | `boolean` | A flag to preserve the current state.   | `false`               |
-| options.emit          | `boolean` | A flag to emit the expand event.        | `this.isInitialized`  |
-| options.transition    | `boolean` | A flag to use transitions when opening. | `this.isInitialized`  |
+| Name                  | Type      | Description                               | Default               |
+| --------------------- | --------- | ----------------------------------------- | --------------------- |
+| options               | `object`  | The options for expanding the menu.       | `{}`                  |
+| options.force         | `boolean` | A flag to force the menu to expand.       | `!this.isInitialized` |
+| options.preserveState | `boolean` | A flag to preserve the current state.     | `false`               |
+| options.emit          | `boolean` | A flag to emit the expand event.          | `this.isInitialized`  |
+| options.transition    | `boolean` | A flag to use transitions when expanding. | `this.isInitialized`  |
 
 ### preview <badge type="tip" text="public" /> {#method--preview}
 
-Opens the controlled menu without the current focus entering it.
+Expands the controlled menu without the current focus entering it.
 
 The action is skipped while locked unless `force` is `true`.
 
@@ -1546,7 +1546,7 @@ If the toggle is initialized and has a parent menu, also sets that menu's [focus
 
 ### collapse <badge type="tip" text="public" /> {#method--collapse}
 
-Closes the controlled menu.
+Collapses the controlled menu.
 
 The action is skipped while locked unless `force` is `true`.
 
@@ -1560,17 +1560,17 @@ If the toggle is initialized, also blurs the controlled menu, setting its [focus
 
 #### Parameters {#method--collapse--parameters}
 
-| Name                  | Type      | Description                             | Default               |
-| --------------------- | --------- | --------------------------------------- | --------------------- |
-| options               | `object`  | The options for closing the menu.       | `{}`                  |
-| options.force         | `boolean` | A flag to force the menu to close.      | `!this.isInitialized` |
-| options.preserveState | `boolean` | A flag to preserve the current state.   | `false`               |
-| options.emit          | `boolean` | A flag to emit the collapse event.      | `this.isInitialized`  |
-| options.transition    | `boolean` | A flag to use transitions when closing. | `this.isInitialized`  |
+| Name                  | Type      | Description                                | Default               |
+| --------------------- | --------- | ------------------------------------------ | --------------------- |
+| options               | `object`  | The options for collapsing the menu.       | `{}`                  |
+| options.force         | `boolean` | A flag to force the menu to collapse.      | `!this.isInitialized` |
+| options.preserveState | `boolean` | A flag to preserve the current state.      | `false`               |
+| options.emit          | `boolean` | A flag to emit the collapse event.         | `this.isInitialized`  |
+| options.transition    | `boolean` | A flag to use transitions when collapsing. | `this.isInitialized`  |
 
 ### toggle <badge type="tip" text="public" /> <badge type="tip" text="inherited" /> {#method--toggle}
 
-Toggles the open state of the controlled menu between `true` and `false`.
+Toggles the expanded state of the controlled menu between `true` and `false`.
 
 ```js
 BaseMenuToggle.toggle({ force, preserveState, emit, transition });
@@ -1578,17 +1578,17 @@ BaseMenuToggle.toggle({ force, preserveState, emit, transition });
 
 #### Parameters {#method--toggle--parameters}
 
-| Name                  | Type      | Description                               | Default               |
-| --------------------- | --------- | ----------------------------------------- | --------------------- |
-| options               | `object`  | The options for toggling the menu.        | `{}`                  |
-| options.force         | `boolean` | A flag to force the menu to open/close.   | `!this.isInitialized` |
-| options.preserveState | `boolean` | A flag to preserve the current state.     | `false`               |
-| options.emit          | `boolean` | A flag to emit the expand/collapse event. | `this.isInitialized`  |
-| options.transition    | `boolean` | A flag to use transitions when toggling.  | `this.isInitialized`  |
+| Name                  | Type      | Description                                  | Default               |
+| --------------------- | --------- | -------------------------------------------- | --------------------- |
+| options               | `object`  | The options for toggling the menu.           | `{}`                  |
+| options.force         | `boolean` | A flag to force the menu to expand/collapse. | `!this.isInitialized` |
+| options.preserveState | `boolean` | A flag to preserve the current state.        | `false`               |
+| options.emit          | `boolean` | A flag to emit the expand/collapse event.    | `this.isInitialized`  |
+| options.transition    | `boolean` | A flag to use transitions when toggling.     | `this.isInitialized`  |
 
 ### collapseSiblings <badge type="tip" text="public" /> {#method--collapsesiblings}
 
-Closes all sibling menus.
+Collapses all sibling menus.
 
 ```js
 BaseMenuToggle.collapseSiblings({ force, preserveState, emit, transition });
@@ -1596,17 +1596,17 @@ BaseMenuToggle.collapseSiblings({ force, preserveState, emit, transition });
 
 #### Parameters {#method--collapsesiblings--parameters}
 
-| Name                  | Type      | Description                                | Default               |
-| --------------------- | --------- | ------------------------------------------ | --------------------- |
-| options               | `object`  | The options for closing the sibling menus. | `{}`                  |
-| options.force         | `boolean` | A flag to force the menus to close.        | `!this.isInitialized` |
-| options.preserveState | `boolean` | A flag to preserve the current state.      | `false`               |
-| options.emit          | `boolean` | A flag to emit the collapse event.         | `this.isInitialized`  |
-| options.transition    | `boolean` | A flag to use transitions when closing.    | `this.isInitialized`  |
+| Name                  | Type      | Description                                   | Default               |
+| --------------------- | --------- | --------------------------------------------- | --------------------- |
+| options               | `object`  | The options for collapsing the sibling menus. | `{}`                  |
+| options.force         | `boolean` | A flag to force the menus to collapse.        | `!this.isInitialized` |
+| options.preserveState | `boolean` | A flag to preserve the current state.         | `false`               |
+| options.emit          | `boolean` | A flag to emit the collapse event.            | `this.isInitialized`  |
+| options.transition    | `boolean` | A flag to use transitions when collapsing.    | `this.isInitialized`  |
 
 ### collapseChildren <badge type="tip" text="public" /> {#method--collapsechildren}
 
-Closes all child menus.
+Collapses all child menus.
 
 ```js
 BaseMenuToggle.collapseChildren({ force, preserveState, emit, transition });
@@ -1614,13 +1614,13 @@ BaseMenuToggle.collapseChildren({ force, preserveState, emit, transition });
 
 #### Parameters {#method--collapsechildren--parameters}
 
-| Name                  | Type      | Description                              | Default               |
-| --------------------- | --------- | ---------------------------------------- | --------------------- |
-| options               | `object`  | The options for closing the child menus. | `{}`                  |
-| options.force         | `boolean` | A flag to force the menus to close.      | `!this.isInitialized` |
-| options.preserveState | `boolean` | A flag to preserve the current state.    | `false`               |
-| options.emit          | `boolean` | A flag to emit the collapse event.       | `this.isInitialized`  |
-| options.transition    | `boolean` | A flag to use transitions when closing.  | `this.isInitialized`  |
+| Name                  | Type      | Description                                 | Default               |
+| --------------------- | --------- | ------------------------------------------- | --------------------- |
+| options               | `object`  | The options for collapsing the child menus. | `{}`                  |
+| options.force         | `boolean` | A flag to force the menus to collapse.      | `!this.isInitialized` |
+| options.preserveState | `boolean` | A flag to preserve the current state.       | `false`               |
+| options.emit          | `boolean` | A flag to emit the collapse event.          | `this.isInitialized`  |
+| options.transition    | `boolean` | A flag to use transitions when collapsing.  | `this.isInitialized`  |
 
 ### _bootstrap
 
@@ -1717,7 +1717,7 @@ _resetDOMElementType(elementType);
 
 Sets all DOM elements throughout the component.
 
-Utilizes _setDOMElementType and _resetDOMElementType.
+Uses _setDOMElementType and _resetDOMElementType.
 
 ```js
 _setDOMElements();

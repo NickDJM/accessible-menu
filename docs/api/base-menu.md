@@ -73,18 +73,18 @@ When extending a menu class, pass `initialize: false` to `super()` and call `thi
 | options.controllerElement         | `HTMLElement`, `null`        | The element controlling the menu in the DOM.                                                         | `null`            |
 | options.containerElement          | `HTMLElement`, `null`        | The element containing the menu in the DOM.                                                          | `null`            |
 | options.initializeClass           | `string`, `string[]`, `null` | The class(es) to apply when the menu is initializing.                                                | `"initializing"`  |
-| options.expandClass               | `string`, `string[]`, `null` | The class(es) to apply when the menu is open.                                                        | `"show"`          |
-| options.collapseClass             | `string`, `string[]`, `null` | The class(es) to apply when the menu is closed.                                                      | `"hide"`          |
-| options.transitionClass           | `string`, `string[]`, `null` | The class(es) to apply when the menu is transitioning between open and closed states.                | `"transitioning"` |
+| options.expandClass               | `string`, `string[]`, `null` | The class(es) to apply when the menu is expanded.                                                    | `"show"`          |
+| options.collapseClass             | `string`, `string[]`, `null` | The class(es) to apply when the menu is collapsed.                                                   | `"hide"`          |
+| options.transitionClass           | `string`, `string[]`, `null` | The class(es) to apply when the menu is transitioning between expanded and collapsed states.         | `"transitioning"` |
 | options.transitionDuration        | `number`                     | The duration of the transition between expanded and collapsed states (in milliseconds).              | `250`             |
 | options.expandDuration            | `number`                     | The duration of the transition from collapsed to expanded states (in milliseconds).                  | `-1`              |
 | options.collapseDuration          | `number`                     | The duration of the transition from expanded to collapsed states (in milliseconds).                  | `-1`              |
 | options.isTopLevel                | `boolean`                    | A flag to mark the root menu.                                                                        | `true`            |
 | options.parentMenu                | `BaseMenu`, `null`           | The parent menu to this menu.                                                                        | `null`            |
 | options.hoverType                 | `string`                     | The type of hoverability a menu has.                                                                 | `"off"`           |
-| options.hoverDelay                | `number`                     | The delay for opening and closing menus if the menu is hoverable (in milliseconds).                  | `250`             |
-| options.enterDelay                | `number`                     | The delay for opening menus if the menu is hoverable (in milliseconds).                              | `-1`              |
-| options.leaveDelay                | `number`                     | The delay for closing menus if the menu is hoverable (in milliseconds).                              | `-1`              |
+| options.hoverDelay                | `number`                     | The delay for expanding and collapsing menus if the menu is hoverable (in milliseconds).             | `250`             |
+| options.enterDelay                | `number`                     | The delay for expanding menus if the menu is hoverable (in milliseconds).                            | `-1`              |
+| options.leaveDelay                | `number`                     | The delay for collapsing menus if the menu is hoverable (in milliseconds).                           | `-1`              |
 | options.breakpoint                | `string`                     | The breakpoint used to generate the root controller's media query.                                   | `""`              |
 | options.mediaQuery                | `string`                     | The media query used to trigger the root controller's media query list events.                       | `""`              |
 | options.expandInsideBreakpoint    | `boolean`                    | A flag to expand the menu when the media query matches.                                              | `false`           |
@@ -271,8 +271,8 @@ BaseMenu._classes;
 | Name       | Type                 | Description                                                           | Default           |
 | ---------- | -------------------- | --------------------------------------------------------------------- | ----------------- |
 | initialize | `string`, `string[]` | The class(es) to apply when the menu is initializing.                 | `"initializing"`  |
-| expand     | `string`, `string[]` | The class(es) to apply when the menu is open.                         | `"show"`          |
-| collapse   | `string`, `string[]` | The class(es) to apply when the menu is closed.                       | `"hide"`          |
+| expand     | `string`, `string[]` | The class(es) to apply when the menu is expanded.                     | `"show"`          |
+| collapse   | `string`, `string[]` | The class(es) to apply when the menu is collapsed.                    | `"hide"`          |
 | transition | `string`, `string[]` | The class(es) to apply when the menu is transitioning between states. | `"transitioning"` |
 
 ### _durations <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--durations}
@@ -289,11 +289,11 @@ BaseMenu._durations;
 
 #### Properties {#property--durations--properties}
 
-| Name       | Type     | Description                                                                            | Default |
-| ---------- | -------- | -------------------------------------------------------------------------------------- | ------- |
-| transition | `number` | The duration time (in milliseconds) for the transition between open and closed states. | `250`   |
-| expand     | `number` | The duration time (in milliseconds) for the transition from closed to open states.     | `-1`    |
-| collapse   | `number` | The duration time (in milliseconds) for the transition from open to closed states.     | `-1`    |
+| Name       | Type     | Description                                                                                   | Default |
+| ---------- | -------- | --------------------------------------------------------------------------------------------- | ------- |
+| transition | `number` | The duration time (in milliseconds) for the transition between expanded and collapsed states. | `250`   |
+| expand     | `number` | The duration time (in milliseconds) for the transition from collapsed to expanded states.     | `-1`    |
+| collapse   | `number` | The duration time (in milliseconds) for the transition from expanded to collapsed states.     | `-1`    |
 
 ### _delays <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--delays}
 
@@ -780,7 +780,7 @@ See [_id](#property--id) for more information.
 
 ### expandClass {#getter-setter--openclass}
 
-The class(es) to apply when the menu is open.
+The class(es) to apply when the menu is expanded.
 
 ::: code-group
 
@@ -794,13 +794,13 @@ BaseMenu.expandClass = "show";
 
 :::
 
-This functions differently for root vs. submenus. Submenus will always inherit their root menu's open class(es).
+This functions differently for root vs. submenus. Submenus will always inherit their root menu's expand class(es).
 
 See [_classes.expand](#property--classes) for more information.
 
 ### collapseClass {#getter-setter--closeclass}
 
-The class(es) to apply when the menu is closed.
+The class(es) to apply when the menu is collapsed.
 
 ::: code-group
 
@@ -814,13 +814,13 @@ BaseMenu.collapseClass = "hide";
 
 :::
 
-This functions differently for root vs. submenus. Submenus will always inherit their root menu's close class(es).
+This functions differently for root vs. submenus. Submenus will always inherit their root menu's collapse class(es).
 
 See [_classes.collapse](#property--classes) for more information.
 
 ### transitionClass {#getter-setter--transitionclass}
 
-The class(es) to apply when the menu is transitioning between open and closed.
+The class(es) to apply when the menu is transitioning between expanded and collapsed.
 
 ::: code-group
 
@@ -840,7 +840,7 @@ See [_classes.transition](#property--classes) for more information.
 
 ### transitionDuration {#getter-setter--transitionduration}
 
-The duration time (in milliseconds) for the transition between open and closed states.
+The duration time (in milliseconds) for the transition between expanded and collapsed states.
 
 ::: code-group
 
@@ -862,7 +862,7 @@ See [_durations.transition](#property--durations) for more information.
 
 ### expandDuration {#getter-setter--openduration}
 
-The duration time (in milliseconds) for the transition from closed to open states.
+The duration time (in milliseconds) for the transition from collapsed to expanded states.
 
 ::: code-group
 
@@ -876,7 +876,7 @@ BaseMenu.expandDuration = 250;
 
 :::
 
-This functions differently for root vs. submenus. Submenus will always inherit their root menu's open duration.
+This functions differently for root vs. submenus. Submenus will always inherit their root menu's expand duration.
 
 Setting this value will also set the `--am-expand-transition-duration` CSS custom property on the menu.
 
@@ -884,7 +884,7 @@ See [_durations.expand](#property--durations) for more information.
 
 ### collapseDuration {#getter-setter--closeduration}
 
-The duration time (in milliseconds) for the transition from open to closed states.
+The duration time (in milliseconds) for the transition from expanded to collapsed states.
 
 ::: code-group
 
@@ -898,7 +898,7 @@ BaseMenu.collapseDuration = 250;
 
 :::
 
-This functions differently for root vs. submenus. Submenus will always inherit their root menu's close duration.
+This functions differently for root vs. submenus. Submenus will always inherit their root menu's collapse duration.
 
 Setting this value will also set the `--am-collapse-transition-duration` CSS custom property on the menu.
 
@@ -1627,9 +1627,9 @@ Sets all DOM elements within the menu.
 BaseMenu._setDOMElements();
 ```
 
-Utilizes [`_setDOMElementType`](#method--setdomelementtype) and [`_resetDOMElementType`](#method--resetdomelementtype).
+Uses [`_setDOMElementType`](#method--setdomelementtype) and [`_resetDOMElementType`](#method--resetdomelementtype).
 
-### _generateKey <bade type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#method--generatekey}
+### _generateKey <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#method--generatekey}
 
 Generates a key for the menu.
 
@@ -1645,7 +1645,7 @@ BaseMenu._generateKey(regenerate);
 
 ### _setIds <badge type="warning" text="protected" /> {#method--setids}
 
-Sets the IDs of the menu and it's elements if they do not already exist.
+Sets the IDs of the menu and its elements if they do not already exist.
 
 ```js
 BaseMenu._setIds();
@@ -1751,7 +1751,7 @@ BaseMenu._handleFocus();
 ```
 
 - Adds a `focus` listener to every menu item so when it gains focus, it will set the item's containing menu's [focus state](#property--focusstate) to "self".
-- Adds a `focusout` listener to the menu so when the menu loses focus, it will close.
+- Adds a `focusout` listener to the menu so when the menu loses focus, it will collapse.
 
 ### _handleClick {#method--handleclick}
 
@@ -1764,8 +1764,8 @@ BaseMenu._handleClick();
 This method will do the following:
 
 - Adds a `click` listener to every menu item that will blur all menu items in the entire menu structure (starting at the root menu) and then properly focus the clicked item.
-- Adds a `click` listener to every submenu item that will properly toggle the submenu open/closed.
-- Adds a `click` listener to the menu's controller (if the menu is the root menu) so when it is clicked it will properly toggle open/closed.
+- Adds a `click` listener to every submenu item that will properly expand or collapse the submenu.
+- Adds a `click` listener to the menu's controller (if the menu is the root menu) so when it is clicked it will expand or collapse.
 
 ### _handleHover <badge type="warning" text="protected" /> {#method--handlehover}
 
@@ -1955,7 +1955,7 @@ Focus the menu.
 BaseMenu.focus();
 ```
 
-Sets the menu's [focus state](#property--focusstate) to "self" and focusses the menu if the menu's [shouldFocus](#getter--shouldfocus) value is `true`.
+Sets the menu's [focus state](#property--focusstate) to "self" and focuses the menu if the menu's [shouldFocus](#getter--shouldfocus) value is `true`.
 
 Selection and focus-state changes happen immediately, even when DOM focus is not allowed. DOM focus follows the root menu's [shouldFocus](#getter--shouldfocus) value; these methods do not change `currentEvent` themselves. Item links are focused or blurred on an animation frame, while calls on the menu, controller, or container happen immediately.
 
@@ -2063,7 +2063,7 @@ Does nothing if the menu has no container. Otherwise, sets the menu's `focusStat
 
 ### collapseChildren <badge type="tip" text="public" /> {#method--collapsechildren}
 
-Close all submenu children.
+Collapse all submenu children.
 
 ```js
 BaseMenu.collapseChildren();

@@ -127,18 +127,18 @@ class BaseMenu extends Component {
    * @param {?HTMLElement}       [options.controllerElement = null]          - The element controlling the menu in the DOM.
    * @param {?HTMLElement}       [options.containerElement = null]           - The element containing the menu in the DOM.
    * @param {?(string|string[])} [options.initializeClass = initializing]    - The class(es) to apply when the menu is initializing.
-   * @param {?(string|string[])} [options.expandClass = show]                - The class(es) to apply when the menu is open.
-   * @param {?(string|string[])} [options.collapseClass = hide]              - The class(es) to apply when the menu is closed.
-   * @param {?(string|string[])} [options.transitionClass = transitioning]   - The class(es) to apply when the menu is transitioning between open and closed states.
+   * @param {?(string|string[])} [options.expandClass = show]                - The class(es) to apply when the menu is expanded.
+   * @param {?(string|string[])} [options.collapseClass = hide]              - The class(es) to apply when the menu is collapsed.
+   * @param {?(string|string[])} [options.transitionClass = transitioning]   - The class(es) to apply when the menu is transitioning between expanded and collapsed states.
    * @param {number}             [options.transitionDuration = 250]          - The duration of the transition between expanded and collapsed states (in milliseconds).
    * @param {number}             [options.expandDuration = -1]               - The duration of the transition from collapsed to expanded states (in milliseconds).
    * @param {number}             [options.collapseDuration = -1]             - The duration of the transition from expanded to collapsed states (in milliseconds).
    * @param {boolean}            [options.isTopLevel = true]                 - A flag to mark the root menu.
    * @param {?BaseMenu}          [options.parentMenu = null]                 - The parent menu to this menu.
    * @param {string}             [options.hoverType = off]                   - The type of hoverability a menu has.
-   * @param {number}             [options.hoverDelay = 250]                  - The delay for opening and closing menus if the menu is hoverable (in milliseconds).
-   * @param {number}             [options.enterDelay = -1]                   - The delay for opening menus if the menu is hoverable (in milliseconds).
-   * @param {number}             [options.leaveDelay = -1]                   - The delay for closing menus if the menu is hoverable (in milliseconds).
+   * @param {number}             [options.hoverDelay = 250]                  - The delay for expanding and collapsing menus if the menu is hoverable (in milliseconds).
+   * @param {number}             [options.enterDelay = -1]                   - The delay for expanding menus if the menu is hoverable (in milliseconds).
+   * @param {number}             [options.leaveDelay = -1]                   - The delay for collapsing menus if the menu is hoverable (in milliseconds).
    * @param {string}             [options.breakpoint = '']                   - The breakpoint used to generate the root controller's media query.
    * @param {string}             [options.mediaQuery = '']                   - The media query used to trigger the root controller's media query list events.
    * @param {boolean}            [options.expandInsideBreakpoint = false]    - A flag to expand the controlled menu when the media query matches.
@@ -422,10 +422,10 @@ class BaseMenu extends Component {
   }
 
   /**
-   * The class(es) to apply when the menu is open.
+   * The class(es) to apply when the menu is expanded.
    *
    * This functions differently for root vs. submenus.
-   * Submenus will always inherit their root menu's open class(es).
+   * Submenus will always inherit their root menu's expand class(es).
    *
    * @type {string|string[]}
    *
@@ -446,10 +446,10 @@ class BaseMenu extends Component {
   }
 
   /**
-   * The class(es) to apply when the menu is closed.
+   * The class(es) to apply when the menu is collapsed.
    *
    * This functions differently for root vs. submenus.
-   * Submenus will always inherit their root menu's close class(es).
+   * Submenus will always inherit their root menu's collapse class(es).
    *
    * @type {string|string[]}
    *
@@ -470,7 +470,7 @@ class BaseMenu extends Component {
   }
 
   /**
-   * The class(es) to apply when the menu is transitioning between open and closed.
+   * The class(es) to apply when the menu is transitioning between expanded and collapsed.
    *
    * This functions differently for root vs. submenus.
    * Submenus will always inherit their root menu's transition class(es).
@@ -494,7 +494,7 @@ class BaseMenu extends Component {
   }
 
   /**
-   * The duration time (in milliseconds) for the transition between open and closed states.
+   * The duration time (in milliseconds) for the transition between expanded and collapsed states.
    *
    * This functions differently for root vs. submenus.
    * Submenus will always inherit their root menu's transition duration.
@@ -521,7 +521,7 @@ class BaseMenu extends Component {
   }
 
   /**
-   * The duration time (in milliseconds) for the transition from closed to open states.
+   * The duration time (in milliseconds) for the transition from collapsed to expanded states.
    *
    * This functions differently for root vs. submenus.
    * Submenus will always inherit their root menu's expandDuration.
@@ -552,7 +552,7 @@ class BaseMenu extends Component {
   }
 
   /**
-   * The duration time (in milliseconds) for the transition from open to closed states.
+   * The duration time (in milliseconds) for the transition from expanded to collapsed states.
    *
    * This functions differently for root vs. submenus.
    * Submenus will always inherit their root menu's collapseDuration.
@@ -1330,7 +1330,7 @@ class BaseMenu extends Component {
   }
 
   /**
-   * Sets the IDs of the menu and it's elements if they do not already exist.
+   * Sets the IDs of the menu and its elements if they do not already exist.
    *
    * The generated IDs use the key and follow the format:
    *  - menu: `menu-${key}`
@@ -1616,7 +1616,7 @@ class BaseMenu extends Component {
    *   all menu items in the entire menu structure (starting at the root menu) and
    *   then properly focus the clicked item.
    * - Adds a `click` listener to every submenu item that will properly
-   *   toggle the submenu open/closed.
+   *   expand or collapse the submenu.
    * - Adds a `click` listener to the menu's controller
    *   (if the menu is the root menu) so when it is clicked it will properly
    *   toggle open/closed.
@@ -2127,7 +2127,7 @@ class BaseMenu extends Component {
   }
 
   /**
-   * Close all submenu children.
+   * Collapse all submenu children.
    *
    * @public
    */

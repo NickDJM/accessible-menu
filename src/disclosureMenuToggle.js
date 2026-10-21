@@ -100,16 +100,16 @@ class DisclosureMenuToggle extends BaseMenuToggle {
   }
 
   /**
-   * Opens the controlled menu.
+   * Expands the controlled menu.
    *
    * Calls the collapseSiblings method
-   * and _then_ BaseMenuToggle's open method.
+   * and _then_ BaseMenuToggle's expand method.
    *
-   * @param {object}  [options = {}]                            - The options for opening the menu.
-   * @param {boolean} [options.force = !this.isInitialized]     - A flag to force the menu to open.
+   * @param {object}  [options = {}]                            - The options for expanding the menu.
+   * @param {boolean} [options.force = !this.isInitialized]     - A flag to force the menu to expand.
    * @param {boolean} [options.preserveState = false]           - A flag to preserve the current state.
    * @param {boolean} [options.emit = this.isInitialized]       - A flag to emit the expand event.
-   * @param {boolean} [options.transition = this.isInitialized] - A flag to use transitions when opening.
+   * @param {boolean} [options.transition = this.isInitialized] - A flag to use transitions when expanding.
    */
   expand({
     force = !this.isInitialized,
@@ -117,7 +117,7 @@ class DisclosureMenuToggle extends BaseMenuToggle {
     emit = this.isInitialized,
     transition = this.isInitialized,
   } = {}) {
-    // Close all siblings.
+    // Collapse all siblings.
     if (this.isLocked && !force) return;
 
     if (this.isInitialized)
@@ -127,7 +127,7 @@ class DisclosureMenuToggle extends BaseMenuToggle {
   }
 
   /**
-   * Opens the controlled menu without the current focus entering it.
+   * Expands the controlled menu without the current focus entering it.
    *
    * Calls the collapseSiblings method
    * and _then_ BaseMenuToggle's preview method.
@@ -144,7 +144,7 @@ class DisclosureMenuToggle extends BaseMenuToggle {
     emit = this.isInitialized,
     transition = this.isInitialized,
   } = {}) {
-    // Close all siblings.
+    // Collapse all siblings.
     if (this.isLocked && !force) return;
 
     if (this.isInitialized)
@@ -154,16 +154,16 @@ class DisclosureMenuToggle extends BaseMenuToggle {
   }
 
   /**
-   * Closes the controlled menu.
+   * Collapses the controlled menu.
    *
    * Calls the collapseChildren method
-   * and _then_ BaseMenuToggle's close method.
+   * and _then_ BaseMenuToggle's collapse method.
    *
-   * @param {object}  [options = {}]                            - The options for closing the menu.
-   * @param {boolean} [options.force = !this.isInitialized]     - A flag to force the menu to close.
+   * @param {object}  [options = {}]                            - The options for collapsing the menu.
+   * @param {boolean} [options.force = !this.isInitialized]     - A flag to force the menu to collapse.
    * @param {boolean} [options.preserveState = false]           - A flag to preserve the current state.
    * @param {boolean} [options.emit = this.isInitialized]       - A flag to emit the collapse event.
-   * @param {boolean} [options.transition = this.isInitialized] - A flag to use transitions when closing.
+   * @param {boolean} [options.transition = this.isInitialized] - A flag to use transitions when collapsing.
    */
   collapse({
     force = !this.isInitialized,

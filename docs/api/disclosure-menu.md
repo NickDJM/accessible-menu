@@ -70,7 +70,7 @@ The constructor will call [BaseMenu's constructor](./base-menu#constructor) with
 | options.containerElement          | `HTMLElement`, `null`        | The element containing the menu in the DOM.                                                          | `null`           |
 | options.initializeClass           | `string`, `string[]`, `null` | The class(es) to apply when the menu is initializing.                                                | `"initializing"` |
 | options.expandClass               | `string`, `string[]`, `null` | The class to apply when a menu is expanded.                                                          | `"show"`         |
-| options.collapseClass             | `string`, `string[]`, `null` | The class to apply when a menu is "closed".                                                          | `"hide"`         |
+| options.collapseClass             | `string`, `string[]`, `null` | The class to apply when a menu is collapsed.                                                         | `"hide"`         |
 | options.transitionClass           | `string`, `string[]`, `null` | The class to apply when a menu is transitioning between expanded and collapsed states.               | `transitioning`  |
 | options.transitionDuration        | `number`                     | The duration of the transition between expanded and collapsed states (in milliseconds).              | `250`            |
 | options.expandDuration            | `number`                     | The duration of the transition from collapsed to expanded states (in milliseconds).                  | `-1`             |
@@ -78,9 +78,9 @@ The constructor will call [BaseMenu's constructor](./base-menu#constructor) with
 | options.isTopLevel                | `boolean`                    | A flag to mark the root menu.                                                                        | `true`           |
 | options.parentMenu                | `DisclosureMenu`, `null`     | The parent menu to this menu.                                                                        | `null`           |
 | options.hoverType                 | `string`                     | The type of hoverability a menu has.                                                                 | `"off"`          |
-| options.hoverDelay                | `number`                     | The delay for opening and closing menus if the menu is hoverable (in milliseconds).                  | `250`            |
-| options.enterDelay                | `number`                     | The delay for opening a menu if the menu is focusable (in milliseconds).                             | `-1`             |
-| options.leaveDelay                | `number`                     | The delay for closing a menu if the menu is focusable (in milliseconds).                             | `-1`             |
+| options.hoverDelay                | `number`                     | The delay for expanding and collapsing menus if the menu is hoverable (in milliseconds).             | `250`            |
+| options.enterDelay                | `number`                     | The delay for expanding a menu if the menu is hoverable (in milliseconds).                           | `-1`             |
+| options.leaveDelay                | `number`                     | The delay for collapsing a menu if the menu is hoverable (in milliseconds).                          | `-1`             |
 | options.breakpoint                | `string`                     | The breakpoint used to generate the root controller's media query.                                   | `""`             |
 | options.mediaQuery                | `string`                     | The media query used to trigger the root controller's media query list events.                       | `""`             |
 | options.expandInsideBreakpoint    | `boolean`                    | A flag to expand the menu when the media query matches.                                              | `false`          |
@@ -110,7 +110,7 @@ Core handles initialization failures, sets `isValid` to `false`, and logs the er
 
 ## Properties
 
-Properties are inherited from the [BaseMenu](./base-menu#properties) class. The following properties are unique to or overwritten in the DisclosureMenu class.
+Properties are inherited from the [BaseMenu](./base-menu#properties) class. The following properties are unique to or overridden in the DisclosureMenu class.
 
 ### _MenuType <badge type="warning" text="protected" /> {#property--menutype}
 
@@ -174,7 +174,7 @@ DisclosureMenu._optionalSupport; // Default: `false`.
 
 ## Getters and Setters
 
-Getters and setters are inherited from the [BaseMenu](./base-menu#getters-and-setters) class. The following getters and setters are unique to or overwritten in the DisclosureMenu class.
+Getters and setters are inherited from the [BaseMenu](./base-menu#getters-and-setters) class. The following getters and setters are unique to or overridden in the DisclosureMenu class.
 
 ### optionalKeySupport {#getter-setter--optionalkeysupport}
 
@@ -204,7 +204,7 @@ This functions differently for root vs. submenus. Submenus will always inherit t
 
 ## Methods
 
-Methods are inherited from the [BaseMenu](./base-menu#methods) class. The following methods are unique to or overwritten in the DisclosureMenu class.
+Methods are inherited from the [BaseMenu](./base-menu#methods) class. The following methods are unique to or overridden in the DisclosureMenu class.
 
 ### _validate <badge type="warning" text="protected" /> {#method--validate}
 
@@ -233,7 +233,7 @@ DisclosureMenu._handleClick();
 This method will do the following:
 
 - Adds all event listeners listed in [BaseMenu's _handleClick method](./base-menu#method--handleclick).
-- Adds a `click` listener to the `document` so if the user clicks outside of the menu it will close if it is open.
+- Adds a `click` listener to the `document` so if the user clicks outside of the menu it will collapse if it is expanded.
 
 ### _handleKeydown <badge type="warning" text="protected" /> {#method--handlekeydown}
 

@@ -1,6 +1,6 @@
 # Bootstrap Support
 
-Accessible Menu, by default, does not support [Bootstrap](https://getbootstrap.com). This is mainly due to the way Bootstrap handles it's submenu classes.
+Accessible Menu, by default, does not support [Bootstrap](https://getbootstrap.com). This is mainly due to the way Bootstrap handles its submenu classes.
 
 Because of this, two separate projects have been created to add full Accessible Menu support to Bootstrap:
 
