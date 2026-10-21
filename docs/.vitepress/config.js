@@ -246,7 +246,7 @@ export default defineConfig({
             },
             {
               text: "isQuerySelector",
-              link: "/api/validation#isQuerySelector",
+              link: "/api/validation#isqueryselector",
             },
             {
               text: "isValidClassList",
