@@ -56,7 +56,11 @@ The constructor populates the dom, selector, CSS class, and hover related proper
 
 ### Subclass initialization {#constructor--subclass-initialization}
 
+::: warning Delay initialization
+
 When extending a menu class, pass `initialize: false` to `super()` and call `this.initialize()` after your subclass fields and constructor setup are complete.
+
+:::
 
 ### Parameters {#constructor--parameters}
 

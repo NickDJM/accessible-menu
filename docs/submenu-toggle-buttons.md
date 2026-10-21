@@ -60,6 +60,10 @@ Top Link Disclosure Menu uses two selector options:
 - `submenuTogglesSelector` chooses toggles in the root menu. Its default is `"button"`.
 - `submenuSubtogglesSelector` chooses toggles at every level below the root menu. Its default is `"a"`.
 
+::: tip Use the same selector at every level
+
 Setting `submenuSubtogglesSelector` to `null` uses the same selector as `submenuTogglesSelector`. This is useful if you use a custom selector, such as a class, and want it to apply at every level. The selector must match the toggle elements in your markup.
+
+:::
 
 These options choose the elements that open submenus. Separate navigation links and toggle items are part of Top Link Disclosure Menu's behaviour. The other built-in menu types use combined submenu items by default.

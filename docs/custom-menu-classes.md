@@ -8,7 +8,11 @@ The built-in menu classes initialize automatically unless `initialize` is `false
 
 When you extend a class, JavaScript runs the parent constructor before setting your subclass fields. If the parent initializes the menu at that point, your custom field values are not ready yet.
 
+::: warning Delay initialization
+
 Pass `initialize: false` to `super()` to delay that work. Then initialize at the end of your constructor. Keep the caller's `initialize` option so they can delay initialization too.
+
+:::
 
 ```js
 import { DisclosureMenu } from "accessible-menu";

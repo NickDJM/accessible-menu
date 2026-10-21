@@ -13,12 +13,16 @@ These functions return the same result shape:
 
 By default, a failed check throws the first error. Pass `{ shouldThrow: false }` as the final argument to receive the result instead. A successful check returns `{ status: true, errors: [] }` in either mode.
 
+::: info Pass values in an object
+
 Validation functions that check elements or values expect them to be passed inside of an object. This is to achieve two things:
 
 1. It allows for more than one element or value to be passed to the function for validation, and more importantly,
 2. It allows for the function to directly identify the name of the element or value that failed validation so we can communicate that to the user.
 
 The functions `isValidEventType` and `hasValidRootDOMElement` take a component directly instead of an object of named values.
+
+:::
 
 ```js
 import { isValidInstance } from "@accessible-ecosystem/core/validate.js";

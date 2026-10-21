@@ -23,7 +23,11 @@ new DisclosureMenu({
 
 Here, `controllerElement` is the button that opens and closes the main menu, and `containerElement` is the element containing that menu. If you haven't added a button yet, see the [collapsible menu example](./disclosure-menus#collapsible).
 
+::: info Enable responsive actions
+
 These options work with all four menu types. Setting a breakpoint alone does not open or close anything. Both action options default to `false`, so you must enable the behavior you want.
+
+:::
 
 ## How it works
 
@@ -89,4 +93,8 @@ new DisclosureMenu({
 
 With a custom query, "inside" means the conditions in your query are met. "Outside" means they are not. In this example, the menu opens at 768px or wider in landscape orientation, and closes at other sizes or orientations.
 
+::: info Query precedence
+
 If you provide both `mediaQuery` and `breakpoint`, Accessible Menu uses `mediaQuery`.
+
+:::

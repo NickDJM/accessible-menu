@@ -1,6 +1,10 @@
 # Opening and Closing the Menu
 
+::: info Classes and styling
+
 Accessible Menu opens and closes menus by adding and removing CSS classes. It does not provide CSS or apply visual styling. It also updates the menu button's `aria-expanded` attribute so screen readers know whether the menu is open.
+
+:::
 
 The default classes used are as follows:
 

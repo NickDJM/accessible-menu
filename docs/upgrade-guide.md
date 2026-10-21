@@ -12,7 +12,11 @@ You can find the full list of changes in the [changelog](https://github.com/Nick
 
 The selector options have been renamed to match the naming conventions used throughout the library.
 
+::: warning Update customized selectors
+
 You _must_ update any customized selector options when upgrading to v5, or your menu will not work correctly.
+
+:::
 
 | Old option name         | New option name          |
 | ----------------------- | ------------------------ |

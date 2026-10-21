@@ -31,7 +31,11 @@ The setup examples below use module imports for projects installed through NPM. 
 
 ## Setup
 
+::: info Bring your own CSS
+
 Accessible Menu does not provide CSS. It applies classes, attributes, and CSS custom properties. Your project controls the styling. See [Opening and closing the menu](./opening-and-closing) for how those classes and properties are applied.
+
+:::
 
 ### Single-level Menu
 
