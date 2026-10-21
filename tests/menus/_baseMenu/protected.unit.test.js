@@ -12,6 +12,7 @@ import {
   fourLevelDisclosureTopLinkSplit,
 } from "../../../demo/menus.js";
 import BaseMenu from "../../../src/_baseMenu.js";
+import BaseMenuToggle from "../../../src/_baseMenuToggle.js";
 import Component from "@accessible-ecosystem/core";
 import CollapsibleComponent from "@accessible-ecosystem/core/CollapsibleComponent.js";
 import { setupMatchMedia } from "../helpers.js";
@@ -606,7 +607,7 @@ describe("BaseMenu protected methods", () => {
         expect(menu.elements.controller.isLocked).toBe(true);
       });
 
-      it("should inherit Core's responsive callback on the controller", () => {
+      it("should inherit BaseMenuToggle's responsive callback on the controller", () => {
         const menu = new BaseMenu({
           menuElement: document.querySelector("ul"),
           controllerElement: document.querySelector("button"),
@@ -617,7 +618,7 @@ describe("BaseMenu protected methods", () => {
         menu.initialize();
 
         expect(menu.elements.controller._mediaQueryListEventCallback).toBe(
-          CollapsibleComponent.prototype._mediaQueryListEventCallback
+          BaseMenuToggle.prototype._mediaQueryListEventCallback
         );
       });
     });

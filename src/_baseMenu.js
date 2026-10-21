@@ -97,6 +97,7 @@ class BaseMenu extends Component {
 
   /**
    * A flag that enables dynamic hover at the root level after a toggle has expanded.
+   * Automatic expansion from a media query does not change this value.
    *
    * @protected
    *
@@ -1240,6 +1241,7 @@ class BaseMenu extends Component {
 
   /**
    * A flag that enables dynamic hover at the root level after a toggle has expanded.
+   * Automatic expansion from a media query does not change this value.
    *
    * This functions differently for root vs. submenus.
    * Submenus will always inherit their root menu's hasExpanded.

@@ -466,6 +466,7 @@ BaseMenu._prefix; // Default: `"am-"`.
 ### _hasExpanded <badge type="warning" text="protected" /> {#property--hasexpanded}
 
 A flag that enables dynamic hover at the root level after a toggle has expanded.
+Automatic expansion from a media query does not change this value.
 
 ```js
 BaseMenu._hasExpanded; // Default: `false`.
@@ -1360,6 +1361,7 @@ For the root menu, this will be `false` unless any of the following criteria are
 ### hasExpanded {#getter-setter--hasopened}
 
 A flag that enables dynamic hover at the root level after a toggle has expanded.
+Automatic expansion from a media query does not change this value.
 
 ::: code-group
 

@@ -5,6 +5,7 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import DisclosureMenu from "../../../src/disclosureMenu.js";
 import BaseMenu from "../../../src/_baseMenu.js";
+import BaseMenuToggle from "../../../src/_baseMenuToggle.js";
 import {
   twoLevel,
   twoLevelDisclosureTopLink,
@@ -609,7 +610,7 @@ describe("DisclosureMenu protected methods", () => {
         expect(matchMedia).toHaveBeenCalledExactlyOnceWith("(width <= 40em)");
       });
 
-      it("should inherit Core's responsive callback on the controller", () => {
+      it("should inherit BaseMenuToggle's responsive callback on the controller", () => {
         const menu = new DisclosureMenu({
           menuElement: document.querySelector("ul"),
           controllerElement: document.querySelector("button"),
@@ -620,7 +621,7 @@ describe("DisclosureMenu protected methods", () => {
         menu.initialize();
 
         expect(menu.elements.controller._mediaQueryListEventCallback).toBe(
-          CollapsibleComponent.prototype._mediaQueryListEventCallback
+          BaseMenuToggle.prototype._mediaQueryListEventCallback
         );
       });
     });

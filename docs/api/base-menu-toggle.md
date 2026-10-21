@@ -440,6 +440,18 @@ BaseMenuToggle._breakpoint; // Default: `""`.
 
 `string`
 
+### _handlingMediaQuery <badge type="warning" text="protected" /> {#property--handlingmediaquery}
+
+A flag that prevents responsive expansion from enabling dynamic hover.
+
+```js
+BaseMenuToggle._handlingMediaQuery; // Default: `false`.
+```
+
+#### Type {#property--handlingmediaquery--type}
+
+`boolean`
+
 ### _mediaQueryString <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--mediaquerystring}
 
 The explicit media query used for responsive actions.
@@ -1466,7 +1478,7 @@ Unregistered event keys and invalid target elements cause a `TypeError`.
 
 ### _expand <badge type="warning" text="protected" /> {#method--protected-expand}
 
-Sets the root menu's `hasExpanded` value to `true`, then calls Core's `_expand()` method to set the ARIA attributes, classes, and transitions. If `emit` is `true`, this also emits the expand event.
+Sets the root menu's `hasExpanded` value to `true` unless a media query is expanding the menu. Then calls Core's `_expand()` method to set the ARIA attributes, classes, and transitions. If `emit` is `true`, this also emits the expand event.
 
 ```js
 BaseMenuToggle._expand({ emit, transition });
@@ -2007,9 +2019,9 @@ Removes all intervals, timeouts, pending animation frames, and event listeners, 
 dispose();
 ```
 
-### _mediaQueryListEventCallback <badge type="tip" text="inherited" />
+### _mediaQueryListEventCallback <badge type="warning" text="protected" />
 
-A callback for media query list events.
+Applies the configured responsive actions without changing the root menu's `hasExpanded` value. Automatic expansion does not enable dynamic hover. If a user has already enabled dynamic hover by expanding a menu, responsive actions preserve that value.
 
 ```js
 _mediaQueryListEventCallback(event);

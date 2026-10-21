@@ -38,6 +38,8 @@ When using a treeview menu with hover **on**, leaving an item does not collapse 
 
 Hover **dynamic** lets the user expand a menu before hovering between its submenus. Expanding a toggle sets the root menu's `hasExpanded` value to `true`, whether the expansion comes from a click, keyboard interaction, or a method call.
 
+Automatic expansion or collapse from a media query leaves `hasExpanded` unchanged. It does not enable dynamic hover or reset it after a user has enabled it.
+
 While `hasExpanded` is `true`, hovering a root-level submenu toggle previews its submenu. Hovering an item without a submenu collapses the current menu's submenus. Within submenus, this hover behavior is available regardless of `hasExpanded`.
 
 Leaving an item does not collapse its submenu. For Disclosure Menus, Top Link Disclosure Menus, and Menubars, clicking outside the menu collapses it and resets `hasExpanded`. Collapsing a toggle alone does not reset that value.

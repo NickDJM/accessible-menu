@@ -5,6 +5,7 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import Treeview from "../../../src/treeview.js";
 import BaseMenu from "../../../src/_baseMenu.js";
+import BaseMenuToggle from "../../../src/_baseMenuToggle.js";
 import CollapsibleComponent from "@accessible-ecosystem/core/CollapsibleComponent.js";
 import {
   twoLevel,
@@ -396,7 +397,7 @@ describe("Treeview protected methods", () => {
         expect(matchMedia).toHaveBeenCalledExactlyOnceWith("(width <= 40em)");
       });
 
-      it("should inherit Core's responsive callback on the controller", () => {
+      it("should inherit BaseMenuToggle's responsive callback on the controller", () => {
         const menu = new Treeview({
           menuElement: document.querySelector("ul"),
           controllerElement: document.querySelector("button"),
@@ -407,7 +408,7 @@ describe("Treeview protected methods", () => {
         menu.initialize();
 
         expect(menu.elements.controller._mediaQueryListEventCallback).toBe(
-          CollapsibleComponent.prototype._mediaQueryListEventCallback
+          BaseMenuToggle.prototype._mediaQueryListEventCallback
         );
       });
     });

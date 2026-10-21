@@ -5,6 +5,7 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import Component from "@accessible-ecosystem/core";
 import CollapsibleComponent from "@accessible-ecosystem/core/CollapsibleComponent.js";
+import { setupMatchMedia, simulatePointerEvent } from "../helpers.js";
 import { twoLevel } from "../../../demo/menus.js";
 import BaseMenu from "../../../src/_baseMenu.js";
 import BaseMenuToggle from "../../../src/_baseMenuToggle.js";
@@ -17,6 +18,8 @@ afterEach(() => {
   document.body.innerHTML = "";
   delete window.AccessibleMenuStorage;
   vi.restoreAllMocks();
+  vi.unstubAllGlobals();
+  vi.useRealTimers();
 });
 
 describe("BaseMenuToggle protected methods", () => {
@@ -36,8 +39,76 @@ describe("BaseMenuToggle protected methods", () => {
     });
   });
 
+  describe("_mediaQueryListEventCallback", () => {
+    it.each([true, false])(
+      "should preserve dynamic hover when the media query initially matches %s",
+      (matches) => {
+        vi.useFakeTimers();
+        const { matchMedia, mql, listeners } = setupMatchMedia(matches);
+        vi.stubGlobal("matchMedia", matchMedia);
+        const menu = new BaseMenu({
+          menuElement: document.querySelector("ul"),
+          controllerElement: document.querySelector("button"),
+          containerElement: document.querySelector("nav"),
+          hoverType: "dynamic",
+          enterDelay: 0,
+          transitionClass: "",
+          breakpoint: "116ch",
+          expandInsideBreakpoint: matches,
+          expandOutsideBreakpoint: !matches,
+          collapseInsideBreakpoint: !matches,
+          collapseOutsideBreakpoint: matches,
+        });
+        menu.initialize();
+        const toggle = menu.elements.submenuToggles[0];
+        const preview = vi.spyOn(toggle, "preview");
+        const item = menu.elements.menuItems.find((item) => item.isSubmenuItem);
+
+        vi.advanceTimersToNextFrame();
+
+        expect(menu.elements.controller.isExpanded).toBe(true);
+        expect(menu.hasExpanded).toBe(false);
+
+        simulatePointerEvent("pointerenter", item.dom.link);
+
+        expect(preview).not.toHaveBeenCalled();
+
+        mql.matches = !matches;
+        listeners.forEach((listener) => listener(mql));
+
+        expect(menu.elements.controller.isExpanded).toBe(false);
+        expect(menu.hasExpanded).toBe(false);
+
+        mql.matches = matches;
+        listeners.forEach((listener) => listener(mql));
+
+        expect(menu.elements.controller.isExpanded).toBe(true);
+        expect(menu.hasExpanded).toBe(false);
+
+        toggle.expand();
+
+        expect(menu.hasExpanded).toBe(true);
+
+        mql.matches = !matches;
+        listeners.forEach((listener) => listener(mql));
+
+        expect(menu.hasExpanded).toBe(true);
+
+        mql.matches = matches;
+        listeners.forEach((listener) => listener(mql));
+
+        expect(menu.hasExpanded).toBe(true);
+
+        simulatePointerEvent("pointerenter", item.dom.link);
+
+        expect(preview).toHaveBeenCalledOnce();
+        menu.dispose();
+      }
+    );
+  });
+
   describe("_expand", () => {
-    it("should mark the root menu as having opened", () => {
+    it("should mark the root menu as having expanded", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
         transitionClass: "",
