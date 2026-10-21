@@ -258,6 +258,16 @@ nav {
       flex-grow: 0;
     }
   }
+
+  &.native {
+    >ul {
+      display: flex;
+    }
+
+    >button {
+      display: none;
+    }
+  }
 }
 
 .button-container {
