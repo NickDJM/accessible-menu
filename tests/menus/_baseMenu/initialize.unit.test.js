@@ -6,7 +6,11 @@
  */
 
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { singleLevel, twoLevel } from "../../../demo/menus.js";
+import {
+  singleLevel,
+  twoLevel,
+  threeLevelWithTriggers,
+} from "../../../demo/menus.js";
 import BaseMenu from "../../../src/_baseMenu.js";
 import { setupMatchMedia } from "../helpers.js";
 import Component from "@accessible-ecosystem/core";
@@ -400,6 +404,223 @@ describe("BaseMenu (custom arguments)", () => {
     menu.initialize();
 
     expect(console.error).toHaveBeenCalled();
+  });
+
+  it("should create controllers and their direct child triggers at the correct menu level", () => {
+    document.body.innerHTML = threeLevelWithTriggers;
+    const menu = new BaseMenu({
+      menuElement: document.querySelector("ul"),
+      submenuTriggersSelector: ".submenu-trigger",
+    });
+
+    menu.initialize();
+
+    const mammals = menu.elements.submenuToggles[0];
+    const submenu = mammals.elements.controlledMenu;
+    const cats = submenu.elements.submenuToggles[0];
+
+    expect(menu.isInitialized).toBe(true);
+    expect(menu.elements.menuItems).toHaveLength(3);
+    expect(menu.elements.submenuToggles).toHaveLength(2);
+    expect(submenu.isInitialized).toBe(true);
+    expect(submenu.elements.menuItems).toHaveLength(2);
+    expect(submenu.elements.parentMenu).toBe(menu);
+    expect(cats.elements.controlledMenu.elements.parentMenu).toBe(submenu);
+    expect(mammals.dom.trigger).toBe(
+      mammals.dom.controller.querySelector(".submenu-trigger")
+    );
+    expect(cats.dom.trigger).toBe(
+      cats.dom.controller.querySelector(".submenu-trigger")
+    );
+
+    const linkClick = new MouseEvent("click", {
+      bubbles: true,
+      cancelable: true,
+    });
+    mammals.dom.controller.dispatchEvent(linkClick);
+
+    expect(linkClick.defaultPrevented).toBe(false);
+    expect(mammals.isExpanded).toBe(false);
+
+    mammals.dom.trigger.dispatchEvent(
+      new MouseEvent("click", { bubbles: true, cancelable: true })
+    );
+
+    expect(mammals.isExpanded).toBe(true);
+    expect(menu.currentChild).toBe(1);
+
+    menu.dispose();
+  });
+
+  it("should match each trigger to its controller at every submenu level", () => {
+    document.body.innerHTML = threeLevelWithTriggers;
+    const menu = new BaseMenu({
+      menuElement: document.querySelector("ul"),
+      submenuTriggersSelector: ".submenu-trigger",
+    });
+
+    menu.initialize();
+
+    const mammals = menu.elements.submenuToggles[0];
+    const reptiles = menu.elements.submenuToggles[1];
+    const submenu = mammals.elements.controlledMenu;
+    const cats = submenu.elements.submenuToggles[0];
+
+    expect(menu.isInitialized).toBe(true);
+    expect(menu.dom.submenuTriggers).toEqual(
+      Array.from(
+        menu.dom.menu.querySelectorAll(":scope > li > a > .submenu-trigger")
+      )
+    );
+    expect(mammals.dom.trigger).toBe(
+      mammals.dom.controller.querySelector(".submenu-trigger")
+    );
+    expect(reptiles.dom.trigger).toBe(
+      reptiles.dom.controller.querySelector(".submenu-trigger")
+    );
+    expect(cats.dom.trigger).toBe(
+      cats.dom.controller.querySelector(".submenu-trigger")
+    );
+    expect(submenu.selectors.submenuTriggers).toBe(".submenu-trigger");
+    expect(submenu.dom.submenuTriggers).toEqual([cats.dom.trigger]);
+
+    menu.dispose();
+  });
+
+  it.each([undefined, null, ""])(
+    "should use controllers as triggers when submenuTriggersSelector is %s",
+    (submenuTriggersSelector) => {
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        submenuTriggersSelector,
+      });
+
+      menu.initialize();
+
+      const toggle = menu.elements.submenuToggles[0];
+
+      expect(menu.isInitialized).toBe(true);
+      expect(menu.selectors.submenuTriggers).toBe("");
+      expect(menu.dom.submenuTriggers).toEqual([]);
+      expect(toggle.dom.trigger).toBe(toggle.dom.controller);
+
+      menu.dispose();
+    }
+  );
+
+  it.each(["[", 1, true])(
+    "should report an invalid submenuTriggersSelector of %s",
+    (submenuTriggersSelector) => {
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        submenuTriggersSelector,
+      });
+
+      menu.initialize();
+
+      expect(menu.isInitialized).toBe(false);
+      expect(console.error).toHaveBeenCalled();
+
+      menu.dispose();
+    }
+  );
+
+  it("should fall back to the controller without using another controller's trigger", () => {
+    document.body.innerHTML = threeLevelWithTriggers;
+    document.querySelector("a[href='#Reptiles'] .submenu-trigger").remove();
+    const menu = new BaseMenu({
+      menuElement: document.querySelector("ul"),
+      submenuTriggersSelector: ".submenu-trigger",
+    });
+
+    menu.initialize();
+
+    const mammals = menu.elements.submenuToggles[0];
+    const reptiles = menu.elements.submenuToggles[1];
+
+    expect(menu.isInitialized).toBe(true);
+    expect(console.error).not.toHaveBeenCalled();
+    expect(menu.errors).toEqual([]);
+    expect(mammals.dom.trigger).toBe(
+      mammals.dom.controller.querySelector(".submenu-trigger")
+    );
+    expect(reptiles.dom.trigger).toBe(reptiles.dom.controller);
+
+    const linkClick = new MouseEvent("click", {
+      bubbles: true,
+      cancelable: true,
+    });
+    mammals.dom.controller.dispatchEvent(linkClick);
+
+    expect(linkClick.defaultPrevented).toBe(false);
+    expect(mammals.isExpanded).toBe(false);
+
+    const controllerClick = new MouseEvent("click", {
+      bubbles: true,
+      cancelable: true,
+    });
+    reptiles.dom.controller.dispatchEvent(controllerClick);
+
+    expect(controllerClick.defaultPrevented).toBe(true);
+    expect(reptiles.isExpanded).toBe(true);
+
+    menu.dispose();
+  });
+
+  it("should fall back to the controller in a nested menu", () => {
+    document.body.innerHTML = threeLevelWithTriggers;
+    document.querySelector("a[href='#Cats'] .submenu-trigger").remove();
+    const menu = new BaseMenu({
+      menuElement: document.querySelector("ul"),
+      submenuTriggersSelector: ".submenu-trigger",
+    });
+
+    menu.initialize();
+
+    const parent = menu.elements.submenuToggles[0];
+    const submenu = parent.elements.controlledMenu;
+    const child = submenu.elements.submenuToggles[0];
+
+    expect(menu.isInitialized).toBe(true);
+    expect(submenu.isInitialized).toBe(true);
+    expect(console.error).not.toHaveBeenCalled();
+    expect(menu.errors).toEqual([]);
+    expect(child.dom.trigger).toBe(child.dom.controller);
+    expect(parent.dom.trigger).toBe(
+      parent.dom.controller.querySelector(".submenu-trigger")
+    );
+
+    parent.expand();
+    child.dom.controller.dispatchEvent(
+      new MouseEvent("click", { bubbles: true, cancelable: true })
+    );
+
+    expect(child.isExpanded).toBe(true);
+
+    menu.dispose();
+  });
+
+  it("should use controllers when the trigger selector has no matches", () => {
+    document.body.innerHTML = threeLevelWithTriggers;
+    const menu = new BaseMenu({
+      menuElement: document.querySelector("ul"),
+      submenuTriggersSelector: ".missing-trigger",
+    });
+
+    menu.initialize();
+
+    const mammals = menu.elements.submenuToggles[0];
+    const reptiles = menu.elements.submenuToggles[1];
+    const cats = mammals.elements.controlledMenu.elements.submenuToggles[0];
+
+    expect(menu.isInitialized).toBe(true);
+    expect(console.error).not.toHaveBeenCalled();
+    expect(menu.dom.submenuTriggers).toEqual([]);
+    expect(mammals.dom.trigger).toBe(mammals.dom.controller);
+    expect(reptiles.dom.trigger).toBe(reptiles.dom.controller);
+    expect(cats.dom.trigger).toBe(cats.dom.controller);
+
+    menu.dispose();
   });
 
   // Test that the BaseMenu will initialize if a valid submenuTogglesSelector is passed when the submenuItemsSelector is also passed.

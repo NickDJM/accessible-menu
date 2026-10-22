@@ -6,7 +6,11 @@
  */
 
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { singleLevel, twoLevel } from "../../../demo/menus.js";
+import {
+  threeLevelWithTriggers,
+  singleLevel,
+  twoLevel,
+} from "../../../demo/menus.js";
 import Menubar from "../../../src/menubar.js";
 import { setupMatchMedia } from "../helpers.js";
 
@@ -30,6 +34,29 @@ afterEach(() => {
 
 // Test the Menubar initialization.
 describe("Menubar", () => {
+  it("should pass submenuTriggersSelector to nested toggles", () => {
+    document.body.innerHTML = threeLevelWithTriggers;
+    const menu = new Menubar({
+      menuElement: document.querySelector("ul"),
+      submenuTogglesSelector: "a",
+      submenuSubtogglesSelector: "a",
+      submenuTriggersSelector: ".submenu-trigger",
+    });
+    const toggle = menu.elements.submenuToggles[0];
+    const childToggle =
+      toggle.elements.controlledMenu.elements.submenuToggles[0];
+
+    expect(menu.isInitialized).toBe(true);
+    expect(toggle.dom.trigger).toBe(
+      toggle.dom.controller.querySelector(".submenu-trigger")
+    );
+    expect(childToggle.dom.trigger).toBe(
+      childToggle.dom.controller.querySelector(".submenu-trigger")
+    );
+
+    menu.dispose();
+  });
+
   // Test that the Menubar will initialize if the menuElement passed.
   it("should initialize", () => {
     // Create the test menu.

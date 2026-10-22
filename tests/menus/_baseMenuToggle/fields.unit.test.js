@@ -3,7 +3,10 @@
  */
 
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
-import { twoLevelDisclosureTopLink } from "../../../demo/menus.js";
+import {
+  twoLevelDisclosureTopLink,
+  twoLevelDisclosureTopLinkWithIcons,
+} from "../../../demo/menus.js";
 import BaseMenuToggle from "../../../src/_baseMenuToggle.js";
 import BaseMenu from "../../../src/_baseMenu.js";
 
@@ -92,6 +95,7 @@ describe("BaseMenuToggle fields", () => {
 
       expect(instance._protectedDOMElements).toEqual([
         "controller",
+        "trigger",
         "controlled",
       ]);
     });
@@ -111,6 +115,24 @@ describe("BaseMenuToggle fields", () => {
   });
 
   describe("_dom", () => {
+    it("should pass a separate trigger to Core", () => {
+      document.body.innerHTML = twoLevelDisclosureTopLinkWithIcons;
+      const controller = document.querySelector("button");
+      const trigger = controller.querySelector("span");
+      const instance = new BaseMenuToggle({
+        menuToggleElement: controller,
+        triggerElement: trigger,
+        controlledMenu: new BaseMenu({
+          menuElement: document.querySelector("ul"),
+        }),
+      });
+
+      expect(instance.dom.trigger).toBe(trigger);
+      expect(instance.dom.controller).toBe(controller);
+
+      instance.dispose();
+    });
+
     it("should populate the controller slot", () => {
       const toggle = document.querySelector("button");
       const instance = new BaseMenuToggle({

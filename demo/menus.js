@@ -229,7 +229,7 @@ export const twoLevelDisclosureTopLink =
 </nav>
 `;
 
-export const twoLevelDisclosureTopLinkNoButtons =
+export const twoLevelDisclosureTopLinkWithLinkToggles =
   /* html */
   `
 <nav  aria-label="example" aria-describedby="disclaimer">
@@ -1086,6 +1086,56 @@ export const twoLevelDisclosureTopLinkWithIcons =
 </nav>
 `;
 
+export const threeLevelWithTriggers =
+  /* html */
+  `
+<nav aria-label="example">
+  <button class="menu-toggle" aria-label="Example menu">☰</button>
+  <ul class="menu">
+    <li class="menu-item"><a class="menu-link" href="#About">About</a></li>
+    <li class="menu-item dropdown">
+      <a class="menu-link dropdown-toggle" href="#Mammals">Mammals <span class="submenu-trigger" aria-hidden="true"><span>▼</span></span></a>
+      <ul class="dropdown-menu">
+        <li class="menu-item"><a class="menu-link" href="#Wild">Wild</a></li>
+        <li class="menu-item dropdown">
+          <a class="menu-link dropdown-toggle" href="#Cats">Cats <span class="submenu-trigger" aria-hidden="true"><span>▼</span></span></a>
+          <ul class="dropdown-menu">
+            <li class="menu-item"><a class="menu-link" href="#Lions">Lions</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li class="menu-item dropdown">
+      <a class="menu-link dropdown-toggle" href="#Reptiles">Reptiles <span class="submenu-trigger" aria-hidden="true"><span>▼</span></span></a>
+      <ul class="dropdown-menu">
+        <li class="menu-item"><a class="menu-link" href="#Lizards">Lizards</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+`;
+
+export const twoLevelWithMultipleTriggerMatches =
+  /* html */
+  `
+<nav aria-label="example">
+  <ul class="menu">
+    <li class="menu-item dropdown">
+      <a class="menu-link dropdown-toggle" href="#Mammals">Mammals <span class="submenu-trigger" aria-hidden="true">▼</span><span class="submenu-trigger" aria-hidden="true">▼</span></a>
+      <ul class="dropdown-menu">
+        <li class="menu-item"><a class="menu-link" href="#Wild">Wild</a></li>
+      </ul>
+    </li>
+    <li class="menu-item dropdown">
+      <a class="menu-link dropdown-toggle" href="#Reptiles">Reptiles <span class="submenu-trigger" aria-hidden="true">▼</span><span class="submenu-trigger" aria-hidden="true">▼</span></a>
+      <ul class="dropdown-menu">
+        <li class="menu-item"><a class="menu-link" href="#Lizards">Lizards</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+`;
+
 export default {
   singleLevel,
   twoLevel,
@@ -1094,7 +1144,4 @@ export default {
   threeLevel,
   threeLevelDisclosure,
   threeLevelDisclosureTopLink,
-  threeLevelDisclosureTopLinkSplit,
-  fourLevelDisclosureTopLinkSplit,
-  twoLevelDisclosureTopLinkWithIcons,
 };

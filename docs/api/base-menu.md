@@ -21,6 +21,7 @@ new BaseMenu({
   submenuItemsSelector,
   submenuTogglesSelector,
   submenuSubtogglesSelector,
+  submenuTriggersSelector,
   submenusSelector,
   controllerElement,
   containerElement,
@@ -73,6 +74,7 @@ When extending a menu class, pass `initialize: false` to `super()` and call `thi
 | options.submenuItemsSelector      | `string`                     | The query selector string for menu items containing submenus.                                        | `li:has(ul)`      |
 | options.submenuTogglesSelector    | `string`                     | The query selector string for submenu toggle buttons/links.                                          | `"a"`             |
 | options.submenuSubtogglesSelector | `?string`                    | The query selector for submenu toggles below the top level. If null, submenuTogglesSelector is used. | `null`            |
+| options.submenuTriggersSelector   | `?string`                    | Selects a trigger inside each submenu toggle. Empty or null uses the toggle.                         | `null`            |
 | options.submenusSelector          | `string`                     | The query selector string for submenus.                                                              | `"ul"`            |
 | options.controllerElement         | `HTMLElement`, `null`        | The element controlling the menu in the DOM.                                                         | `null`            |
 | options.containerElement          | `HTMLElement`, `null`        | The element containing the menu in the DOM.                                                          | `null`            |
@@ -176,18 +178,19 @@ BaseMenu._dom;
 
 #### Properties {#property--dom--properties}
 
-| Name           | Type                  | Description                                                | Default                 |
-| -------------- | --------------------- | ---------------------------------------------------------- | ----------------------- |
-| menu           | `HTMLElement`         | The menu element.                                          | `menuElement`           |
-| menuItems      | `HTMLElement[]`       | An array of menu items.                                    | Populated on initialize |
-| menuLinks      | `HTMLElement[]`       | An array of menu links.                                    | `[]`                    |
-| submenuItems   | `HTMLElement[]`       | An array of menu items that also contain submenu elements. | Populated on initialize |
-| submenuToggles | `HTMLElement[]`       | An array of menu links that function as submenu toggles.   | Populated on initialize |
-| submenus       | `HTMLElement[]`       | An array of submenu elements.                              | Populated on initialize |
-| controller     | `HTMLElement`, `null` | The toggle for this menu.                                  | `null`                  |
-| container      | `HTMLElement`, `null` | The container for this menu.                               | `null`                  |
+| Name            | Type                  | Description                                                | Default                 |
+| --------------- | --------------------- | ---------------------------------------------------------- | ----------------------- |
+| menu            | `HTMLElement`         | The menu element.                                          | `menuElement`           |
+| menuItems       | `HTMLElement[]`       | An array of menu items.                                    | Populated on initialize |
+| menuLinks       | `HTMLElement[]`       | An array of menu links.                                    | `[]`                    |
+| submenuItems    | `HTMLElement[]`       | An array of menu items that also contain submenu elements. | Populated on initialize |
+| submenuToggles  | `HTMLElement[]`       | An array of menu links that function as submenu toggles.   | Populated on initialize |
+| submenuTriggers | `HTMLElement[]`       | The separate triggers inside this menu's submenu toggles.  | Populated on initialize |
+| submenus        | `HTMLElement[]`       | An array of submenu elements.                              | Populated on initialize |
+| controller      | `HTMLElement`, `null` | The toggle for this menu.                                  | `null`                  |
+| container       | `HTMLElement`, `null` | The container for this menu.                               | `null`                  |
 
-`menuItems`, `submenuItems`, `submenuToggles`, and `submenus` are populated when the menu is initialized. The `menuLinks` slot starts as an empty array; links for individual items are stored on their menu item instances.
+`menuItems`, `submenuItems`, `submenuToggles`, and `submenus` are populated when the menu is initialized. When `submenuTriggersSelector` is empty or null, `submenuTriggers` remains empty and each toggle uses its controller as the trigger. The `menuLinks` slot starts as an empty array; links for individual items are stored on their menu item instances.
 
 ### _rootDOMElement <badge type="warning" text="protected" /> {#property--rootdomelement}
 
@@ -233,8 +236,13 @@ BaseMenu._selectors;
 | menuLinks         | `string` | The query selector for menu links.                                  | `"a"`                                   |
 | submenuItems      | `string` | The query selector for menu items containing submenus.              | `"li:has(ul)"`                          |
 | submenuToggles    | `string` | The query selector for menu links that function as submenu toggles. | `"a"`                                   |
+| submenuTriggers   | `string` | The query selector for separate submenu triggers, when configured.  | `""`                                    |
 | submenuSubtoggles | `string` | The query selector for submenu toggles below the top level.         | The configured `submenuTogglesSelector` |
 | submenus          | `string` | The query selector for for submenus.                                | `"ul"`                                  |
+
+`submenuTriggersSelector` selects the first matching direct child of each submenu toggle's controller. The selector is passed to child menus at every level. If a controller has no matching trigger, that toggle uses its controller as the trigger. A trigger belonging to another controller is not used. Invalid selector syntax still prevents initialization and reports an error.
+
+The trigger receives expansion clicks. Focus, keyboard handling, and ARIA attributes remain on the controller. This option does not change the menu type's keyboard behavior.
 
 ### _elements <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--elements}
 
@@ -1395,7 +1403,7 @@ See [_errors](#property--errors) for more information.
 
 ### _submenuOptions <badge type="warning" text="protected" /> <badge type="warning" text="readonly" /> {#getter--submenuoptions}
 
-A read-only getter that returns additional constructor options for child menus. BaseMenu passes the current `selectors.submenuSubtoggles` value as both the child menu's `submenuTogglesSelector` and `submenuSubtogglesSelector`. Subclasses can override the getter to read current selectors when children are created, rather than storing copies before the constructor has finished setting them.
+A read-only getter that returns additional constructor options for child menus. BaseMenu passes the current `selectors.submenuSubtoggles` value as both the child menu's `submenuTogglesSelector` and `submenuSubtogglesSelector`. It also passes the configured `submenuTriggersSelector`, or an empty string when no separate trigger is configured. Subclasses can override the getter to read current selectors when children are created, rather than storing copies before the constructor has finished setting them.
 
 ::: code-group
 
@@ -1589,9 +1597,9 @@ BaseMenu._validate();
 | --------- | ----------------------------- |
 | `boolean` | The result of the validation. |
 
-### _setDOMElementType <badge type="warning" text="protected" /> {#method--setdomelementtype}
+### _setDOMElementType <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#method--setdomelementtype}
 
-Sets DOM elements within the menu.
+Sets DOM elements within the provided context. Pass `options.context` to specify the element to search.
 
 Elements listed in [_protectedDOMElements](#property--protecteddomelements) cannot be set through this method.
 
@@ -1601,13 +1609,13 @@ BaseMenu._setDOMElementType(elementType, options);
 
 #### Parameters {#method--setdomelementtype--parameters}
 
-| Param             | Type          | Description                                                      | Default         |
-| ----------------- | ------------- | ---------------------------------------------------------------- | --------------- |
-| elementType       | `string`      | The type of element to populate.                                 | `undefined`     |
-| options           | `object`      | The options for setting the DOM element type.                    | `{}`            |
-| options.context   | `HTMLElement` | The element used as the base context for the `querySelectorAll`. | `this.dom.menu` |
-| options.overwrite | `boolean`     | A flag to set if the existing elements will be overwritten.      | `true`          |
-| options.strict    | `boolean`     | When `true`, only direct children of `context` are stored.       | `true`          |
+| Param             | Type          | Description                                                      | Default     |
+| ----------------- | ------------- | ---------------------------------------------------------------- | ----------- |
+| elementType       | `string`      | The type of element to populate.                                 | `undefined` |
+| options           | `object`      | The options for setting the DOM element type.                    | `{}`        |
+| options.context   | `HTMLElement` | The element used as the base context for the `querySelectorAll`. | `undefined` |
+| options.overwrite | `boolean`     | A flag to set if the existing elements will be overwritten.      | `true`      |
+| options.strict    | `boolean`     | When `true`, only direct children of `context` are stored.       | `false`     |
 
 ### _resetDOMElementType <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#method--resetdomelementtype}
 
@@ -1628,6 +1636,8 @@ Elements listed in [_protectedDOMElements](#property--protecteddomelements) cann
 ### _setDOMElements <badge type="warning" text="protected" /> {#method--setdomelements}
 
 Sets all DOM elements within the menu.
+
+Menu items and submenu items are collected from the menu's direct children. Submenu controllers and submenus are collected from each submenu item's direct children. Triggers are collected from each controller's direct children.
 
 ```js
 BaseMenu._setDOMElements();
@@ -1689,7 +1699,7 @@ By default, a submenu has one menu item that acts as its toggle. A subclass can 
 
 The method looks for the navigation link and toggle separately. A navigation link can appear before or after its toggle. If there is no separate navigation link, the toggle becomes the menu item's link. Links and toggles inside the child submenu are excluded from the parent item's search.
 
-The `_submenuOptions` getter provides additional constructor options for child menus. All menu types use it to select the toggles at deeper levels.
+The `_submenuOptions` getter provides additional constructor options for child menus. All menu types use it to select the toggles at deeper levels and pass the configured trigger selector to child menus.
 
 These protected fields and getters are for subclasses, not menu constructor options.
 

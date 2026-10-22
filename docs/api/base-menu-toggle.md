@@ -16,6 +16,7 @@ Constructs a new `BaseMenuToggle`
 new BaseMenuToggle({
   menuToggleElement,
   containerElement,
+  triggerElement,
   controlledMenu,
   parentMenu,
 });
@@ -30,6 +31,7 @@ The constructor populates the dom and elements properties. It will _not_ initial
 | options                           | `object`           | The options for generating the menu toggle.                                          | `undefined` |
 | options.menuToggleElement         | `HTMLElement`      | The toggle element in the DOM.                                                       | `undefined` |
 | options.containerElement          | `?HTMLElement`     | The element to apply state classes to. If null, the controlled menu element is used. | `null`      |
+| options.triggerElement            | `?HTMLElement`     | The element receiving expansion clicks. If null, the toggle element is used.         | `null`      |
 | options.controlledMenu            | `BaseMenu`         | The menu controlled by this toggle.                                                  | `undefined` |
 | options.parentMenu                | `BaseMenu`, `null` | The menu containing this toggle.                                                     | `null`      |
 | options.breakpoint                | `string`           | The Core controller breakpoint.                                                      | `""`        |
@@ -74,7 +76,10 @@ BaseMenuToggle._dom;
 | Name       | Type          | Description                        | Default                                       |
 | ---------- | ------------- | ---------------------------------- | --------------------------------------------- |
 | controller | `HTMLElement` | The menu toggle, used by Core.     | `menuToggleElement`                           |
+| trigger    | `HTMLElement` | The expansion click target.        | `triggerElement ?? menuToggleElement`         |
 | controlled | `HTMLElement` | The element to expand or collapse. | `containerElement ?? controlledMenu.dom.menu` |
+
+The trigger can be separate from the controller. Expansion clicks are handled on `dom.trigger`; focus, keyboard handling, ARIA attributes, and component lifecycle events continue to use the controller. `triggerElement` must be an `HTMLElement` when provided. Invalid values prevent initialization and report an error.
 
 The toggle adds and removes expand, collapse, transition, locked, and unlocked classes on `dom.controlled`. By default, this is the menu element. Pass `containerElement` to apply those classes to another element.
 
@@ -143,7 +148,7 @@ BaseMenuToggle._rootDOMElement; // Default: `"controller"`.
 DOM element keys that cannot be generated or reset.
 
 ```js
-BaseMenuToggle._protectedDOMElements; // Default: `["controller", "controlled"]`.
+BaseMenuToggle._protectedDOMElements; // Default: `["controller", "trigger", "controlled"]`.
 ```
 
 #### Type {#property--protecteddomelements--type}

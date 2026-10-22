@@ -1,7 +1,7 @@
 /**
  * Tests for protected methods of BaseMenu class.
  *
- * todo: Add tests for: _validate(), _setDOMElements(), _findRootMenu(),
+ * todo: Add tests for: _validate(), _findRootMenu(),
  * _createChildElements(), _handleFocus(), _handleClick(), _handelHover(),
  * _handleKeydown(), and _handleKeyup().
  */
@@ -9,6 +9,8 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import {
   twoLevel,
+  threeLevelWithTriggers,
+  twoLevelWithMultipleTriggerMatches,
   fourLevelDisclosureTopLinkSplit,
 } from "../../../demo/menus.js";
 import BaseMenu from "../../../src/_baseMenu.js";
@@ -33,6 +35,12 @@ afterEach(() => {
 describe("BaseMenu protected methods", () => {
   // Test BaseMenu _setDOMElementType().
   describe("_setDOMElementType", () => {
+    it("should inherit Core's DOM collection method", () => {
+      expect(BaseMenu.prototype._setDOMElementType).toBe(
+        Component.prototype._setDOMElementType
+      );
+    });
+
     const allowedTypes = [
       "menuItems",
       "menuLinks",
@@ -53,7 +61,7 @@ describe("BaseMenu protected methods", () => {
       menu.initialize();
 
       expect(() => {
-        menu._setDOMElementType(elementType);
+        menu._setDOMElementType(elementType, { context: menu.dom.menu });
       }).not.toThrow();
     });
 
@@ -74,7 +82,7 @@ describe("BaseMenu protected methods", () => {
         menu._selectors["controller"] = "button";
 
         expect(() => {
-          menu._setDOMElementType(elementType);
+          menu._setDOMElementType(elementType, { context: menu.dom.menu });
         }).toThrow(
           `AccessibleMenu Menu: "${elementType}" element cannot be set through _setDOMElementType because it is a protected element.`
         );
@@ -92,8 +100,54 @@ describe("BaseMenu protected methods", () => {
       menu.initialize();
 
       expect(() => {
-        menu._setDOMElementType("menu");
+        menu._setDOMElementType("menu", { context: menu.dom.menu });
       }).toThrow('AccessibleMenu Menu: "menu" is not a valid element type.');
+    });
+  });
+
+  describe("_setDOMElements", () => {
+    it("should collect only direct child triggers and reset them before collecting again", () => {
+      document.body.innerHTML = threeLevelWithTriggers;
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        submenuTriggersSelector: ".submenu-trigger, .submenu-trigger span",
+      });
+      const mammals = document.querySelector("a[href='#Mammals']");
+      const reptiles = document.querySelector("a[href='#Reptiles']");
+      const triggers = [
+        mammals.querySelector(".submenu-trigger"),
+        reptiles.querySelector(".submenu-trigger"),
+      ];
+
+      menu._setDOMElements();
+
+      expect(menu.dom.submenuToggles).toEqual([mammals, reptiles]);
+      expect(menu.dom.submenuTriggers).toEqual(triggers);
+
+      menu._setDOMElements();
+
+      expect(menu.dom.submenuTriggers).toEqual(triggers);
+
+      menu.dispose();
+    });
+
+    it("should collect available triggers when some controllers have no match", () => {
+      document.body.innerHTML = threeLevelWithTriggers;
+      const reptiles = document.querySelector("a[href='#Reptiles']");
+      reptiles.querySelector(".submenu-trigger").remove();
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        submenuTriggersSelector: ".submenu-trigger",
+      });
+
+      menu._setDOMElements();
+
+      expect(menu.dom.submenuTriggers).toEqual([
+        document.querySelector("a[href='#Mammals'] .submenu-trigger"),
+      ]);
+      expect(menu.errors).toEqual([]);
+
+      menu.dispose();
     });
   });
 
@@ -313,6 +367,27 @@ describe("BaseMenu protected methods", () => {
   });
 
   describe("_createChildElements", () => {
+    it("should use the first trigger match belonging to each controller", () => {
+      document.body.innerHTML = twoLevelWithMultipleTriggerMatches;
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        submenuTriggersSelector: ".submenu-trigger",
+      });
+
+      menu.initialize();
+
+      expect(menu.isInitialized).toBe(true);
+      expect(menu.dom.submenuTriggers).toHaveLength(4);
+      expect(menu.elements.submenuToggles[0].dom.trigger).toBe(
+        document.querySelector("a[href='#Mammals'] > .submenu-trigger")
+      );
+      expect(menu.elements.submenuToggles[1].dom.trigger).toBe(
+        document.querySelector("a[href='#Reptiles'] > .submenu-trigger")
+      );
+
+      menu.dispose();
+    });
+
     describe("controller options", () => {
       const flags = [
         "expandInsideBreakpoint",

@@ -27,7 +27,10 @@
         Use the settings below to try optional keyboard support, hover behavior,
         transitions, and responsive actions.
       </p>
-      <p>You can also swap between light and dark mode, which is not part of the library. Just a nice-to-have while playing around with the options.</p>
+      <p>
+        You can also swap between light and dark mode, which is not part of the
+        library. Just a nice-to-have while playing around with the options.
+      </p>
       <p>
         For more in-depth information about how accessible-menu works, please
         read <a href="../">the documentation</a>.
@@ -106,7 +109,40 @@
           </button>
         </div>
       </section>
-      <section aria-labelledby="optionalKeySupportSettings">
+      <section
+        id="treeviewTriggerSettings"
+        aria-labelledby="treeviewTriggerHeading"
+        hidden
+      >
+        <h2 id="treeviewTriggerHeading">Separate Submenu Triggers</h2>
+        <p>
+          For menus with two or three levels, clicking a link follows it and
+          clicking its arrow expands or collapses the submenu. Keyboard controls
+          stay the same.
+        </p>
+        <div id="treeviewTriggerButtons" class="button-container">
+          <button
+            id="buttonTreeviewTriggersOn"
+            data-treeview-triggers="true"
+            aria-pressed="false"
+          >
+            On
+          </button>
+          <button
+            id="buttonTreeviewTriggersOff"
+            data-treeview-triggers="false"
+            class="active"
+            aria-pressed="true"
+          >
+            Off
+          </button>
+        </div>
+      </section>
+      <section
+        id="keySupportSettings"
+        aria-labelledby="optionalKeySupportSettings"
+        hidden
+      >
         <div>
           <h2 id="optionalKeySupportSettings">Optional Key Support Settings</h2>
           <p>Only applicable to Disclosure Menu and Top Link Disclosure Menu</p>

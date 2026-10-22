@@ -21,6 +21,7 @@ new TopLinkDisclosureMenu({
   submenuTogglesSelector,
   submenusSelector,
   submenuSubtogglesSelector,
+  submenuTriggersSelector,
   controllerElement,
   containerElement,
   expandClass,
@@ -66,6 +67,7 @@ The constructor calls [BaseMenu's constructor](./base-menu#constructor) with the
 | options.submenuTogglesSelector    | `string`                        | The query selector string for submenu toggle buttons/links.                                  | `"button"`        |
 | options.submenusSelector          | `string`                        | The query selector string for submenus.                                                      | `"ul"`            |
 | options.submenuSubtogglesSelector | `?string`                       | The query selector for toggles below the top level. If null, submenuTogglesSelector is used. | `"a"`             |
+| options.submenuTriggersSelector   | `?string`                       | Selects a trigger inside each submenu toggle. Empty or null uses the toggle.                 | `null`            |
 | options.controllerElement         | `HTMLElement`, `null`           | The element controlling the menu in the DOM.                                                 | `null`            |
 | options.containerElement          | `HTMLElement`, `null`           | The element containing the menu in the DOM.                                                  | `null`            |
 | options.initializeClass           | `string`, `string[]`, `null`    | The class(es) to apply when the menu is initializing.                                        | `"initializing"`  |

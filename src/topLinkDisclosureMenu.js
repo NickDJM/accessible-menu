@@ -93,6 +93,7 @@ class TopLinkDisclosureMenu extends BaseMenu {
    * @param {string}                 [options.submenuTogglesSelector = button]   - The query selector string for submenu toggle buttons/links.
    * @param {string}                 [options.submenusSelector = ul]             - The query selector string for submenus.
    * @param {?string}                [options.submenuSubtogglesSelector = a]     - The query selector string for submenu toggle buttons/links below the top level. If null, submenuTogglesSelector is used.
+   * @param {?string}                [options.submenuTriggersSelector = null]    - The query selector for a trigger inside each submenu toggle. If empty, null, or unmatched, each toggle acts as its own trigger.
    * @param {?HTMLElement}           [options.controllerElement = null]          - The element controlling the menu in the DOM.
    * @param {?HTMLElement}           [options.containerElement = null]           - The element containing the menu in the DOM.
    * @param {?(string|string[])}     [options.initializeClass = initializing]    - The class(es) to apply when the menu is initializing.
@@ -131,6 +132,7 @@ class TopLinkDisclosureMenu extends BaseMenu {
     submenuTogglesSelector = "button",
     submenusSelector = "ul",
     submenuSubtogglesSelector = "a",
+    submenuTriggersSelector = null,
     controllerElement = null,
     containerElement = null,
     initializeClass = "initializing",
@@ -169,6 +171,7 @@ class TopLinkDisclosureMenu extends BaseMenu {
       submenusSelector,
       submenuTogglesSelector,
       submenuSubtogglesSelector,
+      submenuTriggersSelector,
       controllerElement,
       containerElement,
       initializeClass,
