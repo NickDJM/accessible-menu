@@ -6,7 +6,7 @@ node_modules
 .sass-cache
 
 # Lock files.
-package-lock.json
+# package-lock.json
 
 # Auto generated docs
 docs/.vitepress/dist
