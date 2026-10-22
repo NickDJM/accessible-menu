@@ -1,12 +1,11 @@
-//#region src/domHelpers.js
+// src/domHelpers.js
 function e(e, t) {
 	e !== "" && e.length !== 0 && (typeof e == "string" ? t.classList.add(e) : t.classList.add(...e));
 }
 function t(e, t) {
 	e !== "" && e.length !== 0 && (typeof e == "string" ? t.classList.remove(e) : t.classList.remove(...e));
 }
-//#endregion
-//#region src/validate.js
+// src/validate.js
 function n(e, t) {
 	try {
 		if (typeof t != "object") throw TypeError(`Elements given to isValidInstance() must be inside of an object. "${typeof t}" given.`);
@@ -158,8 +157,7 @@ function l(e, t) {
 	}
 	return !1;
 }
-//#endregion
-//#region src/_baseMenuToggle.js
+// src/_baseMenuToggle.js
 var u = class {
 	_dom = {
 		toggle: null,
@@ -284,8 +282,7 @@ var u = class {
 		});
 	}
 };
-//#endregion
-//#region src/eventHandlers.js
+// src/eventHandlers.js
 function f(e) {
 	try {
 		let t = e.key || e.keyCode, n = {
@@ -310,8 +307,7 @@ function f(e) {
 function p(e) {
 	e.preventDefault(), e.stopPropagation();
 }
-//#endregion
-//#region src/_baseMenu.js
+// src/_baseMenu.js
 var m = class e {
 	_MenuType = e;
 	_MenuItemType = d;
@@ -675,7 +671,7 @@ var m = class e {
 			e.dom.link.addEventListener("pointerenter", (n) => {
 				n.pointerType !== "pen" && n.pointerType !== "touch" && (this.hoverType === "on" ? (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusChild(t), e.isSubmenuItem && (this.enterDelay > 0 ? (this._clearTimeout(), this._setTimeout(() => {
 					e.elements.toggle.preview();
-				}, this.enterDelay)) : e.elements.toggle.preview())) : this.hoverType === "dynamic" && (this.currentChild = t, (!this.isTopLevel || this.focusState !== "none") && (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild()), (!this.isTopLevel || this.hasOpened) && (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild(), e.isSubmenuItem ? this.enterDelay > 0 ? (this._clearTimeout(), this._setTimeout(() => {
+				}, this.enterDelay)) : e.elements.toggle.preview())) : this.hoverType === "dynamic" && (this.currentChild = t, this.isTopLevel && this.focusState === "none" || (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild()), (!this.isTopLevel || this.hasOpened) && (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild(), e.isSubmenuItem ? this.enterDelay > 0 ? (this._clearTimeout(), this._setTimeout(() => {
 					e.elements.toggle.preview();
 				}, this.enterDelay)) : e.elements.toggle.preview() : this.enterDelay > 0 ? (this._clearTimeout(), this._setTimeout(() => {
 					this.closeChildren();
@@ -857,5 +853,4 @@ var m = class e {
 		});
 	}
 };
-//#endregion
 export { _ as default };
