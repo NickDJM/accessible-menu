@@ -63,6 +63,7 @@ class Treeview extends BaseMenu {
    * @param {string}             [options.submenuItemsSelector = li:has(ul)] - The query selector string for menu items containing submenus.
    * @param {string}             [options.submenuTogglesSelector = a]        - The query selector string for submenu toggle buttons/links.
    * @param {?string}            [options.submenuSubtogglesSelector = null]  - The query selector string for submenu toggles below the top level. If null, submenuTogglesSelector is used.
+   * @param {?string}            [options.submenuTriggersSelector = null]    - The query selector for a trigger inside each submenu toggle. If empty, null, or unmatched, each toggle acts as its own trigger.
    * @param {string}             [options.submenusSelector = ul]             - The query selector string for submenus.
    * @param {?HTMLElement}       [options.controllerElement = null]          - The element controlling the menu in the DOM.
    * @param {?HTMLElement}       [options.containerElement = null]           - The element containing the menu in the DOM.
@@ -100,6 +101,7 @@ class Treeview extends BaseMenu {
     submenuItemsSelector = "li:has(ul)",
     submenuTogglesSelector = "a",
     submenuSubtogglesSelector = null,
+    submenuTriggersSelector = null,
     submenusSelector = "ul",
     controllerElement = null,
     containerElement = null,
@@ -137,6 +139,7 @@ class Treeview extends BaseMenu {
       submenuItemsSelector,
       submenuTogglesSelector,
       submenuSubtogglesSelector,
+      submenuTriggersSelector,
       submenusSelector,
       controllerElement,
       containerElement,

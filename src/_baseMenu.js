@@ -124,6 +124,7 @@ class BaseMenu extends Component {
    * @param {string}             [options.submenuItemsSelector = li:has(ul)] - The query selector string for menu items containing submenus.
    * @param {string}             [options.submenuTogglesSelector = a]        - The query selector string for submenu toggle buttons/links.
    * @param {?string}            [options.submenuSubtogglesSelector = null]  - The query selector string for submenu toggles below the top level. If null, submenuTogglesSelector is used.
+   * @param {?string}            [options.submenuTriggersSelector = null]    - The query selector for a trigger inside each submenu toggle. If empty, null, or unmatched, each toggle acts as its own trigger.
    * @param {string}             [options.submenusSelector = ul]             - The query selector string for submenus.
    * @param {?HTMLElement}       [options.controllerElement = null]          - The element controlling the menu in the DOM.
    * @param {?HTMLElement}       [options.containerElement = null]           - The element containing the menu in the DOM.
@@ -160,6 +161,7 @@ class BaseMenu extends Component {
     submenuItemsSelector = "li:has(ul)",
     submenuTogglesSelector = "a",
     submenuSubtogglesSelector = null,
+    submenuTriggersSelector = null,
     submenusSelector = "ul",
     controllerElement = null,
     containerElement = null,
@@ -202,6 +204,7 @@ class BaseMenu extends Component {
     this._dom.menuLinks = [];
     this._dom.submenuItems = [];
     this._dom.submenuToggles = [];
+    this._dom.submenuTriggers = [];
     this._dom.submenus = [];
     this._dom.controller = controllerElement;
     this._dom.container = containerElement;
@@ -214,6 +217,7 @@ class BaseMenu extends Component {
     this._selectors.submenuSubtoggles =
       submenuSubtogglesSelector ?? submenuTogglesSelector;
     this._selectors.submenus = submenusSelector;
+    this._selectors.submenuTriggers = submenuTriggersSelector ?? "";
 
     // Set menu elements.
     this._elements.menuItems = [];
@@ -1278,27 +1282,8 @@ class BaseMenu extends Component {
     return {
       submenuTogglesSelector: this.selectors.submenuSubtoggles,
       submenuSubtogglesSelector: this.selectors.submenuSubtoggles,
+      submenuTriggersSelector: this.selectors.submenuTriggers,
     };
-  }
-
-  /**
-   * Sets DOM elements throughout the menu.
-   *
-   * Elements listed in _protectedDOMElements cannot be set using this method.
-   *
-   * @protected
-   *
-   * @param {string}                      elementType                       - The type of element to populate.
-   * @param {Object<HTMLElement,boolean>} [options = {}]                    - The options for setting the DOM element type.
-   * @param {HTMLElement}                 [options.context = this.dom.menu] - The element used as the base context for the querySelector.
-   * @param {boolean}                     [options.overwrite = true]        - A flag to set if the existing elements will be overwritten.
-   * @param {boolean}                     [options.strict = true]           - A flag to set if the elements must be direct children of the base.
-   */
-  _setDOMElementType(
-    elementType,
-    { context = this.dom.menu, overwrite = true, strict = true } = {}
-  ) {
-    super._setDOMElementType(elementType, { context, overwrite, strict });
   }
 
   /**
@@ -1310,10 +1295,16 @@ class BaseMenu extends Component {
    * @protected
    */
   _setDOMElements() {
-    this._setDOMElementType("menuItems");
+    this._setDOMElementType("menuItems", {
+      context: this.dom.menu,
+      strict: true,
+    });
 
     if (this.selectors.submenuItems !== "") {
-      this._setDOMElementType("submenuItems");
+      this._setDOMElementType("submenuItems", {
+        context: this.dom.menu,
+        strict: true,
+      });
 
       this._resetDOMElementType("submenuToggles");
       this._resetDOMElementType("submenus");
@@ -1322,10 +1313,24 @@ class BaseMenu extends Component {
         this._setDOMElementType("submenuToggles", {
           context: item,
           overwrite: false,
+          strict: true,
         });
         this._setDOMElementType("submenus", {
           context: item,
           overwrite: false,
+          strict: true,
+        });
+      });
+    }
+
+    this._resetDOMElementType("submenuTriggers");
+
+    if (this.selectors.submenuTriggers !== "") {
+      this.dom.submenuToggles.forEach((controller) => {
+        this._setDOMElementType("submenuTriggers", {
+          context: controller,
+          overwrite: false,
+          strict: true,
         });
       });
     }
@@ -1462,6 +1467,11 @@ class BaseMenu extends Component {
         ) ?? toggler;
 
       if (isSubmenuItem) {
+        const trigger =
+          this.dom.submenuTriggers.find((candidate) =>
+            toggler?.contains(candidate)
+          ) ?? null;
+
         // Create the new menu and initialize it.
         const menu = new this._MenuType({
           menuElement: submenu,
@@ -1490,6 +1500,7 @@ class BaseMenu extends Component {
         // Create the new menu toggle.
         toggle = new this._MenuToggleType({
           menuToggleElement: toggler,
+          triggerElement: trigger,
           controlledMenu: menu,
           parentMenu: this,
         });
@@ -1666,9 +1677,18 @@ class BaseMenu extends Component {
       if (item.isSubmenuItem) {
         this._addEventListener(
           "click",
-          item.elements.toggle.dom.controller,
+          item.elements.toggle.dom.trigger,
           (event) => {
             this.currentEvent = "mouse";
+
+            // The trigger may be inside the link. Its click does not reach the
+            // link's listener because toggling stops event propagation.
+            if (item.elements.toggle.dom.trigger !== item.dom.link) {
+              this.elements.rootMenu.blurChildren();
+              this._clearTimeout();
+              this.focusChild(index);
+            }
+
             toggleToggle(this, item.elements.toggle, event);
           }
         );
@@ -1679,7 +1699,7 @@ class BaseMenu extends Component {
     if (this.isTopLevel && this.elements.controller) {
       this._addEventListener(
         "click",
-        this.elements.controller.dom.controller,
+        this.elements.controller.dom.trigger,
         (event) => {
           this.currentEvent = "mouse";
           toggleToggle(this, this.elements.controller, event);

@@ -101,6 +101,7 @@ describe("BaseMenu fields", () => {
         "menuLinks",
         "submenuItems",
         "submenuToggles",
+        "submenuTriggers",
         "submenus",
         "controller",
         "container",

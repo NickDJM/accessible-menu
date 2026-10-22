@@ -11,7 +11,8 @@ import {
   beforeAll,
   vi,
 } from "vitest";
-import { twoLevel } from "../../../demo/menus.js";
+import * as eventHelpers from "@accessible-ecosystem/core/eventHelpers.js";
+import { twoLevel, threeLevelWithTriggers } from "../../../demo/menus.js";
 import BaseMenu from "../../../src/_baseMenu.js";
 import { simulatePointerEvent, PointerEvent } from "../helpers.js";
 
@@ -361,6 +362,99 @@ describe("BaseMenu", () => {
       });
 
       expect(spy).toHaveBeenCalled();
+    });
+
+    describe("separate triggers", () => {
+      let menu;
+
+      beforeEach(async () => {
+        const helpers = await vi.importActual(
+          "@accessible-ecosystem/core/eventHelpers.js"
+        );
+        vi.spyOn(eventHelpers, "preventEvent").mockImplementation(
+          helpers.preventEvent
+        );
+        document.body.innerHTML = threeLevelWithTriggers;
+        menu = new BaseMenu({
+          menuElement: document.querySelector("ul"),
+          submenuTriggersSelector: ".submenu-trigger",
+          transitionClass: "",
+        });
+        menu.initialize();
+      });
+
+      afterEach(() => {
+        menu.dispose();
+        vi.restoreAllMocks();
+      });
+
+      it("should leave controller clicks available without expanding its submenu", () => {
+        const toggle = menu.elements.submenuToggles[0];
+        const event = new MouseEvent("click", {
+          bubbles: true,
+          cancelable: true,
+        });
+
+        toggle.dom.controller.dispatchEvent(event);
+
+        expect(event.defaultPrevented).toBe(false);
+        expect(toggle.isExpanded).toBe(false);
+        expect(menu.currentChild).toBe(1);
+      });
+
+      it("should expand from a trigger descendant and select its menu item", () => {
+        const toggle = menu.elements.submenuToggles[1];
+        const event = new MouseEvent("click", {
+          bubbles: true,
+          cancelable: true,
+        });
+
+        toggle.dom.trigger.firstElementChild.dispatchEvent(event);
+
+        expect(event.defaultPrevented).toBe(true);
+        expect(toggle.isExpanded).toBe(true);
+        expect(menu.currentChild).toBe(2);
+        expect(menu.focusState).toBe("self");
+        expect(toggle.elements.controlledMenu.focusState).toBe("none");
+        expect(toggle.dom.controller.getAttribute("aria-expanded")).toBe(
+          "true"
+        );
+        expect(toggle.dom.trigger.hasAttribute("aria-expanded")).toBe(false);
+
+        toggle.dom.trigger.dispatchEvent(
+          new MouseEvent("click", { bubbles: true, cancelable: true })
+        );
+
+        expect(toggle.isExpanded).toBe(false);
+      });
+
+      it("should select the containing branch when a nested trigger is clicked", () => {
+        const parent = menu.elements.submenuToggles[0];
+        parent.expand();
+        const submenu = parent.elements.controlledMenu;
+        const toggle = submenu.elements.submenuToggles[0];
+
+        toggle.dom.trigger.dispatchEvent(
+          new MouseEvent("click", { bubbles: true, cancelable: true })
+        );
+
+        expect(toggle.isExpanded).toBe(true);
+        expect(submenu.currentChild).toBe(1);
+        expect(menu.currentChild).toBe(1);
+        expect(submenu.currentEvent).toBe("mouse");
+      });
+
+      it("should remove trigger listeners when the menu is disposed", () => {
+        const toggle = menu.elements.submenuToggles[0];
+        const change = vi.spyOn(toggle, "toggle");
+
+        menu.dispose();
+        toggle.dom.trigger.dispatchEvent(
+          new MouseEvent("click", { bubbles: true, cancelable: true })
+        );
+
+        expect(change).not.toHaveBeenCalled();
+      });
     });
   });
 });

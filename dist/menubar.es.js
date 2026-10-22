@@ -48,7 +48,7 @@ function n(e, { shouldThrow: t = !0 } = {}) {
 		if (typeof e != "object") throw TypeError(`Values given to isQuerySelector() must be inside of an object. "${typeof e}" given.`);
 		for (let t in e) try {
 			try {
-				if (e[t] === null) throw Error();
+				if (typeof e[t] != "string") throw Error();
 				document.querySelector(e[t]);
 			} catch {
 				throw TypeError(`${t} must be a valid query selector. "${e[t]}" given.`);
@@ -445,7 +445,7 @@ var h = class {
 		}
 		if (Object.keys(this._selectors).length > 0) {
 			let e = {};
-			for (let t of Object.keys(this._selectors)) e[`${t}Selector`] = this._selectors[t];
+			for (let t of Object.keys(this._selectors)) this._selectors[t] !== "" && (e[`${t}Selector`] = this._selectors[t]);
 			let t = n(e, { shouldThrow: !1 });
 			t.status || (this._errors = [...this._errors, ...t.errors], this._valid = !1);
 		}
@@ -690,15 +690,15 @@ var h = class {
 	_lockOutsideBreakpoint = !1;
 	_unlockInsideBreakpoint = !1;
 	_unlockOutsideBreakpoint = !1;
-	constructor({ controllerElement: e, controlledElement: t, lockClass: n = "locked", unlockClass: r = "unlocked", expandClass: i = "show", collapseClass: a = "hide", transitionClass: o = "transitioning", transitionDelay: s = 250, transitionDuration: c = 150, expandDuration: l = -1, collapseDuration: u = -1, expandInsideBreakpoint: d = !1, expandOutsideBreakpoint: f = !1, collapseInsideBreakpoint: p = !1, collapseOutsideBreakpoint: m = !1, lockInsideBreakpoint: h = !1, lockOutsideBreakpoint: g = !1, unlockInsideBreakpoint: _ = !1, unlockOutsideBreakpoint: v = !1, locked: y = !1, breakpoint: b = "", mediaQuery: x = "", prefix: S = "ae-", key: C = null, initializeClass: w = "initializing", bootstrap: T = !0 } = {}) {
+	constructor({ controllerElement: e, controlledElement: t, triggerElement: n = null, lockClass: r = "locked", unlockClass: i = "unlocked", expandClass: a = "show", collapseClass: o = "hide", transitionClass: s = "transitioning", transitionDelay: c = 250, transitionDuration: l = 150, expandDuration: u = -1, collapseDuration: d = -1, expandInsideBreakpoint: f = !1, expandOutsideBreakpoint: p = !1, collapseInsideBreakpoint: m = !1, collapseOutsideBreakpoint: h = !1, lockInsideBreakpoint: g = !1, lockOutsideBreakpoint: _ = !1, unlockInsideBreakpoint: v = !1, unlockOutsideBreakpoint: y = !1, locked: b = !1, breakpoint: x = "", mediaQuery: S = "", prefix: C = "ae-", key: w = null, initializeClass: T = "initializing", bootstrap: E = !0 } = {}) {
 		super({
-			breakpoint: b,
-			mediaQuery: x,
-			prefix: S,
-			key: C,
-			initializeClass: w,
+			breakpoint: x,
+			mediaQuery: S,
+			prefix: C,
+			key: w,
+			initializeClass: T,
 			bootstrap: !1
-		}), this._dom.controller = e, this._dom.controlled = t, this._protectedDOMElements.push("controller", "controlled"), this._classes.locked = n || "", this._classes.unlocked = r || "", this._classes.expand = i || "", this._classes.collapse = a || "", this._classes.transition = o || "", this._delays.transition = s, this._durations.transition = c, this._durations.expand = l, this._durations.collapse = u, this._expandInsideBreakpoint = d, this._expandOutsideBreakpoint = f, this._collapseInsideBreakpoint = p, this._collapseOutsideBreakpoint = m, this._lockInsideBreakpoint = h, this._lockOutsideBreakpoint = g, this._unlockInsideBreakpoint = _, this._unlockOutsideBreakpoint = v, this._locked.value = y, this._locked.commit(), T && this._bootstrap();
+		}), this._dom.controller = e, this._dom.trigger = n ?? e, this._dom.controlled = t, this._protectedDOMElements.push("controller", "trigger", "controlled"), this._classes.locked = r || "", this._classes.unlocked = i || "", this._classes.expand = a || "", this._classes.collapse = o || "", this._classes.transition = s || "", this._delays.transition = c, this._durations.transition = l, this._durations.expand = u, this._durations.collapse = d, this._expandInsideBreakpoint = f, this._expandOutsideBreakpoint = p, this._collapseInsideBreakpoint = m, this._collapseOutsideBreakpoint = h, this._lockInsideBreakpoint = g, this._lockOutsideBreakpoint = _, this._unlockInsideBreakpoint = v, this._unlockOutsideBreakpoint = y, this._locked.value = b, this._locked.commit(), E && this._bootstrap();
 	}
 	_bootstrap() {
 		super._bootstrap(), this._registerEvent("preexpand"), this._registerEvent("expand"), this._registerEvent("postexpand"), this._registerEvent("precollapse"), this._registerEvent("collapse"), this._registerEvent("postcollapse"), this._registerEvent("prelock"), this._registerEvent("lock"), this._registerEvent("postlock"), this._registerEvent("preunlock"), this._registerEvent("unlock"), this._registerEvent("postunlock"), this._addEventListener(this.getEventName("validate"), this.rootDOMElement, (e) => {
@@ -926,30 +926,31 @@ var h = class {
 	_shouldStore = !1;
 	_rootDOMElement = "controller";
 	_handlingMediaQuery = !1;
-	constructor({ menuToggleElement: e, containerElement: t = null, controlledMenu: n, parentMenu: r = null, breakpoint: i = "", mediaQuery: a = "", expandInsideBreakpoint: o = !1, expandOutsideBreakpoint: s = !1, collapseInsideBreakpoint: c = !1, collapseOutsideBreakpoint: l = !1, lockInsideBreakpoint: u = !1, lockOutsideBreakpoint: d = !1, unlockInsideBreakpoint: f = !1, unlockOutsideBreakpoint: p = !1 }) {
+	constructor({ menuToggleElement: e, containerElement: t = null, triggerElement: n = null, controlledMenu: r, parentMenu: i = null, breakpoint: a = "", mediaQuery: o = "", expandInsideBreakpoint: s = !1, expandOutsideBreakpoint: c = !1, collapseInsideBreakpoint: l = !1, collapseOutsideBreakpoint: u = !1, lockInsideBreakpoint: d = !1, lockOutsideBreakpoint: f = !1, unlockInsideBreakpoint: p = !1, unlockOutsideBreakpoint: m = !1 }) {
 		super({
 			controllerElement: e,
-			controlledElement: t ?? n?.dom?.menu,
-			expandClass: n?.classes?.expand,
-			collapseClass: n?.classes?.collapse,
-			transitionClass: n?.classes?.transition,
-			transitionDuration: n?.durations?.transition,
-			expandDuration: n?.durations?.expand,
-			collapseDuration: n?.durations?.collapse,
+			controlledElement: t ?? r?.dom?.menu,
+			triggerElement: n,
+			expandClass: r?.classes?.expand,
+			collapseClass: r?.classes?.collapse,
+			transitionClass: r?.classes?.transition,
+			transitionDuration: r?.durations?.transition,
+			expandDuration: r?.durations?.expand,
+			collapseDuration: r?.durations?.collapse,
 			prefix: "am-",
 			initializeClass: "",
-			breakpoint: i,
-			mediaQuery: a,
-			expandInsideBreakpoint: o,
-			expandOutsideBreakpoint: s,
-			collapseInsideBreakpoint: c,
-			collapseOutsideBreakpoint: l,
-			lockInsideBreakpoint: u,
-			lockOutsideBreakpoint: d,
-			unlockInsideBreakpoint: f,
-			unlockOutsideBreakpoint: p,
+			breakpoint: a,
+			mediaQuery: o,
+			expandInsideBreakpoint: s,
+			expandOutsideBreakpoint: c,
+			collapseInsideBreakpoint: l,
+			collapseOutsideBreakpoint: u,
+			lockInsideBreakpoint: d,
+			lockOutsideBreakpoint: f,
+			unlockInsideBreakpoint: p,
+			unlockOutsideBreakpoint: m,
 			bootstrap: !1
-		}), this._elements.controlledMenu = n, this._elements.parentMenu = r, this._bootstrap();
+		}), this._elements.controlledMenu = r, this._elements.parentMenu = i, this._bootstrap();
 	}
 	_bootstrap() {
 		super._bootstrap(), this._addEventListener(this.getEventName("validate"), this.rootDOMElement, (t) => {
@@ -1204,24 +1205,24 @@ var C = class n extends h {
 	_hoverType = "off";
 	_hasExpanded = !1;
 	_controllerOptions = {};
-	constructor({ menuElement: e, menuItemsSelector: t = "li", menuLinksSelector: n = "a", submenuItemsSelector: r = "li:has(ul)", submenuTogglesSelector: i = "a", submenuSubtogglesSelector: a = null, submenusSelector: o = "ul", controllerElement: s = null, containerElement: c = null, initializeClass: l = "initializing", expandClass: u = "show", collapseClass: d = "hide", transitionClass: f = "transitioning", transitionDuration: p = 250, expandDuration: m = -1, collapseDuration: h = -1, isTopLevel: g = !0, parentMenu: _ = null, hoverType: v = "off", hoverDelay: y = 250, enterDelay: b = -1, leaveDelay: x = -1, breakpoint: S = "", mediaQuery: C = "", expandInsideBreakpoint: w = !1, expandOutsideBreakpoint: T = !1, collapseInsideBreakpoint: E = !1, collapseOutsideBreakpoint: D = !1, lockInsideBreakpoint: O = !1, lockOutsideBreakpoint: k = !1, unlockInsideBreakpoint: A = !1, unlockOutsideBreakpoint: j = !1, prefix: M = "am-", key: N = null }) {
+	constructor({ menuElement: e, menuItemsSelector: t = "li", menuLinksSelector: n = "a", submenuItemsSelector: r = "li:has(ul)", submenuTogglesSelector: i = "a", submenuSubtogglesSelector: a = null, submenuTriggersSelector: o = null, submenusSelector: s = "ul", controllerElement: c = null, containerElement: l = null, initializeClass: u = "initializing", expandClass: d = "show", collapseClass: f = "hide", transitionClass: p = "transitioning", transitionDuration: m = 250, expandDuration: h = -1, collapseDuration: g = -1, isTopLevel: _ = !0, parentMenu: v = null, hoverType: y = "off", hoverDelay: b = 250, enterDelay: x = -1, leaveDelay: S = -1, breakpoint: C = "", mediaQuery: w = "", expandInsideBreakpoint: T = !1, expandOutsideBreakpoint: E = !1, collapseInsideBreakpoint: D = !1, collapseOutsideBreakpoint: O = !1, lockInsideBreakpoint: k = !1, lockOutsideBreakpoint: A = !1, unlockInsideBreakpoint: j = !1, unlockOutsideBreakpoint: M = !1, prefix: N = "am-", key: P = null }) {
 		super({
-			prefix: M,
-			key: N,
-			initializeClass: l,
+			prefix: N,
+			key: P,
+			initializeClass: u,
 			bootstrap: !1
-		}), this._dom.menu = e, this._dom.menuItems = [], this._dom.menuLinks = [], this._dom.submenuItems = [], this._dom.submenuToggles = [], this._dom.submenus = [], this._dom.controller = s, this._dom.container = c, this._selectors.menuItems = t, this._selectors.menuLinks = n, this._selectors.submenuItems = r, this._selectors.submenuToggles = i, this._selectors.submenuSubtoggles = a ?? i, this._selectors.submenus = o, this._elements.menuItems = [], this._elements.submenuToggles = [], this._elements.controller = null, this._elements.parentMenu = _, this._elements.rootMenu = g ? this : null, this._classes.expand = u || "", this._classes.collapse = d || "", this._classes.transition = f || "", this._durations.transition = p, this._durations.expand = m, this._durations.collapse = h, this._root = g, this._hoverType = v, this._delays.hover = y, this._delays.enter = b, this._delays.leave = x, this._controllerOptions = {
-			breakpoint: S,
-			mediaQuery: C,
-			expandInsideBreakpoint: w,
-			expandOutsideBreakpoint: T,
-			collapseInsideBreakpoint: E,
-			collapseOutsideBreakpoint: D,
-			lockInsideBreakpoint: O,
-			lockOutsideBreakpoint: k,
-			unlockInsideBreakpoint: A,
-			unlockOutsideBreakpoint: j
-		}, this._shouldStore = g, this._bootstrap();
+		}), this._dom.menu = e, this._dom.menuItems = [], this._dom.menuLinks = [], this._dom.submenuItems = [], this._dom.submenuToggles = [], this._dom.submenuTriggers = [], this._dom.submenus = [], this._dom.controller = c, this._dom.container = l, this._selectors.menuItems = t, this._selectors.menuLinks = n, this._selectors.submenuItems = r, this._selectors.submenuToggles = i, this._selectors.submenuSubtoggles = a ?? i, this._selectors.submenus = s, this._selectors.submenuTriggers = o ?? "", this._elements.menuItems = [], this._elements.submenuToggles = [], this._elements.controller = null, this._elements.parentMenu = v, this._elements.rootMenu = _ ? this : null, this._classes.expand = d || "", this._classes.collapse = f || "", this._classes.transition = p || "", this._durations.transition = m, this._durations.expand = h, this._durations.collapse = g, this._root = _, this._hoverType = y, this._delays.hover = b, this._delays.enter = x, this._delays.leave = S, this._controllerOptions = {
+			breakpoint: C,
+			mediaQuery: w,
+			expandInsideBreakpoint: T,
+			expandOutsideBreakpoint: E,
+			collapseInsideBreakpoint: D,
+			collapseOutsideBreakpoint: O,
+			lockInsideBreakpoint: k,
+			lockOutsideBreakpoint: A,
+			unlockInsideBreakpoint: j,
+			unlockOutsideBreakpoint: M
+		}, this._shouldStore = _, this._bootstrap();
 	}
 	_bootstrap() {
 		super._bootstrap(), this._addEventListener(this.getEventName("prevalidate"), this.rootDOMElement, (e) => {
@@ -1448,26 +1449,34 @@ var C = class n extends h {
 	get _submenuOptions() {
 		return {
 			submenuTogglesSelector: this.selectors.submenuSubtoggles,
-			submenuSubtogglesSelector: this.selectors.submenuSubtoggles
+			submenuSubtogglesSelector: this.selectors.submenuSubtoggles,
+			submenuTriggersSelector: this.selectors.submenuTriggers
 		};
 	}
-	_setDOMElementType(e, { context: t = this.dom.menu, overwrite: n = !0, strict: r = !0 } = {}) {
-		super._setDOMElementType(e, {
-			context: t,
-			overwrite: n,
-			strict: r
-		});
-	}
 	_setDOMElements() {
-		this._setDOMElementType("menuItems"), this.selectors.submenuItems !== "" && (this._setDOMElementType("submenuItems"), this._resetDOMElementType("submenuToggles"), this._resetDOMElementType("submenus"), this.dom.submenuItems.forEach((e) => {
+		this._setDOMElementType("menuItems", {
+			context: this.dom.menu,
+			strict: !0
+		}), this.selectors.submenuItems !== "" && (this._setDOMElementType("submenuItems", {
+			context: this.dom.menu,
+			strict: !0
+		}), this._resetDOMElementType("submenuToggles"), this._resetDOMElementType("submenus"), this.dom.submenuItems.forEach((e) => {
 			this._setDOMElementType("submenuToggles", {
 				context: e,
-				overwrite: !1
+				overwrite: !1,
+				strict: !0
 			}), this._setDOMElementType("submenus", {
 				context: e,
-				overwrite: !1
+				overwrite: !1,
+				strict: !0
 			});
-		}));
+		})), this._resetDOMElementType("submenuTriggers"), this.selectors.submenuTriggers !== "" && this.dom.submenuToggles.forEach((e) => {
+			this._setDOMElementType("submenuTriggers", {
+				context: e,
+				overwrite: !1,
+				strict: !0
+			});
+		});
 	}
 	_setIds() {
 		this.dom.menu.id = this.dom.menu.id || `menu-${this.key}`, this.dom.container && (this.dom.container.id = this.dom.container.id || `menu-container-${this.key}`), this.dom.controller && (this.dom.controller.id = this.dom.controller.id || `menu-controller-${this.key}`), this._id = this.dom.menu.id;
@@ -1497,7 +1506,7 @@ var C = class n extends h {
 			(n || this._splitMenuLinks) && (i = Array.from(e.querySelectorAll(this.selectors.submenuToggles)).find((e) => !r?.contains(e)) ?? null);
 			let a = Array.from(e.querySelectorAll(this.selectors.menuLinks)).find((e) => e !== i && !r?.contains(e)) ?? i;
 			if (n) {
-				let e = new this._MenuType({
+				let e = this.dom.submenuTriggers.find((e) => i?.contains(e)) ?? null, n = new this._MenuType({
 					menuElement: r,
 					menuItemsSelector: this.selectors.menuItems,
 					menuLinksSelector: this.selectors.menuLinks,
@@ -1518,9 +1527,10 @@ var C = class n extends h {
 					leaveDelay: this.leaveDelay,
 					...this._submenuOptions
 				});
-				e.isInitialized || e.initialize(), t = new this._MenuToggleType({
+				n.isInitialized || n.initialize(), t = new this._MenuToggleType({
 					menuToggleElement: i,
-					controlledMenu: e,
+					triggerElement: e,
+					controlledMenu: n,
 					parentMenu: this
 				}), t.isInitialized || t.initialize(), this._elements.submenuToggles.push(t);
 			}
@@ -1569,10 +1579,10 @@ var C = class n extends h {
 		this.elements.menuItems.forEach((t, n) => {
 			this._addEventListener("click", t.dom.link, () => {
 				this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this._clearTimeout(), this.focusChild(n);
-			}, { passive: !0 }), t.isSubmenuItem && this._addEventListener("click", t.elements.toggle.dom.controller, (n) => {
-				this.currentEvent = "mouse", e(this, t.elements.toggle, n);
+			}, { passive: !0 }), t.isSubmenuItem && this._addEventListener("click", t.elements.toggle.dom.trigger, (r) => {
+				this.currentEvent = "mouse", t.elements.toggle.dom.trigger !== t.dom.link && (this.elements.rootMenu.blurChildren(), this._clearTimeout(), this.focusChild(n)), e(this, t.elements.toggle, r);
 			});
-		}), this.isTopLevel && this.elements.controller && this._addEventListener("click", this.elements.controller.dom.controller, (t) => {
+		}), this.isTopLevel && this.elements.controller && this._addEventListener("click", this.elements.controller.dom.trigger, (t) => {
 			this.currentEvent = "mouse", e(this, this.elements.controller, t);
 		}), this._addEventListener("click", document, (e) => {
 			this.focusState !== "none" && (this.currentEvent = "mouse", this.dom.menu.contains(e.target) || (this.elements.rootMenu.hasExpanded = this.elements.submenuToggles.some((e) => e.isExpanded)));
@@ -1699,23 +1709,24 @@ var C = class n extends h {
 		super.blur(), this.elements.parentMenu.isTopLevel && (this.dom.link.tabIndex = -1);
 	}
 }, T = class extends y {
-	constructor({ menuToggleElement: e, containerElement: t = null, controlledMenu: n, parentMenu: r = null, breakpoint: i = "", mediaQuery: a = "", expandInsideBreakpoint: o = !1, expandOutsideBreakpoint: s = !1, collapseInsideBreakpoint: c = !1, collapseOutsideBreakpoint: l = !1, lockInsideBreakpoint: u = !1, lockOutsideBreakpoint: d = !1, unlockInsideBreakpoint: f = !1, unlockOutsideBreakpoint: p = !1, initialize: m = !0 }) {
+	constructor({ menuToggleElement: e, containerElement: t = null, triggerElement: n = null, controlledMenu: r, parentMenu: i = null, breakpoint: a = "", mediaQuery: o = "", expandInsideBreakpoint: s = !1, expandOutsideBreakpoint: c = !1, collapseInsideBreakpoint: l = !1, collapseOutsideBreakpoint: u = !1, lockInsideBreakpoint: d = !1, lockOutsideBreakpoint: f = !1, unlockInsideBreakpoint: p = !1, unlockOutsideBreakpoint: m = !1, initialize: h = !0 }) {
 		super({
 			menuToggleElement: e,
 			containerElement: t,
-			controlledMenu: n,
-			parentMenu: r,
-			breakpoint: i,
-			mediaQuery: a,
-			expandInsideBreakpoint: o,
-			expandOutsideBreakpoint: s,
-			collapseInsideBreakpoint: c,
-			collapseOutsideBreakpoint: l,
-			lockInsideBreakpoint: u,
-			lockOutsideBreakpoint: d,
-			unlockInsideBreakpoint: f,
-			unlockOutsideBreakpoint: p
-		}), m && this.initialize();
+			triggerElement: n,
+			controlledMenu: r,
+			parentMenu: i,
+			breakpoint: a,
+			mediaQuery: o,
+			expandInsideBreakpoint: s,
+			expandOutsideBreakpoint: c,
+			collapseInsideBreakpoint: l,
+			collapseOutsideBreakpoint: u,
+			lockInsideBreakpoint: d,
+			lockOutsideBreakpoint: f,
+			unlockInsideBreakpoint: p,
+			unlockOutsideBreakpoint: m
+		}), h && this.initialize();
 	}
 	_setAriaAttributes() {
 		super._setAriaAttributes(), this.dom.controller.setAttribute("aria-haspopup", "true");
@@ -1767,7 +1778,7 @@ var C = class n extends h {
 	_MenuType = e;
 	_MenuItemType = w;
 	_MenuToggleType = T;
-	constructor({ menuElement: e, menuItemsSelector: t = "li", menuLinksSelector: n = "a", submenuItemsSelector: r = "li:has(ul)", submenuTogglesSelector: i = "a", submenuSubtogglesSelector: a = null, submenusSelector: o = "ul", controllerElement: s = null, containerElement: c = null, initializeClass: l = "initializing", expandClass: u = "show", collapseClass: d = "hide", transitionClass: f = "transitioning", transitionDuration: p = 250, expandDuration: m = -1, collapseDuration: h = -1, isTopLevel: g = !0, parentMenu: _ = null, hoverType: v = "off", hoverDelay: y = 250, enterDelay: b = -1, leaveDelay: x = -1, breakpoint: S = "", mediaQuery: C = "", expandInsideBreakpoint: w = !1, expandOutsideBreakpoint: T = !1, collapseInsideBreakpoint: E = !1, collapseOutsideBreakpoint: D = !1, lockInsideBreakpoint: O = !1, lockOutsideBreakpoint: k = !1, unlockInsideBreakpoint: A = !1, unlockOutsideBreakpoint: j = !1, prefix: M = "am-", key: N = null, initialize: P = !0 }) {
+	constructor({ menuElement: e, menuItemsSelector: t = "li", menuLinksSelector: n = "a", submenuItemsSelector: r = "li:has(ul)", submenuTogglesSelector: i = "a", submenuSubtogglesSelector: a = null, submenuTriggersSelector: o = null, submenusSelector: s = "ul", controllerElement: c = null, containerElement: l = null, initializeClass: u = "initializing", expandClass: d = "show", collapseClass: f = "hide", transitionClass: p = "transitioning", transitionDuration: m = 250, expandDuration: h = -1, collapseDuration: g = -1, isTopLevel: _ = !0, parentMenu: v = null, hoverType: y = "off", hoverDelay: b = 250, enterDelay: x = -1, leaveDelay: S = -1, breakpoint: C = "", mediaQuery: w = "", expandInsideBreakpoint: T = !1, expandOutsideBreakpoint: E = !1, collapseInsideBreakpoint: D = !1, collapseOutsideBreakpoint: O = !1, lockInsideBreakpoint: k = !1, lockOutsideBreakpoint: A = !1, unlockInsideBreakpoint: j = !1, unlockOutsideBreakpoint: M = !1, prefix: N = "am-", key: P = null, initialize: F = !0 }) {
 		super({
 			menuElement: e,
 			menuItemsSelector: t,
@@ -1775,35 +1786,36 @@ var C = class n extends h {
 			submenuItemsSelector: r,
 			submenuTogglesSelector: i,
 			submenuSubtogglesSelector: a,
-			submenusSelector: o,
-			controllerElement: s,
-			containerElement: c,
-			initializeClass: l,
-			expandClass: u,
-			collapseClass: d,
-			transitionClass: f,
-			transitionDuration: p,
-			expandDuration: m,
-			collapseDuration: h,
-			isTopLevel: g,
-			parentMenu: _,
-			hoverType: v,
-			hoverDelay: y,
-			enterDelay: b,
-			leaveDelay: x,
-			breakpoint: S,
-			mediaQuery: C,
-			expandInsideBreakpoint: w,
-			expandOutsideBreakpoint: T,
-			collapseInsideBreakpoint: E,
-			collapseOutsideBreakpoint: D,
-			lockInsideBreakpoint: O,
-			lockOutsideBreakpoint: k,
-			unlockInsideBreakpoint: A,
-			unlockOutsideBreakpoint: j,
-			prefix: M,
-			key: N
-		}), P && this.initialize();
+			submenuTriggersSelector: o,
+			submenusSelector: s,
+			controllerElement: c,
+			containerElement: l,
+			initializeClass: u,
+			expandClass: d,
+			collapseClass: f,
+			transitionClass: p,
+			transitionDuration: m,
+			expandDuration: h,
+			collapseDuration: g,
+			isTopLevel: _,
+			parentMenu: v,
+			hoverType: y,
+			hoverDelay: b,
+			enterDelay: x,
+			leaveDelay: S,
+			breakpoint: C,
+			mediaQuery: w,
+			expandInsideBreakpoint: T,
+			expandOutsideBreakpoint: E,
+			collapseInsideBreakpoint: D,
+			collapseOutsideBreakpoint: O,
+			lockInsideBreakpoint: k,
+			lockOutsideBreakpoint: A,
+			unlockInsideBreakpoint: j,
+			unlockOutsideBreakpoint: M,
+			prefix: N,
+			key: P
+		}), F && this.initialize();
 	}
 	_bootstrap() {
 		super._bootstrap(), this._addEventListener(this.getEventName("initialize"), this.rootDOMElement, (e) => {

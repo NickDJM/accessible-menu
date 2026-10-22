@@ -14,6 +14,7 @@ class TreeviewToggle extends BaseMenuToggle {
    * @param {object}       options                                     - The options for generating the menu toggle.
    * @param {HTMLElement}  options.menuToggleElement                   - The toggle element in the DOM.
    * @param {?HTMLElement} [options.containerElement = null]           - The element to apply the expand, collapse, and transition classes to. If null, the controlled menu element is used.
+   * @param {?HTMLElement} [options.triggerElement = null]             - The element receiving expansion clicks. If null, the toggle element is used.
    * @param {Treeview}     options.controlledMenu                      - The menu controlled by this toggle.
    * @param {?Treeview}    [options.parentMenu = null]                 - The menu containing this toggle.
    * @param {string}       [options.breakpoint = ""]                   - The breakpoint used to generate the controller's media query.
@@ -31,6 +32,7 @@ class TreeviewToggle extends BaseMenuToggle {
   constructor({
     menuToggleElement,
     containerElement = null,
+    triggerElement = null,
     controlledMenu,
     parentMenu = null,
     breakpoint = "",
@@ -48,6 +50,7 @@ class TreeviewToggle extends BaseMenuToggle {
     super({
       menuToggleElement,
       containerElement,
+      triggerElement,
       controlledMenu,
       parentMenu,
       breakpoint,

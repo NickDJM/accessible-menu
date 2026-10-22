@@ -233,10 +233,14 @@ The shared `_submenuOptions` getter reads `selectors.submenuSubtoggles` when cre
 this._setDOMElementType("submenus", item, false);
 
 // v5
-this._setDOMElementType("submenus", { context: item, overwrite: false });
+this._setDOMElementType("submenus", {
+  context: item,
+  overwrite: false,
+  strict: true,
+});
 ```
 
-BaseMenu still selects direct children by default. Pass `strict: false` to include deeper descendants. Core also supports populating and resetting single-element entries, in addition to arrays. Root and protected DOM entries cannot be set or reset through these helpers.
+Always provide `context`. The inherited helper includes deeper descendants by default. Pass `strict: true` to select only direct children. Core also supports populating and resetting single-element entries, in addition to arrays. Root and protected DOM entries cannot be set or reset through these helpers.
 
 #### Event fields and listeners
 

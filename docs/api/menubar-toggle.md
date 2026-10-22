@@ -16,6 +16,7 @@ Constructs a new `MenubarToggle`.
 new MenubarToggle({
   menuToggleElement,
   containerElement,
+  triggerElement,
   controlledMenu,
   parentMenu,
   initialize,
@@ -31,6 +32,7 @@ The constructor will call [BaseMenuToggle's constructor](./base-menu-toggle#cons
 | options                           | `object`          | The options for generating the menu toggle.                                          | `undefined` |
 | options.menuToggleElement         | `HTMLElement`     | The toggle element in the DOM.                                                       | `undefined` |
 | options.containerElement          | `?HTMLElement`    | The element to apply state classes to. If null, the controlled menu element is used. | `null`      |
+| options.triggerElement            | `?HTMLElement`    | The element receiving expansion clicks. If null, the toggle element is used.         | `null`      |
 | options.controlledMenu            | `Menubar`         | The menu controlled by this toggle.                                                  | `undefined` |
 | options.parentMenu                | `Menubar`, `null` | The menu containing this toggle.                                                     | `null`      |
 | options.breakpoint                | `string`          | The Core controller breakpoint.                                                      | `""`        |

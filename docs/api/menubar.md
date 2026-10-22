@@ -20,6 +20,7 @@ new Menubar({
   submenuItemsSelector,
   submenuTogglesSelector,
   submenuSubtogglesSelector,
+  submenuTriggersSelector,
   submenusSelector,
   controllerElement,
   containerElement,
@@ -64,6 +65,7 @@ The constructor will call [BaseMenu's constructor](./base-menu#constructor) with
 | options.submenuItemsSelector      | `string`                     | The query selector string for menu items containing submenus.                                        | `li:has(ul)`      |
 | options.submenuTogglesSelector    | `string`                     | The query selector string for submenu toggle buttons/links.                                          | `"a"`             |
 | options.submenuSubtogglesSelector | `?string`                    | The query selector for submenu toggles below the top level. If null, submenuTogglesSelector is used. | `null`            |
+| options.submenuTriggersSelector   | `?string`                    | Selects a trigger inside each submenu toggle. Empty or null uses the toggle.                         | `null`            |
 | options.submenusSelector          | `string`                     | The query selector string for submenus.                                                              | `"ul"`            |
 | options.controllerElement         | `HTMLElement`, `null`        | The element controlling the menu in the DOM.                                                         | `null`            |
 | options.containerElement          | `HTMLElement`, `null`        | The element containing the menu in the DOM.                                                          | `null`            |

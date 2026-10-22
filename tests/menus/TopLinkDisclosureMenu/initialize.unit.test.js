@@ -7,6 +7,7 @@
 
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import {
+  threeLevelWithTriggers,
   singleLevel,
   twoLevelDisclosureTopLink,
   twoLevel,
@@ -32,6 +33,29 @@ afterEach(() => {
 
 // Test the TopLinkDisclosureMenu initialization.
 describe("TopLinkDisclosureMenu", () => {
+  it("should pass submenuTriggersSelector to nested toggles", () => {
+    document.body.innerHTML = threeLevelWithTriggers;
+    const menu = new TopLinkDisclosureMenu({
+      menuElement: document.querySelector("ul"),
+      submenuTogglesSelector: "a",
+      submenuSubtogglesSelector: "a",
+      submenuTriggersSelector: ".submenu-trigger",
+    });
+    const toggle = menu.elements.submenuToggles[0];
+    const childToggle =
+      toggle.elements.controlledMenu.elements.submenuToggles[0];
+
+    expect(menu.isInitialized).toBe(true);
+    expect(toggle.dom.trigger).toBe(
+      toggle.dom.controller.querySelector(".submenu-trigger")
+    );
+    expect(childToggle.dom.trigger).toBe(
+      childToggle.dom.controller.querySelector(".submenu-trigger")
+    );
+
+    menu.dispose();
+  });
+
   // Test that the TopLinkDisclosureMenu will initialize if the menuElement passed.
   it("should initialize", () => {
     // Create the test menu.

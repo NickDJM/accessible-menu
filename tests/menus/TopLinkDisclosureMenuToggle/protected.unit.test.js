@@ -5,7 +5,7 @@
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import {
   twoLevelDisclosureTopLink,
-  twoLevelDisclosureTopLinkNoButtons,
+  twoLevelDisclosureTopLinkWithLinkToggles,
 } from "../../../demo/menus.js";
 import TopLinkDisclosureMenu from "../../../src/topLinkDisclosureMenu.js";
 import TopLinkDisclosureMenuToggle from "../../../src/topLinkDisclosureMenuToggle.js";
@@ -85,7 +85,7 @@ describe("TopLinkDisclosureMenuToggle protected methods", () => {
 
     // Test that _setAriaAttributes sets the toggle's role attribute to button if the toggle is not a button.
     it("should set the toggle's role attribute to button if the toggle is not a button", () => {
-      document.body.innerHTML = twoLevelDisclosureTopLinkNoButtons;
+      document.body.innerHTML = twoLevelDisclosureTopLinkWithLinkToggles;
 
       // Create a new TopLinkDisclosureMenu instance for testing.
       const menu = new TopLinkDisclosureMenu({

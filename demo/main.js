@@ -65,10 +65,18 @@ const options = {
   unlockOutsideBreakpoint: false,
 };
 const container = document.querySelector("header");
+const keySupportSettings = document.querySelector("#keySupportSettings");
+const treeviewTriggerSettings = document.querySelector(
+  "#treeviewTriggerSettings"
+);
+const treeviewTriggerButtons = document.querySelectorAll(
+  "#treeviewTriggerButtons button"
+);
 
 let type = "native";
 let structure = "one";
 let currentMenu = null;
+let treeviewTriggers = false;
 
 /**
  * Generates an accessible-menu.
@@ -84,11 +92,27 @@ function generateMenu() {
   const MenuClass = AccessibleMenu[type] || null;
   const menuStructure = menuSettings[type].structure[structure];
 
+  keySupportSettings.hidden =
+    type !== "DisclosureMenu" && type !== "TopLinkDisclosureMenu";
+  treeviewTriggerSettings.hidden = type !== "Treeview";
+  const useSeparateTriggers = type === "Treeview" && treeviewTriggers;
+
   // Set the menu structure.
   container.innerHTML = menuStructure;
 
   // Get the nav element.
   const nav = container.querySelector("nav");
+
+  // Add a separate expansion arrow to each Treeview submenu controller.
+  if (useSeparateTriggers) {
+    nav.querySelectorAll(".dropdown-toggle").forEach((controller) => {
+      const trigger = document.createElement("span");
+      trigger.classList.add("submenu-trigger");
+      trigger.setAttribute("aria-hidden", "true");
+      trigger.textContent = "▾";
+      controller.appendChild(trigger);
+    });
+  }
 
   // Set the classes.
   document.body.classList.remove(
@@ -106,6 +130,7 @@ function generateMenu() {
     containerElement: nav,
     controllerElement: nav.querySelector("button"),
     ...options,
+    submenuTriggersSelector: useSeparateTriggers ? ".submenu-trigger" : null,
   });
 
   // Clean up any work started by a menu that could not initialize.
@@ -141,6 +166,21 @@ menuButtons.forEach((button) => {
     generateMenu();
 
     menuButtons.forEach((button) => {
+      button.classList.remove("active");
+      button.setAttribute("aria-pressed", "false");
+    });
+    button.classList.add("active");
+    button.setAttribute("aria-pressed", "true");
+  });
+});
+
+// Recreate the Treeview when changing which element handles expansion clicks.
+treeviewTriggerButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    treeviewTriggers = button.dataset.treeviewTriggers === "true";
+    generateMenu();
+
+    treeviewTriggerButtons.forEach((button) => {
       button.classList.remove("active");
       button.setAttribute("aria-pressed", "false");
     });

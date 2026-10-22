@@ -94,6 +94,10 @@ section {
   gap: 1rem;
 }
 
+section[hidden] {
+  display: none;
+}
+
 h2 {
   margin: 0;
 }
@@ -245,6 +249,25 @@ nav {
 
   &.treeview {
     grid-area: tree;
+
+    .dropdown-toggle:has(.submenu-trigger)::after {
+      display: none;
+    }
+
+    .submenu-trigger {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: var(--am-interactive-min-width);
+      min-height: var(--am-interactive-min-height);
+      cursor: pointer;
+      margin-block: calc(-1 * var(--am-nav-link-padding-y, 0.5rem));
+      margin-right: calc(-1 * var(--am-nav-link-padding-x, 1rem));
+    }
+
+    [aria-expanded="true"]>.submenu-trigger {
+      transform: rotate(-180deg);
+    }
   }
 
   &.top-link-disclosure-menu {
