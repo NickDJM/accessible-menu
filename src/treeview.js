@@ -27,6 +27,15 @@ import {
  */
 class Treeview extends BaseMenu {
   /**
+   * Keep expanded branches available when keyboard focus leaves the tree.
+   *
+   * @protected
+   *
+   * @type {boolean}
+   */
+  _collapseChildrenOnBlur = false;
+
+  /**
    * The class to use when generating submenus.
    *
    * @protected
