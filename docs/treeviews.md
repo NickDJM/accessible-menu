@@ -2,6 +2,8 @@
 
 Treeviews are Accessible Menu's implementation of the [Navigation Treeviews](https://www.w3.org/WAI/ARIA/apg/patterns/treeview/examples/treeview-navigation/).
 
+When keyboard focus leaves the tree, expanded branches stay expanded. The current item remains in the tab sequence so you can return to it.
+
 ## Single-level Treeview {#single-level}
 
 The following is an example of how you would set up a single-level Treeview.
