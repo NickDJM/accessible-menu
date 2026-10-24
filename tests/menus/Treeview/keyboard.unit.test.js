@@ -3,7 +3,7 @@
  */
 
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
-import { threeLevel } from "../../../demo/menus.js";
+import { threeLevel, twoLevel } from "../../../demo/menus.js";
 import Treeview from "../../../src/treeview.js";
 import { simulateKeyboardEvent } from "../helpers.js";
 
@@ -534,6 +534,51 @@ describe("Treeview", () => {
 
     // Test ArrowDown.
     describe("ArrowDown", () => {
+      it("should preserve focus at the final descendant and still handle Up Arrow and Home", async () => {
+        document.body.innerHTML = twoLevel;
+        const menu = new Treeview({
+          menuElement: document.querySelector("ul"),
+        });
+        const parent = menu.elements.menuItems.at(-1);
+        const submenu = parent.elements.childMenu;
+        const lastItem = submenu.elements.menuItems.at(-1);
+        menu.currentEvent = "keyboard";
+        menu.currentChild = menu.elements.menuItems.length - 1;
+        parent.elements.toggle.preview();
+        menu.blurChildren();
+        submenu.focusLastChild();
+        await new Promise(requestAnimationFrame);
+
+        simulateKeyboardEvent("keyup", lastItem.dom.link, {
+          key: "ArrowDown",
+        });
+
+        expect(document.activeElement).toBe(lastItem.dom.link);
+        expect(submenu.focusState).toBe("self");
+        expect(menu.focusState).toBe("child");
+        expect(lastItem.dom.link.tabIndex).toBe(0);
+
+        simulateKeyboardEvent("keyup", lastItem.dom.link, {
+          key: "ArrowUp",
+        });
+        await new Promise(requestAnimationFrame);
+
+        expect(document.activeElement).toBe(
+          submenu.elements.menuItems[0].dom.link
+        );
+
+        simulateKeyboardEvent("keyup", submenu.elements.menuItems[0].dom.link, {
+          key: "Home",
+        });
+        await new Promise(requestAnimationFrame);
+
+        expect(document.activeElement).toBe(
+          menu.elements.menuItems[0].dom.link
+        );
+
+        menu.dispose();
+      });
+
       // Test that the event is prevented.
       it("should prevent the event", () => {
         // Create a new Treeview instance for testing.
