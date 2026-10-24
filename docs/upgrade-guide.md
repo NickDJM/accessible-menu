@@ -130,7 +130,9 @@ See [General changes](#general-changes-selector-option-renaming) for the selecto
 
 #### Treeviews
 
-The general and developer changes apply to Treeviews. There are no additional changes specific to this menu type.
+The general and developer changes apply to Treeviews.
+
+Leaving a Treeview with the keyboard no longer collapses its expanded branches. The current item stays in the tab sequence so focus can return to it, as required by the APG.
 
 ### Developer changes
 

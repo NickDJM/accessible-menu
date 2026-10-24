@@ -116,6 +116,18 @@ Core handles initialization failures, sets `isValid` to `false`, and logs the er
 
 Properties are inherited from the [BaseMenu](./base-menu#properties) class. The following properties are unique to or overridden in the Treeview class.
 
+### _collapseChildrenOnBlur <badge type="warning" text="protected" /> {#property--collapsechildrenonblur}
+
+Keeps expanded branches available when keyboard focus leaves the tree. The current item remains in the tab sequence so focus can return to it.
+
+```js
+Treeview._collapseChildrenOnBlur; // Default: `false`.
+```
+
+#### Type {#property--collapsechildrenonblur--type}
+
+`boolean`
+
 ### _MenuType <badge type="warning" text="protected" /> {#property--menutype}
 
 The class to use when generating submenus.
@@ -282,7 +294,7 @@ Focus the parent menu's next child.
 Treeview.focusParentsNextChild();
 ```
 
-This will cascade up through to the root menu.
+This will cascade up through to the root menu. If there is no next item, focus and the menu's focus state stay unchanged.
 
 ### focusChildsLastNode <badge type="tip" text="public" /> {#method--focuschildslastnode}
 

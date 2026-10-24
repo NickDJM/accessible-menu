@@ -128,6 +128,18 @@ The initial media-query callback runs on the next animation frame. Validation fa
 
 The following properties include fields inherited from Core's `Component` class. Each menu or menu item has its own field values.
 
+### _collapseChildrenOnBlur <badge type="warning" text="protected" /> {#property--collapsechildrenonblur}
+
+Whether leaving the menu through the keyboard collapses its submenus. Treeview overrides this value to preserve its expanded branches.
+
+```js
+BaseMenu._collapseChildrenOnBlur; // Default: `true`.
+```
+
+#### Type {#property--collapsechildrenonblur--type}
+
+`boolean`
+
 ### _MenuType <badge type="warning" text="protected" /> {#property--menutype}
 
 The class to use when generating submenus.
@@ -1767,7 +1779,7 @@ BaseMenu._handleFocus();
 ```
 
 - Adds a `focus` listener to every menu item so when it gains focus, it will set the item's containing menu's [focus state](#property--focusstate) to "self".
-- Adds a `focusout` listener to the menu so when the menu loses focus, it will collapse.
+- Adds a `focusout` listener to clear the menu's focus state when keyboard focus leaves it. If [_collapseChildrenOnBlur](#property--collapsechildrenonblur) is true, also collapses its submenus.
 
 ### _handleClick {#method--handleclick}
 
