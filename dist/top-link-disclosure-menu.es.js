@@ -309,6 +309,7 @@ function p(e) {
 }
 // src/_baseMenu.js
 var m = class e {
+	_closeChildrenOnBlur = !0;
 	_MenuType = e;
 	_MenuItemType = d;
 	_MenuToggleType = u;
@@ -647,7 +648,7 @@ var m = class e {
 				this.focusState = "self", this.currentChild = t;
 			});
 		}), this.dom.menu.addEventListener("focusout", (e) => {
-			this.currentEvent !== "keyboard" || e.relatedTarget === null || this.dom.menu.contains(e.relatedTarget) || (this.focusState = "none", this.closeChildren());
+			this.currentEvent !== "keyboard" || e.relatedTarget === null || this.dom.menu.contains(e.relatedTarget) || (this.focusState = "none", this._closeChildrenOnBlur && this.closeChildren());
 		});
 	}
 	_handleClick() {

@@ -309,6 +309,7 @@ function p(e) {
 }
 // src/_baseMenu.js
 var m = class e {
+	_closeChildrenOnBlur = !0;
 	_MenuType = e;
 	_MenuItemType = d;
 	_MenuToggleType = u;
@@ -647,7 +648,7 @@ var m = class e {
 				this.focusState = "self", this.currentChild = t;
 			});
 		}), this.dom.menu.addEventListener("focusout", (e) => {
-			this.currentEvent !== "keyboard" || e.relatedTarget === null || this.dom.menu.contains(e.relatedTarget) || (this.focusState = "none", this.closeChildren());
+			this.currentEvent !== "keyboard" || e.relatedTarget === null || this.dom.menu.contains(e.relatedTarget) || (this.focusState = "none", this._closeChildrenOnBlur && this.closeChildren());
 		});
 	}
 	_handleClick() {
@@ -1249,6 +1250,7 @@ var m = class e {
 	Menubar: b,
 	TopLinkDisclosureMenu: C,
 	Treeview: class e extends m {
+		_closeChildrenOnBlur = !1;
 		_MenuType = e;
 		_MenuItemType = w;
 		_MenuToggleType = T;
@@ -1363,7 +1365,7 @@ var m = class e {
 			}
 		}
 		focusParentsNextChild() {
-			this.elements.parentMenu && (this.elements.parentMenu.currentEvent = this.currentEvent, this.elements.parentMenu.currentChild === this.elements.parentMenu.elements.menuItems.length - 1 ? (this.elements.parentMenu.blurCurrentChild(), this.elements.parentMenu.focusParentsNextChild()) : (this.blurChildren(), this.elements.parentMenu.focusNextChild()));
+			this.elements.parentMenu && (this.elements.parentMenu.currentEvent = this.currentEvent, this.elements.parentMenu.currentChild === this.elements.parentMenu.elements.menuItems.length - 1 ? this.elements.parentMenu.focusParentsNextChild() : (this.elements.rootMenu.blurChildren(), this.elements.parentMenu.focusNextChild()));
 		}
 		focusChildsLastNode() {
 			this.currentMenuItem.elements.childMenu.currentEvent = this.currentEvent, this.currentMenuItem.elements.childMenu.focusLastChild(), this.currentMenuItem.elements.childMenu.currentMenuItem.isSubmenuItem && this.currentMenuItem.elements.childMenu.currentMenuItem.elements.toggle.isOpen && (this.currentMenuItem.elements.childMenu.blurCurrentChild(), this.currentMenuItem.elements.childMenu.focusChildsLastNode());

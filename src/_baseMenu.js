@@ -50,6 +50,15 @@ class BaseMenu {
   _MenuToggleType = BaseMenuToggle;
 
   /**
+   * Whether leaving the menu through the keyboard collapses its submenus.
+   *
+   * @protected
+   *
+   * @type {boolean}
+   */
+  _closeChildrenOnBlur = true;
+
+  /**
    * The DOM elements within the menu.
    *
    * @protected
@@ -1466,7 +1475,8 @@ class BaseMenu {
    *   it will set the item's containing menu's focus state
    *   to "self".
    * - Adds a `focusout` listener to the menu so when the menu loses focus,
-   *   it will close.
+   *   its focus state is cleared. Submenus collapse if _closeChildrenOnBlur
+   *   is true.
    *
    * @protected
    */
@@ -1488,7 +1498,8 @@ class BaseMenu {
       }
 
       this.focusState = "none";
-      this.closeChildren();
+
+      if (this._closeChildrenOnBlur) this.closeChildren();
     });
   }
 

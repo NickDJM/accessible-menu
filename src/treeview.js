@@ -51,6 +51,15 @@ class Treeview extends BaseMenu {
   _MenuToggleType = TreeviewToggle;
 
   /**
+   * Keep expanded branches available when keyboard focus leaves the tree.
+   *
+   * @protected
+   *
+   * @type {boolean}
+   */
+  _closeChildrenOnBlur = false;
+
+  /**
    * Constructs a new `Treeview`.
    *
    * @param {object}             options                                    - The options for generating the menu.

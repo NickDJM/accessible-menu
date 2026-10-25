@@ -93,6 +93,18 @@ this will catch it and log it to the console.
 
 Properties are inherited from the [BaseMenu](./base-menu#properties) class. The following properties are unique to or overwritten in the Treeview class.
 
+### _closeChildrenOnBlur <badge type="warning" text="protected" /> {#property--closechildrenonblur}
+
+Keeps expanded branches available when keyboard focus leaves the tree. The current item remains in the tab sequence so focus can return to it.
+
+```js
+Treeview._closeChildrenOnBlur; // Default: `false`.
+```
+
+#### Type {#property--closechildrenonblur--type}
+
+`boolean`
+
 ### _MenuType <badge type="warning" text="protected" /> {#property--menutype}
 
 The class to use when generating submenus.
