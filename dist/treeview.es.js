@@ -309,10 +309,10 @@ function p(e) {
 }
 // src/_baseMenu.js
 var m = class e {
-	_closeChildrenOnBlur = !0;
 	_MenuType = e;
 	_MenuItemType = d;
 	_MenuToggleType = u;
+	_closeChildrenOnBlur = !0;
 	_dom = {
 		menu: null,
 		menuItems: [],
@@ -782,10 +782,10 @@ var m = class e {
 		this.dom.toggle.getAttribute("aria-expanded") !== "true" && this.dom.toggle.setAttribute("aria-expanded", "false"), this.elements.controlledMenu.dom.menu.setAttribute("aria-labelledby", this.dom.toggle.id), this.dom.toggle.setAttribute("aria-owns", this.elements.controlledMenu.dom.menu.id);
 	}
 }, _ = class e extends m {
-	_closeChildrenOnBlur = !1;
 	_MenuType = e;
 	_MenuItemType = h;
 	_MenuToggleType = g;
+	_closeChildrenOnBlur = !1;
 	constructor({ menuElement: e, menuItemSelector: t = "li", menuLinkSelector: n = "a", submenuItemSelector: r = "li:has(ul)", submenuToggleSelector: i = "a", submenuSelector: a = "ul", controllerElement: o = null, containerElement: s = null, openClass: c = "show", closeClass: l = "hide", transitionClass: u = "transitioning", transitionDuration: d = 250, isTopLevel: f = !0, parentMenu: p = null, hoverType: m = "off", hoverDelay: h = 250, enterDelay: g = -1, leaveDelay: _ = -1, prefix: v = "am-", key: y = null, initialize: b = !0 }) {
 		super({
 			menuElement: e,

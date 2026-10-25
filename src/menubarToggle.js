@@ -86,17 +86,20 @@ class MenubarToggle extends BaseMenuToggle {
   /**
    * Closes the controlled menu.
    *
-   * Calls the  closeChildren method
-   * and _then_ BaseMenuToggle's close method.
+   * Calls the closeChildren method and restores focus to the parent item
+   * if the controlled menu contained focus. Then calls BaseMenuToggle's
+   * close method.
    *
    * @public
    */
   close() {
     if (this.isOpen) {
+      const hadFocus = this.elements.controlledMenu.focusState !== "none";
+
       // Close all children.
       this.closeChildren();
 
-      if (this.elements.parentMenu) {
+      if (this.elements.parentMenu && hadFocus) {
         this.elements.parentMenu.focusCurrentChild();
       }
     }

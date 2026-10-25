@@ -309,10 +309,10 @@ function p(e) {
 }
 // src/_baseMenu.js
 var m = class e {
-	_closeChildrenOnBlur = !0;
 	_MenuType = e;
 	_MenuItemType = d;
 	_MenuToggleType = u;
+	_closeChildrenOnBlur = !0;
 	_dom = {
 		menu: null,
 		menuItems: [],
