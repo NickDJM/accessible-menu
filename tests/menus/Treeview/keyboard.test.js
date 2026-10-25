@@ -38,6 +38,55 @@ describe("Treeview", () => {
 
     // Test Tab.
     describe("Tab", () => {
+      it("should preserve expanded branches and the entry tab stop when focus leaves", async () => {
+        const menu = new Treeview({
+          menuElement: document.querySelector("ul"),
+        });
+        const parent = menu.elements.menuItems[1];
+        const submenu = parent.elements.childMenu;
+        const nestedParent = submenu.elements.menuItems[1];
+        const nestedMenu = nestedParent.elements.childMenu;
+        const firstItem = nestedMenu.elements.menuItems[0];
+        const outside = document.createElement("button");
+        outside.textContent = "After the tree";
+        document.body.append(outside);
+        menu.currentEvent = "keyboard";
+        menu.currentChild = 1;
+        submenu.currentChild = 1;
+        parent.elements.toggle.preview();
+        nestedParent.elements.toggle.preview();
+        menu.blurChildren();
+        nestedMenu.focusFirstChild();
+        await new Promise(requestAnimationFrame);
+
+        simulateKeyboardEvent("keydown", firstItem.dom.link, { key: "Tab" });
+        outside.focus();
+        await new Promise(requestAnimationFrame);
+
+        expect(document.activeElement).toBe(outside);
+        expect(parent.elements.toggle.isOpen).toBe(true);
+        expect(nestedParent.elements.toggle.isOpen).toBe(true);
+        expect(menu.focusState).toBe("none");
+        expect(nestedMenu.focusState).toBe("none");
+        expect([...menu.dom.menu.querySelectorAll('[tabindex="0"]')]).toEqual([
+          firstItem.dom.link,
+        ]);
+
+        firstItem.dom.link.focus();
+
+        expect(nestedMenu.focusState).toBe("self");
+        expect(menu.focusState).toBe("child");
+
+        simulateKeyboardEvent("keyup", firstItem.dom.link, {
+          key: "ArrowDown",
+        });
+        await new Promise(requestAnimationFrame);
+
+        expect(document.activeElement).toBe(
+          nestedMenu.elements.menuItems[1].dom.link
+        );
+      });
+
       // Test that blur is called on the menu on Tab keydown events if focus state is not none.
       it("should call blur on the menu on Tab keydown events if focus state is not none", () => {
         // Create a new Treeview instance for testing.

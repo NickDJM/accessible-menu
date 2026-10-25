@@ -51,6 +51,15 @@ class Treeview extends BaseMenu {
   _MenuToggleType = TreeviewToggle;
 
   /**
+   * Keep expanded branches available when keyboard focus leaves the tree.
+   *
+   * @protected
+   *
+   * @type {boolean}
+   */
+  _closeChildrenOnBlur = false;
+
+  /**
    * Constructs a new `Treeview`.
    *
    * @param {object}             options                                    - The options for generating the menu.
@@ -682,10 +691,9 @@ class Treeview extends BaseMenu {
       this.elements.parentMenu.currentChild ===
       this.elements.parentMenu.elements.menuItems.length - 1
     ) {
-      this.elements.parentMenu.blurCurrentChild();
       this.elements.parentMenu.focusParentsNextChild();
     } else {
-      this.blurChildren();
+      this.elements.rootMenu.blurChildren();
       this.elements.parentMenu.focusNextChild();
     }
   }

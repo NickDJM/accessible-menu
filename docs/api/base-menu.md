@@ -85,6 +85,18 @@ The following steps will be taken to initialize the menu:
 
 ## Properties
 
+### _closeChildrenOnBlur <badge type="warning" text="protected" /> {#property--closechildrenonblur}
+
+Whether leaving the menu through the keyboard collapses its submenus. Treeview overrides this value to preserve its expanded branches.
+
+```js
+BaseMenu._closeChildrenOnBlur; // Default: `true`.
+```
+
+#### Type {#property--closechildrenonblur--type}
+
+`boolean`
+
 ### _MenuType <badge type="warning" text="protected" /> {#property--menutype}
 
 The class to use when generating submenus.
@@ -1001,7 +1013,7 @@ BaseMenu._handleFocus();
 ```
 
 - Adds a `focus` listener to every menu item so when it gains focus, it will set the item's containing menu's [focus state](#property--focusstate) to "self".
-- Adds a `focusout` listener to the menu so when the menu loses focus, it will close.
+- Adds a `focusout` listener to clear the menu's focus state when keyboard focus leaves it. If [_closeChildrenOnBlur](#property--closechildrenonblur) is true, also collapses its submenus.
 
 ### _handleClick {#method--handleclick}
 

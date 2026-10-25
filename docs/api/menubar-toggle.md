@@ -91,4 +91,6 @@ Closes the controlled menu.
 MenubarToggle.close();
 ```
 
-Calls the [closeChildren (inherited)](./base-menu-toggle#method--closechildren) method and _then_ [BaseMenuToggle's close method](./base-menu-toggle#method--close).
+Calls the [closeChildren (inherited)](./base-menu-toggle#method--closechildren) method. If the controlled menu contained focus, restores focus to its parent item. Then calls [BaseMenuToggle's close method](./base-menu-toggle#method--close).
+
+When keyboard focus leaves the menubar, its submenus collapse without restoring focus to an item inside it.

@@ -312,6 +312,7 @@ var m = class e {
 	_MenuType = e;
 	_MenuItemType = d;
 	_MenuToggleType = u;
+	_closeChildrenOnBlur = !0;
 	_dom = {
 		menu: null,
 		menuItems: [],
@@ -647,7 +648,7 @@ var m = class e {
 				this.focusState = "self", this.currentChild = t;
 			});
 		}), this.dom.menu.addEventListener("focusout", (e) => {
-			this.currentEvent !== "keyboard" || e.relatedTarget === null || this.dom.menu.contains(e.relatedTarget) || (this.focusState = "none", this.closeChildren());
+			this.currentEvent !== "keyboard" || e.relatedTarget === null || this.dom.menu.contains(e.relatedTarget) || (this.focusState = "none", this._closeChildrenOnBlur && this.closeChildren());
 		});
 	}
 	_handleClick() {
@@ -891,7 +892,11 @@ var m = class e {
 		this.closeSiblings(), super.preview();
 	}
 	close() {
-		this.isOpen && (this.closeChildren(), this.elements.parentMenu && this.elements.parentMenu.focusCurrentChild()), super.close();
+		if (this.isOpen) {
+			let e = this.elements.controlledMenu.focusState !== "none";
+			this.closeChildren(), this.elements.parentMenu && e && this.elements.parentMenu.focusCurrentChild();
+		}
+		super.close();
 	}
 }, b = class e extends m {
 	_MenuType = e;
@@ -937,7 +942,7 @@ var m = class e {
 		super._handleKeydown(), this.dom.menu.addEventListener("keydown", (e) => {
 			this.currentEvent = "keyboard";
 			let t = f(e);
-			t === "Tab" && (this.elements.rootMenu.focusState === "none" ? this.elements.rootMenu.focus() : (this.elements.rootMenu.blur(), this.elements.rootMenu.closeChildren())), t === "Character" ? p(e) : this.isTopLevel ? this.focusState === "self" && ([
+			t === "Tab" && this.isTopLevel && (this.elements.rootMenu.focusState === "none" ? this.elements.rootMenu.focus() : (this.currentMenuItem.dom.link.focus(), this.elements.rootMenu.blur(), this.elements.rootMenu.closeChildren(), this.elements.rootMenu.blur())), t === "Character" ? p(e) : this.isTopLevel ? this.focusState === "self" && ([
 				"Space",
 				"Enter",
 				"ArrowRight",
@@ -1252,6 +1257,7 @@ var m = class e {
 		_MenuType = e;
 		_MenuItemType = w;
 		_MenuToggleType = T;
+		_closeChildrenOnBlur = !1;
 		constructor({ menuElement: e, menuItemSelector: t = "li", menuLinkSelector: n = "a", submenuItemSelector: r = "li:has(ul)", submenuToggleSelector: i = "a", submenuSelector: a = "ul", controllerElement: o = null, containerElement: s = null, openClass: c = "show", closeClass: l = "hide", transitionClass: u = "transitioning", transitionDuration: d = 250, isTopLevel: f = !0, parentMenu: p = null, hoverType: m = "off", hoverDelay: h = 250, enterDelay: g = -1, leaveDelay: _ = -1, prefix: v = "am-", key: y = null, initialize: b = !0 }) {
 			super({
 				menuElement: e,
@@ -1363,7 +1369,7 @@ var m = class e {
 			}
 		}
 		focusParentsNextChild() {
-			this.elements.parentMenu && (this.elements.parentMenu.currentEvent = this.currentEvent, this.elements.parentMenu.currentChild === this.elements.parentMenu.elements.menuItems.length - 1 ? (this.elements.parentMenu.blurCurrentChild(), this.elements.parentMenu.focusParentsNextChild()) : (this.blurChildren(), this.elements.parentMenu.focusNextChild()));
+			this.elements.parentMenu && (this.elements.parentMenu.currentEvent = this.currentEvent, this.elements.parentMenu.currentChild === this.elements.parentMenu.elements.menuItems.length - 1 ? this.elements.parentMenu.focusParentsNextChild() : (this.elements.rootMenu.blurChildren(), this.elements.parentMenu.focusNextChild()));
 		}
 		focusChildsLastNode() {
 			this.currentMenuItem.elements.childMenu.currentEvent = this.currentEvent, this.currentMenuItem.elements.childMenu.focusLastChild(), this.currentMenuItem.elements.childMenu.currentMenuItem.isSubmenuItem && this.currentMenuItem.elements.childMenu.currentMenuItem.elements.toggle.isOpen && (this.currentMenuItem.elements.childMenu.blurCurrentChild(), this.currentMenuItem.elements.childMenu.focusChildsLastNode());

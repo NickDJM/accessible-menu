@@ -232,12 +232,18 @@ class Menubar extends BaseMenu {
 
       const key = keyPress(event);
 
-      if (key === "Tab") {
+      if (key === "Tab" && this.isTopLevel) {
         // Hitting Tab:
         // - Moves focus out of the menu.
+        // Only the root handles Tab because it bubbles through each submenu.
         if (this.elements.rootMenu.focusState !== "none") {
+          // Let the browser move forward or backward from the root tab stop.
+          // Use DOM focus directly so no animation frame pulls focus back later.
+          this.currentMenuItem.dom.link.focus();
           this.elements.rootMenu.blur();
           this.elements.rootMenu.closeChildren();
+          // Closing submenus updates parent focus states. Clear them on departure.
+          this.elements.rootMenu.blur();
         } else {
           this.elements.rootMenu.focus();
         }

@@ -312,6 +312,7 @@ var m = class e {
 	_MenuType = e;
 	_MenuItemType = d;
 	_MenuToggleType = u;
+	_closeChildrenOnBlur = !0;
 	_dom = {
 		menu: null,
 		menuItems: [],
@@ -647,7 +648,7 @@ var m = class e {
 				this.focusState = "self", this.currentChild = t;
 			});
 		}), this.dom.menu.addEventListener("focusout", (e) => {
-			this.currentEvent !== "keyboard" || e.relatedTarget === null || this.dom.menu.contains(e.relatedTarget) || (this.focusState = "none", this.closeChildren());
+			this.currentEvent !== "keyboard" || e.relatedTarget === null || this.dom.menu.contains(e.relatedTarget) || (this.focusState = "none", this._closeChildrenOnBlur && this.closeChildren());
 		});
 	}
 	_handleClick() {
