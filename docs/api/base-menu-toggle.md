@@ -1231,7 +1231,7 @@ BaseMenuToggle.unlockedClass = "initializing";
 
 ### expandOnFocus <badge type="tip" text="inherited" /> {#getter-setter--expandonfocus}
 
-Inherited from Core, but not used by Accessible Menu's focus handlers. Setting this value does not make the menu expand when its toggle receives focus.
+Whether calling the toggle's `focus()` method also expands its controlled menu. Defaults to `false`. Receiving DOM focus alone does not trigger this action.
 
 ::: code-group
 
@@ -1247,13 +1247,11 @@ BaseMenuToggle.expandOnFocus = true;
 
 #### Type {#getter-setter--expandonfocus--type}
 
-`boolean|undefined`
-
-The menu does not set a default value.
+`boolean`
 
 ### collapseOnBlur <badge type="tip" text="inherited" /> {#getter-setter--collapseonblur}
 
-Inherited from Core, but not used by Accessible Menu's focus handlers. Setting this value does not make the menu collapse when its toggle loses focus.
+Whether calling the toggle's `blur()` method also collapses its controlled menu. Defaults to `false`. Losing DOM focus alone does not trigger this action.
 
 ::: code-group
 
@@ -1269,9 +1267,7 @@ BaseMenuToggle.collapseOnBlur = true;
 
 #### Type {#getter-setter--collapseonblur--type}
 
-`boolean|undefined`
-
-The menu does not set a default value.
+`boolean`
 
 ### expandInsideBreakpoint <badge type="tip" text="inherited" /> {#getter-setter--expandinsidebreakpoint}
 
@@ -2006,6 +2002,8 @@ Sets the toggle's focus state to `"self"` immediately. Calls its controller elem
 focus();
 ```
 
+If [expandOnFocus](#getter-setter--expandonfocus) is `true`, also calls [expand](#method--expand), even when DOM focus does not move. The normal expansion options and locked-state rules apply.
+
 ### blur <badge type="tip" text="inherited" />
 
 Sets the toggle's focus state to `"none"` immediately. Calls its controller element's DOM `blur()` method immediately if the root menu allows focus.
@@ -2013,6 +2011,8 @@ Sets the toggle's focus state to `"none"` immediately. Calls its controller elem
 ```js
 blur();
 ```
+
+If [collapseOnBlur](#getter-setter--collapseonblur) is `true`, also calls [collapse](#method--collapse), even when DOM focus does not move. The normal collapse options and locked-state rules apply.
 
 ### dispose <badge type="tip" text="inherited" />
 

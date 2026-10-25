@@ -27,6 +27,15 @@ import {
  */
 class Treeview extends BaseMenu {
   /**
+   * Keep expanded branches available when keyboard focus leaves the tree.
+   *
+   * @protected
+   *
+   * @type {boolean}
+   */
+  _collapseChildrenOnBlur = false;
+
+  /**
    * The class to use when generating submenus.
    *
    * @protected
@@ -717,10 +726,9 @@ class Treeview extends BaseMenu {
       this.elements.parentMenu.currentChild ===
       this.elements.parentMenu.elements.menuItems.length - 1
     ) {
-      this.elements.parentMenu.blurCurrentChild();
       this.elements.parentMenu.focusParentsNextChild();
     } else {
-      this.blurChildren();
+      this.elements.rootMenu.blurChildren();
       this.elements.parentMenu.focusNextChild();
     }
   }

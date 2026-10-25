@@ -3,7 +3,7 @@
  */
 
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
-import { threeLevel } from "../../../demo/menus.js";
+import { threeLevel, twoLevel } from "../../../demo/menus.js";
 import Treeview from "../../../src/treeview.js";
 import { simulateKeyboardEvent } from "../helpers.js";
 
@@ -38,6 +38,60 @@ describe("Treeview", () => {
 
     // Test Tab.
     describe("Tab", () => {
+      // https://github.com/NickDJM/accessible-menu/issues/549
+      it("should preserve expanded branches and the entry tab stop when focus leaves", async () => {
+        const menu = new Treeview({
+          menuElement: document.querySelector("ul"),
+        });
+        const parent = menu.elements.menuItems[1];
+        const submenu = parent.elements.childMenu;
+        const nestedParent = submenu.elements.menuItems[1];
+        const nestedMenu = nestedParent.elements.childMenu;
+        const outside = document.createElement("button");
+        outside.textContent = "After the tree";
+        document.body.append(outside);
+        menu.currentEvent = "keyboard";
+        menu.currentChild = 1;
+        submenu.currentChild = 1;
+        parent.elements.toggle.preview();
+        nestedParent.elements.toggle.preview();
+        menu.blurChildren();
+        nestedMenu.focusFirstChild();
+        await new Promise(requestAnimationFrame);
+
+        simulateKeyboardEvent("keydown", nestedMenu.currentMenuItem.dom.link, {
+          key: "Tab",
+        });
+        outside.focus();
+        await new Promise(requestAnimationFrame);
+
+        expect(document.activeElement).toBe(outside);
+        expect(parent.elements.toggle.isExpanded).toBe(true);
+        expect(nestedParent.elements.toggle.isExpanded).toBe(true);
+        expect(menu.focusState).toBe("none");
+        expect(nestedMenu.focusState).toBe("none");
+        expect(nestedMenu.currentMenuItem.dom.link.tabIndex).toBe(0);
+        expect([...menu.dom.menu.querySelectorAll('[tabindex="0"]')]).toEqual([
+          nestedMenu.currentMenuItem.dom.link,
+        ]);
+
+        nestedMenu.currentMenuItem.dom.link.focus();
+
+        expect(nestedMenu.focusState).toBe("self");
+        expect(menu.focusState).toBe("child");
+
+        simulateKeyboardEvent("keyup", nestedMenu.currentMenuItem.dom.link, {
+          key: "ArrowDown",
+        });
+        await new Promise(requestAnimationFrame);
+
+        expect(document.activeElement).toBe(
+          nestedMenu.elements.menuItems[1].dom.link
+        );
+
+        menu.dispose();
+      });
+
       // Test that blur is called on the menu on Tab keydown events if focus state is not none.
       it("should call blur on the menu on Tab keydown events if focus state is not none", () => {
         // Create a new Treeview instance for testing.
@@ -534,6 +588,51 @@ describe("Treeview", () => {
 
     // Test ArrowDown.
     describe("ArrowDown", () => {
+      it("should preserve focus at the final descendant and still handle Up Arrow and Home", async () => {
+        document.body.innerHTML = twoLevel;
+        const menu = new Treeview({
+          menuElement: document.querySelector("ul"),
+        });
+        const parent = menu.elements.menuItems.at(-1);
+        const submenu = parent.elements.childMenu;
+        const lastItem = submenu.elements.menuItems.at(-1);
+        menu.currentEvent = "keyboard";
+        menu.currentChild = menu.elements.menuItems.length - 1;
+        parent.elements.toggle.preview();
+        menu.blurChildren();
+        submenu.focusLastChild();
+        await new Promise(requestAnimationFrame);
+
+        simulateKeyboardEvent("keyup", lastItem.dom.link, {
+          key: "ArrowDown",
+        });
+
+        expect(document.activeElement).toBe(lastItem.dom.link);
+        expect(submenu.focusState).toBe("self");
+        expect(menu.focusState).toBe("child");
+        expect(lastItem.dom.link.tabIndex).toBe(0);
+
+        simulateKeyboardEvent("keyup", lastItem.dom.link, {
+          key: "ArrowUp",
+        });
+        await new Promise(requestAnimationFrame);
+
+        expect(document.activeElement).toBe(
+          submenu.elements.menuItems[0].dom.link
+        );
+
+        simulateKeyboardEvent("keyup", submenu.elements.menuItems[0].dom.link, {
+          key: "Home",
+        });
+        await new Promise(requestAnimationFrame);
+
+        expect(document.activeElement).toBe(
+          menu.elements.menuItems[0].dom.link
+        );
+
+        menu.dispose();
+      });
+
       // Test that the event is prevented.
       it("should prevent the event", () => {
         // Create a new Treeview instance for testing.

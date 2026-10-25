@@ -33,6 +33,15 @@ class BaseMenu extends Component {
   _protectedDOMElements = ["menu", "controller", "container"];
 
   /**
+   * Whether leaving the menu through the keyboard collapses its submenus.
+   *
+   * @protected
+   *
+   * @type {boolean}
+   */
+  _collapseChildrenOnBlur = true;
+
+  /**
    * The class to use when generating submenus.
    *
    * @protected
@@ -1596,7 +1605,8 @@ class BaseMenu extends Component {
    *   it will set the item's containing menu's focus state
    *   to "self".
    * - Adds a `focusout` listener to the menu so when the menu loses focus,
-   *   it will close.
+   *   its focus state is cleared. Submenus collapse if _collapseChildrenOnBlur
+   *   is true.
    *
    * @protected
    */
@@ -1618,7 +1628,8 @@ class BaseMenu extends Component {
       }
 
       this.focusState = "none";
-      this.collapseChildren();
+
+      if (this._collapseChildrenOnBlur) this.collapseChildren();
     });
   }
 
