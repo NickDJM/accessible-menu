@@ -160,6 +160,7 @@ export default defineConfig({
             { text: "Drupal support", link: "/drupal-support" },
             { text: "Browser support", link: "/browser-support" },
             { text: "Release information", link: "/releases" },
+            { text: "Testimonials", link: "/testimonials" },
           ],
         },
       ],

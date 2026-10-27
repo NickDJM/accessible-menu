@@ -1,0 +1,36 @@
+.home-testimonials {
+  max-width: 72rem;
+  margin: 4rem auto;
+  padding: 0 1.5rem;
+}
+
+.home-testimonials h2 {
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.home-testimonials blockquote {
+  padding: 1.5rem;
+  border-left: 0.25rem solid var(--vp-c-brand-1);
+  border-radius: 0.5rem;
+  background: var(--vp-c-bg-soft);
+  font-size: 1.125rem;
+  line-height: 1.7;
+}
+
+.home-testimonials blockquote p + p {
+  margin-top: 1rem;
+}
+
+.home-testimonials figcaption {
+  margin: 1rem 0;
+  color: var(--vp-c-text-2);
+}
+
+.home-testimonials a {
+  color: var(--vp-c-brand-1);
+  text-decoration: underline;
+  text-underline-offset: 0.1875em;
+}
