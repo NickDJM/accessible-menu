@@ -14,6 +14,39 @@ export default defineConfig({
     // Use the server config from the root Vite config.
     server: rootConfig.server,
   },
+  markdown: {
+    config(md) {
+      // Included repository documents keep their GitHub-relative links.
+      // Resolve those links to the matching docs pages when rendering the site.
+      const policyLinks = {
+        "CONTRIBUTING.md": "/community/contributing",
+        "AI_CONTRIBUTIONS.md": "/community/ai-contributions",
+        "ACCESSIBILITY.md": "/community/accessibility",
+        "../AGENTS.md":
+          "https://github.com/NickDJM/accessible-menu/blob/5.x/AGENTS.md",
+        ".github/CONTRIBUTING.md": "/community/contributing",
+        ".github/AI_CONTRIBUTIONS.md": "/community/ai-contributions",
+        ".github/ACCESSIBILITY.md": "/community/accessibility",
+        "../docs/browser-support.md": "/browser-support",
+        "../LICENSE":
+          "https://github.com/NickDJM/accessible-menu/blob/5.x/LICENSE",
+      };
+      const renderLink = md.renderer.rules.link_open;
+
+      md.renderer.rules.link_open = (tokens, index, options, env, self) => {
+        const token = tokens[index];
+        const destination = policyLinks[token.attrGet("href")];
+
+        if (destination) {
+          token.attrSet("href", destination);
+        }
+
+        return renderLink
+          ? renderLink(tokens, index, options, env, self)
+          : self.renderToken(tokens, index, options);
+      };
+    },
+  },
   themeConfig: {
     nav: [
       {
@@ -36,6 +69,10 @@ export default defineConfig({
         target: "_self",
       },
       {
+        text: "Community",
+        link: "/community/",
+      },
+      {
         text: version,
         items: [
           {
@@ -48,7 +85,7 @@ export default defineConfig({
           },
           {
             text: "Contributing",
-            link: "https://github.com/nickdjm/accessible-menu/blob/5.x/.github/CONTRIBUTING.md",
+            link: "/community/contributing",
           },
         ],
       },
@@ -115,6 +152,23 @@ export default defineConfig({
             { text: "Bootstrap support", link: "/bootstrap-support" },
             { text: "Browser support", link: "/browser-support" },
             { text: "Release information", link: "/releases" },
+          ],
+        },
+      ],
+      "/community/": [
+        {
+          text: "Community",
+          items: [
+            { text: "Overview", link: "/community/" },
+            { text: "Contributing", link: "/community/contributing" },
+            {
+              text: "AI contribution policy",
+              link: "/community/ai-contributions",
+            },
+            { text: "Accessibility policy", link: "/community/accessibility" },
+            { text: "Code of conduct", link: "/community/code-of-conduct" },
+            { text: "Security policy", link: "/community/security" },
+            { text: "Commit guidelines", link: "/community/commit-guidelines" },
           ],
         },
       ],
