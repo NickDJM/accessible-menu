@@ -1196,6 +1196,7 @@ var C = class n extends h {
 		"controller",
 		"container"
 	];
+	_collapseChildrenOnBlur = !0;
 	_MenuType = n;
 	_MenuItemType = b;
 	_MenuToggleType = y;
@@ -1569,7 +1570,7 @@ var C = class n extends h {
 				this.focusState = "self", this.currentChild = t;
 			});
 		}), this._addEventListener("focusout", this.dom.menu, (e) => {
-			this.currentEvent !== "keyboard" || e.relatedTarget === null || this.dom.menu.contains(e.relatedTarget) || (this.focusState = "none", this.collapseChildren());
+			this.currentEvent !== "keyboard" || e.relatedTarget === null || this.dom.menu.contains(e.relatedTarget) || (this.focusState = "none", this._collapseChildrenOnBlur && this.collapseChildren());
 		});
 	}
 	_handleClick() {

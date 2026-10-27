@@ -1196,6 +1196,7 @@ var C = class n extends h {
 		"controller",
 		"container"
 	];
+	_collapseChildrenOnBlur = !0;
 	_MenuType = n;
 	_MenuItemType = b;
 	_MenuToggleType = y;
@@ -1569,7 +1570,7 @@ var C = class n extends h {
 				this.focusState = "self", this.currentChild = t;
 			});
 		}), this._addEventListener("focusout", this.dom.menu, (e) => {
-			this.currentEvent !== "keyboard" || e.relatedTarget === null || this.dom.menu.contains(e.relatedTarget) || (this.focusState = "none", this.collapseChildren());
+			this.currentEvent !== "keyboard" || e.relatedTarget === null || this.dom.menu.contains(e.relatedTarget) || (this.focusState = "none", this._collapseChildrenOnBlur && this.collapseChildren());
 		});
 	}
 	_handleClick() {
@@ -2301,6 +2302,7 @@ var C = class n extends h {
 		this.dom.controller.getAttribute("aria-expanded") !== "true" && this.dom.controller.setAttribute("aria-expanded", "false"), this.elements.controlledMenu.dom.menu.setAttribute("aria-labelledby", this.dom.controller.id), this.dom.controller.setAttribute("aria-owns", this.elements.controlledMenu.dom.menu.id);
 	}
 }, F = class e extends C {
+	_collapseChildrenOnBlur = !1;
 	_MenuType = e;
 	_MenuItemType = N;
 	_MenuToggleType = P;
@@ -2430,7 +2432,7 @@ var C = class n extends h {
 		}
 	}
 	focusParentsNextChild() {
-		this.elements.parentMenu && (this.elements.parentMenu.currentEvent = this.currentEvent, this.elements.parentMenu.currentChild === this.elements.parentMenu.elements.menuItems.length - 1 ? (this.elements.parentMenu.blurCurrentChild(), this.elements.parentMenu.focusParentsNextChild()) : (this.blurChildren(), this.elements.parentMenu.focusNextChild()));
+		this.elements.parentMenu && (this.elements.parentMenu.currentEvent = this.currentEvent, this.elements.parentMenu.currentChild === this.elements.parentMenu.elements.menuItems.length - 1 ? this.elements.parentMenu.focusParentsNextChild() : (this.elements.rootMenu.blurChildren(), this.elements.parentMenu.focusNextChild()));
 	}
 	focusChildsLastNode() {
 		let e = this.currentMenuItem.elements.childMenu;
