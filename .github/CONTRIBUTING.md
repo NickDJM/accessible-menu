@@ -1,61 +1,64 @@
-# Contributing to accessible-menu
+# Contributing to Accessible Menu
 
-Whether you want to add a feature or simply report a bug or issue, please have a quick read through these guidelines before contributing.
+Read these guidelines before contributing code, documentation, bug reports, or feature requests.
 
-## Developed with Github
+## Write for the people who use and maintain this project
 
-We use github to host code, to track issues and feature requests, as well as accept pull requests. All other forms of communication with maintainers is not considered "official".
+Accessible Menu helps people who may use the web differently than we do. Contributions should reflect the same care we put into making the web more accessible and friendly for everyone.
 
-## [Github Flow](https://guides.github.com/introduction/flow/index.html) is the Way to Go
+Accessibility also includes the people reading our code and documentation. Write plainly so someone just entering the field can follow your work, while giving experienced developers the detail they need to understand and maintain it.
+
+- Use descriptive names, clear steps, and straightforward conditions. Avoid clever shortcuts that make the code harder to understand.
+- Follow the project's existing structure and conventions. Introduce shared code when it makes the behavior easier to follow, rather than simply reducing the number of lines.
+- Explain decisions and behavior that are not obvious. Keep comments useful, and update affected documentation when behavior changes.
+- Keep contributions focused on the problem they address. Avoid unrelated cleanup or refactoring.
+- Preserve existing behavior unless the contribution intentionally changes it. Consider keyboard interactions, focus, events, and compatibility.
+- Use the relevant accessibility standards and ARIA Authoring Practices Guide patterns when changing accessibility behavior. Check HTML examples and generated markup for validity.
+- Test the behavior your contribution affects. Passing automated checks alone does not establish that an interaction is accessible.
+
+By submitting any contribution, you take responsibility for its contents, whether you wrote it yourself or used assistance. Submit work you understand, have reviewed, and can explain.
+
+Read the [project instructions](../AGENTS.md) and [accessibility policy](ACCESSIBILITY.md) before contributing. AI-assisted contributions must also follow the [AI contribution policy](AI_CONTRIBUTIONS.md).
+
+## Where to contribute
+
+We use GitHub to host code, track bugs and feature requests, and review pull requests. Use GitHub issues and pull requests so project discussions and decisions are available to contributors.
+
+## Submit a pull request
 
 All code changes happen through pull requests.
 
-Pull requests are the best way to propose changes to the codebase. We actively welcome your pull requests:
+1. Fork the repository and create your branch from `5.x`.
+2. Make your changes and update any affected documentation.
+3. Add or update tests that demonstrate the intended behavior where the change needs test coverage.
+4. Run the relevant tests and code checks described below. Verify the affected behavior yourself.
+5. Open your pull request and link any relevant issues. Describe the change, how you verified it, and any remaining limitations.
 
-1. Fork the repo and create your branch from 5.x.
-2. Link your pull request to any relevant open issues.
-3. If you've added or changed functionality update the documentation.
-4. Make sure your code functions.
-5. Update existing tests or write a new test to ensure your code will _continue_ to function regardless of future changes.
-6. Make sure your code lints.
-7. Issue the pull request!
+## Contribution license
 
-## Any contribution you make will be under the ISC License
+Contributions must use the same license as the project, [ISC License](../LICENSE), identified as `ISC` in `package.json`.
 
-In short, when you submit code changes, your submissions are understood to be under the same ISC License that covers the project. Feel free to contact the maintainers if that's a concern.
+## Report a bug
 
-## Report bugs using Github's [issues](https://github.com/NickDJM/accessible-menu/issues)
+Report bugs by [opening a GitHub issue](https://github.com/NickDJM/accessible-menu/issues/new).
 
-We use GitHub issues to track public bugs. Report a bug by [opening a new issue](https://github.com/NickDJM/accessible-menu/issues/new).
+Include the following in your bug report:
 
-## Write bug reports with detail, background, and sample code
+- A summary of the problem.
+- Steps to reproduce it, with a small code example if possible.
+- What you expected to happen.
+- What actually happened.
+- Any relevant background, such as your browser, package version, and anything you have already tried.
 
-**Great Bug Reports** tend to have:
+## Set up and check your changes
 
-- A quick summary and/or background
-- Steps to reproduce
-  - Be specific!
-  - Give sample code if you can
-- What you expected would happen
-- What actually happens
-- Notes
-  - why you think this might be happening
-  - stuff you tried that didn't work
+Use Node.js 24, which is also used by the project workflows. Run `npm install` to install the development tools.
 
-Everybody loves a thorough bug report!
+Keep component code in `src/` and tests in `tests/`. Name unit test files `.unit.test.js`. Follow the existing code structure and conventions.
 
-## Keep Your Code Consistent
+The project uses [ESLint](https://eslint.org/), [Prettier](https://prettier.io/), and [JSDoc](https://jsdoc.app/) to keep code and comments consistent.
 
-- Use Node.js 24, which is also used by the project workflows.
-- Run `npm install` to ensure you have all the tools needed.
-- Keep all functional code inside of the `src/` directory.
-- Keep all test code inside of the `tests/` directory.
-- Name unit test files `.unit.test.js` and run them with `npm run test:unit`.
-- Use the coding standards provided.
-
-This project uses [ESLint](https://eslint.org/), [Prettier](https://prettier.io/), and [JSDoc](https://jsdoc.app/) to keep code and comments consistent.
-
-To check your code without changing files, run:
+Check your code without changing files:
 
 ```shell
 npm run eslint
@@ -68,13 +71,33 @@ To apply automatic fixes and formatting, run:
 npm run lint
 ```
 
-Code that does not follow the linting standards _will not_ be merged.
+Review the resulting changes. Automatic fixes do not resolve every issue. Code must pass the project's linting and formatting checks before it can be merged.
 
-Run `npm run build` to build the documentation and all JavaScript bundles. The bundle entry points and output formats are listed in `rolldown.config.js`.
+Run the unit tests:
 
-## Commit Guidelines
+```shell
+npm run test:unit
+```
 
-This project uses the conventional commit standard, which means your commits should follow a basic template of:
+Also verify the behavior your change affects. Automated tests alone do not establish that an interaction is accessible.
+
+Run `npm run docs:build` when changing documentation. Run `npm run build` to build the documentation and all JavaScript bundles. Bundle entry points and formats are listed in `rolldown.config.js`.
+
+## Changes involving Core
+
+When changing the Core dependency or behavior inherited from Core, verify the affected component behavior with the Core version this project will use. State whether you tested against a published package or a local checkout.
+
+Core's [dependent-project testing guidance](https://github.com/Accessible-Ecosystem/core/blob/1.x/.github/CONTRIBUTING.md#test-projects-that-depend-on-core) explains how its workflow tests projects against proposed Core changes. Those results cover only the behavior the dependent tests exercise.
+
+## Commit guidelines
+
+Write commit messages using [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/). For example:
+
+```text
+fix: cancel pending callbacks when disposing a component
+```
+
+The format is:
 
 > \<type>[optional scope]: \<description>
 >
@@ -82,16 +105,20 @@ This project uses the conventional commit standard, which means your commits sho
 >
 > [optional footer(s)]
 
-For more detailed information about available types, scopes, breaking changes, etc. please see the [official documentation](https://www.conventionalcommits.org/en/v1.0.0/).
+See the specification for commit types, optional scopes, and how to describe breaking changes.
 
-This project also provides a command to assist you in formatting commit messages using [commitizen](https://commitizen.github.io/cz-cli/):
+You can use [Commitizen](https://commitizen.github.io/cz-cli/) to write a commit message through guided prompts:
 
 ```shell
 npm run commit
 ```
 
-Commits that do not follow this format _will not_ be merged.
+Commit messages must follow this format before a contribution can be merged.
 
 ## References
 
 This document was adapted from the open-source contribution guidelines for [Facebook's Draft](https://github.com/facebook/draft-js/blob/a9316a723f9e918afde44dea68b5f9f39b7d9b00/CONTRIBUTING.md)
+
+## Attribution
+
+This document is based on [Accessible Ecosystem Core](https://github.com/Accessible-Ecosystem/core), adapted from its [corresponding document](https://github.com/Accessible-Ecosystem/core/blob/1.x/.github/CONTRIBUTING.md).
