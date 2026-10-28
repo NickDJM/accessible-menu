@@ -11,7 +11,10 @@ import {
   beforeAll,
   vi,
 } from "vitest";
-import { twoLevelDisclosure } from "../../../demo/menus.js";
+import {
+  twoLevelDisclosure,
+  threeLevelDisclosure,
+} from "../../../demo/menus.js";
 import DisclosureMenu from "../../../src/disclosureMenu.js";
 import { simulatePointerEvent, PointerEvent } from "../helpers.js";
 
@@ -36,6 +39,23 @@ afterEach(() => {
 describe("DisclosureMenu", () => {
   // Test click.
   describe("click", () => {
+    // https://github.com/NickDJM/accessible-menu/issues/554
+    it("should call the root's closeChildren once for a nested link click", () => {
+      document.body.innerHTML = threeLevelDisclosure;
+      const menu = new DisclosureMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      const submenu = menu.elements.menuItems[1].elements.childMenu;
+      const nestedMenu = submenu.elements.menuItems[1].elements.childMenu;
+      const close = vi.spyOn(menu, "closeChildren");
+
+      nestedMenu.elements.menuItems[0].dom.link.click();
+
+      expect(close).toHaveBeenCalledTimes(1);
+
+      close.mockRestore();
+    });
+
     // Test that click should set the current event to mouse.
     it("should set the current event to mouse", () => {
       // Create a new DisclosureMenu instance for testing.

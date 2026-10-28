@@ -97,6 +97,20 @@ BaseMenu._closeChildrenOnBlur; // Default: `true`.
 
 `boolean`
 
+### _closeChildrenOnActivation <badge type="warning" text="protected" /> {#property--closechildrenonactivation}
+
+Whether activating a navigation link collapses the root menu's submenus. This applies to root links and links inside submenus.
+
+The click reaches the link's own handlers before the menu handles dismissal.
+
+```js
+BaseMenu._closeChildrenOnActivation; // Default: `true`.
+```
+
+#### Type {#property--closechildrenonactivation--type}
+
+`boolean`
+
 ### _MenuType <badge type="warning" text="protected" /> {#property--menutype}
 
 The class to use when generating submenus.
@@ -1027,6 +1041,7 @@ This method will do the following:
 
 - Adds a `click` listener to every menu item that will blur all menu items in the entire menu structure (starting at the root menu) and then properly focus the clicked item.
 - Adds a `click` listener to every submenu item that will properly toggle the submenu open/closed.
+- If [_closeChildrenOnActivation](#property--closechildrenonactivation) is true, adds a bubbling `click` listener to the menu that calls the root menu's closeChildren method after a navigation link's own click handlers run.
 - Adds a `click` listener to the menu's controller (if the menu is the root menu) so when it is clicked it will properly toggle open/closed.
 
 ### _handleHover <badge type="warning" text="protected" /> {#method--handlehover}

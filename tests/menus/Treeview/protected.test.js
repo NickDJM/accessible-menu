@@ -2,7 +2,8 @@
  * Tests for protected methods of Treeview class.
  */
 
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
+import { twoLevel } from "../../../demo/menus.js";
 import Treeview from "../../../src/treeview.js";
 import BaseMenu from "../../../src/_baseMenu.js";
 
@@ -40,6 +41,27 @@ describe("Treeview protected methods", () => {
 
   // Test Treeview _handleClick().
   describe("_handleClick", () => {
+    // https://github.com/NickDJM/accessible-menu/issues/554
+    it("should activate a link without calling closeChildren", () => {
+      document.body.innerHTML = twoLevel;
+      const menu = new Treeview({
+        menuElement: document.querySelector("ul"),
+      });
+      const submenu = menu.elements.menuItems[1].elements.childMenu;
+      const link = submenu.elements.menuItems[0].dom.link;
+      const close = vi.spyOn(menu, "closeChildren");
+      const activate = vi.fn();
+      link.addEventListener("click", activate);
+
+      link.click();
+
+      expect(activate).toHaveBeenCalledTimes(1);
+      expect(close).not.toHaveBeenCalled();
+
+      close.mockRestore();
+      document.body.innerHTML = "";
+    });
+
     // Test that Treeview implements the BaseMenu _handleClick() method.
     it("should implement the BaseMenu _handleClick() method", () => {
       expect(Treeview.prototype._handleClick).toBe(

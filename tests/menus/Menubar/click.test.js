@@ -11,7 +11,7 @@ import {
   beforeAll,
   vi,
 } from "vitest";
-import { twoLevel } from "../../../demo/menus.js";
+import { twoLevel, threeLevel } from "../../../demo/menus.js";
 import Menubar from "../../../src/menubar.js";
 import { simulatePointerEvent, PointerEvent } from "../helpers.js";
 
@@ -36,6 +36,58 @@ afterEach(() => {
 describe("Menubar", () => {
   // Test click.
   describe("click", () => {
+    describe("navigation link activation", () => {
+      afterEach(() => {
+        vi.restoreAllMocks();
+      });
+
+      // https://github.com/NickDJM/accessible-menu/issues/554
+      it("should restore the root tab stop without moving destination focus after a nested link click", async () => {
+        document.body.innerHTML = threeLevel;
+        const menu = new Menubar({
+          menuElement: document.querySelector("ul"),
+          transitionClass: "",
+        });
+        const parent = menu.elements.menuItems[1];
+        const submenu = parent.elements.childMenu;
+        const nestedParent = submenu.elements.menuItems[1];
+        const nestedMenu = nestedParent.elements.childMenu;
+        const link = nestedMenu.elements.menuItems[0].dom.link;
+        const destination = document.createElement("button");
+        document.body.append(destination);
+        parent.elements.toggle.preview();
+        nestedParent.elements.toggle.preview();
+        const close = vi.spyOn(menu, "closeChildren");
+        link.addEventListener("click", () => destination.focus());
+
+        link.click();
+        await new Promise(requestAnimationFrame);
+
+        expect(close).toHaveBeenCalledTimes(1);
+        expect(document.activeElement).toBe(destination);
+        expect(
+          Array.from(menu.dom.menu.querySelectorAll('[tabindex="0"]'))
+        ).toEqual([parent.dom.link]);
+      });
+
+      // https://github.com/NickDJM/accessible-menu/issues/554
+      it("should focus the root parent after activation with dynamic hover", async () => {
+        const menu = new Menubar({
+          menuElement: document.querySelector("ul"),
+          hoverType: "dynamic",
+          transitionClass: "",
+        });
+        const parent = menu.elements.menuItems[1];
+        const submenu = parent.elements.childMenu;
+        parent.elements.toggle.preview();
+
+        submenu.elements.menuItems[0].dom.link.click();
+        await new Promise(requestAnimationFrame);
+
+        expect(document.activeElement).toBe(parent.dom.link);
+      });
+    });
+
     // Test that click should set the current event to mouse.
     it("should set the current event to mouse", () => {
       // Create a new Menubar instance for testing.
