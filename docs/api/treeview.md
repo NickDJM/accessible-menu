@@ -105,6 +105,18 @@ Treeview._closeChildrenOnBlur; // Default: `false`.
 
 `boolean`
 
+### _closeChildrenOnActivation <badge type="warning" text="protected" /> {#property--closechildrenonactivation}
+
+Keeps expanded branches available after a navigation link is activated. See [BaseMenu's activation setting](./base-menu#property--closechildrenonactivation) for the shared click behavior.
+
+```js
+Treeview._closeChildrenOnActivation; // Default: `false`.
+```
+
+#### Type {#property--closechildrenonactivation--type}
+
+`boolean`
+
 ### _MenuType <badge type="warning" text="protected" /> {#property--menutype}
 
 The class to use when generating submenus.
