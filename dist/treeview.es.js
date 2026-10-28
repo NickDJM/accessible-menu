@@ -1197,6 +1197,7 @@ var C = class n extends h {
 		"container"
 	];
 	_collapseChildrenOnBlur = !0;
+	_collapseChildrenOnActivation = !0;
 	_MenuType = n;
 	_MenuItemType = b;
 	_MenuToggleType = y;
@@ -1583,6 +1584,8 @@ var C = class n extends h {
 			}, { passive: !0 }), t.isSubmenuItem && this._addEventListener("click", t.elements.toggle.dom.trigger, (r) => {
 				this.currentEvent = "mouse", t.elements.toggle.dom.trigger !== t.dom.link && (this.elements.rootMenu.blurChildren(), this._clearTimeout(), this.focusChild(n)), e(this, t.elements.toggle, r);
 			});
+		}), this._collapseChildrenOnActivation && this._addEventListener("click", this.dom.menu, (e) => {
+			this.elements.menuItems.some((t) => !t.isSubmenuItem && t.dom.link.contains(e.target)) && this.elements.rootMenu.collapseChildren();
 		}), this.isTopLevel && this.elements.controller && this._addEventListener("click", this.elements.controller.dom.trigger, (t) => {
 			this.currentEvent = "mouse", e(this, this.elements.controller, t);
 		}), this._addEventListener("click", document, (e) => {
@@ -1734,6 +1737,7 @@ var C = class n extends h {
 	}
 }, E = class e extends C {
 	_collapseChildrenOnBlur = !1;
+	_collapseChildrenOnActivation = !1;
 	_MenuType = e;
 	_MenuItemType = w;
 	_MenuToggleType = T;
