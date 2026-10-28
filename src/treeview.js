@@ -60,6 +60,15 @@ class Treeview extends BaseMenu {
   _closeChildrenOnBlur = false;
 
   /**
+   * Keep expanded branches available after a navigation link is activated.
+   *
+   * @protected
+   *
+   * @type {boolean}
+   */
+  _closeChildrenOnActivation = false;
+
+  /**
    * Constructs a new `Treeview`.
    *
    * @param {object}             options                                    - The options for generating the menu.

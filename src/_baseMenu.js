@@ -59,6 +59,15 @@ class BaseMenu {
   _closeChildrenOnBlur = true;
 
   /**
+   * Whether activating a navigation link collapses the root menu's submenus.
+   *
+   * @protected
+   *
+   * @type {boolean}
+   */
+  _closeChildrenOnActivation = true;
+
+  /**
    * The DOM elements within the menu.
    *
    * @protected
@@ -1511,6 +1520,8 @@ class BaseMenu {
    *   then properly focus the clicked item.
    * - Adds a `click` listener to every submenu item that will properly
    *   toggle the submenu open/closed.
+   * - Collapses the root menu's submenus after a navigation link's click
+   *   handlers run if _closeChildrenOnActivation is true.
    * - Adds a `click` listener to the menu's controller
    *   (if the menu is the root menu) so when it is clicked it will properly
    *   toggle open/closed.
@@ -1561,6 +1572,20 @@ class BaseMenu {
         });
       }
     });
+
+    if (this._closeChildrenOnActivation) {
+      // Listen on the menu so the click bubbles through the link's own
+      // handlers first, including application handlers added after initialization.
+      this.dom.menu.addEventListener("click", (event) => {
+        const isNavigationLink = this.elements.menuItems.some(
+          (item) => !item.isSubmenuItem && item.dom.link.contains(event.target)
+        );
+
+        if (isNavigationLink) {
+          this.elements.rootMenu.closeChildren();
+        }
+      });
+    }
 
     // Open the this menu if it's controller is clicked.
     if (this.isTopLevel && this.elements.controller) {
