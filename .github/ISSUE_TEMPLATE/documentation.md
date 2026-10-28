@@ -1,20 +1,25 @@
 ---
-name: Documentation Issue
-about: Create an issue to help fix or improve documentation
-title: 'Docs: [Brief Description]'
+name: Documentation issue
+about: Report unclear, incorrect, or missing documentation
+title: "Docs: [Brief description]"
 labels: documentation
-assignees: ''
-
+assignees: ""
 ---
 
 ## Summary
-<!-- What is the issue you are experiencing? Is something unclear or wrong? A typo perhaps? -->
 
-## Solution
-<!-- Describe the solution you'd like to see. -->
+<!-- Link to the affected page or file and describe what is unclear, incorrect, or missing. -->
+
+## Suggested change
+
+<!-- If you have a suggestion, describe how the documentation could explain this better. You do not need to have a solution to report a problem. -->
 
 ## Alternatives
-<!-- Describe alternatives you've considered. -->
+
+<!-- Include other approaches you have considered, if any. -->
 
 ## Additional context
-<!-- Is there anything else that would give context about the problem? -->
+
+<!-- Include any examples or other information that would help explain the problem. -->
+
+<!-- Based on [Accessible Ecosystem Core](https://github.com/Accessible-Ecosystem/core), adapted from its [corresponding template](https://github.com/Accessible-Ecosystem/core/blob/1.x/.github/ISSUE_TEMPLATE/documentation.md). -->
