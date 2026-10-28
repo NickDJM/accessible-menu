@@ -262,6 +262,8 @@ Adds the following keybindings (explanations are taken from the [Navigation Tree
 | _\* (asterisk)_    | <ul><li>Expands all closed sibling nodes that are at the same level as the focused node.</li><li>Focus does not move.</li></ul>                                                                                                                                                                |
 | _Escape_           | If the root menu is collapsible, collapses the menu and focuses the menu's controlling element.                                                                                                                                                                                                |
 
+When a parent link has a separate expansion trigger, Enter and Space activate the link. When the link itself is the expansion trigger, these keys expand or collapse its branch.
+
 ### focusLastNode <badge type="tip" text="public" /> {#method--focuslastnode}
 
 Focus the menu's last node of the entire expanded menu.

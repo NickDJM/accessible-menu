@@ -3,7 +3,11 @@
  */
 
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
-import { threeLevel, twoLevel } from "../../../demo/menus.js";
+import {
+  threeLevel,
+  threeLevelWithTriggers,
+  twoLevel,
+} from "../../../demo/menus.js";
 import Treeview from "../../../src/treeview.js";
 import { simulateKeyboardEvent } from "../helpers.js";
 
@@ -559,6 +563,48 @@ describe("Treeview", () => {
         });
       });
     });
+
+    // https://github.com/NickDJM/accessible-menu/issues/562
+    it.each([
+      ["Enter", false],
+      ["Enter", true],
+      [" ", false],
+      [" ", true],
+    ])(
+      "should activate a parent link with a separate trigger on %s when expanded is %s",
+      (key, expanded) => {
+        document.body.innerHTML = threeLevelWithTriggers;
+        const menu = new Treeview({
+          menuElement: document.querySelector("ul"),
+          submenuTriggersSelector: ".submenu-trigger",
+          transitionClass: "",
+        });
+        const submenu = menu.elements.menuItems[1].elements.childMenu;
+        const parent = submenu.elements.menuItems[1];
+        const toggle = parent.elements.toggle;
+        submenu.currentChild = 1;
+        submenu.focusState = "self";
+        if (expanded) toggle.preview();
+        const click = vi.fn((event) => {
+          expect(event.defaultPrevented).toBe(false);
+          event.preventDefault();
+        });
+        parent.dom.link.addEventListener("click", click);
+        const preview = vi.spyOn(toggle, "preview");
+        const collapse = vi.spyOn(toggle, "collapse");
+
+        simulateKeyboardEvent("keydown", parent.dom.link, { key });
+        simulateKeyboardEvent("keyup", parent.dom.link, { key });
+
+        expect(click).toHaveBeenCalledTimes(1);
+        expect(preview).not.toHaveBeenCalled();
+        expect(collapse).not.toHaveBeenCalled();
+
+        menu.dispose();
+        preview.mockRestore();
+        collapse.mockRestore();
+      }
+    );
 
     // Test Escape.
     describe("Escape", () => {

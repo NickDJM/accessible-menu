@@ -487,10 +487,14 @@ class Treeview extends BaseMenu {
         if (key === "Enter" || key === "Space") {
           // Hitting Space or Enter:
           // - Performs the default action (e.g. onclick event) for the focused node.
-          // - If focus is on a closed node, opens the node; focus does not move.
+          // - A parent toggles its branch only when its link is also its trigger.
           preventEvent(event);
 
-          if (this.currentMenuItem.isSubmenuItem) {
+          if (
+            this.currentMenuItem.isSubmenuItem &&
+            this.currentMenuItem.elements.toggle.dom.trigger ===
+              this.currentMenuItem.dom.link
+          ) {
             if (this.currentMenuItem.elements.toggle.isExpanded) {
               this.currentMenuItem.elements.toggle.collapse();
             } else {

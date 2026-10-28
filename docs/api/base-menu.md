@@ -268,7 +268,7 @@ BaseMenu._selectors;
 
 `submenuTriggersSelector` selects the first matching direct child of each submenu toggle's controller. The selector is passed to child menus at every level. If a controller has no matching trigger, that toggle uses its controller as the trigger. A trigger belonging to another controller is not used. Invalid selector syntax still prevents initialization and reports an error.
 
-The trigger receives expansion clicks. Focus, keyboard handling, and ARIA attributes remain on the controller. This option does not change the menu type's keyboard behavior.
+The trigger receives expansion clicks. Focus, keyboard handling, and ARIA attributes remain on the controller.
 
 ### _elements <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--elements}
 
