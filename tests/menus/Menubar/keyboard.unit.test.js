@@ -403,6 +403,55 @@ describe("Menubar", () => {
 
   // Test keyup.
   describe("keyup", () => {
+    describe("submenu leaf activation", () => {
+      let menu;
+
+      afterEach(() => {
+        menu?.dispose();
+      });
+
+      // https://github.com/NickDJM/accessible-menu/issues/554
+      it.each(["Enter", " "])(
+        "should activate a nested link once and restore its root tab stop on %s",
+        async (key) => {
+          menu = new Menubar({
+            menuElement: document.querySelector("ul"),
+            transitionClass: "",
+          });
+          const parent = menu.elements.menuItems[1];
+          const submenu = parent.elements.childMenu;
+          const nestedParent = submenu.elements.menuItems[1];
+          const nestedMenu = nestedParent.elements.childMenu;
+          const link = nestedMenu.elements.menuItems[0].dom.link;
+          menu.currentEvent = "keyboard";
+          menu.focusChild(1);
+          parent.elements.toggle.preview();
+          submenu.currentChild = 1;
+          nestedParent.elements.toggle.preview();
+          nestedMenu.focusFirstChild();
+          await new Promise(requestAnimationFrame);
+          expect(document.activeElement).toBe(link);
+
+          const click = vi.fn();
+          const collapse = vi.spyOn(menu, "collapseChildren");
+          link.addEventListener("click", click);
+
+          simulateKeyboardEvent("keydown", link, { key });
+          simulateKeyboardEvent("keyup", link, { key });
+          await new Promise(requestAnimationFrame);
+
+          expect(click).toHaveBeenCalledTimes(1);
+          expect(click.mock.calls[0][0].defaultPrevented).toBe(false);
+          expect(collapse).toHaveBeenCalledTimes(1);
+          expect(menu.currentChild).toBe(1);
+          expect(
+            Array.from(menu.dom.menu.querySelectorAll('[tabindex="0"]'))
+          ).toEqual([parent.dom.link]);
+          collapse.mockRestore();
+        }
+      );
+    });
+
     // Test that keyup events set the current event to keyboard.
     it("should set the current event to keyboard", () => {
       // Create a new Menubar instance for testing.
@@ -1455,7 +1504,8 @@ describe("Menubar", () => {
             expect(spy).toHaveBeenCalled();
           });
           // Test that the first item in the child menu is focused.
-          it("should focus the first item in the child menu", () => {
+          // Timing dependency found while verifying https://github.com/NickDJM/accessible-menu/issues/554
+          it("should focus the first item in the child menu", async () => {
             // Create a new Menubar instance for testing.
             const menu = new Menubar({
               menuElement: document.querySelector("ul"),
@@ -1483,8 +1533,12 @@ describe("Menubar", () => {
                 key,
               }
             );
+            await new Promise(requestAnimationFrame);
 
             expect(spy).toHaveBeenCalledWith(0);
+
+            menu.dispose();
+            spy.mockRestore();
           });
         });
         describe("when the current menu item is not a submenu item", () => {
@@ -1728,7 +1782,8 @@ describe("Menubar", () => {
             expect(spy).toHaveBeenCalled();
           });
           // Test that the first item in the child menu is focused.
-          it("should focus the first item in the child menu", () => {
+          // Timing dependency found while verifying https://github.com/NickDJM/accessible-menu/issues/554
+          it("should focus the first item in the child menu", async () => {
             // Create a new Menubar instance for testing.
             const menu = new Menubar({
               menuElement: document.querySelector("ul"),
@@ -1756,8 +1811,12 @@ describe("Menubar", () => {
                 key: "ArrowRight",
               }
             );
+            await new Promise(requestAnimationFrame);
 
             expect(spy).toHaveBeenCalledWith(0);
+
+            menu.dispose();
+            spy.mockRestore();
           });
         });
         describe("when the current menu item is not a submenu item", () => {

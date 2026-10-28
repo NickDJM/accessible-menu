@@ -11,7 +11,7 @@ import {
   beforeAll,
   vi,
 } from "vitest";
-import { twoLevel } from "../../../demo/menus.js";
+import { twoLevel, threeLevel } from "../../../demo/menus.js";
 import Menubar from "../../../src/menubar.js";
 import { simulatePointerEvent, PointerEvent } from "../helpers.js";
 
@@ -36,6 +36,110 @@ afterEach(() => {
 describe("Menubar", () => {
   // Test click.
   describe("click", () => {
+    describe("submenu links", () => {
+      let menu;
+
+      beforeEach(async () => {
+        vi.useFakeTimers();
+
+        const eventHelpers =
+          await import("@accessible-ecosystem/core/eventHelpers.js");
+        const actualEventHelpers = await vi.importActual(
+          "@accessible-ecosystem/core/eventHelpers.js"
+        );
+
+        vi.spyOn(eventHelpers, "preventEvent").mockImplementation(
+          actualEventHelpers.preventEvent
+        );
+      });
+
+      afterEach(() => {
+        menu?.dispose();
+        vi.restoreAllMocks();
+        vi.useRealTimers();
+      });
+
+      // https://github.com/NickDJM/accessible-menu/issues/554
+      it.each([
+        ["default transitions", {}],
+        ["no transition class", { transitionClass: "" }],
+      ])(
+        "should restore the root parent's tab stop without moving destination focus with %s",
+        (_name, options) => {
+          menu = new Menubar({
+            menuElement: document.querySelector("ul"),
+            ...options,
+          });
+          const parent = menu.elements.menuItems[1];
+          const submenu = parent.elements.childMenu;
+          const link = submenu.elements.menuItems[0].dom.link;
+          const destination = document.createElement("button");
+          document.body.append(destination);
+          menu.currentEvent = "keyboard";
+          menu.focusFirstChild();
+          parent.elements.toggle.preview();
+          vi.runAllTimers();
+
+          link.addEventListener("click", () => {
+            destination.focus();
+          });
+
+          link.click();
+          vi.runAllTimers();
+
+          expect(document.activeElement).toBe(destination);
+          expect(menu.currentChild).toBe(1);
+          expect(
+            menu.elements.menuItems.map((item) => item.dom.link.tabIndex)
+          ).toEqual([-1, 0, -1, -1, -1, -1, -1, -1]);
+        }
+      );
+
+      // https://github.com/NickDJM/accessible-menu/issues/554
+      it("should call collapseChildren once and restore only the root ancestor's tab stop after a nested link click", () => {
+        document.body.innerHTML = threeLevel;
+        menu = new Menubar({
+          menuElement: document.querySelector("ul"),
+          transitionClass: "",
+        });
+        const parent = menu.elements.menuItems[1];
+        const submenu = parent.elements.childMenu;
+        const nestedParent = submenu.elements.menuItems[1];
+        const nestedMenu = nestedParent.elements.childMenu;
+        const link = nestedMenu.elements.menuItems[0].dom.link;
+        parent.elements.toggle.preview();
+        nestedParent.elements.toggle.preview();
+        const collapse = vi.spyOn(menu, "collapseChildren");
+
+        link.click();
+        vi.runAllTimers();
+
+        expect(collapse).toHaveBeenCalledTimes(1);
+        expect(
+          Array.from(menu.dom.menu.querySelectorAll('[tabindex="0"]'))
+        ).toEqual([parent.dom.link]);
+      });
+
+      // https://github.com/NickDJM/accessible-menu/issues/554
+      it("should not call the root's collapseChildren when a nested controller is activated", () => {
+        document.body.innerHTML = threeLevel;
+        menu = new Menubar({
+          menuElement: document.querySelector("ul"),
+          transitionClass: "",
+        });
+        const parent = menu.elements.menuItems[1];
+        const submenu = parent.elements.childMenu;
+        const nestedParent = submenu.elements.menuItems[1];
+        parent.elements.toggle.preview();
+        const collapse = vi.spyOn(menu, "collapseChildren");
+
+        nestedParent.dom.link.click();
+        vi.runAllTimers();
+
+        expect(collapse).not.toHaveBeenCalled();
+      });
+    });
+
     it("should keep the menu open when the menu element itself is clicked", () => {
       const menu = new Menubar({
         menuElement: document.querySelector("ul"),
