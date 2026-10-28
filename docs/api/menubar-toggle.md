@@ -104,3 +104,5 @@ MenubarToggle.collapse();
 ```
 
 Calls the [collapseChildren (inherited)](./base-menu-toggle#method--collapsechildren) method and _then_ [BaseMenuToggle's collapse method](./base-menu-toggle#method--collapse).
+
+When an expanded menu is allowed to collapse and has a parent menu, also calls the parent menu's [focusCurrentChild method](./base-menu#method--focuscurrentchild) after collapsing its children and before calling BaseMenuToggle's collapse method.
