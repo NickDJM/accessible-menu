@@ -283,6 +283,34 @@ describe("TopLinkDisclosureMenu", () => {
 
   // Test keyup.
   describe("keyup", () => {
+    // https://github.com/NickDJM/accessible-menu/issues/554
+    it.each(["Enter", " "])(
+      "should activate the link once and call the root's collapseChildren on %s",
+      (key) => {
+        const menu = new TopLinkDisclosureMenu({
+          menuElement: document.querySelector("ul"),
+        });
+        const parent = menu.elements.menuItems[2];
+        const submenu = parent.elements.childMenu;
+        const link = submenu.elements.menuItems[0].dom.link;
+        submenu.currentChild = 0;
+        submenu.focusState = "self";
+        const click = vi.fn();
+        const collapse = vi.spyOn(menu, "collapseChildren");
+        link.addEventListener("click", click);
+
+        simulateKeyboardEvent("keydown", link, { key });
+        simulateKeyboardEvent("keyup", link, { key });
+
+        expect(click).toHaveBeenCalledTimes(1);
+        expect(click.mock.calls[0][0].defaultPrevented).toBe(false);
+        expect(collapse).toHaveBeenCalledTimes(1);
+
+        menu.dispose();
+        collapse.mockRestore();
+      }
+    );
+
     // Test that keyup events set the current event to keyboard.
     it("should set the current event to keyboard", () => {
       // Create a new TopLinkDisclosureMenu instance for testing.

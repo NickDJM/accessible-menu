@@ -13,6 +13,7 @@ import {
 } from "vitest";
 import {
   twoLevelDisclosure,
+  threeLevelDisclosure,
   twoLevelDisclosureTopLink,
   twoLevelDisclosureTopLinkWithIcons,
 } from "../../../demo/menus.js";
@@ -40,6 +41,26 @@ afterEach(() => {
 describe("DisclosureMenu", () => {
   // Test click.
   describe("click", () => {
+    // https://github.com/NickDJM/accessible-menu/issues/554
+    it("should call the root's collapseChildren once for a nested link click", () => {
+      document.body.innerHTML = threeLevelDisclosure;
+      const menu = new DisclosureMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      const parent = menu.elements.menuItems[1];
+      const submenu = parent.elements.childMenu;
+      const nestedParent = submenu.elements.menuItems[1];
+      const nestedMenu = nestedParent.elements.childMenu;
+      const collapse = vi.spyOn(menu, "collapseChildren");
+
+      nestedMenu.elements.menuItems[0].dom.link.click();
+
+      expect(collapse).toHaveBeenCalledTimes(1);
+
+      menu.dispose();
+      collapse.mockRestore();
+    });
+
     it("should keep the menu open when the menu element itself is clicked", () => {
       const menu = new DisclosureMenu({
         menuElement: document.querySelector("ul"),

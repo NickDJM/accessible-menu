@@ -48,6 +48,28 @@ describe("Treeview protected methods", () => {
 
   // Test Treeview _handleClick().
   describe("_handleClick", () => {
+    // https://github.com/NickDJM/accessible-menu/issues/554
+    it("should not call collapseChildren after a link click", () => {
+      document.body.innerHTML = twoLevel;
+      const menu = new Treeview({
+        menuElement: document.querySelector("ul"),
+      });
+      const parent = menu.elements.menuItems[1];
+      const submenu = parent.elements.childMenu;
+      const link = submenu.elements.menuItems[0].dom.link;
+      const collapse = vi.spyOn(menu, "collapseChildren");
+      const activate = vi.fn();
+      link.addEventListener("click", activate);
+
+      link.click();
+
+      expect(activate).toHaveBeenCalledTimes(1);
+      expect(collapse).not.toHaveBeenCalled();
+
+      menu.dispose();
+      collapse.mockRestore();
+    });
+
     // Test that Treeview implements the BaseMenu _handleClick() method.
     it("should implement the BaseMenu _handleClick() method", () => {
       expect(Treeview.prototype._handleClick).toBe(

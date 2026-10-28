@@ -37,6 +37,99 @@ afterEach(() => {
 describe("BaseMenu", () => {
   // Test click.
   describe("click", () => {
+    describe("navigation link activation", () => {
+      let menu;
+
+      beforeEach(async () => {
+        const actualEventHelpers = await vi.importActual(
+          "@accessible-ecosystem/core/eventHelpers.js"
+        );
+
+        vi.spyOn(eventHelpers, "preventEvent").mockImplementation(
+          actualEventHelpers.preventEvent
+        );
+      });
+
+      afterEach(() => {
+        menu?.dispose();
+        vi.restoreAllMocks();
+      });
+
+      // https://github.com/NickDJM/accessible-menu/issues/554
+      it("should call the root's collapseChildren after the link's click handler", () => {
+        menu = new BaseMenu({
+          menuElement: document.querySelector("ul"),
+        });
+        menu.initialize();
+
+        const submenu = menu.elements.menuItems[1].elements.childMenu;
+        const link = submenu.elements.menuItems[0].dom.link;
+        const activate = vi.fn();
+        const bubbledClick = vi.fn();
+        const collapse = vi.spyOn(menu, "collapseChildren");
+        link.addEventListener("click", activate);
+        menu.dom.menu.addEventListener("click", bubbledClick);
+
+        const event = simulatePointerEvent("click", link);
+
+        expect(activate).toHaveBeenCalledTimes(1);
+        expect(bubbledClick).toHaveBeenCalledTimes(1);
+        expect(event.defaultPrevented).toBe(false);
+        expect(collapse).toHaveBeenCalledTimes(1);
+        expect(activate).toHaveBeenCalledBefore(collapse);
+      });
+
+      // https://github.com/NickDJM/accessible-menu/issues/554
+      it("should call collapseChildren when a root navigation link is activated", () => {
+        menu = new BaseMenu({
+          menuElement: document.querySelector("ul"),
+        });
+        menu.initialize();
+
+        const collapse = vi.spyOn(menu, "collapseChildren");
+
+        menu.elements.menuItems[0].dom.link.click();
+
+        expect(collapse).toHaveBeenCalledTimes(1);
+      });
+
+      // https://github.com/NickDJM/accessible-menu/issues/554
+      it("should not register the listener or call collapseChildren when activation dismissal is disabled", () => {
+        menu = new BaseMenu({
+          menuElement: document.querySelector("ul"),
+        });
+        menu._collapseChildrenOnActivation = false;
+        const addEventListener = vi.spyOn(menu, "_addEventListener");
+        menu.initialize();
+
+        const collapse = vi.spyOn(menu, "collapseChildren");
+
+        menu.elements.menuItems[0].dom.link.click();
+
+        expect(collapse).not.toHaveBeenCalled();
+        expect(addEventListener).not.toHaveBeenCalledWith(
+          "click",
+          menu.dom.menu,
+          expect.any(Function)
+        );
+      });
+
+      // https://github.com/NickDJM/accessible-menu/issues/554
+      it("should not call collapseChildren when a submenu controller is activated", () => {
+        menu = new BaseMenu({
+          menuElement: document.querySelector("ul"),
+        });
+        menu.initialize();
+
+        const parent = menu.elements.menuItems[1];
+        const collapse = vi.spyOn(menu, "collapseChildren");
+
+        parent.dom.link.click();
+
+        expect(collapse).not.toHaveBeenCalled();
+      });
+    });
+
     it("should preserve focus and hasExpanded when the menu element itself is clicked", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),

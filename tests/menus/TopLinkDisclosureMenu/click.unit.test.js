@@ -39,6 +39,42 @@ afterEach(() => {
 describe("TopLinkDisclosureMenu", () => {
   // Test click.
   describe("click", () => {
+    // https://github.com/NickDJM/accessible-menu/issues/554
+    it("should call collapseChildren when a separate root navigation link is activated", () => {
+      const menu = new TopLinkDisclosureMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      const link = menu.elements.menuItems[1];
+      const collapse = vi.spyOn(menu, "collapseChildren");
+
+      link.dom.link.click();
+
+      expect(collapse).toHaveBeenCalledTimes(1);
+
+      menu.dispose();
+      collapse.mockRestore();
+    });
+
+    // https://github.com/NickDJM/accessible-menu/issues/554
+    it("should call the root's collapseChildren once for a separate submenu link", () => {
+      document.body.innerHTML = threeLevelDisclosureTopLinkSplit;
+      const menu = new TopLinkDisclosureMenu({
+        menuElement: document.querySelector("ul"),
+        submenuSubtogglesSelector: "button",
+      });
+      const parent = menu.elements.menuItems[2];
+      const submenu = parent.elements.childMenu;
+      const link = submenu.elements.menuItems[1];
+      const collapse = vi.spyOn(menu, "collapseChildren");
+
+      link.dom.link.click();
+
+      expect(collapse).toHaveBeenCalledTimes(1);
+
+      menu.dispose();
+      collapse.mockRestore();
+    });
+
     it("should use the selected links instead of buttons as submenu toggles", () => {
       document.body.innerHTML = threeLevelDisclosureTopLinkSplit;
       const menu = new TopLinkDisclosureMenu({
@@ -71,6 +107,7 @@ describe("TopLinkDisclosureMenu", () => {
       expect(childToggle.isExpanded).toBe(true);
     });
 
+    // https://github.com/NickDJM/accessible-menu/issues/554
     it.each([
       ["button", "button"],
       [".root-toggle", ".child-toggle"],
@@ -107,10 +144,11 @@ describe("TopLinkDisclosureMenu", () => {
 
         simulatePointerEvent("click", childLink);
 
-        expect(rootToggle.isExpanded).toBe(true);
+        expect(rootToggle.isExpanded).toBe(false);
         expect(childToggle.isExpanded).toBe(false);
         expect(childLink.hasAttribute("aria-expanded")).toBe(false);
 
+        simulatePointerEvent("click", rootToggle.dom.controller);
         simulatePointerEvent("click", childToggle.dom.controller);
 
         expect(rootToggle.isExpanded).toBe(true);

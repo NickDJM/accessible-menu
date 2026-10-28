@@ -128,6 +128,18 @@ Treeview._collapseChildrenOnBlur; // Default: `false`.
 
 `boolean`
 
+### _collapseChildrenOnActivation <badge type="warning" text="protected" /> {#property--collapsechildrenonactivation}
+
+Keeps expanded branches available after a navigation link is activated. See [BaseMenu's activation setting](./base-menu#property--collapsechildrenonactivation) for the shared click behavior.
+
+```js
+Treeview._collapseChildrenOnActivation; // Default: `false`.
+```
+
+#### Type {#property--collapsechildrenonactivation--type}
+
+`boolean`
+
 ### _MenuType <badge type="warning" text="protected" /> {#property--menutype}
 
 The class to use when generating submenus.
