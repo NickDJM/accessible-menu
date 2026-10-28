@@ -42,6 +42,15 @@ class BaseMenu extends Component {
   _collapseChildrenOnBlur = true;
 
   /**
+   * Whether activating a navigation link collapses the root menu's submenus.
+   *
+   * @protected
+   *
+   * @type {boolean}
+   */
+  _collapseChildrenOnActivation = true;
+
+  /**
    * The class to use when generating submenus.
    *
    * @protected
@@ -1641,6 +1650,8 @@ class BaseMenu extends Component {
    *   then properly focus the clicked item.
    * - Adds a `click` listener to every submenu item that will properly
    *   expand or collapse the submenu.
+   * - Collapses the root menu's submenus after a navigation link's click
+   *   handlers run if _collapseChildrenOnActivation is true.
    * - Adds a `click` listener to the menu's controller
    *   (if the menu is the root menu) so when it is clicked it will properly
    *   toggle open/closed.
@@ -1705,6 +1716,21 @@ class BaseMenu extends Component {
         );
       }
     });
+
+    if (this._collapseChildrenOnActivation) {
+      // Listen on the menu so the click bubbles through the link's own
+      // handlers first, including application handlers added after initialization.
+      // A listener on the link itself could collapse the menu before they run.
+      this._addEventListener("click", this.dom.menu, (event) => {
+        const isNavigationLink = this.elements.menuItems.some(
+          (item) => !item.isSubmenuItem && item.dom.link.contains(event.target)
+        );
+
+        if (isNavigationLink) {
+          this.elements.rootMenu.collapseChildren();
+        }
+      });
+    }
 
     // Toggle this menu open or closed when its controller is clicked.
     if (this.isTopLevel && this.elements.controller) {
