@@ -491,6 +491,48 @@ describe("Menubar", () => {
 
   // Test keyup.
   describe("keyup", () => {
+    // https://github.com/NickDJM/accessible-menu/issues/554
+    it.each(["Enter", " "])(
+      "should activate a nested link once and restore its root tab stop on %s",
+      async (key) => {
+        const menu = new Menubar({
+          menuElement: document.querySelector("ul"),
+          transitionClass: "",
+        });
+        const parent = menu.elements.menuItems[1];
+        const submenu = parent.elements.childMenu;
+        const nestedParent = submenu.elements.menuItems[1];
+        const nestedMenu = nestedParent.elements.childMenu;
+        const link = nestedMenu.elements.menuItems[0].dom.link;
+        menu.currentEvent = "keyboard";
+        menu.focusChild(1);
+        parent.elements.toggle.preview();
+        submenu.currentChild = 1;
+        nestedParent.elements.toggle.preview();
+        nestedMenu.focusFirstChild();
+        await new Promise(requestAnimationFrame);
+        expect(document.activeElement).toBe(link);
+
+        const click = vi.fn();
+        const close = vi.spyOn(menu, "closeChildren");
+        link.addEventListener("click", click);
+
+        simulateKeyboardEvent("keydown", link, { key });
+        simulateKeyboardEvent("keyup", link, { key });
+        await new Promise(requestAnimationFrame);
+
+        expect(click).toHaveBeenCalledTimes(1);
+        expect(click.mock.calls[0][0].defaultPrevented).toBe(false);
+        expect(close).toHaveBeenCalledTimes(1);
+        expect(menu.currentChild).toBe(1);
+        expect(
+          Array.from(menu.dom.menu.querySelectorAll('[tabindex="0"]'))
+        ).toEqual([parent.dom.link]);
+
+        close.mockRestore();
+      }
+    );
+
     // Test that keyup events set the current event to keyboard.
     it("should set the current event to keyboard", () => {
       // Create a new Menubar instance for testing.
@@ -1540,7 +1582,8 @@ describe("Menubar", () => {
             expect(spy).toHaveBeenCalled();
           });
           // Test that the child menu's focusFirstChild method is called.
-          it("should call the child menu's focusFirstChild method", () => {
+          // Timing dependency found while verifying https://github.com/NickDJM/accessible-menu/issues/554
+          it("should call the child menu's focusFirstChild method", async () => {
             // Create a new Menubar instance for testing.
             const menu = new Menubar({
               menuElement: document.querySelector("ul"),
@@ -1568,8 +1611,10 @@ describe("Menubar", () => {
                 key,
               }
             );
+            await new Promise(requestAnimationFrame);
 
             expect(spy).toHaveBeenCalled();
+            spy.mockRestore();
           });
         });
         describe("when the current menu item is not a submenu item", () => {
@@ -1813,7 +1858,8 @@ describe("Menubar", () => {
             expect(spy).toHaveBeenCalled();
           });
           // Test that the child menu's focusFirstChild method is called.
-          it("should call the child menu's focusFirstChild method", () => {
+          // Timing dependency found while verifying https://github.com/NickDJM/accessible-menu/issues/554
+          it("should call the child menu's focusFirstChild method", async () => {
             // Create a new Menubar instance for testing.
             const menu = new Menubar({
               menuElement: document.querySelector("ul"),
@@ -1841,8 +1887,10 @@ describe("Menubar", () => {
                 key: "ArrowRight",
               }
             );
+            await new Promise(requestAnimationFrame);
 
             expect(spy).toHaveBeenCalled();
+            spy.mockRestore();
           });
         });
         describe("when the current menu item is not a submenu item", () => {

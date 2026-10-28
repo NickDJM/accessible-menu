@@ -40,6 +40,93 @@ afterEach(() => {
 describe("BaseMenu", () => {
   // Test click.
   describe("click", () => {
+    describe("navigation link activation", () => {
+      beforeEach(async () => {
+        const eventHandlers = await import("../../../src/eventHandlers.js");
+        const actualEventHandlers = await vi.importActual(
+          "../../../src/eventHandlers.js"
+        );
+
+        vi.spyOn(eventHandlers, "preventEvent").mockImplementation(
+          actualEventHandlers.preventEvent
+        );
+      });
+
+      afterEach(() => {
+        vi.restoreAllMocks();
+      });
+
+      // https://github.com/NickDJM/accessible-menu/issues/554
+      it("should call the root's closeChildren after the link's click handler", () => {
+        const menu = new BaseMenu({
+          menuElement: document.querySelector("ul"),
+        });
+        initializeMenu(menu);
+
+        const submenu = menu.elements.menuItems[1].elements.childMenu;
+        const link = submenu.elements.menuItems[0].dom.link;
+        const activate = vi.fn();
+        const bubbledClick = vi.fn();
+        const close = vi.spyOn(menu, "closeChildren");
+        link.addEventListener("click", activate);
+        menu.dom.menu.addEventListener("click", bubbledClick);
+
+        const event = simulatePointerEvent("click", link);
+
+        expect(activate).toHaveBeenCalledTimes(1);
+        expect(bubbledClick).toHaveBeenCalledTimes(1);
+        expect(event.defaultPrevented).toBe(false);
+        expect(close).toHaveBeenCalledTimes(1);
+        expect(activate).toHaveBeenCalledBefore(close);
+      });
+
+      // https://github.com/NickDJM/accessible-menu/issues/554
+      it("should call closeChildren when a root navigation link is activated", () => {
+        const menu = new BaseMenu({
+          menuElement: document.querySelector("ul"),
+        });
+        initializeMenu(menu);
+        const close = vi.spyOn(menu, "closeChildren");
+
+        menu.elements.menuItems[0].dom.link.click();
+
+        expect(close).toHaveBeenCalledTimes(1);
+      });
+
+      // https://github.com/NickDJM/accessible-menu/issues/554
+      it("should not register the listener or call closeChildren when activation dismissal is disabled", () => {
+        const menu = new BaseMenu({
+          menuElement: document.querySelector("ul"),
+        });
+        menu._closeChildrenOnActivation = false;
+        const addEventListener = vi.spyOn(menu.dom.menu, "addEventListener");
+        initializeMenu(menu);
+        const close = vi.spyOn(menu, "closeChildren");
+
+        menu.elements.menuItems[0].dom.link.click();
+
+        expect(close).not.toHaveBeenCalled();
+        expect(addEventListener).not.toHaveBeenCalledWith(
+          "click",
+          expect.any(Function)
+        );
+      });
+
+      // https://github.com/NickDJM/accessible-menu/issues/554
+      it("should not call closeChildren when a submenu controller is activated", () => {
+        const menu = new BaseMenu({
+          menuElement: document.querySelector("ul"),
+          transitionClass: "",
+        });
+        initializeMenu(menu);
+        const close = vi.spyOn(menu, "closeChildren");
+
+        menu.elements.menuItems[1].dom.link.click();
+
+        expect(close).not.toHaveBeenCalled();
+      });
+    });
+
     // Test that click should set the current event to mouse.
     it("should set the current event to mouse", () => {
       // Create a new BaseMenu instance for testing.

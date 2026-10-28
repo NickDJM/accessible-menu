@@ -338,6 +338,32 @@ describe("Treeview", () => {
 
   // Test keyup.
   describe("keyup", () => {
+    // https://github.com/NickDJM/accessible-menu/issues/554
+    it.each(["Enter", " "])(
+      "should activate the link once without calling closeChildren on %s",
+      (key) => {
+        const menu = new Treeview({
+          menuElement: document.querySelector("ul"),
+        });
+        const submenu = menu.elements.menuItems[1].elements.childMenu;
+        const link = submenu.elements.menuItems[0].dom.link;
+        submenu.currentChild = 0;
+        submenu.focusState = "self";
+        const click = vi.fn();
+        const close = vi.spyOn(menu, "closeChildren");
+        link.addEventListener("click", click);
+
+        simulateKeyboardEvent("keydown", link, { key });
+        simulateKeyboardEvent("keyup", link, { key });
+
+        expect(click).toHaveBeenCalledTimes(1);
+        expect(click.mock.calls[0][0].defaultPrevented).toBe(false);
+        expect(close).not.toHaveBeenCalled();
+
+        close.mockRestore();
+      }
+    );
+
     // Test that keyup events set the current event to keyboard.
     it("should set the current event to keyboard", () => {
       // Create a new Treeview instance for testing.

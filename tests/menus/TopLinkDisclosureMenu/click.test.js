@@ -11,7 +11,10 @@ import {
   beforeAll,
   vi,
 } from "vitest";
-import { twoLevelDisclosureTopLink } from "../../../demo/menus.js";
+import {
+  twoLevelDisclosureTopLink,
+  threeLevelDisclosureTopLink,
+} from "../../../demo/menus.js";
 import TopLinkDisclosureMenu from "../../../src/topLinkDisclosureMenu.js";
 import { simulatePointerEvent, PointerEvent } from "../helpers.js";
 
@@ -36,6 +39,37 @@ afterEach(() => {
 describe("TopLinkDisclosureMenu", () => {
   // Test click.
   describe("click", () => {
+    // https://github.com/NickDJM/accessible-menu/issues/554
+    it("should call closeChildren when a separate root navigation link is activated", () => {
+      const menu = new TopLinkDisclosureMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      const close = vi.spyOn(menu, "closeChildren");
+
+      menu.elements.menuItems[1].dom.link.click();
+
+      expect(close).toHaveBeenCalledTimes(1);
+
+      close.mockRestore();
+    });
+
+    // https://github.com/NickDJM/accessible-menu/issues/554
+    it("should call the root's closeChildren once for a nested link click", () => {
+      document.body.innerHTML = threeLevelDisclosureTopLink;
+      const menu = new TopLinkDisclosureMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      const submenu = menu.elements.menuItems[2].elements.childMenu;
+      const nestedMenu = submenu.elements.menuItems[1].elements.childMenu;
+      const close = vi.spyOn(menu, "closeChildren");
+
+      nestedMenu.elements.menuItems[0].dom.link.click();
+
+      expect(close).toHaveBeenCalledTimes(1);
+
+      close.mockRestore();
+    });
+
     // Test that click should set the current event to mouse.
     it("should set the current event to mouse", () => {
       // Create a new TopLinkDisclosureMenu instance for testing.
