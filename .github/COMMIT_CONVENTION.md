@@ -1,17 +1,31 @@
-# Git Commit Convention
+# Commit guidelines
 
-This project uses the conventional commit standard, which means your commits should follow a basic template of:
+Write commit messages using [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/). For example:
 
-> \<type>[optional scope]: \<description>
->
-> [optional body]
->
-> [optional footer(s)]
+```text
+fix: cancel pending callbacks when disposing a component
+```
 
-For more detailed information about available types, scopes, breaking changes, etc. please see the [official documentation](https://www.conventionalcommits.org/en/v1.0.0/).
+The format is:
 
-This project also provides a command to assist you in formatting commit messages using [commitizen](https://commitizen.github.io/cz-cli/):
+```text
+<type>[optional scope]: <description>
+
+[optional body]
+
+[optional footer(s)]
+```
+
+See the specification for commit types, optional scopes, and how to describe breaking changes.
+
+You can use [Commitizen](https://commitizen.github.io/cz-cli/) to write a commit message through guided prompts:
 
 ```shell
 npm run commit
 ```
+
+Read the [contribution guidelines](CONTRIBUTING.md) for the full submission process.
+
+## Attribution
+
+This document is based on [Accessible Ecosystem Core](https://github.com/Accessible-Ecosystem/core), adapted from its [corresponding document](https://github.com/Accessible-Ecosystem/core/blob/1.x/.github/COMMIT_CONVENTION.md).
