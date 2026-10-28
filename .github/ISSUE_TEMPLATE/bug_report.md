@@ -1,30 +1,37 @@
 ---
 name: Bug report
-about: Create a report to help us improve
-title: 'Bug: [Brief Description]'
+about: Report a problem with Accessible Menu
+title: "Bug: [Brief description]"
 labels: bug
-assignees: ''
-
+assignees: ""
 ---
 
 ## Summary
-<!-- What is the issue you are experiencing? -->
+
+<!-- Describe the problem you are experiencing. -->
 
 ## Steps to reproduce
-<!--
-What are the steps to reproduce this issue?
 
-1. Go to "..."
-2. Click on "...."
-3. Scroll down to "...."
-4. See error
--->
+<!-- List the steps needed to reproduce the problem. Include a small code example or a link to a reproduction if possible. -->
 
-## Expected Behaviour
-<!-- What is the expected behaviour? -->
+## Expected behavior
+
+<!-- Describe what you expected to happen. -->
+
+## Actual behavior
+
+<!-- Describe what happened instead. Include any relevant error messages. -->
+
+## Environment
+
+<!-- Include your Accessible Menu version and any relevant browser, operating system, or dependent package versions. -->
 
 ## Screenshots
-<!-- If applicable, add screenshots to help explain your problem. -->
+
+<!-- Include screenshots if they help explain the problem. Describe the relevant details in text as well. -->
 
 ## Additional context
-<!-- Is there anything else that would give context about the problem? -->
+
+<!-- Include any other relevant information, such as workarounds or fixes you have already tried. -->
+
+<!-- Based on [Accessible Ecosystem Core](https://github.com/Accessible-Ecosystem/core), adapted from its [corresponding template](https://github.com/Accessible-Ecosystem/core/blob/1.x/.github/ISSUE_TEMPLATE/bug_report.md). -->

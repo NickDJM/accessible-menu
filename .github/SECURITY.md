@@ -1,28 +1,31 @@
-# Security Policy
+# Security policy
 
-## Supported Versions
+## Supported versions
 
-| Version | Supported          |
-| ------- | ------------------ |
-| 4.x     | ✔                  |
-| 3.x     | :x:                |
-| 2.x     | :x:                |
-| 1.x     | :x:                |
+| Version | Supported |
+| ------- | --------- |
+| 5.x     | Yes       |
+| 4.x     | Yes       |
+| 3.x     | No        |
+| 2.x     | No        |
+| 1.x     | No        |
 
-## Reporting a Vulnerability
+## Report a vulnerability
 
-If you discover a vulnerability within this project, please [open an issue](https://github.com/NickDJM/accessible-menu/issues/new) and label it with the `security` tag. The issue board is checked at least 2-3 times a week, so you should expect a response to your issue within a few days.
+To report a vulnerability in Accessible Menu, [open an issue](https://github.com/NickDJM/accessible-menu/issues/new) with the `security` label.
 
-If a PR is submitted along with the issue to resolve the vulnerability, you can expect it to be reviewed within the same time frame as issue responses. If a PR is not submitted, the time it takes to develop a fix will differ depending on the severity of the vulnerability.
+Maintainers check issues at least two or three times a week. You can expect a response within a few days.
+
+If you submit a pull request with a fix, maintainers will review it within the same time frame. Otherwise, the time needed to develop a fix depends on the severity of the vulnerability.
 
 ## Vulnerabilities in dependencies
 
-Given that accessible-menu does not have any production dependencies, any vulnerable dev dependencies will be updated when/if possible- though a new release of accessible-menu may not be pushed out right away.
+Accessible Menu 4.x has no production dependencies.
 
-A higher priority will be given to dev dependencies that are directly responsible for compiling the project:
+Maintainers will update vulnerable development dependencies when possible. Maintainers may not publish an Accessible Menu release immediately after these updates.
 
-- [babel](https://github.com/babel/babel),
-- [vite](https://github.com/vitejs/vite), and
-- all related plugins
+Maintainers prioritize vulnerabilities in tools that compile project code, including [Rolldown](https://github.com/rolldown/rolldown), [Vite](https://github.com/vitejs/vite) and its plugins. When a vulnerability in one of these dependencies is resolved, maintainers will publish a new Accessible Menu release.
 
-If a vulnerability is found and resolved within one of these dependencies, a new release will be made.
+## Attribution
+
+This policy is based on [Accessible Ecosystem Core](https://github.com/Accessible-Ecosystem/core/blob/1.x/.github/SECURITY.md).
