@@ -93,11 +93,12 @@
     "prebuild": "rm -rf dist && npm run docs:build",
     "build": "rolldown --config",
     "dev": "vite",
+    "demo:build": "vite build --base=./ --outDir docs/.vitepress/dist/demo",
     "test": "vitest",
     "test:ui": "vitest --ui",
     "test:run": "vitest run",
     "docs:dev": "vitepress dev docs",
-    "docs:build": "vitepress build docs",
+    "docs:build": "vitepress build docs && npm run demo:build",
     "docs:preview": "vitepress preview docs"
   },
   "repository": {

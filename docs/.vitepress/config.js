@@ -63,6 +63,12 @@ export default defineConfig({
         link: "/upgrade-guide",
       },
       {
+        text: "Demo",
+        link: "/demo/",
+        // Load the standalone demo instead of using VitePress's page router.
+        target: "_self",
+      },
+      {
         text: "Community",
         link: "/community/",
       },
