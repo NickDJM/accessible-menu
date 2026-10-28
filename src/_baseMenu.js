@@ -1720,7 +1720,6 @@ class BaseMenu extends Component {
     if (this._collapseChildrenOnActivation) {
       // Listen on the menu so the click bubbles through the link's own
       // handlers first, including application handlers added after initialization.
-      // A listener on the link itself could collapse the menu before they run.
       this._addEventListener("click", this.dom.menu, (event) => {
         const isNavigationLink = this.elements.menuItems.some(
           (item) => !item.isSubmenuItem && item.dom.link.contains(event.target)

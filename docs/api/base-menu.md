@@ -142,11 +142,9 @@ BaseMenu._collapseChildrenOnBlur; // Default: `true`.
 
 ### _collapseChildrenOnActivation <badge type="warning" text="protected" /> {#property--collapsechildrenonactivation}
 
-Whether activating a navigation link collapses the root menu's submenus. This applies to root links and links inside submenus, including navigation links beside separate toggle buttons. Activating a submenu controller still expands or collapses its own submenu.
+Whether activating a navigation link collapses the root menu's submenus. This applies to root links and links inside submenus.
 
-The click reaches the link's own handlers before the menu handles dismissal. Propagation and the browser's default action are allowed. Treeview overrides this value to preserve its expanded branches.
-
-This is a protected class setting for subclasses, not a constructor option or public getter and setter. It is read when click listeners are registered during initialization. When false, the activation listener is not registered.
+The click reaches the link's own handlers before the menu handles dismissal.
 
 ```js
 BaseMenu._collapseChildrenOnActivation; // Default: `true`.
