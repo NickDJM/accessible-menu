@@ -3,7 +3,7 @@
  */
 
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
-import { twoLevel } from "../../../demo/menus.js";
+import { twoLevel, threeLevel } from "../../../demo/menus.js";
 import BaseMenu from "../../../src/_baseMenu.js";
 import { initializeMenu } from "../helpers.js";
 
@@ -21,6 +21,29 @@ afterEach(() => {
 describe("BaseMenu", () => {
   // Test focus.
   describe("focus", () => {
+    // https://github.com/NickDJM/accessible-menu/issues/564
+    it("should select the owning item in each ancestor without moving focus", () => {
+      document.body.innerHTML = threeLevel;
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+      });
+      initializeMenu(menu);
+      const parent = menu.elements.menuItems[1];
+      const submenu = parent.elements.childMenu;
+      const nestedParent = submenu.elements.menuItems[1];
+      const link =
+        nestedParent.elements.childMenu.elements.menuItems[0].dom.link;
+      menu.currentEvent = "keyboard";
+      submenu.currentChild = 2;
+      menu.elements.menuItems[2].dom.link.focus();
+
+      link.focus();
+
+      expect(menu.currentMenuItem).toBe(parent);
+      expect(submenu.currentMenuItem).toBe(nestedParent);
+      expect(document.activeElement).toBe(link);
+    });
+
     // Test that focus state gets set to self when a menu item is focused.
     it("should set focus state to self when a menu item is focused", () => {
       // Create a new BaseMenu instance for testing.

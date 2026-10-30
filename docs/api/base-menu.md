@@ -1026,7 +1026,7 @@ Handles focus events throughout the menu for proper menu use.
 BaseMenu._handleFocus();
 ```
 
-- Adds a `focus` listener to every menu item so when it gains focus, it will set the item's containing menu's [focus state](#property--focusstate) to "self".
+- Adds a `focus` listener to every menu item so when it gains focus, it will set the item's containing menu's [focus state](#property--focusstate) to "self" and select the item. Each ancestor menu selects the item that owns the focused submenu without moving focus.
 - Adds a `focusout` listener to clear the menu's focus state when keyboard focus leaves it. If [_closeChildrenOnBlur](#property--closechildrenonblur) is true, also collapses its submenus.
 
 ### _handleClick {#method--handleclick}

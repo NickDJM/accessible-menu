@@ -1482,7 +1482,8 @@ class BaseMenu {
    *
    * - Adds a `focus` listener to every menu item so when it gains focus,
    *   it will set the item's containing menu's focus state
-   *   to "self".
+   *   to "self" and select the item. Each ancestor menu selects the item
+   *   that owns the focused submenu without moving focus.
    * - Adds a `focusout` listener to the menu so when the menu loses focus,
    *   its focus state is cleared. Submenus collapse if _closeChildrenOnBlur
    *   is true.
@@ -1494,6 +1495,17 @@ class BaseMenu {
       menuItem.dom.link.addEventListener("focus", () => {
         this.focusState = "self";
         this.currentChild = index;
+
+        // Tabbing back into a submenu must also restore its ancestor selections.
+        let menu = this;
+        while (menu.elements.parentMenu) {
+          const parent = menu.elements.parentMenu;
+          const parentIndex = parent.elements.menuItems.findIndex(
+            (item) => item.elements.childMenu === menu
+          );
+          parent.currentChild = parentIndex;
+          menu = parent;
+        }
       });
     });
 
