@@ -421,6 +421,30 @@ describe("DisclosureMenu", () => {
 
     // Test Escape.
     describe("Escape", () => {
+      // https://github.com/NickDJM/accessible-menu/issues/564
+      it("should focus the owning button after focus returns from a root sibling", () => {
+        const menu = new DisclosureMenu({
+          menuElement: document.querySelector("ul"),
+          transitionClass: "",
+        });
+        const parent = menu.elements.menuItems[1];
+        const submenu = parent.elements.childMenu;
+        const food = submenu.elements.menuItems[4].dom.link;
+        parent.elements.toggle.preview();
+        menu.currentEvent = "keyboard";
+        food.focus();
+        menu.elements.menuItems[2].dom.link.focus();
+        food.focus();
+        const focus = vi.spyOn(parent, "focus");
+
+        simulateKeyboardEvent("keydown", food, { key: "Escape" });
+        simulateKeyboardEvent("keyup", food, { key: "Escape" });
+
+        expect(focus).toHaveBeenCalledTimes(1);
+
+        focus.mockRestore();
+      });
+
       describe("when the menu has an open submenu", () => {
         // Test that the event is prevented.
         it("should prevent the event", () => {
