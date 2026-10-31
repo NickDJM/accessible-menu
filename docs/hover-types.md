@@ -2,7 +2,7 @@
 
 All menus provided by Accessible Menu support three types of hover: **off**, **on**, and **dynamic**.
 
-Hover responds to mouse pointer events. Pen and touch events are ignored. Hover can update the item tracked by the menu without moving keyboard focus.
+Hover responds to mouse pointer events. Pen and touch events are ignored. Hover "on" can update the item tracked by the menu without moving keyboard focus. In dynamic mode, focus follows the pointer after a submenu has expanded or a root menu item has been clicked. Before activation, root-level dynamic hover leaves selection, focus, and submenu state unchanged. Merely focusing the menu with the keyboard or opening its external root controller does not enable dynamic hover.
 
 The `enterDelay` and `leaveDelay` options control how long hover actions wait. Both use `hoverDelay` when set to `-1`.
 
@@ -36,13 +36,13 @@ When using a treeview menu with hover **on**, leaving an item does not collapse 
 
 ## Hover Dynamic
 
-Hover **dynamic** lets the user expand a menu before hovering between its submenus. Expanding a toggle sets the root menu's `hasExpanded` value to `true`, whether the expansion comes from a click, keyboard interaction, or a method call.
+Hover **dynamic** lets the user expand a menu before hovering between its submenus. Expanding a submenu toggle sets the root menu's `dynamicHoverEnabled` value to `true`, whether the expansion comes from a click, keyboard interaction, or a method call. Clicking a root menu item also sets this value to `true`, including a navigation link that has no submenu.
 
-Automatic expansion or collapse from a media query leaves `hasExpanded` unchanged. It does not enable dynamic hover or reset it after a user has enabled it.
+Automatic expansion or collapse from a media query leaves `dynamicHoverEnabled` unchanged. It does not enable dynamic hover or reset it after a user has enabled it.
 
-While `hasExpanded` is `true`, hovering a root-level submenu toggle previews its submenu. Hovering an item without a submenu collapses the current menu's submenus. Within submenus, this hover behavior is available regardless of `hasExpanded`.
+While `dynamicHoverEnabled` is `true`, hovering a root-level submenu toggle previews its submenu. Hovering an item without a submenu collapses the current menu's submenus. Within submenus, this hover behavior is available regardless of `dynamicHoverEnabled`.
 
-Leaving an item does not collapse its submenu. For Disclosure Menus, Top Link Disclosure Menus, and Menubars, clicking outside the menu collapses it and resets `hasExpanded`. Collapsing a toggle alone does not reset that value.
+Leaving an item does not collapse its submenu. For Disclosure Menus, Top Link Disclosure Menus, and Menubars, clicking outside the menu collapses it and resets `dynamicHoverEnabled`. Collapsing a toggle alone does not reset that value.
 
 ```js
 // DisclosureMenu is used in this example, but all menus support these hover types.

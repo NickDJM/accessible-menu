@@ -461,7 +461,7 @@ BaseMenuItem.currentEvent = "mouse";
 
 ### shouldFocus <badge type="warning" text="readonly" /> {#getter--shouldfocus}
 
-A flag to check if the root menu allows the menu item's `focus()` and `blur()` methods to move focus in the DOM. This follows the root menu's keyboard and character navigation behavior.
+A flag to check if the root menu allows the menu item's `focus()` and `blur()` methods to move focus in the DOM. This follows the root menu's keyboard, character, and dynamic mouse focus behavior.
 
 ::: code-group
 
