@@ -1160,9 +1160,11 @@ BaseMenu.focusChild(index);
 
 #### Parameters {#method--focuschild--parameters}
 
-| Param | Type | Description | Default |
-| --- | --- | --- | --- |
+| Param | Type     | Description                      | Default     |
+| ----- | -------- | -------------------------------- | ----------- |
 | index | `number` | The index of the child to focus. | `undefined` |
+
+The index is required and must be a finite integer. It follows [currentChild's clamping rules](#getter-setter--currentchild). An index of `-1` clears the current child without focusing another item. Invalid types throw a `TypeError`; fractions, `NaN`, and infinities throw a `RangeError`. Validation happens before the current item is blurred or selection changes.
 
 ### focusFirstChild <badge type="tip" text="public" /> {#method--focusfirstchild}
 

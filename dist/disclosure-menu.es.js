@@ -313,6 +313,7 @@ var m = class e {
 	_MenuItemType = d;
 	_MenuToggleType = u;
 	_closeChildrenOnBlur = !0;
+	_closeChildrenOnActivation = !0;
 	_dom = {
 		menu: null,
 		menuItems: [],
@@ -646,6 +647,11 @@ var m = class e {
 		this.elements.menuItems.forEach((e, t) => {
 			e.dom.link.addEventListener("focus", () => {
 				this.focusState = "self", this.currentChild = t;
+				let e = this;
+				for (; e.elements.parentMenu;) {
+					let t = e.elements.parentMenu;
+					t.currentChild = t.elements.menuItems.findIndex((t) => t.elements.childMenu === e), e = t;
+				}
 			});
 		}), this.dom.menu.addEventListener("focusout", (e) => {
 			this.currentEvent !== "keyboard" || e.relatedTarget === null || this.dom.menu.contains(e.relatedTarget) || (this.focusState = "none", this._closeChildrenOnBlur && this.closeChildren());
@@ -661,6 +667,8 @@ var m = class e {
 			}, { passive: !0 }), t.isSubmenuItem && t.elements.toggle.dom.toggle.addEventListener("click", (n) => {
 				this.currentEvent = "mouse", e(this, t.elements.toggle, n);
 			});
+		}), this._closeChildrenOnActivation && this.dom.menu.addEventListener("click", (e) => {
+			this.elements.menuItems.some((t) => !t.isSubmenuItem && t.dom.link.contains(e.target)) && this.elements.rootMenu.closeChildren();
 		}), this.isTopLevel && this.elements.controller && this.elements.controller.dom.toggle.addEventListener("click", (t) => {
 			this.currentEvent = "mouse", e(this, this.elements.controller, t);
 		}), document.addEventListener("click", (e) => {
@@ -715,6 +723,9 @@ var m = class e {
 		this.focusState = "self", this.currentChild !== -1 && this.currentMenuItem.focus();
 	}
 	focusChild(e) {
+		let t = r("number", { index: e });
+		if (!t.status) throw t.error;
+		if (!Number.isInteger(e)) throw RangeError("index must be a finite integer.");
 		this.blurCurrentChild(), this.currentChild = e, this.focusCurrentChild();
 	}
 	focusFirstChild() {
