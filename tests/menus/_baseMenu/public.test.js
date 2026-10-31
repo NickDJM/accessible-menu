@@ -302,6 +302,78 @@ describe("BaseMenu public methods", () => {
 
       expect(spy).toHaveBeenCalled();
     });
+
+    describe("index validation", () => {
+      let menu;
+
+      beforeEach(() => {
+        vi.spyOn(window, "requestAnimationFrame").mockImplementation(
+          (callback) => {
+            callback(0);
+            return 0;
+          }
+        );
+        menu = new BaseMenu({ menuElement: document.querySelector("ul") });
+        initializeMenu(menu);
+        menu.currentEvent = "keyboard";
+        menu.focusChild(0);
+      });
+
+      afterEach(() => {
+        vi.restoreAllMocks();
+      });
+
+      // https://github.com/NickDJM/accessible-menu/issues/571
+      it.each([
+        0.5,
+        -0.5,
+        NaN,
+        Infinity,
+        -Infinity,
+        -1.5,
+        100.5,
+        "1",
+        null,
+        undefined,
+        {},
+        "length",
+        "map",
+        "-1",
+      ])("should reject %s before changing selection or focus", (index) => {
+        const focusedLink = document.activeElement;
+        const focusState = menu.focusState;
+        const blur = vi.spyOn(menu, "blurCurrentChild");
+        const focus = vi.spyOn(menu, "focusCurrentChild");
+
+        const errorType = typeof index === "number" ? RangeError : TypeError;
+
+        expect(() => menu.focusChild(index)).toThrow(errorType);
+
+        expect(menu.currentChild).toBe(0);
+        expect(menu.focusState).toBe(focusState);
+        expect(document.activeElement).toBe(focusedLink);
+        expect(blur).not.toHaveBeenCalled();
+        expect(focus).not.toHaveBeenCalled();
+      });
+
+      // https://github.com/NickDJM/accessible-menu/issues/571
+      it.each([
+        [-100, -1],
+        [-1, -1],
+        [0, 0],
+        [2, 2],
+        [100, 7],
+      ])("should clamp integer index %s to %s", (index, expected) => {
+        menu.focusChild(index);
+
+        expect(menu.currentChild).toBe(expected);
+        expect(document.activeElement).toBe(
+          expected === -1
+            ? document.body
+            : menu.elements.menuItems[expected].dom.link
+        );
+      });
+    });
   });
 
   // Test BaseMenu focusFirstChild().

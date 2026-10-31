@@ -1912,11 +1912,25 @@ class BaseMenu {
   /**
    * Focuses the menu's child at a given index.
    *
+   * Accepts finite integers and uses currentChild's clamping rules. Throws a
+   * TypeError for other types and a RangeError for fractions, NaN, and infinities.
+   * Validates the index before blurring the current item or changing focus.
+   *
    * @public
    *
    * @param {number} index - The index of the child to focus.
    */
   focusChild(index) {
+    const indexCheck = isValidType("number", { index });
+
+    if (!indexCheck.status) {
+      throw indexCheck.error;
+    }
+
+    if (!Number.isInteger(index)) {
+      throw new RangeError("index must be a finite integer.");
+    }
+
     this.blurCurrentChild();
     this.currentChild = index;
     this.focusCurrentChild();
