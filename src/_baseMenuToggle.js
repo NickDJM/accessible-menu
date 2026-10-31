@@ -412,8 +412,9 @@ class BaseMenuToggle extends CollapsibleComponent {
   /**
    * Expands the controlled menu.
    *
-   * Sets the root menu's dynamicHoverEnabled value to `true` unless a media query is
-   * expanding the menu. Then calls
+   * Sets the root menu's dynamicHoverEnabled value to `true` when expanding a submenu
+   * outside a media query callback. Expanding the root menu does not enable
+   * dynamic hover. Then calls
    * CollapsibleComponent's _expand method to set the ARIA attributes,
    * classes, and transitions.
    *
@@ -432,7 +433,11 @@ class BaseMenuToggle extends CollapsibleComponent {
   _expand(options = {}) {
     const rootMenu = this.elements.controlledMenu.elements.rootMenu;
 
-    if (rootMenu && !this._handlingMediaQuery) {
+    if (
+      rootMenu &&
+      !this.elements.controlledMenu.isTopLevel &&
+      !this._handlingMediaQuery
+    ) {
       rootMenu.dynamicHoverEnabled = true;
     }
 

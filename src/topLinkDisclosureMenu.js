@@ -336,43 +336,35 @@ class TopLinkDisclosureMenu extends BaseMenu {
             toggle.preview();
           }
         } else if (this.hoverType === "dynamic") {
+          if (!this.dynamicHoverEnabled) return;
+
           this.currentChild = index;
 
-          if (!this.isTopLevel || this.focusState !== "none") {
-            this.currentEvent = "mouse";
-            this.elements.rootMenu.blurChildren();
-            this.focusCurrentChild();
+          this.currentEvent = "mouse";
+          this.elements.rootMenu.blurChildren();
+          this.focusCurrentChild();
+
+          let toggle = menuItem.isSubmenuItem ? menuItem.elements.toggle : null;
+
+          // Hovering over both the menu item _and_ the toggle item should work.
+          if (menuItem.elements.sibling !== null) {
+            toggle = menuItem.elements.sibling.elements.toggle;
           }
 
-          if (!this.isTopLevel || this.hasExpanded) {
-            this.currentEvent = "mouse";
-            this.elements.rootMenu.blurChildren();
-            this.focusCurrentChild();
-
-            let toggle = menuItem.isSubmenuItem
-              ? menuItem.elements.toggle
-              : null;
-
-            // Hovering over both the menu item _and_ the toggle item should work.
-            if (menuItem.elements.sibling !== null) {
-              toggle = menuItem.elements.sibling.elements.toggle;
-            }
-
-            if (toggle !== null) {
-              if (this.enterDelay > 0) {
-                this._setTimeout(() => {
-                  toggle.preview();
-                }, this.enterDelay);
-              } else {
-                toggle.preview();
-              }
-            } else if (this.enterDelay > 0) {
+          if (toggle !== null) {
+            if (this.enterDelay > 0) {
               this._setTimeout(() => {
-                this.collapseChildren();
+                toggle.preview();
               }, this.enterDelay);
             } else {
-              this.collapseChildren();
+              toggle.preview();
             }
+          } else if (this.enterDelay > 0) {
+            this._setTimeout(() => {
+              this.collapseChildren();
+            }, this.enterDelay);
+          } else {
+            this.collapseChildren();
           }
         }
       });
