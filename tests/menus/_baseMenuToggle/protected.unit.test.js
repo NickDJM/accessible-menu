@@ -67,7 +67,7 @@ describe("BaseMenuToggle protected methods", () => {
         vi.advanceTimersToNextFrame();
 
         expect(menu.elements.controller.isExpanded).toBe(true);
-        expect(menu.hasExpanded).toBe(false);
+        expect(menu.dynamicHoverEnabled).toBe(false);
 
         simulatePointerEvent("pointerenter", item.dom.link);
 
@@ -77,27 +77,27 @@ describe("BaseMenuToggle protected methods", () => {
         listeners.forEach((listener) => listener(mql));
 
         expect(menu.elements.controller.isExpanded).toBe(false);
-        expect(menu.hasExpanded).toBe(false);
+        expect(menu.dynamicHoverEnabled).toBe(false);
 
         mql.matches = matches;
         listeners.forEach((listener) => listener(mql));
 
         expect(menu.elements.controller.isExpanded).toBe(true);
-        expect(menu.hasExpanded).toBe(false);
+        expect(menu.dynamicHoverEnabled).toBe(false);
 
         toggle.expand();
 
-        expect(menu.hasExpanded).toBe(true);
+        expect(menu.dynamicHoverEnabled).toBe(true);
 
         mql.matches = !matches;
         listeners.forEach((listener) => listener(mql));
 
-        expect(menu.hasExpanded).toBe(true);
+        expect(menu.dynamicHoverEnabled).toBe(true);
 
         mql.matches = matches;
         listeners.forEach((listener) => listener(mql));
 
-        expect(menu.hasExpanded).toBe(true);
+        expect(menu.dynamicHoverEnabled).toBe(true);
 
         simulatePointerEvent("pointerenter", item.dom.link);
 
@@ -108,6 +108,23 @@ describe("BaseMenuToggle protected methods", () => {
   });
 
   describe("_expand", () => {
+    // https://github.com/NickDJM/accessible-menu/issues/567
+    it("should not enable dynamic hover when the root controller expands", () => {
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        controllerElement: document.querySelector("button"),
+        containerElement: document.querySelector("nav"),
+        transitionClass: "",
+      });
+      menu.initialize();
+
+      menu.elements.controller.expand();
+
+      expect(menu.dynamicHoverEnabled).toBe(false);
+
+      menu.dispose();
+    });
+
     it("should mark the root menu as having expanded", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
@@ -118,7 +135,7 @@ describe("BaseMenuToggle protected methods", () => {
 
       toggle._expand({ emit: false, transition: false });
 
-      expect(menu.hasExpanded).toBe(true);
+      expect(menu.dynamicHoverEnabled).toBe(true);
     });
 
     it("should delegate expansion to Core", () => {

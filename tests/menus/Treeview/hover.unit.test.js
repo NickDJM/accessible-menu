@@ -479,6 +479,22 @@ describe("Treeview", () => {
   });
   // Test hover type dynamic.
   describe("with hover type dynamic", () => {
+    // https://github.com/NickDJM/accessible-menu/issues/567
+    it("should preserve selection on root hover before activation", () => {
+      const menu = new Treeview({
+        menuElement: document.querySelector("ul"),
+        hoverType: "dynamic",
+      });
+      menu.currentEvent = "keyboard";
+      menu.elements.menuItems[0].dom.link.focus();
+
+      simulatePointerEvent("pointerenter", menu.elements.menuItems[1].dom.link);
+
+      expect(menu.currentChild).toBe(0);
+
+      menu.dispose();
+    });
+
     // Test pointerenter.
     describe("pointerenter", () => {
       // Test that the menu's current child is set to the hovered menu item's index.
@@ -565,8 +581,9 @@ describe("Treeview", () => {
           expect(spy).toHaveBeenCalled();
         });
       });
-      describe("if the menu is the root menu and the focus state is not none", () => {
+      describe("if dynamic hover is enabled on the root menu and the focus state is not none", () => {
         // Test that the menu's current event is set to mouse when a menu item is hovered.
+        // https://github.com/NickDJM/accessible-menu/issues/567
         it("should set the menu's current event to mouse when a menu item is hovered", () => {
           // Create a new Treeview instance for testing.
           const menu = new Treeview({
@@ -578,6 +595,7 @@ describe("Treeview", () => {
 
           // Set up the menu.
           menu.focusState = "self";
+          menu.dynamicHoverEnabled = true;
 
           // Simulate the pointerenter event.
           simulatePointerEvent(
@@ -588,6 +606,7 @@ describe("Treeview", () => {
           expect(menu.currentEvent).toBe("mouse");
         });
         // Test that the root menu's blurChildren method is called when a menu item is hovered.
+        // https://github.com/NickDJM/accessible-menu/issues/567
         it("should call the root menu's blurChildren method when a menu item is hovered", () => {
           // Create a new Treeview instance for testing.
           const menu = new Treeview({
@@ -599,6 +618,7 @@ describe("Treeview", () => {
 
           // Set up the menu.
           menu.focusState = "self";
+          menu.dynamicHoverEnabled = true;
 
           // Spy on the root menu's blurChildren method.
           const spy = vi.spyOn(menu.elements.rootMenu, "blurChildren");
@@ -612,6 +632,7 @@ describe("Treeview", () => {
           expect(spy).toHaveBeenCalled();
         });
         // Test that the menu's focusCurrentChild method is called when a menu item is hovered.
+        // https://github.com/NickDJM/accessible-menu/issues/567
         it("should call the menu's focusCurrentChild method when a menu item is hovered", () => {
           // Create a new Treeview instance for testing.
           const menu = new Treeview({
@@ -623,6 +644,7 @@ describe("Treeview", () => {
 
           // Set up the menu.
           menu.focusState = "self";
+          menu.dynamicHoverEnabled = true;
 
           // Spy on the menu's focusCurrentChild method.
           const spy = vi.spyOn(menu, "focusCurrentChild");
