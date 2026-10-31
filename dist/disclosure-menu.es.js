@@ -419,13 +419,13 @@ var m = class e {
 		r("number", { transitionDuration: e }), this._transitionDuration !== e && (this._transitionDuration = e, this._setTransitionDurations());
 	}
 	get openDuration() {
-		return this._openDuration === -1 ? this.transitionDuration : this.isTopLevel ? this._openDuration : this.elements.rootMenu.openDuration;
+		return this.isTopLevel ? this._openDuration === -1 ? this.transitionDuration : this._openDuration : this.elements.rootMenu.openDuration;
 	}
 	set openDuration(e) {
 		r("number", { openDuration: e }), this._openDuration !== e && (this._openDuration = e, this._setTransitionDurations());
 	}
 	get closeDuration() {
-		return this._closeDuration === -1 ? this.transitionDuration : this.isTopLevel ? this._closeDuration : this.elements.rootMenu.closeDuration;
+		return this.isTopLevel ? this._closeDuration === -1 ? this.transitionDuration : this._closeDuration : this.elements.rootMenu.closeDuration;
 	}
 	set closeDuration(e) {
 		r("number", { closeDuration: e }), this._closeDuration !== e && (this._closeDuration = e, this._setTransitionDurations());
@@ -711,7 +711,10 @@ var m = class e {
 		});
 	}
 	_setTransitionDurations() {
-		this.dom.menu.style.setProperty(`--${this.prefix}transition-duration`, `${this.transitionDuration}ms`), this.dom.menu.style.setProperty(`--${this.prefix}open-transition-duration`, `${this.openDuration}ms`), this.dom.menu.style.setProperty(`--${this.prefix}close-transition-duration`, `${this.closeDuration}ms`);
+		this.dom.menu.style.setProperty(`--${this.prefix}transition-duration`, `${this.transitionDuration}ms`), this.dom.menu.style.setProperty(`--${this.prefix}open-transition-duration`, `${this.openDuration}ms`), this.dom.menu.style.setProperty(`--${this.prefix}close-transition-duration`, `${this.closeDuration}ms`), this.elements.submenuToggles.forEach((e) => {
+			let t = e.elements.controlledMenu;
+			t.elements.rootMenu !== null && t._setTransitionDurations();
+		});
 	}
 	focus() {
 		this.focusState = "self", this.shouldFocus && this.dom.menu.focus();

@@ -60,8 +60,8 @@ The constructor will call [BaseMenu's constructor](./base-menu#constructor) with
 | options.closeClass | `string`, `string[]`, `null` | The class to apply when a menu is "closed". | `"hide"` |
 | options.transitionClass | `string`, `string[]`, `null` | The class to apply when a menu is transitioning between "open" and "closed" states. | `transitioning` |
 | options.transitionDuration | `number` | The duration of the transition between "open" and "closed" states (in milliseconds). | `250` |
-| options.openDuration | `number` | The duration of the transition from "closed" to "open" states (in milliseconds). | `250` |
-| options.closeDuration | `number` | The duration of the transition from "open" to "closed" states (in milliseconds). | `250` |
+| options.openDuration | `number` | The duration of the transition from "closed" to "open" states (in milliseconds). Uses transitionDuration when set to -1. | `-1` |
+| options.closeDuration | `number` | The duration of the transition from "open" to "closed" states (in milliseconds). Uses transitionDuration when set to -1. | `-1` |
 | options.isTopLevel | `boolean` | A flag to mark the root menu. | `true` |
 | options.parentMenu | `DisclosureMenu`, `null` | The parent menu to this menu. | `null` |
 | options.hoverType | `string` | The type of hoverability a menu has. | `"off"` |

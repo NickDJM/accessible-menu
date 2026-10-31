@@ -419,13 +419,13 @@ var m = class e {
 		r("number", { transitionDuration: e }), this._transitionDuration !== e && (this._transitionDuration = e, this._setTransitionDurations());
 	}
 	get openDuration() {
-		return this._openDuration === -1 ? this.transitionDuration : this.isTopLevel ? this._openDuration : this.elements.rootMenu.openDuration;
+		return this.isTopLevel ? this._openDuration === -1 ? this.transitionDuration : this._openDuration : this.elements.rootMenu.openDuration;
 	}
 	set openDuration(e) {
 		r("number", { openDuration: e }), this._openDuration !== e && (this._openDuration = e, this._setTransitionDurations());
 	}
 	get closeDuration() {
-		return this._closeDuration === -1 ? this.transitionDuration : this.isTopLevel ? this._closeDuration : this.elements.rootMenu.closeDuration;
+		return this.isTopLevel ? this._closeDuration === -1 ? this.transitionDuration : this._closeDuration : this.elements.rootMenu.closeDuration;
 	}
 	set closeDuration(e) {
 		r("number", { closeDuration: e }), this._closeDuration !== e && (this._closeDuration = e, this._setTransitionDurations());
@@ -711,7 +711,10 @@ var m = class e {
 		});
 	}
 	_setTransitionDurations() {
-		this.dom.menu.style.setProperty(`--${this.prefix}transition-duration`, `${this.transitionDuration}ms`), this.dom.menu.style.setProperty(`--${this.prefix}open-transition-duration`, `${this.openDuration}ms`), this.dom.menu.style.setProperty(`--${this.prefix}close-transition-duration`, `${this.closeDuration}ms`);
+		this.dom.menu.style.setProperty(`--${this.prefix}transition-duration`, `${this.transitionDuration}ms`), this.dom.menu.style.setProperty(`--${this.prefix}open-transition-duration`, `${this.openDuration}ms`), this.dom.menu.style.setProperty(`--${this.prefix}close-transition-duration`, `${this.closeDuration}ms`), this.elements.submenuToggles.forEach((e) => {
+			let t = e.elements.controlledMenu;
+			t.elements.rootMenu !== null && t._setTransitionDurations();
+		});
 	}
 	focus() {
 		this.focusState = "self", this.shouldFocus && this.dom.menu.focus();
@@ -913,7 +916,7 @@ var m = class e {
 	_MenuType = e;
 	_MenuItemType = v;
 	_MenuToggleType = y;
-	constructor({ menuElement: e, menuItemSelector: t = "li", menuLinkSelector: n = "a", submenuItemSelector: r = "li:has(ul)", submenuToggleSelector: i = "a", submenuSelector: a = "ul", controllerElement: o = null, containerElement: s = null, openClass: c = "show", closeClass: l = "hide", transitionClass: u = "transitioning", transitionDuration: d = 250, isTopLevel: f = !0, parentMenu: p = null, hoverType: m = "off", hoverDelay: h = 250, enterDelay: g = -1, leaveDelay: _ = -1, prefix: v = "am-", key: y = null, initialize: b = !0 }) {
+	constructor({ menuElement: e, menuItemSelector: t = "li", menuLinkSelector: n = "a", submenuItemSelector: r = "li:has(ul)", submenuToggleSelector: i = "a", submenuSelector: a = "ul", controllerElement: o = null, containerElement: s = null, openClass: c = "show", closeClass: l = "hide", transitionClass: u = "transitioning", transitionDuration: d = 250, openDuration: f = -1, closeDuration: p = -1, isTopLevel: m = !0, parentMenu: h = null, hoverType: g = "off", hoverDelay: _ = 250, enterDelay: v = -1, leaveDelay: y = -1, prefix: b = "am-", key: x = null, initialize: S = !0 }) {
 		super({
 			menuElement: e,
 			menuItemSelector: t,
@@ -927,15 +930,17 @@ var m = class e {
 			closeClass: l,
 			transitionClass: u,
 			transitionDuration: d,
-			isTopLevel: f,
-			parentMenu: p,
-			hoverType: m,
-			hoverDelay: h,
-			enterDelay: g,
-			leaveDelay: _,
-			prefix: v,
-			key: y
-		}), b && this.initialize();
+			openDuration: f,
+			closeDuration: p,
+			isTopLevel: m,
+			parentMenu: h,
+			hoverType: g,
+			hoverDelay: _,
+			enterDelay: v,
+			leaveDelay: y,
+			prefix: b,
+			key: x
+		}), S && this.initialize();
 	}
 	initialize() {
 		try {
@@ -1069,7 +1074,7 @@ var m = class e {
 		submenuSubtoggles: ""
 	};
 	_optionalSupport = !1;
-	constructor({ menuElement: e, menuItemSelector: t = "li", menuLinkSelector: n = "a", submenuItemSelector: r = "li:has(ul)", submenuToggleSelector: i = "button", submenuSelector: a = "ul", submenuSubtoggleSelector: o = "a", controllerElement: s = null, containerElement: c = null, openClass: l = "show", closeClass: u = "hide", transitionClass: d = "transitioning", transitionDuration: f = 250, isTopLevel: p = !0, parentMenu: m = null, hoverType: h = "off", hoverDelay: g = 250, enterDelay: _ = -1, leaveDelay: v = -1, optionalKeySupport: y = !1, prefix: b = "am-", key: x = null, initialize: S = !0 }) {
+	constructor({ menuElement: e, menuItemSelector: t = "li", menuLinkSelector: n = "a", submenuItemSelector: r = "li:has(ul)", submenuToggleSelector: i = "button", submenuSelector: a = "ul", submenuSubtoggleSelector: o = "a", controllerElement: s = null, containerElement: c = null, openClass: l = "show", closeClass: u = "hide", transitionClass: d = "transitioning", transitionDuration: f = 250, openDuration: p = -1, closeDuration: m = -1, isTopLevel: h = !0, parentMenu: g = null, hoverType: _ = "off", hoverDelay: v = 250, enterDelay: y = -1, leaveDelay: b = -1, optionalKeySupport: x = !1, prefix: S = "am-", key: C = null, initialize: w = !0 }) {
 		super({
 			menuElement: e,
 			menuItemSelector: t,
@@ -1083,15 +1088,17 @@ var m = class e {
 			closeClass: u,
 			transitionClass: d,
 			transitionDuration: f,
-			isTopLevel: p,
-			parentMenu: m,
-			hoverType: h,
-			hoverDelay: g,
-			enterDelay: _,
-			leaveDelay: v,
-			prefix: b,
-			key: x
-		}), this._optionalSupport = y, this._selectors.menuItems = t, this._selectors.submenuItems = r, this._selectors.submenuToggles = i, this._selectors.submenus = a, this._selectors.submenuSubtoggles = o, this._selectors.menuLinks = [.../* @__PURE__ */ new Set([n, i])].join(","), S && this.initialize();
+			openDuration: p,
+			closeDuration: m,
+			isTopLevel: h,
+			parentMenu: g,
+			hoverType: _,
+			hoverDelay: v,
+			enterDelay: y,
+			leaveDelay: b,
+			prefix: S,
+			key: C
+		}), this._optionalSupport = x, this._selectors.menuItems = t, this._selectors.submenuItems = r, this._selectors.submenuToggles = i, this._selectors.submenus = a, this._selectors.submenuSubtoggles = o, this._selectors.menuLinks = [.../* @__PURE__ */ new Set([n, i])].join(","), w && this.initialize();
 	}
 	initialize() {
 		try {
@@ -1270,7 +1277,7 @@ var m = class e {
 		_MenuToggleType = T;
 		_closeChildrenOnBlur = !1;
 		_closeChildrenOnActivation = !1;
-		constructor({ menuElement: e, menuItemSelector: t = "li", menuLinkSelector: n = "a", submenuItemSelector: r = "li:has(ul)", submenuToggleSelector: i = "a", submenuSelector: a = "ul", controllerElement: o = null, containerElement: s = null, openClass: c = "show", closeClass: l = "hide", transitionClass: u = "transitioning", transitionDuration: d = 250, isTopLevel: f = !0, parentMenu: p = null, hoverType: m = "off", hoverDelay: h = 250, enterDelay: g = -1, leaveDelay: _ = -1, prefix: v = "am-", key: y = null, initialize: b = !0 }) {
+		constructor({ menuElement: e, menuItemSelector: t = "li", menuLinkSelector: n = "a", submenuItemSelector: r = "li:has(ul)", submenuToggleSelector: i = "a", submenuSelector: a = "ul", controllerElement: o = null, containerElement: s = null, openClass: c = "show", closeClass: l = "hide", transitionClass: u = "transitioning", transitionDuration: d = 250, openDuration: f = -1, closeDuration: p = -1, isTopLevel: m = !0, parentMenu: h = null, hoverType: g = "off", hoverDelay: _ = 250, enterDelay: v = -1, leaveDelay: y = -1, prefix: b = "am-", key: x = null, initialize: S = !0 }) {
 			super({
 				menuElement: e,
 				menuItemSelector: t,
@@ -1284,15 +1291,17 @@ var m = class e {
 				closeClass: l,
 				transitionClass: u,
 				transitionDuration: d,
-				isTopLevel: f,
-				parentMenu: p,
-				hoverType: m,
-				hoverDelay: h,
-				enterDelay: g,
-				leaveDelay: _,
-				prefix: v,
-				key: y
-			}), b && this.initialize();
+				openDuration: f,
+				closeDuration: p,
+				isTopLevel: m,
+				parentMenu: h,
+				hoverType: g,
+				hoverDelay: _,
+				enterDelay: v,
+				leaveDelay: y,
+				prefix: b,
+				key: x
+			}), S && this.initialize();
 		}
 		initialize() {
 			try {

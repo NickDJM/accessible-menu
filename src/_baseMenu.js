@@ -321,8 +321,8 @@ class BaseMenu {
    * @param {?(string|string[])} [options.closeClass = hide]                - The class to apply when a menu is "closed".
    * @param {?(string|string[])} [options.transitionClass = transitioning]  - The class to apply when a menu is transitioning between "open" and "closed" states.
    * @param {number}             [options.transitionDuration = 250]         - The duration of the transition between "open" and "closed" states (in milliseconds).
-   * @param {boolean}            [options.openDuration = -1]                - The duration of the transition from "closed" to "open" states (in milliseconds).
-   * @param {boolean}            [options.closeDuration = -1]               - The duration of the transition from "open" to "closed" states (in milliseconds).
+   * @param {number}             [options.openDuration = -1]                - The duration of the transition from "closed" to "open" states (in milliseconds).
+   * @param {number}             [options.closeDuration = -1]               - The duration of the transition from "open" to "closed" states (in milliseconds).
    * @param {boolean}            [options.isTopLevel = false]               - A flag to mark the root menu.
    * @param {?BaseMenu}          [options.parentMenu = null]                - The parent menu to this menu.
    * @param {string}             [options.hoverType = off]                  - The type of hoverability a menu has.
@@ -642,7 +642,7 @@ class BaseMenu {
    * This functions differently for root vs. submenus.
    * Submenus will always inherit their root menu's transition duration.
    *
-   * Setting this value will also set the --am-transition-duration CSS custom property on the menu.
+   * Setting this value will also set the --am-transition-duration CSS custom property on the menu and its descendants.
    *
    * @type {number}
    *
@@ -671,18 +671,18 @@ class BaseMenu {
    *
    * If openDuration is set to -1, the transitionDuration value will be used instead.
    *
-   * Setting this value will also set the --am-open-transition-duration CSS custom property on the menu.
+   * Setting this value will also set the --am-open-transition-duration CSS custom property on the menu and its descendants.
    *
    * @type {number}
    *
    * @see _openDuration
    */
   get openDuration() {
-    if (this._openDuration === -1) return this.transitionDuration;
+    if (!this.isTopLevel) return this.elements.rootMenu.openDuration;
 
-    return this.isTopLevel
-      ? this._openDuration
-      : this.elements.rootMenu.openDuration;
+    return this._openDuration === -1
+      ? this.transitionDuration
+      : this._openDuration;
   }
 
   set openDuration(value) {
@@ -702,18 +702,18 @@ class BaseMenu {
    *
    * If closeDuration is set to -1, the transitionDuration value will be used instead.
    *
-   * Setting this value will also set the --am-close-transition-duration CSS custom property on the menu.
+   * Setting this value will also set the --am-close-transition-duration CSS custom property on the menu and its descendants.
    *
    * @type {number}
    *
    * @see _closeDuration
    */
   get closeDuration() {
-    if (this._closeDuration === -1) return this.transitionDuration;
+    if (!this.isTopLevel) return this.elements.rootMenu.closeDuration;
 
-    return this.isTopLevel
-      ? this._closeDuration
-      : this.elements.rootMenu.closeDuration;
+    return this._closeDuration === -1
+      ? this.transitionDuration
+      : this._closeDuration;
   }
 
   set closeDuration(value) {
@@ -1834,7 +1834,7 @@ class BaseMenu {
   }
 
   /**
-   * Sets the transition durations of the menu as a CSS custom properties.
+   * Sets the transition durations of the menu and its descendants as CSS custom properties.
    *
    * The custom properties are:
    *   - `--am-transition-duration`,
@@ -1860,6 +1860,13 @@ class BaseMenu {
       `--${this.prefix}close-transition-duration`,
       `${this.closeDuration}ms`
     );
+
+    this.elements.submenuToggles.forEach((toggle) => {
+      const menu = toggle.elements.controlledMenu;
+
+      // BaseMenu children may not be initialized yet.
+      if (menu.elements.rootMenu !== null) menu._setTransitionDurations();
+    });
   }
 
   /**
