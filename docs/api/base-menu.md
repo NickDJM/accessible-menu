@@ -55,8 +55,8 @@ The constructor populates the dom, selector, CSS class, and hover related proper
 | options.closeClass | `string`, `string[]`, `null` | The class to apply when a menu is "closed". | `"hide"` |
 | options.transitionClass | `string`, `string[]`, `null` | The class to apply when a menu is transitioning between "open" and "closed" states. | `transitioning` |
 | options.transitionDuration | `number` | The duration of the transition between "open" and "closed" states (in milliseconds). | `250` |
-| options.openDuration | `number` | The duration of the transition from "closed" to "open" states (in milliseconds). | `250` |
-| options.closeDuration | `number` | The duration of the transition from "open" to "closed" states (in milliseconds). | `250` |
+| options.openDuration | `number` | The duration of the transition from "closed" to "open" states (in milliseconds). Uses transitionDuration when set to -1. | `-1` |
+| options.closeDuration | `number` | The duration of the transition from "open" to "closed" states (in milliseconds). Uses transitionDuration when set to -1. | `-1` |
 | options.isTopLevel | `boolean` | A flag to mark the root menu. | `false` |
 | options.parentMenu | `BaseMenu`, `null` | The parent menu to this menu. | `null` |
 | options.hoverType | `string` | The type of hoverability a menu has. | `"off"` |
@@ -599,7 +599,7 @@ BaseMenu.transitionDuration = 250;
 
 This functions differently for root vs. submenus. Submenus will always inherit their root menu's transition duration.
 
-Setting this value will also set the `--am-transition-duration` CSS custom property on the menu.
+Setting this value will also update the `--am-transition-duration` CSS custom property on the menu and its descendants.
 
 See [_transitionDuration](#property--transitionduration) for more information.
 
@@ -619,9 +619,9 @@ BaseMenu.openDuration = 250;
 
 :::
 
-This functions differently for root vs. submenus. Submenus will always inherit their root menu's open duration.
+This functions differently for root vs. submenus. Submenus will always inherit their root menu's open duration. A root openDuration of -1 uses transitionDuration.
 
-Setting this value will also set the `--am-open-transition-duration` CSS custom property on the menu.
+Setting this value will also update the `--am-open-transition-duration` CSS custom property on the menu and its descendants.
 
 See [_openDuration](#property--openduration) for more information.
 
@@ -641,9 +641,9 @@ BaseMenu.closeDuration = 250;
 
 :::
 
-This functions differently for root vs. submenus. Submenus will always inherit their root menu's close duration.
+This functions differently for root vs. submenus. Submenus will always inherit their root menu's close duration. A root closeDuration of -1 uses transitionDuration.
 
-Setting this value will also set the `--am-close-transition-duration` CSS custom property on the menu.
+Setting this value will also update the `--am-close-transition-duration` CSS custom property on the menu and its descendants.
 
 See [_closeDuration](#property--closeduration) for more information.
 

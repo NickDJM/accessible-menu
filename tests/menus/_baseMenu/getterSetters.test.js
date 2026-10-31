@@ -3,7 +3,7 @@
  */
 
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
-import { twoLevel } from "../../../demo/menus.js";
+import { twoLevel, threeLevel } from "../../../demo/menus.js";
 import BaseMenu from "../../../src/_baseMenu.js";
 import * as validation from "../../../src/validate.js";
 import { initializeMenu } from "../helpers.js";
@@ -322,6 +322,33 @@ describe("BaseMenu getter/setters", () => {
 
       expect(submenu.transitionDuration).toBe(menu.transitionDuration);
     });
+
+    // https://github.com/NickDJM/accessible-menu/issues/573
+    it("should synchronize descendant transitionDuration values and CSS", () => {
+      document.body.innerHTML = threeLevel;
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        transitionDuration: 35,
+        openDuration: 15,
+        closeDuration: 25,
+        prefix: "test-",
+      });
+      initializeMenu(menu);
+      const submenu = menu.elements.submenuToggles[0].elements.controlledMenu;
+      const nestedMenu =
+        submenu.elements.submenuToggles[0].elements.controlledMenu;
+
+      menu.transitionDuration = 45;
+
+      expect(submenu.transitionDuration).toBe(45);
+      expect(nestedMenu.transitionDuration).toBe(45);
+      expect(
+        submenu.dom.menu.style.getPropertyValue("--test-transition-duration")
+      ).toBe("45ms");
+      expect(
+        nestedMenu.dom.menu.style.getPropertyValue("--test-transition-duration")
+      ).toBe("45ms");
+    });
   });
 
   // Test BaseMenu openDuration.
@@ -358,6 +385,7 @@ describe("BaseMenu getter/setters", () => {
     });
 
     // Test that openDuration defaults to the root menu's openDuration for submenus.
+    // https://github.com/NickDJM/accessible-menu/issues/573
     it("should default to the root menu's open duration for submenus", () => {
       // Create a new BaseMenu instance for testing.
       const menu = new BaseMenu({
@@ -367,9 +395,73 @@ describe("BaseMenu getter/setters", () => {
 
       const submenu = menu.elements.submenuToggles[0].elements.controlledMenu;
 
+      submenu.openDuration = -1;
       menu.openDuration = 100;
 
       expect(submenu.openDuration).toBe(menu.openDuration);
+    });
+
+    // https://github.com/NickDJM/accessible-menu/issues/573
+    it("should synchronize descendant openDuration values and CSS", () => {
+      document.body.innerHTML = threeLevel;
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        transitionDuration: 35,
+        openDuration: 15,
+        closeDuration: 25,
+        prefix: "test-",
+      });
+      initializeMenu(menu);
+      const submenu = menu.elements.submenuToggles[0].elements.controlledMenu;
+      const nestedMenu =
+        submenu.elements.submenuToggles[0].elements.controlledMenu;
+
+      menu.openDuration = 17;
+
+      expect(submenu.openDuration).toBe(17);
+      expect(nestedMenu.openDuration).toBe(17);
+      expect(
+        submenu.dom.menu.style.getPropertyValue(
+          "--test-open-transition-duration"
+        )
+      ).toBe("17ms");
+      expect(
+        nestedMenu.dom.menu.style.getPropertyValue(
+          "--test-open-transition-duration"
+        )
+      ).toBe("17ms");
+    });
+
+    // https://github.com/NickDJM/accessible-menu/issues/573
+    it("should restore the transition duration fallback for descendant openDuration", () => {
+      document.body.innerHTML = threeLevel;
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        transitionDuration: 35,
+        openDuration: 15,
+        closeDuration: 25,
+        prefix: "test-",
+      });
+      initializeMenu(menu);
+      const submenu = menu.elements.submenuToggles[0].elements.controlledMenu;
+      const nestedMenu =
+        submenu.elements.submenuToggles[0].elements.controlledMenu;
+
+      menu.openDuration = -1;
+      menu.transitionDuration = 55;
+
+      expect(submenu.openDuration).toBe(55);
+      expect(nestedMenu.openDuration).toBe(55);
+      expect(
+        submenu.dom.menu.style.getPropertyValue(
+          "--test-open-transition-duration"
+        )
+      ).toBe("55ms");
+      expect(
+        nestedMenu.dom.menu.style.getPropertyValue(
+          "--test-open-transition-duration"
+        )
+      ).toBe("55ms");
     });
   });
 
@@ -407,6 +499,7 @@ describe("BaseMenu getter/setters", () => {
     });
 
     // Test that closeDuration defaults to the root menu's closeDuration for submenus.
+    // https://github.com/NickDJM/accessible-menu/issues/573
     it("should default to the root menu's close duration for submenus", () => {
       // Create a new BaseMenu instance for testing.
       const menu = new BaseMenu({
@@ -416,9 +509,73 @@ describe("BaseMenu getter/setters", () => {
 
       const submenu = menu.elements.submenuToggles[0].elements.controlledMenu;
 
+      submenu.closeDuration = -1;
       menu.closeDuration = 100;
 
       expect(submenu.closeDuration).toBe(menu.closeDuration);
+    });
+
+    // https://github.com/NickDJM/accessible-menu/issues/573
+    it("should synchronize descendant closeDuration values and CSS", () => {
+      document.body.innerHTML = threeLevel;
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        transitionDuration: 35,
+        openDuration: 15,
+        closeDuration: 25,
+        prefix: "test-",
+      });
+      initializeMenu(menu);
+      const submenu = menu.elements.submenuToggles[0].elements.controlledMenu;
+      const nestedMenu =
+        submenu.elements.submenuToggles[0].elements.controlledMenu;
+
+      menu.closeDuration = 27;
+
+      expect(submenu.closeDuration).toBe(27);
+      expect(nestedMenu.closeDuration).toBe(27);
+      expect(
+        submenu.dom.menu.style.getPropertyValue(
+          "--test-close-transition-duration"
+        )
+      ).toBe("27ms");
+      expect(
+        nestedMenu.dom.menu.style.getPropertyValue(
+          "--test-close-transition-duration"
+        )
+      ).toBe("27ms");
+    });
+
+    // https://github.com/NickDJM/accessible-menu/issues/573
+    it("should restore the transition duration fallback for descendant closeDuration", () => {
+      document.body.innerHTML = threeLevel;
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        transitionDuration: 35,
+        openDuration: 15,
+        closeDuration: 25,
+        prefix: "test-",
+      });
+      initializeMenu(menu);
+      const submenu = menu.elements.submenuToggles[0].elements.controlledMenu;
+      const nestedMenu =
+        submenu.elements.submenuToggles[0].elements.controlledMenu;
+
+      menu.closeDuration = -1;
+      menu.transitionDuration = 55;
+
+      expect(submenu.closeDuration).toBe(55);
+      expect(nestedMenu.closeDuration).toBe(55);
+      expect(
+        submenu.dom.menu.style.getPropertyValue(
+          "--test-close-transition-duration"
+        )
+      ).toBe("55ms");
+      expect(
+        nestedMenu.dom.menu.style.getPropertyValue(
+          "--test-close-transition-duration"
+        )
+      ).toBe("55ms");
     });
   });
 

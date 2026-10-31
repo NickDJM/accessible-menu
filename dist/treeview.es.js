@@ -419,13 +419,13 @@ var m = class e {
 		r("number", { transitionDuration: e }), this._transitionDuration !== e && (this._transitionDuration = e, this._setTransitionDurations());
 	}
 	get openDuration() {
-		return this._openDuration === -1 ? this.transitionDuration : this.isTopLevel ? this._openDuration : this.elements.rootMenu.openDuration;
+		return this.isTopLevel ? this._openDuration === -1 ? this.transitionDuration : this._openDuration : this.elements.rootMenu.openDuration;
 	}
 	set openDuration(e) {
 		r("number", { openDuration: e }), this._openDuration !== e && (this._openDuration = e, this._setTransitionDurations());
 	}
 	get closeDuration() {
-		return this._closeDuration === -1 ? this.transitionDuration : this.isTopLevel ? this._closeDuration : this.elements.rootMenu.closeDuration;
+		return this.isTopLevel ? this._closeDuration === -1 ? this.transitionDuration : this._closeDuration : this.elements.rootMenu.closeDuration;
 	}
 	set closeDuration(e) {
 		r("number", { closeDuration: e }), this._closeDuration !== e && (this._closeDuration = e, this._setTransitionDurations());
@@ -711,7 +711,10 @@ var m = class e {
 		});
 	}
 	_setTransitionDurations() {
-		this.dom.menu.style.setProperty(`--${this.prefix}transition-duration`, `${this.transitionDuration}ms`), this.dom.menu.style.setProperty(`--${this.prefix}open-transition-duration`, `${this.openDuration}ms`), this.dom.menu.style.setProperty(`--${this.prefix}close-transition-duration`, `${this.closeDuration}ms`);
+		this.dom.menu.style.setProperty(`--${this.prefix}transition-duration`, `${this.transitionDuration}ms`), this.dom.menu.style.setProperty(`--${this.prefix}open-transition-duration`, `${this.openDuration}ms`), this.dom.menu.style.setProperty(`--${this.prefix}close-transition-duration`, `${this.closeDuration}ms`), this.elements.submenuToggles.forEach((e) => {
+			let t = e.elements.controlledMenu;
+			t.elements.rootMenu !== null && t._setTransitionDurations();
+		});
 	}
 	focus() {
 		this.focusState = "self", this.shouldFocus && this.dom.menu.focus();
@@ -798,7 +801,7 @@ var m = class e {
 	_MenuToggleType = g;
 	_closeChildrenOnBlur = !1;
 	_closeChildrenOnActivation = !1;
-	constructor({ menuElement: e, menuItemSelector: t = "li", menuLinkSelector: n = "a", submenuItemSelector: r = "li:has(ul)", submenuToggleSelector: i = "a", submenuSelector: a = "ul", controllerElement: o = null, containerElement: s = null, openClass: c = "show", closeClass: l = "hide", transitionClass: u = "transitioning", transitionDuration: d = 250, isTopLevel: f = !0, parentMenu: p = null, hoverType: m = "off", hoverDelay: h = 250, enterDelay: g = -1, leaveDelay: _ = -1, prefix: v = "am-", key: y = null, initialize: b = !0 }) {
+	constructor({ menuElement: e, menuItemSelector: t = "li", menuLinkSelector: n = "a", submenuItemSelector: r = "li:has(ul)", submenuToggleSelector: i = "a", submenuSelector: a = "ul", controllerElement: o = null, containerElement: s = null, openClass: c = "show", closeClass: l = "hide", transitionClass: u = "transitioning", transitionDuration: d = 250, openDuration: f = -1, closeDuration: p = -1, isTopLevel: m = !0, parentMenu: h = null, hoverType: g = "off", hoverDelay: _ = 250, enterDelay: v = -1, leaveDelay: y = -1, prefix: b = "am-", key: x = null, initialize: S = !0 }) {
 		super({
 			menuElement: e,
 			menuItemSelector: t,
@@ -812,15 +815,17 @@ var m = class e {
 			closeClass: l,
 			transitionClass: u,
 			transitionDuration: d,
-			isTopLevel: f,
-			parentMenu: p,
-			hoverType: m,
-			hoverDelay: h,
-			enterDelay: g,
-			leaveDelay: _,
-			prefix: v,
-			key: y
-		}), b && this.initialize();
+			openDuration: f,
+			closeDuration: p,
+			isTopLevel: m,
+			parentMenu: h,
+			hoverType: g,
+			hoverDelay: _,
+			enterDelay: v,
+			leaveDelay: y,
+			prefix: b,
+			key: x
+		}), S && this.initialize();
 	}
 	initialize() {
 		try {

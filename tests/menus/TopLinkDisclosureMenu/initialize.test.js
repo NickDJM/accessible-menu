@@ -42,6 +42,26 @@ afterEach(() => {
 
 // Test the TopLinkDisclosureMenu initialization.
 describe("TopLinkDisclosureMenu", () => {
+  // https://github.com/NickDJM/accessible-menu/issues/573
+  it.each([
+    [undefined, undefined, 35, 35],
+    [-1, -1, 35, 35],
+    [15, 25, 15, 25],
+  ])(
+    "should use open duration %s and close duration %s",
+    (openDuration, closeDuration, expectedOpen, expectedClose) => {
+      const menu = new TopLinkDisclosureMenu({
+        menuElement: document.querySelector("ul"),
+        transitionDuration: 35,
+        openDuration,
+        closeDuration,
+      });
+
+      expect(menu.openDuration).toBe(expectedOpen);
+      expect(menu.closeDuration).toBe(expectedClose);
+    }
+  );
+
   // Test that the TopLinkDisclosureMenu will initialize if the menuElement passed.
   it("should initialize", () => {
     // Create the test menu.
