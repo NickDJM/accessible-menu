@@ -67,6 +67,94 @@ describe("Menubar", () => {
 
     // Test Tab.
     describe("Tab", () => {
+      it.each([false, true])(
+        "should leave a level 2 submenu without restoring focus when shiftKey is %s",
+        async (shiftKey) => {
+          const menu = new Menubar({
+            menuElement: document.querySelector("ul"),
+          });
+          const parent = menu.elements.menuItems[1];
+          const submenu = parent.elements.childMenu;
+          const outside = document.createElement("button");
+          outside.textContent = "Outside the menubar";
+          document.body.append(outside);
+          menu.currentEvent = "keyboard";
+          menu.focusChild(1);
+          await new Promise(requestAnimationFrame);
+          parent.elements.toggle.preview();
+          submenu.focusFirstChild();
+          await new Promise(requestAnimationFrame);
+
+          const event = simulateKeyboardEvent(
+            "keydown",
+            submenu.currentMenuItem.dom.link,
+            {
+              key: "Tab",
+              shiftKey,
+            }
+          );
+
+          outside.focus();
+          await new Promise(requestAnimationFrame);
+
+          expect(event.defaultPrevented).toBe(false);
+          expect(document.activeElement).toBe(outside);
+          expect(parent.elements.toggle.isExpanded).toBe(false);
+          expect(menu.focusState).toBe("none");
+          expect(submenu.focusState).toBe("none");
+          expect(parent.dom.link.tabIndex).toBe(0);
+
+          menu.dispose();
+        }
+      );
+
+      it.each([false, true])(
+        "should leave a level 3 submenu without restoring focus when shiftKey is %s",
+        async (shiftKey) => {
+          const menu = new Menubar({
+            menuElement: document.querySelector("ul"),
+          });
+          const parent = menu.elements.menuItems[1];
+          const submenu = parent.elements.childMenu;
+          const nestedParent = submenu.elements.menuItems[1];
+          const nestedMenu = nestedParent.elements.childMenu;
+          const outside = document.createElement("button");
+          outside.textContent = "Outside the menubar";
+          document.body.append(outside);
+          menu.currentEvent = "keyboard";
+          menu.focusChild(1);
+          await new Promise(requestAnimationFrame);
+          parent.elements.toggle.preview();
+          submenu.currentChild = 1;
+          nestedParent.elements.toggle.preview();
+          nestedMenu.focusFirstChild();
+          await new Promise(requestAnimationFrame);
+
+          const event = simulateKeyboardEvent(
+            "keydown",
+            nestedMenu.currentMenuItem.dom.link,
+            {
+              key: "Tab",
+              shiftKey,
+            }
+          );
+
+          outside.focus();
+          await new Promise(requestAnimationFrame);
+
+          expect(event.defaultPrevented).toBe(false);
+          expect(document.activeElement).toBe(outside);
+          expect(parent.elements.toggle.isExpanded).toBe(false);
+          expect(nestedParent.elements.toggle.isExpanded).toBe(false);
+          expect(nestedMenu.focusState).toBe("none");
+          expect(menu.focusState).toBe("none");
+          expect(submenu.focusState).toBe("none");
+          expect(parent.dom.link.tabIndex).toBe(0);
+
+          menu.dispose();
+        }
+      );
+
       // Test that blur is called on the menu on Tab keydown events if focus state is not none.
       it("should call blur on the menu on Tab keydown events if focus state is not none", () => {
         // Create a new Menubar instance for testing.
