@@ -13,7 +13,11 @@ import {
 } from "vitest";
 import { threeLevel } from "../../../demo/menus.js";
 import BaseMenu from "../../../src/_baseMenu.js";
-import { simulatePointerEvent, PointerEvent } from "../helpers.js";
+import {
+  simulatePointerEvent,
+  simulateKeyboardEvent,
+  PointerEvent,
+} from "../helpers.js";
 
 beforeAll(() => {
   // Extend jsdom MouseEvent class as PointerEvent class.
@@ -112,6 +116,108 @@ describe("BaseMenu", () => {
     expect(document.activeElement).toBe(hoveredLink);
 
     menu.dispose();
+  });
+
+  // https://github.com/NickDJM/accessible-menu/issues/569
+  it("should suspend dynamic hover until the mouse moves over the item", () => {
+    const menu = new BaseMenu({
+      menuElement: document.querySelector("ul"),
+      hoverType: "dynamic",
+      enterDelay: 0,
+      transitionClass: "",
+    });
+    menu.initialize();
+    menu.elements.submenuToggles[0].preview();
+    const submenu = menu.elements.submenuToggles[0].elements.controlledMenu;
+    const hoveredLink = submenu.elements.menuItems[3].dom.link;
+    const focus = vi.spyOn(submenu, "focusCurrentChild");
+    const collapse = vi.spyOn(submenu, "collapseChildren");
+    const remove = vi.spyOn(menu, "_removeEventListener");
+    menu.currentEvent = "keyboard";
+
+    simulateKeyboardEvent("keydown", menu.elements.menuItems[1].dom.link, {
+      key: "Enter",
+    });
+    simulatePointerEvent("pointerenter", hoveredLink);
+    simulatePointerEvent("pointerleave", menu.elements.menuItems[1].dom.item);
+    vi.runAllTimers();
+
+    expect(menu.currentEvent).toBe("keyboard");
+    expect(submenu.currentChild).toBe(0);
+    expect(focus).not.toHaveBeenCalled();
+    expect(collapse).not.toHaveBeenCalled();
+
+    simulatePointerEvent("pointermove", hoveredLink);
+
+    expect(submenu.currentChild).toBe(3);
+    expect(focus).toHaveBeenCalledTimes(1);
+    expect(collapse).toHaveBeenCalledTimes(1);
+    expect(remove).toHaveBeenCalledWith(
+      "pointermove",
+      document,
+      expect.any(Function)
+    );
+
+    simulatePointerEvent("pointermove", hoveredLink);
+
+    expect(focus).toHaveBeenCalledTimes(1);
+    expect(collapse).toHaveBeenCalledTimes(1);
+    menu.dispose();
+  });
+
+  // https://github.com/NickDJM/accessible-menu/issues/569
+  it("should cancel pending dynamic hover previews when the keyboard takes over", () => {
+    const menu = new BaseMenu({
+      menuElement: document.querySelector("ul"),
+      hoverType: "dynamic",
+      enterDelay: 250,
+      transitionClass: "",
+    });
+    menu.initialize();
+    menu.dynamicHoverEnabled = true;
+    const item = menu.elements.menuItems[1];
+    const preview = vi.spyOn(item.elements.toggle, "preview");
+
+    item.dom.link.dispatchEvent(
+      new PointerEvent("pointerenter", { bubbles: false })
+    );
+    simulateKeyboardEvent("keydown", menu.elements.menuItems[0].dom.link, {
+      key: "ArrowRight",
+    });
+    vi.advanceTimersByTime(250);
+
+    expect(preview).not.toHaveBeenCalled();
+
+    simulatePointerEvent("pointermove", item.dom.link);
+    vi.advanceTimersByTime(249);
+
+    expect(preview).not.toHaveBeenCalled();
+
+    vi.advanceTimersByTime(1);
+
+    expect(preview).toHaveBeenCalledTimes(1);
+    menu.dispose();
+  });
+
+  // https://github.com/NickDJM/accessible-menu/issues/569
+  it("should remove the temporary movement listener when disposed", () => {
+    const menu = new BaseMenu({
+      menuElement: document.querySelector("ul"),
+      hoverType: "dynamic",
+    });
+    menu.initialize();
+    menu.dynamicHoverEnabled = true;
+    const remove = vi.spyOn(menu, "_removeEventListener");
+
+    simulateKeyboardEvent("keydown", menu.dom.menu, { key: "ArrowRight" });
+    menu.dispose();
+
+    expect(remove).toHaveBeenCalledWith(
+      "pointermove",
+      document,
+      expect.any(Function),
+      {}
+    );
   });
 
   // Test hover type on.

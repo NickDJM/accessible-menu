@@ -271,6 +271,10 @@ This method will do the following:
 - Adds all event listeners listed in [BaseMenu's _handleClick method](./base-menu#method--handleclick).
 - Adds a `click` listener to the `document` so if the user clicks outside of the menu it will collapse if it is expanded.
 
+### _handleDynamicHover <badge type="warning" text="protected" /> {#method--handledynamichover}
+
+Uses the parameters and focus handling described in [BaseMenu's _handleDynamicHover method](./base-menu#method--handledynamichover). Uses the hovered item's sibling toggle when the navigation link and submenu toggle are separate items.
+
 ### _handleHover <badge type="warning" text="protected" /> {#method--handlehover}
 
 Handles hover events throughout the menu for proper use.

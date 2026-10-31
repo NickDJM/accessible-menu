@@ -231,6 +231,41 @@ class Treeview extends BaseMenu {
   }
 
   /**
+   * Updates selection, focus, and submenus for an item during dynamic hover.
+   * Used by pointerenter and the first mouse movement after keyboard interaction.
+   *
+   * @protected
+   *
+   * @param {TreeviewItem} menuItem - The hovered menu item.
+   * @param {number} index - The item's index within this menu.
+   */
+  _handleDynamicHover(menuItem, index) {
+    if (
+      !this.dynamicHoverEnabled ||
+      this.elements.rootMenu._hoverResumeListener
+    )
+      return;
+
+    this.currentChild = index;
+
+    this.currentEvent = "mouse";
+    this.elements.rootMenu.blurChildren();
+    this.focusCurrentChild();
+
+    if (menuItem.isSubmenuItem) {
+      if (this.enterDelay > 0) {
+        this._setTimeout(() => {
+          menuItem.elements.toggle.preview();
+        }, this.enterDelay);
+      } else {
+        menuItem.elements.toggle.preview();
+      }
+    } else if (this.enterDelay > 0) {
+      this._clearTimeout();
+    }
+  }
+
+  /**
    * Handles hover events throughout the menu for proper use.
    *
    * Events triggered by a pen or touch are ignored.
@@ -247,8 +282,8 @@ class Treeview extends BaseMenu {
    * <strong>Hover Type "dynamic"</strong>
    * - When a `pointerenter` event triggers on a menu item's link, updates the menu's
    *   current child.
-   * - Updates the menu's focus state when it is a submenu or its focus state is not
-   *   "none". Once dynamic hover is enabled, focus follows the hovered item.
+   * - Once dynamic hover is enabled, updates the menu's focus state and moves focus
+   *   to the hovered item.
    * - When the root menu's dynamicHoverEnabled value is `true`, previews the
    *   item's submenu after enterDelay.
    * - When dynamicHoverEnabled is `false`, hovering an item
@@ -285,25 +320,7 @@ class Treeview extends BaseMenu {
             }
           }
         } else if (this.hoverType === "dynamic") {
-          if (!this.dynamicHoverEnabled) return;
-
-          this.currentChild = index;
-
-          this.currentEvent = "mouse";
-          this.elements.rootMenu.blurChildren();
-          this.focusCurrentChild();
-
-          if (menuItem.isSubmenuItem) {
-            if (this.enterDelay > 0) {
-              this._setTimeout(() => {
-                menuItem.elements.toggle.preview();
-              }, this.enterDelay);
-            } else {
-              menuItem.elements.toggle.preview();
-            }
-          } else if (this.enterDelay > 0) {
-            this._clearTimeout();
-          }
+          this._handleDynamicHover(menuItem, index);
         }
       });
 
@@ -313,6 +330,12 @@ class Treeview extends BaseMenu {
           if (event.pointerType === "pen" || event.pointerType === "touch") {
             return;
           }
+
+          if (
+            this.hoverType === "dynamic" &&
+            this.elements.rootMenu._hoverResumeListener
+          )
+            return;
 
           if (this.hoverType === "on") {
             if (this.leaveDelay > 0) {

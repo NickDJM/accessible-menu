@@ -184,6 +184,10 @@ Getters and setters are inherited from the [BaseMenu](./base-menu#getters-and-se
 
 Methods are inherited from the [BaseMenu](./base-menu#methods) class. The following methods are unique to or overridden in the Treeview class.
 
+### _handleDynamicHover <badge type="warning" text="protected" /> {#method--handledynamichover}
+
+Uses the parameters and focus handling described in [BaseMenu's _handleDynamicHover method](./base-menu#method--handledynamichover). Keeps other branches expanded when hovering an item without a submenu, cancelling a pending hover timeout when enterDelay is greater than zero.
+
 ### _handleHover <badge type="warning" text="protected" /> {#method--handlehover}
 
 Handles hover events throughout the menu for proper use.
@@ -204,7 +208,7 @@ Uses the hover settings described in [BaseMenu's _handleHover method](./base-men
 #### Hover Type "dynamic" {#method--handlehover--hovertype-dynamic}
 
 - When a `pointerenter` event triggers on a menu item's link, updates the menu's current child.
-- Updates the menu's focus state when it is a submenu or its focus state is not "none". Once dynamic hover is enabled, focus follows the hovered item.
+- Once dynamic hover is enabled, updates the menu's focus state and moves focus to the hovered item.
 - When the root menu's dynamicHoverEnabled value is `true`, previews the item's submenu after enterDelay.
 - When dynamicHoverEnabled is `false`, hovering an item does not change selection, focus, or submenu state.
 - Hovering an item without a submenu does not collapse other submenus. It cancels a pending hover timeout when enterDelay is greater than 0.

@@ -124,6 +124,15 @@ class BaseMenu extends Component {
   _dynamicHoverEnabled = false;
 
   /**
+   * The temporary mouse movement listener while keyboard interaction suspends hover.
+   *
+   * @protected
+   *
+   * @type {?Function}
+   */
+  _hoverResumeListener = null;
+
+  /**
    * The options passed to the root controller.
    *
    * @protected
@@ -1783,6 +1792,98 @@ class BaseMenu extends Component {
   }
 
   /**
+   * Suspends dynamic hover and cancels pending hover actions until mouse movement.
+   * The root owns the temporary listener, including movement outside the menu.
+   *
+   * @protected
+   */
+  _suspendDynamicHover() {
+    const menus = [this];
+    for (const menu of menus) {
+      menu._clearTimeout();
+      menus.push(
+        ...menu.elements.submenuToggles.map(
+          (toggle) => toggle.elements.controlledMenu
+        )
+      );
+    }
+
+    if (this._hoverResumeListener) return;
+
+    this._hoverResumeListener = (event) => {
+      if (event.pointerType === "pen" || event.pointerType === "touch") return;
+
+      this._removeEventListener(
+        "pointermove",
+        document,
+        this._hoverResumeListener
+      );
+      this._hoverResumeListener = null;
+
+      if (this.hoverType !== "dynamic" || !this.dynamicHoverEnabled) return;
+
+      // Search the existing menu items, including links containing an icon or span.
+      const menus = [this];
+      for (const menu of menus) {
+        const index = menu.elements.menuItems.findIndex((item) =>
+          item.dom.link.contains(event.target)
+        );
+
+        if (index !== -1) {
+          menu._handleDynamicHover(menu.elements.menuItems[index], index);
+          return;
+        }
+
+        menus.push(
+          ...menu.elements.submenuToggles.map(
+            (toggle) => toggle.elements.controlledMenu
+          )
+        );
+      }
+    };
+    this._addEventListener("pointermove", document, this._hoverResumeListener);
+  }
+
+  /**
+   * Updates selection, focus, and submenus for an item during dynamic hover.
+   * Used by pointerenter and the first mouse movement after keyboard interaction.
+   *
+   * @protected
+   *
+   * @param {BaseMenuItem} menuItem - The hovered menu item.
+   * @param {number} index - The item's index within this menu.
+   */
+  _handleDynamicHover(menuItem, index) {
+    if (
+      !this.dynamicHoverEnabled ||
+      this.elements.rootMenu._hoverResumeListener
+    )
+      return;
+
+    this.currentChild = index;
+
+    this.currentEvent = "mouse";
+    this.elements.rootMenu.blurChildren();
+    this.focusCurrentChild();
+
+    if (menuItem.isSubmenuItem) {
+      if (this.enterDelay > 0) {
+        this._setTimeout(() => {
+          menuItem.elements.toggle.preview();
+        }, this.enterDelay);
+      } else {
+        menuItem.elements.toggle.preview();
+      }
+    } else if (this.enterDelay > 0) {
+      this._setTimeout(() => {
+        this.collapseChildren();
+      }, this.enterDelay);
+    } else {
+      this.collapseChildren();
+    }
+  }
+
+  /**
    * Handles hover events throughout the menu for proper use.
    *
    * Events triggered by a pen or touch are ignored.
@@ -1801,15 +1902,17 @@ class BaseMenu extends Component {
    * <strong>Hover Type "dynamic"</strong>
    * - When a `pointerenter` event triggers on a menu item's link or toggle, updates the
    *   menu's current child.
-   * - Updates the menu's focus state when it is a submenu or its focus state is not
-   *   "none". Once dynamic hover is enabled, focus follows the hovered item.
+   * - Once dynamic hover is enabled, updates the menu's focus state and moves focus
+   *   to the hovered item.
    * - When the root menu's dynamicHoverEnabled value is `true`, previews the
    *   item's submenu after enterDelay. If the item has no submenu, calls collapseChildren
    *   after enterDelay instead.
    * - When dynamicHoverEnabled is `false`, hovering an item
    *   does not change selection, focus, or submenu state.
-   * - Leaving an item containing a submenu does not collapse it. The handler sets
-   *   currentEvent to "mouse" after leaveDelay.
+   * - Keyboard interaction suspends dynamic hover until the mouse moves, including
+   *   when a submenu appears beneath a stationary pointer.
+   * - Leaving an item containing a submenu does not collapse it. When hover is not
+   *   suspended, sets currentEvent to "mouse" after leaveDelay.
    * - Re-entering an item containing a submenu cancels its pending hover timeout when
    *   leaveDelay is greater than 0.
    *
@@ -1841,29 +1944,7 @@ class BaseMenu extends Component {
             }
           }
         } else if (this.hoverType === "dynamic") {
-          if (!this.dynamicHoverEnabled) return;
-
-          this.currentChild = index;
-
-          this.currentEvent = "mouse";
-          this.elements.rootMenu.blurChildren();
-          this.focusCurrentChild();
-
-          if (menuItem.isSubmenuItem) {
-            if (this.enterDelay > 0) {
-              this._setTimeout(() => {
-                menuItem.elements.toggle.preview();
-              }, this.enterDelay);
-            } else {
-              menuItem.elements.toggle.preview();
-            }
-          } else if (this.enterDelay > 0) {
-            this._setTimeout(() => {
-              this.collapseChildren();
-            }, this.enterDelay);
-          } else {
-            this.collapseChildren();
-          }
+          this._handleDynamicHover(menuItem, index);
         }
       });
 
@@ -1873,6 +1954,12 @@ class BaseMenu extends Component {
           if (event.pointerType === "pen" || event.pointerType === "touch") {
             return;
           }
+
+          if (
+            this.hoverType === "dynamic" &&
+            this.elements.rootMenu._hoverResumeListener
+          )
+            return;
 
           if (this.hoverType === "on") {
             if (this.leaveDelay > 0) {
@@ -1965,12 +2052,36 @@ class BaseMenu extends Component {
    *
    * This method exists to assist the _handleKeyup method.
    *
+   * - Adds a `keydown` listener to the menu (if the menu is the root menu).
+   *   - Runs during event capture.
+   *   - Suspends dynamic hover until the mouse moves.
+   * - Adds a `keydown` listener to the menu's controller (if the menu is the root menu).
+   *   - Runs during event capture.
+   *   - Suspends dynamic hover until the mouse moves.
    * - Adds a `keydown` listener to the menu's controller (if the menu is the root menu).
    *   - Blocks propagation on "Space", "Enter", and "Escape" keys.
    *
    * @protected
    */
   _handleKeydown() {
+    if (this.isTopLevel) {
+      const suspendHover = (event) => {
+        if (event.ctrlKey || event.altKey || event.metaKey) return;
+        if (this.hoverType === "dynamic") this._suspendDynamicHover();
+      };
+      this._addEventListener("keydown", this.dom.menu, suspendHover, {
+        capture: true,
+      });
+      if (this.elements.controller) {
+        this._addEventListener(
+          "keydown",
+          this.elements.controller.dom.controller,
+          suspendHover,
+          { capture: true }
+        );
+      }
+    }
+
     if (this.isTopLevel && this.elements.controller) {
       this._addEventListener(
         "keydown",
@@ -2079,6 +2190,7 @@ class BaseMenu extends Component {
     this.elements.controller?.dispose();
 
     super.dispose();
+    this._hoverResumeListener = null;
   }
 
   /**

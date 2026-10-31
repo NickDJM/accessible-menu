@@ -5,7 +5,7 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { threeLevel } from "../../../demo/menus.js";
 import Menubar from "../../../src/menubar.js";
-import { simulateKeyboardEvent } from "../helpers.js";
+import { simulateKeyboardEvent, simulatePointerEvent } from "../helpers.js";
 
 beforeEach(() => {
   // Create the test menu.
@@ -19,6 +19,35 @@ afterEach(() => {
 
 // Test keyboard events on the Menubar.
 describe("Menubar", () => {
+  // https://github.com/NickDJM/accessible-menu/issues/569
+  it("should keep keyboard focus when a submenu opens beneath a stationary pointer", () => {
+    vi.useFakeTimers();
+    const menu = new Menubar({
+      menuElement: document.querySelector("ul"),
+      hoverType: "dynamic",
+      enterDelay: 0,
+      transitionClass: "",
+    });
+    const controller = menu.elements.menuItems[1].dom.link;
+    const submenu = menu.elements.submenuToggles[0].elements.controlledMenu;
+    const hoveredLink = submenu.elements.menuItems[3].dom.link;
+    controller.focus();
+
+    simulateKeyboardEvent("keydown", controller, { key: "Enter" });
+    simulateKeyboardEvent("keyup", controller, { key: "Enter" });
+    simulatePointerEvent("pointerenter", hoveredLink);
+    vi.runAllTimers();
+
+    expect(document.activeElement).toBe(submenu.elements.menuItems[0].dom.link);
+
+    simulatePointerEvent("pointermove", hoveredLink);
+    vi.runAllTimers();
+
+    expect(document.activeElement).toBe(hoveredLink);
+    menu.dispose();
+    vi.useRealTimers();
+  });
+
   // Test keydown.
   describe("keydown", () => {
     // Test that keydown events set the current event to keyboard.
