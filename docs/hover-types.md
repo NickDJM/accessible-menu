@@ -40,7 +40,9 @@ Hover **dynamic** lets the user expand a menu before hovering between its submen
 
 Automatic expansion or collapse from a media query leaves `dynamicHoverEnabled` unchanged. It does not enable dynamic hover or reset it after a user has enabled it.
 
-While `dynamicHoverEnabled` is `true`, hovering a root-level submenu toggle previews its submenu. Hovering an item without a submenu collapses the current menu's submenus. Within submenus, this hover behavior is available regardless of `dynamicHoverEnabled`.
+While `dynamicHoverEnabled` is `true`, hovering a submenu toggle previews its submenu. Hovering an item without a submenu collapses the current menu's submenus.
+
+Keyboard interaction pauses dynamic hover until the mouse moves. This prevents a submenu appearing beneath a stationary pointer from taking focus away from keyboard navigation. The first mouse movement resumes hover on the item beneath the pointer. This pause does not reset `dynamicHoverEnabled`.
 
 Leaving an item does not collapse its submenu. For Disclosure Menus, Top Link Disclosure Menus, and Menubars, clicking outside the menu collapses it and resets `dynamicHoverEnabled`. Collapsing a toggle alone does not reset that value.
 

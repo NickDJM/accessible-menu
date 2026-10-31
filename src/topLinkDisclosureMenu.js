@@ -298,6 +298,52 @@ class TopLinkDisclosureMenu extends BaseMenu {
   }
 
   /**
+   * Updates selection, focus, and submenus for an item during dynamic hover.
+   * Used by pointerenter and the first mouse movement after keyboard interaction.
+   *
+   * @protected
+   *
+   * @param {TopLinkDisclosureMenuItem} menuItem - The hovered menu item.
+   * @param {number} index - The item's index within this menu.
+   */
+  _handleDynamicHover(menuItem, index) {
+    if (
+      !this.dynamicHoverEnabled ||
+      this.elements.rootMenu._hoverResumeListener
+    )
+      return;
+
+    this.currentChild = index;
+
+    this.currentEvent = "mouse";
+    this.elements.rootMenu.blurChildren();
+    this.focusCurrentChild();
+
+    let toggle = menuItem.isSubmenuItem ? menuItem.elements.toggle : null;
+
+    // Hovering over both the menu item _and_ the toggle item should work.
+    if (menuItem.elements.sibling !== null) {
+      toggle = menuItem.elements.sibling.elements.toggle;
+    }
+
+    if (toggle !== null) {
+      if (this.enterDelay > 0) {
+        this._setTimeout(() => {
+          toggle.preview();
+        }, this.enterDelay);
+      } else {
+        toggle.preview();
+      }
+    } else if (this.enterDelay > 0) {
+      this._setTimeout(() => {
+        this.collapseChildren();
+      }, this.enterDelay);
+    } else {
+      this.collapseChildren();
+    }
+  }
+
+  /**
    * Handles hover events using the same rules as BaseMenu.
    *
    * Hovering a separate link or its sibling toggle can preview the same submenu.
@@ -336,36 +382,7 @@ class TopLinkDisclosureMenu extends BaseMenu {
             toggle.preview();
           }
         } else if (this.hoverType === "dynamic") {
-          if (!this.dynamicHoverEnabled) return;
-
-          this.currentChild = index;
-
-          this.currentEvent = "mouse";
-          this.elements.rootMenu.blurChildren();
-          this.focusCurrentChild();
-
-          let toggle = menuItem.isSubmenuItem ? menuItem.elements.toggle : null;
-
-          // Hovering over both the menu item _and_ the toggle item should work.
-          if (menuItem.elements.sibling !== null) {
-            toggle = menuItem.elements.sibling.elements.toggle;
-          }
-
-          if (toggle !== null) {
-            if (this.enterDelay > 0) {
-              this._setTimeout(() => {
-                toggle.preview();
-              }, this.enterDelay);
-            } else {
-              toggle.preview();
-            }
-          } else if (this.enterDelay > 0) {
-            this._setTimeout(() => {
-              this.collapseChildren();
-            }, this.enterDelay);
-          } else {
-            this.collapseChildren();
-          }
+          this._handleDynamicHover(menuItem, index);
         }
       });
 
@@ -375,6 +392,12 @@ class TopLinkDisclosureMenu extends BaseMenu {
           if (event.pointerType === "pen" || event.pointerType === "touch") {
             return;
           }
+
+          if (
+            this.hoverType === "dynamic" &&
+            this.elements.rootMenu._hoverResumeListener
+          )
+            return;
 
           if (this.hoverType === "on") {
             if (this.leaveDelay > 0) {

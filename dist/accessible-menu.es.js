@@ -1206,6 +1206,7 @@ var C = class n extends h {
 	_currentChild = 0;
 	_hoverType = "off";
 	_dynamicHoverEnabled = !1;
+	_hoverResumeListener = null;
 	_controllerOptions = {};
 	constructor({ menuElement: e, menuItemsSelector: t = "li", menuLinksSelector: n = "a", submenuItemsSelector: r = "li:has(ul)", submenuTogglesSelector: i = "a", submenuSubtogglesSelector: a = null, submenuTriggersSelector: o = null, submenusSelector: s = "ul", controllerElement: c = null, containerElement: l = null, initializeClass: u = "initializing", expandClass: d = "show", collapseClass: f = "hide", transitionClass: p = "transitioning", transitionDuration: m = 250, expandDuration: h = -1, collapseDuration: g = -1, isTopLevel: _ = !0, parentMenu: v = null, hoverType: y = "off", hoverDelay: b = 250, enterDelay: x = -1, leaveDelay: S = -1, breakpoint: C = "", mediaQuery: w = "", expandInsideBreakpoint: T = !1, expandOutsideBreakpoint: E = !1, collapseInsideBreakpoint: D = !1, collapseOutsideBreakpoint: O = !1, lockInsideBreakpoint: k = !1, lockOutsideBreakpoint: A = !1, unlockInsideBreakpoint: j = !1, unlockOutsideBreakpoint: M = !1, prefix: N = "am-", key: P = null }) {
 		super({
@@ -1597,28 +1598,41 @@ var C = class n extends h {
 			this.focusState !== "none" && (this.currentEvent = "mouse", this.dom.menu.contains(e.target) || (this.elements.rootMenu.dynamicHoverEnabled = this.elements.submenuToggles.some((e) => e.isExpanded)));
 		});
 	}
+	_suspendDynamicHover() {
+		let e = [this];
+		for (let t of e) t._clearTimeout(), e.push(...t.elements.submenuToggles.map((e) => e.elements.controlledMenu));
+		this._hoverResumeListener || (this._hoverResumeListener = (e) => {
+			if (e.pointerType === "pen" || e.pointerType === "touch" || (this._removeEventListener("pointermove", document, this._hoverResumeListener), this._hoverResumeListener = null, this.hoverType !== "dynamic" || !this.dynamicHoverEnabled)) return;
+			let t = [this];
+			for (let n of t) {
+				let r = n.elements.menuItems.findIndex((t) => t.dom.link.contains(e.target));
+				if (r !== -1) {
+					n._handleDynamicHover(n.elements.menuItems[r], r);
+					return;
+				}
+				t.push(...n.elements.submenuToggles.map((e) => e.elements.controlledMenu));
+			}
+		}, this._addEventListener("pointermove", document, this._hoverResumeListener));
+	}
+	_handleDynamicHover(e, t) {
+		this.dynamicHoverEnabled && !this.elements.rootMenu._hoverResumeListener && (this.currentChild = t, this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild(), e.isSubmenuItem ? this.enterDelay > 0 ? this._setTimeout(() => {
+			e.elements.toggle.preview();
+		}, this.enterDelay) : e.elements.toggle.preview() : this.enterDelay > 0 ? this._setTimeout(() => {
+			this.collapseChildren();
+		}, this.enterDelay) : this.collapseChildren());
+	}
 	_handleHover() {
 		this.elements.menuItems.forEach((e, t) => {
 			this._addEventListener("pointerenter", e.dom.link, (n) => {
-				if (n.pointerType !== "pen" && n.pointerType !== "touch") {
-					if (this.hoverType === "on") this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusChild(t), e.isSubmenuItem && (this.enterDelay > 0 ? this._setTimeout(() => {
-						e.elements.toggle.preview();
-					}, this.enterDelay) : e.elements.toggle.preview());
-					else if (this.hoverType === "dynamic") {
-						if (!this.dynamicHoverEnabled) return;
-						this.currentChild = t, this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild(), e.isSubmenuItem ? this.enterDelay > 0 ? this._setTimeout(() => {
-							e.elements.toggle.preview();
-						}, this.enterDelay) : e.elements.toggle.preview() : this.enterDelay > 0 ? this._setTimeout(() => {
-							this.collapseChildren();
-						}, this.enterDelay) : this.collapseChildren();
-					}
-				}
+				n.pointerType !== "pen" && n.pointerType !== "touch" && (this.hoverType === "on" ? (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusChild(t), e.isSubmenuItem && (this.enterDelay > 0 ? this._setTimeout(() => {
+					e.elements.toggle.preview();
+				}, this.enterDelay) : e.elements.toggle.preview())) : this.hoverType === "dynamic" && this._handleDynamicHover(e, t));
 			}), e.isSubmenuItem && (this._addEventListener("pointerleave", e.dom.item, (t) => {
-				t.pointerType !== "pen" && t.pointerType !== "touch" && (this.hoverType === "on" ? this.leaveDelay > 0 ? this._setTimeout(() => {
+				t.pointerType !== "pen" && t.pointerType !== "touch" && (this.hoverType === "dynamic" && this.elements.rootMenu._hoverResumeListener || (this.hoverType === "on" ? this.leaveDelay > 0 ? this._setTimeout(() => {
 					this.currentEvent = "mouse", e.elements.toggle.collapse();
 				}, this.leaveDelay) : (this.currentEvent = "mouse", e.elements.toggle.collapse()) : this.hoverType === "dynamic" && (this.leaveDelay > 0 ? this._setTimeout(() => {
 					this.currentEvent = "mouse";
-				}, this.leaveDelay) : this.currentEvent = "mouse"));
+				}, this.leaveDelay) : this.currentEvent = "mouse")));
 			}), this._addEventListener("pointerenter", e.dom.item, (t) => {
 				t.pointerType !== "pen" && t.pointerType !== "touch" && e.isSubmenuItem && (this.hoverType === "on" || this.hoverType === "dynamic") && this.leaveDelay > 0 && this._clearTimeout();
 			}));
@@ -1637,6 +1651,12 @@ var C = class n extends h {
 		}, "submenuFocus");
 	}
 	_handleKeydown() {
+		if (this.isTopLevel) {
+			let e = (e) => {
+				e.ctrlKey || e.altKey || e.metaKey || this.hoverType === "dynamic" && this._suspendDynamicHover();
+			};
+			this._addEventListener("keydown", this.dom.menu, e, { capture: !0 }), this.elements.controller && this._addEventListener("keydown", this.elements.controller.dom.controller, e, { capture: !0 });
+		}
 		this.isTopLevel && this.elements.controller && this._addEventListener("keydown", this.elements.controller.dom.controller, (e) => {
 			if (e.ctrlKey || e.altKey || e.metaKey) return;
 			this.currentEvent = "keyboard";
@@ -1662,7 +1682,7 @@ var C = class n extends h {
 	dispose() {
 		this.elements.submenuToggles.forEach((e) => {
 			e.elements.controlledMenu.dispose(), e.dispose();
-		}), this.elements.menuItems.forEach((e) => e.dispose()), this.elements.controller?.dispose(), super.dispose();
+		}), this.elements.menuItems.forEach((e) => e.dispose()), this.elements.controller?.dispose(), super.dispose(), this._hoverResumeListener = null;
 	}
 	focusCurrentChild() {
 		this.focusState = "self", this.currentChild !== -1 && this.currentMenuItem.focus();
@@ -2214,6 +2234,16 @@ var C = class n extends h {
 			this.focusState !== "none" && (this.currentEvent = "mouse", this.dom.menu.contains(e.target) || (this.collapseChildren(), this.blur(), this.elements.controller && this.elements.controller.collapse(), this.elements.rootMenu.dynamicHoverEnabled = !1));
 		});
 	}
+	_handleDynamicHover(e, t) {
+		if (!this.dynamicHoverEnabled || this.elements.rootMenu._hoverResumeListener) return;
+		this.currentChild = t, this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild();
+		let n = e.isSubmenuItem ? e.elements.toggle : null;
+		e.elements.sibling !== null && (n = e.elements.sibling.elements.toggle), n === null ? this.enterDelay > 0 ? this._setTimeout(() => {
+			this.collapseChildren();
+		}, this.enterDelay) : this.collapseChildren() : this.enterDelay > 0 ? this._setTimeout(() => {
+			n.preview();
+		}, this.enterDelay) : n.preview();
+	}
 	_handleHover() {
 		this.elements.menuItems.forEach((e, t) => {
 			this._addEventListener("pointerenter", e.dom.link, (n) => {
@@ -2225,23 +2255,14 @@ var C = class n extends h {
 						this.enterDelay > 0 ? this._setTimeout(() => {
 							n.preview();
 						}, this.enterDelay) : n.preview();
-					} else if (this.hoverType === "dynamic") {
-						if (!this.dynamicHoverEnabled) return;
-						this.currentChild = t, this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild();
-						let n = e.isSubmenuItem ? e.elements.toggle : null;
-						e.elements.sibling !== null && (n = e.elements.sibling.elements.toggle), n === null ? this.enterDelay > 0 ? this._setTimeout(() => {
-							this.collapseChildren();
-						}, this.enterDelay) : this.collapseChildren() : this.enterDelay > 0 ? this._setTimeout(() => {
-							n.preview();
-						}, this.enterDelay) : n.preview();
-					}
+					} else this.hoverType === "dynamic" && this._handleDynamicHover(e, t);
 				}
 			}), e.isSubmenuItem && (this._addEventListener("pointerleave", e.dom.item, (t) => {
-				t.pointerType !== "pen" && t.pointerType !== "touch" && (this.hoverType === "on" ? this.leaveDelay > 0 ? this._setTimeout(() => {
+				t.pointerType !== "pen" && t.pointerType !== "touch" && (this.hoverType === "dynamic" && this.elements.rootMenu._hoverResumeListener || (this.hoverType === "on" ? this.leaveDelay > 0 ? this._setTimeout(() => {
 					this.currentEvent = "mouse", e.elements.toggle.collapse();
 				}, this.leaveDelay) : (this.currentEvent = "mouse", e.elements.toggle.collapse()) : this.hoverType === "dynamic" && (this.leaveDelay > 0 ? this._setTimeout(() => {
 					this.currentEvent = "mouse";
-				}, this.leaveDelay) : this.currentEvent = "mouse"));
+				}, this.leaveDelay) : this.currentEvent = "mouse")));
 			}), this._addEventListener("pointerenter", e.dom.item, (t) => {
 				t.pointerType !== "pen" && t.pointerType !== "touch" && e.isSubmenuItem && (this.hoverType === "on" || this.hoverType === "dynamic") && this.leaveDelay > 0 && this._clearTimeout();
 			}));
@@ -2366,24 +2387,21 @@ var C = class n extends h {
 			e.detail.component === this && (this.isTopLevel ? (this.dom.menu.setAttribute("role", "tree"), this.elements.menuItems.length > 0 && (this.elements.menuItems[0].dom.link.tabIndex = 0)) : this.dom.menu.setAttribute("role", "group"), this.isTopLevel && this.elements.controller && this.elements.controller.dom.controller.removeAttribute("aria-owns"));
 		});
 	}
+	_handleDynamicHover(e, t) {
+		this.dynamicHoverEnabled && !this.elements.rootMenu._hoverResumeListener && (this.currentChild = t, this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild(), e.isSubmenuItem ? this.enterDelay > 0 ? this._setTimeout(() => {
+			e.elements.toggle.preview();
+		}, this.enterDelay) : e.elements.toggle.preview() : this.enterDelay > 0 && this._clearTimeout());
+	}
 	_handleHover() {
 		this.elements.menuItems.forEach((e, t) => {
 			this._addEventListener("pointerenter", e.dom.link, (n) => {
-				if (n.pointerType !== "pen" && n.pointerType !== "touch") {
-					if (this.hoverType === "on") this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusChild(t), e.isSubmenuItem && (this.enterDelay > 0 ? this._setTimeout(() => {
-						e.elements.toggle.preview();
-					}, this.enterDelay) : e.elements.toggle.preview());
-					else if (this.hoverType === "dynamic") {
-						if (!this.dynamicHoverEnabled) return;
-						this.currentChild = t, this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild(), e.isSubmenuItem ? this.enterDelay > 0 ? this._setTimeout(() => {
-							e.elements.toggle.preview();
-						}, this.enterDelay) : e.elements.toggle.preview() : this.enterDelay > 0 && this._clearTimeout();
-					}
-				}
+				n.pointerType !== "pen" && n.pointerType !== "touch" && (this.hoverType === "on" ? (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusChild(t), e.isSubmenuItem && (this.enterDelay > 0 ? this._setTimeout(() => {
+					e.elements.toggle.preview();
+				}, this.enterDelay) : e.elements.toggle.preview())) : this.hoverType === "dynamic" && this._handleDynamicHover(e, t));
 			}), e.isSubmenuItem && (this._addEventListener("pointerleave", e.dom.item, (e) => {
-				e.pointerType !== "pen" && e.pointerType !== "touch" && (this.hoverType === "on" ? this.leaveDelay > 0 && this._clearTimeout() : this.hoverType === "dynamic" && (this.leaveDelay > 0 ? this._setTimeout(() => {
+				e.pointerType !== "pen" && e.pointerType !== "touch" && (this.hoverType === "dynamic" && this.elements.rootMenu._hoverResumeListener || (this.hoverType === "on" ? this.leaveDelay > 0 && this._clearTimeout() : this.hoverType === "dynamic" && (this.leaveDelay > 0 ? this._setTimeout(() => {
 					this.currentEvent = "mouse";
-				}, this.leaveDelay) : this.currentEvent = "mouse"));
+				}, this.leaveDelay) : this.currentEvent = "mouse")));
 			}), this._addEventListener("pointerenter", e.dom.item, (t) => {
 				t.pointerType !== "pen" && t.pointerType !== "touch" && e.isSubmenuItem && (this.hoverType === "on" || this.hoverType === "dynamic") && this.leaveDelay > 0 && this._clearTimeout();
 			})), this.isTopLevel && this._addEventListener("pointerleave", this.dom.menu, (e) => {

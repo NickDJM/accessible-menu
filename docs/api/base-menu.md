@@ -510,6 +510,18 @@ BaseMenu._dynamicHoverEnabled; // Default: `false`.
 
 `boolean`
 
+### _hoverResumeListener <badge type="warning" text="protected" /> {#property--hoverresumelistener}
+
+The root menu's temporary mouse movement listener. A non-null value suspends dynamic hover during keyboard interaction. The listener removes itself and clears this value when the mouse moves.
+
+```js
+BaseMenu._hoverResumeListener; // Default: `null`.
+```
+
+#### Type {#property--hoverresumelistener--type}
+
+`Function|null`
+
 ### _key <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--key}
 
 The key used to generate IDs throughout the menu.
@@ -1811,6 +1823,31 @@ This method will do the following:
 - If [_collapseChildrenOnActivation](#property--collapsechildrenonactivation) is true, adds a bubbling `click` listener to the menu that collapses the root menu's submenus after a navigation link's own click handlers run.
 - Adds a `click` listener to the menu's controller (if the menu is the root menu) so when it is clicked it will expand or collapse.
 
+### _suspendDynamicHover <badge type="warning" text="protected" /> {#method--suspenddynamichover}
+
+Cancels pending hover actions throughout the menu and suspends dynamic hover until the mouse moves. Called on the root menu during keyboard interaction.
+
+```js
+BaseMenu._suspendDynamicHover();
+```
+
+Registers one temporary document pointermove listener. The first mouse movement removes it and finds the item beneath the pointer in the existing menu objects and calls that menu's _handleDynamicHover method, if an item matches. Pen and touch movement do not resume hover. Repeated keyboard interaction cancels pending hover actions without adding duplicate movement listeners. Disposing the root menu removes the listener.
+
+### _handleDynamicHover <badge type="warning" text="protected" /> {#method--handledynamichover}
+
+Updates selection, focus, and submenus for a hovered item. Used by pointerenter and the first mouse movement after keyboard interaction. Returns without changing the menu while dynamic hover is disabled or suspended.
+
+```js
+BaseMenu._handleDynamicHover(menuItem, index);
+```
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| menuItem | `BaseMenuItem` | The hovered item belonging to this menu. |
+| index | `number` | The item's index within this menu. |
+
+Focuses the item, then previews its submenu after enterDelay. If the item has no submenu, collapses this menu's children after enterDelay instead. A delay of zero runs the action immediately. Treeview and TopLinkDisclosureMenu override this method for their hover behavior.
+
 ### _handleHover <badge type="warning" text="protected" /> {#method--handlehover}
 
 Handles hover events throughout the menu for proper use.
@@ -1833,10 +1870,11 @@ Adds pointer listeners for the menu's hover type. Events triggered by a pen or t
 #### Hover Type "dynamic" {#method--handlehover--hovertype-dynamic}
 
 - When a `pointerenter` event triggers on a menu item's link or toggle, updates the menu's current child.
-- Updates the menu's focus state when it is a submenu or its focus state is not "none". Once dynamic hover is enabled, focus follows the hovered item.
+- Once dynamic hover is enabled, updates the menu's focus state and moves focus to the hovered item.
 - When the root menu's dynamicHoverEnabled value is `true`, previews the item's submenu after enterDelay. If the item has no submenu, calls collapseChildren after enterDelay instead.
 - When dynamicHoverEnabled is `false`, hovering an item does not change selection, focus, or submenu state.
-- Leaving an item containing a submenu does not collapse it. The handler sets currentEvent to "mouse" after leaveDelay.
+- Keyboard interaction suspends dynamic hover and cancels pending hover actions until the mouse moves. Movement resumes hover on the item beneath the pointer, even without another pointerenter event.
+- Leaving an item containing a submenu does not collapse it. When hover is not suspended, the handler sets currentEvent to "mouse" after leaveDelay.
 - Re-entering an item containing a submenu cancels its pending hover timeout when leaveDelay is greater than 0.
 
 #### Hover Type "off" {#method--handlehover--hovertype-off}
@@ -1879,6 +1917,12 @@ This method exists to assist the [_handleKeyup](#method--handlekeyup) method.
 
 This method will do the following:
 
+- Adds a `keydown` listener to the menu (if the menu is the root menu).
+  - Runs during event capture.
+  - Suspends dynamic hover until the mouse moves.
+- Adds a `keydown` listener to the menu's controller (if the menu is the root menu).
+  - Runs during event capture.
+  - Suspends dynamic hover until the mouse moves.
 - Adds a `keydown` listener to the menu's controller (if the menu is the root menu).
   - Blocks propagation on "Space", "Enter", and "Escape" keys.
 

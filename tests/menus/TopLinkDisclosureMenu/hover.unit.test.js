@@ -131,6 +131,7 @@ describe("TopLinkDisclosureMenu", () => {
         expect(spy).toHaveBeenCalled();
       });
       // Test that preview is called after a delay when a submenu item is hovered.
+      // https://github.com/NickDJM/accessible-menu/issues/569
       it("should call preview after a delay when a submenu item is hovered", () => {
         // Create a new TopLinkDisclosureMenu instance for testing.
         const menu = new TopLinkDisclosureMenu({
@@ -144,18 +145,15 @@ describe("TopLinkDisclosureMenu", () => {
         const spy = vi.spyOn(menu.elements.submenuToggles[0], "preview");
 
         // Simulate the pointerenter event.
-        simulatePointerEvent(
-          "pointerenter",
-          menu.elements.menuItems[2].dom.link
+        // Native pointerenter does not bubble to the item's timeout-cancelling listener.
+        menu.elements.menuItems[2].dom.link.dispatchEvent(
+          new PointerEvent("pointerenter", { bubbles: false })
         );
 
         // Advance the timers by the menu's enter delay.
         vi.advanceTimersByTime(menu.enterDelay);
 
-        vi.waitFor(() => expect(spy).toHaveBeenCalled(), {
-          timeout: 10000,
-          interval: 10,
-        });
+        expect(spy).toHaveBeenCalled();
       });
       // Test that clearTimeout is called when a sibling of a submenu item is hovered.
       it("should call clearTimeout when a sibling of a submenu item is hovered", () => {
@@ -182,6 +180,7 @@ describe("TopLinkDisclosureMenu", () => {
         expect(spy).toHaveBeenCalled();
       });
       // Test that preview is called after a delay when a sibling of a submenu item is hovered.
+      // https://github.com/NickDJM/accessible-menu/issues/569
       it("should call preview after a delay when a sibling of a submenu item is hovered", () => {
         // Create a new TopLinkDisclosureMenu instance for testing.
         const menu = new TopLinkDisclosureMenu({
@@ -195,18 +194,15 @@ describe("TopLinkDisclosureMenu", () => {
         const spy = vi.spyOn(menu.elements.submenuToggles[0], "preview");
 
         // Simulate the pointerenter event.
-        simulatePointerEvent(
-          "pointerenter",
-          menu.elements.menuItems[1].dom.link
+        // Native pointerenter does not bubble to the item's timeout-cancelling listener.
+        menu.elements.menuItems[1].dom.link.dispatchEvent(
+          new PointerEvent("pointerenter", { bubbles: false })
         );
 
         // Advance the timers by the menu's enter delay.
         vi.advanceTimersByTime(menu.enterDelay);
 
-        vi.waitFor(() => expect(spy).toHaveBeenCalled(), {
-          timeout: 10000,
-          interval: 10,
-        });
+        expect(spy).toHaveBeenCalled();
       });
       // Test that preview is called immediately when a submenu item is hovered and enterDelay is set to 0.
       it("should call preview immediately when a submenu item is hovered and enterDelay is set to 0", () => {
