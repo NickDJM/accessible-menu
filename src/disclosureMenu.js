@@ -269,7 +269,7 @@ class DisclosureMenu extends BaseMenu {
             this.elements.controller.collapse();
           }
 
-          this.elements.rootMenu.hasExpanded = false;
+          this.elements.rootMenu.dynamicHoverEnabled = false;
         }
       }
     });

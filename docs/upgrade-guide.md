@@ -35,7 +35,7 @@ The open and close names have been changed to expand and collapse. Update constr
 | `open()` / `close()`                                               | `expand()` / `collapse()`                                               |
 | `openChildren()` / `closeChildren()` / `closeSiblings()`           | `expandChildren()` / `collapseChildren()` / `collapseSiblings()`        |
 | `isOpen`.                                                          | `isExpanded`                                                            |
-| `hasOpened`.                                                       | `hasExpanded`                                                           |
+| `hasOpened`.                                                       | `dynamicHoverEnabled`                                                           |
 | `openClass` / `closeClass`                                         | `expandClass` / `collapseClass`                                         |
 | `openDuration` / `closeDuration`                                   | `expandDuration` / `collapseDuration`                                   |
 | `--am-open-transition-duration` / `--am-close-transition-duration` | `--am-expand-transition-duration` / `--am-collapse-transition-duration` |
@@ -202,7 +202,7 @@ Update these references in custom subclasses:
 
 | v4 member                           | v5 replacement                                    |
 | ----------------------------------- | ------------------------------------------------- |
-| Menu `_hasOpened`                   | `_hasExpanded`                                    |
+| Menu `_hasOpened`                   | `_dynamicHoverEnabled`                                    |
 | Toggle `_open` boolean              | `_expanded`, a Core `TransactionalValue<boolean>` |
 | Toggle `_dom.toggle` / `dom.toggle` | `_dom.controller` / `dom.controller`              |
 | `_setTransitionDurations()`         | `_setCustomProps()`                               |

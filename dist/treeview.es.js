@@ -1045,7 +1045,7 @@ var h = class {
 	}
 	_expand(e = {}) {
 		let t = this.elements.controlledMenu.elements.rootMenu;
-		t && !this._handlingMediaQuery && (t.hasExpanded = !0), super._expand(e);
+		t && !this.elements.controlledMenu.isTopLevel && !this._handlingMediaQuery && (t.dynamicHoverEnabled = !0), super._expand(e);
 	}
 	expand({ force: e = !this.isInitialized, preserveState: t = !1, emit: n = this.isInitialized, transition: r = this.isInitialized } = {}) {
 		(!this.isLocked || e) && (this.isInitialized && (this.elements.controlledMenu.focusState = "self"), super.expand({
@@ -1205,7 +1205,7 @@ var C = class n extends h {
 	_root = !0;
 	_currentChild = 0;
 	_hoverType = "off";
-	_hasExpanded = !1;
+	_dynamicHoverEnabled = !1;
 	_controllerOptions = {};
 	constructor({ menuElement: e, menuItemsSelector: t = "li", menuLinksSelector: n = "a", submenuItemsSelector: r = "li:has(ul)", submenuTogglesSelector: i = "a", submenuSubtogglesSelector: a = null, submenuTriggersSelector: o = null, submenusSelector: s = "ul", controllerElement: c = null, containerElement: l = null, initializeClass: u = "initializing", expandClass: d = "show", collapseClass: f = "hide", transitionClass: p = "transitioning", transitionDuration: m = 250, expandDuration: h = -1, collapseDuration: g = -1, isTopLevel: _ = !0, parentMenu: v = null, hoverType: y = "off", hoverDelay: b = 250, enterDelay: x = -1, leaveDelay: S = -1, breakpoint: C = "", mediaQuery: w = "", expandInsideBreakpoint: T = !1, expandOutsideBreakpoint: E = !1, collapseInsideBreakpoint: D = !1, collapseOutsideBreakpoint: O = !1, lockInsideBreakpoint: k = !1, lockOutsideBreakpoint: A = !1, unlockInsideBreakpoint: j = !1, unlockOutsideBreakpoint: M = !1, prefix: N = "am-", key: P = null }) {
 		super({
@@ -1440,13 +1440,13 @@ var C = class n extends h {
 	}
 	get shouldFocus() {
 		let e = this.elements.rootMenu || this.elements.parentMenu;
-		return e && e !== this ? e.shouldFocus : super.shouldFocus || this.currentEvent === "character";
+		return e && e !== this ? e.shouldFocus : super.shouldFocus || this.currentEvent === "character" || this.currentEvent === "mouse" && this.hoverType === "dynamic" && this.dynamicHoverEnabled;
 	}
-	get hasExpanded() {
-		return this._root ? this._hasExpanded : this.elements.rootMenu.hasExpanded;
+	get dynamicHoverEnabled() {
+		return this._root ? this._dynamicHoverEnabled : this.elements.rootMenu.dynamicHoverEnabled;
 	}
-	set hasExpanded(e) {
-		t("boolean", { hasExpanded: e }), this._hasExpanded !== e && (this._hasExpanded = e);
+	set dynamicHoverEnabled(e) {
+		t("boolean", { dynamicHoverEnabled: e }), this._dynamicHoverEnabled !== e && (this._dynamicHoverEnabled = e);
 	}
 	get _submenuOptions() {
 		return {
@@ -1569,6 +1569,11 @@ var C = class n extends h {
 		this.elements.menuItems.forEach((e, t) => {
 			this._addEventListener("focus", e.dom.link, () => {
 				this.focusState = "self", this.currentChild = t;
+				let e = this;
+				for (; e.elements.parentMenu;) {
+					let t = e.elements.parentMenu;
+					t.currentChild = t.elements.menuItems.findIndex((t) => t.elements.childMenu === e), e = t;
+				}
 			});
 		}), this._addEventListener("focusout", this.dom.menu, (e) => {
 			this.currentEvent !== "keyboard" || e.relatedTarget === null || this.dom.menu.contains(e.relatedTarget) || (this.focusState = "none", this._collapseChildrenOnBlur && this.collapseChildren());
@@ -1580,28 +1585,34 @@ var C = class n extends h {
 		}
 		this.elements.menuItems.forEach((t, n) => {
 			this._addEventListener("click", t.dom.link, () => {
-				this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this._clearTimeout(), this.focusChild(n);
+				this.isTopLevel && (this.dynamicHoverEnabled = !0), this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this._clearTimeout(), this.focusChild(n);
 			}, { passive: !0 }), t.isSubmenuItem && this._addEventListener("click", t.elements.toggle.dom.trigger, (r) => {
-				this.currentEvent = "mouse", t.elements.toggle.dom.trigger !== t.dom.link && (this.elements.rootMenu.blurChildren(), this._clearTimeout(), this.focusChild(n)), e(this, t.elements.toggle, r);
+				this.isTopLevel && (this.dynamicHoverEnabled = !0), this.currentEvent = "mouse", t.elements.toggle.dom.trigger !== t.dom.link && (this.elements.rootMenu.blurChildren(), this._clearTimeout(), this.focusChild(n)), e(this, t.elements.toggle, r);
 			});
 		}), this._collapseChildrenOnActivation && this._addEventListener("click", this.dom.menu, (e) => {
 			this.elements.menuItems.some((t) => !t.isSubmenuItem && t.dom.link.contains(e.target)) && this.elements.rootMenu.collapseChildren();
 		}), this.isTopLevel && this.elements.controller && this._addEventListener("click", this.elements.controller.dom.trigger, (t) => {
 			this.currentEvent = "mouse", e(this, this.elements.controller, t);
 		}), this._addEventListener("click", document, (e) => {
-			this.focusState !== "none" && (this.currentEvent = "mouse", this.dom.menu.contains(e.target) || (this.elements.rootMenu.hasExpanded = this.elements.submenuToggles.some((e) => e.isExpanded)));
+			this.focusState !== "none" && (this.currentEvent = "mouse", this.dom.menu.contains(e.target) || (this.elements.rootMenu.dynamicHoverEnabled = this.elements.submenuToggles.some((e) => e.isExpanded)));
 		});
 	}
 	_handleHover() {
 		this.elements.menuItems.forEach((e, t) => {
 			this._addEventListener("pointerenter", e.dom.link, (n) => {
-				n.pointerType !== "pen" && n.pointerType !== "touch" && (this.hoverType === "on" ? (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusChild(t), e.isSubmenuItem && (this.enterDelay > 0 ? this._setTimeout(() => {
-					e.elements.toggle.preview();
-				}, this.enterDelay) : e.elements.toggle.preview())) : this.hoverType === "dynamic" && (this.currentChild = t, this.isTopLevel && this.focusState === "none" || (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild()), (!this.isTopLevel || this.hasExpanded) && (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild(), e.isSubmenuItem ? this.enterDelay > 0 ? this._setTimeout(() => {
-					e.elements.toggle.preview();
-				}, this.enterDelay) : e.elements.toggle.preview() : this.enterDelay > 0 ? this._setTimeout(() => {
-					this.collapseChildren();
-				}, this.enterDelay) : this.collapseChildren())));
+				if (n.pointerType !== "pen" && n.pointerType !== "touch") {
+					if (this.hoverType === "on") this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusChild(t), e.isSubmenuItem && (this.enterDelay > 0 ? this._setTimeout(() => {
+						e.elements.toggle.preview();
+					}, this.enterDelay) : e.elements.toggle.preview());
+					else if (this.hoverType === "dynamic") {
+						if (!this.dynamicHoverEnabled) return;
+						this.currentChild = t, this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild(), e.isSubmenuItem ? this.enterDelay > 0 ? this._setTimeout(() => {
+							e.elements.toggle.preview();
+						}, this.enterDelay) : e.elements.toggle.preview() : this.enterDelay > 0 ? this._setTimeout(() => {
+							this.collapseChildren();
+						}, this.enterDelay) : this.collapseChildren();
+					}
+				}
 			}), e.isSubmenuItem && (this._addEventListener("pointerleave", e.dom.item, (t) => {
 				t.pointerType !== "pen" && t.pointerType !== "touch" && (this.hoverType === "on" ? this.leaveDelay > 0 ? this._setTimeout(() => {
 					this.currentEvent = "mouse", e.elements.toggle.collapse();
@@ -1788,11 +1799,17 @@ var C = class n extends h {
 	_handleHover() {
 		this.elements.menuItems.forEach((e, t) => {
 			this._addEventListener("pointerenter", e.dom.link, (n) => {
-				n.pointerType !== "pen" && n.pointerType !== "touch" && (this.hoverType === "on" ? (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusChild(t), e.isSubmenuItem && (this.enterDelay > 0 ? this._setTimeout(() => {
-					e.elements.toggle.preview();
-				}, this.enterDelay) : e.elements.toggle.preview())) : this.hoverType === "dynamic" && (this.currentChild = t, this.isTopLevel && this.focusState === "none" || (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild()), (!this.isTopLevel || this.hasExpanded) && (this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild(), e.isSubmenuItem ? this.enterDelay > 0 ? this._setTimeout(() => {
-					e.elements.toggle.preview();
-				}, this.enterDelay) : e.elements.toggle.preview() : this.enterDelay > 0 && this._clearTimeout())));
+				if (n.pointerType !== "pen" && n.pointerType !== "touch") {
+					if (this.hoverType === "on") this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusChild(t), e.isSubmenuItem && (this.enterDelay > 0 ? this._setTimeout(() => {
+						e.elements.toggle.preview();
+					}, this.enterDelay) : e.elements.toggle.preview());
+					else if (this.hoverType === "dynamic") {
+						if (!this.dynamicHoverEnabled) return;
+						this.currentChild = t, this.currentEvent = "mouse", this.elements.rootMenu.blurChildren(), this.focusCurrentChild(), e.isSubmenuItem ? this.enterDelay > 0 ? this._setTimeout(() => {
+							e.elements.toggle.preview();
+						}, this.enterDelay) : e.elements.toggle.preview() : this.enterDelay > 0 && this._clearTimeout();
+					}
+				}
 			}), e.isSubmenuItem && (this._addEventListener("pointerleave", e.dom.item, (e) => {
 				e.pointerType !== "pen" && e.pointerType !== "touch" && (this.hoverType === "on" ? this.leaveDelay > 0 && this._clearTimeout() : this.hoverType === "dynamic" && (this.leaveDelay > 0 ? this._setTimeout(() => {
 					this.currentEvent = "mouse";
@@ -1830,7 +1847,7 @@ var C = class n extends h {
 			let t = x(e);
 			if (t === "Character") S(e), this.elements.rootMenu.currentEvent = "character", this.focusNextNodeWithCharacter(e.key);
 			else if (this.focusState === "self") {
-				if (t === "Enter" || t === "Space") S(e), this.currentMenuItem.isSubmenuItem ? this.currentMenuItem.elements.toggle.isExpanded ? this.currentMenuItem.elements.toggle.collapse() : this.currentMenuItem.elements.toggle.preview() : this.currentMenuItem.dom.link.click();
+				if (t === "Enter" || t === "Space") S(e), this.currentMenuItem.isSubmenuItem && this.currentMenuItem.elements.toggle.dom.trigger === this.currentMenuItem.dom.link ? this.currentMenuItem.elements.toggle.isExpanded ? this.currentMenuItem.elements.toggle.collapse() : this.currentMenuItem.elements.toggle.preview() : this.currentMenuItem.dom.link.click();
 				else if (t === "Escape") this.isTopLevel && this.elements.controller && this.elements.controller.isExpanded && (this.elements.controller.collapse(), this.focusController());
 				else if (t === "ArrowDown") S(e), this.currentMenuItem.isSubmenuItem && this.currentMenuItem.elements.toggle.isExpanded ? (this.blurCurrentChild(), this.currentMenuItem.elements.childMenu.currentEvent = this.currentEvent, this._focusSubmenu(this.currentMenuItem)) : !this.isTopLevel && this.currentChild === this.elements.menuItems.length - 1 ? this.focusParentsNextChild() : this.focusNextChild();
 				else if (t === "ArrowUp") {

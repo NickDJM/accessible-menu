@@ -497,16 +497,16 @@ BaseMenu._prefix; // Default: `"am-"`.
 
 `string`
 
-### _hasExpanded <badge type="warning" text="protected" /> {#property--hasexpanded}
+### _dynamicHoverEnabled <badge type="warning" text="protected" /> {#property--dynamichoverenabled}
 
-A flag that enables dynamic hover at the root level after a toggle has expanded.
+A flag that enables dynamic hover after a submenu expands or a root menu item is clicked.
 Automatic expansion from a media query does not change this value.
 
 ```js
-BaseMenu._hasExpanded; // Default: `false`.
+BaseMenu._dynamicHoverEnabled; // Default: `false`.
 ```
 
-#### Type {#property--hasexpanded--type}
+#### Type {#property--dynamichoverenabled--type}
 
 `boolean`
 
@@ -1391,27 +1391,28 @@ For the root menu, this will be `false` unless any of the following criteria are
 
 - The menu's [current event](#property--currentevent) is "keyboard".
 - The menu's current event is "character".
+- The menu's current event is "mouse", its hover type is "dynamic", and [dynamicHoverEnabled](#getter-setter--dynamichoverenabled) is `true`.
 
-### hasExpanded {#getter-setter--hasopened}
+### dynamicHoverEnabled {#getter-setter--dynamichoverenabled}
 
-A flag that enables dynamic hover at the root level after a toggle has expanded.
+A flag that enables dynamic hover after a submenu expands or a root menu item is clicked.
 Automatic expansion from a media query does not change this value.
 
 ::: code-group
 
 ```js [getter]
-BaseMenu.hasExpanded;
+BaseMenu.dynamicHoverEnabled;
 ```
 
 ```js [setter]
-BaseMenu.hasExpanded = true;
+BaseMenu.dynamicHoverEnabled = true;
 ```
 
 :::
 
-This functions differently for root vs. submenus. Submenus will always inherit their root menu's hasExpanded.
+This functions differently for root vs. submenus. Submenus will always inherit their root menu's dynamicHoverEnabled.
 
-See [_hasExpanded](#property--hasexpanded) for more information.
+See [_dynamicHoverEnabled](#property--dynamichoverenabled) for more information.
 
 ### errors <badge type="warning" text="readonly" /> <badge type="tip" text="inherited" /> {#getter--errors}
 
@@ -1832,9 +1833,9 @@ Adds pointer listeners for the menu's hover type. Events triggered by a pen or t
 #### Hover Type "dynamic" {#method--handlehover--hovertype-dynamic}
 
 - When a `pointerenter` event triggers on a menu item's link or toggle, updates the menu's current child.
-- Updates the menu's focus state when it is a submenu or its focus state is not "none". This tracks the hovered item without moving keyboard focus.
-- In submenus, or when the root menu's hasExpanded value is `true`, previews the item's submenu after enterDelay. If the item has no submenu, calls collapseChildren after enterDelay instead.
-- At the root level, when hasExpanded is `false`, hovering an item does not expand or collapse submenus.
+- Updates the menu's focus state when it is a submenu or its focus state is not "none". Once dynamic hover is enabled, focus follows the hovered item.
+- When the root menu's dynamicHoverEnabled value is `true`, previews the item's submenu after enterDelay. If the item has no submenu, calls collapseChildren after enterDelay instead.
+- When dynamicHoverEnabled is `false`, hovering an item does not change selection, focus, or submenu state.
 - Leaving an item containing a submenu does not collapse it. The handler sets currentEvent to "mouse" after leaveDelay.
 - Re-entering an item containing a submenu cancels its pending hover timeout when leaveDelay is greater than 0.
 

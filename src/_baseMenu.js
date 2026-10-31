@@ -114,14 +114,14 @@ class BaseMenu extends Component {
   _hoverType = "off";
 
   /**
-   * A flag that enables dynamic hover at the root level after a toggle has expanded.
+   * A flag that enables dynamic hover after a submenu expands or a root menu item is clicked.
    * Automatic expansion from a media query does not change this value.
    *
    * @protected
    *
    * @type {boolean}
    */
-  _hasExpanded = false;
+  _dynamicHoverEnabled = false;
 
   /**
    * The options passed to the root controller.
@@ -1248,6 +1248,8 @@ class BaseMenu extends Component {
    * This will be `false` unless any of the following criteria are met:
    * - The menu's current event is "keyboard".
    * - The menu's current event is "character".
+   * - The menu's current event is "mouse", its hover type is "dynamic", and
+   *   dynamic hover has been enabled by expansion or a root menu item click.
    *
    * @readonly
    *
@@ -1258,29 +1260,37 @@ class BaseMenu extends Component {
 
     if (menu && menu !== this) return menu.shouldFocus;
 
-    return super.shouldFocus || this.currentEvent === "character";
+    return (
+      super.shouldFocus ||
+      this.currentEvent === "character" ||
+      (this.currentEvent === "mouse" &&
+        this.hoverType === "dynamic" &&
+        this.dynamicHoverEnabled)
+    );
   }
 
   /**
-   * A flag that enables dynamic hover at the root level after a toggle has expanded.
+   * A flag that enables dynamic hover after a submenu expands or a root menu item is clicked.
    * Automatic expansion from a media query does not change this value.
    *
    * This functions differently for root vs. submenus.
-   * Submenus will always inherit their root menu's hasExpanded.
+   * Submenus will always inherit their root menu's dynamicHoverEnabled.
    *
    * @type {boolean}
    *
-   * @see _hasExpanded
+   * @see _dynamicHoverEnabled
    */
-  get hasExpanded() {
-    return this._root ? this._hasExpanded : this.elements.rootMenu.hasExpanded;
+  get dynamicHoverEnabled() {
+    return this._root
+      ? this._dynamicHoverEnabled
+      : this.elements.rootMenu.dynamicHoverEnabled;
   }
 
-  set hasExpanded(value) {
-    isValidType("boolean", { hasExpanded: value });
+  set dynamicHoverEnabled(value) {
+    isValidType("boolean", { dynamicHoverEnabled: value });
 
-    if (this._hasExpanded !== value) {
-      this._hasExpanded = value;
+    if (this._dynamicHoverEnabled !== value) {
+      this._dynamicHoverEnabled = value;
     }
   }
 
@@ -1699,6 +1709,8 @@ class BaseMenu extends Component {
         "click",
         item.dom.link,
         () => {
+          if (this.isTopLevel) this.dynamicHoverEnabled = true;
+
           this.currentEvent = "mouse";
           this.elements.rootMenu.blurChildren();
           this._clearTimeout();
@@ -1713,6 +1725,8 @@ class BaseMenu extends Component {
           "click",
           item.elements.toggle.dom.trigger,
           (event) => {
+            if (this.isTopLevel) this.dynamicHoverEnabled = true;
+
             this.currentEvent = "mouse";
 
             // The trigger may be inside the link. Its click does not reach the
@@ -1755,13 +1769,13 @@ class BaseMenu extends Component {
       );
     }
 
-    // If the menu has no open children, set hasExpanded to false.
+    // If the menu has no open children, set dynamicHoverEnabled to false.
     this._addEventListener("click", document, (event) => {
       if (this.focusState !== "none") {
         this.currentEvent = "mouse";
 
         if (!this.dom.menu.contains(event.target)) {
-          this.elements.rootMenu.hasExpanded =
+          this.elements.rootMenu.dynamicHoverEnabled =
             this.elements.submenuToggles.some((toggle) => toggle.isExpanded);
         }
       }
@@ -1788,12 +1802,12 @@ class BaseMenu extends Component {
    * - When a `pointerenter` event triggers on a menu item's link or toggle, updates the
    *   menu's current child.
    * - Updates the menu's focus state when it is a submenu or its focus state is not
-   *   "none". This tracks the hovered item without moving keyboard focus.
-   * - In submenus, or when the root menu's hasExpanded value is `true`, previews the
+   *   "none". Once dynamic hover is enabled, focus follows the hovered item.
+   * - When the root menu's dynamicHoverEnabled value is `true`, previews the
    *   item's submenu after enterDelay. If the item has no submenu, calls collapseChildren
    *   after enterDelay instead.
-   * - At the root level, when hasExpanded is `false`, hovering an item does not expand or
-   *   collapse submenus.
+   * - When dynamicHoverEnabled is `false`, hovering an item
+   *   does not change selection, focus, or submenu state.
    * - Leaving an item containing a submenu does not collapse it. The handler sets
    *   currentEvent to "mouse" after leaveDelay.
    * - Re-entering an item containing a submenu cancels its pending hover timeout when
@@ -1827,34 +1841,28 @@ class BaseMenu extends Component {
             }
           }
         } else if (this.hoverType === "dynamic") {
+          if (!this.dynamicHoverEnabled) return;
+
           this.currentChild = index;
 
-          if (!this.isTopLevel || this.focusState !== "none") {
-            this.currentEvent = "mouse";
-            this.elements.rootMenu.blurChildren();
-            this.focusCurrentChild();
-          }
+          this.currentEvent = "mouse";
+          this.elements.rootMenu.blurChildren();
+          this.focusCurrentChild();
 
-          if (!this.isTopLevel || this.hasExpanded) {
-            this.currentEvent = "mouse";
-            this.elements.rootMenu.blurChildren();
-            this.focusCurrentChild();
-
-            if (menuItem.isSubmenuItem) {
-              if (this.enterDelay > 0) {
-                this._setTimeout(() => {
-                  menuItem.elements.toggle.preview();
-                }, this.enterDelay);
-              } else {
-                menuItem.elements.toggle.preview();
-              }
-            } else if (this.enterDelay > 0) {
+          if (menuItem.isSubmenuItem) {
+            if (this.enterDelay > 0) {
               this._setTimeout(() => {
-                this.collapseChildren();
+                menuItem.elements.toggle.preview();
               }, this.enterDelay);
             } else {
-              this.collapseChildren();
+              menuItem.elements.toggle.preview();
             }
+          } else if (this.enterDelay > 0) {
+            this._setTimeout(() => {
+              this.collapseChildren();
+            }, this.enterDelay);
+          } else {
+            this.collapseChildren();
           }
         }
       });

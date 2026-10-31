@@ -39,6 +39,81 @@ afterEach(() => {
 
 // Test hover events on the BaseMenu.
 describe("BaseMenu", () => {
+  // https://github.com/NickDJM/accessible-menu/issues/567
+  it.each([
+    ["off", 0],
+    ["on", 0],
+    ["dynamic", 1],
+  ])(
+    "should leave browser focus on the expected item with hover mode %s (item %s)",
+    (hoverType, focusedIndex) => {
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        hoverType,
+        enterDelay: 0,
+        transitionClass: "",
+      });
+      menu.initialize();
+      menu.elements.submenuToggles[0].preview();
+      menu.currentEvent = "keyboard";
+      menu.elements.menuItems[0].dom.link.focus();
+
+      simulatePointerEvent("pointerenter", menu.elements.menuItems[1].dom.link);
+      vi.runAllTimers();
+
+      expect(document.activeElement).toBe(
+        menu.elements.menuItems[focusedIndex].dom.link
+      );
+
+      menu.dispose();
+    }
+  );
+
+  // https://github.com/NickDJM/accessible-menu/issues/567
+  it("should preserve focus and selection on dynamic hover before activation", () => {
+    const menu = new BaseMenu({
+      menuElement: document.querySelector("ul"),
+      hoverType: "dynamic",
+      enterDelay: 0,
+      transitionClass: "",
+    });
+    menu.initialize();
+    const link = menu.elements.menuItems[0].dom.link;
+    menu.currentEvent = "keyboard";
+    link.focus();
+
+    simulatePointerEvent("pointerenter", menu.elements.menuItems[1].dom.link);
+    vi.runAllTimers();
+
+    expect(document.activeElement).toBe(link);
+    expect(menu.currentChild).toBe(0);
+
+    menu.dispose();
+  });
+
+  // https://github.com/NickDJM/accessible-menu/issues/567
+  it("should enable dynamic hover focus after a root navigation link is clicked", () => {
+    const menu = new BaseMenu({
+      menuElement: document.querySelector("ul"),
+      hoverType: "dynamic",
+      enterDelay: 0,
+      transitionClass: "",
+    });
+    menu.initialize();
+    const link = menu.elements.menuItems[0].dom.link;
+    const hoveredLink = menu.elements.menuItems[1].dom.link;
+    link.addEventListener("click", (event) => event.preventDefault());
+
+    link.click();
+    vi.runAllTimers();
+    simulatePointerEvent("pointerenter", hoveredLink);
+    vi.runAllTimers();
+
+    expect(document.activeElement).toBe(hoveredLink);
+
+    menu.dispose();
+  });
+
   // Test hover type on.
   describe("with hover type on", () => {
     // Test pointerenter.
@@ -515,8 +590,9 @@ describe("BaseMenu", () => {
           expect(spy).toHaveBeenCalled();
         });
       });
-      describe("if the menu is the root menu and the focus state is not none", () => {
+      describe("if dynamic hover is enabled on the root menu and the focus state is not none", () => {
         // Test that the menu's current event is set to mouse when a menu item is hovered.
+        // https://github.com/NickDJM/accessible-menu/issues/567
         it("should set the menu's current event to mouse when a menu item is hovered", () => {
           // Create a new BaseMenu instance for testing.
           const menu = new BaseMenu({
@@ -529,6 +605,7 @@ describe("BaseMenu", () => {
 
           // Set up the menu.
           menu.focusState = "self";
+          menu.dynamicHoverEnabled = true;
 
           // Simulate the pointerenter event.
           simulatePointerEvent(
@@ -539,6 +616,7 @@ describe("BaseMenu", () => {
           expect(menu.currentEvent).toBe("mouse");
         });
         // Test that the root menu's blurChildren method is called when a menu item is hovered.
+        // https://github.com/NickDJM/accessible-menu/issues/567
         it("should call the root menu's blurChildren method when a menu item is hovered", () => {
           // Create a new BaseMenu instance for testing.
           const menu = new BaseMenu({
@@ -551,6 +629,7 @@ describe("BaseMenu", () => {
 
           // Set up the menu.
           menu.focusState = "self";
+          menu.dynamicHoverEnabled = true;
 
           // Spy on the root menu's blurChildren method.
           const spy = vi.spyOn(menu.elements.rootMenu, "blurChildren");
@@ -564,6 +643,7 @@ describe("BaseMenu", () => {
           expect(spy).toHaveBeenCalled();
         });
         // Test that the menu's focusCurrentChild method is called when a menu item is hovered.
+        // https://github.com/NickDJM/accessible-menu/issues/567
         it("should call the menu's focusCurrentChild method when a menu item is hovered", () => {
           // Create a new BaseMenu instance for testing.
           const menu = new BaseMenu({
@@ -576,6 +656,7 @@ describe("BaseMenu", () => {
 
           // Set up the menu.
           menu.focusState = "self";
+          menu.dynamicHoverEnabled = true;
 
           // Spy on the menu's focusCurrentChild method.
           const spy = vi.spyOn(menu, "focusCurrentChild");

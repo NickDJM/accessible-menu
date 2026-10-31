@@ -248,11 +248,11 @@ class Treeview extends BaseMenu {
    * - When a `pointerenter` event triggers on a menu item's link, updates the menu's
    *   current child.
    * - Updates the menu's focus state when it is a submenu or its focus state is not
-   *   "none". This tracks the hovered item without moving keyboard focus.
-   * - In submenus, or when the root menu's hasExpanded value is `true`, previews the
+   *   "none". Once dynamic hover is enabled, focus follows the hovered item.
+   * - When the root menu's dynamicHoverEnabled value is `true`, previews the
    *   item's submenu after enterDelay.
-   * - At the root level, when hasExpanded is `false`, hovering an item does not expand
-   *   submenus.
+   * - When dynamicHoverEnabled is `false`, hovering an item
+   *   does not change selection, focus, or submenu state.
    * - Hovering an item without a submenu does not collapse other submenus. It cancels a
    *   pending hover timeout when enterDelay is greater than 0.
    * - Leaving an item or the root menu does not collapse submenus.
@@ -285,30 +285,24 @@ class Treeview extends BaseMenu {
             }
           }
         } else if (this.hoverType === "dynamic") {
+          if (!this.dynamicHoverEnabled) return;
+
           this.currentChild = index;
 
-          if (!this.isTopLevel || this.focusState !== "none") {
-            this.currentEvent = "mouse";
-            this.elements.rootMenu.blurChildren();
-            this.focusCurrentChild();
-          }
+          this.currentEvent = "mouse";
+          this.elements.rootMenu.blurChildren();
+          this.focusCurrentChild();
 
-          if (!this.isTopLevel || this.hasExpanded) {
-            this.currentEvent = "mouse";
-            this.elements.rootMenu.blurChildren();
-            this.focusCurrentChild();
-
-            if (menuItem.isSubmenuItem) {
-              if (this.enterDelay > 0) {
-                this._setTimeout(() => {
-                  menuItem.elements.toggle.preview();
-                }, this.enterDelay);
-              } else {
+          if (menuItem.isSubmenuItem) {
+            if (this.enterDelay > 0) {
+              this._setTimeout(() => {
                 menuItem.elements.toggle.preview();
-              }
-            } else if (this.enterDelay > 0) {
-              this._clearTimeout();
+              }, this.enterDelay);
+            } else {
+              menuItem.elements.toggle.preview();
             }
+          } else if (this.enterDelay > 0) {
+            this._clearTimeout();
           }
         }
       });

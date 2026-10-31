@@ -165,16 +165,28 @@ describe("BaseMenuToggle getter/setters", () => {
   });
 
   describe("shouldFocus", () => {
+    // https://github.com/NickDJM/accessible-menu/issues/567
     it.each([
       { currentEvent: "none", hoverType: "off", expected: false },
       { currentEvent: "keyboard", hoverType: "off", expected: true },
       { currentEvent: "character", hoverType: "off", expected: true },
       { currentEvent: "mouse", hoverType: "off", expected: false },
       { currentEvent: "mouse", hoverType: "on", expected: false },
-      { currentEvent: "mouse", hoverType: "dynamic", expected: false },
+      {
+        currentEvent: "mouse",
+        hoverType: "dynamic",
+        dynamicHoverEnabled: false,
+        expected: false,
+      },
+      {
+        currentEvent: "mouse",
+        hoverType: "dynamic",
+        dynamicHoverEnabled: true,
+        expected: true,
+      },
     ])(
       "should inherit the root menu's value for $currentEvent with hover $hoverType",
-      ({ currentEvent, hoverType, expected }) => {
+      ({ currentEvent, hoverType, dynamicHoverEnabled = false, expected }) => {
         document.body.innerHTML = threeLevel;
         const menu = new BaseMenu({
           menuElement: document.querySelector("ul"),
@@ -191,6 +203,7 @@ describe("BaseMenuToggle getter/setters", () => {
           child.elements.submenuToggles[0],
         ];
         menu.hoverType = hoverType;
+        menu.dynamicHoverEnabled = dynamicHoverEnabled;
 
         menu.currentEvent = currentEvent;
 
@@ -227,6 +240,7 @@ describe("BaseMenuToggle getter/setters", () => {
       }
     );
 
+    // https://github.com/NickDJM/accessible-menu/issues/567
     it("should use the root menu's value when moving DOM focus", () => {
       document.body.innerHTML = threeLevel;
       const menu = new BaseMenu({
@@ -259,11 +273,13 @@ describe("BaseMenuToggle getter/setters", () => {
         expect(document.activeElement).toBe(menu.dom.controller);
 
         menu.hoverType = "dynamic";
+        menu.dynamicHoverEnabled = true;
         menu.currentEvent = "mouse";
         component.focus();
 
-        expect(document.activeElement).toBe(menu.dom.controller);
+        expect(document.activeElement).toBe(component.dom.controller);
 
+        menu.dom.controller.focus();
         menu.currentEvent = "character";
         component.focus();
 

@@ -1455,16 +1455,28 @@ describe("BaseMenu getter/setters", () => {
 
   // Test BaseMenu shouldFocus.
   describe("shouldFocus", () => {
+    // https://github.com/NickDJM/accessible-menu/issues/567
     it.each([
       { currentEvent: "none", hoverType: "off", expected: false },
       { currentEvent: "keyboard", hoverType: "off", expected: true },
       { currentEvent: "character", hoverType: "off", expected: true },
       { currentEvent: "mouse", hoverType: "off", expected: false },
       { currentEvent: "mouse", hoverType: "on", expected: false },
-      { currentEvent: "mouse", hoverType: "dynamic", expected: false },
+      {
+        currentEvent: "mouse",
+        hoverType: "dynamic",
+        dynamicHoverEnabled: false,
+        expected: false,
+      },
+      {
+        currentEvent: "mouse",
+        hoverType: "dynamic",
+        dynamicHoverEnabled: true,
+        expected: true,
+      },
     ])(
       "should inherit the root menu's value for $currentEvent with hover $hoverType",
-      ({ currentEvent, hoverType, expected }) => {
+      ({ currentEvent, hoverType, dynamicHoverEnabled = false, expected }) => {
         document.body.innerHTML = threeLevel;
         const menu = new BaseMenu({
           menuElement: document.querySelector("ul"),
@@ -1479,6 +1491,7 @@ describe("BaseMenu getter/setters", () => {
           child.elements.submenuToggles[0].elements.controlledMenu;
         const components = [child, grandchild];
         menu.hoverType = hoverType;
+        menu.dynamicHoverEnabled = dynamicHoverEnabled;
         menu.currentEvent = currentEvent;
 
         expect(menu.shouldFocus).toBe(expected);
@@ -1564,34 +1577,37 @@ describe("BaseMenu getter/setters", () => {
     });
   });
 
-  // Test BaseMenu hasExpanded.
-  describe("hasExpanded", () => {
-    // Test that hasExpanded gets the hasExpanded value.
-    it("should get the hasExpanded value", () => {
+  // Test BaseMenu dynamicHoverEnabled.
+  describe("dynamicHoverEnabled", () => {
+    // Test that dynamicHoverEnabled gets the dynamicHoverEnabled value.
+    // https://github.com/NickDJM/accessible-menu/issues/567
+    it("should get the dynamicHoverEnabled value", () => {
       // Create a new BaseMenu instance for testing.
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
       menu.initialize();
 
-      expect(menu.hasExpanded).toEqual(menu._hasExpanded);
+      expect(menu.dynamicHoverEnabled).toEqual(menu._dynamicHoverEnabled);
     });
 
-    // Test that hasExpanded sets the hasExpanded value.
-    it("should set the hasExpanded value", () => {
+    // Test that dynamicHoverEnabled sets the dynamicHoverEnabled value.
+    // https://github.com/NickDJM/accessible-menu/issues/567
+    it("should set the dynamicHoverEnabled value", () => {
       // Create a new BaseMenu instance for testing.
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
       });
       menu.initialize();
 
-      menu.hasExpanded = true;
+      menu.dynamicHoverEnabled = true;
 
-      expect(menu.hasExpanded).toBe(true);
+      expect(menu.dynamicHoverEnabled).toBe(true);
     });
 
-    // Test that hasExpanded defaults to the root menu's hasExpanded for submenus.
-    it("should default to the root menu's hasExpanded for submenus", () => {
+    // Test that dynamicHoverEnabled defaults to the root menu's dynamicHoverEnabled for submenus.
+    // https://github.com/NickDJM/accessible-menu/issues/567
+    it("should default to the root menu's dynamicHoverEnabled for submenus", () => {
       // Create a new BaseMenu instance for testing.
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
@@ -1600,9 +1616,9 @@ describe("BaseMenu getter/setters", () => {
 
       const submenu = menu.elements.submenuToggles[0].elements.controlledMenu;
 
-      menu.hasExpanded = true;
+      menu.dynamicHoverEnabled = true;
 
-      expect(submenu.hasExpanded).toBe(menu.hasExpanded);
+      expect(submenu.dynamicHoverEnabled).toBe(menu.dynamicHoverEnabled);
     });
   });
 

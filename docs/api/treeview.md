@@ -204,9 +204,9 @@ Uses the hover settings described in [BaseMenu's _handleHover method](./base-men
 #### Hover Type "dynamic" {#method--handlehover--hovertype-dynamic}
 
 - When a `pointerenter` event triggers on a menu item's link, updates the menu's current child.
-- Updates the menu's focus state when it is a submenu or its focus state is not "none". This tracks the hovered item without moving keyboard focus.
-- In submenus, or when the root menu's hasExpanded value is `true`, previews the item's submenu after enterDelay.
-- At the root level, when hasExpanded is `false`, hovering an item does not expand submenus.
+- Updates the menu's focus state when it is a submenu or its focus state is not "none". Once dynamic hover is enabled, focus follows the hovered item.
+- When the root menu's dynamicHoverEnabled value is `true`, previews the item's submenu after enterDelay.
+- When dynamicHoverEnabled is `false`, hovering an item does not change selection, focus, or submenu state.
 - Hovering an item without a submenu does not collapse other submenus. It cancels a pending hover timeout when enterDelay is greater than 0.
 - Leaving an item or the root menu does not collapse submenus.
 

@@ -803,7 +803,7 @@ BaseMenuToggle.currentEvent = "mouse";
 
 ### shouldFocus <badge type="warning" text="readonly" /> {#getter--shouldfocus}
 
-The root menu's decision about whether focus methods should move DOM focus. This follows the root menu's keyboard and character navigation behavior.
+The root menu's decision about whether focus methods should move DOM focus. This follows the root menu's keyboard, character, and dynamic mouse focus behavior.
 
 ::: code-group
 
@@ -1479,7 +1479,7 @@ Unregistered event keys and invalid target elements cause a `TypeError`.
 
 ### _expand <badge type="warning" text="protected" /> {#method--protected-expand}
 
-Sets the root menu's `hasExpanded` value to `true` unless a media query is expanding the menu. Then calls Core's `_expand()` method to set the ARIA attributes, classes, and transitions. If `emit` is `true`, this also emits the expand event.
+Sets the root menu's `dynamicHoverEnabled` value to `true` when expanding a submenu outside a media-query update. Expanding the root menu does not enable dynamic hover. Then calls Core's `_expand()` method to set the ARIA attributes, classes, and transitions. If `emit` is `true`, this also emits the expand event.
 
 ```js
 BaseMenuToggle._expand({ emit, transition });
@@ -2026,7 +2026,7 @@ dispose();
 
 ### _mediaQueryListEventCallback <badge type="warning" text="protected" />
 
-Applies the configured responsive actions without changing the root menu's `hasExpanded` value. Automatic expansion does not enable dynamic hover. If a user has already enabled dynamic hover by expanding a menu, responsive actions preserve that value.
+Applies the configured responsive actions without changing the root menu's `dynamicHoverEnabled` value. Automatic expansion does not enable dynamic hover. If a user has already enabled dynamic hover by expanding a menu, responsive actions preserve that value.
 
 ```js
 _mediaQueryListEventCallback(event);

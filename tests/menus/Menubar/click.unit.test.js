@@ -155,7 +155,7 @@ describe("Menubar", () => {
       expect(menu.focusState).toBe("self");
       expect(menu.elements.controller.isExpanded).toBe(true);
       expect(menu.elements.submenuToggles[0].isExpanded).toBe(true);
-      expect(menu.hasExpanded).toBe(true);
+      expect(menu.dynamicHoverEnabled).toBe(true);
     });
 
     // Test that click should set the current event to mouse.

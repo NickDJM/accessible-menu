@@ -55,6 +55,24 @@ describe("BaseMenu", () => {
         vi.restoreAllMocks();
       });
 
+      // https://github.com/NickDJM/accessible-menu/issues/567
+      it("should enable dynamic hover when a separate root trigger is clicked", () => {
+        document.body.innerHTML = threeLevelWithTriggers;
+        menu = new BaseMenu({
+          menuElement: document.querySelector("ul"),
+          submenuTriggersSelector: ".submenu-trigger",
+          transitionClass: "",
+        });
+        menu.initialize();
+        const toggle = menu.elements.submenuToggles[0];
+        toggle.preview();
+        menu.dynamicHoverEnabled = false;
+
+        toggle.dom.trigger.click();
+
+        expect(menu.dynamicHoverEnabled).toBe(true);
+      });
+
       // https://github.com/NickDJM/accessible-menu/issues/554
       it("should call the root's collapseChildren after the link's click handler", () => {
         menu = new BaseMenu({
@@ -130,7 +148,8 @@ describe("BaseMenu", () => {
       });
     });
 
-    it("should preserve focus and hasExpanded when the menu element itself is clicked", () => {
+    // https://github.com/NickDJM/accessible-menu/issues/567
+    it("should preserve focus and dynamicHoverEnabled when the menu element itself is clicked", () => {
       const menu = new BaseMenu({
         menuElement: document.querySelector("ul"),
         containerElement: document.querySelector("nav"),
@@ -138,12 +157,12 @@ describe("BaseMenu", () => {
       });
       menu.initialize();
       menu.focusState = "self";
-      menu.hasExpanded = true;
+      menu.dynamicHoverEnabled = true;
 
       simulatePointerEvent("click", menu.dom.menu);
 
       expect(menu.focusState).toBe("self");
-      expect(menu.hasExpanded).toBe(true);
+      expect(menu.dynamicHoverEnabled).toBe(true);
     });
 
     // Test that click should set the current event to mouse.
