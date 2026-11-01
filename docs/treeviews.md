@@ -4,6 +4,8 @@ Treeviews are Accessible Menu's implementation of the [Navigation Treeviews](htt
 
 When keyboard focus leaves the tree, expanded branches stay expanded. The current item remains in the tab sequence so you can return to it.
 
+The `aria-label` on `<nav>` names the navigation landmark. The root `<ul>` needs its own accessible name for the treeview. The examples without a controller button use `aria-label` on the root list. Collapsible examples receive `aria-labelledby` from their controller button during initialization.
+
 ## Single-level Treeview {#single-level}
 
 The following is an example of how you would set up a single-level Treeview.
@@ -12,7 +14,7 @@ The following is an example of how you would set up a single-level Treeview.
 
 ```html
 <nav id="creature-menu" aria-label="Creature Classifications">
-  <ul>
+  <ul aria-label="Creature Classifications">
     <li><a href="#">Humanoids</a></li>
     <li><a href="#">Beasts</a></li>
     <li><a href="#">Dragons</a></li>
@@ -43,7 +45,7 @@ The following is an example of how you would set up a multi-level Treeview.
 
 ```html
 <nav id="creature-menu" aria-label="Creature Classifications">
-  <ul>
+  <ul aria-label="Creature Classifications">
     <li><a href="#">Humanoids</a></li>
     <li><a href="#">Beasts</a></li>
     <li class="dropdown">
