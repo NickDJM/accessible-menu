@@ -690,21 +690,25 @@ var h = class {
 	_lockOutsideBreakpoint = !1;
 	_unlockInsideBreakpoint = !1;
 	_unlockOutsideBreakpoint = !1;
-	constructor({ controllerElement: e, controlledElement: t, triggerElement: n = null, lockClass: r = "locked", unlockClass: i = "unlocked", expandClass: a = "show", collapseClass: o = "hide", transitionClass: s = "transitioning", transitionDelay: c = 250, transitionDuration: l = 150, expandDuration: u = -1, collapseDuration: d = -1, expandInsideBreakpoint: f = !1, expandOutsideBreakpoint: p = !1, collapseInsideBreakpoint: m = !1, collapseOutsideBreakpoint: h = !1, lockInsideBreakpoint: g = !1, lockOutsideBreakpoint: _ = !1, unlockInsideBreakpoint: v = !1, unlockOutsideBreakpoint: y = !1, locked: b = !1, breakpoint: x = "", mediaQuery: S = "", prefix: C = "ae-", key: w = null, initializeClass: T = "initializing", bootstrap: E = !0 } = {}) {
+	_expandOnFocus = !1;
+	_collapseOnBlur = !1;
+	constructor({ controllerElement: e, controlledElement: t, triggerElement: n = null, lockClass: r = "locked", unlockClass: i = "unlocked", expandClass: a = "show", collapseClass: o = "hide", transitionClass: s = "transitioning", transitionDelay: c = 250, transitionDuration: l = 150, expandDuration: u = -1, collapseDuration: d = -1, expandInsideBreakpoint: f = !1, expandOutsideBreakpoint: p = !1, collapseInsideBreakpoint: m = !1, collapseOutsideBreakpoint: h = !1, lockInsideBreakpoint: g = !1, lockOutsideBreakpoint: _ = !1, unlockInsideBreakpoint: v = !1, unlockOutsideBreakpoint: y = !1, expandOnFocus: b = !1, collapseOnBlur: x = !1, locked: S = !1, breakpoint: C = "", mediaQuery: w = "", prefix: T = "ae-", key: E = null, initializeClass: D = "initializing", bootstrap: O = !0 } = {}) {
 		super({
-			breakpoint: x,
-			mediaQuery: S,
-			prefix: C,
-			key: w,
-			initializeClass: T,
+			breakpoint: C,
+			mediaQuery: w,
+			prefix: T,
+			key: E,
+			initializeClass: D,
 			bootstrap: !1
-		}), this._dom.controller = e, this._dom.trigger = n ?? e, this._dom.controlled = t, this._protectedDOMElements.push("controller", "trigger", "controlled"), this._classes.locked = r || "", this._classes.unlocked = i || "", this._classes.expand = a || "", this._classes.collapse = o || "", this._classes.transition = s || "", this._delays.transition = c, this._durations.transition = l, this._durations.expand = u, this._durations.collapse = d, this._expandInsideBreakpoint = f, this._expandOutsideBreakpoint = p, this._collapseInsideBreakpoint = m, this._collapseOutsideBreakpoint = h, this._lockInsideBreakpoint = g, this._lockOutsideBreakpoint = _, this._unlockInsideBreakpoint = v, this._unlockOutsideBreakpoint = y, this._locked.value = b, this._locked.commit(), E && this._bootstrap();
+		}), this._dom.controller = e, this._dom.trigger = n ?? e, this._dom.controlled = t, this._protectedDOMElements.push("controller", "trigger", "controlled"), this._classes.locked = r || "", this._classes.unlocked = i || "", this._classes.expand = a || "", this._classes.collapse = o || "", this._classes.transition = s || "", this._delays.transition = c, this._durations.transition = l, this._durations.expand = u, this._durations.collapse = d, this._expandInsideBreakpoint = f, this._expandOutsideBreakpoint = p, this._collapseInsideBreakpoint = m, this._collapseOutsideBreakpoint = h, this._lockInsideBreakpoint = g, this._lockOutsideBreakpoint = _, this._unlockInsideBreakpoint = v, this._unlockOutsideBreakpoint = y, this._expandOnFocus = b, this._collapseOnBlur = x, this._locked.value = S, this._locked.commit(), O && this._bootstrap();
 	}
 	_bootstrap() {
 		super._bootstrap(), this._registerEvent("preexpand"), this._registerEvent("expand"), this._registerEvent("postexpand"), this._registerEvent("precollapse"), this._registerEvent("collapse"), this._registerEvent("postcollapse"), this._registerEvent("prelock"), this._registerEvent("lock"), this._registerEvent("postlock"), this._registerEvent("preunlock"), this._registerEvent("unlock"), this._registerEvent("postunlock"), this._addEventListener(this.getEventName("validate"), this.rootDOMElement, (e) => {
 			if (e.detail.component !== this) return;
 			let n = t("boolean", {
 				locked: this._locked.value,
+				expandOnFocus: this._expandOnFocus,
+				collapseOnBlur: this._collapseOnBlur,
 				_expandInsideBreakpoint: this._expandInsideBreakpoint,
 				_expandOutsideBreakpoint: this._expandOutsideBreakpoint,
 				_collapseInsideBreakpoint: this._collapseInsideBreakpoint,
@@ -843,26 +847,22 @@ var h = class {
 		e.matches ? (this.unlockInsideBreakpoint && this.unlock(), this.isExpanded && this.collapseInsideBreakpoint ? (this.isLocked && this.unlock(), this.collapse({ preserveState: !0 })) : !this.isExpanded && this.expandInsideBreakpoint && (this.isLocked && this.unlock(), this.expand()), this.lockInsideBreakpoint && this.lock()) : (this.unlockOutsideBreakpoint && this.unlock(), this.isExpanded && this.collapseOutsideBreakpoint ? (this.isLocked && this.unlock(), this.collapse({ preserveState: !0 })) : !this.isExpanded && this.expandOutsideBreakpoint && (this.isLocked && this.unlock(), this.expand()), this.lockOutsideBreakpoint && this.lock());
 	}
 	_expand({ emit: e = this.isInitialized, transition: t = this.isInitialized } = {}) {
-		e && this._dispatchEvent("preexpand"), this.dom.controller.setAttribute("aria-expanded", "true"), t && this.transitionClass !== "" ? (p(this.transitionClass, this.dom.controlled), this._requestAnimationFrame(() => {
+		e && this._dispatchEvent("preexpand"), this._cancelAnimationFrame("expandTransition"), this._cancelAnimationFrame("collapseTransition"), this._clearTimeout("expandTransition"), this._clearTimeout("collapseTransition"), this.dom.controller.setAttribute("aria-expanded", "true"), t && this.transitionClass !== "" ? (p(this.transitionClass, this.dom.controlled), this._requestAnimationFrame(() => {
 			m(this.collapseClass, this.dom.controlled), this._requestAnimationFrame(() => {
 				p(this.expandClass, this.dom.controlled), this._requestAnimationFrame(() => {
-					setTimeout(() => {
-						m(this.transitionClass, this.dom.controlled);
-					}, this.expandDuration);
+					this._setTimeout(() => m(this.transitionClass, this.dom.controlled), this.expandDuration, "expandTransition");
 				}, "expandTransition");
 			}, "expandTransition");
-		}, "expandTransition")) : (p(this.expandClass, this.dom.controlled), m(this.collapseClass, this.dom.controlled)), e && (this._dispatchEvent("expand"), this._dispatchEvent("postexpand"));
+		}, "expandTransition")) : (m(this.transitionClass, this.dom.controlled), p(this.expandClass, this.dom.controlled), m(this.collapseClass, this.dom.controlled)), e && (this._dispatchEvent("expand"), this._dispatchEvent("postexpand"));
 	}
 	_collapse({ emit: e = this.isInitialized, transition: t = this.isInitialized } = {}) {
-		e && this._dispatchEvent("precollapse"), this.dom.controller.setAttribute("aria-expanded", "false"), t && this.transitionClass !== "" ? (p(this.transitionClass, this.dom.controlled), this._requestAnimationFrame(() => {
+		e && this._dispatchEvent("precollapse"), this._cancelAnimationFrame("expandTransition"), this._cancelAnimationFrame("collapseTransition"), this._clearTimeout("expandTransition"), this._clearTimeout("collapseTransition"), this.dom.controller.setAttribute("aria-expanded", "false"), t && this.transitionClass !== "" ? (p(this.transitionClass, this.dom.controlled), this._requestAnimationFrame(() => {
 			m(this.expandClass, this.dom.controlled), this._requestAnimationFrame(() => {
 				p(this.collapseClass, this.dom.controlled), this._requestAnimationFrame(() => {
-					setTimeout(() => {
-						m(this.transitionClass, this.dom.controlled);
-					}, this.collapseDuration);
+					this._setTimeout(() => m(this.transitionClass, this.dom.controlled), this.collapseDuration, "collapseTransition");
 				}, "collapseTransition");
 			}, "collapseTransition");
-		}, "collapseTransition")) : (p(this.collapseClass, this.dom.controlled), m(this.expandClass, this.dom.controlled)), e && (this._dispatchEvent("collapse"), this._dispatchEvent("postcollapse"));
+		}, "collapseTransition")) : (m(this.transitionClass, this.dom.controlled), p(this.collapseClass, this.dom.controlled), m(this.expandClass, this.dom.controlled)), e && (this._dispatchEvent("collapse"), this._dispatchEvent("postcollapse"));
 	}
 	_lock({ emit: e = this.isInitialized } = {}) {
 		e && this._dispatchEvent("prelock"), p(this.lockedClass, this.dom.controlled), m(this.unlockedClass, this.dom.controlled), this.dom.controller.setAttribute("disabled", "true"), e && (this._dispatchEvent("lock"), this._dispatchEvent("postlock"));
@@ -875,6 +875,12 @@ var h = class {
 			emit: t,
 			transition: n
 		}), this._expanded.value = !0, r || this._expanded.commit());
+	}
+	focus() {
+		super.focus(), this.expandOnFocus && this.expand();
+	}
+	blur() {
+		super.blur(), this.collapseOnBlur && this.collapse();
 	}
 	preview({ force: e = !this.isInitialized, emit: t = this.isInitialized, transition: n = this.isInitialized, preserveState: r = !1 } = {}) {
 		this.isExpanded && !e || this.isLocked && !e || (this.focusState = "none", this._expand({
