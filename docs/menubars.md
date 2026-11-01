@@ -2,6 +2,8 @@
 
 Menubars are Accessible Menu's implementation of [Navigation Menubars](https://www.w3.org/WAI/ARIA/apg/patterns/menubar/examples/menubar-navigation/).
 
+The `aria-label` on `<nav>` names the navigation landmark. The root `<ul>` needs its own accessible name for the menubar. The examples without a controller button use `aria-label` on the root list. Collapsible examples receive `aria-labelledby` from their controller button during initialization.
+
 ## Single-level Menubar {#single-level}
 
 The following is an example of how you would set up a single-level Menubar.
@@ -10,7 +12,7 @@ The following is an example of how you would set up a single-level Menubar.
 
 ```html
 <nav id="creature-menu" aria-label="Creature Classifications">
-  <ul>
+  <ul aria-label="Creature Classifications">
     <li><a href="#">Humanoids</a></li>
     <li><a href="#">Beasts</a></li>
     <li><a href="#">Dragons</a></li>
@@ -40,7 +42,7 @@ The following is an example of how you would set up a multi-level Menubar.
 
 ```html
 <nav id="creature-menu" aria-label="Creature Classifications">
-  <ul>
+  <ul aria-label="Creature Classifications">
     <li><a href="#">Humanoids</a></li>
     <li><a href="#">Beasts</a></li>
     <li class="dropdown">

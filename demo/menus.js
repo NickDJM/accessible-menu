@@ -157,7 +157,7 @@ export const twoLevelDisclosure =
 export const twoLevelDisclosureTopLink =
   /* html */
   `
-<nav  aria-label="example" aria-describedby="disclaimer">
+<nav aria-label="example" aria-describedby="disclaimer">
   <button class="menu-toggle" aria-label="Example menu">☰</button>
   <ul class="menu">
     <li class="menu-item"><a class="menu-link" href="#About">About</a></li>
@@ -232,7 +232,7 @@ export const twoLevelDisclosureTopLink =
 export const twoLevelDisclosureTopLinkWithLinkToggles =
   /* html */
   `
-<nav  aria-label="example" aria-describedby="disclaimer">
+<nav aria-label="example" aria-describedby="disclaimer">
   <button class="menu-toggle" aria-label="Example menu">☰</button>
   <ul class="menu">
     <li class="menu-item"><a class="menu-link" href="#About">About</a></li>
@@ -307,7 +307,7 @@ export const twoLevelDisclosureTopLinkWithLinkToggles =
 export const threeLevel =
   /* html */
   `
-<nav  aria-label="example" aria-describedby="disclaimer">
+<nav aria-label="example" aria-describedby="disclaimer">
   <button class="menu-toggle" aria-label="Example menu">☰</button>
   <ul class="menu">
     <li class="menu-item"><a class="menu-link" href="#About">About</a></li>
@@ -483,7 +483,7 @@ export const threeLevel =
 export const threeLevelDisclosure =
   /* html */
   `
-<nav  aria-label="example" aria-describedby="disclaimer">
+<nav aria-label="example" aria-describedby="disclaimer">
   <button class="menu-toggle" aria-label="Example menu">☰</button>
   <ul class="menu">
     <li class="menu-item"><a class="menu-link" href="#About">About</a></li>
@@ -659,7 +659,7 @@ export const threeLevelDisclosure =
 export const threeLevelDisclosureTopLink =
   /* html */
   `
-<nav  aria-label="example" aria-describedby="disclaimer">
+<nav aria-label="example" aria-describedby="disclaimer">
   <button class="menu-toggle" aria-label="Example menu">☰</button>
   <ul class="menu">
     <li class="menu-item"><a class="menu-link" href="#About">About</a></li>
@@ -841,7 +841,7 @@ export const threeLevelDisclosureTopLink =
 export const threeLevelDisclosureTopLinkSplit =
   /* html */
   `
-<nav  aria-label="example" aria-describedby="disclaimer">
+<nav aria-label="example" aria-describedby="disclaimer">
   <button class="menu-toggle" aria-label="Example menu">☰</button>
   <ul class="menu">
     <li class="menu-item"><a class="menu-link" href="#About">About</a></li>
