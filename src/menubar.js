@@ -189,33 +189,29 @@ class Menubar extends BaseMenu {
    */
   _bootstrap() {
     super._bootstrap();
-    this._addEventListener(
-      this.getEventName("initialize"),
-      this.rootDOMElement,
-      (event) => {
-        if (event.detail.component !== this) return;
-        // Set the role of the menu.
-        if (this.isTopLevel) {
-          this.dom.menu.setAttribute("role", "menubar");
-        } else {
-          this.dom.menu.setAttribute("role", "menu");
+    this._addInternalEventListener(this.getEventName("initialize"), (event) => {
+      if (event.detail.component !== this) return;
+      // Set the role of the menu.
+      if (this.isTopLevel) {
+        this.dom.menu.setAttribute("role", "menubar");
+      } else {
+        this.dom.menu.setAttribute("role", "menu");
+      }
+
+      if (this.isTopLevel) {
+        if (this.elements.menuItems.length > 0) {
+          this.elements.menuItems[0].dom.link.tabIndex = 0;
         }
 
-        if (this.isTopLevel) {
-          if (this.elements.menuItems.length > 0) {
-            this.elements.menuItems[0].dom.link.tabIndex = 0;
-          }
-
-          // Remove the aria-haspopup attribute from the controller.
-          // It isn't needed for the root toggle.
-          if (this.elements.controller) {
-            this.elements.controller.dom.controller.removeAttribute(
-              "aria-haspopup"
-            );
-          }
+        // Remove the aria-haspopup attribute from the controller.
+        // It isn't needed for the root toggle.
+        if (this.elements.controller) {
+          this.elements.controller.dom.controller.removeAttribute(
+            "aria-haspopup"
+          );
         }
       }
-    );
+    });
   }
 
   /**

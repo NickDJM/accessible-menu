@@ -196,29 +196,25 @@ class DisclosureMenu extends BaseMenu {
    */
   _bootstrap() {
     super._bootstrap();
-    this._addEventListener(
-      this.getEventName("validate"),
-      this.rootDOMElement,
-      (event) => {
-        if (event.detail.component !== this) return;
+    this._addInternalEventListener(this.getEventName("validate"), (event) => {
+      if (event.detail.component !== this) return;
 
-        // Boolean checks.
-        const booleans = {
-          optionalKeySupport: this._optionalSupport,
-        };
+      // Boolean checks.
+      const booleans = {
+        optionalKeySupport: this._optionalSupport,
+      };
 
-        // Check the booleans.
-        const booleanChecks = isValidType("boolean", booleans, {
-          shouldThrow: false,
-        });
+      // Check the booleans.
+      const booleanChecks = isValidType("boolean", booleans, {
+        shouldThrow: false,
+      });
 
-        // Handle boolean check failure.
-        if (!booleanChecks.status) {
-          this._errors = [...this._errors, ...booleanChecks.errors];
-          this._valid = false;
-        }
+      // Handle boolean check failure.
+      if (!booleanChecks.status) {
+        this._errors = [...this._errors, ...booleanChecks.errors];
+        this._valid = false;
       }
-    );
+    });
   }
 
   /**

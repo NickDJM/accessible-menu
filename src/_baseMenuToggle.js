@@ -107,54 +107,50 @@ class BaseMenuToggle extends CollapsibleComponent {
    */
   _bootstrap() {
     super._bootstrap();
-    this._addEventListener(
-      this.getEventName("validate"),
-      this.rootDOMElement,
-      (event) => {
-        if (event.detail.component !== this) return;
+    this._addInternalEventListener(this.getEventName("validate"), (event) => {
+      if (event.detail.component !== this) return;
 
-        // DOM checks.
-        // Check for null elements, which Component validation allows.
-        const domElements = {};
+      // DOM checks.
+      // Check for null elements, which Component validation allows.
+      const domElements = {};
 
-        for (const name of ["controller", "controlled"]) {
-          if (this.dom[name] === null) {
-            domElements[`${name}Element`] = this.dom[name];
-          }
-        }
-
-        // Check the required DOM elements.
-        const domChecks = isValidInstance(HTMLElement, domElements, {
-          shouldThrow: false,
-        });
-
-        // Handle DOM check failure.
-        if (!domChecks.status) {
-          this._errors = [...this._errors, ...domChecks.errors];
-          this._valid = false;
-        }
-
-        // Menu checks.
-        const menus = {
-          controlledMenu: this.elements.controlledMenu,
-        };
-
-        if (this.elements.parentMenu !== null) {
-          menus.parentMenu = this.elements.parentMenu;
-        }
-
-        // Check the menu relationships.
-        const menuChecks = isValidInstance(BaseMenu, menus, {
-          shouldThrow: false,
-        });
-
-        // Handle menu check failure.
-        if (!menuChecks.status) {
-          this._errors = [...this._errors, ...menuChecks.errors];
-          this._valid = false;
+      for (const name of ["controller", "controlled"]) {
+        if (this.dom[name] === null) {
+          domElements[`${name}Element`] = this.dom[name];
         }
       }
-    );
+
+      // Check the required DOM elements.
+      const domChecks = isValidInstance(HTMLElement, domElements, {
+        shouldThrow: false,
+      });
+
+      // Handle DOM check failure.
+      if (!domChecks.status) {
+        this._errors = [...this._errors, ...domChecks.errors];
+        this._valid = false;
+      }
+
+      // Menu checks.
+      const menus = {
+        controlledMenu: this.elements.controlledMenu,
+      };
+
+      if (this.elements.parentMenu !== null) {
+        menus.parentMenu = this.elements.parentMenu;
+      }
+
+      // Check the menu relationships.
+      const menuChecks = isValidInstance(BaseMenu, menus, {
+        shouldThrow: false,
+      });
+
+      // Handle menu check failure.
+      if (!menuChecks.status) {
+        this._errors = [...this._errors, ...menuChecks.errors];
+        this._valid = false;
+      }
+    });
   }
 
   /**

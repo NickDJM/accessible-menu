@@ -76,101 +76,97 @@ class BaseMenuItem extends Component {
    */
   _bootstrap() {
     super._bootstrap();
-    this._addEventListener(
-      this.getEventName("validate"),
-      this.rootDOMElement,
-      (event) => {
-        if (event.detail.component !== this) return;
+    this._addInternalEventListener(this.getEventName("validate"), (event) => {
+      if (event.detail.component !== this) return;
 
-        // DOM checks.
-        // Check for null elements, which Component validation allows.
-        const domElements = {};
+      // DOM checks.
+      // Check for null elements, which Component validation allows.
+      const domElements = {};
 
-        for (const name of ["item", "link"]) {
-          if (this.dom[name] === null) {
-            domElements[`${name}Element`] = this.dom[name];
-          }
-        }
-
-        // Check the required DOM elements.
-        const domChecks = isValidInstance(HTMLElement, domElements, {
-          shouldThrow: false,
-        });
-
-        // Handle DOM check failure.
-        if (!domChecks.status) {
-          this._errors = [...this._errors, ...domChecks.errors];
-          this._valid = false;
-        }
-
-        // Boolean checks.
-        const booleans = {
-          isSubmenuItem: this._submenu,
-        };
-
-        // Check the booleans.
-        const booleanChecks = isValidType("boolean", booleans, {
-          shouldThrow: false,
-        });
-
-        // Handle boolean check failure.
-        if (!booleanChecks.status) {
-          this._errors = [...this._errors, ...booleanChecks.errors];
-          this._valid = false;
-        }
-
-        // Menu checks.
-        const menus = {
-          parentMenu: this.elements.parentMenu,
-        };
-
-        if (this.elements.childMenu !== null || this.isSubmenuItem) {
-          menus.childMenu = this.elements.childMenu;
-        }
-
-        // Check the menu relationships.
-        const menuChecks = isValidInstance(BaseMenu, menus, {
-          shouldThrow: false,
-        });
-
-        // Handle menu check failure.
-        if (!menuChecks.status) {
-          this._errors = [...this._errors, ...menuChecks.errors];
-          this._valid = false;
-        }
-
-        // Check the separate menu item that controls this link's submenu.
-        // Most menu items do not have a separate toggle, so their sibling is null.
-        if (this.elements.sibling !== null) {
-          const siblingChecks = isValidInstance(
-            BaseMenuItem,
-            { submenuSibling: this.elements.sibling },
-            { shouldThrow: false }
-          );
-
-          // Handle sibling check failure.
-          if (!siblingChecks.status) {
-            this._errors = [...this._errors, ...siblingChecks.errors];
-            this._valid = false;
-          }
-        }
-
-        // Toggle checks.
-        if (this.elements.toggle !== null || this.isSubmenuItem) {
-          const toggleChecks = isValidInstance(
-            BaseMenuToggle,
-            { toggle: this.elements.toggle },
-            { shouldThrow: false }
-          );
-
-          // Handle toggle check failure.
-          if (!toggleChecks.status) {
-            this._errors = [...this._errors, ...toggleChecks.errors];
-            this._valid = false;
-          }
+      for (const name of ["item", "link"]) {
+        if (this.dom[name] === null) {
+          domElements[`${name}Element`] = this.dom[name];
         }
       }
-    );
+
+      // Check the required DOM elements.
+      const domChecks = isValidInstance(HTMLElement, domElements, {
+        shouldThrow: false,
+      });
+
+      // Handle DOM check failure.
+      if (!domChecks.status) {
+        this._errors = [...this._errors, ...domChecks.errors];
+        this._valid = false;
+      }
+
+      // Boolean checks.
+      const booleans = {
+        isSubmenuItem: this._submenu,
+      };
+
+      // Check the booleans.
+      const booleanChecks = isValidType("boolean", booleans, {
+        shouldThrow: false,
+      });
+
+      // Handle boolean check failure.
+      if (!booleanChecks.status) {
+        this._errors = [...this._errors, ...booleanChecks.errors];
+        this._valid = false;
+      }
+
+      // Menu checks.
+      const menus = {
+        parentMenu: this.elements.parentMenu,
+      };
+
+      if (this.elements.childMenu !== null || this.isSubmenuItem) {
+        menus.childMenu = this.elements.childMenu;
+      }
+
+      // Check the menu relationships.
+      const menuChecks = isValidInstance(BaseMenu, menus, {
+        shouldThrow: false,
+      });
+
+      // Handle menu check failure.
+      if (!menuChecks.status) {
+        this._errors = [...this._errors, ...menuChecks.errors];
+        this._valid = false;
+      }
+
+      // Check the separate menu item that controls this link's submenu.
+      // Most menu items do not have a separate toggle, so their sibling is null.
+      if (this.elements.sibling !== null) {
+        const siblingChecks = isValidInstance(
+          BaseMenuItem,
+          { submenuSibling: this.elements.sibling },
+          { shouldThrow: false }
+        );
+
+        // Handle sibling check failure.
+        if (!siblingChecks.status) {
+          this._errors = [...this._errors, ...siblingChecks.errors];
+          this._valid = false;
+        }
+      }
+
+      // Toggle checks.
+      if (this.elements.toggle !== null || this.isSubmenuItem) {
+        const toggleChecks = isValidInstance(
+          BaseMenuToggle,
+          { toggle: this.elements.toggle },
+          { shouldThrow: false }
+        );
+
+        // Handle toggle check failure.
+        if (!toggleChecks.status) {
+          this._errors = [...this._errors, ...toggleChecks.errors];
+          this._valid = false;
+        }
+      }
+    });
   }
 
   /**

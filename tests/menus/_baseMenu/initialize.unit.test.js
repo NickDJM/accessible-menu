@@ -49,6 +49,38 @@ describe("BaseMenu", () => {
     }).not.toThrow();
   });
 
+  it("should create the controller before validation when public events are disabled", () => {
+    document.body.innerHTML = `<nav>
+      <button type="button">Menu</button>
+      <div><ul><li><a href="#one">One</a></li></ul></div>
+    </nav>`;
+    const menu = new BaseMenu({
+      menuElement: document.querySelector("ul"),
+      controllerElement: document.querySelector("button"),
+      containerElement: document.querySelector("nav > div"),
+    });
+    const createController = vi.spyOn(menu, "_createController");
+    const listener = vi.fn();
+    menu._addEventListener(
+      menu.getEventName("preinitialize"),
+      menu.dom.menu,
+      (event) => {
+        if (event.detail.component === menu) listener(event);
+      }
+    );
+    menu.shouldEmit = false;
+
+    menu.initialize();
+
+    expect(createController).toHaveBeenCalledWith({ initialize: false });
+    expect(menu.isInitialized).toBe(true);
+    expect(menu.elements.rootMenu).toBe(menu);
+    expect(menu.elements.controller.isInitialized).toBe(true);
+    expect(listener).not.toHaveBeenCalled();
+
+    menu.dispose();
+  });
+
   // Test that the BaseMenu will throw an error if no menuElement is passed.
   it("should report a validation failure if no menuElement is passed", () => {
     // Create a new BaseMenu instance for testing.

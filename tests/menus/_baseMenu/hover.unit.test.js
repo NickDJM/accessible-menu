@@ -216,7 +216,7 @@ describe("BaseMenu", () => {
       "pointermove",
       document,
       expect.any(Function),
-      {}
+      { capture: false }
     );
   });
 

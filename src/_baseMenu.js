@@ -308,9 +308,8 @@ class BaseMenu extends Component {
     super._bootstrap();
 
     // Create the controller before validating the menu.
-    this._addEventListener(
+    this._addInternalEventListener(
       this.getEventName("prevalidate"),
-      this.rootDOMElement,
       (event) => {
         if (event.detail.component !== this) return;
         this._createController({ initialize: false });
@@ -318,103 +317,98 @@ class BaseMenu extends Component {
     );
 
     // Get the root menu if it doesn't exist.
-    this._addEventListener(
+    this._addInternalEventListener(
       this.getEventName("preinitialize"),
-      this.rootDOMElement,
       (event) => {
         if (event.detail.component !== this) return;
         if (this.elements.rootMenu === null) this._findRootMenu(this);
       }
     );
 
-    this._addEventListener(
-      this.getEventName("validate"),
-      this.rootDOMElement,
-      (event) => {
-        if (event.detail.component !== this) return;
+    this._addInternalEventListener(this.getEventName("validate"), (event) => {
+      if (event.detail.component !== this) return;
 
-        // DOM checks.
-        if (this.dom.menu === null) {
-          const domChecks = isValidInstance(
-            HTMLElement,
-            { menuElement: this.dom.menu },
-            { shouldThrow: false }
-          );
-
-          // Handle DOM check failure.
-          if (!domChecks.status) {
-            this._errors = [...this._errors, ...domChecks.errors];
-            this._valid = false;
-          }
-        }
-
-        // Controller and container checks.
-        if ((this.dom.controller === null) !== (this.dom.container === null)) {
-          this._errors.push(
-            new TypeError(
-              "controllerElement and containerElement must be provided together."
-            )
-          );
-          this._valid = false;
-        }
-
-        // Boolean checks.
-        const booleans = {
-          isTopLevel: this._root,
-        };
-
-        // Check the booleans.
-        const booleanChecks = isValidType("boolean", booleans, {
-          shouldThrow: false,
-        });
-
-        // Handle boolean check failure.
-        if (!booleanChecks.status) {
-          this._errors = [...this._errors, ...booleanChecks.errors];
-          this._valid = false;
-        }
-
-        // Parent menu checks.
-        if (!this._root && this.elements.parentMenu === null) {
-          this._errors.push(new TypeError("A submenu requires a parentMenu."));
-          this._valid = false;
-        } else if (this.elements.parentMenu !== null) {
-          const parentMenuChecks = isValidInstance(
-            BaseMenu,
-            { parentMenu: this.elements.parentMenu },
-            { shouldThrow: false }
-          );
-
-          // Handle parent menu check failure.
-          if (!parentMenuChecks.status) {
-            this._errors = [...this._errors, ...parentMenuChecks.errors];
-            this._valid = false;
-          }
-        }
-
-        // Controller checks.
-        // Check the controller's options.
-        if (
-          this.elements.controller !== null &&
-          !this.elements.controller._validate()
-        ) {
-          this._errors = [...this._errors, ...this.elements.controller.errors];
-          this._valid = false;
-        }
-
-        // Hover type checks.
-        const hoverTypeChecks = isValidHoverType(
-          { hoverType: this._hoverType },
+      // DOM checks.
+      if (this.dom.menu === null) {
+        const domChecks = isValidInstance(
+          HTMLElement,
+          { menuElement: this.dom.menu },
           { shouldThrow: false }
         );
 
-        // Handle hover type check failure.
-        if (!hoverTypeChecks.status) {
-          this._errors = [...this._errors, ...hoverTypeChecks.errors];
+        // Handle DOM check failure.
+        if (!domChecks.status) {
+          this._errors = [...this._errors, ...domChecks.errors];
           this._valid = false;
         }
       }
-    );
+
+      // Controller and container checks.
+      if ((this.dom.controller === null) !== (this.dom.container === null)) {
+        this._errors.push(
+          new TypeError(
+            "controllerElement and containerElement must be provided together."
+          )
+        );
+        this._valid = false;
+      }
+
+      // Boolean checks.
+      const booleans = {
+        isTopLevel: this._root,
+      };
+
+      // Check the booleans.
+      const booleanChecks = isValidType("boolean", booleans, {
+        shouldThrow: false,
+      });
+
+      // Handle boolean check failure.
+      if (!booleanChecks.status) {
+        this._errors = [...this._errors, ...booleanChecks.errors];
+        this._valid = false;
+      }
+
+      // Parent menu checks.
+      if (!this._root && this.elements.parentMenu === null) {
+        this._errors.push(new TypeError("A submenu requires a parentMenu."));
+        this._valid = false;
+      } else if (this.elements.parentMenu !== null) {
+        const parentMenuChecks = isValidInstance(
+          BaseMenu,
+          { parentMenu: this.elements.parentMenu },
+          { shouldThrow: false }
+        );
+
+        // Handle parent menu check failure.
+        if (!parentMenuChecks.status) {
+          this._errors = [...this._errors, ...parentMenuChecks.errors];
+          this._valid = false;
+        }
+      }
+
+      // Controller checks.
+      // Check the controller's options.
+      if (
+        this.elements.controller !== null &&
+        !this.elements.controller._validate()
+      ) {
+        this._errors = [...this._errors, ...this.elements.controller.errors];
+        this._valid = false;
+      }
+
+      // Hover type checks.
+      const hoverTypeChecks = isValidHoverType(
+        { hoverType: this._hoverType },
+        { shouldThrow: false }
+      );
+
+      // Handle hover type check failure.
+      if (!hoverTypeChecks.status) {
+        this._errors = [...this._errors, ...hoverTypeChecks.errors];
+        this._valid = false;
+      }
+    });
   }
 
   /**
