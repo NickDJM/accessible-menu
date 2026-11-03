@@ -207,27 +207,23 @@ class Treeview extends BaseMenu {
    */
   _bootstrap() {
     super._bootstrap();
-    this._addEventListener(
-      this.getEventName("initialize"),
-      this.rootDOMElement,
-      (event) => {
-        if (event.detail.component !== this) return;
-        if (this.isTopLevel) {
-          this.dom.menu.setAttribute("role", "tree");
-          if (this.elements.menuItems.length > 0) {
-            this.elements.menuItems[0].dom.link.tabIndex = 0;
-          }
-        } else {
-          this.dom.menu.setAttribute("role", "group");
+    this._addInternalEventListener(this.getEventName("initialize"), (event) => {
+      if (event.detail.component !== this) return;
+      if (this.isTopLevel) {
+        this.dom.menu.setAttribute("role", "tree");
+        if (this.elements.menuItems.length > 0) {
+          this.elements.menuItems[0].dom.link.tabIndex = 0;
         }
-
-        // Remove the aria-owns attribute from the controller.
-        // It isn't needed for the root toggle.
-        if (this.isTopLevel && this.elements.controller) {
-          this.elements.controller.dom.controller.removeAttribute("aria-owns");
-        }
+      } else {
+        this.dom.menu.setAttribute("role", "group");
       }
-    );
+
+      // Remove the aria-owns attribute from the controller.
+      // It isn't needed for the root toggle.
+      if (this.isTopLevel && this.elements.controller) {
+        this.elements.controller.dom.controller.removeAttribute("aria-owns");
+      }
+    });
   }
 
   /**

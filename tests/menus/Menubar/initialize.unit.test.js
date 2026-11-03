@@ -71,6 +71,31 @@ describe("Menubar", () => {
     }).not.toThrow();
   });
 
+  it("should set the menu role and keyboard focus entry point when public events are disabled", () => {
+    const menu = new Menubar({
+      menuElement: document.querySelector("ul"),
+      initialize: false,
+    });
+    const listener = vi.fn();
+    menu._addEventListener(
+      menu.getEventName("initialize"),
+      menu.dom.menu,
+      (event) => {
+        if (event.detail.component === menu) listener(event);
+      }
+    );
+    menu.shouldEmit = false;
+
+    menu.initialize();
+
+    expect(menu.isInitialized).toBe(true);
+    expect(menu.dom.menu.getAttribute("role")).toBe("menubar");
+    expect(menu.elements.menuItems[0].dom.link.tabIndex).toBe(0);
+    expect(listener).not.toHaveBeenCalled();
+
+    menu.dispose();
+  });
+
   // Test that the Menubar will throw an error if no menuElement is passed.
   it("should report a validation failure if no menuElement is passed", () => {
     // Test that the menu throws an error.

@@ -299,6 +299,7 @@ function m(e, t) {
 }
 // node_modules/@accessible-ecosystem/core/src/Component.js
 var h = class {
+	#e = new EventTarget();
 	_dom = {};
 	_rootDOMElement = "";
 	_protectedDOMElements = [];
@@ -324,9 +325,10 @@ var h = class {
 	_id = "";
 	_valid = !0;
 	_initialized = !1;
+	_shouldEmit = !0;
 	_errors = [];
-	constructor({ prefix: e = "ae-", key: t = null, initializeClass: n = "initializing", bootstrap: r = !0 } = {}) {
-		this._classes.initialize = n || "", this._prefix = e || "", this._key = t || "", r && this._bootstrap();
+	constructor({ prefix: e = "ae-", key: t = null, initializeClass: n = "initializing", emit: r = !0, bootstrap: i = !0 } = {}) {
+		this._classes.initialize = n || "", this._prefix = e || "", this._key = t || "", this._shouldEmit = r, i && this._bootstrap();
 	}
 	_bootstrap() {
 		try {
@@ -429,6 +431,12 @@ var h = class {
 	get isInitialized() {
 		return this._initialized;
 	}
+	get shouldEmit() {
+		return this._shouldEmit;
+	}
+	set shouldEmit(e) {
+		t("boolean", { shouldEmit: e }), this._shouldEmit = e;
+	}
 	get errors() {
 		return this._errors;
 	}
@@ -480,7 +488,10 @@ var h = class {
 		});
 		let o = t("string", a, { shouldThrow: !1 });
 		o.status || (this._errors = [...this._errors, ...o.errors], this._valid = !1);
-		let s = t("boolean", { _shouldStore: this._shouldStore }, { shouldThrow: !1 });
+		let s = t("boolean", {
+			_shouldStore: this._shouldStore,
+			emit: this._shouldEmit
+		}, { shouldThrow: !1 });
 		return s.status || (this._errors = [...this._errors, ...s.errors], this._valid = !1), this._dispatchEvent("validate", this.rootDOMElement), this._dispatchEvent("postvalidate", this.rootDOMElement), this._valid;
 	}
 	_generateKey(e = !1) {
@@ -566,23 +577,36 @@ var h = class {
 	getEventName(e) {
 		return Object.keys(this._events).includes(e) ? this._events[e].type : null;
 	}
-	_dispatchEvent(t, n = this.rootDOMElement) {
-		c(t, this), e(HTMLElement, { element: n }), n.dispatchEvent(this.events[t]);
+	_dispatchEvent(n, r = this.rootDOMElement, { emit: i = !0 } = {}) {
+		c(n, this), t("boolean", { emit: i }), i && this.shouldEmit && e(HTMLElement, { element: r });
+		let a = this.events[n];
+		this.#e.dispatchEvent(a), i && this.shouldEmit && r.dispatchEvent(a);
+	}
+	_addInternalEventListener(e, t, n = {}) {
+		this._addEventListener(e, this.#e, t, n);
+	}
+	_removeInternalEventListener(e, t, n = {}) {
+		this._removeEventListener(e, this.#e, t, n);
 	}
 	_addEventListener(e, t, n, r = {}) {
+		let i = typeof r == "boolean" ? r : {
+			...r,
+			capture: !!r?.capture
+		};
 		t.addEventListener(e, n, r), this._listeners.push({
 			type: e,
 			element: t,
 			listener: n,
-			options: r
+			options: i
 		});
 	}
 	_removeEventListener(e, t, n, r = {}) {
 		t.removeEventListener(e, n, r);
-		let i = -1;
-		this._listeners.forEach((a, o) => {
-			a.type === e && a.element === t && a.listener === n && JSON.stringify(a.options) === JSON.stringify(r) && (i = o);
-		}), i !== -1 && this._listeners.splice(i, 1);
+		let i = typeof r == "boolean" ? r : !!r?.capture;
+		this._listeners = this._listeners.filter((r) => {
+			let a = r.options, o = typeof a == "boolean" ? a : !!a?.capture;
+			return r.type !== e || r.element !== t || r.listener !== n || o !== i;
+		});
 	}
 	_removeEventListeners({ type: e = null, element: t = null } = {}) {
 		[...this._listeners].forEach((n) => {
@@ -603,24 +627,25 @@ var h = class {
 	_breakpoint = "";
 	_mediaQueryString = "";
 	_mediaQueryList = null;
-	constructor({ breakpoint: e = "", mediaQuery: t = "", prefix: n = "ae-", key: r = null, initializeClass: i = "initializing", bootstrap: a = !0 } = {}) {
+	constructor({ breakpoint: e = "", mediaQuery: t = "", prefix: n = "ae-", key: r = null, initializeClass: i = "initializing", emit: a = !0, bootstrap: o = !0 } = {}) {
 		super({
 			prefix: n,
 			key: r,
 			initializeClass: i,
+			emit: a,
 			bootstrap: !1
-		}), this._breakpoint = e || "", this._mediaQueryString = t || "", a && this._bootstrap();
+		}), this._breakpoint = e || "", this._mediaQueryString = t || "", o && this._bootstrap();
 	}
 	_bootstrap() {
 		try {
-			super._bootstrap(), this._addEventListener(this.getEventName("validate"), this.rootDOMElement, (e) => {
+			super._bootstrap(), this._addInternalEventListener(this.getEventName("validate"), (e) => {
 				if (e.detail.component !== this) return;
 				let n = t("string", {
 					mediaQuery: this._mediaQueryString,
 					breakpoint: this._breakpoint
 				}, { shouldThrow: !1 });
 				n.status || (this._errors = [...this._errors, ...n.errors], this._valid = !1);
-			}), this._addEventListener(this.getEventName("initialize"), this.rootDOMElement, (e) => {
+			}), this._addInternalEventListener(this.getEventName("initialize"), (e) => {
 				e.detail.component === this && this._handleMediaMatch();
 			});
 		} catch (e) {
@@ -692,18 +717,19 @@ var h = class {
 	_unlockOutsideBreakpoint = !1;
 	_expandOnFocus = !1;
 	_collapseOnBlur = !1;
-	constructor({ controllerElement: e, controlledElement: t, triggerElement: n = null, lockClass: r = "locked", unlockClass: i = "unlocked", expandClass: a = "show", collapseClass: o = "hide", transitionClass: s = "transitioning", transitionDelay: c = 250, transitionDuration: l = 150, expandDuration: u = -1, collapseDuration: d = -1, expandInsideBreakpoint: f = !1, expandOutsideBreakpoint: p = !1, collapseInsideBreakpoint: m = !1, collapseOutsideBreakpoint: h = !1, lockInsideBreakpoint: g = !1, lockOutsideBreakpoint: _ = !1, unlockInsideBreakpoint: v = !1, unlockOutsideBreakpoint: y = !1, expandOnFocus: b = !1, collapseOnBlur: x = !1, locked: S = !1, breakpoint: C = "", mediaQuery: w = "", prefix: T = "ae-", key: E = null, initializeClass: D = "initializing", bootstrap: O = !0 } = {}) {
+	constructor({ controllerElement: e, controlledElement: t, triggerElement: n = null, lockClass: r = "locked", unlockClass: i = "unlocked", expandClass: a = "show", collapseClass: o = "hide", transitionClass: s = "transitioning", transitionDelay: c = 250, transitionDuration: l = 150, expandDuration: u = -1, collapseDuration: d = -1, expandInsideBreakpoint: f = !1, expandOutsideBreakpoint: p = !1, collapseInsideBreakpoint: m = !1, collapseOutsideBreakpoint: h = !1, lockInsideBreakpoint: g = !1, lockOutsideBreakpoint: _ = !1, unlockInsideBreakpoint: v = !1, unlockOutsideBreakpoint: y = !1, expandOnFocus: b = !1, collapseOnBlur: x = !1, locked: S = !1, breakpoint: C = "", mediaQuery: w = "", prefix: T = "ae-", key: E = null, initializeClass: D = "initializing", emit: O = !0, bootstrap: k = !0 } = {}) {
 		super({
 			breakpoint: C,
 			mediaQuery: w,
 			prefix: T,
 			key: E,
 			initializeClass: D,
+			emit: O,
 			bootstrap: !1
-		}), this._dom.controller = e, this._dom.trigger = n ?? e, this._dom.controlled = t, this._protectedDOMElements.push("controller", "trigger", "controlled"), this._classes.locked = r || "", this._classes.unlocked = i || "", this._classes.expand = a || "", this._classes.collapse = o || "", this._classes.transition = s || "", this._delays.transition = c, this._durations.transition = l, this._durations.expand = u, this._durations.collapse = d, this._expandInsideBreakpoint = f, this._expandOutsideBreakpoint = p, this._collapseInsideBreakpoint = m, this._collapseOutsideBreakpoint = h, this._lockInsideBreakpoint = g, this._lockOutsideBreakpoint = _, this._unlockInsideBreakpoint = v, this._unlockOutsideBreakpoint = y, this._expandOnFocus = b, this._collapseOnBlur = x, this._locked.value = S, this._locked.commit(), O && this._bootstrap();
+		}), this._dom.controller = e, this._dom.trigger = n ?? e, this._dom.controlled = t, this._protectedDOMElements.push("controller", "trigger", "controlled"), this._classes.locked = r || "", this._classes.unlocked = i || "", this._classes.expand = a || "", this._classes.collapse = o || "", this._classes.transition = s || "", this._delays.transition = c, this._durations.transition = l, this._durations.expand = u, this._durations.collapse = d, this._expandInsideBreakpoint = f, this._expandOutsideBreakpoint = p, this._collapseInsideBreakpoint = m, this._collapseOutsideBreakpoint = h, this._lockInsideBreakpoint = g, this._lockOutsideBreakpoint = _, this._unlockInsideBreakpoint = v, this._unlockOutsideBreakpoint = y, this._expandOnFocus = b, this._collapseOnBlur = x, this._locked.value = S, this._locked.commit(), k && this._bootstrap();
 	}
 	_bootstrap() {
-		super._bootstrap(), this._registerEvent("preexpand"), this._registerEvent("expand"), this._registerEvent("postexpand"), this._registerEvent("precollapse"), this._registerEvent("collapse"), this._registerEvent("postcollapse"), this._registerEvent("prelock"), this._registerEvent("lock"), this._registerEvent("postlock"), this._registerEvent("preunlock"), this._registerEvent("unlock"), this._registerEvent("postunlock"), this._addEventListener(this.getEventName("validate"), this.rootDOMElement, (e) => {
+		super._bootstrap(), this._registerEvent("preexpand"), this._registerEvent("expand"), this._registerEvent("postexpand"), this._registerEvent("precollapse"), this._registerEvent("collapse"), this._registerEvent("postcollapse"), this._registerEvent("prelock"), this._registerEvent("lock"), this._registerEvent("postlock"), this._registerEvent("preunlock"), this._registerEvent("unlock"), this._registerEvent("postunlock"), this._addInternalEventListener(this.getEventName("validate"), (e) => {
 			if (e.detail.component !== this) return;
 			let n = t("boolean", {
 				locked: this._locked.value,
@@ -719,7 +745,7 @@ var h = class {
 				_unlockOutsideBreakpoint: this._unlockOutsideBreakpoint
 			}, { shouldThrow: !1 });
 			n.status || (this._errors = [...this._errors, ...n.errors], this._valid = !1);
-		}), this._addEventListener(this.getEventName("initialize"), this.rootDOMElement, (e) => {
+		}), this._addInternalEventListener(this.getEventName("initialize"), (e) => {
 			e.detail.component === this && (this.dom.controller.getAttribute("aria-expanded") === "true" ? this.expand() : this.collapse(), this.isLocked ? this.lock() : this.unlock());
 		});
 	}
@@ -846,31 +872,35 @@ var h = class {
 	_mediaQueryListEventCallback(e) {
 		e.matches ? (this.unlockInsideBreakpoint && this.unlock(), this.isExpanded && this.collapseInsideBreakpoint ? (this.isLocked && this.unlock(), this.collapse({ preserveState: !0 })) : !this.isExpanded && this.expandInsideBreakpoint && (this.isLocked && this.unlock(), this.expand()), this.lockInsideBreakpoint && this.lock()) : (this.unlockOutsideBreakpoint && this.unlock(), this.isExpanded && this.collapseOutsideBreakpoint ? (this.isLocked && this.unlock(), this.collapse({ preserveState: !0 })) : !this.isExpanded && this.expandOutsideBreakpoint && (this.isLocked && this.unlock(), this.expand()), this.lockOutsideBreakpoint && this.lock());
 	}
-	_expand({ emit: e = this.isInitialized, transition: t = this.isInitialized } = {}) {
-		e && this._dispatchEvent("preexpand"), this._cancelAnimationFrame("expandTransition"), this._cancelAnimationFrame("collapseTransition"), this._clearTimeout("expandTransition"), this._clearTimeout("collapseTransition"), this.dom.controller.setAttribute("aria-expanded", "true"), t && this.transitionClass !== "" ? (p(this.transitionClass, this.dom.controlled), this._requestAnimationFrame(() => {
+	_expand({ emit: e = this.isInitialized && this.shouldEmit, transition: t = this.isInitialized } = {}) {
+		this._dispatchEvent("preexpand", this.rootDOMElement, { emit: e }), this._cancelAnimationFrame("expandTransition"), this._cancelAnimationFrame("collapseTransition"), this._clearTimeout("expandTransition"), this._clearTimeout("collapseTransition"), this.dom.controller.setAttribute("aria-expanded", "true"), t && this.transitionClass !== "" ? (p(this.transitionClass, this.dom.controlled), this._requestAnimationFrame(() => {
 			m(this.collapseClass, this.dom.controlled), this._requestAnimationFrame(() => {
 				p(this.expandClass, this.dom.controlled), this._requestAnimationFrame(() => {
-					this._setTimeout(() => m(this.transitionClass, this.dom.controlled), this.expandDuration, "expandTransition");
-				}, "expandTransition");
+					this._setTimeout(() => {
+						m(this.transitionClass, this.dom.controlled), this._dispatchEvent("postexpand", this.rootDOMElement, { emit: e });
+					}, this.expandDuration, "expandTransition");
+				}, "expandTransition"), this._dispatchEvent("expand", this.rootDOMElement, { emit: e });
 			}, "expandTransition");
-		}, "expandTransition")) : (m(this.transitionClass, this.dom.controlled), p(this.expandClass, this.dom.controlled), m(this.collapseClass, this.dom.controlled)), e && (this._dispatchEvent("expand"), this._dispatchEvent("postexpand"));
+		}, "expandTransition")) : (m(this.transitionClass, this.dom.controlled), p(this.expandClass, this.dom.controlled), m(this.collapseClass, this.dom.controlled), this._dispatchEvent("expand", this.rootDOMElement, { emit: e }), this._dispatchEvent("postexpand", this.rootDOMElement, { emit: e }));
 	}
-	_collapse({ emit: e = this.isInitialized, transition: t = this.isInitialized } = {}) {
-		e && this._dispatchEvent("precollapse"), this._cancelAnimationFrame("expandTransition"), this._cancelAnimationFrame("collapseTransition"), this._clearTimeout("expandTransition"), this._clearTimeout("collapseTransition"), this.dom.controller.setAttribute("aria-expanded", "false"), t && this.transitionClass !== "" ? (p(this.transitionClass, this.dom.controlled), this._requestAnimationFrame(() => {
+	_collapse({ emit: e = this.isInitialized && this.shouldEmit, transition: t = this.isInitialized } = {}) {
+		this._dispatchEvent("precollapse", this.rootDOMElement, { emit: e }), this._cancelAnimationFrame("expandTransition"), this._cancelAnimationFrame("collapseTransition"), this._clearTimeout("expandTransition"), this._clearTimeout("collapseTransition"), this.dom.controller.setAttribute("aria-expanded", "false"), t && this.transitionClass !== "" ? (p(this.transitionClass, this.dom.controlled), this._requestAnimationFrame(() => {
 			m(this.expandClass, this.dom.controlled), this._requestAnimationFrame(() => {
 				p(this.collapseClass, this.dom.controlled), this._requestAnimationFrame(() => {
-					this._setTimeout(() => m(this.transitionClass, this.dom.controlled), this.collapseDuration, "collapseTransition");
-				}, "collapseTransition");
+					this._setTimeout(() => {
+						m(this.transitionClass, this.dom.controlled), this._dispatchEvent("postcollapse", this.rootDOMElement, { emit: e });
+					}, this.collapseDuration, "collapseTransition");
+				}, "collapseTransition"), this._dispatchEvent("collapse", this.rootDOMElement, { emit: e });
 			}, "collapseTransition");
-		}, "collapseTransition")) : (m(this.transitionClass, this.dom.controlled), p(this.collapseClass, this.dom.controlled), m(this.expandClass, this.dom.controlled)), e && (this._dispatchEvent("collapse"), this._dispatchEvent("postcollapse"));
+		}, "collapseTransition")) : (m(this.transitionClass, this.dom.controlled), p(this.collapseClass, this.dom.controlled), m(this.expandClass, this.dom.controlled), this._dispatchEvent("collapse", this.rootDOMElement, { emit: e }), this._dispatchEvent("postcollapse", this.rootDOMElement, { emit: e }));
 	}
-	_lock({ emit: e = this.isInitialized } = {}) {
-		e && this._dispatchEvent("prelock"), p(this.lockedClass, this.dom.controlled), m(this.unlockedClass, this.dom.controlled), this.dom.controller.setAttribute("disabled", "true"), e && (this._dispatchEvent("lock"), this._dispatchEvent("postlock"));
+	_lock({ emit: e = this.isInitialized && this.shouldEmit } = {}) {
+		this._dispatchEvent("prelock", this.rootDOMElement, { emit: e }), p(this.lockedClass, this.dom.controlled), m(this.unlockedClass, this.dom.controlled), this.dom.controller.setAttribute("disabled", "true"), this._dispatchEvent("lock", this.rootDOMElement, { emit: e }), this._dispatchEvent("postlock", this.rootDOMElement, { emit: e });
 	}
-	_unlock({ emit: e = this.isInitialized } = {}) {
-		e && this._dispatchEvent("preunlock"), p(this.unlockedClass, this.dom.controlled), m(this.lockedClass, this.dom.controlled), this.dom.controller.removeAttribute("disabled"), e && (this._dispatchEvent("unlock"), this._dispatchEvent("postunlock"));
+	_unlock({ emit: e = this.isInitialized && this.shouldEmit } = {}) {
+		this._dispatchEvent("preunlock", this.rootDOMElement, { emit: e }), p(this.unlockedClass, this.dom.controlled), m(this.lockedClass, this.dom.controlled), this.dom.controller.removeAttribute("disabled"), this._dispatchEvent("unlock", this.rootDOMElement, { emit: e }), this._dispatchEvent("postunlock", this.rootDOMElement, { emit: e });
 	}
-	expand({ force: e = !this.isInitialized, emit: t = this.isInitialized, transition: n = this.isInitialized, preserveState: r = !1 } = {}) {
+	expand({ force: e = !this.isInitialized, emit: t = this.isInitialized && this.shouldEmit, transition: n = this.isInitialized, preserveState: r = !1 } = {}) {
 		this.isExpanded && !e || this.isLocked && !e || (this.focusState = "self", this._expand({
 			emit: t,
 			transition: n
@@ -882,19 +912,19 @@ var h = class {
 	blur() {
 		super.blur(), this.collapseOnBlur && this.collapse();
 	}
-	preview({ force: e = !this.isInitialized, emit: t = this.isInitialized, transition: n = this.isInitialized, preserveState: r = !1 } = {}) {
+	preview({ force: e = !this.isInitialized, emit: t = this.isInitialized && this.shouldEmit, transition: n = this.isInitialized, preserveState: r = !1 } = {}) {
 		this.isExpanded && !e || this.isLocked && !e || (this.focusState = "none", this._expand({
 			emit: t,
 			transition: n
 		}), this._expanded.value = !0, r || this._expanded.commit());
 	}
-	collapse({ force: e = !this.isInitialized, emit: t = this.isInitialized, transition: n = this.isInitialized, preserveState: r = !1 } = {}) {
+	collapse({ force: e = !this.isInitialized, emit: t = this.isInitialized && this.shouldEmit, transition: n = this.isInitialized, preserveState: r = !1 } = {}) {
 		(this.isExpanded || e) && (!this.isLocked || e) && (this.focusState = "none", this._collapse({
 			emit: t,
 			transition: n
 		}), this._expanded.value = !1, r || this._expanded.commit());
 	}
-	toggle({ force: e = !this.isInitialized, emit: t = this.isInitialized, transition: n = this.isInitialized, preserveState: r = !1 } = {}) {
+	toggle({ force: e = !this.isInitialized, emit: t = this.isInitialized && this.shouldEmit, transition: n = this.isInitialized, preserveState: r = !1 } = {}) {
 		this.isExpanded ? this.collapse({
 			force: e,
 			emit: t,
@@ -907,13 +937,13 @@ var h = class {
 			preserveState: r
 		});
 	}
-	lock({ force: e = !this.isInitialized, emit: t = this.isInitialized, preserveState: n = !1 } = {}) {
+	lock({ force: e = !this.isInitialized, emit: t = this.isInitialized && this.shouldEmit, preserveState: n = !1 } = {}) {
 		(!this.isLocked || e) && (this._locked.value = !0, this._lock({ emit: t }), n || this._locked.commit());
 	}
-	unlock({ force: e = !this.isInitialized, emit: t = this.isInitialized, preserveState: n = !1 } = {}) {
+	unlock({ force: e = !this.isInitialized, emit: t = this.isInitialized && this.shouldEmit, preserveState: n = !1 } = {}) {
 		(this.isLocked || e) && (this._locked.value = !1, this._unlock({ emit: t }), n || this._locked.commit());
 	}
-	toggleLock({ force: e = !this.isInitialized, emit: t = this.isInitialized, preserveState: n = !1 } = {}) {
+	toggleLock({ force: e = !this.isInitialized, emit: t = this.isInitialized && this.shouldEmit, preserveState: n = !1 } = {}) {
 		this.isLocked ? this.unlock({
 			force: e,
 			emit: t,
@@ -959,7 +989,7 @@ var h = class {
 		}), this._elements.controlledMenu = r, this._elements.parentMenu = i, this._bootstrap();
 	}
 	_bootstrap() {
-		super._bootstrap(), this._addEventListener(this.getEventName("validate"), this.rootDOMElement, (t) => {
+		super._bootstrap(), this._addInternalEventListener(this.getEventName("validate"), (t) => {
 			if (t.detail.component !== this) return;
 			let n = {};
 			for (let e of ["controller", "controlled"]) this.dom[e] === null && (n[`${e}Element`] = this.dom[e]);
@@ -1112,7 +1142,7 @@ var h = class {
 		}), this._dom.item = e, this._dom.link = t, this._elements.parentMenu = n, this._elements.childMenu = i, this._elements.toggle = a, this._elements.sibling = o, this._submenu = r, this._bootstrap();
 	}
 	_bootstrap() {
-		super._bootstrap(), this._addEventListener(this.getEventName("validate"), this.rootDOMElement, (r) => {
+		super._bootstrap(), this._addInternalEventListener(this.getEventName("validate"), (r) => {
 			if (r.detail.component !== this) return;
 			let i = {};
 			for (let e of ["item", "link"]) this.dom[e] === null && (i[`${e}Element`] = this.dom[e]);
@@ -1234,11 +1264,11 @@ var C = class n extends h {
 		}, this._shouldStore = _, this._bootstrap();
 	}
 	_bootstrap() {
-		super._bootstrap(), this._addEventListener(this.getEventName("prevalidate"), this.rootDOMElement, (e) => {
+		super._bootstrap(), this._addInternalEventListener(this.getEventName("prevalidate"), (e) => {
 			e.detail.component === this && this._createController({ initialize: !1 });
-		}), this._addEventListener(this.getEventName("preinitialize"), this.rootDOMElement, (e) => {
+		}), this._addInternalEventListener(this.getEventName("preinitialize"), (e) => {
 			e.detail.component === this && this.elements.rootMenu === null && this._findRootMenu(this);
-		}), this._addEventListener(this.getEventName("validate"), this.rootDOMElement, (r) => {
+		}), this._addInternalEventListener(this.getEventName("validate"), (r) => {
 			if (r.detail.component !== this) return;
 			if (this.dom.menu === null) {
 				let t = e(HTMLElement, { menuElement: this.dom.menu }, { shouldThrow: !1 });
@@ -1739,7 +1769,7 @@ var C = class n extends h {
 		}), s && this.initialize();
 	}
 	_bootstrap() {
-		super._bootstrap(), this._addEventListener(this.getEventName("initialize"), this.rootDOMElement, (e) => {
+		super._bootstrap(), this._addInternalEventListener(this.getEventName("initialize"), (e) => {
 			e.detail.component === this && (this.dom.item.setAttribute("role", "none"), this.dom.link.setAttribute("role", "menuitem"), this.dom.link.tabIndex = -1);
 		});
 	}
@@ -1859,7 +1889,7 @@ var C = class n extends h {
 		}), F && this.initialize();
 	}
 	_bootstrap() {
-		super._bootstrap(), this._addEventListener(this.getEventName("initialize"), this.rootDOMElement, (e) => {
+		super._bootstrap(), this._addInternalEventListener(this.getEventName("initialize"), (e) => {
 			e.detail.component === this && (this.isTopLevel ? this.dom.menu.setAttribute("role", "menubar") : this.dom.menu.setAttribute("role", "menu"), this.isTopLevel && (this.elements.menuItems.length > 0 && (this.elements.menuItems[0].dom.link.tabIndex = 0), this.elements.controller && this.elements.controller.dom.controller.removeAttribute("aria-haspopup")));
 		});
 	}

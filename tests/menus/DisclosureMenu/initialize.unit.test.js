@@ -885,6 +885,24 @@ describe("DisclosureMenu (custom arguments)", () => {
 
     expect(console.error).toHaveBeenCalled();
   });
+
+  it("should reject invalid optionalKeySupport when public events are disabled", () => {
+    const menu = new DisclosureMenu({
+      menuElement: document.querySelector("ul"),
+      optionalKeySupport: "invalid",
+      initialize: false,
+    });
+    menu.shouldEmit = false;
+
+    menu.initialize();
+
+    expect(menu.isInitialized).toBe(false);
+    expect(menu.isValid).toBe(false);
+    expect(menu.errors).toContainEqual(expect.any(TypeError));
+    expect(console.error).toHaveBeenCalled();
+
+    menu.dispose();
+  });
 });
 
 // DisclosureMenu controlled initialization tests.

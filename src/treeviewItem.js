@@ -57,16 +57,12 @@ class TreeviewItem extends BaseMenuItem {
    */
   _bootstrap() {
     super._bootstrap();
-    this._addEventListener(
-      this.getEventName("initialize"),
-      this.rootDOMElement,
-      (event) => {
-        if (event.detail.component !== this) return;
-        this.dom.item.setAttribute("role", "none");
-        this.dom.link.setAttribute("role", "treeitem");
-        this.dom.link.tabIndex = -1;
-      }
-    );
+    this._addInternalEventListener(this.getEventName("initialize"), (event) => {
+      if (event.detail.component !== this) return;
+      this.dom.item.setAttribute("role", "none");
+      this.dom.link.setAttribute("role", "treeitem");
+      this.dom.link.tabIndex = -1;
+    });
   }
 
   /**
