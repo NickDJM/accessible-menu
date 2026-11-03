@@ -83,7 +83,7 @@ TreeviewItem.blur();
 
 This will call the [BaseMenuItem's blur method](./base-menu-item#method--blur) as well as set the menu link's `tabIndex` to -1, including items in submenus.
 
-### _bootstrap
+### _registerEvents
 
 Registers the menu item's initialization event listener.
 

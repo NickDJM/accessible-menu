@@ -35,6 +35,7 @@ The constructor will call [BaseMenuToggle's constructor](./base-menu-toggle#cons
 | options.triggerElement            | `?HTMLElement`     | The element receiving expansion clicks. If null, the toggle element is used.         | `null`      |
 | options.controlledMenu            | `Treeview`         | The menu controlled by this toggle.                                                  | `undefined` |
 | options.parentMenu                | `Treeview`, `null` | The menu containing this toggle.                                                     | `null`      |
+| options.expanded | `boolean` | Whether the controlled menu is initially expanded. | `false` |
 | options.breakpoint                | `string`           | The Core controller breakpoint.                                                      | `""`        |
 | options.mediaQuery                | `string`           | The explicit Core controller media query.                                            | `""`        |
 | options.expandInsideBreakpoint    | `boolean`          | Core's expandInsideBreakpoint responsive action flag.                                | `false`     |
@@ -57,7 +58,7 @@ TreeviewToggle.initialize();
 
 The first steps are to ensure that the toggle and controlled menu have IDs using the [setIds](./base-menu-toggle#method--setIds) method, and to set the ARIA attributes on the toggle and controlled menu using the [setAriaAttributes](#method--setAriaAttributes) method.
 
-Then the [expand](./base-menu-toggle#method--expand) or [collapse](./base-menu-toggle#method--collapse) method is called based on the state of the toggle's aria-expanded attribute.
+Then the [expand](./base-menu-toggle#method--expand) or [collapse](./base-menu-toggle#method--collapse) method is called based on the `expanded` constructor option. See [BaseMenuToggle initialization](./base-menu-toggle#initialize) for how menus read the initial state from markup.
 
 ## Properties
 

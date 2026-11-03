@@ -55,8 +55,8 @@ class MenubarItem extends BaseMenuItem {
    *
    * @protected
    */
-  _bootstrap() {
-    super._bootstrap();
+  _registerEvents() {
+    super._registerEvents();
     this._addInternalEventListener(this.getEventName("initialize"), (event) => {
       if (event.detail.component !== this) return;
       this.dom.item.setAttribute("role", "none");

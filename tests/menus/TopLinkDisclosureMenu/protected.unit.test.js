@@ -137,47 +137,6 @@ describe("TopLinkDisclosureMenu protected methods", () => {
       });
     });
 
-    describe("controller options", () => {
-      const flags = [
-        "expandInsideBreakpoint",
-        "expandOutsideBreakpoint",
-        "collapseInsideBreakpoint",
-        "collapseOutsideBreakpoint",
-        "lockInsideBreakpoint",
-        "lockOutsideBreakpoint",
-        "unlockInsideBreakpoint",
-        "unlockOutsideBreakpoint",
-      ];
-      beforeEach(() => {
-        document.body.innerHTML = twoLevel;
-        vi.useFakeTimers();
-      });
-
-      afterEach(() => {
-        vi.restoreAllMocks();
-        vi.unstubAllGlobals();
-        vi.useRealTimers();
-        document.body.innerHTML = "";
-      });
-      it.each(flags)("should validate %s through Core", (option) => {
-        vi.spyOn(console, "error").mockImplementation(() => {});
-
-        const menu = new TopLinkDisclosureMenu({
-          menuElement: document.querySelector("ul"),
-          controllerElement: document.querySelector("button"),
-          containerElement: document.querySelector("nav"),
-          submenuTogglesSelector: "a",
-          initialize: false,
-          [option]: "invalid",
-        });
-        menu.initialize();
-
-        expect(
-          menu.errors.some((error) => error.message.includes(option))
-        ).toBe(true);
-      });
-    });
-
     describe("submenu toggle selectors", () => {
       beforeEach(() => {
         document.body.innerHTML = fourLevelDisclosureTopLinkSplit;
@@ -224,6 +183,41 @@ describe("TopLinkDisclosureMenu protected methods", () => {
         document.body.innerHTML = "";
       });
 
+      it.each(flags)(
+        "should reject invalid %s in the controller without retrying initialization",
+        (option) => {
+          vi.spyOn(console, "error").mockImplementation(() => {});
+          const initialize = vi.spyOn(
+            CollapsibleComponent.prototype,
+            "initialize"
+          );
+
+          const menu = new TopLinkDisclosureMenu({
+            menuElement: document.querySelector("ul"),
+            controllerElement: document.querySelector("button"),
+            containerElement: document.querySelector("nav"),
+            submenuTogglesSelector: "a",
+            initialize: false,
+            [option]: "invalid",
+          });
+
+          menu.initialize();
+
+          expect(
+            menu.elements.controller.errors.some((error) =>
+              error.message.includes(option)
+            )
+          ).toBe(true);
+          expect(menu.elements.controller.isValid).toBe(false);
+          expect(menu.elements.controller.isInitialized).toBe(false);
+          expect(
+            initialize.mock.contexts.filter(
+              (context) => context === menu.elements.controller
+            )
+          ).toHaveLength(1);
+        }
+      );
+
       it("should initialize the controller during child creation", () => {
         const createChildren = vi.spyOn(
           TopLinkDisclosureMenu.prototype,
@@ -245,6 +239,9 @@ describe("TopLinkDisclosureMenu protected methods", () => {
         const callIndex = initialize.mock.contexts.indexOf(controller);
 
         expect(callIndex).toBeGreaterThanOrEqual(0);
+        expect(
+          initialize.mock.contexts.filter((context) => context === controller)
+        ).toHaveLength(1);
         expect(initialize.mock.invocationCallOrder[callIndex]).toBeGreaterThan(
           createChildren.mock.invocationCallOrder[0]
         );

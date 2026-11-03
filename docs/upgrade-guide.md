@@ -148,7 +148,7 @@ The inherited properties and methods remain documented in the [API reference](./
 
 #### Initialization and validation hooks
 
-In custom subclasses, call `super._bootstrap()` before registering listeners for `getEventName("preinitialize")`, `getEventName("initialize")`, or `getEventName("validate")`. Use these listeners to add initialization or validation behavior. Keep overrides for hooks that implement menu-specific behavior, such as `_createChildElements()` and the interaction handlers.
+In custom subclasses, override `_registerEvents()` and call `super._registerEvents()` before registering listeners for `getEventName("preinitialize")`, `getEventName("initialize")`, or `getEventName("validate")`. Use these listeners to add initialization or validation behavior. Keep overrides for hooks that implement menu-specific behavior, such as `_createChildElements()` and the interaction handlers.
 
 Check `event.detail.component === this` before running a listener because these events bubble from child components. If custom validation fails, add its errors to `_errors` and set `_valid = false`.
 

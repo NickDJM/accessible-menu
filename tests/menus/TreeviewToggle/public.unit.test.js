@@ -10,6 +10,23 @@ import BaseMenu from "../../../src/_baseMenu.js";
 
 // Test TreeviewToggle public methods.
 describe("TreeviewToggle public methods", () => {
+  describe("constructor", () => {
+    it("should use the supplied initial expanded state", () => {
+      const toggle = new TreeviewToggle({
+        menuToggleElement: document.createElement("button"),
+        controlledMenu: new BaseMenu({
+          menuElement: document.createElement("ul"),
+        }),
+        expanded: true,
+        initialize: false,
+      });
+
+      expect(toggle.isExpanded).toBe(true);
+
+      toggle.dispose();
+    });
+  });
+
   // Test TreeviewItem expand().
   describe("expand", () => {
     // Test that TreeviewToggle implements the BaseMenuToggle expand.

@@ -17,6 +17,7 @@ class TreeviewToggle extends BaseMenuToggle {
    * @param {?HTMLElement} [options.triggerElement = null]             - The element receiving expansion clicks. If null, the toggle element is used.
    * @param {Treeview}     options.controlledMenu                      - The menu controlled by this toggle.
    * @param {?Treeview}    [options.parentMenu = null]                 - The menu containing this toggle.
+   * @param {boolean}      [options.expanded = false]                  - A flag to initially expand the controlled menu.
    * @param {string}       [options.breakpoint = ""]                   - The breakpoint used to generate the controller's media query.
    * @param {string}       [options.mediaQuery = ""]                   - The media query used to trigger the controller's media query list events.
    * @param {boolean}      [options.expandInsideBreakpoint = false]    - A flag to expand the controlled menu when the media query matches.
@@ -35,6 +36,7 @@ class TreeviewToggle extends BaseMenuToggle {
     triggerElement = null,
     controlledMenu,
     parentMenu = null,
+    expanded = false,
     breakpoint = "",
     mediaQuery = "",
     expandInsideBreakpoint = false,
@@ -53,6 +55,7 @@ class TreeviewToggle extends BaseMenuToggle {
       triggerElement,
       controlledMenu,
       parentMenu,
+      expanded,
       breakpoint,
       mediaQuery,
       expandInsideBreakpoint,

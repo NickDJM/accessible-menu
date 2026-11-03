@@ -50,7 +50,12 @@ class BaseMenuItem extends Component {
     toggle = null,
     submenuSibling = null,
   }) {
-    super({ prefix: "am-", initializeClass: "", bootstrap: false });
+    super({
+      prefix: "am-",
+      initializeClass: "",
+      bootstrap: false,
+      initialize: false,
+    });
 
     // Set DOM elements.
     this._dom.item = menuItemElement;
@@ -74,8 +79,8 @@ class BaseMenuItem extends Component {
    *
    * @protected
    */
-  _bootstrap() {
-    super._bootstrap();
+  _registerEvents() {
+    super._registerEvents();
     this._addInternalEventListener(this.getEventName("validate"), (event) => {
       if (event.detail.component !== this) return;
 

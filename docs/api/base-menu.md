@@ -114,10 +114,10 @@ BaseMenu.initialize();
 
 Initialization is inherited from Core's `Component`:
 
-1. Create the root controller without initializing it during `prevalidate`, then validate Core fields and dispatch Menu-specific validation listeners. The controller validates responsive settings.
+1. Validate Core fields and dispatch Menu-specific validation listeners.
 2. Apply the initialization class and dispatch `preinitialize`, which finds the root menu.
 3. Generate a key, populate DOM elements, assign IDs and ARIA relationships, and set CSS custom properties.
-4. Initialize the root controller through `_createController()`, then create and initialize menu items, submenus, and their toggles.
+4. Create and initialize the root controller through `_createController()`, then create and initialize menu items, submenus, and their toggles.
 5. Register focus, hover, click, keydown, and keyup handlers once.
 6. Dispatch `initialize`, including subclass role/tabindex listeners.
 7. Store root menus, remove the initialization class, mark the menu initialized, and dispatch `postinitialize`.
@@ -644,7 +644,7 @@ BaseMenu._errors; // Default: `[]`.
 
 ### _controllerOptions <badge type="warning" text="protected" /> {#property--controlleroptions}
 
-The responsive options passed to the root controller. Includes `breakpoint`, `mediaQuery`, and the eight breakpoint action flags. All action flags default to `false`. The controller validates these options and registers the media-query listener.
+The responsive options passed to the root controller. Includes `breakpoint`, `mediaQuery`, and the eight breakpoint action flags. All action flags default to `false`. The controller validates these options during its own initialization and registers the media-query listener.
 
 ```js
 BaseMenu._controllerOptions;
@@ -2165,13 +2165,13 @@ Blurs all children and submenu's children.
 BaseMenu.blurChildren();
 ```
 
-### _bootstrap
+### _registerEvents
 
-Registers the menu's validation and initialization event listeners.
+Registers the menu's validation and initialization event listeners. Core calls this hook during bootstrapping.
 
-Before validation, creates the root controller without initializing it. Before initialization, finds the root menu if it isn't already set.
+Before initialization, finds the root menu if it isn't already set.
 
-Validation checks the required DOM elements, controller and container, root flag, parent menu, controller options, and hover type.
+Validation checks the required DOM elements, controller and container, root flag, parent menu, and hover type.
 
 ### _setAriaAttributes
 
@@ -2183,7 +2183,7 @@ If the root menu has a controller and container, adds `role="button"` when the c
 
 Creates and initializes the root controller using `_controllerOptions`.
 
-Before validation, the menu calls this method with `{ initialize: false }` so the controller's options can be checked. During child creation, `_createChildElements()` calls it again to initialize the controller after the menu's IDs and ARIA attributes are set. An initialized controller is not initialized again.
+After validation succeeds and the menu's IDs and ARIA attributes are set, `_createChildElements()` calls this method to create and initialize the controller. The controller validates its own options during initialization. An initialized controller is not initialized again.
 
 The controller registers its own media-query listener. Submenu toggles do not receive these responsive options.
 

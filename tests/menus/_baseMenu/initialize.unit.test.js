@@ -33,6 +33,99 @@ afterEach(() => {
 
 // Test the BaseMenu initialization.
 describe("BaseMenu", () => {
+  it.each([
+    ["true", true, "true", "show"],
+    ["false", false, "false", "hide"],
+    ["invalid", false, "false", "hide"],
+  ])(
+    "should initialize controller and submenu state from aria-expanded=%s",
+    (value, expanded, aria, stateClass) => {
+      document
+        .querySelector(".menu-toggle")
+        .setAttribute("aria-expanded", value);
+      document
+        .querySelector(".dropdown-toggle")
+        .setAttribute("aria-expanded", value);
+      const menu = new BaseMenu({
+        menuElement: document.querySelector("ul"),
+        controllerElement: document.querySelector(".menu-toggle"),
+        containerElement: document.querySelector("nav"),
+      });
+
+      menu.initialize();
+
+      const controller = menu.elements.controller;
+      const toggle = menu.elements.submenuToggles[0];
+      const sibling = menu.elements.submenuToggles[1];
+
+      expect(menu.isInitialized).toBe(true);
+      expect(controller.isExpanded).toBe(expanded);
+      expect(controller.dom.controller.getAttribute("aria-expanded")).toBe(
+        aria
+      );
+      expect(controller.dom.controlled.classList.contains(stateClass)).toBe(
+        true
+      );
+      expect(toggle.isExpanded).toBe(expanded);
+      expect(toggle.dom.controller.getAttribute("aria-expanded")).toBe(aria);
+      expect(toggle.dom.controlled.classList.contains(stateClass)).toBe(true);
+      expect(sibling.isExpanded).toBe(false);
+      expect(sibling.dom.controller.getAttribute("aria-expanded")).toBe(
+        "false"
+      );
+
+      menu.dispose();
+    }
+  );
+
+  it("should preserve expanded state at deeper submenu levels", () => {
+    document.body.innerHTML = threeLevelWithTriggers;
+    document
+      .querySelector('[href="#Mammals"]')
+      .setAttribute("aria-expanded", "true");
+    document
+      .querySelector('[href="#Cats"]')
+      .setAttribute("aria-expanded", "true");
+    const menu = new BaseMenu({ menuElement: document.querySelector("ul") });
+
+    menu.initialize();
+
+    const toggle = menu.elements.submenuToggles[0];
+    const nestedToggle =
+      toggle.elements.controlledMenu.elements.submenuToggles[0];
+
+    expect(menu.isInitialized).toBe(true);
+    expect(toggle.isExpanded).toBe(true);
+    expect(nestedToggle.isExpanded).toBe(true);
+    expect(nestedToggle.dom.controller.getAttribute("aria-expanded")).toBe(
+      "true"
+    );
+    expect(nestedToggle.dom.controlled.classList.contains("show")).toBe(true);
+
+    menu.dispose();
+  });
+
+  it("should report validation errors when a submenu toggle is missing", () => {
+    document
+      .querySelector(".dropdown-toggle")
+      .classList.remove("dropdown-toggle");
+    const menu = new BaseMenu({
+      menuElement: document.querySelector("ul"),
+      submenuTogglesSelector: ".dropdown-toggle",
+    });
+
+    menu.initialize();
+
+    const toggle = menu.elements.submenuToggles[0];
+
+    expect(toggle.isInitialized).toBe(false);
+    expect(toggle.dom.controller).toBe(null);
+    expect(toggle.isValid).toBe(false);
+    expect(console.error).toHaveBeenCalled();
+
+    menu.dispose();
+  });
+
   // Test that the BaseMenu will initialize if the menuElement passed.
   it("should initialize", () => {
     // Create the test menu.
@@ -49,15 +142,11 @@ describe("BaseMenu", () => {
     }).not.toThrow();
   });
 
-  it("should create the controller before validation when public events are disabled", () => {
-    document.body.innerHTML = `<nav>
-      <button type="button">Menu</button>
-      <div><ul><li><a href="#one">One</a></li></ul></div>
-    </nav>`;
+  it("should create the controller during initialization when public events are disabled", () => {
     const menu = new BaseMenu({
       menuElement: document.querySelector("ul"),
       controllerElement: document.querySelector("button"),
-      containerElement: document.querySelector("nav > div"),
+      containerElement: document.querySelector("nav"),
     });
     const createController = vi.spyOn(menu, "_createController");
     const listener = vi.fn();
@@ -70,9 +159,15 @@ describe("BaseMenu", () => {
     );
     menu.shouldEmit = false;
 
+    menu._validate();
+
+    expect(menu.isValid).toBe(true);
+    expect(menu.elements.controller).toBe(null);
+    expect(createController).not.toHaveBeenCalled();
+
     menu.initialize();
 
-    expect(createController).toHaveBeenCalledWith({ initialize: false });
+    expect(createController).toHaveBeenCalledExactlyOnceWith();
     expect(menu.isInitialized).toBe(true);
     expect(menu.elements.rootMenu).toBe(menu);
     expect(menu.elements.controller.isInitialized).toBe(true);

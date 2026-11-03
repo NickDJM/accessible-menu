@@ -35,6 +35,7 @@ The constructor will call [BaseMenuToggle's constructor](./base-menu-toggle#cons
 | options.triggerElement            | `?HTMLElement`    | The element receiving expansion clicks. If null, the toggle element is used.         | `null`      |
 | options.controlledMenu            | `Menubar`         | The menu controlled by this toggle.                                                  | `undefined` |
 | options.parentMenu                | `Menubar`, `null` | The menu containing this toggle.                                                     | `null`      |
+| options.expanded | `boolean` | Whether the controlled menu is initially expanded. | `false` |
 | options.breakpoint                | `string`          | The Core controller breakpoint.                                                      | `""`        |
 | options.mediaQuery                | `string`          | The explicit Core controller media query.                                            | `""`        |
 | options.expandInsideBreakpoint    | `boolean`         | Core's expandInsideBreakpoint responsive action flag.                                | `false`     |

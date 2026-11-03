@@ -332,7 +332,7 @@ Accessible Menu does not set or remove `aria-current` when activating a link.
 
 The optional keybindings are controlled by the menu's [optionalKeySupport](#getter-setter--optionalkeysupport) value.
 
-### _bootstrap
+### _registerEvents
 
 Registers the menu's validation event listener.
 
