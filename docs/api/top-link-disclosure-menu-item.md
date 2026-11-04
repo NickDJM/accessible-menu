@@ -78,6 +78,6 @@ Getters and setters are inherited from the [BaseMenuItem](./base-menu-item#gette
 
 Methods are inherited from the [BaseMenuItem](./base-menu-item#getters-and-setters) class. There are no custom methods for the TopLinkDisclosureMenuItem class.
 
-### _bootstrap
+### _registerEvents
 
 Inherited from [BaseMenuItem](./base-menu-item). Validation checks the required DOM elements, submenu flag, parent menu, child menu, submenu toggle, and sibling menu item if one is provided.

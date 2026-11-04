@@ -324,7 +324,7 @@ Treeview.focusChildsLastNode();
 
 This will cascade down through to the last expanded menu.
 
-### _bootstrap
+### _registerEvents
 
 Registers the menu's initialization event listener.
 

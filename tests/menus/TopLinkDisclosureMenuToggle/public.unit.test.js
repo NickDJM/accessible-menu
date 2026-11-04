@@ -24,6 +24,23 @@ afterEach(() => {
 
 // Test TopLinkDisclosureMenuToggle public methods.
 describe("TopLinkDisclosureMenuToggle public methods", () => {
+  describe("constructor", () => {
+    it("should use the supplied initial expanded state", () => {
+      const toggle = new TopLinkDisclosureMenuToggle({
+        menuToggleElement: document.createElement("button"),
+        controlledMenu: new BaseMenu({
+          menuElement: document.createElement("ul"),
+        }),
+        expanded: true,
+        initialize: false,
+      });
+
+      expect(toggle.isExpanded).toBe(true);
+
+      toggle.dispose();
+    });
+  });
+
   // Test TopLinkDisclosureMenuItem expand().
   describe("expand", () => {
     // Test that expand sets the controlled menu's focus state to self.

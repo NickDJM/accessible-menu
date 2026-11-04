@@ -34,6 +34,7 @@ The constructor populates the dom and elements properties. It will _not_ initial
 | options.triggerElement            | `?HTMLElement`     | The element receiving expansion clicks. If null, the toggle element is used.         | `null`      |
 | options.controlledMenu            | `BaseMenu`         | The menu controlled by this toggle.                                                  | `undefined` |
 | options.parentMenu                | `BaseMenu`, `null` | The menu containing this toggle.                                                     | `null`      |
+| options.expanded | `boolean` | Whether the controlled menu is initially expanded. | `false` |
 | options.breakpoint                | `string`           | The Core controller breakpoint.                                                      | `""`        |
 | options.mediaQuery                | `string`           | The explicit Core controller media query.                                            | `""`        |
 | options.expandInsideBreakpoint    | `boolean`          | Core's expandInsideBreakpoint responsive action flag.                                | `false`     |
@@ -53,7 +54,7 @@ Initializes the menu toggle.
 BaseMenuToggle.initialize();
 ```
 
-Core validates the toggle, sets IDs and ARIA through Menu hooks, and dispatches initialization listeners. The initial `aria-expanded` value determines whether it expands or collapses. Treeview preserves an explicitly expanded state; other Menu toggles initialize collapsed. Initial state changes suppress action events and transitions. Core also applies the initial lock state and marks successful initialization with `isInitialized = true`.
+Core validates the toggle, sets IDs and ARIA through Menu hooks, and dispatches initialization listeners. The `expanded` constructor option determines whether it expands or collapses. When a menu creates its root controller or submenu toggles, it passes `expanded: true` only when that toggle element has `aria-expanded="true"`. Missing, false, or invalid attribute values initialize collapsed. When constructing a toggle directly, pass `expanded: true` to initialize it expanded. Initial state changes suppress action events and transitions. Core also applies the initial lock state and marks successful initialization with `isInitialized = true`.
 
 ## Properties
 
@@ -411,7 +412,7 @@ BaseMenuToggle._errors; // Default: `[]`.
 
 ### _expanded <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#property--expanded}
 
-The current and committed expansion state, managed by Core.
+The current and committed expansion state, managed by Core. The constructor sets both values from the `expanded` option.
 
 ```js
 BaseMenuToggle._expanded; // Default: `new TransactionalValue(false)`.
@@ -1495,7 +1496,7 @@ BaseMenuToggle._expand({ emit, transition });
 
 ### _collapse <badge type="warning" text="protected" /> <badge type="tip" text="inherited" /> {#method--protected-collapse}
 
-Inherited directly from Core's `CollapsibleComponent`. Sets the controller's `aria-expanded` to `false` and applies collapsed classes and transitions to the controlled menu.
+Inherited directly from Core's `CollapsibleComponent`. Applies collapsed classes and transitions to the controlled menu. Menu's internal `precollapse` listener sets the controller's `aria-expanded` to `false`.
 
 ```js
 BaseMenuToggle._collapse({ emit, transition });
@@ -1635,7 +1636,7 @@ BaseMenuToggle.collapseChildren({ force, preserveState, emit, transition });
 | options.emit          | `boolean` | A flag to emit the collapse event.          | `this.isInitialized`  |
 | options.transition    | `boolean` | A flag to use transitions when collapsing.  | `this.isInitialized`  |
 
-### _bootstrap
+### _registerEvents
 
 Registers the menu toggle's validation event listener.
 

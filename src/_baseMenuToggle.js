@@ -33,6 +33,7 @@ class BaseMenuToggle extends CollapsibleComponent {
    * @param {?HTMLElement} [options.triggerElement = null]             - The element receiving expansion clicks. If null, the toggle element is used.
    * @param {BaseMenu}     options.controlledMenu                      - The menu controlled by this toggle.
    * @param {?BaseMenu}    [options.parentMenu = null]                 - The menu containing this toggle.
+   * @param {boolean}      [options.expanded = false]                  - A flag to initially expand the controlled menu.
    * @param {string}       [options.breakpoint = ""]                   - The breakpoint used to generate the controller's media query.
    * @param {string}       [options.mediaQuery = ""]                   - The media query used to trigger the controller's media query list events.
    * @param {boolean}      [options.expandInsideBreakpoint = false]    - A flag to expand the controlled menu when the media query matches.
@@ -50,6 +51,7 @@ class BaseMenuToggle extends CollapsibleComponent {
     triggerElement = null,
     controlledMenu,
     parentMenu = null,
+    expanded = false,
     breakpoint = "",
     mediaQuery = "",
     expandInsideBreakpoint = false,
@@ -70,6 +72,7 @@ class BaseMenuToggle extends CollapsibleComponent {
       controllerElement: menuToggleElement,
       controlledElement: containerElement ?? controlledMenu?.dom?.menu,
       triggerElement,
+      expanded,
       expandClass: controlledMenu?.classes?.expand,
       collapseClass: controlledMenu?.classes?.collapse,
       transitionClass: controlledMenu?.classes?.transition,
@@ -89,6 +92,7 @@ class BaseMenuToggle extends CollapsibleComponent {
       unlockInsideBreakpoint,
       unlockOutsideBreakpoint,
       bootstrap: false,
+      initialize: false,
     });
 
     // Set menu elements.
@@ -99,14 +103,23 @@ class BaseMenuToggle extends CollapsibleComponent {
   }
 
   /**
-   * Registers the menu toggle's validation event listener.
+   * Registers internal preexpand, precollapse, and validate listeners.
    *
    * Validation checks the required DOM elements, controlled menu, and parent menu.
    *
    * @protected
    */
-  _bootstrap() {
-    super._bootstrap();
+  _registerEvents() {
+    super._registerEvents();
+
+    // Add appropriate ARIA attributes to toggles on expand/collapse.
+    this._addInternalEventListener(this.getEventName("preexpand"), () => {
+      this.dom.controller.setAttribute("aria-expanded", "true");
+    });
+    this._addInternalEventListener(this.getEventName("precollapse"), () => {
+      this.dom.controller.setAttribute("aria-expanded", "false");
+    });
+
     this._addInternalEventListener(this.getEventName("validate"), (event) => {
       if (event.detail.component !== this) return;
 

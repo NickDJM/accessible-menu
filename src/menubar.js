@@ -187,8 +187,8 @@ class Menubar extends BaseMenu {
    *
    * @protected
    */
-  _bootstrap() {
-    super._bootstrap();
+  _registerEvents() {
+    super._registerEvents();
     this._addInternalEventListener(this.getEventName("initialize"), (event) => {
       if (event.detail.component !== this) return;
       // Set the role of the menu.

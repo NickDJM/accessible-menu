@@ -194,8 +194,8 @@ class DisclosureMenu extends BaseMenu {
    *
    * @protected
    */
-  _bootstrap() {
-    super._bootstrap();
+  _registerEvents() {
+    super._registerEvents();
     this._addInternalEventListener(this.getEventName("validate"), (event) => {
       if (event.detail.component !== this) return;
 

@@ -223,6 +223,7 @@ class BaseMenu extends Component {
       key,
       initializeClass,
       bootstrap: false,
+      initialize: false,
     });
 
     // Set DOM elements.
@@ -296,25 +297,15 @@ class BaseMenu extends Component {
   /**
    * Registers the menu's validation and initialization event listeners.
    *
-   * Before validation, creates the root controller without initializing it.
    * Before initialization, finds the root menu if it isn't already set.
    *
    * Validation checks the required DOM elements, controller and container,
-   * root flag, parent menu, controller options, and hover type.
+   * root flag, parent menu, and hover type.
    *
    * @protected
    */
-  _bootstrap() {
-    super._bootstrap();
-
-    // Create the controller before validating the menu.
-    this._addInternalEventListener(
-      this.getEventName("prevalidate"),
-      (event) => {
-        if (event.detail.component !== this) return;
-        this._createController({ initialize: false });
-      }
-    );
+  _registerEvents() {
+    super._registerEvents();
 
     // Get the root menu if it doesn't exist.
     this._addInternalEventListener(
@@ -385,16 +376,6 @@ class BaseMenu extends Component {
           this._errors = [...this._errors, ...parentMenuChecks.errors];
           this._valid = false;
         }
-      }
-
-      // Controller checks.
-      // Check the controller's options.
-      if (
-        this.elements.controller !== null &&
-        !this.elements.controller._validate()
-      ) {
-        this._errors = [...this._errors, ...this.elements.controller.errors];
-        this._valid = false;
       }
 
       // Hover type checks.
@@ -1415,11 +1396,8 @@ class BaseMenu extends Component {
    * Creates and initializes the root controller.
    *
    * @protected
-   *
-   * @param {object}  [options = {}]              - The options for creating the controller.
-   * @param {boolean} [options.initialize = true] - A flag to initialize the controller. Set to false before validation.
    */
-  _createController({ initialize = true } = {}) {
+  _createController() {
     if (!this.isTopLevel || !this.dom.controller || !this.dom.container) {
       return;
     }
@@ -1427,13 +1405,16 @@ class BaseMenu extends Component {
     if (this.elements.controller === null) {
       this._elements.controller = new this._MenuToggleType({
         menuToggleElement: this.dom.controller,
+        expanded: this.dom.controller.getAttribute("aria-expanded") === "true",
         controlledMenu: this,
         ...this._controllerOptions,
-        initialize: false,
       });
     }
 
-    if (initialize && !this.elements.controller.isInitialized) {
+    if (
+      !this.elements.controller.isInitialized &&
+      this.elements.controller.isValid
+    ) {
       this.elements.controller.initialize();
     }
   }
@@ -1531,6 +1512,7 @@ class BaseMenu extends Component {
         // Create the new menu toggle.
         toggle = new this._MenuToggleType({
           menuToggleElement: toggler,
+          expanded: toggler?.getAttribute("aria-expanded") === "true",
           triggerElement: trigger,
           controlledMenu: menu,
           parentMenu: this,

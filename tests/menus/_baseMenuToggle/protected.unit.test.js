@@ -23,6 +23,52 @@ afterEach(() => {
 });
 
 describe("BaseMenuToggle protected methods", () => {
+  describe("_registerEvents", () => {
+    it.each([
+      [true, true, 2],
+      [true, false, 0],
+      [false, true, 0],
+    ])(
+      "should update aria-expanded when shouldEmit is %s and emit is %s",
+      (shouldEmit, emit, publicCalls) => {
+        const menu = new BaseMenu({
+          menuElement: document.querySelector("ul"),
+          controllerElement: document.querySelector("button"),
+          containerElement: document.querySelector("nav"),
+          transitionClass: "",
+        });
+        menu.initialize();
+        const toggle = menu.elements.controller;
+        toggle.shouldEmit = shouldEmit;
+        const states = [];
+        const publicListener = vi.fn();
+        for (const name of ["preexpand", "precollapse"]) {
+          toggle._addInternalEventListener(toggle.getEventName(name), () => {
+            states.push(toggle.dom.controller.getAttribute("aria-expanded"));
+          });
+          toggle._addEventListener(
+            toggle.getEventName(name),
+            toggle.rootDOMElement,
+            publicListener
+          );
+        }
+
+        toggle.expand({ emit, transition: false });
+
+        expect(states).toEqual(["true"]);
+        expect(toggle.isExpanded).toBe(true);
+
+        toggle.collapse({ emit, transition: false });
+
+        expect(states).toEqual(["true", "false"]);
+        expect(toggle.isExpanded).toBe(false);
+        expect(publicListener).toHaveBeenCalledTimes(publicCalls);
+
+        menu.dispose();
+      }
+    );
+  });
+
   describe("_dispatchEvent", () => {
     it("should inherit Core event dispatch", () => {
       expect(BaseMenuToggle.prototype._dispatchEvent).toBe(

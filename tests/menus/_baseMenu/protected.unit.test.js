@@ -292,47 +292,6 @@ describe("BaseMenu protected methods", () => {
       );
     });
 
-    describe("controller options", () => {
-      const flags = [
-        "expandInsideBreakpoint",
-        "expandOutsideBreakpoint",
-        "collapseInsideBreakpoint",
-        "collapseOutsideBreakpoint",
-        "lockInsideBreakpoint",
-        "lockOutsideBreakpoint",
-        "unlockInsideBreakpoint",
-        "unlockOutsideBreakpoint",
-      ];
-      beforeEach(() => {
-        document.body.innerHTML = twoLevel;
-        vi.useFakeTimers();
-      });
-
-      afterEach(() => {
-        vi.restoreAllMocks();
-        vi.unstubAllGlobals();
-        vi.useRealTimers();
-        document.body.innerHTML = "";
-      });
-      it.each(flags)("should validate %s through Core", (option) => {
-        vi.spyOn(console, "error").mockImplementation(() => {});
-
-        const menu = new BaseMenu({
-          menuElement: document.querySelector("ul"),
-          controllerElement: document.querySelector("button"),
-          containerElement: document.querySelector("nav"),
-          submenuTogglesSelector: "a",
-          initialize: false,
-          [option]: "invalid",
-        });
-        menu.initialize();
-
-        expect(
-          menu.errors.some((error) => error.message.includes(option))
-        ).toBe(true);
-      });
-    });
-
     describe("submenu toggle selectors", () => {
       const menus = [];
       beforeEach(() => {
@@ -409,6 +368,72 @@ describe("BaseMenu protected methods", () => {
         vi.unstubAllGlobals();
         vi.useRealTimers();
         document.body.innerHTML = "";
+      });
+
+      it.each(["breakpoint", "mediaQuery"])(
+        "should let the controller reject an invalid %s",
+        (option) => {
+          vi.spyOn(console, "error").mockImplementation(() => {});
+          const menu = new BaseMenu({
+            menuElement: document.querySelector("ul"),
+            controllerElement: document.querySelector("button"),
+            containerElement: document.querySelector("nav"),
+            [option]: 1,
+          });
+
+          menu.initialize();
+
+          expect(menu.elements.controller.isValid).toBe(false);
+          expect(
+            menu.elements.controller.errors.some((error) =>
+              error.message.includes(option)
+            )
+          ).toBe(true);
+          expect(menu.elements.controller.isInitialized).toBe(false);
+
+          menu.dispose();
+        }
+      );
+
+      it("should let the controller accept null responsive strings", () => {
+        const menu = new BaseMenu({
+          menuElement: document.querySelector("ul"),
+          controllerElement: document.querySelector("button"),
+          containerElement: document.querySelector("nav"),
+          breakpoint: null,
+          mediaQuery: null,
+        });
+
+        menu.initialize();
+
+        expect(menu.elements.controller.isValid).toBe(true);
+        expect(menu.elements.controller.errors).toEqual([]);
+        expect(menu.elements.controller.isInitialized).toBe(true);
+
+        menu.dispose();
+      });
+
+      it.each(flags)("should report invalid %s on the controller", (option) => {
+        vi.spyOn(console, "error").mockImplementation(() => {});
+
+        const menu = new BaseMenu({
+          menuElement: document.querySelector("ul"),
+          controllerElement: document.querySelector("button"),
+          containerElement: document.querySelector("nav"),
+          submenuTogglesSelector: "a",
+          initialize: false,
+          [option]: "invalid",
+        });
+
+        menu.initialize();
+
+        expect(
+          menu.elements.controller.errors.some((error) =>
+            error.message.includes(option)
+          )
+        ).toBe(true);
+        expect(menu.elements.controller.isInitialized).toBe(false);
+        expect(menu.elements.controller.isValid).toBe(false);
       });
 
       it("should initialize the controller during child creation", () => {

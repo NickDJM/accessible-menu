@@ -841,7 +841,7 @@ BaseMenuItem.blur();
 
 Sets `focusState` to `"none"` immediately. If the root menu allows DOM focus, blurs the link on the next animation frame. Calling this method also cancels pending focus for the item. Disposal cancels pending frames.
 
-### _bootstrap
+### _registerEvents
 
 Registers the menu item's validation event listener.
 

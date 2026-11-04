@@ -269,7 +269,7 @@ Menubar.focusNextChildWithCharacter(char);
 | ---- | -------- | -------------------------- | ----------- |
 | char | `string` | The character to look for. | `undefined` |
 
-### _bootstrap
+### _registerEvents
 
 Registers the menu's initialization event listener.
 
